@@ -1,0 +1,794 @@
+/* ============================================
+   Crew Page Styles
+   ============================================ */
+
+/* ============================================
+   Crew Section
+   ============================================ */
+.crew {
+    background: var(--bg-white);
+}
+
+.crew-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.crew-card {
+    background: var(--bg-white);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-normal);
+}
+
+.crew-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.crew-card.birthday-person {
+    border: 3px solid var(--accent);
+    background: linear-gradient(135deg, rgba(255, 217, 61, 0.1) 0%, rgba(255, 107, 157, 0.1) 100%);
+}
+
+.crew-photo {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.photo-placeholder {
+    width: 120px;
+    height: 120px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--text-white);
+    font-weight: 700;
+}
+
+.crew-badge {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.crew-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+}
+
+.crew-superlative {
+    color: var(--primary);
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+.crew-bio {
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+
+.crew-card.add-more {
+    border: 2px dashed var(--text-light);
+    background: transparent;
+}
+
+.crew-card.add-more .photo-placeholder {
+    background: var(--bg-light);
+    color: var(--text-light);
+}
+
+/* Room-based Layout */
+.rooms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+}
+
+.room-card {
+    background: var(--bg-white);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-normal);
+}
+
+.room-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.room-header {
+    background: var(--bg-light);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+}
+
+.room-number {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--secondary);
+}
+
+.room-tag {
+    background: var(--gradient-primary);
+    color: var(--text-white);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.room-guests {
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.guest {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    border-radius: 12px;
+    transition: var(--transition-fast);
+    cursor: pointer;
+    position: relative;
+}
+
+.guest:hover {
+    background: var(--bg-light);
+}
+
+.guest-avatar {
+    width: 50px;
+    height: 50px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--text-white);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.guest-avatar.birthday {
+    background: var(--accent);
+    color: var(--text-dark);
+    animation: pulse 2s infinite;
+    box-shadow: 0 0 20px rgba(255, 217, 61, 0.5);
+}
+
+.guest-info h4 {
+    font-size: 1rem;
+    margin-bottom: 2px;
+    color: var(--text-dark);
+}
+
+.guest-info p {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    font-style: italic;
+}
+
+/* Birthday Room Special Styling */
+.room-card.birthday-room {
+    border: 3px solid var(--accent);
+    background: linear-gradient(135deg, rgba(255, 217, 61, 0.05) 0%, rgba(255, 107, 157, 0.05) 100%);
+}
+
+.room-card.birthday-room .room-header {
+    background: linear-gradient(135deg, rgba(255, 217, 61, 0.2) 0%, rgba(255, 107, 157, 0.2) 100%);
+}
+
+.room-card.birthday-room .room-tag {
+    background: var(--accent);
+    color: var(--text-dark);
+}
+
+/* Party Room (The Lads) Special Styling */
+.room-card.party-room {
+    border: 3px solid var(--secondary);
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.05) 0%, rgba(200, 80, 192, 0.05) 100%);
+}
+
+.room-card.party-room .room-header {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.2) 0%, rgba(200, 80, 192, 0.2) 100%);
+}
+
+.room-card.party-room .room-tag {
+    background: var(--secondary);
+}
+
+/* Solo Room Styling */
+.room-card.solo-room .guest-avatar {
+    width: 60px;
+    height: 60px;
+    font-size: 1.1rem;
+}
+
+.room-card.solo-room .guest {
+    padding: 15px 10px;
+}
+
+.room-tag.solo {
+    background: var(--accent-alt);
+    color: var(--text-white);
+}
+
+/* Clickable guest indicator */
+.guest::after {
+    content: 'View Profile';
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--text-dark);
+    color: var(--text-white);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.7rem;
+    opacity: 0;
+    transition: var(--transition-fast);
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.guest:hover::after {
+    opacity: 1;
+    bottom: -20px;
+}
+
+/* ============================================
+   Profile Modal
+   ============================================ */
+.profile-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    z-index: 1001;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.profile-modal.active {
+    display: flex;
+}
+
+.profile-modal-content {
+    background: var(--bg-white);
+    border-radius: 25px;
+    max-width: 450px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    animation: profileSlideIn 0.3s ease;
+}
+
+@keyframes profileSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.profile-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--bg-light);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.profile-close:hover {
+    background: var(--primary);
+    color: var(--text-white);
+}
+
+.profile-header {
+    background: var(--gradient-primary);
+    padding: 40px 30px 30px;
+    text-align: center;
+    border-radius: 25px 25px 0 0;
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    background: var(--bg-white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0 auto 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.profile-avatar.birthday {
+    background: var(--accent);
+    color: var(--text-dark);
+    animation: pulse 2s infinite;
+}
+
+.profile-title h2 {
+    color: var(--text-white);
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+}
+
+.profile-room {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+}
+
+.profile-body {
+    padding: 25px 30px 30px;
+}
+
+.profile-field {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--bg-light);
+}
+
+.profile-field:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.profile-label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.profile-value {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    line-height: 1.5;
+}
+
+/* ============================================
+   RSVP Tracker
+   ============================================ */
+.rsvp-tracker {
+    background: var(--bg-light);
+}
+
+.tracker-stats {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.tracker-stat {
+    text-align: center;
+    padding: 25px 40px;
+    border-radius: 20px;
+    background: var(--bg-white);
+    box-shadow: var(--shadow-sm);
+}
+
+.tracker-stat.confirmed {
+    border-bottom: 4px solid var(--accent-alt);
+}
+
+.tracker-stat.maybe {
+    border-bottom: 4px solid var(--accent);
+}
+
+.tracker-stat.pending {
+    border-bottom: 4px solid var(--text-light);
+}
+
+.tracker-number {
+    display: block;
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.tracker-stat.confirmed .tracker-number { color: var(--accent-alt); }
+.tracker-stat.maybe .tracker-number { color: var(--accent); }
+.tracker-stat.pending .tracker-number { color: var(--text-light); }
+
+.tracker-label {
+    font-size: 1rem;
+    color: var(--text-light);
+    margin-top: 5px;
+}
+
+.tracker-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
+}
+
+.tracker-card {
+    background: var(--bg-white);
+    border-radius: 15px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-fast);
+    cursor: pointer;
+}
+
+.tracker-card:hover {
+    transform: translateY(-3px);
+}
+
+.tracker-card.confirmed {
+    border: 2px solid var(--accent-alt);
+    background: rgba(107, 203, 119, 0.1);
+}
+
+.tracker-card.maybe {
+    border: 2px solid var(--accent);
+    background: rgba(255, 217, 61, 0.1);
+}
+
+.tracker-card .tracker-avatar {
+    width: 50px;
+    height: 50px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    font-weight: 700;
+    color: var(--text-white);
+}
+
+.tracker-card.confirmed .tracker-avatar {
+    background: var(--accent-alt);
+}
+
+.tracker-card .tracker-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.tracker-card .tracker-status {
+    font-size: 1.2rem;
+    margin-top: 5px;
+}
+
+/* ============================================
+   Voting Section
+   ============================================ */
+.vote {
+    background: var(--bg-light);
+}
+
+.vote-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.vote-card {
+    background: var(--bg-white);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: var(--shadow-sm);
+}
+
+.vote-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    color: var(--secondary);
+}
+
+.vote-intro {
+    color: var(--text-light);
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+/* Poll Styles */
+.poll {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.poll-option {
+    display: grid;
+    grid-template-columns: 40px 1fr 50px;
+    align-items: center;
+    gap: 12px;
+    padding: 15px;
+    background: var(--bg-light);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    position: relative;
+    overflow: hidden;
+}
+
+.poll-option:hover {
+    transform: translateX(5px);
+    background: rgba(255, 107, 157, 0.1);
+}
+
+.poll-option.voted {
+    background: linear-gradient(135deg, rgba(255, 107, 157, 0.15) 0%, rgba(124, 58, 237, 0.15) 100%);
+    border: 2px solid var(--primary);
+}
+
+.poll-emoji {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.poll-label {
+    font-weight: 500;
+}
+
+.poll-votes {
+    font-weight: 700;
+    color: var(--primary);
+    text-align: right;
+}
+
+.poll-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--bg-light);
+}
+
+.poll-fill {
+    height: 100%;
+    background: var(--gradient-primary);
+    width: 0%;
+    transition: width 0.5s ease;
+    border-radius: 0 4px 4px 0;
+}
+
+.poll-note {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-top: 15px;
+    font-style: italic;
+}
+
+/* Suggestion Box */
+.suggestion-box .form-group {
+    margin-bottom: 15px;
+}
+
+.suggestion-box input,
+.suggestion-box textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid var(--bg-light);
+    border-radius: 10px;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    transition: var(--transition-fast);
+    background: var(--bg-white);
+    color: var(--text-dark);
+}
+
+.suggestion-box input:focus,
+.suggestion-box textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.suggestion-box .btn {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.suggestions-list {
+    border-top: 2px solid var(--bg-light);
+    padding-top: 20px;
+}
+
+.suggestions-list h4 {
+    font-size: 1rem;
+    margin-bottom: 15px;
+    color: var(--text-light);
+}
+
+.suggestion-item {
+    background: var(--bg-light);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.suggestion-item .suggestion-author {
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 0.9rem;
+}
+
+.suggestion-item p {
+    margin-top: 5px;
+    color: var(--text-dark);
+}
+
+.suggestion-item.new {
+    animation: slideIn 0.3s ease;
+    border-left: 3px solid var(--accent);
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   Responsive Overrides
+   ============================================ */
+@media (max-width: 768px) {
+    .rooms-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+
+    .vote-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tracker-stats {
+        gap: 15px;
+    }
+
+    .tracker-stat {
+        padding: 15px 25px;
+    }
+
+    .tracker-number {
+        font-size: 2.2rem;
+    }
+
+    .tracker-grid {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .rooms-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .room-header {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+    }
+
+    .guest-avatar {
+        width: 45px;
+        height: 45px;
+        font-size: 0.8rem;
+    }
+
+    /* Profile modal responsive */
+    .profile-modal-content {
+        border-radius: 20px;
+    }
+
+    .profile-header {
+        padding: 30px 20px 25px;
+        border-radius: 20px 20px 0 0;
+    }
+
+    .profile-avatar {
+        width: 80px;
+        height: 80px;
+        font-size: 1.5rem;
+    }
+
+    .profile-title h2 {
+        font-size: 1.5rem;
+    }
+
+    .profile-body {
+        padding: 20px;
+    }
+
+    .profile-value {
+        font-size: 1rem;
+    }
+
+    .tracker-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
+
+    .tracker-card {
+        padding: 10px;
+    }
+
+    .tracker-card .tracker-avatar {
+        width: 40px;
+        height: 40px;
+        font-size: 0.8rem;
+    }
+
+    .tracker-card .tracker-name {
+        font-size: 0.8rem;
+    }
+
+    .poll-option {
+        grid-template-columns: 30px 1fr 40px;
+        gap: 8px;
+        padding: 12px;
+    }
+
+    .poll-emoji {
+        font-size: 1.2rem;
+    }
+
+    .poll-label {
+        font-size: 0.9rem;
+    }
+}

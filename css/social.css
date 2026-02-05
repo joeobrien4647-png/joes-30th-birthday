@@ -1,0 +1,1060 @@
+/* ============================================
+   Social Page Styles
+   ============================================ */
+
+/* ============================================
+   Birthday Message Wall
+   ============================================ */
+.messages {
+    background: var(--bg-white);
+}
+
+.message-form {
+    max-width: 600px;
+    margin: 0 auto 40px;
+    background: var(--bg-light);
+    padding: 25px;
+    border-radius: 20px;
+}
+
+.message-form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.message-form input,
+.message-form textarea {
+    flex: 1;
+    padding: 12px 15px;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    transition: var(--transition-fast);
+    background: var(--bg-white);
+    color: var(--text-dark);
+}
+
+.message-form input:focus,
+.message-form textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.message-form .btn {
+    width: 100%;
+}
+
+.messages-wall {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.message-card {
+    background: var(--bg-light);
+    border-radius: 15px;
+    padding: 20px;
+    position: relative;
+    animation: messageSlide 0.3s ease;
+}
+
+@keyframes messageSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message-card::before {
+    content: '\201C';
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    font-size: 3rem;
+    color: var(--primary);
+    opacity: 0.2;
+    font-family: serif;
+}
+
+.message-author {
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 10px;
+    display: block;
+}
+
+.message-card p {
+    color: var(--text-dark);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ============================================
+   Toast Sign-up
+   ============================================ */
+.toasts {
+    background: var(--bg-white);
+}
+
+.toasts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+}
+
+.toast-signup-card,
+.toast-list-card {
+    background: var(--bg-light);
+    border-radius: 20px;
+    padding: 30px;
+}
+
+.toast-signup-card h3,
+.toast-list-card h3 {
+    color: var(--secondary);
+    margin-bottom: 15px;
+}
+
+.toast-signup-card p {
+    color: var(--text-light);
+    margin-bottom: 20px;
+}
+
+.toast-signup-card .form-group {
+    margin-bottom: 15px;
+}
+
+.toast-signup-card input,
+.toast-signup-card select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid var(--bg-white);
+    border-radius: 10px;
+    font-family: var(--font-body);
+    background: var(--bg-white);
+    color: var(--text-dark);
+}
+
+.toast-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.toast-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: var(--bg-white);
+    border-radius: 12px;
+}
+
+.toast-order {
+    width: 35px;
+    height: 35px;
+    background: var(--gradient-primary);
+    color: var(--text-white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.toast-info {
+    flex: 1;
+}
+
+.toast-info strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.toast-type {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-right: 8px;
+}
+
+.toast-type.heartfelt { background: #ffeaa7; color: #856404; }
+.toast-type.funny { background: #a29bfe; color: white; }
+.toast-type.roast { background: #ff7675; color: white; }
+.toast-type.song { background: #74b9ff; color: white; }
+.toast-type.surprise { background: var(--gradient-primary); color: white; }
+
+.toast-duration {
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+.toast-note {
+    margin-top: 15px;
+    font-size: 0.85rem;
+    color: var(--text-light);
+    font-style: italic;
+}
+
+/* ============================================
+   Predictions Wall
+   ============================================ */
+.predictions {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+}
+
+.prediction-form {
+    max-width: 800px;
+    margin: 0 auto 40px;
+}
+
+.prediction-form .form-row {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.prediction-form input {
+    flex: 1;
+    min-width: 200px;
+    padding: 15px 20px;
+    border: 2px solid transparent;
+    border-radius: 30px;
+    font-size: 1rem;
+    transition: var(--transition-fast);
+    background: var(--bg-white);
+    color: var(--text-dark);
+}
+
+.prediction-form input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.predictions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.prediction-card {
+    background: var(--bg-white);
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-fast);
+}
+
+.prediction-card:hover {
+    transform: translateY(-5px);
+}
+
+.prediction-text {
+    font-size: 1.1rem;
+    font-style: italic;
+    margin-bottom: 15px;
+    color: var(--text-dark);
+}
+
+.prediction-author {
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+/* ============================================
+   Superlatives Voting
+   ============================================ */
+.superlatives {
+    background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+}
+
+.superlatives-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.superlative-card {
+    background: var(--bg-white);
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: var(--shadow-md);
+    text-align: center;
+    transition: var(--transition-fast);
+}
+
+.superlative-card:hover {
+    transform: translateY(-5px);
+}
+
+.superlative-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.superlative-card p {
+    color: var(--text-light);
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+.superlative-vote {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid var(--bg-light);
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    background: var(--bg-white);
+    color: var(--text-dark);
+}
+
+.superlative-vote:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.superlative-results {
+    margin-top: 15px;
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.superlative-leader {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* ============================================
+   Memory Timeline
+   ============================================ */
+.memories-timeline {
+    background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+}
+
+.memory-form {
+    max-width: 900px;
+    margin: 0 auto 40px;
+}
+
+.memory-form .form-row {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.memory-form input {
+    padding: 15px 20px;
+    border: 2px solid transparent;
+    border-radius: 30px;
+    font-size: 1rem;
+    transition: var(--transition-fast);
+    background: var(--bg-white);
+    color: var(--text-dark);
+}
+
+.memory-form input:first-child {
+    flex: 0.8;
+}
+
+.memory-form input:nth-child(2) {
+    width: 100px;
+    text-align: center;
+}
+
+.memory-form input:nth-child(3) {
+    flex: 2;
+}
+
+.memory-form input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.memory-timeline {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.memory-timeline::before {
+    content: '';
+    position: absolute;
+    left: 50px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--bg-white);
+    border-radius: 3px;
+}
+
+.memory-item {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.memory-year {
+    width: 70px;
+    height: 70px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-white);
+    font-weight: 700;
+    font-size: 1rem;
+    flex-shrink: 0;
+    z-index: 1;
+}
+
+.memory-content {
+    flex: 1;
+    background: var(--bg-white);
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: var(--shadow-md);
+}
+
+.memory-content p {
+    font-size: 1.1rem;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+.memory-author {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+/* ============================================
+   Music Requests
+   ============================================ */
+.music-requests {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.music-form {
+    max-width: 800px;
+    margin: 0 auto 40px;
+}
+
+.music-form .form-row {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.music-form input {
+    flex: 1;
+    min-width: 150px;
+    padding: 15px 20px;
+    border: 2px solid transparent;
+    border-radius: 30px;
+    font-size: 1rem;
+    transition: var(--transition-fast);
+    background: var(--bg-white);
+    color: var(--text-dark);
+}
+
+.music-form input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.music-list {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.music-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: var(--bg-white);
+    border-radius: 15px;
+    margin-bottom: 15px;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-fast);
+}
+
+.music-item:hover {
+    transform: translateX(5px);
+}
+
+.music-info {
+    flex: 1;
+}
+
+.song-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    display: block;
+}
+
+.song-artist {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.song-requester {
+    color: var(--text-light);
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+.upvote-btn {
+    background: var(--bg-light);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: var(--transition-fast);
+}
+
+.upvote-btn:hover {
+    background: var(--accent);
+}
+
+.upvote-btn.voted {
+    background: var(--primary);
+    color: var(--text-white);
+}
+
+/* ============================================
+   Joe's 30 Year Timeline
+   ============================================ */
+.joe-timeline {
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+}
+
+.life-timeline {
+    max-width: 800px;
+    margin: 0 auto 40px;
+    position: relative;
+}
+
+.life-timeline::before {
+    content: '';
+    position: absolute;
+    left: 60px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(to bottom, var(--primary), var(--secondary));
+    border-radius: 4px;
+}
+
+.life-event {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.life-year {
+    width: 80px;
+    height: 80px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-white);
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    z-index: 1;
+    box-shadow: var(--shadow-md);
+}
+
+.life-event.highlight .life-year {
+    width: 100px;
+    height: 100px;
+    font-size: 1.3rem;
+    animation: pulse 2s infinite;
+}
+
+.life-content {
+    flex: 1;
+    background: var(--bg-white);
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: var(--shadow-md);
+}
+
+.life-content h4 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    color: var(--text-dark);
+}
+
+.life-content p {
+    color: var(--text-light);
+    margin: 0;
+}
+
+.add-milestone-form {
+    max-width: 800px;
+    margin: 0 auto;
+    background: var(--bg-white);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: var(--shadow-md);
+}
+
+.add-milestone-form h4 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.add-milestone-form .form-row {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.add-milestone-form input {
+    flex: 1;
+    min-width: 120px;
+    padding: 15px 20px;
+    border: 2px solid var(--bg-light);
+    border-radius: 10px;
+    font-size: 1rem;
+    background: var(--bg-white);
+    color: var(--text-dark);
+}
+
+.add-milestone-form input:first-child {
+    max-width: 100px;
+}
+
+.add-milestone-form input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+/* ============================================
+   Confessions Wall
+   ============================================ */
+.confessions {
+    background: linear-gradient(135deg, #434343 0%, #000000 100%);
+}
+
+.confessions .section-title,
+.confessions .section-subtitle {
+    color: var(--text-white);
+}
+
+.confession-form {
+    max-width: 600px;
+    margin: 0 auto 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.confession-form textarea {
+    padding: 20px;
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 15px;
+    background: rgba(255,255,255,0.1);
+    color: var(--text-white);
+    font-size: 1rem;
+    font-family: var(--font-body);
+    resize: none;
+}
+
+.confession-form textarea::placeholder {
+    color: rgba(255,255,255,0.5);
+}
+
+.confession-form textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.confession-form .btn {
+    align-self: flex-end;
+}
+
+.confessions-wall {
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.confession-card {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    padding: 25px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.confession-text {
+    color: var(--text-white);
+    font-size: 1.1rem;
+    font-style: italic;
+    margin-bottom: 15px;
+}
+
+.confession-time {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.85rem;
+}
+
+.confession-react {
+    float: right;
+    background: rgba(255,255,255,0.1);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    color: var(--text-white);
+    transition: var(--transition-fast);
+}
+
+.confession-react:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+/* ============================================
+   Live Photo Wall
+   ============================================ */
+.photo-wall {
+    background: linear-gradient(135deg, #c471f5 0%, #fa71cd 100%);
+}
+
+.photo-upload-form {
+    max-width: 600px;
+    margin: 0 auto 40px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.photo-upload-btn {
+    padding: 15px 30px;
+    background: var(--bg-white);
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition-fast);
+}
+
+.photo-upload-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.photo-upload-form input[type="text"] {
+    flex: 1;
+    min-width: 150px;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1rem;
+    background: var(--bg-white);
+    color: var(--text-dark);
+}
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.photo-placeholder {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    border: 3px dashed rgba(255,255,255,0.4);
+}
+
+.photo-placeholder span {
+    font-size: 4rem;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.photo-placeholder p {
+    color: var(--text-white);
+    margin: 5px 0;
+}
+
+.photo-placeholder .small {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.photo-item {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.photo-item:hover {
+    transform: scale(1.03);
+}
+
+.photo-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.photo-item-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 15px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    color: var(--text-white);
+}
+
+.photo-item-caption p {
+    margin: 0 0 5px;
+    font-size: 0.9rem;
+}
+
+.photo-item-caption span {
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+/* ============================================
+   Lightbox
+   ============================================ */
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox.active {
+    display: flex;
+}
+
+.lightbox-image {
+    max-width: 90%;
+    max-height: 90vh;
+    border-radius: 10px;
+}
+
+.lightbox-close,
+.lightbox-prev,
+.lightbox-next {
+    position: absolute;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 20px;
+    transition: var(--transition-fast);
+}
+
+.lightbox-close {
+    top: 20px;
+    right: 20px;
+}
+
+.lightbox-prev {
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.lightbox-next {
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.lightbox-close:hover,
+.lightbox-prev:hover,
+.lightbox-next:hover {
+    color: var(--accent);
+}
+
+/* ============================================
+   Responsive Overrides
+   ============================================ */
+@media (max-width: 768px) {
+    /* Messages */
+    .message-form-row {
+        flex-direction: column;
+    }
+
+    .messages-wall {
+        grid-template-columns: 1fr;
+    }
+
+    /* Toasts */
+    .toasts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Predictions */
+    .prediction-form .form-row {
+        flex-direction: column;
+    }
+
+    .predictions-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Superlatives */
+    .superlatives-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Memory Timeline */
+    .memory-form .form-row {
+        flex-direction: column;
+    }
+
+    .memory-form input:first-child,
+    .memory-form input:nth-child(2),
+    .memory-form input:nth-child(3) {
+        flex: 1;
+        width: 100%;
+    }
+
+    .memory-timeline::before {
+        left: 35px;
+    }
+
+    .memory-year {
+        width: 50px;
+        height: 50px;
+        font-size: 0.85rem;
+    }
+
+    .memory-item {
+        gap: 15px;
+    }
+
+    .memory-content {
+        padding: 15px;
+    }
+
+    /* Music Requests */
+    .music-form .form-row {
+        flex-direction: column;
+    }
+
+    .music-item {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    /* Joe Timeline */
+    .life-timeline::before {
+        left: 40px;
+    }
+
+    .life-year {
+        width: 60px;
+        height: 60px;
+        font-size: 0.9rem;
+    }
+
+    .life-event.highlight .life-year {
+        width: 70px;
+        height: 70px;
+        font-size: 1rem;
+    }
+
+    .life-event {
+        gap: 15px;
+    }
+
+    .life-content {
+        padding: 15px;
+    }
+
+    .add-milestone-form .form-row {
+        flex-direction: column;
+    }
+
+    .add-milestone-form input:first-child {
+        max-width: 100%;
+    }
+
+    /* Confessions */
+    .confession-card {
+        padding: 20px;
+    }
+
+    /* Photo Wall */
+    .photo-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 10px;
+    }
+
+    .photo-upload-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .photo-upload-btn {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .messages-wall {
+        grid-template-columns: 1fr;
+    }
+
+    .predictions-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .superlatives-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .photo-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .photo-item img {
+        height: 180px;
+    }
+}

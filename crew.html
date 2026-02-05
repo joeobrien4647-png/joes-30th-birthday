@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Crew - Joe's 30th Birthday Trip</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>">
+    <link rel="stylesheet" href="css/base.css?v=3">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/crew.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Floating Balloons -->
+    <div class="floating-balloons">
+        <div class="balloon" style="--delay: 0s; --x: 10%;">🎈</div>
+        <div class="balloon" style="--delay: 2s; --x: 25%;">🎈</div>
+        <div class="balloon" style="--delay: 4s; --x: 45%;">🎉</div>
+        <div class="balloon" style="--delay: 1s; --x: 65%;">🎈</div>
+        <div class="balloon" style="--delay: 3s; --x: 80%;">🎂</div>
+        <div class="balloon" style="--delay: 5s; --x: 90%;">🎈</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">30th Bday</a>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html" data-page="index.html">Home</a></li>
+                <li><a href="schedule.html" data-page="schedule.html">Schedule</a></li>
+                <li><a href="games.html" data-page="games.html">Games</a></li>
+                <li><a href="social.html" data-page="social.html">Social</a></li>
+                <li><a href="practical.html" data-page="practical.html">Info</a></li>
+                <li><a href="crew.html" data-page="crew.html" class="active">Crew</a></li>
+                <li><a href="party.html" data-page="party.html">Party</a></li>
+                <li><span class="nav-guest-name" id="nav-guest-name" style="display:none;"></span></li>
+                <li><button class="dark-mode-toggle" id="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <h1>The Crew</h1>
+        <p>27 legends, one chateau</p>
+    </header>
+
+    <!-- Sub Navigation -->
+    <nav class="sub-nav">
+        <ul class="sub-nav-links">
+            <li><a href="#crew" class="active">Profiles</a></li>
+            <li><a href="#rsvp-tracker">Who's Coming</a></li>
+            <li><a href="#vote">Have Your Say</a></li>
+        </ul>
+    </nav>
+
+    <!-- ============================================
+         Crew Profiles Section
+         ============================================ -->
+    <section id="crew" class="section crew">
+        <div class="container">
+            <h2 class="section-title">The Crew</h2>
+            <p class="section-subtitle">25 legends across 12 rooms</p>
+
+            <div class="rooms-grid">
+                <!-- Room 1 - Birthday Suite! -->
+                <div class="room-card birthday-room">
+                    <div class="room-header">
+                        <span class="room-number">Room 1</span>
+                        <span class="room-tag">Birthday Suite</span>
+                    </div>
+                    <div class="room-guests">
+                        <div class="guest" data-name="Joe O'Brien" data-initials="JO" data-room="Room 1 - Birthday Suite" data-superlative="Most likely to make everyone laugh" data-fact="The man, the myth, the legend turning 30!" data-bringing="Birthday cake enthusiasm" data-anthem="Mr. Brightside - The Killers" data-birthday="true">
+                            <div class="guest-avatar birthday">JO</div>
+                            <div class="guest-info">
+                                <h4>Joe O'Brien</h4>
+                                <p>The Birthday Legend</p>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Sophie Geen" data-initials="SG" data-room="Room 1 - Birthday Suite" data-superlative="Most likely to keep everyone organised" data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">SG</div>
+                            <div class="guest-info">
+                                <h4>Sophie Geen</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 2 -->
+                <div class="room-card">
+                    <div class="room-header">
+                        <span class="room-number">Room 2</span>
+                    </div>
+                    <div class="room-guests">
+                        <div class="guest" data-name="Luke Recchia" data-initials="LR" data-room="Room 2" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">LR</div>
+                            <div class="guest-info">
+                                <h4>Luke Recchia</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Samantha Recchia" data-initials="SR" data-room="Room 2" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">SR</div>
+                            <div class="guest-info">
+                                <h4>Samantha Recchia</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 3 -->
+                <div class="room-card">
+                    <div class="room-header">
+                        <span class="room-number">Room 3</span>
+                    </div>
+                    <div class="room-guests">
+                        <div class="guest" data-name="Hannah O'Brien" data-initials="HO" data-room="Room 3" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">HO</div>
+                            <div class="guest-info">
+                                <h4>Hannah O'Brien</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Robin Hughes" data-initials="RH" data-room="Room 3" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">RH</div>
+                            <div class="guest-info">
+                                <h4>Robin Hughes</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 4 -->
+                <div class="room-card">
+                    <div class="room-header">
+                        <span class="room-number">Room 4</span>
+                    </div>
+                    <div class="room-guests">
+                        <div class="guest" data-name="Johnny Gates O'Brien" data-initials="JG" data-room="Room 4" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">JG</div>
+                            <div class="guest-info">
+                                <h4>Johnny Gates O'Brien</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Florrie Gates O'Brien" data-initials="FG" data-room="Room 4" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">FG</div>
+                            <div class="guest-info">
+                                <h4>Florrie Gates O'Brien</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 5 -->
+                <div class="room-card">
+                    <div class="room-header">
+                        <span class="room-number">Room 5</span>
+                    </div>
+                    <div class="room-guests">
+                        <div class="guest" data-name="Razon Mahebub" data-initials="RM" data-room="Room 5" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">RM</div>
+                            <div class="guest-info">
+                                <h4>Razon Mahebub</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Neeve Fletcher" data-initials="NF" data-room="Room 5" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">NF</div>
+                            <div class="guest-info">
+                                <h4>Neeve Fletcher</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 6 -->
+                <div class="room-card">
+                    <div class="room-header">
+                        <span class="room-number">Room 6</span>
+                    </div>
+                    <div class="room-guests">
+                        <div class="guest" data-name="George Heyworth" data-initials="GH" data-room="Room 6" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">GH</div>
+                            <div class="guest-info">
+                                <h4>George Heyworth</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Emma Winup" data-initials="EW" data-room="Room 6" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">EW</div>
+                            <div class="guest-info">
+                                <h4>Emma Winup</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 7 -->
+                <div class="room-card">
+                    <div class="room-header">
+                        <span class="room-number">Room 7</span>
+                    </div>
+                    <div class="room-guests">
+                        <div class="guest" data-name="Tom Heyworth" data-initials="TH" data-room="Room 7" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">TH</div>
+                            <div class="guest-info">
+                                <h4>Tom Heyworth</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Robert Winup" data-initials="RW" data-room="Room 7" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">RW</div>
+                            <div class="guest-info">
+                                <h4>Robert Winup</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 8 -->
+                <div class="room-card solo-room">
+                    <div class="room-header">
+                        <span class="room-number">Room 8</span>
+                        <span class="room-tag solo">Solo</span>
+                    </div>
+                    <div class="room-guests">
+                        <div class="guest" data-name="Sarah" data-initials="S" data-room="Room 8 - Solo" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">S</div>
+                            <div class="guest-info">
+                                <h4>Sarah</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 9 -->
+                <div class="room-card">
+                    <div class="room-header">
+                        <span class="room-number">Room 9</span>
+                    </div>
+                    <div class="room-guests">
+                        <div class="guest" data-name="Kiran Ruparelia" data-initials="KR" data-room="Room 9" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">KR</div>
+                            <div class="guest-info">
+                                <h4>Kiran Ruparelia</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Shane Pallian" data-initials="SP" data-room="Room 9" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">SP</div>
+                            <div class="guest-info">
+                                <h4>Shane Pallian</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 10 -->
+                <div class="room-card">
+                    <div class="room-header">
+                        <span class="room-number">Room 10</span>
+                    </div>
+                    <div class="room-guests">
+                        <div class="guest" data-name="Oli Moran" data-initials="OM" data-room="Room 10" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">OM</div>
+                            <div class="guest-info">
+                                <h4>Oli Moran</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Peter London" data-initials="PL" data-room="Room 10" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">PL</div>
+                            <div class="guest-info">
+                                <h4>Peter London</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 11 -->
+                <div class="room-card">
+                    <div class="room-header">
+                        <span class="room-number">Room 11</span>
+                    </div>
+                    <div class="room-guests">
+                        <div class="guest" data-name="Emma Levett" data-initials="EL" data-room="Room 11" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">EL</div>
+                            <div class="guest-info">
+                                <h4>Emma Levett</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Jonny Levett" data-initials="JL" data-room="Room 11" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">JL</div>
+                            <div class="guest-info">
+                                <h4>Jonny Levett</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 12 - The Party Room! -->
+                <div class="room-card party-room">
+                    <div class="room-header">
+                        <span class="room-number">Room 12</span>
+                        <span class="room-tag party">The Lads</span>
+                    </div>
+                    <div class="room-guests">
+                        <div class="guest" data-name="Jonny Williams" data-initials="JW" data-room="Room 12 - The Lads" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">JW</div>
+                            <div class="guest-info">
+                                <h4>Jonny Williams</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Will Turner" data-initials="WT" data-room="Room 12 - The Lads" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">WT</div>
+                            <div class="guest-info">
+                                <h4>Will Turner</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Chris Coggin" data-initials="CC" data-room="Room 12 - The Lads" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">CC</div>
+                            <div class="guest-info">
+                                <h4>Chris Coggin</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Oscar Walters" data-initials="OW" data-room="Room 12 - The Lads" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">OW</div>
+                            <div class="guest-info">
+                                <h4>Oscar Walters</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Matt Hill" data-initials="MH" data-room="Room 12 - The Lads" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">MH</div>
+                            <div class="guest-info">
+                                <h4>Matt Hill</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Pranay Dube" data-initials="PD" data-room="Room 12 - The Lads" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">PD</div>
+                            <div class="guest-info">
+                                <h4>Pranay Dube</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         RSVP Tracker Section
+         ============================================ -->
+    <section id="rsvp-tracker" class="section rsvp-tracker">
+        <div class="container">
+            <h2 class="section-title">Who's Coming?</h2>
+            <p class="section-subtitle">The confirmed crew!</p>
+
+            <div class="tracker-stats">
+                <div class="tracker-stat confirmed">
+                    <span class="tracker-number" id="confirmed-count">0</span>
+                    <span class="tracker-label">Confirmed</span>
+                </div>
+                <div class="tracker-stat maybe">
+                    <span class="tracker-number" id="maybe-count">0</span>
+                    <span class="tracker-label">Maybe</span>
+                </div>
+                <div class="tracker-stat pending">
+                    <span class="tracker-number" id="pending-count">27</span>
+                    <span class="tracker-label">Awaiting</span>
+                </div>
+            </div>
+
+            <div class="tracker-grid" id="tracker-grid">
+                <!-- Guest status cards generated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         Voting & Suggestions Section
+         ============================================ -->
+    <section id="vote" class="section vote">
+        <div class="container">
+            <h2 class="section-title">Have Your Say!</h2>
+            <p class="section-subtitle">Vote on activities and suggest ideas</p>
+
+            <div class="vote-grid">
+                <!-- Activity Polls -->
+                <div class="vote-card">
+                    <h3>🎯 Activity Votes</h3>
+                    <p class="vote-intro">What do you want to do? Click to vote!</p>
+
+                    <div class="poll" data-poll="activities">
+                        <div class="poll-option" data-option="wine">
+                            <span class="poll-emoji">🍷</span>
+                            <span class="poll-label">Wine Tasting Tour</span>
+                            <span class="poll-votes">0</span>
+                            <div class="poll-bar"><div class="poll-fill"></div></div>
+                        </div>
+                        <div class="poll-option" data-option="kayak">
+                            <span class="poll-emoji">🚣</span>
+                            <span class="poll-label">Kayaking / Canoeing</span>
+                            <span class="poll-votes">0</span>
+                            <div class="poll-bar"><div class="poll-fill"></div></div>
+                        </div>
+                        <div class="poll-option" data-option="chateau">
+                            <span class="poll-emoji">🏰</span>
+                            <span class="poll-label">Visit a Famous Chateau</span>
+                            <span class="poll-votes">0</span>
+                            <div class="poll-bar"><div class="poll-fill"></div></div>
+                        </div>
+                        <div class="poll-option" data-option="market">
+                            <span class="poll-emoji">🧺</span>
+                            <span class="poll-label">Local Market Trip</span>
+                            <span class="poll-votes">0</span>
+                            <div class="poll-bar"><div class="poll-fill"></div></div>
+                        </div>
+                        <div class="poll-option" data-option="bike">
+                            <span class="poll-emoji">🚴</span>
+                            <span class="poll-label">Bike Ride</span>
+                            <span class="poll-votes">0</span>
+                            <div class="poll-bar"><div class="poll-fill"></div></div>
+                        </div>
+                        <div class="poll-option" data-option="cooking">
+                            <span class="poll-emoji">👨‍🍳</span>
+                            <span class="poll-label">French Cooking Class</span>
+                            <span class="poll-votes">0</span>
+                            <div class="poll-bar"><div class="poll-fill"></div></div>
+                        </div>
+                    </div>
+                    <p class="poll-note">Vote for as many as you like!</p>
+                </div>
+
+                <!-- Evening Entertainment -->
+                <div class="vote-card">
+                    <h3>🎮 Evening Entertainment</h3>
+                    <p class="vote-intro">What should we do in the evenings?</p>
+
+                    <div class="poll" data-poll="evening">
+                        <div class="poll-option" data-option="poker">
+                            <span class="poll-emoji">🃏</span>
+                            <span class="poll-label">Poker Night</span>
+                            <span class="poll-votes">0</span>
+                            <div class="poll-bar"><div class="poll-fill"></div></div>
+                        </div>
+                        <div class="poll-option" data-option="boardgames">
+                            <span class="poll-emoji">🎲</span>
+                            <span class="poll-label">Board Games</span>
+                            <span class="poll-votes">0</span>
+                            <div class="poll-bar"><div class="poll-fill"></div></div>
+                        </div>
+                        <div class="poll-option" data-option="karaoke">
+                            <span class="poll-emoji">🎤</span>
+                            <span class="poll-label">Karaoke</span>
+                            <span class="poll-votes">0</span>
+                            <div class="poll-bar"><div class="poll-fill"></div></div>
+                        </div>
+                        <div class="poll-option" data-option="movie">
+                            <span class="poll-emoji">🎬</span>
+                            <span class="poll-label">Movie Night</span>
+                            <span class="poll-votes">0</span>
+                            <div class="poll-bar"><div class="poll-fill"></div></div>
+                        </div>
+                        <div class="poll-option" data-option="quiz">
+                            <span class="poll-emoji">🧠</span>
+                            <span class="poll-label">Quiz Night</span>
+                            <span class="poll-votes">0</span>
+                            <div class="poll-bar"><div class="poll-fill"></div></div>
+                        </div>
+                        <div class="poll-option" data-option="hot-tub">
+                            <span class="poll-emoji">🌙</span>
+                            <span class="poll-label">Late Night Pool/Hot Tub</span>
+                            <span class="poll-votes">0</span>
+                            <div class="poll-bar"><div class="poll-fill"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Suggestion Box -->
+                <div class="vote-card suggestion-box">
+                    <h3>💡 Suggestion Box</h3>
+                    <p class="vote-intro">Got a great idea? Share it!</p>
+
+                    <form class="suggestion-form" id="suggestion-form">
+                        <div class="form-group">
+                            <input type="text" id="suggester-name" placeholder="Your name" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="suggestion-text" placeholder="Your brilliant idea..." rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Idea</button>
+                    </form>
+
+                    <div class="suggestions-list" id="suggestions-list">
+                        <h4>Ideas so far:</h4>
+                        <div class="suggestion-item example">
+                            <span class="suggestion-author">Joe</span>
+                            <p>How about a cheese and wine evening on the terrace?</p>
+                        </div>
+                        <!-- More suggestions will be added here -->
+                    </div>
+                </div>
+
+                <!-- Music Vibes -->
+                <div class="vote-card">
+                    <h3>🎵 Music Vibes</h3>
+                    <p class="vote-intro">What's the soundtrack for the trip?</p>
+
+                    <div class="poll" data-poll="music">
+                        <div class="poll-option" data-option="summer-hits">
+                            <span class="poll-emoji">☀️</span>
+                            <span class="poll-label">Summer Hits</span>
+                            <span class="poll-votes">0</span>
+                            <div class="poll-bar"><div class="poll-fill"></div></div>
+                        </div>
+                        <div class="poll-option" data-option="throwbacks">
+                            <span class="poll-emoji">📻</span>
+                            <span class="poll-label">2000s/2010s Throwbacks</span>
+                            <span class="poll-votes">0</span>
+                            <div class="poll-bar"><div class="poll-fill"></div></div>
+                        </div>
+                        <div class="poll-option" data-option="dance">
+                            <span class="poll-emoji">💃</span>
+                            <span class="poll-label">Dance / House</span>
+                            <span class="poll-votes">0</span>
+                            <div class="poll-bar"><div class="poll-fill"></div></div>
+                        </div>
+                        <div class="poll-option" data-option="chilled">
+                            <span class="poll-emoji">🎸</span>
+                            <span class="poll-label">Chilled / Acoustic</span>
+                            <span class="poll-votes">0</span>
+                            <div class="poll-bar"><div class="poll-fill"></div></div>
+                        </div>
+                        <div class="poll-option" data-option="cheese">
+                            <span class="poll-emoji">🧀</span>
+                            <span class="poll-label">Guilty Pleasures / Cheese</span>
+                            <span class="poll-votes">0</span>
+                            <div class="poll-bar"><div class="poll-fill"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         Profile Modal
+         ============================================ -->
+    <div class="profile-modal" id="profile-modal">
+        <div class="profile-modal-content">
+            <button class="profile-close">&times;</button>
+            <div class="profile-header">
+                <div class="profile-avatar" id="profile-avatar">JO</div>
+                <div class="profile-title">
+                    <h2 id="profile-name">Name</h2>
+                    <p class="profile-room" id="profile-room">Room X</p>
+                </div>
+            </div>
+            <div class="profile-body">
+                <div class="profile-field">
+                    <span class="profile-label">Superlative</span>
+                    <p class="profile-value" id="profile-superlative">Most likely to...</p>
+                </div>
+                <div class="profile-field">
+                    <span class="profile-label">Fun Fact</span>
+                    <p class="profile-value" id="profile-fact">Something interesting...</p>
+                </div>
+                <div class="profile-field">
+                    <span class="profile-label">Bringing to the Trip</span>
+                    <p class="profile-value" id="profile-bringing">Good vibes!</p>
+                </div>
+                <div class="profile-field">
+                    <span class="profile-label">Party Anthem</span>
+                    <p class="profile-value" id="profile-anthem">Song name</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Theme Switcher -->
+    <div class="theme-switcher" id="theme-switcher">
+        <button class="theme-toggle-btn" id="theme-toggle-btn">🎨</button>
+        <div class="theme-options" id="theme-options">
+            <button class="theme-option" data-theme="default" title="Birthday Party">🎂</button>
+            <button class="theme-option" data-theme="france" title="French Vibes">🇫🇷</button>
+            <button class="theme-option" data-theme="wine" title="Wine O'Clock">🍷</button>
+            <button class="theme-option" data-theme="sunset" title="Golden Hour">🌅</button>
+            <button class="theme-option" data-theme="disco" title="Disco Night">🪩</button>
+        </div>
+    </div>
+
+    <!-- Confetti Cannon -->
+    <button class="confetti-cannon" id="confetti-cannon">🎉<span class="cannon-label">POP!</span></button>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Made with love for Joe's 30th Birthday 🎂 🇫🇷 🎉</p>
+        </div>
+    </footer>
+
+    <script src="js/shared.js?v=3"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/crew.js"></script>
+</body>
+</html>

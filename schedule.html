@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Schedule - Joe's 30th Birthday Trip</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>">
+    <link rel="stylesheet" href="css/base.css?v=3">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/schedule.css?v=2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">30th Bday</a>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html" data-page="index.html">Home</a></li>
+                <li><a href="schedule.html" data-page="schedule.html">Schedule</a></li>
+                <li><a href="games.html" data-page="games.html">Games</a></li>
+                <li><a href="social.html" data-page="social.html">Social</a></li>
+                <li><a href="practical.html" data-page="practical.html">Info</a></li>
+                <li><a href="crew.html" data-page="crew.html">Crew</a></li>
+                <li><a href="party.html" data-page="party.html">Party</a></li>
+                <li><span class="nav-guest-name" id="nav-guest-name" style="display:none;"></span></li>
+                <li><button class="dark-mode-toggle" id="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <h1>The Schedule</h1>
+        <p>6 days of adventure, food, and fun at Ch&acirc;teau Roussignol</p>
+    </header>
+
+    <!-- Sub Navigation -->
+    <nav class="sub-nav">
+        <ul class="sub-nav-links">
+            <li><a href="#agenda">Agenda</a></li>
+            <li><a href="#itineraries">Itineraries</a></li>
+            <li><a href="#activities">Activities</a></li>
+            <li><a href="#activity-voting">Vote</a></li>
+            <li><a href="#rotas">Rotas</a></li>
+            <li><a href="#highlights">Highlights</a></li>
+        </ul>
+    </nav>
+
+    <!-- ======== AGENDA ======== -->
+    <section id="agenda" class="section agenda">
+        <div class="container">
+            <h2 class="section-title">The Agenda</h2>
+            <p class="section-subtitle">A week of adventure, good food, and great company</p>
+
+            <div class="agenda-tabs">
+                <button class="tab-btn active" data-day="1">Day 1<span>Wed 29</span></button>
+                <button class="tab-btn" data-day="2">Day 2<span>Thu 30</span></button>
+                <button class="tab-btn" data-day="3">Day 3<span>Fri 1</span></button>
+                <button class="tab-btn" data-day="4">Day 4<span>Sat 2</span></button>
+                <button class="tab-btn" data-day="5">Day 5<span>Sun 3</span></button>
+                <button class="tab-btn" data-day="6">Day 6<span>Mon 4</span></button>
+            </div>
+
+            <div class="agenda-content">
+                <!-- Day 1 - Wednesday 29 April -->
+                <div class="day-content active" data-day="1">
+                    <h3>Wednesday 29th - Travel &amp; Arrival Day</h3>
+                    <p class="day-note">Main party travelling from Sevenoaks (17 people, 2x 9-seater vans). Others making their own way.</p>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="time">7:00 AM</div>
+                            <div class="activity">
+                                <h4>Meet at Joe's, Sevenoaks</h4>
+                                <p>Load up the vans, last coffee on English soil!</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">7:30 AM</div>
+                            <div class="activity">
+                                <h4>Depart Sevenoaks</h4>
+                                <p>Convoy of 2 vans heading to the Channel crossing</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">~9:30 AM</div>
+                            <div class="activity">
+                                <h4>Channel Crossing</h4>
+                                <p>Eurotunnel or Ferry - TBC. Bonjour la France!</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">~12:30 PM</div>
+                            <div class="activity">
+                                <h4>Lunch Stop in France</h4>
+                                <p>First French meal of the trip - baguettes, cheese, the works</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item highlight">
+                            <div class="time">~3:30 PM</div>
+                            <div class="activity">
+                                <h4>Arrive at Ch&acirc;teau Roussignol!</h4>
+                                <p>We made it! Explore the grounds, pick your rooms, settle in</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">5:00 PM</div>
+                            <div class="activity">
+                                <h4>Unpack &amp; Explore</h4>
+                                <p>Get settled, check out the pool, wander the gardens</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">7:00 PM</div>
+                            <div class="activity">
+                                <h4>Welcome Drinks by the Pool</h4>
+                                <p>Champagne, snacks and catching up - the trip officially begins!</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">8:30 PM</div>
+                            <div class="activity">
+                                <h4>First Night Feast</h4>
+                                <p>Group dinner together - details TBC</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item top-secret" data-unlock="2026-04-29">
+                            <div class="time">10:00 PM</div>
+                            <div class="activity secret-activity">
+                                <div class="secret-overlay">
+                                    <span class="secret-icon">🔒</span>
+                                    <h4>TOP SECRET</h4>
+                                    <p>Unlocks on arrival day...</p>
+                                </div>
+                                <div class="secret-content" style="display: none;">
+                                    <h4>🎮 Team Reveal &amp; Ice Breaker Games!</h4>
+                                    <p>Find out your team, your nickname, and compete in the first challenge!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Day 2 - Thursday 30 April -->
+                <div class="day-content" data-day="2">
+                    <h3>Thursday 30th - Settling In</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="time">Morning</div>
+                            <div class="activity">
+                                <h4>Lazy Breakfast</h4>
+                                <p>Croissants, coffee, and planning the day</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">Afternoon</div>
+                            <div class="activity">
+                                <h4>Pool &amp; Chill / Explore</h4>
+                                <p>Whatever you fancy - it's your holiday!</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">8:00 PM</div>
+                            <div class="activity">
+                                <h4>BBQ Night</h4>
+                                <p>Fire up the BBQ area!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Day 3 - Friday 1 May -->
+                <div class="day-content" data-day="3">
+                    <h3>Friday 1st - Wine Day</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="time">11:00 AM</div>
+                            <div class="activity">
+                                <h4>Loire Valley Wine Tasting</h4>
+                                <p>Visit local vineyards and sample the goods</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">Evening</div>
+                            <div class="activity">
+                                <h4>Dinner Out</h4>
+                                <p>Local restaurant experience</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Day 4 - Saturday 2 May - BIRTHDAY! -->
+                <div class="day-content" data-day="4">
+                    <h3>Saturday 2nd - THE BIG DAY! 🎂</h3>
+                    <div class="timeline">
+                        <div class="timeline-item highlight">
+                            <div class="time">Morning</div>
+                            <div class="activity">
+                                <h4>Birthday Breakfast in Bed for Joe!</h4>
+                                <p>The birthday boy gets the royal treatment</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item top-secret" data-unlock="2026-05-02">
+                            <div class="time">11:00 AM</div>
+                            <div class="activity secret-activity">
+                                <div class="secret-overlay">
+                                    <span class="secret-icon">🔒</span>
+                                    <h4>TOP SECRET ACTIVITY</h4>
+                                    <p>Unlocks on the birthday...</p>
+                                </div>
+                                <div class="secret-content" style="display: none;">
+                                    <h4>🏆 The Birthday Olympics!</h4>
+                                    <p>Teams compete in hilarious challenges. Prizes for winners!</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-item top-secret" data-unlock="2026-05-02">
+                            <div class="time">3:00 PM</div>
+                            <div class="activity secret-activity">
+                                <div class="secret-overlay">
+                                    <span class="secret-icon">🔒</span>
+                                    <h4>SURPRISE EVENT</h4>
+                                    <p>Unlocks on the birthday...</p>
+                                </div>
+                                <div class="secret-content" style="display: none;">
+                                    <h4>🎤 The Roast of Joe!</h4>
+                                    <p>Prepare your best jokes - it's time to lovingly roast the birthday boy</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-item highlight">
+                            <div class="time">7:00 PM</div>
+                            <div class="activity">
+                                <h4>Birthday Dinner &amp; Party</h4>
+                                <p>Dress code: Smart casual / Party vibes</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item top-secret" data-unlock="2026-05-02">
+                            <div class="time">10:00 PM</div>
+                            <div class="activity secret-activity">
+                                <div class="secret-overlay">
+                                    <span class="secret-icon">🔒</span>
+                                    <h4>LATE NIGHT SURPRISE</h4>
+                                    <p>Unlocks on the birthday...</p>
+                                </div>
+                                <div class="secret-content" style="display: none;">
+                                    <h4>🎉 Awards Ceremony &amp; Photo Booth!</h4>
+                                    <p>Superlatives revealed, photo booth madness, and dancing till late!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Day 5 - Sunday 3 May -->
+                <div class="day-content" data-day="5">
+                    <h3>Sunday 3rd - Recovery Day</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="time">Late Morning</div>
+                            <div class="activity">
+                                <h4>Lazy Brunch</h4>
+                                <p>Recovery mode activated</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">Afternoon</div>
+                            <div class="activity">
+                                <h4>Pool &amp; Games</h4>
+                                <p>Chill vibes, last full day at the ch&acirc;teau</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">Evening</div>
+                            <div class="activity">
+                                <h4>Final Group Dinner</h4>
+                                <p>Last supper together</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Day 6 - Monday 4 May -->
+                <div class="day-content" data-day="6">
+                    <h3>Monday 4th - Farewell (Bank Holiday)</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="time">Morning</div>
+                            <div class="activity">
+                                <h4>Breakfast &amp; Pack Up</h4>
+                                <p>Last croissants, gather your things</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">10:00 AM</div>
+                            <div class="activity">
+                                <h4>Check-out</h4>
+                                <p>Sad goodbyes and safe travels home!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== ITINERARIES ======== -->
+    <section id="itineraries" class="section itineraries">
+        <div class="container">
+            <h2 class="section-title">Choose Our Itinerary</h2>
+            <p class="section-subtitle">Compare 3 options and vote for your favourite!</p>
+
+            <div class="itin-toggle">
+                <button class="itin-tab active" data-itin="chill">🧘 Chill &amp; Chateau</button>
+                <button class="itin-tab" data-itin="adventure">🚀 Adventure Seekers</button>
+                <button class="itin-tab" data-itin="balanced">&#9878;&#65039; Best of Both</button>
+            </div>
+
+            <!-- Option A: Chill & Chateau -->
+            <div class="itin-content active" data-itin="chill">
+                <div class="itin-header">
+                    <h3>🧘 Option A: Chill &amp; Chateau</h3>
+                    <p class="itin-vibe">Maximum relaxation with occasional outings. Pool days, private chef, spa vibes.</p>
+                    <div class="itin-tags">
+                        <span class="itin-tag relaxed">Relaxed</span>
+                        <span class="itin-tag">Pool Heavy</span>
+                        <span class="itin-tag">Foodie</span>
+                        <span class="itin-tag">Low Key</span>
+                    </div>
+                </div>
+
+                <div class="itin-days">
+                    <div class="itin-day">
+                        <div class="itin-day-header">
+                            <h4>Day 1 <span>Wed 29 Apr</span></h4>
+                            <span class="itin-day-theme">Arrival &amp; Settle In</span>
+                        </div>
+                        <div class="itin-schedule">
+                            <div class="itin-item"><span class="itin-time">Afternoon</span><span class="itin-activity">Arrive at Chateau Roussignol, unpack, explore grounds</span></div>
+                            <div class="itin-item"><span class="itin-time">5:00 PM</span><span class="itin-activity">Welcome drinks by the pool</span></div>
+                            <div class="itin-item highlight"><span class="itin-time">7:00 PM</span><span class="itin-activity">🍽️ Private chef dinner at chateau</span></div>
+                            <div class="itin-item"><span class="itin-time">Evening</span><span class="itin-activity">Lawn games &amp; stargazing</span></div>
+                        </div>
+                    </div>
+
+                    <div class="itin-day">
+                        <div class="itin-day-header">
+                            <h4>Day 2 <span>Thu 30 Apr</span></h4>
+                            <span class="itin-day-theme">Chateau Day</span>
+                        </div>
+                        <div class="itin-schedule">
+                            <div class="itin-item"><span class="itin-time">10:00 AM</span><span class="itin-activity">Leisurely breakfast</span></div>
+                            <div class="itin-item"><span class="itin-time">12:00 PM</span><span class="itin-activity">🏰 Visit Chateau d'Amboise (nearby)</span></div>
+                            <div class="itin-item"><span class="itin-time">2:00 PM</span><span class="itin-activity">Lunch at Bigot Patisserie, Amboise</span></div>
+                            <div class="itin-item"><span class="itin-time">4:00 PM</span><span class="itin-activity">🏊 Pool time</span></div>
+                            <div class="itin-item"><span class="itin-time">6:00 PM</span><span class="itin-activity">Yoga in the garden (optional)</span></div>
+                            <div class="itin-item"><span class="itin-time">8:00 PM</span><span class="itin-activity">🍖 BBQ dinner at chateau</span></div>
+                        </div>
+                    </div>
+
+                    <div class="itin-day">
+                        <div class="itin-day-header">
+                            <h4>Day 3 <span>Fri 1 May</span></h4>
+                            <span class="itin-day-theme">Wine &amp; Wellness</span>
+                        </div>
+                        <div class="itin-schedule">
+                            <div class="itin-item highlight"><span class="itin-time">10:00 AM</span><span class="itin-activity">🍷 Private sommelier wine tasting at chateau</span></div>
+                            <div class="itin-item"><span class="itin-time">1:00 PM</span><span class="itin-activity">Light lunch</span></div>
+                            <div class="itin-item"><span class="itin-time">3:00 PM</span><span class="itin-activity">💆 Mobile spa - massages &amp; treatments</span></div>
+                            <div class="itin-item"><span class="itin-time">7:00 PM</span><span class="itin-activity">🧺 Picnic champetre in the garden</span></div>
+                            <div class="itin-item"><span class="itin-time">9:00 PM</span><span class="itin-activity">🎬 Outdoor cinema</span></div>
+                        </div>
+                    </div>
+
+                    <div class="itin-day birthday">
+                        <div class="itin-day-header">
+                            <h4>Day 4 <span>Sat 2 May</span></h4>
+                            <span class="itin-day-theme">🎂 JOE'S BIRTHDAY!</span>
+                        </div>
+                        <div class="itin-schedule">
+                            <div class="itin-item"><span class="itin-time">Morning</span><span class="itin-activity">Sleep in / recovery</span></div>
+                            <div class="itin-item highlight"><span class="itin-time">12:00 PM</span><span class="itin-activity">🥂 Champagne brunch</span></div>
+                            <div class="itin-item highlight"><span class="itin-time">3:00 PM</span><span class="itin-activity">🎶 Pool party with DJ</span></div>
+                            <div class="itin-item"><span class="itin-time">6:00 PM</span><span class="itin-activity">Garden party setup</span></div>
+                            <div class="itin-item highlight"><span class="itin-time">8:00 PM</span><span class="itin-activity">🍽️ Private chef birthday dinner (multi-course)</span></div>
+                            <div class="itin-item highlight"><span class="itin-time">10:00 PM</span><span class="itin-activity">🎂 Cake, speeches, dancing!</span></div>
+                            <div class="itin-item"><span class="itin-time">Late</span><span class="itin-activity">🎰 Casino night or murder mystery</span></div>
+                        </div>
+                    </div>
+
+                    <div class="itin-day">
+                        <div class="itin-day-header">
+                            <h4>Day 5 <span>Sun 3 May</span></h4>
+                            <span class="itin-day-theme">Gentle Exploration</span>
+                        </div>
+                        <div class="itin-schedule">
+                            <div class="itin-item"><span class="itin-time">10:00 AM</span><span class="itin-activity">Late breakfast</span></div>
+                            <div class="itin-item"><span class="itin-time">11:00 AM</span><span class="itin-activity">🛒 Local market visit</span></div>
+                            <div class="itin-item highlight"><span class="itin-time">1:00 PM</span><span class="itin-activity">👨‍🍳 Cooking class at chateau (make lunch!)</span></div>
+                            <div class="itin-item"><span class="itin-time">4:00 PM</span><span class="itin-activity">Petanque tournament</span></div>
+                            <div class="itin-item"><span class="itin-time">7:00 PM</span><span class="itin-activity">Casual dinner + trip reminiscing</span></div>
+                        </div>
+                    </div>
+
+                    <div class="itin-day">
+                        <div class="itin-day-header">
+                            <h4>Day 6 <span>Mon 4 May</span></h4>
+                            <span class="itin-day-theme">Departure</span>
+                        </div>
+                        <div class="itin-schedule">
+                            <div class="itin-item"><span class="itin-time">Morning</span><span class="itin-activity">Farewell breakfast</span></div>
+                            <div class="itin-item"><span class="itin-time">Departure</span><span class="itin-activity">📸 Final photos, clear out</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Option B: Adventure Seekers -->
+            <div class="itin-content" data-itin="adventure">
+                <div class="itin-header">
+                    <h3>🚀 Option B: Adventure Seekers</h3>
+                    <p class="itin-vibe">Pack in everything! Chateau visits, hot air balloon, wine tours, nightlife.</p>
+                    <div class="itin-tags">
+                        <span class="itin-tag adventure">Action-Packed</span>
+                        <span class="itin-tag">Exploring</span>
+                        <span class="itin-tag">Nightlife</span>
+                        <span class="itin-tag">Bucket List</span>
+                    </div>
+                </div>
+
+                <div class="itin-days">
+                    <div class="itin-day">
+                        <div class="itin-day-header">
+                            <h4>Day 1 <span>Wed 29 Apr</span></h4>
+                            <span class="itin-day-theme">Arrival &amp; Evening Exploration</span>
+                        </div>
+                        <div class="itin-schedule">
+                            <div class="itin-item"><span class="itin-time">Afternoon</span><span class="itin-activity">Arrive at chateau</span></div>
+                            <div class="itin-item"><span class="itin-time">5:00 PM</span><span class="itin-activity">Quick freshen up</span></div>
+                            <div class="itin-item highlight"><span class="itin-time">7:00 PM</span><span class="itin-activity">🍽️ Dinner in Tours + explore Place Plumereau</span></div>
+                            <div class="itin-item"><span class="itin-time">10:00 PM</span><span class="itin-activity">🍻 Drinks &amp; bar hopping</span></div>
+                        </div>
+                    </div>
+
+                    <div class="itin-day">
+                        <div class="itin-day-header">
+                            <h4>Day 2 <span>Thu 30 Apr</span></h4>
+                            <span class="itin-day-theme">Chateaux Blitz</span>
+                        </div>
+                        <div class="itin-schedule">
+                            <div class="itin-item highlight"><span class="itin-time">7:00 AM</span><span class="itin-activity">🎈 SUNRISE HOT AIR BALLOON over Chambord!</span></div>
+                            <div class="itin-item"><span class="itin-time">10:00 AM</span><span class="itin-activity">🥂 Champagne toast, return, breakfast</span></div>
+                            <div class="itin-item highlight"><span class="itin-time">12:00 PM</span><span class="itin-activity">🏰 Visit Chateau de Chenonceau</span></div>
+                            <div class="itin-item highlight"><span class="itin-time">3:00 PM</span><span class="itin-activity">🚣 Kayak UNDER Chenonceau on the Cher</span></div>
+                            <div class="itin-item"><span class="itin-time">6:00 PM</span><span class="itin-activity">Return to chateau, quick change</span></div>
+                            <div class="itin-item"><span class="itin-time">8:00 PM</span><span class="itin-activity">🍽️ Dinner at Auberge du Bon Laboureur</span></div>
+                        </div>
+                    </div>
+
+                    <div class="itin-day">
+                        <div class="itin-day-header">
+                            <h4>Day 3 <span>Fri 1 May</span></h4>
+                            <span class="itin-day-theme">Wine Country</span>
+                        </div>
+                        <div class="itin-schedule">
+                            <div class="itin-item"><span class="itin-time">9:00 AM</span><span class="itin-activity">Drive to Sancerre (2 hours)</span></div>
+                            <div class="itin-item highlight"><span class="itin-time">11:00 AM</span><span class="itin-activity">🍷 Wine tasting + lunch in Sancerre</span></div>
+                            <div class="itin-item"><span class="itin-time">3:00 PM</span><span class="itin-activity">Visit one more estate</span></div>
+                            <div class="itin-item"><span class="itin-time">5:00 PM</span><span class="itin-activity">Drive back via scenic route</span></div>
+                            <div class="itin-item"><span class="itin-time">8:00 PM</span><span class="itin-activity">🍽️ Aperitif + private chef dinner</span></div>
+                            <div class="itin-item highlight"><span class="itin-time">10:00 PM</span><span class="itin-activity">🔪 Murder mystery evening</span></div>
+                        </div>
+                    </div>
+
+                    <div class="itin-day birthday">
+                        <div class="itin-day-header">
+                            <h4>Day 4 <span>Sat 2 May</span></h4>
+                            <span class="itin-day-theme">🎂 JOE'S BIRTHDAY!</span>
+                        </div>
+                        <div class="itin-schedule">
+                            <div class="itin-item"><span class="itin-time">10:00 AM</span><span class="itin-activity">🥂 Birthday brunch (no early start!)</span></div>
+                            <div class="itin-item highlight"><span class="itin-time">12:00 PM</span><span class="itin-activity">🚗 Vintage 2CV convoy tour through vineyards</span></div>
+                            <div class="itin-item highlight"><span class="itin-time">3:00 PM</span><span class="itin-activity">🍷 Wine tasting in Vouvray caves</span></div>
+                            <div class="itin-item"><span class="itin-time">6:00 PM</span><span class="itin-activity">🏊 Return for pool party</span></div>
+                            <div class="itin-item highlight"><span class="itin-time">8:00 PM</span><span class="itin-activity">🍽️ Birthday feast with private chef</span></div>
+                            <div class="itin-item highlight"><span class="itin-time">10:00 PM</span><span class="itin-activity">🎂 Cake &amp; speeches</span></div>
+                            <div class="itin-item"><span class="itin-time">11:00 PM</span><span class="itin-activity">🎶 DJ party or club in Tours</span></div>
+                        </div>
+                    </div>
+
+                    <div class="itin-day">
+                        <div class="itin-day-header">
+                            <h4>Day 5 <span>Sun 3 May</span></h4>
+                            <span class="itin-day-theme">Last Hurrah</span>
+                        </div>
+                        <div class="itin-schedule">
+                            <div class="itin-item"><span class="itin-time">10:00 AM</span><span class="itin-activity">Recovery breakfast</span></div>
+                            <div class="itin-item highlight"><span class="itin-time">11:00 AM</span><span class="itin-activity">🚴 Cycling tour to Chateau de Villandry</span></div>
+                            <div class="itin-item"><span class="itin-time">1:00 PM</span><span class="itin-activity">Lunch in Villandry village</span></div>
+                            <div class="itin-item"><span class="itin-time">3:00 PM</span><span class="itin-activity">🌳 Explore chateau gardens</span></div>
+                            <div class="itin-item"><span class="itin-time">5:00 PM</span><span class="itin-activity">Return, pool, relax</span></div>
+                            <div class="itin-item"><span class="itin-time">7:00 PM</span><span class="itin-activity">Final dinner at chateau</span></div>
+                            <div class="itin-item highlight"><span class="itin-time">9:00 PM</span><span class="itin-activity">🏆 Awards ceremony</span></div>
+                        </div>
+                    </div>
+
+                    <div class="itin-day">
+                        <div class="itin-day-header">
+                            <h4>Day 6 <span>Mon 4 May</span></h4>
+                            <span class="itin-day-theme">Departure</span>
+                        </div>
+                        <div class="itin-schedule">
+                            <div class="itin-item"><span class="itin-time">Morning</span><span class="itin-activity">Farewell breakfast, pack up</span></div>
+                            <div class="itin-item"><span class="itin-time">Departure</span><span class="itin-activity">📸 Group photos, goodbyes</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Option C: Best of Both -->
+            <div class="itin-content" data-itin="balanced">
+                <div class="itin-header">
+                    <h3>&#9878;&#65039; Option C: Best of Both</h3>
+                    <p class="itin-vibe">Perfect balance of relaxation and adventure. Something for everyone.</p>
+                    <div class="itin-tags">
+                        <span class="itin-tag balanced">Balanced</span>
+                        <span class="itin-tag">Mix of Activities</span>
+                        <span class="itin-tag">Flexible</span>
+                        <span class="itin-tag">Crowd Pleaser</span>
+                    </div>
+                </div>
+
+                <div class="itin-days">
+                    <div class="itin-day">
+                        <div class="itin-day-header">
+                            <h4>Day 1 <span>Wed 29 Apr</span></h4>
+                            <span class="itin-day-theme">Arrival &amp; Getting Settled</span>
+                        </div>
+                        <div class="itin-schedule">
+                            <div class="itin-item"><span class="itin-time">Afternoon</span><span class="itin-activity">Arrive at chateau, explore, settle in</span></div>
+                            <div class="itin-item highlight"><span class="itin-time">5:00 PM</span><span class="itin-activity">🥂 Champagne welcome by the pool</span></div>
+                            <div class="itin-item"><span class="itin-time">7:00 PM</span><span class="itin-activity">Light dinner (charcuterie, cheese, wine)</span></div>
+                            <div class="itin-item"><span class="itin-time">9:00 PM</span><span class="itin-activity">🏊 Night swim + lawn games</span></div>
+                        </div>
+                    </div>
+
+                    <div class="itin-day">
+                        <div class="itin-day-header">
+                            <h4>Day 2 <span>Thu 30 Apr</span></h4>
+                            <span class="itin-day-theme">Chateau Discovery</span>
+                        </div>
+                        <div class="itin-schedule">
+                            <div class="itin-item"><span class="itin-time">9:00 AM</span><span class="itin-activity">Breakfast</span></div>
+                            <div class="itin-item highlight"><span class="itin-time">10:30 AM</span><span class="itin-activity">🏰 Visit Chateau de Chambord (the big one!)</span></div>
+                            <div class="itin-item"><span class="itin-time">1:00 PM</span><span class="itin-activity">Picnic in Chambord estate</span></div>
+                            <div class="itin-item"><span class="itin-time">3:00 PM</span><span class="itin-activity">🚲 E-bike tour of Chambord grounds</span></div>
+                            <div class="itin-item"><span class="itin-time">5:00 PM</span><span class="itin-activity">Return to chateau</span></div>
+                            <div class="itin-item"><span class="itin-time">6:00 PM</span><span class="itin-activity">🏊 Pool time &amp; relaxation</span></div>
+                            <div class="itin-item"><span class="itin-time">8:00 PM</span><span class="itin-activity">🍖 Casual BBQ dinner</span></div>
+                        </div>
+                    </div>
+
+                    <div class="itin-day">
+                        <div class="itin-day-header">
+                            <h4>Day 3 <span>Fri 1 May</span></h4>
+                            <span class="itin-day-theme">Wine &amp; Culture</span>
+                        </div>
+                        <div class="itin-schedule">
+                            <div class="itin-item highlight"><span class="itin-time">9:00 AM</span><span class="itin-activity">🏰 Visit Chateau de Chenonceau</span></div>
+                            <div class="itin-item"><span class="itin-time">12:00 PM</span><span class="itin-activity">🍽️ Lunch at L'Orangerie (chateau restaurant)</span></div>
+                            <div class="itin-item highlight"><span class="itin-time">2:00 PM</span><span class="itin-activity">🍷 Vouvray cave wine tastings (2-3 estates)</span></div>
+                            <div class="itin-item"><span class="itin-time">5:00 PM</span><span class="itin-activity">Return to chateau</span></div>
+                            <div class="itin-item"><span class="itin-time">6:00 PM</span><span class="itin-activity">💆 Free time / spa treatments (optional)</span></div>
+                            <div class="itin-item"><span class="itin-time">8:00 PM</span><span class="itin-activity">🍽️ Fine dining restaurant in Amboise</span></div>
+                        </div>
+                    </div>
+
+                    <div class="itin-day birthday">
+                        <div class="itin-day-header">
+                            <h4>Day 4 <span>Sat 2 May</span></h4>
+                            <span class="itin-day-theme">🎂 JOE'S BIRTHDAY!</span>
+                        </div>
+                        <div class="itin-schedule">
+                            <div class="itin-item"><span class="itin-time">6:00 AM</span><span class="itin-activity">🎈 Sunrise hot air balloon (optional early risers)</span></div>
+                            <div class="itin-item highlight"><span class="itin-time">10:00 AM</span><span class="itin-activity">🥂 Birthday brunch at chateau</span></div>
+                            <div class="itin-item highlight"><span class="itin-time">12:00 PM</span><span class="itin-activity">👨‍🍳 Cooking class - make your own lunch!</span></div>
+                            <div class="itin-item"><span class="itin-time">3:00 PM</span><span class="itin-activity">🏊 Pool party with music</span></div>
+                            <div class="itin-item"><span class="itin-time">5:00 PM</span><span class="itin-activity">Petanque tournament</span></div>
+                            <div class="itin-item"><span class="itin-time">7:00 PM</span><span class="itin-activity">Get ready for dinner</span></div>
+                            <div class="itin-item highlight"><span class="itin-time">8:30 PM</span><span class="itin-activity">🍽️ Multi-course birthday dinner (private chef)</span></div>
+                            <div class="itin-item highlight"><span class="itin-time">10:30 PM</span><span class="itin-activity">🎂 Cake, speeches, presents</span></div>
+                            <div class="itin-item"><span class="itin-time">11:00 PM</span><span class="itin-activity">🎰 Casino night OR DJ party</span></div>
+                        </div>
+                    </div>
+
+                    <div class="itin-day">
+                        <div class="itin-day-header">
+                            <h4>Day 5 <span>Sun 3 May</span></h4>
+                            <span class="itin-day-theme">Relaxation Day</span>
+                        </div>
+                        <div class="itin-schedule">
+                            <div class="itin-item"><span class="itin-time">10:00 AM</span><span class="itin-activity">Sleep in, leisurely breakfast</span></div>
+                            <div class="itin-item"><span class="itin-time">11:00 AM</span><span class="itin-activity">🛒 Amboise Sunday market visit</span></div>
+                            <div class="itin-item"><span class="itin-time">1:00 PM</span><span class="itin-activity">Lunch at chateau</span></div>
+                            <div class="itin-item"><span class="itin-time">3:00 PM</span><span class="itin-activity">💆 Spa OR 🚣 Kayaking (group splits)</span></div>
+                            <div class="itin-item"><span class="itin-time">6:00 PM</span><span class="itin-activity">🌅 Sunset drinks in garden</span></div>
+                            <div class="itin-item"><span class="itin-time">8:00 PM</span><span class="itin-activity">Final dinner together</span></div>
+                            <div class="itin-item"><span class="itin-time">10:00 PM</span><span class="itin-activity">🎬 Outdoor cinema OR music &amp; reminiscing</span></div>
+                        </div>
+                    </div>
+
+                    <div class="itin-day">
+                        <div class="itin-day-header">
+                            <h4>Day 6 <span>Mon 4 May</span></h4>
+                            <span class="itin-day-theme">Departure</span>
+                        </div>
+                        <div class="itin-schedule">
+                            <div class="itin-item"><span class="itin-time">9:00 AM</span><span class="itin-activity">Farewell breakfast</span></div>
+                            <div class="itin-item"><span class="itin-time">11:00 AM</span><span class="itin-activity">📸 Group photo, final chateau moments</span></div>
+                            <div class="itin-item"><span class="itin-time">12:00 PM</span><span class="itin-activity">Departure</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vote Section -->
+            <div class="itin-vote">
+                <h4>Which itinerary do you prefer?</h4>
+                <div class="itin-vote-buttons">
+                    <button class="itin-vote-btn" data-vote="chill">🧘 Chill &amp; Chateau <span class="vote-count" id="vote-chill">0</span></button>
+                    <button class="itin-vote-btn" data-vote="adventure">🚀 Adventure Seekers <span class="vote-count" id="vote-adventure">0</span></button>
+                    <button class="itin-vote-btn" data-vote="balanced">&#9878;&#65039; Best of Both <span class="vote-count" id="vote-balanced">0</span></button>
+                </div>
+                <p class="itin-vote-note" id="itin-vote-note"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== ACTIVITY SIGN-UPS ======== -->
+    <section id="activities" class="section activities">
+        <div class="container">
+            <h2 class="section-title">Activity Sign-ups</h2>
+            <p class="section-subtitle">Commit to activities so we can plan numbers!</p>
+
+            <div class="activities-grid">
+                <div class="activity-card" data-activity="wine-tour">
+                    <div class="activity-emoji">🍷</div>
+                    <h3>Wine Tasting Tour</h3>
+                    <p>Friday afternoon - visit local Loire Valley vineyards</p>
+                    <div class="activity-spots">
+                        <span class="spots-count"><span id="wine-tour-count">0</span> signed up</span>
+                    </div>
+                    <button class="btn activity-btn" data-activity="wine-tour">I'm In!</button>
+                    <div class="activity-attendees" id="wine-tour-attendees"></div>
+                </div>
+
+                <div class="activity-card" data-activity="chateau-visit">
+                    <div class="activity-emoji">🏰</div>
+                    <h3>Ch&acirc;teau Visit</h3>
+                    <p>Visit Ch&acirc;teau de Chambord or Chenonceau</p>
+                    <div class="activity-spots">
+                        <span class="spots-count"><span id="chateau-visit-count">0</span> signed up</span>
+                    </div>
+                    <button class="btn activity-btn" data-activity="chateau-visit">I'm In!</button>
+                    <div class="activity-attendees" id="chateau-visit-attendees"></div>
+                </div>
+
+                <div class="activity-card" data-activity="kayaking">
+                    <div class="activity-emoji">🚣</div>
+                    <h3>Kayaking / Canoeing</h3>
+                    <p>Paddle down the Loire river</p>
+                    <div class="activity-spots">
+                        <span class="spots-count"><span id="kayaking-count">0</span> signed up</span>
+                    </div>
+                    <button class="btn activity-btn" data-activity="kayaking">I'm In!</button>
+                    <div class="activity-attendees" id="kayaking-attendees"></div>
+                </div>
+
+                <div class="activity-card" data-activity="market">
+                    <div class="activity-emoji">🧺</div>
+                    <h3>Local Market Trip</h3>
+                    <p>Fresh produce, cheese, and local delights</p>
+                    <div class="activity-spots">
+                        <span class="spots-count"><span id="market-count">0</span> signed up</span>
+                    </div>
+                    <button class="btn activity-btn" data-activity="market">I'm In!</button>
+                    <div class="activity-attendees" id="market-attendees"></div>
+                </div>
+
+                <div class="activity-card" data-activity="bike-ride">
+                    <div class="activity-emoji">🚴</div>
+                    <h3>Bike Ride</h3>
+                    <p>Explore the countryside on two wheels</p>
+                    <div class="activity-spots">
+                        <span class="spots-count"><span id="bike-ride-count">0</span> signed up</span>
+                    </div>
+                    <button class="btn activity-btn" data-activity="bike-ride">I'm In!</button>
+                    <div class="activity-attendees" id="bike-ride-attendees"></div>
+                </div>
+
+                <div class="activity-card" data-activity="cooking">
+                    <div class="activity-emoji">👨‍🍳</div>
+                    <h3>Cooking Class</h3>
+                    <p>Learn to make French classics</p>
+                    <div class="activity-spots">
+                        <span class="spots-count"><span id="cooking-count">0</span> signed up</span>
+                    </div>
+                    <button class="btn activity-btn" data-activity="cooking">I'm In!</button>
+                    <div class="activity-attendees" id="cooking-attendees"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== ACTIVITY VOTING ======== -->
+    <section id="activity-voting" class="section activity-voting">
+        <div class="container">
+            <h2 class="section-title">Vote on Activities</h2>
+            <p class="section-subtitle">Pick up to 8 activities you'd love to do &mdash; top votes get booked!</p>
+
+            <div class="av-vote-budget">
+                <span class="av-budget-label">Your votes:</span>
+                <span class="av-budget-used" id="av-votes-used">0</span>
+                <span class="av-budget-sep">/</span>
+                <span class="av-budget-total">8</span>
+            </div>
+
+            <div class="av-filters" id="av-filters"></div>
+
+            <div class="av-results" id="av-results" style="display:none;"></div>
+
+            <div class="av-grid" id="av-grid"></div>
+        </div>
+    </section>
+
+    <!-- ======== ROTAS / HOUSE RULES ======== -->
+    <section id="rotas" class="section rotas">
+        <div class="container">
+            <h2 class="section-title">House Rules</h2>
+            <p class="section-subtitle">Many hands make light work (and more time for fun!)</p>
+
+            <div class="rotas-container">
+                <!-- Cooking Rota -->
+                <div class="rota-card">
+                    <h3>👨‍🍳 Cooking Rota</h3>
+                    <p class="rota-intro">Teams of 3-4 per meal. Go wild or keep it simple!</p>
+                    <div class="rota-table">
+                        <div class="rota-row header">
+                            <span>Day</span>
+                            <span>Breakfast</span>
+                            <span>Dinner</span>
+                        </div>
+                        <div class="rota-row">
+                            <span>Wed 29</span>
+                            <span>-</span>
+                            <span>Team 1</span>
+                        </div>
+                        <div class="rota-row">
+                            <span>Thu 30</span>
+                            <span>Team 2</span>
+                            <span>BBQ Crew</span>
+                        </div>
+                        <div class="rota-row">
+                            <span>Fri 1</span>
+                            <span>Team 3</span>
+                            <span>Eating Out</span>
+                        </div>
+                        <div class="rota-row highlight">
+                            <span>Sat 2</span>
+                            <span>Birthday Brunch!</span>
+                            <span>Birthday Dinner</span>
+                        </div>
+                        <div class="rota-row">
+                            <span>Sun 3</span>
+                            <span>Team 4</span>
+                            <span>Team 5</span>
+                        </div>
+                        <div class="rota-row">
+                            <span>Mon 4</span>
+                            <span>Everyone!</span>
+                            <span>-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cleaning Rota -->
+                <div class="rota-card">
+                    <h3>🧹 Cleaning Rota</h3>
+                    <p class="rota-intro">Quick tidy each day keeps the ch&acirc;teau lovely!</p>
+                    <div class="rota-table">
+                        <div class="rota-row header">
+                            <span>Day</span>
+                            <span>Kitchen</span>
+                            <span>Common Areas</span>
+                        </div>
+                        <div class="rota-row">
+                            <span>Wed 29</span>
+                            <span>Team A</span>
+                            <span>Team B</span>
+                        </div>
+                        <div class="rota-row">
+                            <span>Thu 30</span>
+                            <span>Team C</span>
+                            <span>Team D</span>
+                        </div>
+                        <div class="rota-row">
+                            <span>Fri 1</span>
+                            <span>Team E</span>
+                            <span>Team A</span>
+                        </div>
+                        <div class="rota-row highlight">
+                            <span>Sat 2</span>
+                            <span>Birthday Boy Exempt!</span>
+                            <span>Everyone else!</span>
+                        </div>
+                        <div class="rota-row">
+                            <span>Sun 3</span>
+                            <span>Team B</span>
+                            <span>Team C</span>
+                        </div>
+                        <div class="rota-row">
+                            <span>Mon 4</span>
+                            <span>Big Clean</span>
+                            <span>All Hands!</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- House Rules List -->
+            <div class="house-rules-list">
+                <h3>The Golden Rules</h3>
+                <div class="rules-grid">
+                    <div class="rule">
+                        <span class="rule-number">1</span>
+                        <p>What happens at the ch&acirc;teau, stays at the ch&acirc;teau (unless it's hilarious)</p>
+                    </div>
+                    <div class="rule">
+                        <span class="rule-number">2</span>
+                        <p>The birthday person is always right (for one week only)</p>
+                    </div>
+                    <div class="rule">
+                        <span class="rule-number">3</span>
+                        <p>No phones at dinner - be present!</p>
+                    </div>
+                    <div class="rule">
+                        <span class="rule-number">4</span>
+                        <p>If you finish it, replace it (or face the consequences)</p>
+                    </div>
+                    <div class="rule">
+                        <span class="rule-number">5</span>
+                        <p>Dance like nobody's watching (they definitely are)</p>
+                    </div>
+                    <div class="rule">
+                        <span class="rule-number">6</span>
+                        <p>Have the best time ever!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== DAILY HIGHLIGHTS ======== -->
+    <section id="highlights" class="section highlights">
+        <div class="container">
+            <h2 class="section-title">Daily Highlights</h2>
+            <p class="section-subtitle">Vote for the best moment each day!</p>
+
+            <div class="highlights-tabs">
+                <button class="highlight-tab" data-day="1">Day 1</button>
+                <button class="highlight-tab" data-day="2">Day 2</button>
+                <button class="highlight-tab" data-day="3">Day 3</button>
+                <button class="highlight-tab active" data-day="4">Day 4 🎂</button>
+                <button class="highlight-tab" data-day="5">Day 5</button>
+                <button class="highlight-tab" data-day="6">Day 6</button>
+            </div>
+
+            <form class="highlight-form" id="highlight-form">
+                <div class="form-row">
+                    <input type="text" id="highlight-text" placeholder="What was the best moment?" required>
+                    <input type="text" id="highlight-author" placeholder="Your name" required>
+                    <button type="submit" class="btn btn-primary">Add Highlight</button>
+                </div>
+            </form>
+
+            <div class="highlights-list" id="highlights-list">
+                <div class="highlight-item">
+                    <p class="highlight-text">"When Joe's face lit up seeing everyone at the ch&acirc;teau!"</p>
+                    <div class="highlight-meta">
+                        <span class="highlight-author">The Crew</span>
+                        <button class="highlight-vote">&#11088; <span>0</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-winner" id="highlight-winner" style="display: none;">
+                <h4>🏆 Today's Top Moment</h4>
+                <p id="winner-text"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Theme Switcher -->
+    <div class="theme-switcher" id="theme-switcher">
+        <button class="theme-toggle-btn" id="theme-toggle-btn">🎨</button>
+        <div class="theme-options" id="theme-options">
+            <button class="theme-option" data-theme="default" title="Birthday Party">🎂</button>
+            <button class="theme-option" data-theme="france" title="French Vibes">🇫🇷</button>
+            <button class="theme-option" data-theme="wine" title="Wine O'Clock">🍷</button>
+            <button class="theme-option" data-theme="sunset" title="Golden Hour">🌅</button>
+            <button class="theme-option" data-theme="disco" title="Disco Night">🪩</button>
+        </div>
+    </div>
+
+    <!-- Confetti Cannon -->
+    <button class="confetti-cannon" id="confetti-cannon">🎉<span class="cannon-label">POP!</span></button>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Made with love for Joe's 30th Birthday 🎂 🇫🇷 🎉</p>
+        </div>
+    </footer>
+
+    <script src="js/shared.js?v=3"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/schedule.js?v=2"></script>
+</body>
+</html>

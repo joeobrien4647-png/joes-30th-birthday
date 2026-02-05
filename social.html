@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Wall - Joe's 30th Birthday Trip</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>">
+    <link rel="stylesheet" href="css/base.css?v=3">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/social.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">30th Bday</a>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html" data-page="index.html">Home</a></li>
+                <li><a href="schedule.html" data-page="schedule.html">Schedule</a></li>
+                <li><a href="games.html" data-page="games.html">Games</a></li>
+                <li><a href="social.html" data-page="social.html" class="active">Social</a></li>
+                <li><a href="practical.html" data-page="practical.html">Info</a></li>
+                <li><a href="crew.html" data-page="crew.html">Crew</a></li>
+                <li><a href="party.html" data-page="party.html">Party</a></li>
+                <li><span class="nav-guest-name" id="nav-guest-name" style="display:none;"></span></li>
+                <li><button class="dark-mode-toggle" id="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <h1>Social Wall</h1>
+        <p>Messages, memories & moments</p>
+    </header>
+
+    <!-- Sub Navigation -->
+    <nav class="sub-nav">
+        <ul class="sub-nav-links">
+            <li><a href="#messages">Messages</a></li>
+            <li><a href="#toasts">Toasts</a></li>
+            <li><a href="#predictions">Predictions</a></li>
+            <li><a href="#superlatives">Superlatives</a></li>
+            <li><a href="#memories-timeline">Memories</a></li>
+            <li><a href="#music-requests">Music</a></li>
+            <li><a href="#joe-timeline">Joe's Life</a></li>
+            <li><a href="#confessions">Confessions</a></li>
+            <li><a href="#photo-wall">Photos</a></li>
+        </ul>
+    </nav>
+
+    <!-- Birthday Messages -->
+    <section id="messages" class="section messages">
+        <div class="container">
+            <h2 class="section-title">Birthday Wall</h2>
+            <p class="section-subtitle">Leave a message for Joe to read on his birthday!</p>
+
+            <form class="message-form" id="message-form">
+                <div class="message-form-row">
+                    <input type="text" id="message-name" placeholder="Your name" required>
+                    <textarea id="message-text" placeholder="Write your birthday message..." rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Post Message</button>
+            </form>
+
+            <div class="messages-wall" id="messages-wall">
+                <div class="message-card example">
+                    <div class="message-author">Sophie</div>
+                    <p>Happy 30th Joe! Can't wait to celebrate with you in France!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Birthday Toasts -->
+    <section id="toasts" class="section toasts">
+        <div class="container">
+            <h2 class="section-title">Birthday Toasts</h2>
+            <p class="section-subtitle">Want to say a few words for Joe? Sign up here!</p>
+
+            <div class="toasts-grid">
+                <div class="toast-signup-card">
+                    <h3>📢 Give a Toast</h3>
+                    <p>Sign up to give a toast at the birthday dinner on Saturday night.</p>
+                    <form id="toast-form">
+                        <div class="form-group">
+                            <input type="text" id="toast-name" placeholder="Your name" required>
+                        </div>
+                        <div class="form-group">
+                            <select id="toast-type" required>
+                                <option value="">Type of toast...</option>
+                                <option value="heartfelt">Heartfelt & Sincere</option>
+                                <option value="funny">Funny Story</option>
+                                <option value="roast">Light Roast</option>
+                                <option value="song">Song/Performance</option>
+                                <option value="surprise">It's a Surprise!</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="toast-duration" placeholder="Approx. length (e.g., 2 mins)" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign Me Up!</button>
+                    </form>
+                </div>
+
+                <div class="toast-list-card">
+                    <h3>🎤 The Line-up</h3>
+                    <div class="toast-list" id="toast-list">
+                        <div class="toast-item example">
+                            <span class="toast-order">1</span>
+                            <div class="toast-info">
+                                <strong>Sophie</strong>
+                                <span class="toast-type heartfelt">Heartfelt</span>
+                                <span class="toast-duration">~3 mins</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="toast-note">Order may change on the night!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Predictions Wall -->
+    <section id="predictions" class="section predictions">
+        <div class="container">
+            <h2 class="section-title">Predictions Wall</h2>
+            <p class="section-subtitle">What will Joe be doing by 40?</p>
+
+            <form class="prediction-form" id="prediction-form">
+                <div class="form-row">
+                    <input type="text" id="prediction-author" placeholder="Your name" required>
+                    <input type="text" id="prediction-text" placeholder="By 40, Joe will..." required>
+                    <button type="submit" class="btn btn-primary">Add Prediction</button>
+                </div>
+            </form>
+
+            <div class="predictions-grid" id="predictions-grid">
+                <!-- Example predictions -->
+                <div class="prediction-card">
+                    <p class="prediction-text">"By 40, Joe will have visited every wine region in France"</p>
+                    <span class="prediction-author">- The Gang</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Superlatives Voting -->
+    <section id="superlatives" class="section superlatives">
+        <div class="container">
+            <h2 class="section-title">Trip Superlatives</h2>
+            <p class="section-subtitle">Vote for who wins each award!</p>
+
+            <div class="superlatives-grid" id="superlatives-grid">
+                <div class="superlative-card" data-category="early-bird">
+                    <h3>🌅 Early Bird</h3>
+                    <p>First one up every morning</p>
+                    <select class="superlative-vote">
+                        <option value="">Select someone...</option>
+                    </select>
+                    <div class="superlative-results"></div>
+                </div>
+                <div class="superlative-card" data-category="night-owl">
+                    <h3>🦉 Night Owl</h3>
+                    <p>Last one standing</p>
+                    <select class="superlative-vote">
+                        <option value="">Select someone...</option>
+                    </select>
+                    <div class="superlative-results"></div>
+                </div>
+                <div class="superlative-card" data-category="masterchef">
+                    <h3>👨‍🍳 MasterChef</h3>
+                    <p>Best cook of the trip</p>
+                    <select class="superlative-vote">
+                        <option value="">Select someone...</option>
+                    </select>
+                    <div class="superlative-results"></div>
+                </div>
+                <div class="superlative-card" data-category="party-animal">
+                    <h3>🎉 Party Animal</h3>
+                    <p>Life of the party</p>
+                    <select class="superlative-vote">
+                        <option value="">Select someone...</option>
+                    </select>
+                    <div class="superlative-results"></div>
+                </div>
+                <div class="superlative-card" data-category="best-dressed">
+                    <h3>👗 Best Dressed</h3>
+                    <p>Most stylish of the trip</p>
+                    <select class="superlative-vote">
+                        <option value="">Select someone...</option>
+                    </select>
+                    <div class="superlative-results"></div>
+                </div>
+                <div class="superlative-card" data-category="wine-snob">
+                    <h3>🍷 Wine Connoisseur</h3>
+                    <p>Knows their Pinot from their Merlot</p>
+                    <select class="superlative-vote">
+                        <option value="">Select someone...</option>
+                    </select>
+                    <div class="superlative-results"></div>
+                </div>
+                <div class="superlative-card" data-category="photographer">
+                    <h3>📸 Trip Photographer</h3>
+                    <p>Always taking photos</p>
+                    <select class="superlative-vote">
+                        <option value="">Select someone...</option>
+                    </select>
+                    <div class="superlative-results"></div>
+                </div>
+                <div class="superlative-card" data-category="pool-king">
+                    <h3>🏊 Pool King/Queen</h3>
+                    <p>Lives in the pool</p>
+                    <select class="superlative-vote">
+                        <option value="">Select someone...</option>
+                    </select>
+                    <div class="superlative-results"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Memory Timeline -->
+    <section id="memories-timeline" class="section memories-timeline">
+        <div class="container">
+            <h2 class="section-title">Memory Lane</h2>
+            <p class="section-subtitle">Remember when...</p>
+
+            <form class="memory-form" id="memory-form">
+                <div class="form-row">
+                    <input type="text" id="memory-author" placeholder="Your name" required>
+                    <input type="text" id="memory-year" placeholder="Year" maxlength="4">
+                    <input type="text" id="memory-text" placeholder="Remember when Joe..." required>
+                    <button type="submit" class="btn btn-primary">Add Memory</button>
+                </div>
+            </form>
+
+            <div class="memory-timeline" id="memory-timeline">
+                <!-- Example memories -->
+                <div class="memory-item" data-year="2016">
+                    <div class="memory-year">2016</div>
+                    <div class="memory-content">
+                        <p>"Remember when Joe tried to order in French and accidentally asked for a bathroom instead of bread?"</p>
+                        <span class="memory-author">- Add your own!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Music Requests -->
+    <section id="music-requests" class="section music-requests">
+        <div class="container">
+            <h2 class="section-title">Song Requests</h2>
+            <p class="section-subtitle">Add songs to the party playlist!</p>
+
+            <form class="music-form" id="music-form">
+                <div class="form-row">
+                    <input type="text" id="song-title" placeholder="Song title" required>
+                    <input type="text" id="song-artist" placeholder="Artist" required>
+                    <input type="text" id="song-requester" placeholder="Your name" required>
+                    <button type="submit" class="btn btn-primary">🎵 Request</button>
+                </div>
+            </form>
+
+            <div class="music-list" id="music-list">
+                <div class="music-item">
+                    <div class="music-info">
+                        <span class="song-title">Mr. Brightside</span>
+                        <span class="song-artist">The Killers</span>
+                    </div>
+                    <span class="song-requester">Joe (obviously)</span>
+                    <button class="upvote-btn" data-song="mr-brightside">👍 <span>0</span></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Joe's 30 Year Timeline -->
+    <section id="joe-timeline" class="section joe-timeline">
+        <div class="container">
+            <h2 class="section-title">30 Years of Joe</h2>
+            <p class="section-subtitle">A life well lived (so far!)</p>
+
+            <div class="life-timeline" id="life-timeline">
+                <div class="life-event" data-year="1996">
+                    <div class="life-year">1996</div>
+                    <div class="life-content">
+                        <h4>🎒 Joe is Born!</h4>
+                        <p>A legend enters the world</p>
+                    </div>
+                </div>
+                <div class="life-event" data-year="2001">
+                    <div class="life-year">2001</div>
+                    <div class="life-content">
+                        <h4>🎓 First Day of School</h4>
+                        <p>Already making friends</p>
+                    </div>
+                </div>
+                <div class="life-event" data-year="2007">
+                    <div class="life-year">2007</div>
+                    <div class="life-content">
+                        <h4>🎸 Discovers Music</h4>
+                        <p>Mr. Brightside era begins</p>
+                    </div>
+                </div>
+                <div class="life-event" data-year="2014">
+                    <div class="life-year">2014</div>
+                    <div class="life-content">
+                        <h4>🎓 University Days</h4>
+                        <p>The stories we can't tell here...</p>
+                    </div>
+                </div>
+                <div class="life-event" data-year="2018">
+                    <div class="life-year">2018</div>
+                    <div class="life-content">
+                        <h4>💼 Career Launch</h4>
+                        <p>Adulting begins (sort of)</p>
+                    </div>
+                </div>
+                <div class="life-event" data-year="2022">
+                    <div class="life-year">2022</div>
+                    <div class="life-content">
+                        <h4>❤️ Found Love</h4>
+                        <p>Sophie enters the chat</p>
+                    </div>
+                </div>
+                <div class="life-event highlight" data-year="2026">
+                    <div class="life-year">2026</div>
+                    <div class="life-content">
+                        <h4>🎂 THE BIG 3-0!</h4>
+                        <p>France with 25 of his best mates!</p>
+                    </div>
+                </div>
+            </div>
+
+            <form class="add-milestone-form" id="add-milestone-form">
+                <h4>Add a milestone we missed!</h4>
+                <div class="form-row">
+                    <input type="text" id="milestone-year" placeholder="Year" maxlength="4" required>
+                    <input type="text" id="milestone-title" placeholder="What happened?" required>
+                    <input type="text" id="milestone-desc" placeholder="Tell us more..." required>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Confessions -->
+    <section id="confessions" class="section confessions">
+        <div class="container">
+            <h2 class="section-title">Confession Booth</h2>
+            <p class="section-subtitle">Anonymous secrets & silly admissions</p>
+
+            <form class="confession-form" id="confession-form">
+                <textarea id="confession-text" placeholder="I have a confession... (100% anonymous!)" rows="3" required></textarea>
+                <button type="submit" class="btn btn-primary">🤫 Confess</button>
+            </form>
+
+            <div class="confessions-wall" id="confessions-wall">
+                <div class="confession-card">
+                    <p class="confession-text">"I've been practicing my French pronunciation in the mirror for 3 weeks..."</p>
+                    <span class="confession-time">Just now</span>
+                    <button class="confession-react" data-id="example">😂 <span>0</span></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Photo Wall -->
+    <section id="photo-wall" class="section photo-wall">
+        <div class="container">
+            <h2 class="section-title">Live Photo Wall</h2>
+            <p class="section-subtitle">Upload trip pics as they happen!</p>
+
+            <form class="photo-upload-form" id="photo-upload-form">
+                <label class="photo-upload-btn">
+                    <input type="file" id="photo-input" accept="image/*" multiple hidden>
+                    📸 Upload Photos
+                </label>
+                <input type="text" id="photo-caption" placeholder="Caption (optional)">
+                <input type="text" id="photo-uploader" placeholder="Your name">
+            </form>
+
+            <div class="photo-grid" id="photo-grid">
+                <div class="photo-placeholder">
+                    <span>📸</span>
+                    <p>The gallery is ready for memories!</p>
+                    <p class="small">Be the first to capture the magic</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox for photo viewing -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close">&times;</button>
+        <button class="lightbox-prev">&#10094;</button>
+        <button class="lightbox-next">&#10095;</button>
+        <img src="" alt="" class="lightbox-image">
+    </div>
+
+    <!-- Theme Switcher -->
+    <div class="theme-switcher" id="theme-switcher">
+        <button class="theme-toggle-btn" id="theme-toggle-btn">🎨</button>
+        <div class="theme-options" id="theme-options">
+            <button class="theme-option" data-theme="default" title="Birthday Party">🎂</button>
+            <button class="theme-option" data-theme="france" title="French Vibes">🇫🇷</button>
+            <button class="theme-option" data-theme="wine" title="Wine O'Clock">🍷</button>
+            <button class="theme-option" data-theme="sunset" title="Golden Hour">🌅</button>
+            <button class="theme-option" data-theme="disco" title="Disco Night">🪩</button>
+        </div>
+    </div>
+
+    <!-- Confetti Cannon -->
+    <button class="confetti-cannon" id="confetti-cannon">🎉<span class="cannon-label">POP!</span></button>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Made with love for Joe's 30th Birthday 🎂 🇫🇷 🎉</p>
+        </div>
+    </footer>
+
+    <script src="js/shared.js?v=3"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/social.js"></script>
+</body>
+</html>
