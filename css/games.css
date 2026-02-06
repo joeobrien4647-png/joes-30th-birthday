@@ -333,95 +333,6 @@
 }
 
 /* ============================================
-   SCAVENGER HUNT
-   ============================================ */
-.scavenger {
-    background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
-}
-
-.scavenger-list {
-    max-width: 700px;
-    margin: 0 auto 30px;
-    background: var(--bg-white);
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: var(--shadow-lg);
-}
-
-.scavenger-item {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 15px;
-    border-bottom: 1px solid var(--bg-light);
-    transition: var(--transition-fast);
-}
-
-.scavenger-item:last-child {
-    border-bottom: none;
-}
-
-.scavenger-item:hover {
-    background: var(--bg-light);
-    border-radius: 10px;
-}
-
-.scavenger-item input[type="checkbox"] {
-    width: 25px;
-    height: 25px;
-    cursor: pointer;
-    accent-color: var(--primary);
-}
-
-.scavenger-item label {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    flex: 1;
-    cursor: pointer;
-}
-
-.hunt-emoji {
-    font-size: 1.5rem;
-}
-
-.hunt-task {
-    font-size: 1rem;
-}
-
-.scavenger-item input:checked + label .hunt-task {
-    text-decoration: line-through;
-    color: var(--text-light);
-}
-
-.scavenger-progress {
-    max-width: 700px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.scavenger-progress .progress-bar {
-    height: 20px;
-    background: var(--bg-white);
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 10px;
-    box-shadow: var(--shadow-sm);
-}
-
-.scavenger-progress .progress-fill {
-    height: 100%;
-    background: var(--gradient-primary);
-    transition: width 0.5s ease;
-    width: 0%;
-}
-
-#scavenger-count {
-    font-weight: 700;
-    color: var(--text-dark);
-}
-
-/* ============================================
    SPIN THE WHEEL
    ============================================ */
 .wheel {
@@ -1679,17 +1590,6 @@
     }
 }
 
-/* Scavenger Responsive */
-@media (max-width: 768px) {
-    .scavenger-list {
-        padding: 20px;
-    }
-
-    .scavenger-item {
-        padding: 10px;
-    }
-}
-
 /* Wheel Responsive */
 @media (max-width: 480px) {
     .wheel-container {
@@ -1798,5 +1698,110 @@
         max-width: 90vw;
         white-space: normal;
         text-align: center;
+    }
+}
+
+/* ============================================
+   SOUNDBOARD
+   ============================================ */
+.soundboard {
+    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+}
+
+.soundboard .section-title,
+.soundboard .section-subtitle {
+    color: var(--text-white);
+}
+
+.soundboard .section-title {
+    -webkit-text-fill-color: var(--text-white);
+}
+
+.soundboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 20px;
+    max-width: 700px;
+    margin: 0 auto 30px;
+}
+
+.sound-btn {
+    aspect-ratio: 1;
+    border: none;
+    border-radius: 20px;
+    background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255,255,255,0.1);
+}
+
+.sound-btn:hover {
+    transform: scale(1.05);
+    background: linear-gradient(145deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+    border-color: rgba(255,255,255,0.3);
+}
+
+.sound-btn:active {
+    transform: scale(0.95);
+}
+
+.sound-btn.playing {
+    animation: soundPulse 0.3s ease;
+    border-color: var(--accent);
+    box-shadow: 0 0 30px rgba(255,217,61,0.5);
+}
+
+@keyframes soundPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.sound-emoji {
+    font-size: 2.5rem;
+}
+
+.sound-label {
+    color: var(--text-white);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.soundboard-note {
+    text-align: center;
+    color: rgba(255,255,255,0.7);
+    font-size: 0.9rem;
+}
+
+/* Soundboard Responsive */
+@media (max-width: 768px) {
+    .soundboard-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 12px;
+        max-width: 100%;
+    }
+
+    .sound-emoji {
+        font-size: 2rem;
+    }
+
+    .sound-label {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .soundboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .sound-emoji {
+        font-size: 1.8rem;
     }
 }

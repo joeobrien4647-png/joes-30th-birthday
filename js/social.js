@@ -6,6 +6,69 @@
    ============================================ */
 
 /* ============================================
+   Profile Modal
+   ============================================ */
+function initProfiles() {
+    const modal = document.getElementById('profile-modal');
+    if (!modal) return;
+
+    const closeBtn = modal.querySelector('.profile-close');
+    const guests = document.querySelectorAll('.guest[data-name]');
+
+    // Profile elements
+    const profileAvatar = document.getElementById('profile-avatar');
+    const profileName = document.getElementById('profile-name');
+    const profileRoom = document.getElementById('profile-room');
+    const profileSuperlative = document.getElementById('profile-superlative');
+    const profileFact = document.getElementById('profile-fact');
+    const profileBringing = document.getElementById('profile-bringing');
+    const profileAnthem = document.getElementById('profile-anthem');
+
+    // Open profile when clicking a guest
+    guests.forEach(guest => {
+        guest.addEventListener('click', function () {
+            const data = this.dataset;
+
+            // Populate modal with guest data
+            profileAvatar.textContent = data.initials;
+            profileAvatar.className = 'profile-avatar' + (data.birthday === 'true' ? ' birthday' : '');
+            profileName.textContent = data.name;
+            profileRoom.textContent = data.room;
+            profileSuperlative.textContent = data.superlative;
+            profileFact.textContent = data.fact;
+            profileBringing.textContent = data.bringing;
+            profileAnthem.textContent = data.anthem;
+
+            // Show modal
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    // Close modal
+    closeBtn.addEventListener('click', closeProfile);
+
+    // Close on background click
+    modal.addEventListener('click', function (e) {
+        if (e.target === modal) {
+            closeProfile();
+        }
+    });
+
+    // Close on escape key
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeProfile();
+        }
+    });
+
+    function closeProfile() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+}
+
+/* ============================================
    Birthday Messages
    ============================================ */
 function initBirthdayMessages() {
@@ -58,100 +121,6 @@ function initBirthdayMessages() {
         } else {
             wall.appendChild(card);
         }
-    }
-}
-
-/* ============================================
-   Toast Sign-up
-   ============================================ */
-function initToastSignup() {
-    const form = document.getElementById('toast-form');
-    const list = document.getElementById('toast-list');
-
-    if (!form || !list) return;
-
-    const savedToasts = Store.get('toastSignups', []);
-
-    savedToasts.forEach((toast, i) => addToastToList(toast, i + 1, false));
-
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const toast = {
-            name: document.getElementById('toast-name').value.trim(),
-            type: document.getElementById('toast-type').value,
-            duration: document.getElementById('toast-duration').value.trim(),
-            timestamp: Date.now()
-        };
-
-        if (toast.name && toast.type && toast.duration) {
-            savedToasts.push(toast);
-            Store.set('toastSignups', savedToasts);
-            addToastToList(toast, savedToasts.length, true);
-            form.reset();
-            triggerMiniConfetti();
-        }
-    });
-
-    function addToastToList(toast, order, isNew) {
-        const example = list.querySelector('.example');
-        if (example && isNew) example.remove();
-
-        const item = document.createElement('div');
-        item.className = 'toast-item' + (isNew ? ' new' : '');
-        item.innerHTML = `
-            <span class="toast-order">${order}</span>
-            <div class="toast-info">
-                <strong>${escapeHtml(toast.name)}</strong>
-                <span class="toast-type ${toast.type}">${capitalizeFirst(toast.type)}</span>
-                <span class="toast-duration">~${escapeHtml(toast.duration)}</span>
-            </div>
-        `;
-        list.appendChild(item);
-    }
-
-    function capitalizeFirst(str) {
-        return str.charAt(0).toUpperCase() + str.slice(1);
-    }
-}
-
-/* ============================================
-   Predictions
-   ============================================ */
-function initPredictions() {
-    const form = document.getElementById('prediction-form');
-    const grid = document.getElementById('predictions-grid');
-
-    if (!form || !grid) return;
-
-    let predictions = Store.get('predictions', []);
-
-    predictions.forEach(pred => addPredictionCard(pred, false));
-
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const author = document.getElementById('prediction-author').value.trim();
-        const text = document.getElementById('prediction-text').value.trim();
-
-        if (!author || !text) return;
-
-        const prediction = { author, text, timestamp: Date.now() };
-        predictions.push(prediction);
-        Store.set('predictions', predictions);
-
-        addPredictionCard(prediction, true);
-        form.reset();
-    });
-
-    function addPredictionCard(pred, isNew) {
-        const card = document.createElement('div');
-        card.className = 'prediction-card' + (isNew ? ' new' : '');
-        card.innerHTML = `
-            <p class="prediction-text">"${escapeHtml(pred.text)}"</p>
-            <span class="prediction-author">- ${escapeHtml(pred.author)}</span>
-        `;
-        grid.appendChild(card);
     }
 }
 
@@ -320,138 +289,6 @@ function initMusicRequests() {
 }
 
 /* ============================================
-   Joe's 30 Year Timeline
-   ============================================ */
-function initJoeTimeline() {
-    const form = document.getElementById('add-milestone-form');
-    const timeline = document.getElementById('life-timeline');
-
-    if (!form || !timeline) return;
-
-    let milestones = Store.get('joeMilestones', []);
-
-    milestones.forEach(m => addMilestoneToTimeline(m));
-
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const milestone = {
-            year: document.getElementById('milestone-year').value.trim(),
-            title: document.getElementById('milestone-title').value.trim(),
-            desc: document.getElementById('milestone-desc').value.trim()
-        };
-
-        if (milestone.year && milestone.title && milestone.desc) {
-            milestones.push(milestone);
-            Store.set('joeMilestones', milestones);
-            addMilestoneToTimeline(milestone);
-            form.reset();
-        }
-    });
-
-    function addMilestoneToTimeline(m) {
-        const event = document.createElement('div');
-        event.className = 'life-event';
-        event.dataset.year = m.year;
-        event.innerHTML = `
-            <div class="life-year">${escapeHtml(m.year)}</div>
-            <div class="life-content">
-                <h4>${escapeHtml(m.title)}</h4>
-                <p>${escapeHtml(m.desc)}</p>
-            </div>
-        `;
-
-        const highlight = timeline.querySelector('.life-event.highlight');
-        if (highlight) {
-            timeline.insertBefore(event, highlight);
-        } else {
-            timeline.appendChild(event);
-        }
-    }
-}
-
-/* ============================================
-   Confessions
-   ============================================ */
-function initConfessions() {
-    const form = document.getElementById('confession-form');
-    const wall = document.getElementById('confessions-wall');
-
-    if (!form || !wall) return;
-
-    let confessions = Store.get('confessions', []);
-    let reactions = Store.get('confessionReactions', {});
-
-    if (confessions.length > 0) {
-        wall.innerHTML = '';
-        confessions.forEach(c => addConfessionCard(c));
-    }
-
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const text = document.getElementById('confession-text').value.trim();
-        if (!text) return;
-
-        const confession = {
-            id: Date.now().toString(),
-            text,
-            timestamp: Date.now()
-        };
-
-        confessions.unshift(confession);
-        reactions[confession.id] = 0;
-
-        Store.set('confessions', confessions);
-        Store.set('confessionReactions', reactions);
-
-        // Clear example if exists
-        const example = wall.querySelector('.confession-card');
-        if (example && !example.dataset.id) {
-            wall.innerHTML = '';
-        }
-
-        addConfessionCard(confession, true);
-        form.reset();
-    });
-
-    function addConfessionCard(c, prepend) {
-        prepend = prepend || false;
-        const card = document.createElement('div');
-        card.className = 'confession-card';
-        card.dataset.id = c.id;
-
-        const timeAgo = getTimeAgo(c.timestamp);
-
-        card.innerHTML = `
-            <p class="confession-text">"${escapeHtml(c.text)}"</p>
-            <span class="confession-time">${timeAgo}</span>
-            <button class="confession-react" data-id="${c.id}">😂 <span>${reactions[c.id] || 0}</span></button>
-        `;
-
-        card.querySelector('.confession-react').addEventListener('click', function() {
-            reactions[c.id] = (reactions[c.id] || 0) + 1;
-            Store.set('confessionReactions', reactions);
-            this.querySelector('span').textContent = reactions[c.id];
-        });
-
-        if (prepend) {
-            wall.insertBefore(card, wall.firstChild);
-        } else {
-            wall.appendChild(card);
-        }
-    }
-
-    function getTimeAgo(timestamp) {
-        const seconds = Math.floor((Date.now() - timestamp) / 1000);
-        if (seconds < 60) return 'Just now';
-        if (seconds < 3600) return Math.floor(seconds / 60) + ' min ago';
-        if (seconds < 86400) return Math.floor(seconds / 3600) + ' hours ago';
-        return Math.floor(seconds / 86400) + ' days ago';
-    }
-}
-
-/* ============================================
    Photo Wall
    ============================================ */
 function initPhotoWall() {
@@ -556,14 +393,11 @@ function initLightbox() {
    Initialize All Social Features
    ============================================ */
 document.addEventListener('DOMContentLoaded', function() {
+    initProfiles();
     initBirthdayMessages();
-    initToastSignup();
-    initPredictions();
     initSuperlatives();
     initMemoryTimeline();
     initMusicRequests();
-    initJoeTimeline();
-    initConfessions();
     initPhotoWall();
     initLightbox();
 });

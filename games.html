@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="css/base.css?v=3">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/nav.css">
-    <link rel="stylesheet" href="css/games.css">
+    <link rel="stylesheet" href="css/games.css?v=2">
 </head>
 <body>
     <!-- Confetti Canvas -->
@@ -31,9 +31,7 @@
                 <li><a href="schedule.html" data-page="schedule.html">Schedule</a></li>
                 <li><a href="games.html" data-page="games.html" class="active">Games</a></li>
                 <li><a href="social.html" data-page="social.html">Social</a></li>
-                <li><a href="info.html" data-page="info.html">Info</a></li>
-                <li><a href="crew.html" data-page="crew.html">Crew</a></li>
-                <li><a href="party.html" data-page="party.html">Party</a></li>
+                <li><a href="practical.html" data-page="practical.html">Info</a></li>
                 <li><button class="dark-mode-toggle" id="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button></li>
                 <li><span class="nav-guest-name" id="nav-guest-name" style="display: none;"></span></li>
             </ul>
@@ -54,8 +52,8 @@
             <li><a href="#quiz">Quiz</a></li>
             <li><a href="#drinking-games">Drinking Games</a></li>
             <li><a href="#bingo">Bingo</a></li>
-            <li><a href="#scavenger">Scavenger</a></li>
             <li><a href="#wheel">Wheel</a></li>
+            <li><a href="#soundboard">Soundboard</a></li>
         </ul>
     </nav>
 
@@ -647,108 +645,6 @@
         </div>
     </section>
 
-    <!-- Scavenger Hunt Section -->
-    <section id="scavenger" class="section scavenger">
-        <div class="container">
-            <h2 class="section-title">Scavenger Hunt</h2>
-            <p class="section-subtitle">Find and photograph these things!</p>
-
-            <div class="scavenger-list" id="scavenger-list">
-                <div class="scavenger-item" data-item="baguette">
-                    <input type="checkbox" id="hunt-baguette">
-                    <label for="hunt-baguette">
-                        <span class="hunt-emoji">🥖</span>
-                        <span class="hunt-task">Someone holding a baguette like a sword</span>
-                    </label>
-                </div>
-                <div class="scavenger-item" data-item="cheese">
-                    <input type="checkbox" id="hunt-cheese">
-                    <label for="hunt-cheese">
-                        <span class="hunt-emoji">🧀</span>
-                        <span class="hunt-task">A cheese bigger than your head</span>
-                    </label>
-                </div>
-                <div class="scavenger-item" data-item="chateau">
-                    <input type="checkbox" id="hunt-chateau">
-                    <label for="hunt-chateau">
-                        <span class="hunt-emoji">🏰</span>
-                        <span class="hunt-task">A "royalty" pose at a ch&#226;teau</span>
-                    </label>
-                </div>
-                <div class="scavenger-item" data-item="wine">
-                    <input type="checkbox" id="hunt-wine">
-                    <label for="hunt-wine">
-                        <span class="hunt-emoji">🍷</span>
-                        <span class="hunt-task">Group wine glass cheers photo</span>
-                    </label>
-                </div>
-                <div class="scavenger-item" data-item="beret">
-                    <input type="checkbox" id="hunt-beret">
-                    <label for="hunt-beret">
-                        <span class="hunt-emoji">🎨</span>
-                        <span class="hunt-task">Someone wearing a beret</span>
-                    </label>
-                </div>
-                <div class="scavenger-item" data-item="sunset">
-                    <input type="checkbox" id="hunt-sunset">
-                    <label for="hunt-sunset">
-                        <span class="hunt-emoji">🌅</span>
-                        <span class="hunt-task">Loire Valley sunset</span>
-                    </label>
-                </div>
-                <div class="scavenger-item" data-item="pool">
-                    <input type="checkbox" id="hunt-pool">
-                    <label for="hunt-pool">
-                        <span class="hunt-emoji">🏊</span>
-                        <span class="hunt-task">Pool cannonball action shot</span>
-                    </label>
-                </div>
-                <div class="scavenger-item" data-item="croissant">
-                    <input type="checkbox" id="hunt-croissant">
-                    <label for="hunt-croissant">
-                        <span class="hunt-emoji">🥐</span>
-                        <span class="hunt-task">Perfect croissant photo</span>
-                    </label>
-                </div>
-                <div class="scavenger-item" data-item="joe-cake">
-                    <input type="checkbox" id="hunt-joe-cake">
-                    <label for="hunt-joe-cake">
-                        <span class="hunt-emoji">🎂</span>
-                        <span class="hunt-task">Joe blowing out 30 candles</span>
-                    </label>
-                </div>
-                <div class="scavenger-item" data-item="group">
-                    <input type="checkbox" id="hunt-group">
-                    <label for="hunt-group">
-                        <span class="hunt-emoji">👥</span>
-                        <span class="hunt-task">All 25 people in one photo</span>
-                    </label>
-                </div>
-                <div class="scavenger-item" data-item="french">
-                    <input type="checkbox" id="hunt-french">
-                    <label for="hunt-french">
-                        <span class="hunt-emoji">🇫🇷</span>
-                        <span class="hunt-task">Video of someone speaking French</span>
-                    </label>
-                </div>
-                <div class="scavenger-item" data-item="dancing">
-                    <input type="checkbox" id="hunt-dancing">
-                    <label for="hunt-dancing">
-                        <span class="hunt-emoji">💃</span>
-                        <span class="hunt-task">Epic dance floor moment</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="scavenger-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="scavenger-progress-fill"></div>
-                </div>
-                <span id="scavenger-count">0/12 completed</span>
-            </div>
-        </div>
-    </section>
-
     <!-- Spin the Wheel Section -->
     <section id="wheel" class="section wheel">
         <div class="container">
@@ -773,6 +669,51 @@
             <div class="wheel-result" id="wheel-result">
                 <p>Spin to find out!</p>
             </div>
+        </div>
+    </section>
+
+    <!-- Party Soundboard -->
+    <section id="soundboard" class="section soundboard">
+        <div class="container">
+            <h2 class="section-title">Party Soundboard</h2>
+            <p class="section-subtitle">Press for instant party vibes!</p>
+
+            <div class="soundboard-grid" id="soundboard-grid">
+                <button class="sound-btn" data-sound="airhorn">
+                    <span class="sound-emoji">📢</span>
+                    <span class="sound-label">Air Horn</span>
+                </button>
+                <button class="sound-btn" data-sound="applause">
+                    <span class="sound-emoji">👏</span>
+                    <span class="sound-label">Applause</span>
+                </button>
+                <button class="sound-btn" data-sound="drumroll">
+                    <span class="sound-emoji">🥁</span>
+                    <span class="sound-label">Drum Roll</span>
+                </button>
+                <button class="sound-btn" data-sound="birthday">
+                    <span class="sound-emoji">🎂</span>
+                    <span class="sound-label">Happy Birthday</span>
+                </button>
+                <button class="sound-btn" data-sound="cheers">
+                    <span class="sound-emoji">🥂</span>
+                    <span class="sound-label">Cheers!</span>
+                </button>
+                <button class="sound-btn" data-sound="woohoo">
+                    <span class="sound-emoji">🎉</span>
+                    <span class="sound-label">Woohoo!</span>
+                </button>
+                <button class="sound-btn" data-sound="fail">
+                    <span class="sound-emoji">😬</span>
+                    <span class="sound-label">Fail Sound</span>
+                </button>
+                <button class="sound-btn" data-sound="rimshot">
+                    <span class="sound-emoji">🤣</span>
+                    <span class="sound-label">Ba Dum Tss</span>
+                </button>
+            </div>
+
+            <p class="soundboard-note">🔊 Make sure your volume is up!</p>
         </div>
     </section>
 
@@ -816,6 +757,6 @@
     <!-- Scripts -->
     <script src="js/shared.js?v=3"></script>
     <script src="js/nav.js"></script>
-    <script src="js/games.js?v=4"></script>
+    <script src="js/games.js?v=5"></script>
 </body>
 </html>

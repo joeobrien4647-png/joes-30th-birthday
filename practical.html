@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/base.css?v=3">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/nav.css">
-    <link rel="stylesheet" href="css/practical.css">
+    <link rel="stylesheet" href="css/practical.css?v=2">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -30,8 +30,6 @@
                 <li><a href="games.html" data-page="games.html">Games</a></li>
                 <li><a href="social.html" data-page="social.html">Social</a></li>
                 <li><a href="practical.html" data-page="practical.html" class="active">Info</a></li>
-                <li><a href="crew.html" data-page="crew.html">Crew</a></li>
-                <li><a href="party.html" data-page="party.html">Party</a></li>
                 <li><span class="nav-guest-name" id="nav-guest-name" style="display:none;"></span></li>
                 <li><button class="dark-mode-toggle" id="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button></li>
             </ul>
@@ -51,12 +49,8 @@
             <li><a href="#travel">Travel</a></li>
             <li><a href="#packing">Packing</a></li>
             <li><a href="#payments">Payments</a></li>
-            <li><a href="#expenses">Expenses</a></li>
-            <li><a href="#currency">Currency</a></li>
             <li><a href="#french">French</a></li>
-            <li><a href="#weather">Weather</a></li>
             <li><a href="#faq">FAQ</a></li>
-            <li><a href="#trip-prefs">My Plan</a></li>
             <li><a href="#gallery">Venue</a></li>
         </ul>
     </nav>
@@ -358,90 +352,6 @@
         </div>
     </section>
 
-    <!-- Expense Splitter -->
-    <section id="expenses" class="section expenses">
-        <div class="container">
-            <h2 class="section-title">Expense Splitter</h2>
-            <p class="section-subtitle">Track shared costs and settle up easily</p>
-
-            <div class="expense-grid">
-                <div class="expense-form-card">
-                    <h3>➕ Add Expense</h3>
-                    <form id="expense-form">
-                        <div class="form-group">
-                            <input type="text" id="expense-desc" placeholder="What was it for?" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="number" id="expense-amount" placeholder="Amount (€)" step="0.01" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="expense-paidby" placeholder="Who paid?" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Split between:</label>
-                            <div class="split-options">
-                                <label class="checkbox-label">
-                                    <input type="radio" name="split" value="everyone" checked> Everyone (25 people)
-                                </label>
-                                <label class="checkbox-label">
-                                    <input type="radio" name="split" value="custom"> Custom split
-                                </label>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Add Expense</button>
-                    </form>
-                </div>
-
-                <div class="expense-summary-card">
-                    <h3>💰 Trip Totals</h3>
-                    <div class="expense-stats">
-                        <div class="stat">
-                            <span class="stat-value">€<span id="total-expenses">0</span></span>
-                            <span class="stat-label">Total Spent</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-value">€<span id="per-person">0</span></span>
-                            <span class="stat-label">Per Person</span>
-                        </div>
-                    </div>
-                    <div class="expense-list" id="expense-list">
-                        <p class="no-expenses">💸 Nothing spent yet! The first round of wine awaits...</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Currency Converter -->
-    <section id="currency" class="section currency">
-        <div class="container">
-            <h2 class="section-title">Currency Converter</h2>
-            <p class="section-subtitle">Quick GBP ↔ EUR conversion</p>
-
-            <div class="converter-card">
-                <div class="converter-inputs">
-                    <div class="converter-field">
-                        <label>🇬🇧 GBP</label>
-                        <input type="number" id="gbp-input" placeholder="0.00" step="0.01">
-                    </div>
-                    <button class="swap-btn" id="swap-currency">⇄</button>
-                    <div class="converter-field">
-                        <label>🇪🇺 EUR</label>
-                        <input type="number" id="eur-input" placeholder="0.00" step="0.01">
-                    </div>
-                </div>
-                <p class="rate-info">Rate: £1 = €<span id="exchange-rate">1.17</span> <span class="rate-note">(approximate)</span></p>
-                <div class="quick-convert">
-                    <span>Quick: </span>
-                    <button class="quick-btn" data-gbp="10">£10</button>
-                    <button class="quick-btn" data-gbp="20">£20</button>
-                    <button class="quick-btn" data-gbp="50">£50</button>
-                    <button class="quick-btn" data-gbp="100">£100</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- French Phrases -->
     <section id="french" class="section french">
         <div class="container">
@@ -566,53 +476,6 @@
         </div>
     </section>
 
-    <!-- Weather Widget -->
-    <section id="weather" class="section weather">
-        <div class="container">
-            <h2 class="section-title">Weather Forecast</h2>
-            <p class="section-subtitle">Loire Valley, France</p>
-
-            <div class="weather-card">
-                <div class="weather-main">
-                    <span class="weather-icon">☀️</span>
-                    <div class="weather-temp">
-                        <span class="temp-value">22°C</span>
-                        <span class="temp-label">Expected late April</span>
-                    </div>
-                </div>
-                <div class="weather-details">
-                    <div class="weather-detail">
-                        <span class="detail-icon">🌡️</span>
-                        <span class="detail-label">High/Low</span>
-                        <span class="detail-value">24°C / 12°C</span>
-                    </div>
-                    <div class="weather-detail">
-                        <span class="detail-icon">🌧️</span>
-                        <span class="detail-label">Rain Chance</span>
-                        <span class="detail-value">20%</span>
-                    </div>
-                    <div class="weather-detail">
-                        <span class="detail-icon">💨</span>
-                        <span class="detail-label">Wind</span>
-                        <span class="detail-value">Light</span>
-                    </div>
-                </div>
-                <p class="weather-note">🌸 Late April in Loire Valley is typically warm and pleasant - perfect for outdoor activities!</p>
-            </div>
-
-            <div class="packing-weather">
-                <h4>Pack for the weather:</h4>
-                <div class="weather-tips">
-                    <span class="tip">☀️ Sunglasses</span>
-                    <span class="tip">🧴 Sunscreen</span>
-                    <span class="tip">🧥 Light jacket for evenings</span>
-                    <span class="tip">👟 Comfy walking shoes</span>
-                    <span class="tip">🩱 Swimwear</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- FAQ -->
     <section id="faq" class="section faq">
         <div class="container">
@@ -703,156 +566,6 @@
         </div>
     </section>
 
-    <!-- Trip Preferences / My Plan -->
-    <section id="trip-prefs" class="section trip-prefs">
-        <div class="container">
-            <h2 class="section-title">My Trip Plan</h2>
-            <p class="section-subtitle">Fill this in so we can plan everything - earn bonus points for volunteering!</p>
-
-            <div class="prefs-saved-msg" id="prefs-saved-msg" style="display: none;">
-                ✅ Your preferences have been saved! You can update them anytime.
-            </div>
-
-            <form class="prefs-form" id="prefs-form">
-                <!-- Travel -->
-                <div class="prefs-card">
-                    <div class="prefs-card-header">
-                        <span class="prefs-card-icon">🚗</span>
-                        <h3>How are you getting there?</h3>
-                    </div>
-                    <div class="prefs-options">
-                        <label class="prefs-option">
-                            <input type="radio" name="travel" value="convoy" required>
-                            <div class="prefs-option-content">
-                                <strong>Sevenoaks Convoy</strong>
-                                <p>Travelling with the main group (2 vans from Joe's, departing 7am Wed 29th)</p>
-                            </div>
-                        </label>
-                        <label class="prefs-option">
-                            <input type="radio" name="travel" value="own-drive">
-                            <div class="prefs-option-content">
-                                <strong>Driving Myself / Own Car</strong>
-                                <p>Driving separately - I'll make my own way to the chateau</p>
-                            </div>
-                        </label>
-                        <label class="prefs-option">
-                            <input type="radio" name="travel" value="eurostar">
-                            <div class="prefs-option-content">
-                                <strong>Eurostar + Car from Paris</strong>
-                                <p>Taking the train and hiring a car / getting a lift from Paris</p>
-                            </div>
-                        </label>
-                        <label class="prefs-option">
-                            <input type="radio" name="travel" value="later">
-                            <div class="prefs-option-content">
-                                <strong>Coming Later</strong>
-                                <p>Won't be there on Day 1 - arriving later in the week</p>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="prefs-extra" id="travel-extra" style="display: none;">
-                        <label>When are you arriving?</label>
-                        <input type="text" id="travel-arrival-note" placeholder="e.g., Thursday evening, Friday morning...">
-                    </div>
-                </div>
-
-                <!-- Dietary -->
-                <div class="prefs-card">
-                    <div class="prefs-card-header">
-                        <span class="prefs-card-icon">🍽️</span>
-                        <h3>Dietary Requirements</h3>
-                    </div>
-                    <input type="text" id="pref-dietary" placeholder="Vegetarian, allergies, intolerances, preferences..." class="prefs-input">
-                </div>
-
-                <!-- Activities -->
-                <div class="prefs-card">
-                    <div class="prefs-card-header">
-                        <span class="prefs-card-icon">🎯</span>
-                        <h3>Which activities interest you?</h3>
-                        <span class="prefs-hint">Tick all that you'd be up for</span>
-                    </div>
-                    <div class="prefs-checklist">
-                        <label class="prefs-check"><input type="checkbox" name="activities" value="wine-tasting"><span>🍷 Wine Tasting</span></label>
-                        <label class="prefs-check"><input type="checkbox" name="activities" value="chateau-visit"><span>🏰 Chateau Visit (Chambord/Chenonceau)</span></label>
-                        <label class="prefs-check"><input type="checkbox" name="activities" value="hot-air-balloon"><span>🎈 Hot Air Balloon</span></label>
-                        <label class="prefs-check"><input type="checkbox" name="activities" value="kayaking"><span>🚣 Kayaking on the River</span></label>
-                        <label class="prefs-check"><input type="checkbox" name="activities" value="cycling"><span>🚴 Cycling Tour</span></label>
-                        <label class="prefs-check"><input type="checkbox" name="activities" value="cooking-class"><span>👨‍🍳 Cooking Class</span></label>
-                        <label class="prefs-check"><input type="checkbox" name="activities" value="spa"><span>💆 Spa / Massage</span></label>
-                        <label class="prefs-check"><input type="checkbox" name="activities" value="pool-party"><span>🏊 Pool Parties</span></label>
-                        <label class="prefs-check"><input type="checkbox" name="activities" value="petanque"><span>🎯 Petanque</span></label>
-                        <label class="prefs-check"><input type="checkbox" name="activities" value="murder-mystery"><span>🔪 Murder Mystery Night</span></label>
-                        <label class="prefs-check"><input type="checkbox" name="activities" value="casino-night"><span>🎰 Casino Night</span></label>
-                        <label class="prefs-check"><input type="checkbox" name="activities" value="outdoor-cinema"><span>🎬 Outdoor Cinema</span></label>
-                        <label class="prefs-check"><input type="checkbox" name="activities" value="night-out"><span>🎶 Night Out in Tours</span></label>
-                        <label class="prefs-check"><input type="checkbox" name="activities" value="market-visit"><span>🛒 Local Market Visit</span></label>
-                        <label class="prefs-check"><input type="checkbox" name="activities" value="golf"><span>⛳ Golf</span></label>
-                    </div>
-                </div>
-
-                <!-- Duties - Earn Points! -->
-                <div class="prefs-card duties-card">
-                    <div class="prefs-card-header">
-                        <span class="prefs-card-icon">⭐</span>
-                        <h3>Volunteer for Duties</h3>
-                        <span class="prefs-bonus">EARN BONUS POINTS!</span>
-                    </div>
-                    <p class="prefs-card-desc">Sign up to help out during the trip. Every duty earns you leaderboard points - the more you help, the higher you climb!</p>
-                    <div class="prefs-checklist duties-checklist">
-                        <label class="prefs-check duty-check">
-                            <input type="checkbox" name="duties" value="cooking">
-                            <span>👨‍🍳 I'll help cook meals <em class="duty-pts">+3 pts per meal</em></span>
-                        </label>
-                        <label class="prefs-check duty-check">
-                            <input type="checkbox" name="duties" value="cleaning">
-                            <span>🧹 I'll help with clean-up <em class="duty-pts">+2 pts per session</em></span>
-                        </label>
-                        <label class="prefs-check duty-check">
-                            <input type="checkbox" name="duties" value="shopping">
-                            <span>🛒 I'll do shopping runs <em class="duty-pts">+3 pts per run</em></span>
-                        </label>
-                        <label class="prefs-check duty-check">
-                            <input type="checkbox" name="duties" value="breakfast">
-                            <span>🍳 I'll sort breakfast one morning <em class="duty-pts">+3 pts</em></span>
-                        </label>
-                        <label class="prefs-check duty-check">
-                            <input type="checkbox" name="duties" value="bbq">
-                            <span>🔥 I'll man the BBQ <em class="duty-pts">+3 pts</em></span>
-                        </label>
-                        <label class="prefs-check duty-check">
-                            <input type="checkbox" name="duties" value="driving">
-                            <span>🚗 I'll be a designated driver <em class="duty-pts">+5 pts per trip</em></span>
-                        </label>
-                        <label class="prefs-check duty-check">
-                            <input type="checkbox" name="duties" value="decorating">
-                            <span>🎨 I'll help decorate for the birthday <em class="duty-pts">+3 pts</em></span>
-                        </label>
-                        <label class="prefs-check duty-check">
-                            <input type="checkbox" name="duties" value="dj">
-                            <span>🎵 I'll handle music / DJ duties <em class="duty-pts">+2 pts</em></span>
-                        </label>
-                        <label class="prefs-check duty-check">
-                            <input type="checkbox" name="duties" value="photos">
-                            <span>📸 I'll be on photo/video duty <em class="duty-pts">+2 pts</em></span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Extra Notes -->
-                <div class="prefs-card">
-                    <div class="prefs-card-header">
-                        <span class="prefs-card-icon">💬</span>
-                        <h3>Anything Else?</h3>
-                    </div>
-                    <textarea id="pref-notes" rows="3" placeholder="Questions, requests, things you want to bring, excitement levels..." class="prefs-input"></textarea>
-                </div>
-
-                <button type="submit" class="btn btn-primary btn-large prefs-submit">Save My Preferences</button>
-            </form>
-        </div>
-    </section>
-
     <!-- Gallery / Venue -->
     <section id="gallery" class="section gallery">
         <div class="container">
@@ -913,6 +626,6 @@
 
     <script src="js/shared.js?v=3"></script>
     <script src="js/nav.js"></script>
-    <script src="js/practical.js"></script>
+    <script src="js/practical.js?v=2"></script>
 </body>
 </html>

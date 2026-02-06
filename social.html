@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/base.css?v=3">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/nav.css">
-    <link rel="stylesheet" href="css/social.css">
+    <link rel="stylesheet" href="css/social.css?v=2">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -30,8 +30,6 @@
                 <li><a href="games.html" data-page="games.html">Games</a></li>
                 <li><a href="social.html" data-page="social.html" class="active">Social</a></li>
                 <li><a href="practical.html" data-page="practical.html">Info</a></li>
-                <li><a href="crew.html" data-page="crew.html">Crew</a></li>
-                <li><a href="party.html" data-page="party.html">Party</a></li>
                 <li><span class="nav-guest-name" id="nav-guest-name" style="display:none;"></span></li>
                 <li><button class="dark-mode-toggle" id="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button></li>
             </ul>
@@ -47,17 +45,300 @@
     <!-- Sub Navigation -->
     <nav class="sub-nav">
         <ul class="sub-nav-links">
+            <li><a href="#crew">Crew</a></li>
             <li><a href="#messages">Messages</a></li>
-            <li><a href="#toasts">Toasts</a></li>
-            <li><a href="#predictions">Predictions</a></li>
             <li><a href="#superlatives">Superlatives</a></li>
             <li><a href="#memories-timeline">Memories</a></li>
             <li><a href="#music-requests">Music</a></li>
-            <li><a href="#joe-timeline">Joe's Life</a></li>
-            <li><a href="#confessions">Confessions</a></li>
             <li><a href="#photo-wall">Photos</a></li>
         </ul>
     </nav>
+
+    <!-- ============================================
+         Crew Profiles Section
+         ============================================ -->
+    <section id="crew" class="section crew">
+        <div class="container">
+            <h2 class="section-title">The Crew</h2>
+            <p class="section-subtitle">25 legends across 12 rooms</p>
+
+            <div class="rooms-grid">
+                <!-- Room 1 - Birthday Suite! -->
+                <div class="room-card birthday-room">
+                    <div class="room-header">
+                        <span class="room-number">Room 1</span>
+                        <span class="room-tag">Birthday Suite</span>
+                    </div>
+                    <div class="room-guests">
+                        <div class="guest" data-name="Joe O'Brien" data-initials="JO" data-room="Room 1 - Birthday Suite" data-superlative="Most likely to make everyone laugh" data-fact="The man, the myth, the legend turning 30!" data-bringing="Birthday cake enthusiasm" data-anthem="Mr. Brightside - The Killers" data-birthday="true">
+                            <div class="guest-avatar birthday">JO</div>
+                            <div class="guest-info">
+                                <h4>Joe O'Brien</h4>
+                                <p>The Birthday Legend</p>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Sophie Geen" data-initials="SG" data-room="Room 1 - Birthday Suite" data-superlative="Most likely to keep everyone organised" data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">SG</div>
+                            <div class="guest-info">
+                                <h4>Sophie Geen</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 2 -->
+                <div class="room-card">
+                    <div class="room-header">
+                        <span class="room-number">Room 2</span>
+                    </div>
+                    <div class="room-guests">
+                        <div class="guest" data-name="Luke Recchia" data-initials="LR" data-room="Room 2" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">LR</div>
+                            <div class="guest-info">
+                                <h4>Luke Recchia</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Samantha Recchia" data-initials="SR" data-room="Room 2" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">SR</div>
+                            <div class="guest-info">
+                                <h4>Samantha Recchia</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 3 -->
+                <div class="room-card">
+                    <div class="room-header">
+                        <span class="room-number">Room 3</span>
+                    </div>
+                    <div class="room-guests">
+                        <div class="guest" data-name="Hannah O'Brien" data-initials="HO" data-room="Room 3" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">HO</div>
+                            <div class="guest-info">
+                                <h4>Hannah O'Brien</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Robin Hughes" data-initials="RH" data-room="Room 3" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">RH</div>
+                            <div class="guest-info">
+                                <h4>Robin Hughes</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 4 -->
+                <div class="room-card">
+                    <div class="room-header">
+                        <span class="room-number">Room 4</span>
+                    </div>
+                    <div class="room-guests">
+                        <div class="guest" data-name="Johnny Gates O'Brien" data-initials="JG" data-room="Room 4" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">JG</div>
+                            <div class="guest-info">
+                                <h4>Johnny Gates O'Brien</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Florrie Gates O'Brien" data-initials="FG" data-room="Room 4" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">FG</div>
+                            <div class="guest-info">
+                                <h4>Florrie Gates O'Brien</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 5 -->
+                <div class="room-card">
+                    <div class="room-header">
+                        <span class="room-number">Room 5</span>
+                    </div>
+                    <div class="room-guests">
+                        <div class="guest" data-name="Razon Mahebub" data-initials="RM" data-room="Room 5" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">RM</div>
+                            <div class="guest-info">
+                                <h4>Razon Mahebub</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Neeve Fletcher" data-initials="NF" data-room="Room 5" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">NF</div>
+                            <div class="guest-info">
+                                <h4>Neeve Fletcher</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 6 -->
+                <div class="room-card">
+                    <div class="room-header">
+                        <span class="room-number">Room 6</span>
+                    </div>
+                    <div class="room-guests">
+                        <div class="guest" data-name="George Heyworth" data-initials="GH" data-room="Room 6" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">GH</div>
+                            <div class="guest-info">
+                                <h4>George Heyworth</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Emma Winup" data-initials="EW" data-room="Room 6" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">EW</div>
+                            <div class="guest-info">
+                                <h4>Emma Winup</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 7 -->
+                <div class="room-card">
+                    <div class="room-header">
+                        <span class="room-number">Room 7</span>
+                    </div>
+                    <div class="room-guests">
+                        <div class="guest" data-name="Tom Heyworth" data-initials="TH" data-room="Room 7" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">TH</div>
+                            <div class="guest-info">
+                                <h4>Tom Heyworth</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Robert Winup" data-initials="RW" data-room="Room 7" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">RW</div>
+                            <div class="guest-info">
+                                <h4>Robert Winup</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 8 -->
+                <div class="room-card solo-room">
+                    <div class="room-header">
+                        <span class="room-number">Room 8</span>
+                        <span class="room-tag solo">Solo</span>
+                    </div>
+                    <div class="room-guests">
+                        <div class="guest" data-name="Sarah" data-initials="S" data-room="Room 8 - Solo" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">S</div>
+                            <div class="guest-info">
+                                <h4>Sarah</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 9 -->
+                <div class="room-card">
+                    <div class="room-header">
+                        <span class="room-number">Room 9</span>
+                    </div>
+                    <div class="room-guests">
+                        <div class="guest" data-name="Kiran Ruparelia" data-initials="KR" data-room="Room 9" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">KR</div>
+                            <div class="guest-info">
+                                <h4>Kiran Ruparelia</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Shane Pallian" data-initials="SP" data-room="Room 9" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">SP</div>
+                            <div class="guest-info">
+                                <h4>Shane Pallian</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 10 -->
+                <div class="room-card">
+                    <div class="room-header">
+                        <span class="room-number">Room 10</span>
+                    </div>
+                    <div class="room-guests">
+                        <div class="guest" data-name="Oli Moran" data-initials="OM" data-room="Room 10" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">OM</div>
+                            <div class="guest-info">
+                                <h4>Oli Moran</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Peter London" data-initials="PL" data-room="Room 10" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">PL</div>
+                            <div class="guest-info">
+                                <h4>Peter London</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 11 -->
+                <div class="room-card">
+                    <div class="room-header">
+                        <span class="room-number">Room 11</span>
+                    </div>
+                    <div class="room-guests">
+                        <div class="guest" data-name="Emma Levett" data-initials="EL" data-room="Room 11" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">EL</div>
+                            <div class="guest-info">
+                                <h4>Emma Levett</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Jonny Levett" data-initials="JL" data-room="Room 11" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">JL</div>
+                            <div class="guest-info">
+                                <h4>Jonny Levett</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 12 - The Party Room! -->
+                <div class="room-card party-room">
+                    <div class="room-header">
+                        <span class="room-number">Room 12</span>
+                        <span class="room-tag party">The Lads</span>
+                    </div>
+                    <div class="room-guests">
+                        <div class="guest" data-name="Jonny Williams" data-initials="JW" data-room="Room 12 - The Lads" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">JW</div>
+                            <div class="guest-info">
+                                <h4>Jonny Williams</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Will Turner" data-initials="WT" data-room="Room 12 - The Lads" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">WT</div>
+                            <div class="guest-info">
+                                <h4>Will Turner</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Chris Coggin" data-initials="CC" data-room="Room 12 - The Lads" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">CC</div>
+                            <div class="guest-info">
+                                <h4>Chris Coggin</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Oscar Walters" data-initials="OW" data-room="Room 12 - The Lads" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">OW</div>
+                            <div class="guest-info">
+                                <h4>Oscar Walters</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Matt Hill" data-initials="MH" data-room="Room 12 - The Lads" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">MH</div>
+                            <div class="guest-info">
+                                <h4>Matt Hill</h4>
+                            </div>
+                        </div>
+                        <div class="guest" data-name="Pranay Dube" data-initials="PD" data-room="Room 12 - The Lads" data-superlative="Most likely to..." data-fact="Add a fun fact here!" data-bringing="Good vibes" data-anthem="Add a song!">
+                            <div class="guest-avatar">PD</div>
+                            <div class="guest-info">
+                                <h4>Pranay Dube</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Birthday Messages -->
     <section id="messages" class="section messages">
@@ -77,79 +358,6 @@
                 <div class="message-card example">
                     <div class="message-author">Sophie</div>
                     <p>Happy 30th Joe! Can't wait to celebrate with you in France!</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Birthday Toasts -->
-    <section id="toasts" class="section toasts">
-        <div class="container">
-            <h2 class="section-title">Birthday Toasts</h2>
-            <p class="section-subtitle">Want to say a few words for Joe? Sign up here!</p>
-
-            <div class="toasts-grid">
-                <div class="toast-signup-card">
-                    <h3>📢 Give a Toast</h3>
-                    <p>Sign up to give a toast at the birthday dinner on Saturday night.</p>
-                    <form id="toast-form">
-                        <div class="form-group">
-                            <input type="text" id="toast-name" placeholder="Your name" required>
-                        </div>
-                        <div class="form-group">
-                            <select id="toast-type" required>
-                                <option value="">Type of toast...</option>
-                                <option value="heartfelt">Heartfelt & Sincere</option>
-                                <option value="funny">Funny Story</option>
-                                <option value="roast">Light Roast</option>
-                                <option value="song">Song/Performance</option>
-                                <option value="surprise">It's a Surprise!</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="toast-duration" placeholder="Approx. length (e.g., 2 mins)" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Sign Me Up!</button>
-                    </form>
-                </div>
-
-                <div class="toast-list-card">
-                    <h3>🎤 The Line-up</h3>
-                    <div class="toast-list" id="toast-list">
-                        <div class="toast-item example">
-                            <span class="toast-order">1</span>
-                            <div class="toast-info">
-                                <strong>Sophie</strong>
-                                <span class="toast-type heartfelt">Heartfelt</span>
-                                <span class="toast-duration">~3 mins</span>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="toast-note">Order may change on the night!</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Predictions Wall -->
-    <section id="predictions" class="section predictions">
-        <div class="container">
-            <h2 class="section-title">Predictions Wall</h2>
-            <p class="section-subtitle">What will Joe be doing by 40?</p>
-
-            <form class="prediction-form" id="prediction-form">
-                <div class="form-row">
-                    <input type="text" id="prediction-author" placeholder="Your name" required>
-                    <input type="text" id="prediction-text" placeholder="By 40, Joe will..." required>
-                    <button type="submit" class="btn btn-primary">Add Prediction</button>
-                </div>
-            </form>
-
-            <div class="predictions-grid" id="predictions-grid">
-                <!-- Example predictions -->
-                <div class="prediction-card">
-                    <p class="prediction-text">"By 40, Joe will have visited every wine region in France"</p>
-                    <span class="prediction-author">- The Gang</span>
                 </div>
             </div>
         </div>
@@ -286,97 +494,6 @@
         </div>
     </section>
 
-    <!-- Joe's 30 Year Timeline -->
-    <section id="joe-timeline" class="section joe-timeline">
-        <div class="container">
-            <h2 class="section-title">30 Years of Joe</h2>
-            <p class="section-subtitle">A life well lived (so far!)</p>
-
-            <div class="life-timeline" id="life-timeline">
-                <div class="life-event" data-year="1996">
-                    <div class="life-year">1996</div>
-                    <div class="life-content">
-                        <h4>🎒 Joe is Born!</h4>
-                        <p>A legend enters the world</p>
-                    </div>
-                </div>
-                <div class="life-event" data-year="2001">
-                    <div class="life-year">2001</div>
-                    <div class="life-content">
-                        <h4>🎓 First Day of School</h4>
-                        <p>Already making friends</p>
-                    </div>
-                </div>
-                <div class="life-event" data-year="2007">
-                    <div class="life-year">2007</div>
-                    <div class="life-content">
-                        <h4>🎸 Discovers Music</h4>
-                        <p>Mr. Brightside era begins</p>
-                    </div>
-                </div>
-                <div class="life-event" data-year="2014">
-                    <div class="life-year">2014</div>
-                    <div class="life-content">
-                        <h4>🎓 University Days</h4>
-                        <p>The stories we can't tell here...</p>
-                    </div>
-                </div>
-                <div class="life-event" data-year="2018">
-                    <div class="life-year">2018</div>
-                    <div class="life-content">
-                        <h4>💼 Career Launch</h4>
-                        <p>Adulting begins (sort of)</p>
-                    </div>
-                </div>
-                <div class="life-event" data-year="2022">
-                    <div class="life-year">2022</div>
-                    <div class="life-content">
-                        <h4>❤️ Found Love</h4>
-                        <p>Sophie enters the chat</p>
-                    </div>
-                </div>
-                <div class="life-event highlight" data-year="2026">
-                    <div class="life-year">2026</div>
-                    <div class="life-content">
-                        <h4>🎂 THE BIG 3-0!</h4>
-                        <p>France with 25 of his best mates!</p>
-                    </div>
-                </div>
-            </div>
-
-            <form class="add-milestone-form" id="add-milestone-form">
-                <h4>Add a milestone we missed!</h4>
-                <div class="form-row">
-                    <input type="text" id="milestone-year" placeholder="Year" maxlength="4" required>
-                    <input type="text" id="milestone-title" placeholder="What happened?" required>
-                    <input type="text" id="milestone-desc" placeholder="Tell us more..." required>
-                    <button type="submit" class="btn btn-primary">Add</button>
-                </div>
-            </form>
-        </div>
-    </section>
-
-    <!-- Confessions -->
-    <section id="confessions" class="section confessions">
-        <div class="container">
-            <h2 class="section-title">Confession Booth</h2>
-            <p class="section-subtitle">Anonymous secrets & silly admissions</p>
-
-            <form class="confession-form" id="confession-form">
-                <textarea id="confession-text" placeholder="I have a confession... (100% anonymous!)" rows="3" required></textarea>
-                <button type="submit" class="btn btn-primary">🤫 Confess</button>
-            </form>
-
-            <div class="confessions-wall" id="confessions-wall">
-                <div class="confession-card">
-                    <p class="confession-text">"I've been practicing my French pronunciation in the mirror for 3 weeks..."</p>
-                    <span class="confession-time">Just now</span>
-                    <button class="confession-react" data-id="example">😂 <span>0</span></button>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Photo Wall -->
     <section id="photo-wall" class="section photo-wall">
         <div class="container">
@@ -410,6 +527,40 @@
         <img src="" alt="" class="lightbox-image">
     </div>
 
+    <!-- ============================================
+         Profile Modal
+         ============================================ -->
+    <div class="profile-modal" id="profile-modal">
+        <div class="profile-modal-content">
+            <button class="profile-close">&times;</button>
+            <div class="profile-header">
+                <div class="profile-avatar" id="profile-avatar">JO</div>
+                <div class="profile-title">
+                    <h2 id="profile-name">Name</h2>
+                    <p class="profile-room" id="profile-room">Room X</p>
+                </div>
+            </div>
+            <div class="profile-body">
+                <div class="profile-field">
+                    <span class="profile-label">Superlative</span>
+                    <p class="profile-value" id="profile-superlative">Most likely to...</p>
+                </div>
+                <div class="profile-field">
+                    <span class="profile-label">Fun Fact</span>
+                    <p class="profile-value" id="profile-fact">Something interesting...</p>
+                </div>
+                <div class="profile-field">
+                    <span class="profile-label">Bringing to the Trip</span>
+                    <p class="profile-value" id="profile-bringing">Good vibes!</p>
+                </div>
+                <div class="profile-field">
+                    <span class="profile-label">Party Anthem</span>
+                    <p class="profile-value" id="profile-anthem">Song name</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Theme Switcher -->
     <div class="theme-switcher" id="theme-switcher">
         <button class="theme-toggle-btn" id="theme-toggle-btn">🎨</button>
@@ -434,6 +585,6 @@
 
     <script src="js/shared.js?v=3"></script>
     <script src="js/nav.js"></script>
-    <script src="js/social.js"></script>
+    <script src="js/social.js?v=2"></script>
 </body>
 </html>
