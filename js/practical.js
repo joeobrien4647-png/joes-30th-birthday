@@ -236,6 +236,8 @@ function initLightbox() {
     const nextBtn = lightbox.querySelector('.lightbox-next');
     const galleryItems = document.querySelectorAll('.gallery-item:not(.placeholder)');
 
+    if (!lightboxImg || !closeBtn || !prevBtn || !nextBtn) return;
+
     let currentIndex = 0;
     let images = [];
 

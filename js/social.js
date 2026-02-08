@@ -24,6 +24,11 @@ function initProfiles() {
     const profileBringing = document.getElementById('profile-bringing');
     const profileAnthem = document.getElementById('profile-anthem');
 
+    if (!closeBtn || !profileAvatar || !profileName || !profileRoom || !profileSuperlative ||
+        !profileFact || !profileBringing || !profileAnthem) {
+        return;
+    }
+
     // Open profile when clicking a guest
     guests.forEach(guest => {
         guest.addEventListener('click', function () {
@@ -168,10 +173,12 @@ function initSuperlatives() {
 
     function updateResults(category) {
         const card = grid.querySelector(`[data-category="${category}"]`);
+        if (!card) return;
         const resultsDiv = card.querySelector('.superlative-results');
+        if (!resultsDiv) return;
 
         if (votes[category]) {
-            resultsDiv.innerHTML = `<span class="superlative-leader">Your pick: ${votes[category]}</span>`;
+            resultsDiv.innerHTML = `<span class="superlative-leader">Your pick: ${escapeHtml(votes[category])}</span>`;
         }
     }
 }
@@ -314,11 +321,16 @@ function initPhotoWall() {
         files.forEach(file => {
             const reader = new FileReader();
             reader.onload = function(event) {
+                const caption = captionInput ? captionInput.value.trim() : '';
+                const uploader = uploaderInput && uploaderInput.value.trim()
+                    ? uploaderInput.value.trim()
+                    : 'Anonymous';
+
                 const photo = {
                     id: Date.now().toString() + Math.random(),
                     data: event.target.result,
-                    caption: captionInput.value.trim(),
-                    uploader: uploaderInput.value.trim() || 'Anonymous',
+                    caption,
+                    uploader,
                     timestamp: Date.now()
                 };
 
@@ -344,7 +356,7 @@ function initPhotoWall() {
 
         // Reset inputs
         input.value = '';
-        captionInput.value = '';
+        if (captionInput) captionInput.value = '';
     });
 
     function addPhotoToGrid(photo) {
@@ -378,7 +390,10 @@ function initLightbox() {
     const lightbox = document.getElementById('lightbox');
     if (!lightbox) return;
 
-    lightbox.querySelector('.lightbox-close').addEventListener('click', function() {
+    const closeBtn = lightbox.querySelector('.lightbox-close');
+    if (!closeBtn) return;
+
+    closeBtn.addEventListener('click', function() {
         lightbox.classList.remove('active');
     });
 

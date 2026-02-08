@@ -393,7 +393,7 @@ function initActivityVoting() {
     const filtersEl = document.getElementById('av-filters');
     const resultsEl = document.getElementById('av-results');
     const budgetUsed = document.getElementById('av-votes-used');
-    if (!grid) return;
+    if (!grid || !filtersEl || !resultsEl) return;
 
     const guestCode = Auth.getGuestCode();
     const isAdmin = Auth.isAdmin();
@@ -423,6 +423,7 @@ function initActivityVoting() {
 
     // ---- Filter pills ----
     function renderFilters() {
+        if (!filtersEl) return;
         filtersEl.innerHTML = AV_CATEGORIES.map(cat => {
             const isActive = cat.id === activeFilter;
             const count = cat.id === 'all' ? ACTIVITIES.length :
@@ -540,6 +541,7 @@ function initActivityVoting() {
 
     // ---- Results bar chart ----
     function renderResults() {
+        if (!resultsEl) return;
         const totalVotes = Object.values(votes).reduce((s, v) => s + v, 0);
         if (totalVotes < 1) {
             resultsEl.style.display = 'none';

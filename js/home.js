@@ -60,7 +60,7 @@ function initCountdown() {
     const minutesEl = document.getElementById('minutes');
     const secondsEl = document.getElementById('seconds');
 
-    if (!daysEl) return;
+    if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
 
     function updateCountdown() {
         const now = new Date().getTime();

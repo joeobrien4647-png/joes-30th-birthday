@@ -593,7 +593,6 @@ function initConfettiCannon() {
 
 /* Admin Guest Preview Toggle */
 function initGuestPreview() {
-    console.log('[GuestPreview] init called, isAdmin:', Auth.isAdmin(), 'guestCode:', Auth.getGuestCode());
     if (!Auth.isAdmin()) return;
 
     const isPreview = sessionStorage.getItem('guestPreview') === 'true';
@@ -616,7 +615,15 @@ function initGuestPreview() {
     if (isPreview) {
         const banner = document.createElement('div');
         banner.className = 'guest-preview-banner';
-        banner.innerHTML = '&#128065; GUEST PREVIEW MODE &mdash; You are seeing what guests see. <button onclick="sessionStorage.removeItem(\'guestPreview\');location.reload();">Exit</button>';
+        banner.innerHTML = '&#128065; GUEST PREVIEW MODE &mdash; You are seeing what guests see. ';
+        const exitBtn = document.createElement('button');
+        exitBtn.type = 'button';
+        exitBtn.textContent = 'Exit';
+        exitBtn.addEventListener('click', function () {
+            sessionStorage.removeItem('guestPreview');
+            location.reload();
+        });
+        banner.appendChild(exitBtn);
         document.body.prepend(banner);
     }
 }
