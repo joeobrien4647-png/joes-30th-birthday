@@ -10,9 +10,56 @@
 .agenda-tabs {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 12px;
     flex-wrap: wrap;
     margin-bottom: 40px;
+}
+
+.tab-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 14px 22px;
+    border: 2px solid var(--bg-light, #e8e8e8);
+    border-radius: 14px;
+    background: var(--bg-white, #fff);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-dark, #333);
+    min-width: 90px;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.tab-btn span {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-light, #888);
+    margin-top: 2px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.tab-btn:hover {
+    border-color: var(--primary, #7C3AED);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(124, 58, 237, 0.15);
+}
+
+.tab-btn.active {
+    background: var(--gradient-hero, linear-gradient(135deg, #667eea 0%, #764ba2 100%));
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
+    transform: translateY(-2px);
+}
+
+.tab-btn.active span {
+    color: rgba(255, 255, 255, 0.85);
 }
 
 .day-content {
@@ -629,7 +676,18 @@
 /* ---- Responsive Overrides ---- */
 @media (max-width: 768px) {
     .agenda-tabs {
-        gap: 5px;
+        gap: 8px;
+    }
+
+    .tab-btn {
+        padding: 10px 14px;
+        min-width: 70px;
+        font-size: 0.85rem;
+        border-radius: 12px;
+    }
+
+    .tab-btn span {
+        font-size: 0.65rem;
     }
 
     .rotas-container {
