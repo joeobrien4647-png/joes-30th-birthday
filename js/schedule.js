@@ -259,7 +259,7 @@ const ACTIVITIES = [
         category: 'fun',
         emoji: '\uD83C\uDFC1',
         tagline: 'High-speed racing AND paintball warfare',
-        description: 'Outdoor karting track with 270cc adult karts PLUS a 4,000m\u00B2 paintball zone. Group packages bundle both activities. Perfect for a Team Champagne vs Team Bordeaux vs Team Ros\u00e9 showdown. Includes bar, clubhouse, and picnic area.',
+        description: 'Outdoor karting track with 270cc adult karts PLUS a 4,000m\u00B2 paintball zone. Group packages bundle both activities. Perfect for a 5-team showdown. Includes bar, clubhouse, and picnic area.',
         cost: { min: 55, max: 70 },
         duration: '2\u20134 hours',
         driveTime: '1h 15m',
@@ -641,9 +641,136 @@ function initActivityVoting() {
     render();
 }
 
+/* ============================================
+   Meal Planner / Dinner Voting
+   ============================================ */
+
+const MEAL_DAYS = [
+    {
+        day: 'Wed 29 Apr',
+        label: 'Arrival Night',
+        team: 'Everyone',
+        options: [
+            { id: 'wed-bbq', name: 'Welcome BBQ', emoji: '\uD83C\uDF56', desc: 'Fire up the BBQ - burgers, sausages, salads' },
+            { id: 'wed-pasta', name: 'Big Pasta Night', emoji: '\uD83C\uDF5D', desc: 'Easy crowd-pleaser after a long drive' },
+            { id: 'wed-takeaway', name: 'Order In / Takeaway', emoji: '\uD83D\uDCE6', desc: 'Keep it simple - order from Le Blanc' }
+        ]
+    },
+    {
+        day: 'Thu 30 Apr',
+        label: 'First Full Day',
+        team: 'Team Vouvray',
+        options: [
+            { id: 'thu-bbq', name: 'BBQ Feast', emoji: '\uD83E\uDD69', desc: 'Steaks, chicken, grilled veg, salads' },
+            { id: 'thu-curry', name: 'Big Curry Night', emoji: '\uD83C\uDF5B', desc: 'Curry, rice, naan - feeds the masses' },
+            { id: 'thu-mexican', name: 'Taco Night', emoji: '\uD83C\uDF2E', desc: 'Build-your-own tacos, guac, salsa' },
+            { id: 'thu-roast', name: 'French Roast Chicken', emoji: '\uD83C\uDF57', desc: 'Whole roast chickens with veg & potatoes' }
+        ]
+    },
+    {
+        day: 'Fri 1 May',
+        label: 'Wine & Culture Day',
+        team: 'Team Chinon',
+        options: [
+            { id: 'fri-french', name: 'French Bistro Night', emoji: '\uD83C\uDDEB\uD83C\uDDF7', desc: 'Coq au vin, ratatouille, baguettes' },
+            { id: 'fri-pizza', name: 'Homemade Pizza', emoji: '\uD83C\uDF55', desc: 'Everyone makes their own - fun & easy' },
+            { id: 'fri-seafood', name: 'Seafood Spread', emoji: '\uD83E\uDD90', desc: 'Moules frites, prawns, fish' },
+            { id: 'fri-out', name: 'Eat Out (restaurant)', emoji: '\uD83C\uDF7D\uFE0F', desc: 'Find a local restaurant instead' }
+        ]
+    },
+    {
+        day: 'Sat 2 May',
+        label: 'JOE\'S BIRTHDAY!',
+        team: 'Team Sancerre',
+        options: [
+            { id: 'sat-feast', name: 'Birthday Feast', emoji: '\uD83C\uDF82', desc: 'Three-course birthday dinner - the works!' },
+            { id: 'sat-bbqparty', name: 'Birthday BBQ Party', emoji: '\uD83C\uDF89', desc: 'Garden party vibes - BBQ + buffet' },
+            { id: 'sat-banquet', name: 'French Banquet', emoji: '\uD83E\uDD42', desc: 'Cheese board, charcuterie, wine, proper French spread' }
+        ]
+    },
+    {
+        day: 'Sun 3 May',
+        label: 'Recovery Day',
+        team: 'Team Muscadet',
+        options: [
+            { id: 'sun-comfort', name: 'Comfort Food', emoji: '\uD83C\uDF72', desc: 'Mac & cheese, shepherd\'s pie - hangover cures' },
+            { id: 'sun-bbq2', name: 'Last Night BBQ', emoji: '\uD83D\uDD25', desc: 'Use up the rest - final BBQ blowout' },
+            { id: 'sun-fajitas', name: 'Fajita Night', emoji: '\uD83C\uDF36\uFE0F', desc: 'Chicken & veggie fajitas with all the toppings' },
+            { id: 'sun-leftover', name: 'Leftover Fiesta', emoji: '\uD83C\uDF7D\uFE0F', desc: 'Creative use of what\'s left - zero waste!' }
+        ]
+    }
+];
+
+function initMealPlanner() {
+    const container = document.getElementById('meal-days');
+    if (!container) return;
+
+    const guestName = Auth.isLoggedIn() ? Auth.getGuestName() : null;
+    let allVotes = Store.get('mealVotes', {});
+
+    function render() {
+        container.innerHTML = MEAL_DAYS.map(day => {
+            const dayVotes = allVotes[day.day] || {};
+            const myVote = guestName ? (dayVotes[guestName] || null) : null;
+
+            return `
+                <div class="meal-day-card">
+                    <div class="meal-day-header">
+                        <div>
+                            <h3>${day.day}</h3>
+                            <p class="meal-day-label">${escapeHtml(day.label)}</p>
+                        </div>
+                        <span class="meal-team-badge">${escapeHtml(day.team)} cooking</span>
+                    </div>
+                    <div class="meal-options">
+                        ${day.options.map(opt => {
+                            const voteCount = Object.values(dayVotes).filter(v => v === opt.id).length;
+                            const isMyVote = myVote === opt.id;
+                            return `
+                                <button class="meal-option ${isMyVote ? 'voted' : ''}"
+                                        data-day="${day.day}" data-option="${opt.id}"
+                                        ${!guestName ? 'disabled title="Log in to vote"' : ''}>
+                                    <span class="meal-emoji">${opt.emoji}</span>
+                                    <div class="meal-option-info">
+                                        <strong>${escapeHtml(opt.name)}</strong>
+                                        <p>${escapeHtml(opt.desc)}</p>
+                                    </div>
+                                    <span class="meal-vote-count">${voteCount} vote${voteCount !== 1 ? 's' : ''}</span>
+                                </button>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        // Bind click events
+        container.querySelectorAll('.meal-option:not([disabled])').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const day = this.dataset.day;
+                const option = this.dataset.option;
+                if (!allVotes[day]) allVotes[day] = {};
+
+                if (allVotes[day][guestName] === option) {
+                    delete allVotes[day][guestName];
+                } else {
+                    allVotes[day][guestName] = option;
+                }
+
+                Store.set('mealVotes', allVotes);
+                render();
+                triggerMiniConfetti();
+            });
+        });
+    }
+
+    render();
+}
+
 /* ---- Initialize on page load ---- */
 document.addEventListener('DOMContentLoaded', function() {
     initAgendaTabs();
     initSecretAgenda();
     initActivityVoting();
+    initMealPlanner();
 });

@@ -485,10 +485,10 @@ function initLeaderboard() {
     if (!tabs.length) return;
 
     /* ---- Constants ---- */
-    const TEAMS = ['champagne', 'bordeaux', 'rose'];
-    const TEAM_NAMES = { champagne: 'Team Champagne', bordeaux: 'Team Bordeaux', rose: 'Team Ros\u00e9' };
-    const TEAM_HIDDEN = { champagne: 'Team 1', bordeaux: 'Team 2', rose: 'Team 3' };
-    const TEAM_EMOJI = { champagne: '\uD83C\uDF7E', bordeaux: '\uD83C\uDF77', rose: '\uD83C\uDF39' };
+    const TEAMS = ['vouvray', 'chinon', 'sancerre', 'muscadet', 'anjou'];
+    const TEAM_NAMES = { vouvray: 'Team Vouvray', chinon: 'Team Chinon', sancerre: 'Team Sancerre', muscadet: 'Team Muscadet', anjou: 'Team Anjou' };
+    const TEAM_HIDDEN = { vouvray: 'Team 1', chinon: 'Team 2', sancerre: 'Team 3', muscadet: 'Team 4', anjou: 'Team 5' };
+    const TEAM_EMOJI = { vouvray: '\uD83C\uDF7E', chinon: '\uD83C\uDF77', sancerre: '\uD83E\uDD42', muscadet: '\uD83C\uDF4B', anjou: '\uD83C\uDF39' };
     const CATEGORY_EMOJI = { games: '\uD83C\uDFAE', duties: '\uD83D\uDC68\u200D\uD83C\uDF73', challenges: '\uD83C\uDFC6', bonus: '\u2B50', penalty: '\uD83D\uDFE5' };
     const CATEGORY_LABELS = { games: 'Games', duties: 'Duties', challenges: 'Challenges', bonus: 'Bonus', penalty: 'Penalty' };
 
@@ -517,7 +517,7 @@ function initLeaderboard() {
     };
 
     /* ---- Load Data ---- */
-    let teamScores = Store.get('lb_teamScores', { champagne: 0, bordeaux: 0, rose: 0 });
+    let teamScores = Store.get('lb_teamScores', { vouvray: 0, chinon: 0, sancerre: 0, muscadet: 0, anjou: 0 });
     let individualScores = Store.get('lb_individualScores', {});
     let pointsLog = Store.get('lb_pointsLog', []);
     let badges = Store.get('lb_badges', {});
@@ -1080,7 +1080,7 @@ function initLeaderboard() {
 
             // Team performance bars
             if (teamBars) {
-                const teamDay = { champagne: 0, bordeaux: 0, rose: 0 };
+                const teamDay = { vouvray: 0, chinon: 0, sancerre: 0, muscadet: 0, anjou: 0 };
                 dayEntries.forEach(e => {
                     if (e.type === 'team') {
                         teamDay[e.target] = (teamDay[e.target] || 0) + e.amount;
@@ -1148,7 +1148,7 @@ function initLeaderboard() {
         const freshLog = Store.get('lb_pointsLog', []);
         if (freshLog.length !== pointsLog.length) {
             pointsLog = freshLog;
-            teamScores = Store.get('lb_teamScores', { champagne: 0, bordeaux: 0, rose: 0 });
+            teamScores = Store.get('lb_teamScores', { vouvray: 0, chinon: 0, sancerre: 0, muscadet: 0, anjou: 0 });
             individualScores = Store.get('lb_individualScores', {});
             badges = Store.get('lb_badges', {});
             renderAll();

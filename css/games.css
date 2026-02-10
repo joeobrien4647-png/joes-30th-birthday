@@ -838,7 +838,7 @@
 /* Team Podium */
 .team-podium {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 1.5rem;
 }
 
@@ -882,9 +882,11 @@
     margin: 0 auto 1rem;
 }
 
-.champagne-bg { background: linear-gradient(135deg, #f9d423, #e6b800); }
-.bordeaux-bg { background: linear-gradient(135deg, #722f37, #a94442); }
-.rose-bg { background: linear-gradient(135deg, #f8a4c8, #e91e8c); }
+.vouvray-bg { background: linear-gradient(135deg, #f9d423, #e6b800); }
+.chinon-bg { background: linear-gradient(135deg, #722f37, #a94442); }
+.sancerre-bg { background: linear-gradient(135deg, #f5e6ca, #d4a574); }
+.muscadet-bg { background: linear-gradient(135deg, #a8d8a8, #5a9e5a); }
+.anjou-bg { background: linear-gradient(135deg, #f8a4c8, #e91e8c); }
 
 .team-card h3 {
     font-size: 1.2rem;
@@ -967,9 +969,11 @@
     flex-shrink: 0;
 }
 
-.ind-team-dot.champagne { background: #f9d423; }
-.ind-team-dot.bordeaux { background: #a94442; }
-.ind-team-dot.rose { background: #f8a4c8; }
+.ind-team-dot.vouvray { background: #f9d423; }
+.ind-team-dot.chinon { background: #a94442; }
+.ind-team-dot.sancerre { background: #d4a574; }
+.ind-team-dot.muscadet { background: #5a9e5a; }
+.ind-team-dot.anjou { background: #e91e8c; }
 
 .ind-points {
     font-size: 1.1rem;
@@ -1419,9 +1423,11 @@
     transition: width 0.5s ease;
 }
 
-.champagne-bar { background: linear-gradient(90deg, #f9d423, #e6b800); }
-.bordeaux-bar { background: linear-gradient(90deg, #a94442, #722f37); }
-.rose-bar { background: linear-gradient(90deg, #f8a4c8, #e91e8c); }
+.vouvray-bar { background: linear-gradient(90deg, #f9d423, #e6b800); }
+.chinon-bar { background: linear-gradient(90deg, #a94442, #722f37); }
+.sancerre-bar { background: linear-gradient(90deg, #d4a574, #b8895a); }
+.muscadet-bar { background: linear-gradient(90deg, #5a9e5a, #3d7a3d); }
+.anjou-bar { background: linear-gradient(90deg, #f8a4c8, #e91e8c); }
 
 .recap-team-pts {
     min-width: 30px;

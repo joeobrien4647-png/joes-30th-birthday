@@ -745,3 +745,136 @@
         padding: 25px;
     }
 }
+
+/* ============================================
+   Meal Planner / Dinner Voting
+   ============================================ */
+.meal-planner {
+    background: var(--bg-light);
+}
+
+.meal-days {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.meal-day-card {
+    background: var(--bg-white);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: var(--shadow-sm);
+}
+
+.meal-day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.meal-day-header h3 {
+    font-size: 1.3rem;
+    color: var(--secondary);
+    margin: 0;
+}
+
+.meal-day-label {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin: 2px 0 0;
+}
+
+.meal-team-badge {
+    background: var(--gradient-primary);
+    color: white;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.meal-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.meal-option {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border-radius: 12px;
+    background: var(--bg-light);
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    font-family: var(--font-body);
+    width: 100%;
+}
+
+.meal-option:hover {
+    border-color: var(--primary);
+    transform: translateY(-1px);
+}
+
+.meal-option.voted {
+    border-color: var(--accent-alt);
+    background: linear-gradient(135deg, rgba(107, 203, 119, 0.1) 0%, rgba(107, 203, 119, 0.05) 100%);
+}
+
+.meal-option:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.meal-emoji {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.meal-option-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.meal-option-info strong {
+    display: block;
+    font-size: 1rem;
+    color: var(--text-dark);
+    margin-bottom: 3px;
+}
+
+.meal-option-info p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.meal-vote-count {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.9rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .meal-day-header {
+        flex-direction: column;
+    }
+
+    .meal-option {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .meal-emoji {
+        font-size: 1.5rem;
+    }
+}

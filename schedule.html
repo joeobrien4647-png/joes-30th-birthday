@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/base.css?v=4">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/nav.css">
-    <link rel="stylesheet" href="css/schedule.css?v=4">
+    <link rel="stylesheet" href="css/schedule.css?v=5">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -47,6 +47,7 @@
         <ul class="sub-nav-links">
             <li><a href="#agenda">Agenda</a></li>
             <li><a href="#activity-voting">Vote</a></li>
+            <li><a href="#meal-planner">Meals</a></li>
             <li><a href="#rotas">Rotas</a></li>
         </ul>
     </nav>
@@ -70,7 +71,7 @@
                 <!-- Day 1 - Wednesday 29 April -->
                 <div class="day-content active" data-day="1">
                     <h3>Wednesday 29th - Travel &amp; Arrival Day</h3>
-                    <p class="day-note">Main party travelling from Sevenoaks (17 people, 2x 9-seater vans). Others making their own way.</p>
+                    <p class="day-note">Main party travelling from Sevenoaks (13 people, 2x 9-seater vans). Others making their own way.</p>
                     <div class="timeline">
                         <div class="timeline-item">
                             <div class="time">7:00 AM</div>
@@ -89,8 +90,8 @@
                         <div class="timeline-item">
                             <div class="time">~9:30 AM</div>
                             <div class="activity">
-                                <h4>Channel Crossing</h4>
-                                <p>Eurotunnel or Ferry - TBC. Bonjour la France!</p>
+                                <h4>Dover-Calais Ferry</h4>
+                                <p>Hop on the ferry - grab breakfast, stretch your legs. Bonjour la France!</p>
                             </div>
                         </div>
                         <div class="timeline-item">
@@ -101,14 +102,14 @@
                             </div>
                         </div>
                         <div class="timeline-item highlight">
-                            <div class="time">~3:30 PM</div>
+                            <div class="time">~5:00 PM</div>
                             <div class="activity">
                                 <h4>Arrive at Ch&acirc;teau Roussignol!</h4>
                                 <p>We made it! Explore the grounds, pick your rooms, settle in</p>
                             </div>
                         </div>
                         <div class="timeline-item">
-                            <div class="time">5:00 PM</div>
+                            <div class="time">5:30 PM</div>
                             <div class="activity">
                                 <h4>Unpack &amp; Explore</h4>
                                 <p>Get settled, check out the pool, wander the gardens</p>
@@ -460,17 +461,27 @@
         </div>
     </section>
 
+    <!-- ======== MEAL PLANNER / DINNER VOTING ======== -->
+    <section id="meal-planner" class="section meal-planner">
+        <div class="container">
+            <h2 class="section-title">Meal Planner</h2>
+            <p class="section-subtitle">Vote on what you'd love to eat each night - cooking teams will plan accordingly!</p>
+
+            <div class="meal-days" id="meal-days"></div>
+        </div>
+    </section>
+
     <!-- ======== ROTAS / HOUSE RULES ======== -->
     <section id="rotas" class="section rotas">
         <div class="container">
             <h2 class="section-title">House Rules</h2>
-            <p class="section-subtitle">Many hands make light work (and more time for fun!)</p>
+            <p class="section-subtitle">5 teams, 5 days - if you cook, you don't clean!</p>
 
             <div class="rotas-container">
                 <!-- Cooking Rota -->
                 <div class="rota-card">
                     <h3>👨‍🍳 Cooking Rota</h3>
-                    <p class="rota-intro">Teams of 3-4 per meal. Go wild or keep it simple!</p>
+                    <p class="rota-intro">Each team cooks dinner on their day. Breakfast is lighter - team sorts it between them.</p>
                     <div class="rota-table">
                         <div class="rota-row header">
                             <span>Day</span>
@@ -480,32 +491,32 @@
                         <div class="rota-row">
                             <span>Wed 29</span>
                             <span>-</span>
-                            <span>Team 1</span>
+                            <span>Welcome BBQ (everyone pitches in)</span>
                         </div>
                         <div class="rota-row">
                             <span>Thu 30</span>
-                            <span>Team 2</span>
-                            <span>BBQ Crew</span>
+                            <span>Vouvray</span>
+                            <span>Vouvray</span>
                         </div>
                         <div class="rota-row">
                             <span>Fri 1</span>
-                            <span>Team 3</span>
-                            <span>Eating Out</span>
+                            <span>Chinon</span>
+                            <span>Chinon</span>
                         </div>
                         <div class="rota-row highlight">
                             <span>Sat 2</span>
-                            <span>Birthday Brunch!</span>
-                            <span>Birthday Dinner</span>
+                            <span>Sancerre</span>
+                            <span>Sancerre (Birthday Feast!)</span>
                         </div>
                         <div class="rota-row">
                             <span>Sun 3</span>
-                            <span>Team 4</span>
-                            <span>Team 5</span>
+                            <span>Muscadet</span>
+                            <span>Muscadet</span>
                         </div>
                         <div class="rota-row">
                             <span>Mon 4</span>
-                            <span>Everyone!</span>
-                            <span>-</span>
+                            <span>Anjou</span>
+                            <span>- (departure day)</span>
                         </div>
                     </div>
                 </div>
@@ -513,37 +524,37 @@
                 <!-- Cleaning Rota -->
                 <div class="rota-card">
                     <h3>🧹 Cleaning Rota</h3>
-                    <p class="rota-intro">Quick tidy each day keeps the ch&acirc;teau lovely!</p>
+                    <p class="rota-intro">If you cook, you don't clean. The next team on the rota handles cleanup.</p>
                     <div class="rota-table">
                         <div class="rota-row header">
                             <span>Day</span>
-                            <span>Kitchen</span>
+                            <span>Kitchen &amp; Washing Up</span>
                             <span>Common Areas</span>
                         </div>
                         <div class="rota-row">
                             <span>Wed 29</span>
-                            <span>Team A</span>
-                            <span>Team B</span>
+                            <span>Chinon</span>
+                            <span>Sancerre</span>
                         </div>
                         <div class="rota-row">
                             <span>Thu 30</span>
-                            <span>Team C</span>
-                            <span>Team D</span>
+                            <span>Chinon</span>
+                            <span>Sancerre</span>
                         </div>
                         <div class="rota-row">
                             <span>Fri 1</span>
-                            <span>Team E</span>
-                            <span>Team A</span>
+                            <span>Muscadet</span>
+                            <span>Anjou</span>
                         </div>
                         <div class="rota-row highlight">
                             <span>Sat 2</span>
-                            <span>Birthday Boy Exempt!</span>
-                            <span>Everyone else!</span>
+                            <span>Anjou</span>
+                            <span>Vouvray</span>
                         </div>
                         <div class="rota-row">
                             <span>Sun 3</span>
-                            <span>Team B</span>
-                            <span>Team C</span>
+                            <span>Vouvray</span>
+                            <span>Chinon</span>
                         </div>
                         <div class="rota-row">
                             <span>Mon 4</span>
@@ -609,8 +620,8 @@
         </div>
     </footer>
 
-    <script src="js/shared.js?v=3"></script>
+    <script src="js/shared.js?v=4"></script>
     <script src="js/nav.js"></script>
-    <script src="js/schedule.js?v=3"></script>
+    <script src="js/schedule.js?v=4"></script>
 </body>
 </html>
