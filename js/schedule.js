@@ -1441,6 +1441,15 @@ function initScheduleEmptyStates() {
     // Activity Sign-ups — empty state is rendered inside initActivitySignups per card
 }
 
+/* ---- Time Bucket Toggles ---- */
+function initTimeBuckets() {
+    document.querySelectorAll('.time-bucket-header').forEach(function(header) {
+        header.addEventListener('click', function() {
+            this.closest('.time-bucket').classList.toggle('collapsed');
+        });
+    });
+}
+
 /* ---- Initialize on page load ---- */
 document.addEventListener('DOMContentLoaded', function() {
     initAgendaTabs();
@@ -1448,4 +1457,5 @@ document.addEventListener('DOMContentLoaded', function() {
     initAgendaSwipe();
     initActivitySignups();
     initScheduleEmptyStates();
+    initTimeBuckets();
 });

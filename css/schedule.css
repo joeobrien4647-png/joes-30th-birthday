@@ -2,6 +2,60 @@
    Schedule Page Styles
    ============================================ */
 
+/* ---- Time Buckets ---- */
+.time-bucket {
+    margin-bottom: 6px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--bg-light, #e8e8e8);
+}
+
+.time-bucket-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    cursor: pointer;
+    background: var(--bg-light, #f5f5f5);
+    user-select: none;
+    transition: background 0.2s;
+}
+
+.time-bucket-header:hover { filter: brightness(0.96); }
+
+.bucket-time-range {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--primary, #7C3AED);
+    min-width: 130px;
+    flex-shrink: 0;
+    letter-spacing: 0.2px;
+}
+
+.bucket-summary { display: flex; align-items: center; gap: 8px; flex: 1; }
+.bucket-emoji { font-size: 1.1rem; }
+
+.bucket-title {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--text-dark, #333);
+}
+
+.bucket-chevron {
+    font-size: 0.75rem;
+    color: var(--text-light, #888);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+}
+
+.time-bucket.collapsed .bucket-chevron { transform: rotate(-90deg); }
+.time-bucket-detail { padding: 4px 0 4px 0; background: var(--bg-white, #fff); }
+.time-bucket.collapsed .time-bucket-detail { display: none; }
+
+@media (max-width: 480px) {
+    .bucket-time-range { min-width: 90px; font-size: 0.65rem; }
+}
+
 /* ---- Agenda Section ---- */
 .agenda {
     background: var(--bg-white);
@@ -732,6 +786,49 @@
 
 }
 
+/* ---- Agenda Tabs Wrapper with Arrows ---- */
+.agenda-tabs-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 40px;
+}
+
+.agenda-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border: 2px solid var(--bg-light, #e8e8e8);
+    border-radius: 50%;
+    background: var(--bg-white, #fff);
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary, #7C3AED);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    font-family: inherit;
+}
+
+.agenda-arrow:hover:not(:disabled) {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: white;
+    transform: scale(1.05);
+}
+
+.agenda-arrow:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+.agenda-tabs-wrapper .agenda-tabs {
+    margin-bottom: 0;
+}
+
 @media (max-width: 480px) {
     .day-content h3 {
         font-size: 1.4rem;
@@ -743,6 +840,12 @@
 
     .house-rules-list {
         padding: 25px;
+    }
+
+    .agenda-arrow {
+        width: 36px;
+        height: 36px;
+        font-size: 0.85rem;
     }
 }
 
@@ -876,5 +979,728 @@
 
     .meal-emoji {
         font-size: 1.5rem;
+    }
+}
+
+/* ============================================
+   Rate the Chef
+   ============================================ */
+.rate-chef {
+    background: var(--bg-white);
+}
+
+.chef-winner {
+    text-align: center;
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow-sm);
+}
+
+.chef-winner-trophy {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.chef-winner h3 {
+    font-size: 1.5rem;
+    color: #92400e;
+    margin: 0 0 5px;
+}
+
+.chef-winner p {
+    color: #a16207;
+    margin: 0;
+    font-weight: 600;
+}
+
+.chef-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.chef-card {
+    background: var(--bg-light);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-normal, all 0.3s ease);
+}
+
+.chef-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.chef-card-special {
+    border: 2px solid #f59e0b;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, var(--bg-light) 100%);
+}
+
+.chef-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.chef-card-emoji {
+    font-size: 2rem;
+}
+
+.chef-card-header h4 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: var(--secondary);
+}
+
+.chef-card-date {
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.chef-avg {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.chef-avg-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    line-height: 1;
+}
+
+.chef-avg-label {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+.chef-stars-display {
+    margin-bottom: 15px;
+}
+
+.chef-star-display {
+    font-size: 1.3rem;
+    color: #d1d5db;
+}
+
+.chef-star-display.filled {
+    color: #f59e0b;
+}
+
+.chef-star-display.half {
+    color: #fbbf24;
+    opacity: 0.7;
+}
+
+/* Star input */
+.chef-rate-form {
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    padding-top: 15px;
+    margin-top: 10px;
+}
+
+.chef-stars-input {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.chef-star {
+    font-size: 1.8rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #d1d5db;
+    transition: color 0.15s ease, transform 0.15s ease;
+    padding: 2px;
+    line-height: 1;
+}
+
+.chef-star:hover,
+.chef-star.active {
+    color: #f59e0b;
+    transform: scale(1.2);
+}
+
+.chef-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    background: var(--bg-white);
+    box-sizing: border-box;
+}
+
+.chef-input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.chef-submit-btn {
+    width: 100%;
+    margin-top: 4px;
+}
+
+.chef-voted-badge {
+    text-align: center;
+    padding: 10px;
+    font-weight: 600;
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.chef-feedback {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.chef-feedback strong {
+    display: block;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+}
+
+.chef-feedback-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.chef-feedback-tag {
+    background: rgba(107, 203, 119, 0.15);
+    color: #065f46;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.chef-feedback-tag.needs-work {
+    background: rgba(245, 158, 11, 0.15);
+    color: #92400e;
+}
+
+/* ============================================
+   Grocery List Builder
+   ============================================ */
+.grocery-lists {
+    background: var(--bg-light);
+}
+
+.grocery-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+
+.grocery-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 18px;
+    border: 2px solid rgba(0, 0, 0, 0.08);
+    border-radius: 14px;
+    background: var(--bg-white);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    min-width: 80px;
+}
+
+.grocery-tab span {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--text-light);
+    margin-top: 2px;
+}
+
+.grocery-tab:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+.grocery-tab.active {
+    background: var(--gradient-hero, linear-gradient(135deg, #667eea 0%, #764ba2 100%));
+    color: #fff;
+    border-color: transparent;
+}
+
+.grocery-tab.active span {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.grocery-list-panel {
+    background: var(--bg-white);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 30px;
+}
+
+.grocery-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.grocery-list-header h4 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: var(--secondary);
+}
+
+.grocery-count {
+    background: var(--gradient-primary, linear-gradient(135deg, #667eea, #764ba2));
+    color: white;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.grocery-add-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.grocery-add-input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 2px solid rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    background: var(--bg-light);
+}
+
+.grocery-add-input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.grocery-add-btn {
+    white-space: nowrap;
+}
+
+.grocery-items {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.grocery-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    font-size: 0.95rem;
+}
+
+.grocery-item:hover {
+    background: var(--bg-light);
+}
+
+.grocery-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary);
+    flex-shrink: 0;
+}
+
+.grocery-item.checked span {
+    text-decoration: line-through;
+    color: var(--text-light);
+}
+
+/* Suggested Menus */
+.grocery-menus {
+    background: var(--bg-white);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: var(--shadow-sm);
+}
+
+.grocery-menus h4 {
+    font-size: 1.2rem;
+    color: var(--secondary);
+    margin: 0 0 5px;
+}
+
+.grocery-menus-subtitle {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin: 0 0 20px;
+}
+
+.grocery-menu-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.grocery-menu-card {
+    background: var(--bg-light);
+    border-radius: 14px;
+    padding: 18px;
+}
+
+.grocery-menu-card h5 {
+    margin: 0 0 12px;
+    font-size: 1.05rem;
+    color: var(--text-dark);
+}
+
+.grocery-menu-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.grocery-menu-item {
+    background: var(--bg-white);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: var(--font-body);
+    color: var(--text-dark);
+}
+
+.grocery-menu-item:hover:not(.added) {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: #f8f0ff;
+}
+
+.grocery-menu-item.added {
+    background: rgba(107, 203, 119, 0.15);
+    color: #065f46;
+    border-color: rgba(107, 203, 119, 0.3);
+    cursor: default;
+}
+
+@media (max-width: 768px) {
+    .chef-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .grocery-tabs {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 8px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .grocery-tab {
+        flex-shrink: 0;
+    }
+
+    .grocery-add-row {
+        flex-direction: column;
+    }
+
+    .grocery-menu-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============================================
+   Activity Sign-ups
+   ============================================ */
+.activity-signups {
+    background: var(--bg-light);
+}
+
+.signup-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 25px;
+}
+
+.signup-card {
+    background: var(--bg-white);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.signup-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.signup-card.signup-full {
+    border-color: rgba(239, 68, 68, 0.2);
+}
+
+.signup-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 12px;
+}
+
+.signup-emoji {
+    font-size: 2.2rem;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.signup-card-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.signup-card-info h3 {
+    font-size: 1.15rem;
+    margin: 0 0 4px;
+    color: var(--text-dark);
+}
+
+.signup-day {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+.signup-cost {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.95rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.signup-desc {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    line-height: 1.5;
+    margin: 0 0 15px;
+}
+
+/* Capacity bar */
+.signup-capacity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.signup-capacity-bar {
+    flex: 1;
+    height: 10px;
+    background: var(--bg-light);
+    border-radius: 5px;
+    overflow: hidden;
+    min-width: 100px;
+}
+
+.signup-capacity-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 5px;
+    transition: width 0.4s ease;
+}
+
+.signup-capacity-fill.full {
+    background: linear-gradient(90deg, #ef4444, #dc2626);
+}
+
+.signup-capacity-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-light);
+    white-space: nowrap;
+}
+
+.signup-full-badge {
+    background: #ef4444;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Sign-up button */
+.signup-btn {
+    width: 100%;
+    padding: 12px 18px;
+    border: 2px solid var(--primary);
+    border-radius: 14px;
+    background: white;
+    color: var(--primary);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 15px;
+}
+
+.signup-btn:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-1px);
+}
+
+.signup-btn.signed-up {
+    background: linear-gradient(135deg, #10b981, #059669);
+    border-color: transparent;
+    color: white;
+}
+
+.signup-btn.signed-up:hover {
+    background: linear-gradient(135deg, #059669, #047857);
+}
+
+.signup-btn.waitlisted {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    border-color: transparent;
+}
+
+.signup-btn.join-waitlist {
+    border-color: #f59e0b;
+    color: #d97706;
+}
+
+.signup-btn.join-waitlist:hover {
+    background: #f59e0b;
+    color: white;
+}
+
+.signup-login-note {
+    text-align: center;
+    color: var(--text-light);
+    font-size: 0.85rem;
+    font-style: italic;
+    margin: 0 0 15px;
+}
+
+/* People tags */
+.signup-people {
+    padding-top: 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.signup-people-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.signup-person-tag {
+    background: var(--bg-light);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.signup-person-tag.you {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+.signup-person-tag.waitlist {
+    background: rgba(245, 158, 11, 0.15);
+    color: #92400e;
+}
+
+.signup-person-tag.waitlist.you {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+}
+
+.signup-waitlist-section {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.08);
+}
+
+.signup-waitlist-section strong {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    display: inline-block;
+    margin-bottom: 4px;
+}
+
+/* ============================================
+   Empty State (shared pattern)
+   ============================================ */
+.empty-state {
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--text-light);
+}
+
+.empty-state-emoji {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 10px;
+    animation: emptyBounce 2s ease-in-out infinite;
+}
+
+.empty-state p {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--text-light);
+}
+
+@keyframes emptyBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* ============================================
+   Responsive - Sign-ups & Swipe
+   ============================================ */
+@media (max-width: 768px) {
+    .signup-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .agenda-tabs-wrapper {
+        gap: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .signup-card {
+        padding: 18px;
     }
 }
