@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Schedule - Joe's 30th Birthday Trip</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>">
-    <link rel="stylesheet" href="css/base.css?v=4">
+    <link rel="stylesheet" href="css/base.css?v=6">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/nav.css">
-    <link rel="stylesheet" href="css/schedule.css?v=5">
+    <link rel="stylesheet" href="css/schedule.css?v=8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -49,6 +49,7 @@
             <li><a href="#activity-voting">Vote</a></li>
             <li><a href="#meal-planner">Meals</a></li>
             <li><a href="#rotas">Rotas</a></li>
+            <li><a href="#activity-signups">Sign Up</a></li>
         </ul>
     </nav>
 
@@ -58,58 +59,69 @@
             <h2 class="section-title">The Agenda</h2>
             <p class="section-subtitle">A week of adventure, good food, and great company</p>
 
-            <div class="agenda-tabs">
-                <button class="tab-btn active" data-day="1">Day 1<span>Wed 29</span></button>
-                <button class="tab-btn" data-day="2">Day 2<span>Thu 30</span></button>
-                <button class="tab-btn" data-day="3">Day 3<span>Fri 1</span></button>
-                <button class="tab-btn" data-day="4">Day 4<span>Sat 2</span></button>
-                <button class="tab-btn" data-day="5">Day 5<span>Sun 3</span></button>
-                <button class="tab-btn" data-day="6">Day 6<span>Mon 4</span></button>
+            <div class="agenda-tabs-wrapper">
+                <button class="agenda-arrow agenda-arrow-left" id="agenda-arrow-left" aria-label="Previous day" disabled>&#10094;</button>
+                <div class="agenda-tabs">
+                    <button class="tab-btn active" data-day="1">Day 1<span>Wed 29</span></button>
+                    <button class="tab-btn" data-day="2">Day 2<span>Thu 30</span></button>
+                    <button class="tab-btn" data-day="3">Day 3<span>Fri 1</span></button>
+                    <button class="tab-btn" data-day="4">Day 4<span>Sat 2</span></button>
+                    <button class="tab-btn" data-day="5">Day 5<span>Sun 3</span></button>
+                    <button class="tab-btn" data-day="6">Day 6<span>Mon 4</span></button>
+                </div>
+                <button class="agenda-arrow agenda-arrow-right" id="agenda-arrow-right" aria-label="Next day">&#10095;</button>
             </div>
 
             <div class="agenda-content">
                 <!-- Day 1 - Wednesday 29 April -->
                 <div class="day-content active" data-day="1">
                     <h3>Wednesday 29th - Travel &amp; Arrival Day</h3>
-                    <p class="day-note">Main party travelling from Sevenoaks (13 people, 2x 9-seater vans). Others making their own way.</p>
+                    <p class="day-note">Flying from London Stansted to Poitiers. ✈️ Book your own flights: Ryanair, Stansted → Poitiers, 05:55 departs.</p>
                     <div class="timeline">
                         <div class="timeline-item">
-                            <div class="time">7:00 AM</div>
+                            <div class="time">~4:00 AM</div>
                             <div class="activity">
-                                <h4>Meet at Joe's, Sevenoaks</h4>
-                                <p>Load up the vans, last coffee on English soil!</p>
+                                <h4>Leave for Stansted</h4>
+                                <p>Early start - set multiple alarms. Last coffee on English soil!</p>
                             </div>
                         </div>
                         <div class="timeline-item">
-                            <div class="time">7:30 AM</div>
+                            <div class="time">5:55 AM</div>
                             <div class="activity">
-                                <h4>Depart Sevenoaks</h4>
-                                <p>Convoy of 2 vans heading to the Channel crossing</p>
+                                <h4>Depart London Stansted ✈️</h4>
+                                <p>Ryanair to Poitiers - 1h 30m. Bonjour la France!</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">8:25 AM</div>
+                            <div class="activity">
+                                <h4>Land at Poitiers Airport</h4>
+                                <p>Pick up hire cars and regroup. We're in France!</p>
                             </div>
                         </div>
                         <div class="timeline-item">
                             <div class="time">~9:30 AM</div>
                             <div class="activity">
-                                <h4>Dover-Calais Ferry</h4>
-                                <p>Hop on the ferry - grab breakfast, stretch your legs. Bonjour la France!</p>
+                                <h4>Explore Poitiers</h4>
+                                <p>Check-in isn't until later - explore the stunning medieval city, grab breakfast, wander the old town</p>
                             </div>
                         </div>
                         <div class="timeline-item">
                             <div class="time">~12:30 PM</div>
                             <div class="activity">
-                                <h4>Lunch Stop in France</h4>
+                                <h4>Lunch in Poitiers</h4>
                                 <p>First French meal of the trip - baguettes, cheese, the works</p>
                             </div>
                         </div>
                         <div class="timeline-item highlight">
-                            <div class="time">~5:00 PM</div>
+                            <div class="time">~2:00 PM</div>
                             <div class="activity">
                                 <h4>Arrive at Ch&acirc;teau Roussignol!</h4>
-                                <p>We made it! Explore the grounds, pick your rooms, settle in</p>
+                                <p>45 mins from Poitiers. We made it! Explore the grounds, pick your rooms, settle in</p>
                             </div>
                         </div>
                         <div class="timeline-item">
-                            <div class="time">5:30 PM</div>
+                            <div class="time">5:00 PM</div>
                             <div class="activity">
                                 <h4>Unpack &amp; Explore</h4>
                                 <p>Get settled, check out the pool, wander the gardens</p>
@@ -126,7 +138,7 @@
                             <div class="time">8:30 PM</div>
                             <div class="activity">
                                 <h4>First Night Feast</h4>
-                                <p>Group dinner together - details TBC</p>
+                                <p>Everyone pitches in - welcome BBQ to kick things off</p>
                             </div>
                         </div>
                         <div class="timeline-item top-secret" data-unlock="2026-04-29">
@@ -149,27 +161,27 @@
                 <!-- Day 2 - Thursday 30 April -->
                 <div class="day-content" data-day="2">
                     <h3>Thursday 30th - Chateau Day</h3>
-                    <p class="day-note">First full day at the chateau. Get your bearings, hit the pool, and ease into it.</p>
+                    <p class="day-note">First full day! Golfers hit the course, everyone else hits the pool. Afternoon garden party vibes.</p>
                     <div class="timeline">
                         <div class="timeline-item">
                             <div class="time">9:00 AM</div>
                             <div class="activity">
-                                <h4>Lazy Breakfast</h4>
-                                <p>Croissants, coffee, fresh bread. Breakfast crew earns +3 pts!</p>
+                                <h4>Breakfast Together</h4>
+                                <p>Croissants, coffee, fresh bread - first proper morning at the chateau</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item highlight">
+                            <div class="time">9:30 AM</div>
+                            <div class="activity">
+                                <h4>Golfers Head Out &#9971;</h4>
+                                <p>Golf du Val de l'Indre - 9 holes on a beautiful parkland course (~50 min drive, ~&pound;65/pp inc. club hire)</p>
                             </div>
                         </div>
                         <div class="timeline-item">
-                            <div class="time">10:30 AM</div>
+                            <div class="time">10:00 AM</div>
                             <div class="activity">
-                                <h4>Chateau Exploration &amp; Shopping Run</h4>
-                                <p>Explore the grounds, find the p&eacute;tanque court, and a group heads to the local shops for supplies</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="time">12:00 PM</div>
-                            <div class="activity">
-                                <h4>Pool Opens!</h4>
-                                <p>First dip of the trip. Pool Dip Streak starts now (+5 pts if you swim every day)</p>
+                                <h4>Pool, P&eacute;tanque &amp; Explore</h4>
+                                <p>Everyone else - first dip, find the boules court, wander the gardens. Pool Dip Streak starts now!</p>
                             </div>
                         </div>
                         <div class="timeline-item">
@@ -180,31 +192,38 @@
                             </div>
                         </div>
                         <div class="timeline-item">
+                            <div class="time">2:15 PM</div>
+                            <div class="activity">
+                                <h4>Golfers Back!</h4>
+                                <p>Everyone back together - time to hear the golf stories (and excuses)</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item highlight">
                             <div class="time">3:00 PM</div>
                             <div class="activity">
-                                <h4>P&eacute;tanque Tournament &amp; Pool Olympics</h4>
-                                <p>Teams battle it out. Relay races, biggest splash, boules - +5 pts per game!</p>
+                                <h4>Pool Party &amp; Garden Games</h4>
+                                <p>Slip and slide, giant beer pong, pool inflatables - the afternoon session kicks off</p>
                             </div>
                         </div>
                         <div class="timeline-item">
-                            <div class="time">5:30 PM</div>
+                            <div class="time">5:00 PM</div>
                             <div class="activity">
-                                <h4>Cocktail Competition</h4>
-                                <p>Each team creates a signature cocktail. Blind taste test - everyone votes! +5 pts</p>
+                                <h4>Free Time / Showers</h4>
+                                <p>Freshen up, explore the local village, or keep swimming</p>
                             </div>
                         </div>
                         <div class="timeline-item highlight">
                             <div class="time">7:30 PM</div>
                             <div class="activity">
-                                <h4>BBQ Night</h4>
-                                <p>Fire up the BBQ. Designated grill masters earn +3 pts. Bring your appetite</p>
+                                <h4>Team Vouvray Cooks Dinner</h4>
+                                <p>First team dinner! Vouvray crew - show us what you've got</p>
                             </div>
                         </div>
                         <div class="timeline-item">
-                            <div class="time">9:30 PM</div>
+                            <div class="time">9:00 PM</div>
                             <div class="activity">
-                                <h4>Lip Sync Battle &amp; Drinking Games</h4>
-                                <p>One rep from each team performs. Then the drinking games begin...</p>
+                                <h4>Drinking Games Night</h4>
+                                <p>Beer pong tournament, card games, and the session begins...</p>
                             </div>
                         </div>
                     </div>
@@ -212,63 +231,70 @@
 
                 <!-- Day 3 - Friday 1 May -->
                 <div class="day-content" data-day="3">
-                    <h3>Friday 1st - Wine &amp; Culture Day</h3>
-                    <p class="day-note">A day out exploring the Loire Valley. Wine, ch&acirc;teaux, and proper French vibes.</p>
+                    <h3>Friday 1st - Adventure Day</h3>
+                    <p class="day-note">Canoes on the Creuse, lunch in one of France's most beautiful villages, then wine tasting back at base.</p>
                     <div class="timeline">
                         <div class="timeline-item">
                             <div class="time">9:00 AM</div>
                             <div class="activity">
-                                <h4>Breakfast</h4>
-                                <p>Fuel up - it's a big day out. Bacon sarnies &amp; French pastries</p>
+                                <h4>Breakfast &amp; Prep</h4>
+                                <p>Fuel up - big day ahead. Suncream on, pack the cool boxes</p>
                             </div>
                         </div>
                         <div class="timeline-item">
-                            <div class="time">10:30 AM</div>
+                            <div class="time">9:30 AM</div>
                             <div class="activity">
-                                <h4>Depart for Wine Country</h4>
-                                <p>Vans loaded, designated drivers sorted (+5 pts!). Head towards the vineyards</p>
+                                <h4>Drive to Canoe Launch</h4>
+                                <p>5 minute drive to the launch point at Ciron - right on our doorstep</p>
                             </div>
                         </div>
                         <div class="timeline-item highlight">
-                            <div class="time">11:30 AM</div>
+                            <div class="time">10:00 AM</div>
                             <div class="activity">
-                                <h4>Loire Valley Wine Tasting</h4>
-                                <p>Tour &amp; tasting at a local vineyard. Learn the difference between Vouvray and Chinon (or just drink both)</p>
+                                <h4>Canoe Team Race!</h4>
+                                <p>Teams race down the Creuse river - past castles, through the countryside (~&euro;15-18/pp). Life jackets provided!</p>
                             </div>
                         </div>
                         <div class="timeline-item">
+                            <div class="time">12:30 PM</div>
+                            <div class="activity">
+                                <h4>Arrive Le Blanc</h4>
+                                <p>Pull the canoes out, shuttle takes us back to the cars</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item highlight">
                             <div class="time">1:00 PM</div>
                             <div class="activity">
-                                <h4>Lunch at a Local Restaurant</h4>
-                                <p>Proper French lunch in a nearby village. Someone try ordering in French (+1 pt)</p>
+                                <h4>Lunch at Angles-sur-l'Anglin</h4>
+                                <p>One of the "Most Beautiful Villages in France" - medieval ruins, river views, cr&ecirc;peries. 30 min drive</p>
                             </div>
                         </div>
                         <div class="timeline-item">
-                            <div class="time">3:00 PM</div>
+                            <div class="time">3:30 PM</div>
                             <div class="activity">
-                                <h4>Optional: Ch&acirc;teau Visit or Free Time</h4>
-                                <p>Visit a nearby ch&acirc;teau (Chenonceau or Az&eacute;-le-Rideau) or head back to the pool</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="time">5:30 PM</div>
-                            <div class="activity">
-                                <h4>Back at Base</h4>
-                                <p>Freshen up, pool time for those who want it. Golden hour photos by the chateau</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="time">7:00 PM</div>
-                            <div class="activity">
-                                <h4>Blind Wine Tasting Challenge</h4>
-                                <p>Guess the grape, region, and price. Closest wins +5 pts. Robert, this is your moment</p>
+                                <h4>Back to the Chateau</h4>
+                                <p>Pool, chill, recover from the paddling. Golden hour by the water</p>
                             </div>
                         </div>
                         <div class="timeline-item highlight">
-                            <div class="time">8:30 PM</div>
+                            <div class="time">6:00 PM</div>
                             <div class="activity">
-                                <h4>Dinner &amp; Team Quiz Night</h4>
-                                <p>Eat together, then it's quiz time. General knowledge, Joe trivia, music round. +10 pts to winners!</p>
+                                <h4>Wine Tasting on the Terrace</h4>
+                                <p>Private sommelier brings Loire Valley wines - blind tasting competition between teams!</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">7:30 PM</div>
+                            <div class="activity">
+                                <h4>Team Chinon Cooks Dinner</h4>
+                                <p>Chinon crew in the kitchen. Pre-birthday eve meal - make it a good one!</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">9:30 PM</div>
+                            <div class="activity">
+                                <h4>Pre-Birthday Eve</h4>
+                                <p>Games, drinks, and building the hype. Tomorrow's the big one...</p>
                             </div>
                         </div>
                     </div>
@@ -276,62 +302,105 @@
 
                 <!-- Day 4 - Saturday 2 May - BIRTHDAY! -->
                 <div class="day-content" data-day="4">
-                    <h3>Saturday 2nd - THE BIG DAY! 🎂</h3>
+                    <h3>Saturday 2nd - THE BIG DAY! &#127874;</h3>
+                    <p class="day-note">Joe's 30th Birthday. Olympics by day, 90s Icons party by night. Fancy dress: come as your favourite 90s icon!</p>
                     <div class="timeline">
                         <div class="timeline-item highlight">
-                            <div class="time">Morning</div>
+                            <div class="time">9:00 AM</div>
                             <div class="activity">
-                                <h4>Birthday Breakfast in Bed for Joe!</h4>
-                                <p>The birthday boy gets the royal treatment</p>
+                                <h4>Birthday Breakfast</h4>
+                                <p>Bakery run for croissants &amp; pastries. The birthday boy gets the royal treatment</p>
                             </div>
                         </div>
                         <div class="timeline-item top-secret" data-unlock="2026-05-02">
-                            <div class="time">11:00 AM</div>
+                            <div class="time">10:30 AM</div>
                             <div class="activity secret-activity">
                                 <div class="secret-overlay">
-                                    <span class="secret-icon">🔒</span>
+                                    <span class="secret-icon">&#128274;</span>
                                     <h4>TOP SECRET ACTIVITY</h4>
                                     <p>Unlocks on the birthday...</p>
                                 </div>
                                 <div class="secret-content" style="display: none;">
-                                    <h4>🏆 The Birthday Olympics!</h4>
-                                    <p>Teams compete in hilarious challenges. Prizes for winners!</p>
+                                    <h4>&#127942; The Birthday Olympics!</h4>
+                                    <p>Egg &amp; spoon, sack race, tug of war, relay, dizzy penalties - teams battle for glory! +10 pts</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="timeline-item top-secret" data-unlock="2026-05-02">
-                            <div class="time">3:00 PM</div>
-                            <div class="activity secret-activity">
-                                <div class="secret-overlay">
-                                    <span class="secret-icon">🔒</span>
-                                    <h4>SURPRISE EVENT</h4>
-                                    <p>Unlocks on the birthday...</p>
-                                </div>
-                                <div class="secret-content" style="display: none;">
-                                    <h4>🎤 The Roast of Joe!</h4>
-                                    <p>Prepare your best jokes - it's time to lovingly roast the birthday boy</p>
-                                </div>
+                        <div class="timeline-item">
+                            <div class="time">1:00 PM</div>
+                            <div class="activity">
+                                <h4>BBQ Lunch</h4>
+                                <p>Burgers, sausages, salads - refuel after the Olympics</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">2:30 PM</div>
+                            <div class="activity">
+                                <h4>Pool Party &amp; Free Time</h4>
+                                <p>Slip and slide, pool inflatables, soak up the sun before the evening</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item highlight">
+                            <div class="time">5:00 PM</div>
+                            <div class="activity">
+                                <h4>&#128378; 90s Icons - Costumes On!</h4>
+                                <p>Time to transform. Spice Girls, Fresh Prince, Britney, Oasis, Austin Powers - who are you coming as?</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">6:30 PM</div>
+                            <div class="activity">
+                                <h4>&#127926; Live Music on the Terrace</h4>
+                                <p>Jazz manouche trio sets the mood as the evening begins</p>
                             </div>
                         </div>
                         <div class="timeline-item highlight">
                             <div class="time">7:00 PM</div>
                             <div class="activity">
-                                <h4>Birthday Dinner &amp; Party</h4>
-                                <p>Dress code: Smart casual / Party vibes</p>
+                                <h4>Birthday Dinner</h4>
+                                <p>Team Sancerre cooks the birthday feast. Personalised wine labels, video messages on the projector</p>
                             </div>
                         </div>
                         <div class="timeline-item top-secret" data-unlock="2026-05-02">
-                            <div class="time">10:00 PM</div>
+                            <div class="time">9:00 PM</div>
                             <div class="activity secret-activity">
                                 <div class="secret-overlay">
-                                    <span class="secret-icon">🔒</span>
+                                    <span class="secret-icon">&#128274;</span>
+                                    <h4>SURPRISE EVENT</h4>
+                                    <p>Unlocks on the birthday...</p>
+                                </div>
+                                <div class="secret-content" style="display: none;">
+                                    <h4>&#127908; The Roast of Joe!</h4>
+                                    <p>Speeches, toasts, and embarrassing stories. Prepare your best material!</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-item top-secret" data-unlock="2026-05-02">
+                            <div class="time">9:45 PM</div>
+                            <div class="activity secret-activity">
+                                <div class="secret-overlay">
+                                    <span class="secret-icon">&#128274;</span>
                                     <h4>LATE NIGHT SURPRISE</h4>
                                     <p>Unlocks on the birthday...</p>
                                 </div>
                                 <div class="secret-content" style="display: none;">
-                                    <h4>🎉 Awards Ceremony &amp; Photo Booth!</h4>
-                                    <p>Superlatives revealed, photo booth madness, and dancing till late!</p>
+                                    <h4>&#127942; Birthday Cake &amp; Awards Ceremony</h4>
+                                    <p>Cake from the local patisserie, trip awards handed out, best costume announced!</p>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="timeline-item highlight">
+                            <div class="time">10:15 PM</div>
+                            <div class="activity">
+                                <h4>&#127898; 90s ICONS PARTY!</h4>
+                                <p>Disco ball ON. Smoke machine ON. Spice Girls into Oasis into Backstreet Boys. Dancing till late!</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">Midnight</div>
+                            <div class="activity">
+                                <h4>Confetti Cannons &amp; Sparklers</h4>
+                                <p>The big moment in the garden. Then carry on till you drop...</p>
                             </div>
                         </div>
                     </div>
@@ -339,56 +408,56 @@
 
                 <!-- Day 5 - Sunday 3 May -->
                 <div class="day-content" data-day="5">
-                    <h3>Sunday 3rd - Recovery &amp; Last Hurrah</h3>
-                    <p class="day-note">The morning after the night before. Take it easy, but make the most of the last full day.</p>
+                    <h3>Sunday 3rd - Last Full Day</h3>
+                    <p class="day-note">Shake off the hangover, hit the treetops at Bellebouche, then one final evening together.</p>
                     <div class="timeline">
                         <div class="timeline-item">
                             <div class="time">10:00 AM</div>
                             <div class="activity">
-                                <h4>Late Brunch</h4>
-                                <p>Recovery mode activated. Full English meets French pastries. Paracetamol on the table</p>
+                                <h4>Lazy Brunch</h4>
+                                <p>No alarms. Surface when you surface. Full English meets French pastries. Paracetamol on the table</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item highlight">
+                            <div class="time">12:00 PM</div>
+                            <div class="activity">
+                                <h4>Bellebouche Adventure!</h4>
+                                <p>Accrobranche (treetop adventure) + lake activities - p&eacute;dalos, paddle boards, kayaks. ~25 min drive, ~&euro;20/pp</p>
                             </div>
                         </div>
                         <div class="timeline-item">
-                            <div class="time">11:30 AM</div>
+                            <div class="time">3:30 PM</div>
                             <div class="activity">
-                                <h4>Cook-Off Challenge</h4>
-                                <p>Each team cooks a dish with mystery ingredients. Joe judges. +10 pts for the winner!</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="time">1:00 PM</div>
-                            <div class="activity">
-                                <h4>Pool &amp; Chill</h4>
-                                <p>Last chance for the Pool Dip Streak bonus. Soak up the sun, nurse the hangover</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="time">3:00 PM</div>
-                            <div class="activity">
-                                <h4>Board Game Tournament &amp; Free Time</h4>
-                                <p>Cards, Articulate, Codenames. Or just do nothing - you've earned it</p>
+                                <h4>Back to the Chateau</h4>
+                                <p>Last afternoon by the pool. P&eacute;tanque, sunbathing, soaking it all in</p>
                             </div>
                         </div>
                         <div class="timeline-item">
                             <div class="time">5:00 PM</div>
                             <div class="activity">
-                                <h4>Group Photo &amp; Memory Lane</h4>
-                                <p>Big group photo while everyone still looks semi-human. Share best moments of the trip</p>
+                                <h4>Free Time &amp; Packing</h4>
+                                <p>Start getting your stuff together. Wander the grounds one last time</p>
                             </div>
                         </div>
                         <div class="timeline-item highlight">
                             <div class="time">7:30 PM</div>
                             <div class="activity">
-                                <h4>Final Group Dinner</h4>
-                                <p>Last supper together at the chateau. Speeches, toasts, and probably tears from Joe</p>
+                                <h4>Team Muscadet Cooks - Last Dinner</h4>
+                                <p>Final group dinner at the chateau. Make it count, Muscadet!</p>
                             </div>
                         </div>
                         <div class="timeline-item">
-                            <div class="time">10:00 PM</div>
+                            <div class="time">9:00 PM</div>
                             <div class="activity">
-                                <h4>Last Night Out</h4>
-                                <p>Soundboard on blast, drinking games, and making the most of the final night. Early Bird vs Night Owl - who wins?</p>
+                                <h4>Last Night Session</h4>
+                                <p>Disposable cameras out, confessions wall, share your best memories of the trip</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">11:00 PM</div>
+                            <div class="activity">
+                                <h4>Outdoor Cinema</h4>
+                                <p>Projector in the garden - 90s classic on the big screen. Blankets, popcorn, one last night under the stars</p>
                             </div>
                         </div>
                     </div>
@@ -400,38 +469,52 @@
                     <p class="day-note">It's a UK bank holiday so no rush for those driving back. Safe travels everyone!</p>
                     <div class="timeline">
                         <div class="timeline-item">
-                            <div class="time">8:30 AM</div>
+                            <div class="time">8:00 AM</div>
                             <div class="activity">
-                                <h4>Final Breakfast</h4>
-                                <p>Last croissants on French soil. Clear out the fridge, finish the leftovers</p>
+                                <h4>Team Anjou Cooks Breakfast</h4>
+                                <p>Final team duty! Last croissants on French soil, clear out the fridge</p>
                             </div>
                         </div>
                         <div class="timeline-item">
-                            <div class="time">9:30 AM</div>
+                            <div class="time">9:00 AM</div>
                             <div class="activity">
-                                <h4>Clean-Up &amp; Pack</h4>
-                                <p>Leave the chateau as we found it. Clean-up crew earns +2 pts (yes, even on the last day)</p>
+                                <h4>Pack Up &amp; Clean</h4>
+                                <p>Leave the chateau as we found it. All hands on deck!</p>
                             </div>
                         </div>
                         <div class="timeline-item highlight">
                             <div class="time">10:30 AM</div>
                             <div class="activity">
-                                <h4>Final Standings &amp; Awards</h4>
-                                <p>Winning team announced! Individual awards &amp; prizes. Good Sport Award voted on</p>
+                                <h4>Group Photo on the Steps</h4>
+                                <p>One last photo together at Ch&acirc;teau Roussignol. Make it count!</p>
                             </div>
                         </div>
                         <div class="timeline-item">
                             <div class="time">11:00 AM</div>
                             <div class="activity">
-                                <h4>Check-out &amp; Goodbyes</h4>
-                                <p>Group hug, last photos, and hit the road. Convoy heads home via the Channel</p>
+                                <h4>Depart</h4>
+                                <p>Convoy heads north. Au revoir, ch&acirc;teau!</p>
                             </div>
                         </div>
                         <div class="timeline-item">
-                            <div class="time">~5:00 PM</div>
+                            <div class="time">~2:00 PM</div>
                             <div class="activity">
-                                <h4>Arrive Home (Approx)</h4>
-                                <p>Back on English soil. Start planning the 31st immediately</p>
+                                <h4>Leave Chateau for Airport</h4>
+                                <p>45 mins to Poitiers - final goodbyes to the chateau</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">4:15 PM</div>
+                            <div class="activity">
+                                <h4>Depart Poitiers ✈️</h4>
+                                <p>Ryanair back to Stansted - 1h 25m. Swap stories, cry a little</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item highlight">
+                            <div class="time">~4:40 PM</div>
+                            <div class="activity">
+                                <h4>Land at London Stansted</h4>
+                                <p>Home sweet home. Start planning the 31st immediately</p>
                             </div>
                         </div>
                     </div>
@@ -470,6 +553,7 @@
             <div class="meal-days" id="meal-days"></div>
         </div>
     </section>
+
 
     <!-- ======== ROTAS / HOUSE RULES ======== -->
     <section id="rotas" class="section rotas">
@@ -598,6 +682,15 @@
         </div>
     </section>
 
+    <!-- ======== ACTIVITY SIGN-UPS ======== -->
+    <section id="activity-signups" class="section activity-signups">
+        <div class="container">
+            <h2 class="section-title">Activity Sign-ups</h2>
+            <p class="section-subtitle">Reserve your spot for the booked activities</p>
+            <div id="activity-signups-container"></div>
+        </div>
+    </section>
+
     <!-- Theme Switcher -->
     <div class="theme-switcher" id="theme-switcher">
         <button class="theme-toggle-btn" id="theme-toggle-btn">🎨</button>
@@ -620,8 +713,8 @@
         </div>
     </footer>
 
-    <script src="js/shared.js?v=4"></script>
+    <script src="js/shared.js?v=6"></script>
     <script src="js/nav.js"></script>
-    <script src="js/schedule.js?v=4"></script>
+    <script src="js/schedule.js?v=7"></script>
 </body>
 </html>

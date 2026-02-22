@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trip Info - Joe's 30th Birthday Trip</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>">
-    <link rel="stylesheet" href="css/base.css?v=4">
+    <link rel="stylesheet" href="css/base.css?v=6">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/nav.css">
-    <link rel="stylesheet" href="css/practical.css?v=2">
+    <link rel="stylesheet" href="css/practical.css?v=5">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -47,11 +47,7 @@
         <ul class="sub-nav-links">
             <li><a href="#info" class="active">Info</a></li>
             <li><a href="#travel">Travel</a></li>
-            <li><a href="#packing">Packing</a></li>
-            <li><a href="#payments">Payments</a></li>
-            <li><a href="#french">French</a></li>
-            <li><a href="#faq">FAQ</a></li>
-            <li><a href="#gallery">Venue</a></li>
+            <li><a href="#expenses">Expenses</a></li>
         </ul>
     </nav>
 
@@ -67,9 +63,12 @@
                     <div class="info-icon">✈️</div>
                     <h3>Getting There</h3>
                     <ul>
-                        <li><strong>Nearest Airport:</strong> Tours Val de Loire (TUF)</li>
-                        <li><strong>Main Convoy:</strong> 2x 9-seater vans from Sevenoaks, 7AM Wed (Dover-Calais ferry)</li>
-                        <li><strong>Making Own Way?</strong> Let Joe know your travel plans</li>
+                        <li><strong>Flight:</strong> Ryanair, London Stansted → Poitiers</li>
+                        <li><strong>Departs:</strong> Wed 29 Apr, 05:55 → arrives 08:25</li>
+                        <li><strong>Returns:</strong> Mon 4 May, 16:15 → arrives 16:40</li>
+                        <li><strong>Cost:</strong> ~£38 return (hand luggage only)</li>
+                        <li><strong>Book via:</strong> Ryanair.com - book your own flights!</li>
+                        <li><strong>Airport to Chateau:</strong> ~45 min drive - hire cars being arranged</li>
                     </ul>
                 </div>
 
@@ -81,7 +80,7 @@
                         <li><strong>Location:</strong> <a href="https://www.oliverstravels.com/france/loire-valley/chateau-roussignol/" target="_blank">Chateau Roussignol</a>, Ciron, Indre</li>
                         <li><strong>Area:</strong> Brenne Regional Nature Park, Loire Valley</li>
                         <li><strong>Features:</strong> Pool, BBQ area, loads of space!</li>
-                        <li><strong>Rooms:</strong> Shared rooms - details TBC</li>
+                        <li><strong>Rooms:</strong> 14 rooms, 2 per room - see <a href="social.html#crew">Crew page</a> for assignments</li>
                     </ul>
                 </div>
 
@@ -92,7 +91,7 @@
                     <ul>
                         <li>Swimwear (there's a pool!)</li>
                         <li>Comfy clothes for daytime</li>
-                        <li>One nice outfit for the birthday dinner</li>
+                        <li>90s Icons fancy dress costume for Saturday night!</li>
                         <li>Sunscreen & sunglasses</li>
                         <li>Your best dance moves</li>
                     </ul>
@@ -127,7 +126,7 @@
                     <h3>Contacts</h3>
                     <ul>
                         <li><strong>Joe:</strong> +44 7501 395277</li>
-                        <li><strong>Emergency Contact:</strong> TBC</li>
+                        <li><strong>Emergency Contact:</strong> Yoke O'Brien - 07799 801708</li>
                         <li><strong>WhatsApp Group:</strong> <a href="https://chat.whatsapp.com/DcrbNPUiLq62lavkRYcQiv" target="_blank">Join here</a></li>
                     </ul>
                 </div>
@@ -167,6 +166,18 @@
                     </ul>
                 </div>
 
+                <!-- Booked Activities -->
+                <div class="info-card">
+                    <div class="info-icon">&#127947;</div>
+                    <h3>Booked Activities</h3>
+                    <ul>
+                        <li><strong>Thu AM:</strong> Golf - Golf du Val de l'Indre, 9 holes (~&pound;65/pp, optional)</li>
+                        <li><strong>Fri AM:</strong> Canoeing - Creuse river from Ciron (~&euro;15-18/pp)</li>
+                        <li><strong>Fri 6PM:</strong> Wine tasting - Private sommelier at the chateau</li>
+                        <li><strong>Sun PM:</strong> Bellebouche - Accrobranche + lake (~&euro;20/pp)</li>
+                    </ul>
+                </div>
+
                 <!-- Dietary Requirements -->
                 <div class="info-card dietary">
                     <div class="info-icon">🍽️</div>
@@ -197,422 +208,64 @@
         </div>
     </section>
 
-    <!-- Travel Coordination -->
+    <!-- Travel Confirmation -->
     <section id="travel" class="section travel">
         <div class="container">
-            <h2 class="section-title">Travel Plans</h2>
-            <p class="section-subtitle">Share your travel details and find car share buddies!</p>
+            <h2 class="section-title">Travel</h2>
+            <p class="section-subtitle">Confirm your travel arrangements so we know everyone is sorted</p>
 
-            <div class="travel-grid">
-                <!-- Add Travel Form -->
-                <div class="travel-form-card">
-                    <h3>Share Your Plans</h3>
-                    <form id="travel-form">
-                        <div class="form-group">
-                            <input type="text" id="travel-name" placeholder="Your name" required>
-                        </div>
-                        <div class="form-group">
-                            <select id="travel-type" required>
-                                <option value="">How are you travelling?</option>
-                                <option value="flying">Flying</option>
-                                <option value="eurostar">Eurostar</option>
-                                <option value="driving">Driving</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="travel-details" placeholder="Flight number / departure time / etc." required>
-                        </div>
-                        <div class="form-group">
-                            <label class="checkbox-label">
-                                <input type="checkbox" id="travel-carshare">
-                                I can offer car share spaces
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" id="travel-need-lift">
-                                I need a lift from airport/station
-                            </label>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Share Plan</button>
-                    </form>
-                </div>
-
-                <!-- Travel Plans List -->
-                <div class="travel-plans-card">
-                    <h3>Everyone's Plans</h3>
-                    <div class="travel-list" id="travel-list">
-                        <div class="travel-item example">
-                            <div class="travel-icon">🚐</div>
-                            <div class="travel-info">
-                                <strong>Main Convoy (13 people)</strong>
-                                <p>2x 9-seater vans from Joe's, Sevenoaks. Depart 7AM Wed, Dover-Calais ferry, arrive ~5PM</p>
-                                <span class="travel-tag offer">Spaces allocated</span>
-                            </div>
-                        </div>
+            <!-- Flight Info Banner -->
+            <div class="flight-info-banner">
+                <div class="flight-route">
+                    <div class="flight-leg">
+                        <span class="flight-label">OUTBOUND</span>
+                        <span class="flight-detail">Wed 29 Apr &bull; 05:55 LTN → 08:25 PIS</span>
+                    </div>
+                    <div class="flight-divider">✈️</div>
+                    <div class="flight-leg">
+                        <span class="flight-label">RETURN</span>
+                        <span class="flight-detail">Mon 4 May &bull; 16:15 PIS → 16:40 LTN</span>
                     </div>
                 </div>
+                <p class="flight-note">~£38 return hand luggage only &bull; Book on <strong>Ryanair.com</strong> &bull; Don't leave it too long!</p>
+            </div>
+
+            <!-- Travel Status Confirmation -->
+            <div class="travel-confirm-card" id="travel-confirm-card">
+                <h3>Confirm Your Travel Status</h3>
+                <p>Let Joe know you're sorted</p>
+                <div class="travel-status-options" id="travel-status-options">
+                    <button class="travel-status-btn" data-status="booked">✅ Flights booked (29 Apr, Stansted → Poitiers)</button>
+                    <button class="travel-status-btn" data-status="booking-soon">🕒 Will book this week</button>
+                    <button class="travel-status-btn" data-status="different-flight">✈️ Flying but different dates / airport</button>
+                    <button class="travel-status-btn" data-status="own-way">🚗 Making my own way</button>
+                    <button class="travel-status-btn" data-status="tbc">❓ Still to sort</button>
+                </div>
+                <div id="travel-status-confirmed" style="display:none;">
+                    <div class="travel-confirmed-msg" id="travel-confirmed-msg"></div>
+                    <button class="btn btn-secondary btn-sm" id="travel-change-btn">Change</button>
+                </div>
+                <p class="travel-login-note" id="travel-login-note" style="display:none;">Log in to confirm your travel status</p>
+            </div>
+
+            <!-- Admin Overview (joe30 only) -->
+            <div class="travel-admin-panel" id="travel-admin-panel" style="display:none;">
+                <h3>🔐 Travel Overview</h3>
+                <div id="travel-admin-summary"></div>
             </div>
         </div>
     </section>
 
-    <!-- Packing Checklist -->
-    <section id="packing" class="section packing">
+
+    <!-- ======== EXPENSE SPLITTER ======== -->
+    <section id="expenses" class="section expenses">
         <div class="container">
-            <h2 class="section-title">Packing List</h2>
-            <p class="section-subtitle">Tick off as you pack - your progress saves automatically!</p>
-
-            <div class="packing-grid">
-                <div class="packing-category">
-                    <h3>Essentials</h3>
-                    <div class="checklist" data-category="essentials">
-                        <label class="check-item"><input type="checkbox" data-item="passport"> Passport</label>
-                        <label class="check-item"><input type="checkbox" data-item="ehic"> EHIC / Travel Insurance</label>
-                        <label class="check-item"><input type="checkbox" data-item="euros"> Euros / Cards</label>
-                        <label class="check-item"><input type="checkbox" data-item="phone-charger"> Phone & Charger</label>
-                        <label class="check-item"><input type="checkbox" data-item="adapter"> EU Plug Adapter</label>
-                        <label class="check-item"><input type="checkbox" data-item="medications"> Any Medications</label>
-                    </div>
-                </div>
-
-                <div class="packing-category">
-                    <h3>Clothes</h3>
-                    <div class="checklist" data-category="clothes">
-                        <label class="check-item"><input type="checkbox" data-item="swimwear"> Swimwear</label>
-                        <label class="check-item"><input type="checkbox" data-item="casual"> Casual outfits (5 days)</label>
-                        <label class="check-item"><input type="checkbox" data-item="nice-outfit"> Nice outfit for birthday dinner</label>
-                        <label class="check-item"><input type="checkbox" data-item="layers"> Light jacket / layers</label>
-                        <label class="check-item"><input type="checkbox" data-item="sleepwear"> Sleepwear</label>
-                        <label class="check-item"><input type="checkbox" data-item="underwear"> Underwear & socks</label>
-                        <label class="check-item"><input type="checkbox" data-item="shoes"> Comfortable shoes</label>
-                        <label class="check-item"><input type="checkbox" data-item="flip-flops"> Flip flops / sandals</label>
-                    </div>
-                </div>
-
-                <div class="packing-category">
-                    <h3>Sun & Pool</h3>
-                    <div class="checklist" data-category="sun">
-                        <label class="check-item"><input type="checkbox" data-item="sunscreen"> Sunscreen</label>
-                        <label class="check-item"><input type="checkbox" data-item="sunglasses"> Sunglasses</label>
-                        <label class="check-item"><input type="checkbox" data-item="hat"> Sun hat</label>
-                        <label class="check-item"><input type="checkbox" data-item="towel"> Beach/pool towel</label>
-                    </div>
-                </div>
-
-                <div class="packing-category">
-                    <h3>Toiletries</h3>
-                    <div class="checklist" data-category="toiletries">
-                        <label class="check-item"><input type="checkbox" data-item="toothbrush"> Toothbrush & toothpaste</label>
-                        <label class="check-item"><input type="checkbox" data-item="deodorant"> Deodorant</label>
-                        <label class="check-item"><input type="checkbox" data-item="shampoo"> Shampoo / conditioner</label>
-                        <label class="check-item"><input type="checkbox" data-item="skincare"> Skincare</label>
-                        <label class="check-item"><input type="checkbox" data-item="hairbrush"> Hairbrush / styling</label>
-                    </div>
-                </div>
-
-                <div class="packing-category">
-                    <h3>Fun Stuff</h3>
-                    <div class="checklist" data-category="fun">
-                        <label class="check-item"><input type="checkbox" data-item="camera"> Camera</label>
-                        <label class="check-item"><input type="checkbox" data-item="speaker"> Bluetooth speaker</label>
-                        <label class="check-item"><input type="checkbox" data-item="games"> Card games / board games</label>
-                        <label class="check-item"><input type="checkbox" data-item="book"> Book / Kindle</label>
-                        <label class="check-item"><input type="checkbox" data-item="dance-moves"> Best dance moves</label>
-                    </div>
-                </div>
-
-                <div class="packing-category">
-                    <h3>For Joe!</h3>
-                    <div class="checklist" data-category="gifts">
-                        <label class="check-item"><input type="checkbox" data-item="birthday-gift"> Birthday gift</label>
-                        <label class="check-item"><input type="checkbox" data-item="birthday-card"> Birthday card</label>
-                        <label class="check-item"><input type="checkbox" data-item="party-outfit"> Party outfit / costume?</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="packing-progress">
-                <span id="packing-count">0</span> of <span id="packing-total">0</span> items packed
-            </div>
+            <h2 class="section-title">Expense Splitter</h2>
+            <p class="section-subtitle">Track shared costs and settle up easily</p>
+            <div id="expense-splitter-container"></div>
         </div>
     </section>
 
-    <!-- Payment Tracker -->
-    <section id="payments" class="section payments">
-        <div class="container">
-            <h2 class="section-title">Payment Tracker</h2>
-            <p class="section-subtitle">Keep track of who's paid for the accommodation</p>
-
-            <div class="payment-overview">
-                <div class="payment-progress">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="payment-progress-fill"></div>
-                    </div>
-                    <div class="progress-stats">
-                        <span><strong id="paid-count">0</strong> of 25 paid</span>
-                        <span class="progress-amount">£<span id="total-collected">0</span> / £6,132.50</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="payment-grid" id="payment-grid">
-                <!-- Payment cards will be generated by JavaScript -->
-            </div>
-
-            <div class="payment-reminder">
-                <p><strong>Payment Details:</strong> Joseph O'Brien | Sort Code: 60-84-07 | Account: 41194141 | Amount: £245.30</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- French Phrases -->
-    <section id="french" class="section french">
-        <div class="container">
-            <h2 class="section-title">French Phrases</h2>
-            <p class="section-subtitle">Essential phrases for your trip 🇫🇷</p>
-
-            <div class="phrases-grid">
-                <div class="phrase-category">
-                    <h3>👋 Basics</h3>
-                    <div class="phrase-list">
-                        <div class="phrase">
-                            <span class="french">Bonjour</span>
-                            <span class="english">Hello / Good day</span>
-                            <span class="pronunciation">bon-ZHOOR</span>
-                        </div>
-                        <div class="phrase">
-                            <span class="french">Merci (beaucoup)</span>
-                            <span class="english">Thank you (very much)</span>
-                            <span class="pronunciation">mehr-SEE (boh-KOO)</span>
-                        </div>
-                        <div class="phrase">
-                            <span class="french">S'il vous plait</span>
-                            <span class="english">Please</span>
-                            <span class="pronunciation">seel voo PLEH</span>
-                        </div>
-                        <div class="phrase">
-                            <span class="french">Excusez-moi</span>
-                            <span class="english">Excuse me</span>
-                            <span class="pronunciation">ex-koo-zay MWAH</span>
-                        </div>
-                        <div class="phrase">
-                            <span class="french">Parlez-vous anglais?</span>
-                            <span class="english">Do you speak English?</span>
-                            <span class="pronunciation">par-lay voo ahn-GLEH</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="phrase-category">
-                    <h3>🍷 Food & Drink</h3>
-                    <div class="phrase-list">
-                        <div class="phrase">
-                            <span class="french">Une table pour... personnes</span>
-                            <span class="english">A table for... people</span>
-                            <span class="pronunciation">oon TAHBL poor... pehr-SOHN</span>
-                        </div>
-                        <div class="phrase">
-                            <span class="french">L'addition, s'il vous plait</span>
-                            <span class="english">The bill, please</span>
-                            <span class="pronunciation">lah-dee-SYOHN seel voo PLEH</span>
-                        </div>
-                        <div class="phrase">
-                            <span class="french">Une bouteille de vin rouge/blanc</span>
-                            <span class="english">A bottle of red/white wine</span>
-                            <span class="pronunciation">oon boo-TAY duh van ROOZH/BLAHN</span>
-                        </div>
-                        <div class="phrase">
-                            <span class="french">C'est delicieux!</span>
-                            <span class="english">It's delicious!</span>
-                            <span class="pronunciation">say day-lee-SYUH</span>
-                        </div>
-                        <div class="phrase">
-                            <span class="french">Sante!</span>
-                            <span class="english">Cheers!</span>
-                            <span class="pronunciation">sahn-TAY</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="phrase-category">
-                    <h3>🚨 Emergency</h3>
-                    <div class="phrase-list">
-                        <div class="phrase">
-                            <span class="french">Aidez-moi!</span>
-                            <span class="english">Help me!</span>
-                            <span class="pronunciation">ay-day MWAH</span>
-                        </div>
-                        <div class="phrase">
-                            <span class="french">J'ai besoin d'un medecin</span>
-                            <span class="english">I need a doctor</span>
-                            <span class="pronunciation">zhay buh-ZWAHN duhn med-SAN</span>
-                        </div>
-                        <div class="phrase">
-                            <span class="french">Ou est l'hopital?</span>
-                            <span class="english">Where is the hospital?</span>
-                            <span class="pronunciation">oo eh loh-pee-TAHL</span>
-                        </div>
-                        <div class="phrase">
-                            <span class="french">Appelez la police</span>
-                            <span class="english">Call the police</span>
-                            <span class="pronunciation">ah-play lah poh-LEES</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="phrase-category">
-                    <h3>🎉 Party Time</h3>
-                    <div class="phrase-list">
-                        <div class="phrase">
-                            <span class="french">Joyeux anniversaire!</span>
-                            <span class="english">Happy birthday!</span>
-                            <span class="pronunciation">zhwah-YUH ah-nee-vehr-SEHR</span>
-                        </div>
-                        <div class="phrase">
-                            <span class="french">On fait la fete!</span>
-                            <span class="english">Let's party!</span>
-                            <span class="pronunciation">ohn feh lah FET</span>
-                        </div>
-                        <div class="phrase">
-                            <span class="french">Encore une tournee!</span>
-                            <span class="english">Another round!</span>
-                            <span class="pronunciation">ahn-KOR oon toor-NAY</span>
-                        </div>
-                        <div class="phrase">
-                            <span class="french">Je suis trop fatigue</span>
-                            <span class="english">I'm too tired</span>
-                            <span class="pronunciation">zhuh swee troh fah-tee-GAY</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ -->
-    <section id="faq" class="section faq">
-        <div class="container">
-            <h2 class="section-title">FAQ</h2>
-            <p class="section-subtitle">Got questions? We've got answers!</p>
-
-            <div class="faq-grid">
-                <div class="faq-item">
-                    <button class="faq-question">
-                        <span>What's the plan for getting there?</span>
-                        <span class="faq-toggle">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Main convoy: 2 vans leaving Sevenoaks at 7AM Wed, Dover-Calais ferry, arriving ~5PM. If you're making your own way, let Joe know and share your plans in the Travel section!</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question">
-                        <span>What should I budget for spending money?</span>
-                        <span class="faq-toggle">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Accommodation is £245.30 (paid upfront). Budget around €50-100 for the food kitty, plus extra for activities, wine tasting, meals out, and any shopping. France uses Euros!</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question">
-                        <span>Is there a dress code for the birthday dinner?</span>
-                        <span class="faq-toggle">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Smart casual / dressed up! Pack one nice outfit for Saturday night. Think cocktail attire but comfortable enough to dance in. No theme unless we decide otherwise!</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question">
-                        <span>Can I bring a plus one?</span>
-                        <span class="faq-toggle">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>The guest list is set based on room capacity, but chat with Joe if you have questions about this.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question">
-                        <span>What if I need to arrive late or leave early?</span>
-                        <span class="faq-toggle">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>That's totally fine! Let Joe know and we'll work out transport arrangements. The key date is the birthday (Sat 2nd May) - try to be there for that!</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question">
-                        <span>What's the WiFi situation?</span>
-                        <span class="faq-toggle">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>The chateau has WiFi. It's a holiday though - try to unplug and enjoy! Perfect excuse to be "unreachable" for a few days.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question">
-                        <span>Do I need travel insurance?</span>
-                        <span class="faq-toggle">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Yes! Make sure you have travel insurance and your EHIC/GHIC card (or travel insurance that covers medical). Better safe than sorry!</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question">
-                        <span>What about food allergies / dietary needs?</span>
-                        <span class="faq-toggle">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Drop your dietary requirements in the WhatsApp group! We'll make sure the cooking teams know what to avoid. The more detail the better.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Gallery / Venue -->
-    <section id="gallery" class="section gallery">
-        <div class="container">
-            <h2 class="section-title">The Venue</h2>
-            <p class="section-subtitle">Check out where we're staying - Chateau Roussignol!</p>
-
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <img src="images/chateau_5.jpeg" alt="Chateau Roussignol - Main building with pool">
-                </div>
-                <div class="gallery-item">
-                    <img src="images/chateau_8.jpeg" alt="Chateau Roussignol - Aerial view">
-                </div>
-                <div class="gallery-item">
-                    <img src="images/chateau_4.jpeg" alt="Chateau Roussignol - Pool terrace">
-                </div>
-                <div class="gallery-item">
-                    <img src="images/chateau_7.jpeg" alt="Chateau Roussignol - Cottage with blue shutters">
-                </div>
-                <div class="gallery-item">
-                    <img src="images/chateau_6.jpeg" alt="Chateau Roussignol - Pool area">
-                </div>
-            </div>
-
-            <p class="gallery-note">Click any image to view larger. Trip photos will be added after!</p>
-        </div>
-    </section>
-
-    <!-- Lightbox Modal -->
-    <div class="lightbox" id="lightbox">
-        <button class="lightbox-close">&times;</button>
-        <button class="lightbox-prev">&#10094;</button>
-        <button class="lightbox-next">&#10095;</button>
-        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="" class="lightbox-image">
-    </div>
 
     <!-- Theme Switcher -->
     <div class="theme-switcher" id="theme-switcher">
@@ -636,8 +289,8 @@
         </div>
     </footer>
 
-    <script src="js/shared.js?v=4"></script>
+    <script src="js/shared.js?v=6"></script>
     <script src="js/nav.js"></script>
-    <script src="js/practical.js?v=2"></script>
+    <script src="js/practical.js?v=5"></script>
 </body>
 </html>
