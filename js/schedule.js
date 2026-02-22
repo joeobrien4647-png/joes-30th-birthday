@@ -56,7 +56,8 @@ const ACTIVITIES = [
         groupFit: 'All 27 together',
         mood: ['chill', 'social'],
         highlight: true,
-        pairedWith: null
+        pairedWith: null,
+        status: 'booked'
     },
     {
         id: 'chenonceau',
@@ -146,7 +147,8 @@ const ACTIVITIES = [
         groupFit: 'All 27 \u2014 large group bookings welcome',
         mood: ['adventure', 'chill'],
         highlight: true,
-        pairedWith: null
+        pairedWith: null,
+        status: 'booked'
     },
     {
         id: 'kayak-chenonceau',
@@ -312,6 +314,38 @@ const ACTIVITIES = [
         mood: ['adventure', 'party'],
         highlight: false,
         pairedWith: null
+    },
+    {
+        id: 'golf-val-indre',
+        name: 'Golf at Val de l\'Indre',
+        category: 'adventure',
+        emoji: '\u26F3',
+        tagline: '9 holes on a beautiful parkland course',
+        description: 'Golf du Val de l\'Indre \u2014 a par-72 parkland course set in the grounds of a ch\u00e2teau with century-old cedars and oaks. 9 holes takes about 2 hours. Full club hire and buggies available. Optional \u2014 for those who fancy a morning round while others chill by the pool.',
+        cost: { min: 65, max: 65 },
+        duration: '2 hours (9 holes)',
+        driveTime: '50 min',
+        groupFit: 'Groups of 4\u201312 \u2014 optional activity',
+        mood: ['chill', 'adventure'],
+        highlight: false,
+        pairedWith: null,
+        status: 'booked'
+    },
+    {
+        id: 'bellebouche',
+        name: 'Bellebouche Accrobranche & Lake',
+        category: 'adventure',
+        emoji: '\uD83C\uDF33',
+        tagline: 'Treetop adventure + lake activities in one spot',
+        description: 'Bellebouche outdoor leisure base in the Brenne nature park. 7 accrobranche courses from easy to extreme (zip lines, Tarzan swings, 15m jump!), plus p\u00e9dalos, paddle boards, kayaks on the lake, and mini-golf. The keen ones hit the trees, the hungover ones float on the lake. Everyone wins.',
+        cost: { min: 20, max: 20 },
+        duration: 'Half day',
+        driveTime: '25 min',
+        groupFit: 'All 27 \u2014 group booking for 10+',
+        mood: ['adventure', 'chill'],
+        highlight: true,
+        pairedWith: null,
+        status: 'booked'
     }
 ];
 
@@ -403,6 +437,14 @@ function initActivityVoting() {
     let votes = Store.get('av_votes', {});
     let userVotes = Store.get('av_userVotes', {});
     let statuses = Store.get('av_statuses', {});
+
+    // Sync confirmed activities from data into statuses (admin can still override)
+    ACTIVITIES.forEach(act => {
+        if (act.status && !statuses[act.id]) {
+            statuses[act.id] = act.status;
+        }
+    });
+    Store.set('av_statuses', statuses);
 
     function getMyVotes() {
         return userVotes[guestCode] || [];
@@ -669,7 +711,7 @@ const MEAL_DAYS = [
     },
     {
         day: 'Fri 1 May',
-        label: 'Wine & Culture Day',
+        label: 'Adventure Day',
         team: 'Team Chinon',
         options: [
             { id: 'fri-french', name: 'French Bistro Night', emoji: '\uD83C\uDDEB\uD83C\uDDF7', desc: 'Coq au vin, ratatouille, baguettes' },
@@ -767,10 +809,643 @@ function initMealPlanner() {
     render();
 }
 
+/* ============================================
+   Rate the Chef
+   ============================================ */
+
+const CHEF_DINNERS = [
+    { day: 2, team: 'Vouvray', label: 'Thu 30 Apr', emoji: '\uD83C\uDF77' },
+    { day: 3, team: 'Chinon', label: 'Fri 1 May', emoji: '\uD83C\uDDEB\uD83C\uDDF7' },
+    { day: 4, team: 'Sancerre', label: 'Sat 2 May', emoji: '\uD83C\uDF82', special: 'Birthday Feast!' },
+    { day: 5, team: 'Muscadet', label: 'Sun 3 May', emoji: '\uD83C\uDF19' }
+];
+
+function initRateTheChef() {
+    const container = document.getElementById('chef-ratings-container');
+    if (!container) return;
+
+    const guestCode = Auth.getGuestCode();
+    let allRatings = Store.get('chefRatings', {});
+
+    function getAverage(day) {
+        const dayRatings = allRatings[day] || [];
+        if (dayRatings.length === 0) return 0;
+        const sum = dayRatings.reduce((s, r) => s + r.rating, 0);
+        return (sum / dayRatings.length).toFixed(1);
+    }
+
+    function hasVoted(day) {
+        const dayRatings = allRatings[day] || [];
+        return dayRatings.some(r => r.voter === guestCode);
+    }
+
+    function getWinner() {
+        const teams = CHEF_DINNERS.map(d => ({
+            team: d.team,
+            avg: parseFloat(getAverage(d.day)),
+            count: (allRatings[d.day] || []).length
+        }));
+        const allRated = teams.every(t => t.count > 0);
+        if (!allRated) return null;
+        teams.sort((a, b) => b.avg - a.avg);
+        return teams[0];
+    }
+
+    function render() {
+        const winner = getWinner();
+
+        let html = '';
+
+        if (winner) {
+            html += '<div class="chef-winner">' +
+                '<span class="chef-winner-trophy">\uD83C\uDFC6</span>' +
+                '<h3>Best Chefs: Team ' + escapeHtml(winner.team) + '!</h3>' +
+                '<p>' + winner.avg + ' / 5 average rating</p>' +
+            '</div>';
+        }
+
+        html += '<div class="chef-cards">';
+
+        CHEF_DINNERS.forEach(function(dinner) {
+            const dayRatings = allRatings[dinner.day] || [];
+            const avg = getAverage(dinner.day);
+            const voted = hasVoted(dinner.day);
+            const bestDishes = dayRatings.filter(function(r) { return r.bestDish; }).map(function(r) { return r.bestDish; });
+            const needsWork = dayRatings.filter(function(r) { return r.needsWork; }).map(function(r) { return r.needsWork; });
+
+            html += '<div class="chef-card' + (dinner.special ? ' chef-card-special' : '') + '">' +
+                '<div class="chef-card-header">' +
+                    '<span class="chef-card-emoji">' + dinner.emoji + '</span>' +
+                    '<div>' +
+                        '<h4>Team ' + escapeHtml(dinner.team) + '</h4>' +
+                        '<span class="chef-card-date">' + escapeHtml(dinner.label) + (dinner.special ? ' - ' + escapeHtml(dinner.special) : '') + '</span>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="chef-avg">' +
+                    '<span class="chef-avg-number">' + (dayRatings.length > 0 ? avg : '-') + '</span>' +
+                    '<span class="chef-avg-label">/ 5 (' + dayRatings.length + ' rating' + (dayRatings.length !== 1 ? 's' : '') + ')</span>' +
+                '</div>' +
+                '<div class="chef-stars-display">' + renderStarsDisplay(parseFloat(avg) || 0) + '</div>';
+
+            if (!voted && guestCode) {
+                html += '<div class="chef-rate-form" data-day="' + dinner.day + '">' +
+                    '<div class="chef-stars-input">';
+                for (var s = 1; s <= 5; s++) {
+                    html += '<button class="chef-star" data-value="' + s + '">\u2606</button>';
+                }
+                html += '</div>' +
+                    '<input type="text" class="chef-input" placeholder="Best dish?" data-field="bestDish" maxlength="80">' +
+                    '<input type="text" class="chef-input" placeholder="Needs work?" data-field="needsWork" maxlength="80">' +
+                    '<button class="btn btn-primary chef-submit-btn" data-day="' + dinner.day + '">Submit Rating</button>' +
+                '</div>';
+            } else if (voted) {
+                html += '<div class="chef-voted-badge">\u2705 You\'ve rated this dinner</div>';
+            } else {
+                html += '<div class="chef-voted-badge">Log in to rate</div>';
+            }
+
+            if (bestDishes.length > 0) {
+                html += '<div class="chef-feedback">' +
+                    '<strong>\uD83C\uDF1F Best dishes:</strong>' +
+                    '<div class="chef-feedback-list">' +
+                        bestDishes.map(function(d) { return '<span class="chef-feedback-tag">' + escapeHtml(d) + '</span>'; }).join('') +
+                    '</div>' +
+                '</div>';
+            }
+
+            if (needsWork.length > 0) {
+                html += '<div class="chef-feedback">' +
+                    '<strong>\uD83D\uDCA1 Could improve:</strong>' +
+                    '<div class="chef-feedback-list">' +
+                        needsWork.map(function(d) { return '<span class="chef-feedback-tag needs-work">' + escapeHtml(d) + '</span>'; }).join('') +
+                    '</div>' +
+                '</div>';
+            }
+
+            html += '</div>';
+        });
+
+        html += '</div>';
+        container.innerHTML = html;
+
+        // Bind star clicks
+        container.querySelectorAll('.chef-rate-form').forEach(function(form) {
+            var selectedRating = 0;
+            var stars = form.querySelectorAll('.chef-star');
+
+            stars.forEach(function(star) {
+                star.addEventListener('mouseenter', function() {
+                    var val = parseInt(this.dataset.value);
+                    stars.forEach(function(s) {
+                        s.textContent = parseInt(s.dataset.value) <= val ? '\u2605' : '\u2606';
+                        s.classList.toggle('active', parseInt(s.dataset.value) <= val);
+                    });
+                });
+
+                star.addEventListener('mouseleave', function() {
+                    stars.forEach(function(s) {
+                        s.textContent = parseInt(s.dataset.value) <= selectedRating ? '\u2605' : '\u2606';
+                        s.classList.toggle('active', parseInt(s.dataset.value) <= selectedRating);
+                    });
+                });
+
+                star.addEventListener('click', function() {
+                    selectedRating = parseInt(this.dataset.value);
+                    stars.forEach(function(s) {
+                        s.textContent = parseInt(s.dataset.value) <= selectedRating ? '\u2605' : '\u2606';
+                        s.classList.toggle('active', parseInt(s.dataset.value) <= selectedRating);
+                    });
+                });
+            });
+
+            var submitBtn = form.querySelector('.chef-submit-btn');
+            submitBtn.addEventListener('click', function() {
+                if (selectedRating === 0) return;
+                var day = parseInt(this.dataset.day);
+                var bestDish = (form.querySelector('[data-field="bestDish"]').value || '').trim();
+                var needsWorkVal = (form.querySelector('[data-field="needsWork"]').value || '').trim();
+
+                if (!allRatings[day]) allRatings[day] = [];
+                allRatings[day].push({
+                    voter: guestCode,
+                    rating: selectedRating,
+                    bestDish: bestDish,
+                    needsWork: needsWorkVal
+                });
+
+                Store.set('chefRatings', allRatings);
+                render();
+                if (typeof triggerMiniConfetti === 'function') triggerMiniConfetti();
+            });
+        });
+    }
+
+    function renderStarsDisplay(avg) {
+        var html = '';
+        for (var i = 1; i <= 5; i++) {
+            if (avg >= i) {
+                html += '<span class="chef-star-display filled">\u2605</span>';
+            } else if (avg >= i - 0.5) {
+                html += '<span class="chef-star-display half">\u2605</span>';
+            } else {
+                html += '<span class="chef-star-display">\u2606</span>';
+            }
+        }
+        return html;
+    }
+
+    render();
+}
+
+/* ============================================
+   Grocery List Builder
+   ============================================ */
+
+const GROCERY_TEAMS = [
+    { id: 'vouvray', name: 'Vouvray', label: 'Day 2 - Thu Dinner' },
+    { id: 'chinon', name: 'Chinon', label: 'Day 3 - Fri Dinner' },
+    { id: 'sancerre', name: 'Sancerre', label: 'Day 4 - Sat Birthday Feast' },
+    { id: 'muscadet', name: 'Muscadet', label: 'Day 5 - Sun Dinner' },
+    { id: 'anjou', name: 'Anjou', label: 'Day 6 - Mon Breakfast' }
+];
+
+const GROCERY_STAPLES = [
+    'Bread', 'Wine (red)', 'Wine (white)', 'Wine (ros\u00e9)',
+    'Cheese', 'Butter', 'Olive oil', 'Salt & pepper', 'Garlic'
+];
+
+const GROCERY_MENUS = [
+    { name: 'BBQ', emoji: '\uD83C\uDF56', items: ['Burgers', 'Sausages', 'Chicken', 'Corn on the cob', 'Salad', 'Bread rolls', 'BBQ sauce', 'Ketchup', 'Mustard'] },
+    { name: 'French Classic', emoji: '\uD83C\uDDEB\uD83C\uDDF7', items: ['Ratatouille veg (courgettes, peppers, aubergine, tomatoes)', 'Coq au vin (chicken, mushrooms, bacon)', 'Croque monsieur (ham, Gruy\u00e8re, bread)', 'Dijon mustard'] },
+    { name: 'Pasta Night', emoji: '\uD83C\uDF5D', items: ['Pasta (2-3 types)', 'Tomato sauce', 'Garlic bread', 'Parmesan', 'Salad', 'Minced beef', 'Onions'] },
+    { name: 'Roast Dinner', emoji: '\uD83C\uDF57', items: ['Whole chickens (x4)', 'Roast potatoes', 'Mixed veg (carrots, broccoli, green beans)', 'Gravy granules', 'Yorkshire puddings', 'Stuffing'] }
+];
+
+function initGroceryList() {
+    var container = document.getElementById('grocery-container');
+    if (!container) return;
+
+    var allLists = Store.get('groceryLists', {});
+    var activeTeam = GROCERY_TEAMS[0].id;
+
+    // Initialize default staples for any team that doesn't have a list yet
+    GROCERY_TEAMS.forEach(function(team) {
+        if (!allLists[team.id]) {
+            allLists[team.id] = GROCERY_STAPLES.map(function(item) {
+                return { text: item, checked: false };
+            });
+            Store.set('groceryLists', allLists);
+        }
+    });
+
+    function render() {
+        var teamData = GROCERY_TEAMS.find(function(t) { return t.id === activeTeam; });
+        var items = allLists[activeTeam] || [];
+        var checkedCount = items.filter(function(i) { return i.checked; }).length;
+
+        var html = '<div class="grocery-tabs">';
+        GROCERY_TEAMS.forEach(function(team) {
+            html += '<button class="grocery-tab' + (team.id === activeTeam ? ' active' : '') + '" data-team="' + team.id + '">' +
+                escapeHtml(team.name) + '<span>' + escapeHtml(team.label) + '</span></button>';
+        });
+        html += '</div>';
+
+        html += '<div class="grocery-list-panel">' +
+            '<div class="grocery-list-header">' +
+                '<h4>Team ' + escapeHtml(teamData.name) + ' Shopping List</h4>' +
+                '<span class="grocery-count">' + checkedCount + ' / ' + items.length + ' items</span>' +
+            '</div>' +
+            '<div class="grocery-add-row">' +
+                '<input type="text" class="grocery-add-input" placeholder="Add an item..." maxlength="60" id="grocery-add-input">' +
+                '<button class="btn btn-primary grocery-add-btn" id="grocery-add-btn">Add Item</button>' +
+            '</div>' +
+            '<div class="grocery-items">';
+
+        items.forEach(function(item, idx) {
+            html += '<label class="grocery-item' + (item.checked ? ' checked' : '') + '">' +
+                '<input type="checkbox"' + (item.checked ? ' checked' : '') + ' data-idx="' + idx + '">' +
+                '<span>' + escapeHtml(item.text) + '</span>' +
+            '</label>';
+        });
+
+        html += '</div></div>';
+
+        // Suggested Menus
+        html += '<div class="grocery-menus">' +
+            '<h4>Suggested Menus</h4>' +
+            '<p class="grocery-menus-subtitle">Click items to add them to the current list</p>' +
+            '<div class="grocery-menu-cards">';
+
+        GROCERY_MENUS.forEach(function(menu) {
+            html += '<div class="grocery-menu-card">' +
+                '<h5>' + menu.emoji + ' ' + escapeHtml(menu.name) + '</h5>' +
+                '<div class="grocery-menu-items">';
+
+            menu.items.forEach(function(item) {
+                var alreadyAdded = items.some(function(li) { return li.text.toLowerCase() === item.toLowerCase(); });
+                html += '<button class="grocery-menu-item' + (alreadyAdded ? ' added' : '') + '" data-item="' + escapeHtml(item) + '">' +
+                    (alreadyAdded ? '\u2713 ' : '+ ') + escapeHtml(item) +
+                '</button>';
+            });
+
+            html += '</div></div>';
+        });
+
+        html += '</div></div>';
+
+        container.innerHTML = html;
+
+        // Bind events
+        container.querySelectorAll('.grocery-tab').forEach(function(tab) {
+            tab.addEventListener('click', function() {
+                activeTeam = this.dataset.team;
+                render();
+            });
+        });
+
+        container.querySelectorAll('.grocery-item input').forEach(function(cb) {
+            cb.addEventListener('change', function() {
+                var idx = parseInt(this.dataset.idx);
+                allLists[activeTeam][idx].checked = this.checked;
+                Store.set('groceryLists', allLists);
+                render();
+            });
+        });
+
+        var addBtn = document.getElementById('grocery-add-btn');
+        var addInput = document.getElementById('grocery-add-input');
+
+        if (addBtn && addInput) {
+            function addItem() {
+                var text = addInput.value.trim();
+                if (!text) return;
+                allLists[activeTeam].push({ text: text, checked: false });
+                Store.set('groceryLists', allLists);
+                render();
+            }
+
+            addBtn.addEventListener('click', addItem);
+            addInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') { e.preventDefault(); addItem(); }
+            });
+        }
+
+        container.querySelectorAll('.grocery-menu-item:not(.added)').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var itemText = this.dataset.item;
+                var exists = allLists[activeTeam].some(function(li) { return li.text.toLowerCase() === itemText.toLowerCase(); });
+                if (!exists) {
+                    allLists[activeTeam].push({ text: itemText, checked: false });
+                    Store.set('groceryLists', allLists);
+                    render();
+                }
+            });
+        });
+    }
+
+    render();
+}
+
+/* ============================================
+   Activity Sign-up Board
+   ============================================ */
+
+function initActivitySignups() {
+    var container = document.getElementById('activity-signups-container');
+    if (!container) return;
+
+    var guestCode = Auth.getGuestCode();
+    var guestName = Auth.isLoggedIn() ? Auth.getGuestName() : null;
+
+    var SIGNUP_ACTIVITIES = [
+        {
+            id: 'golf',
+            name: 'Golf - Val de l\'Indre',
+            day: 'Day 2 (Thu 30 Apr)',
+            cost: '~\u00A365/pp',
+            max: 12,
+            emoji: '\u26F3',
+            description: '9-hole parkland course with century-old cedars. Club hire and buggies available. ~50 min drive from the chateau.'
+        },
+        {
+            id: 'canoe',
+            name: 'Canoeing on the Creuse',
+            day: 'Day 3 (Fri 1 May)',
+            cost: '~\u20AC15\u201318/pp',
+            max: 27,
+            emoji: '\uD83D\uDEF6',
+            description: 'Paddle downstream past castles and through the countryside. All equipment and shuttle service provided. Just 5 min from the chateau!'
+        },
+        {
+            id: 'bellebouche',
+            name: 'Bellebouche Accrobranche',
+            day: 'Day 5 (Sun 3 May)',
+            cost: '~\u20AC20/pp',
+            max: 27,
+            emoji: '\uD83C\uDF33',
+            description: 'Treetop adventure courses (zip lines, Tarzan swings!) plus lake activities: p\u00E9dalos, paddle boards, kayaks. ~25 min drive.'
+        }
+    ];
+
+    var signups = Store.get('activitySignups', { golf: [], canoe: [], bellebouche: [] });
+
+    function render() {
+        var html = '<div class="signup-grid">';
+
+        SIGNUP_ACTIVITIES.forEach(function(act) {
+            var list = signups[act.id] || [];
+            var count = list.length;
+            var isFull = count >= act.max;
+            var isSignedUp = guestName && list.includes(guestName);
+            var waitlistPos = 0;
+            if (isFull && !isSignedUp && guestName) {
+                // Not signed up and full means they'd be on waitlist
+            }
+            if (isSignedUp && list.indexOf(guestName) >= act.max) {
+                waitlistPos = list.indexOf(guestName) - act.max + 1;
+            }
+
+            html += '<div class="signup-card' + (isFull && !isSignedUp ? ' signup-full' : '') + '">';
+            html += '<div class="signup-card-header">' +
+                '<span class="signup-emoji">' + act.emoji + '</span>' +
+                '<div class="signup-card-info">' +
+                    '<h3>' + escapeHtml(act.name) + '</h3>' +
+                    '<span class="signup-day">' + escapeHtml(act.day) + '</span>' +
+                '</div>' +
+                '<span class="signup-cost">' + act.cost + '</span>' +
+            '</div>';
+
+            html += '<p class="signup-desc">' + escapeHtml(act.description) + '</p>';
+
+            // Capacity bar
+            var pct = Math.min(100, (count / act.max) * 100);
+            html += '<div class="signup-capacity">' +
+                '<div class="signup-capacity-bar">' +
+                    '<div class="signup-capacity-fill' + (isFull ? ' full' : '') + '" style="width:' + pct + '%"></div>' +
+                '</div>' +
+                '<span class="signup-capacity-label">' + Math.min(count, act.max) + ' / ' + act.max + ' signed up' +
+                    (count > act.max ? ' (+' + (count - act.max) + ' waitlist)' : '') +
+                '</span>' +
+                (isFull && !isSignedUp ? '<span class="signup-full-badge">FULL</span>' : '') +
+            '</div>';
+
+            // Action button
+            if (guestName) {
+                if (isSignedUp) {
+                    if (waitlistPos > 0) {
+                        html += '<button class="btn signup-btn signed-up waitlisted" data-id="' + act.id + '">' +
+                            'On Waitlist (#' + waitlistPos + ') \u2014 Tap to leave</button>';
+                    } else {
+                        html += '<button class="btn signup-btn signed-up" data-id="' + act.id + '">' +
+                            '\u2705 You\'re In! Tap to cancel</button>';
+                    }
+                } else if (isFull) {
+                    html += '<button class="btn signup-btn join-waitlist" data-id="' + act.id + '">' +
+                        'Join Waitlist</button>';
+                } else {
+                    html += '<button class="btn signup-btn" data-id="' + act.id + '">' +
+                        'Sign Me Up!</button>';
+                }
+            } else {
+                html += '<p class="signup-login-note">Log in to sign up</p>';
+            }
+
+            // Who's signed up
+            if (list.length > 0) {
+                html += '<div class="signup-people">';
+                var mainList = list.slice(0, act.max);
+                html += '<div class="signup-people-tags">';
+                mainList.forEach(function(name) {
+                    html += '<span class="signup-person-tag' + (name === guestName ? ' you' : '') + '">' + escapeHtml(name) + '</span>';
+                });
+                html += '</div>';
+                if (list.length > act.max) {
+                    html += '<div class="signup-waitlist-section">';
+                    html += '<strong>Waitlist:</strong> ';
+                    var waitlist = list.slice(act.max);
+                    waitlist.forEach(function(name, idx) {
+                        html += '<span class="signup-person-tag waitlist' + (name === guestName ? ' you' : '') + '">#' + (idx + 1) + ' ' + escapeHtml(name) + '</span>';
+                    });
+                    html += '</div>';
+                }
+                html += '</div>';
+            } else {
+                html += '<div class="empty-state"><span class="empty-state-emoji">\uD83C\uDFAF</span><p>No sign-ups yet \u2014 be the first!</p></div>';
+            }
+
+            html += '</div>';
+        });
+
+        html += '</div>';
+        container.innerHTML = html;
+
+        // Bind buttons
+        container.querySelectorAll('.signup-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var actId = this.dataset.id;
+                if (!signups[actId]) signups[actId] = [];
+                var idx = signups[actId].indexOf(guestName);
+                if (idx > -1) {
+                    signups[actId].splice(idx, 1);
+                } else {
+                    signups[actId].push(guestName);
+                    if (typeof triggerMiniConfetti === 'function') triggerMiniConfetti();
+                }
+                Store.set('activitySignups', signups);
+                render();
+            });
+        });
+    }
+
+    render();
+}
+
+/* ============================================
+   Swipe Navigation for Agenda Tabs
+   ============================================ */
+
+function initAgendaSwipe() {
+    var content = document.querySelector('.agenda-content');
+    var tabBtns = document.querySelectorAll('.tab-btn');
+    var leftArrow = document.getElementById('agenda-arrow-left');
+    var rightArrow = document.getElementById('agenda-arrow-right');
+
+    if (!content || !tabBtns.length) return;
+
+    var totalDays = tabBtns.length;
+
+    function getCurrentDay() {
+        var active = document.querySelector('.tab-btn.active');
+        return active ? parseInt(active.dataset.day) : 1;
+    }
+
+    function switchToDay(day) {
+        if (day < 1 || day > totalDays) return;
+        var dayContents = document.querySelectorAll('.day-content');
+        tabBtns.forEach(function(b) { b.classList.remove('active'); });
+        dayContents.forEach(function(c) { c.classList.remove('active'); });
+
+        var targetBtn = document.querySelector('.tab-btn[data-day="' + day + '"]');
+        var targetContent = document.querySelector('.day-content[data-day="' + day + '"]');
+        if (targetBtn) targetBtn.classList.add('active');
+        if (targetContent) targetContent.classList.add('active');
+
+        updateArrows(day);
+    }
+
+    function updateArrows(day) {
+        if (leftArrow) leftArrow.disabled = (day <= 1);
+        if (rightArrow) rightArrow.disabled = (day >= totalDays);
+    }
+
+    // Arrow buttons
+    if (leftArrow) {
+        leftArrow.addEventListener('click', function() {
+            var current = getCurrentDay();
+            switchToDay(current - 1);
+        });
+    }
+
+    if (rightArrow) {
+        rightArrow.addEventListener('click', function() {
+            var current = getCurrentDay();
+            switchToDay(current + 1);
+        });
+    }
+
+    // Update arrows when tabs are clicked directly
+    tabBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var day = parseInt(this.dataset.day);
+            updateArrows(day);
+        });
+    });
+
+    // Touch swipe support
+    var touchStartX = 0;
+    var touchStartY = 0;
+    var touchMoveX = 0;
+    var swiping = false;
+
+    content.addEventListener('touchstart', function(e) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        touchMoveX = touchStartX;
+        swiping = false;
+    }, { passive: true });
+
+    content.addEventListener('touchmove', function(e) {
+        touchMoveX = e.touches[0].clientX;
+        var diffX = touchMoveX - touchStartX;
+        var diffY = e.touches[0].clientY - touchStartY;
+
+        // Only treat as horizontal swipe if predominantly horizontal
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 20) {
+            swiping = true;
+            // Visual feedback: slight translate
+            var translate = Math.max(-40, Math.min(40, diffX * 0.3));
+            var activeDay = content.querySelector('.day-content.active');
+            if (activeDay) {
+                activeDay.style.transform = 'translateX(' + translate + 'px)';
+                activeDay.style.transition = 'none';
+            }
+        }
+    }, { passive: true });
+
+    content.addEventListener('touchend', function() {
+        var diffX = touchMoveX - touchStartX;
+        var activeDay = content.querySelector('.day-content.active');
+
+        // Reset visual transform
+        if (activeDay) {
+            activeDay.style.transform = '';
+            activeDay.style.transition = 'transform 0.2s ease';
+            setTimeout(function() {
+                if (activeDay) activeDay.style.transition = '';
+            }, 200);
+        }
+
+        if (!swiping) return;
+
+        var current = getCurrentDay();
+        if (diffX < -50) {
+            // Swiped left -> next day
+            switchToDay(current + 1);
+        } else if (diffX > 50) {
+            // Swiped right -> prev day
+            switchToDay(current - 1);
+        }
+    }, { passive: true });
+
+    // Initial arrow state
+    updateArrows(getCurrentDay());
+}
+
+/* ============================================
+   Empty State Cards for Schedule Sections
+   ============================================ */
+
+function initScheduleEmptyStates() {
+    // Rate the Chef
+    var chefContainer = document.getElementById('chef-ratings-container');
+    if (chefContainer && chefContainer.children.length === 0) {
+        var ratings = Store.get('chefRatings', {});
+        var hasRatings = Object.keys(ratings).some(function(k) { return ratings[k].length > 0; });
+        if (!hasRatings) {
+            // The initRateTheChef will render its own content, so we inject empty state
+            // only if it hasn't rendered yet — handled via MutationObserver after init
+        }
+    }
+
+    // Grocery Lists — empty state is rendered inside initGroceryList when items are empty
+    // Activity Sign-ups — empty state is rendered inside initActivitySignups per card
+}
+
 /* ---- Initialize on page load ---- */
 document.addEventListener('DOMContentLoaded', function() {
     initAgendaTabs();
     initSecretAgenda();
-    initActivityVoting();
-    initMealPlanner();
+    initAgendaSwipe();
+    initActivitySignups();
+    initScheduleEmptyStates();
 });

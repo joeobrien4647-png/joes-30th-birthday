@@ -51,7 +51,6 @@
             <li><a href="#leaderboard">Leaderboard</a></li>
             <li><a href="#quiz">Quiz</a></li>
             <li><a href="#bingo">Bingo</a></li>
-            <li><a href="#scavenger-hunt">Scavenger</a></li>
         </ul>
     </nav>
 
@@ -1272,22 +1271,6 @@
                             <span class="ongoing-pts">+1 pt/day</span>
                         </div>
                     </div>
-                    <div class="ongoing-card" style="border-left: 3px solid #e74c3c;">
-                        <div class="ongoing-icon">&#128481;</div>
-                        <div class="ongoing-info">
-                            <h4>Secret Assassin</h4>
-                            <p>Draw a name and a secret word. Get your target to say that word - they're "dead" and you inherit their target. Last assassin standing wins big. No kills during organised games or meals. Must have a witness.</p>
-                            <span class="ongoing-pts">+5 pts (winner) | +3 (most kills)</span>
-                        </div>
-                    </div>
-                    <div class="ongoing-card" style="border-left: 3px solid #9b59b6;">
-                        <div class="ongoing-icon">&#128203;</div>
-                        <div class="ongoing-info">
-                            <h4>Taskmaster Tasks</h4>
-                            <p>3 secret tasks hidden in sealed envelopes around the chateau (Days 2, 3, 5). Find them, complete them, present evidence. Task 1: "Make the most creative thing using only kitchen items." Task 2: "Get a selfie with a local French person wearing something ridiculous." Task 3: "Create a 30-second advert for 'Joe O'Brien: The Fragrance'."</p>
-                            <span class="ongoing-pts">+3 pts/task | +5 champion</span>
-                        </div>
-                    </div>
                     <div class="ongoing-card">
                         <div class="ongoing-icon">&#9995;</div>
                         <div class="ongoing-info">
@@ -1582,46 +1565,6 @@
         </div>
     </section>
 
-    <!-- Scavenger Hunt -->
-    <section id="scavenger-hunt" class="section scavenger-section">
-        <div class="container">
-            <h2 class="section-title">Trip Scavenger Hunt</h2>
-            <p class="section-subtitle">Complete photo challenges and earn points!</p>
-
-            <div class="scav-progress-wrap">
-                <div class="scav-progress-bar">
-                    <div class="scav-progress-fill" id="scav-progress-fill"></div>
-                </div>
-                <span class="scav-progress-label" id="scav-progress-label">0 / 20</span>
-            </div>
-
-            <div class="scav-view-toggle">
-                <button class="btn btn-secondary scav-view-btn active" data-view="list">Checklist</button>
-                <button class="btn btn-secondary scav-view-btn" data-view="gallery">Gallery</button>
-            </div>
-
-            <div class="scav-list" id="scav-list">
-                <!-- Populated by JS -->
-            </div>
-
-            <div class="scav-gallery" id="scav-gallery" style="display: none;">
-                <!-- Populated by JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Challenge Timer Overlay (floating) -->
-    <div class="timer-overlay" id="timer-overlay" style="display: none;">
-        <div class="timer-overlay-inner">
-            <svg class="timer-ring" viewBox="0 0 120 120" width="120" height="120">
-                <circle class="timer-ring-bg" cx="60" cy="60" r="52" />
-                <circle class="timer-ring-progress" id="timer-ring-progress" cx="60" cy="60" r="52" />
-            </svg>
-            <div class="timer-display" id="timer-display">0:00</div>
-            <div class="timer-label" id="timer-label">READY</div>
-            <button class="timer-close" id="timer-close">&times;</button>
-        </div>
-    </div>
 
     <!-- Confetti Cannon (Fixed Button) -->
     <button class="confetti-cannon" id="confetti-cannon" title="Party Time!">
