@@ -17,7 +17,20 @@ document.addEventListener('DOMContentLoaded', function () {
     initLeaderboard();
     initDailyChallengeReveal();
     initDailyRecapGenerator();
+    initHowItWorks();
 });
+
+function initHowItWorks() {
+    var btn = document.getElementById('hiw-toggle');
+    var body = document.getElementById('hiw-body');
+    var chevron = btn && btn.querySelector('.hiw-chevron');
+    if (!btn || !body) return;
+    btn.addEventListener('click', function () {
+        var open = body.style.display !== 'none';
+        body.style.display = open ? 'none' : 'block';
+        if (chevron) chevron.textContent = open ? '\u25B6' : '\u25BC';
+    });
+}
 
 /* ============================================
    Quiz - "How Well Do You Know Joe?"
@@ -233,108 +246,151 @@ function initQuiz() {
    ============================================ */
 function initBingo() {
     const bingoCard = document.getElementById('bingo-card');
-    const newCardBtn = document.getElementById('new-bingo-card');
     const resetBtn = document.getElementById('reset-bingo');
     const winnerDisplay = document.getElementById('bingo-winner');
+    const lockOverlay = document.getElementById('bingo-lock');
 
     if (!bingoCard) return;
 
-    const bingoItems = [
-        "Someone falls asleep by the pool",
-        "Joe makes a toast",
-        "Group photo taken",
-        "Someone speaks French",
-        "Wine tasting trip",
-        "Late night pool swim",
-        "Someone loses their phone",
-        "Burnt BBQ moment",
-        "Someone gets sunburnt",
-        "Cheese plate ordered",
-        "\"Remember when...\" story",
-        "Someone oversleeps",
-        "Dance party starts",
-        "Someone cries (happy tears)",
-        "Champagne popped",
-        "Group sing-along",
-        "Someone gets lost",
-        "Midnight snack raid",
-        "Hangover breakfast",
-        "\"One more drink!\"",
-        "Someone takes 50+ photos",
-        "Card games played",
-        "Someone falls in pool",
-        "Birthday cake served",
-        "Sunset drinks"
+    const BINGO_UNLOCK = new Date('2026-04-29T07:00:00');
+    const isUnlocked = Auth.isAdmin() || Date.now() >= BINGO_UNLOCK.getTime();
+
+    if (!isUnlocked) {
+        if (lockOverlay) lockOverlay.style.display = 'flex';
+        bingoCard.style.display = 'none';
+        if (resetBtn) resetBtn.style.display = 'none';
+        return;
+    }
+
+    if (lockOverlay) lockOverlay.style.display = 'none';
+
+    // Shared pool of general trip moments
+    const BP = [
+        "Joe sings at full volume",                    // 0
+        "Canoe capsizes",                              // 1
+        "BBQ smoke situation",                         // 2
+        "P\u00E9tanque causes a genuine dispute",      // 3
+        "Joe gets emotional \u2014 happy tears",       // 4
+        "One more bottle at midnight",                 // 5
+        "Perfect group photo \u2014 first try!",       // 6
+        "Pool bomb: someone goes in fully clothed",    // 7
+        "Midnight snack raid",                         // 8
+        "Joe does the dad dance",                      // 9
+        "Cooking disaster averted last-minute",        // 10
+        "Cheese becomes the entire meal",              // 11
+        "Spontaneous conga line",                      // 12
+        "Speaks French, gets full French response",    // 13
+        "Joe says \u2018I\u2019m so grateful\u2019",   // 14
+        "Still in pyjamas at noon",                    // 15
+        "A game gets taken way too seriously",         // 16
+        "Happy birthday sung off-key but perfectly",   // 17
+        "Someone vanishes for 2 hours",                // 18
+        "Wine runs out mid-meal",                      // 19
+        "Rain ruins the outdoor plan",                 // 20
+        "Joe gives a speech that makes people cry",    // 21
+        "Canoe race turns competitive",                // 22
+        "Accrobranche \u2014 the fear face",           // 23
+        "Refused an activity, then loved it",          // 24
+        "Wrong French word at a critical moment",      // 25
+        "Joe\u2019s 30th birthday moment hits",        // 26
+        "Mini golf ends in chaos",                     // 27
+        "First to bed gets a nickname",                // 28
+        "The group splits and has a better time"       // 29
     ];
 
-    let markedCells = Store.get('bingoMarked', []);
-    let currentCard = Store.get('bingoCard', null);
+    // 27 personal cards: 8 personal items + 16 pool indexes each
+    const BINGO_CARDS = {
+        'joe30': { p: ["Someone reminds you you\u2019re 30 (again)","Sophie organises something without telling you","You give a speech and get emotional","You wake up last","Someone calls you \u2018old man\u2019","You eat an embarrassing amount of cheese","You attempt French \u2014 and it works","You win a game and act surprised"], pool: [1,2,3,5,6,8,9,10,12,17,20,21,23,25,28,29] },
+        'sophie30': { p: ["You reorganise someone else\u2019s things","You know the schedule better than Joe","Someone ignores your plan","You coordinate the perfect group photo","You check the weather app more than once in an hour","You worry about something that doesn\u2019t happen","You say \u2018actually, I organised that\u2019","You make a spreadsheet (or wish you had one)"], pool: [0,1,4,7,8,9,10,13,15,17,18,21,22,24,26,29] },
+        'luke30': { p: ["Someone requests a song and you ignore it","Your playlist gets criticised","You add a song nobody asked for","Someone else takes the speaker","You play something from 2005 and defend it","You give a passionate defence of your music taste","First on the dancefloor to an unexpected song","You turn the volume up \u2018accidentally\u2019"], pool: [0,2,3,5,6,7,11,14,16,17,18,20,23,25,26,27] },
+        'sam30': { p: ["Your camera roll hits 300+ photos in one day","You make someone retake the same photo 3+ times","You photograph the food before anyone touches it","Someone tries to hide from your camera \u2014 and fails","\u2018Give me a sec, I just need this angle\u2019","You capture the defining candid moment of the trip","You get a genuinely perfect candid shot","You ask a stranger to take the group photo"], pool: [0,1,4,5,9,10,12,13,15,16,19,21,23,24,27,28] },
+        'hannah30': { p: ["You drop info you definitely weren\u2019t supposed to share","\u2018Don\u2019t tell anyone but\u2026\u2019","You subtly reveal a secret and play innocent","You know about a plan before it happens","You report a rule breach with suspicious enthusiasm","You start a sentence that ends in chaos","You spot something happening before anyone else","You know more about Joe\u2019s day than Joe does"], pool: [1,2,4,6,7,8,12,14,15,17,19,22,24,26,27,29] },
+        'robin30': { p: ["Someone worries about you \u2014 affectionately","You start a game you cannot finish","You make a promise that lasts exactly 20 minutes","You are found somewhere unexpected","You declare yourself \u2018fine\u2019 when you\u2019re clearly not","You are the last person standing at 4am","\u2018It wasn\u2019t me\u2019 \u2014 but it was","You end up at the centre of a chaos moment"], pool: [0,2,4,5,6,10,11,13,16,18,20,21,25,26,27,28] },
+        'johnny30': { p: ["You say something and wait for the laugh","You explain the joke afterward","Someone says \u2018Johnny, no\u2019","Your punchline takes 2 minutes to arrive","You do an impression someone actually recognises","You get genuinely funnier as the night goes on","You crack Joe up at exactly the wrong moment","You\u2019re funnier than you\u2019re given credit for \u2014 acknowledge it"], pool: [1,3,4,6,8,9,11,13,15,18,19,21,23,24,26,29] },
+        'florrie30': { p: ["You\u2019re heard from three rooms away","Your laugh sets the whole group off","You say something quiet \u2014 at full volume","You start the group sing-along","You make the quiet person laugh","You announce something that didn\u2019t need announcing","You get the whole group going with one line","You are the last to know the volume is too high"], pool: [0,2,4,5,7,8,11,13,14,16,18,20,22,25,27,28] },
+        'razon30': { p: ["You pitch a plan that only makes sense to you","You get everyone on board with something suspicious","You\u2019re mysteriously absent when something goes wrong","You say \u2018trust me\u2019 \u2014 and it works","You win something by being undeservedly strategic","You make an alliance and forget you made it","You are caught calculating something","You organise something complex and act casual about it"], pool: [0,1,4,6,7,9,12,14,15,17,19,20,23,26,27,29] },
+        'neeve30': { p: ["Lunch is delayed 30+ minutes and you\u2019re the first to notice","You call dibs on the first plate","You complain about service speed before anyone else","You do not speak until coffee arrives","You find food in your bag exactly when it\u2019s needed","You refuse to decide anything until after eating","You declare the meal \u2018amazing\u2019 once it arrives","You eat someone\u2019s leftovers"], pool: [0,2,3,6,7,9,12,13,16,17,20,22,24,25,27,29] },
+        'george30': { p: ["You\u2019re heard from outside the building","Your laugh disrupts a quiet moment","Strangers turn around to find the source of the noise","You get shushed \u2014 and volume increases anyway","You start the loudest game of the trip","Your commentary is louder than the event itself","You wake someone up by accident","You make an announcement that needed no announcement"], pool: [1,3,4,5,8,10,11,14,15,18,19,21,23,24,26,28] },
+        'emmaw30': { p: ["You try to make a spreadsheet for something fun","You know the budget better than anyone","You point out a better/more efficient way","You create a system nobody else uses","You ask \u2018have we confirmed that?\u2019","You find a way to track something nobody else is tracking","You mention a spreadsheet unprompted","You\u2019re already thinking about the next thing"], pool: [0,2,3,5,7,8,11,13,17,18,20,22,24,26,27,28] },
+        'tom30': { p: ["A story ends up twice as dramatic as it started","\u2018That was literally the best thing I\u2019ve ever seen\u2019","You use \u2018absolutely insane\u2019 about something fairly normal","Your version of events is significantly different to everyone else\u2019s","You predict a disaster \u2014 it\u2019s fine","You describe a meal as \u2018genuinely life-changing\u2019","You claim to have \u2018nearly died\u2019 laughing","Everyone agrees your version is the best version"], pool: [1,3,4,6,7,9,10,12,16,18,19,21,23,25,26,29] },
+        'robert30': { p: ["You describe a wine using words nobody else uses","You swirl before tasting \u2014 when nobody asked","You make a face at a wine and explain why","You suggest pairing the cheese with something specific","You identify the grape variety correctly","You say \u2018notes of\u2026\u2019","Someone takes your wine recommendation \u2014 it\u2019s actually good","You suggest a different wine would have been better"], pool: [0,2,4,5,8,9,12,14,15,17,20,21,24,25,27,28] },
+        'sarah30': { p: ["You know something about someone you really shouldn\u2019t","You gather information without anyone realising","\u2018Oh, I already knew that\u2019","You ask a question that isn\u2019t just a question","You have a quiet word that changes the dynamic","You connect two people\u2019s secrets \u2014 without either knowing","You keep a secret when you really want to share it","You are the person everyone tells things to"], pool: [1,2,3,6,7,10,11,15,16,19,20,22,23,25,26,29] },
+        'kiran30': { p: ["Everyone else has gone to bed \u2014 you\u2019re still going","You outlast at least 5 people on a night out","You make the morning look easy after the night before","You start a second wind at midnight","You encourage one more round with alarming enthusiasm","You\u2019re up for breakfast having been last to bed","You achieve something impossible energy-wise","You are the last person expected to close the night"], pool: [0,3,4,6,8,9,11,13,14,17,19,21,23,25,27,29] },
+        'shane30': { p: ["A game result is disputed \u2014 by you","\u2018That wasn\u2019t in the rules\u2019","You demand a rematch","You explain at length why you should have won","You question the judging criteria","You maintain a grievance longer than the game lasted","Someone uses your grievance against you in a later game","You win graciously \u2014 the rare one"], pool: [1,2,4,5,7,8,10,12,15,17,18,21,24,25,27,28] },
+        'oli30': { p: ["You are found lying down somewhere unexpected","You call an activity \u2018too much effort\u2019 before trying it","You say \u2018I\u2019m just resting my eyes\u2019","You fall asleep somewhere impressive","You get involved in something energetic and look shocked at yourself","\u2018Can\u2019t we just\u2026 stay here?\u2019","You contribute more from the sun lounger than expected","You make horizontal look like a sport"], pool: [0,2,4,6,8,9,12,14,16,18,20,21,24,25,26,27] },
+        'peter30': { p: ["You do something that wasn\u2019t on the plan","You start something that cannot be stopped","You escalate a situation that was under control","You convince someone to do something they said they wouldn\u2019t","Your idea works \u2014 nobody\u2019s more surprised than you","You make a suggestion that is immediately regretted (but kind of works)","You are blamed for something you definitely started","You are the reason something goes both brilliantly and wrong"], pool: [1,3,5,6,7,9,11,13,16,17,19,22,24,25,27,29] },
+        'emmal30': { p: ["You spot a photo opportunity before anyone else","You suggest an arrangement for a photo","You find the most beautiful corner of the chateau","You describe an aesthetic nobody else was thinking about","\u2018Oh this would look incredible on the wall\u2019","You make something look better just by being near it","You suggest a colour for the table setting","You know exactly how something should look"], pool: [0,2,4,5,7,8,11,14,16,19,20,22,23,25,26,28] },
+        'jonnyl30': { p: ["You cause chaos with a completely straight face","You start something and disappear before the consequences","You get away with something you really shouldn\u2019t","Someone says your name in a warning tone","You are the reason a new rule gets added","You deny involvement \u2014 convincingly","You find the exact loophole in the rules","You are too innocent about something suspicious"], pool: [0,3,4,6,7,9,12,13,16,18,19,21,23,24,26,28] },
+        'jonnyw30': { p: ["You reference a previous achievement unprompted","\u2018I was incredible at that\u2019 \u2014 completely sincere","You win something and accept the applause naturally","You make a prediction about yourself that comes true","You are referenced in a story that wasn\u2019t even about you","Someone tells your story better \u2014 you correct them","You are somehow at the centre of the best photo","The legend is, it turns out, somewhat justified"], pool: [1,2,3,5,7,10,11,14,15,17,18,20,22,24,26,29] },
+        'will30': { p: ["You point out something everyone already noticed","\u2018Did you know\u2026\u2019 [fact everyone knows]","You explain a joke after it\u2019s already landed","You arrive at a conclusion the group reached 10 minutes ago","Your observation is technically correct but wildly unnecessary","You state the weather when it\u2019s completely obvious","You provide a helpful reminder that was not needed","You are actually right about something genuinely obscure"], pool: [0,2,4,5,7,8,11,12,15,18,19,21,22,24,26,28] },
+        'chris30': { p: ["You win something nobody saw coming","You say three words that change the whole conversation","You are present for chaos but completely untouched by it","You watch everything unfold and say nothing until it matters","You win a game by doing the minimum necessary","People forget you\u2019re in the room until you do something decisive","You have information nobody knew you had","Your move was planned three turns ago"], pool: [0,2,3,6,8,9,12,14,16,17,19,20,22,24,27,29] },
+        'oscar30': { p: ["You suggest something with the most casual delivery","Someone blames you \u2014 correctly","You say \u2018one more\u2019 at 1am","You talk someone out of going to bed","You make the responsible option sound boring","You are technically not wrong about anything","You are somehow not the one who suffers the consequences","\u2018I\u2019m just saying\u2026\u2019 [dangerous idea follows]"], pool: [1,3,4,6,7,10,11,13,16,17,20,21,23,25,26,28] },
+        'matt30': { p: ["You defuse a situation without anyone noticing","You find something positive to say about a disaster","You make two arguing people both feel heard","You translate someone\u2019s rant into something reasonable","You are the last person to take sides","You somehow agree with everyone simultaneously","You find the compromise that ends the argument","You are the one they come to when it all kicks off"], pool: [0,1,4,5,8,9,12,14,15,19,21,22,23,25,26,27] },
+        'pranay30': { p: ["Your enthusiasm is the first thing people notice","You are genuinely excited about something everyone else is casual about","You volunteer for something before asking what it is","Your energy raises the whole group\u2019s energy","You hug someone who needed it","You are the reason the low point of the day recovers","You are still excited on day 5","Joe notices and appreciates your vibe specifically"], pool: [0,2,3,5,6,9,10,13,14,17,19,21,22,23,26,27] }
+    };
 
-    if (!currentCard) {
-        generateNewCard();
-    } else {
-        renderCard();
+    function buildCard(code) {
+        var data = BINGO_CARDS[code];
+        if (!data) return null;
+        var items = data.p.slice();
+        data.pool.forEach(function(i) { items.push(BP[i]); });
+        items.splice(12, 0, 'FREE \u2B50');
+        return items; // 25 items
     }
 
-    newCardBtn.addEventListener('click', generateNewCard);
-    resetBtn.addEventListener('click', resetCard);
+    var guestCode = localStorage.getItem('guestCode') || 'guest';
+    var card = buildCard(guestCode);
 
-    function generateNewCard() {
-        const shuffled = [...bingoItems].sort(() => Math.random() - 0.5);
-        currentCard = shuffled.slice(0, 24);
-        currentCard.splice(12, 0, 'FREE');
-        markedCells = [12]; // Free space is always marked
-        Store.set('bingoCard', currentCard);
-        Store.set('bingoMarked', markedCells);
-        renderCard();
-        winnerDisplay.style.display = 'none';
+    if (!card) {
+        bingoCard.innerHTML = '<p class="bingo-no-card">Log in with your guest code to see your personal card!</p>';
+        if (resetBtn) resetBtn.style.display = 'none';
+        return;
     }
 
-    function resetCard() {
-        markedCells = [12];
-        Store.set('bingoMarked', markedCells);
-        renderCard();
-        winnerDisplay.style.display = 'none';
+    var storeKey = 'bingoMarked_' + guestCode;
+    var markedCells = Store.get(storeKey, [12]);
+
+    renderCard();
+    if (resetBtn) {
+        resetBtn.addEventListener('click', function() {
+            markedCells = [12];
+            Store.set(storeKey, markedCells);
+            renderCard();
+            if (winnerDisplay) winnerDisplay.style.display = 'none';
+        });
     }
 
     function renderCard() {
         bingoCard.innerHTML = '';
-        currentCard.forEach((item, index) => {
-            const cell = document.createElement('div');
+        card.forEach(function(item, index) {
+            var cell = document.createElement('div');
             cell.className = 'bingo-cell' + (markedCells.includes(index) ? ' marked' : '') + (index === 12 ? ' free' : '');
             cell.textContent = item;
-            cell.addEventListener('click', () => toggleCell(index));
+            cell.addEventListener('click', function() { toggleCell(index); });
             bingoCard.appendChild(cell);
         });
     }
 
     function toggleCell(index) {
-        if (index === 12) return; // Can't unmark free space
-
+        if (index === 12) return;
         if (markedCells.includes(index)) {
-            markedCells = markedCells.filter(i => i !== index);
+            markedCells = markedCells.filter(function(i) { return i !== index; });
         } else {
             markedCells.push(index);
         }
-        Store.set('bingoMarked', markedCells);
+        Store.set(storeKey, markedCells);
         renderCard();
         checkWin();
     }
 
     function checkWin() {
-        const winPatterns = [
-            [0,1,2,3,4], [5,6,7,8,9], [10,11,12,13,14], [15,16,17,18,19], [20,21,22,23,24], // Rows
-            [0,5,10,15,20], [1,6,11,16,21], [2,7,12,17,22], [3,8,13,18,23], [4,9,14,19,24], // Columns
-            [0,6,12,18,24], [4,8,12,16,20] // Diagonals
+        var winPatterns = [
+            [0,1,2,3,4],[5,6,7,8,9],[10,11,12,13,14],[15,16,17,18,19],[20,21,22,23,24],
+            [0,5,10,15,20],[1,6,11,16,21],[2,7,12,17,22],[3,8,13,18,23],[4,9,14,19,24],
+            [0,6,12,18,24],[4,8,12,16,20]
         ];
-
-        const hasWin = winPatterns.some(pattern =>
-            pattern.every(index => markedCells.includes(index))
-        );
-
-        if (hasWin) {
-            winnerDisplay.style.display = 'block';
-        }
+        var hasWin = winPatterns.some(function(p) { return p.every(function(i) { return markedCells.includes(i); }); });
+        if (hasWin && winnerDisplay) winnerDisplay.style.display = 'block';
     }
 }
 
@@ -2559,24 +2615,25 @@ function initDailyChallengeReveal() {
         });
     });
 
-    // Auto-select today's day tab
-    var today = getTripDay();
-    var todayBtn = document.querySelector('.ch-day-btn[data-chday="' + today + '"]');
-    if (todayBtn) {
-        dayBtns.forEach(function (b) { b.classList.remove('active'); });
-        dayContents.forEach(function (c) { c.classList.remove('active'); });
-        todayBtn.classList.add('active');
-        var todayContent = document.querySelector('.ch-day-content[data-chday="' + today + '"]');
-        if (todayContent) {
-            todayContent.classList.add('active');
-            setTimeout(function () { animateCards(todayContent); }, 100);
-        }
-        updateTodayHighlight(today);
-    } else {
-        // Fallback: show today's highlight for day 1
-        var activeDay = document.querySelector('.ch-day-btn.active');
-        if (activeDay) {
-            updateTodayHighlight(parseInt(activeDay.dataset.chday));
+    // Auto-select today's day tab — only during the trip
+    var tripStart = new Date('2026-04-29').getTime();
+    var tripEnd = new Date('2026-05-05').getTime();
+    var now = Date.now();
+    var duringTrip = now >= tripStart && now < tripEnd;
+
+    if (duringTrip) {
+        var today = getTripDay();
+        var todayBtn = document.querySelector('.ch-day-btn[data-chday="' + today + '"]');
+        if (todayBtn) {
+            dayBtns.forEach(function (b) { b.classList.remove('active'); });
+            dayContents.forEach(function (c) { c.classList.remove('active'); });
+            todayBtn.classList.add('active');
+            var todayContent = document.querySelector('.ch-day-content[data-chday="' + today + '"]');
+            if (todayContent) {
+                todayContent.classList.add('active');
+                setTimeout(function () { animateCards(todayContent); }, 100);
+            }
+            updateTodayHighlight(today);
         }
     }
 }

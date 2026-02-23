@@ -4095,3 +4095,112 @@
         grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     }
 }
+
+/* ============================================
+   How It Works Panel
+   ============================================ */
+.how-it-works {
+    margin-bottom: 1.5rem;
+}
+.hiw-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--bg-card, #fff);
+    border: 1.5px solid var(--border, #e0e0e0);
+    border-radius: 10px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    transition: background 0.2s;
+}
+.hiw-toggle:hover { background: var(--bg-secondary, #f5f5f5); }
+.hiw-chevron { margin-left: auto; font-size: 0.85rem; }
+.hiw-body {
+    margin-top: 0.75rem;
+    padding: 1.25rem;
+    background: var(--bg-card, #fff);
+    border: 1.5px solid var(--border, #e0e0e0);
+    border-radius: 10px;
+}
+.hiw-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+}
+.hiw-card {
+    padding: 1rem;
+    background: var(--bg-secondary, #f9f9f9);
+    border-radius: 8px;
+}
+.hiw-card h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin: 0 0 0.6rem;
+    color: var(--accent, #e91e8c);
+}
+.hiw-card p {
+    font-size: 0.82rem;
+    margin: 0 0 0.5rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+.hiw-card ul {
+    font-size: 0.82rem;
+    margin: 0 0 0.5rem;
+    padding-left: 1.2rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+}
+.hiw-card a { color: var(--accent, #e91e8c); }
+
+/* ============================================
+   Personal Bingo Lock
+   ============================================ */
+.bingo-lock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 280px;
+    padding: 2rem;
+}
+.bingo-lock-inner {
+    text-align: center;
+    max-width: 380px;
+    background: var(--bg-card, #fff);
+    border: 2px dashed var(--border, #ddd);
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+}
+.bingo-lock-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+}
+.bingo-lock-inner h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem;
+    color: var(--text-primary);
+}
+.bingo-lock-inner p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin: 0 0 0.5rem;
+    line-height: 1.5;
+}
+.bingo-lock-hint {
+    font-size: 0.8rem !important;
+    font-style: italic;
+    opacity: 0.7;
+}
+.bingo-no-card {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-secondary);
+    font-style: italic;
+}
