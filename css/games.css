@@ -1102,6 +1102,13 @@
 .team3-bg { background: linear-gradient(135deg, #81c784, #388e3c); }
 .team4-bg { background: linear-gradient(135deg, #f48fb1, #c2185b); }
 
+.team-name-tba {
+    font-size: 0.72rem;
+    color: var(--text-muted, #999);
+    margin: -0.25rem 0 0.5rem;
+    font-style: italic;
+}
+
 .team-card h3 {
     font-size: 1.2rem;
     margin-bottom: 0.5rem;

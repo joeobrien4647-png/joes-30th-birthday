@@ -242,7 +242,7 @@ function initGuestLogin() {
 /* Live Stats Dashboard */
 function initLiveStats() {
     const TEAMS_LIST = ['team1', 'team2', 'team3', 'team4'];
-    const TEAM_NAMES_MAP = { team1: 'Team 1', team2: 'Team 2', team3: 'Team 3', team4: 'Team 4' };
+    const TEAM_NAMES_MAP = { team1: 'Team 1 \u2014 \uD83D\uDD12 TBA', team2: 'Team 2 \u2014 \uD83D\uDD12 TBA', team3: 'Team 3 \u2014 \uD83D\uDD12 TBA', team4: 'Team 4 \u2014 \uD83D\uDD12 TBA' };
 
     function render() {
         const guestCode = localStorage.getItem('guestCode');

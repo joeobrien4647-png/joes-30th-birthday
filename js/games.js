@@ -252,8 +252,9 @@ function initBingo() {
 
     if (!bingoCard) return;
 
-    const BINGO_UNLOCK = new Date('2026-04-29T07:00:00');
-    const isUnlocked = Auth.isAdmin() || Date.now() >= BINGO_UNLOCK.getTime();
+    const BINGO_LOCKED = true; // Set to false when ready to release
+    const isUnlocked = !BINGO_LOCKED && Auth.isAdmin() || !BINGO_LOCKED && Date.now() >= new Date('2026-04-29T07:00:00').getTime();
+    // To unlock: set BINGO_LOCKED = false above
 
     if (!isUnlocked) {
         if (lockOverlay) lockOverlay.style.display = 'flex';
@@ -562,9 +563,9 @@ function initLeaderboard() {
 
     /* ---- Constants ---- */
     const TEAMS = ['team1', 'team2', 'team3', 'team4'];
-    const TEAM_NAMES = { team1: 'Team 1', team2: 'Team 2', team3: 'Team 3', team4: 'Team 4' };
-    const TEAM_HIDDEN = { team1: 'Team 1', team2: 'Team 2', team3: 'Team 3', team4: 'Team 4' };
-    const TEAM_EMOJI = { team1: '1\uFE0F\u20E3', team2: '2\uFE0F\u20E3', team3: '3\uFE0F\u20E3', team4: '4\uFE0F\u20E3' };
+    const TEAM_NAMES = { team1: 'Team 1', team2: 'Team 2', team3: 'Team 3', team4: 'Team 4' }; // Real names set on arrival night
+    const TEAM_HIDDEN = { team1: 'Team 1 \u2014 \uD83D\uDD12 Name TBA', team2: 'Team 2 \u2014 \uD83D\uDD12 Name TBA', team3: 'Team 3 \u2014 \uD83D\uDD12 Name TBA', team4: 'Team 4 \u2014 \uD83D\uDD12 Name TBA' };
+    const TEAM_EMOJI = { team1: '\u2753', team2: '\u2753', team3: '\u2753', team4: '\u2753' };
     const CATEGORY_EMOJI = { games: '\uD83C\uDFAE', duties: '\uD83D\uDC68\u200D\uD83C\uDF73', challenges: '\uD83C\uDFC6', bonus: '\u2B50', penalty: '\uD83D\uDFE5' };
     const CATEGORY_LABELS = { games: 'Games', duties: 'Duties', challenges: 'Challenges', bonus: 'Bonus', penalty: 'Penalty' };
 
@@ -3430,7 +3431,7 @@ function initDailyRecapGenerator() {
         var statuses = Store.get('challengeStatuses', {});
         var gamesComplete = Object.keys(statuses).length;
 
-        var TEAM_NAMES = { team1: 'Team 1', team2: 'Team 2', team3: 'Team 3', team4: 'Team 4' };
+        var TEAM_NAMES = { team1: 'Team 1 \u2014 \uD83D\uDD12 TBA', team2: 'Team 2 \u2014 \uD83D\uDD12 TBA', team3: 'Team 3 \u2014 \uD83D\uDD12 TBA', team4: 'Team 4 \u2014 \uD83D\uDD12 TBA' };
 
         var html = '<div class="gazette-header">' +
             '<div class="gazette-masthead">The Daily Gazette</div>' +

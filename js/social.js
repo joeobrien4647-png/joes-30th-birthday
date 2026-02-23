@@ -1774,7 +1774,7 @@ function initTeamChat() {
 
     const TEAM_KEYS = ['team1', 'team2', 'team3', 'team4'];
     const TEAM_LABELS = { team1: 'Team 1', team2: 'Team 2', team3: 'Team 3', team4: 'Team 4' };
-    const TEAM_HIDDEN = { team1: 'Team 1', team2: 'Team 2', team3: 'Team 3', team4: 'Team 4' };
+    const TEAM_HIDDEN = { team1: 'Team 1 \u2014 \uD83D\uDD12 TBA', team2: 'Team 2 \u2014 \uD83D\uDD12 TBA', team3: 'Team 3 \u2014 \uD83D\uDD12 TBA', team4: 'Team 4 \u2014 \uD83D\uDD12 TBA' };
     const MAX_MESSAGES = 50;
 
     const guestCode = Auth.getGuestCode() || 'anon';
