@@ -701,7 +701,7 @@ const MEAL_DAYS = [
     {
         day: 'Thu 30 Apr',
         label: 'First Full Day',
-        team: 'Team Vouvray',
+        team: 'Team 1',
         options: [
             { id: 'thu-bbq', name: 'BBQ Feast', emoji: '\uD83E\uDD69', desc: 'Steaks, chicken, grilled veg, salads' },
             { id: 'thu-curry', name: 'Big Curry Night', emoji: '\uD83C\uDF5B', desc: 'Curry, rice, naan - feeds the masses' },
@@ -712,7 +712,7 @@ const MEAL_DAYS = [
     {
         day: 'Fri 1 May',
         label: 'Adventure Day',
-        team: 'Team Chinon',
+        team: 'Team 2',
         options: [
             { id: 'fri-french', name: 'French Bistro Night', emoji: '\uD83C\uDDEB\uD83C\uDDF7', desc: 'Coq au vin, ratatouille, baguettes' },
             { id: 'fri-pizza', name: 'Homemade Pizza', emoji: '\uD83C\uDF55', desc: 'Everyone makes their own - fun & easy' },
@@ -723,7 +723,7 @@ const MEAL_DAYS = [
     {
         day: 'Sat 2 May',
         label: 'JOE\'S BIRTHDAY!',
-        team: 'Team Sancerre',
+        team: 'Team 3',
         options: [
             { id: 'sat-feast', name: 'Birthday Feast', emoji: '\uD83C\uDF82', desc: 'Three-course birthday dinner - the works!' },
             { id: 'sat-bbqparty', name: 'Birthday BBQ Party', emoji: '\uD83C\uDF89', desc: 'Garden party vibes - BBQ + buffet' },
@@ -733,7 +733,7 @@ const MEAL_DAYS = [
     {
         day: 'Sun 3 May',
         label: 'Recovery Day',
-        team: 'Team Muscadet',
+        team: 'Team 4',
         options: [
             { id: 'sun-comfort', name: 'Comfort Food', emoji: '\uD83C\uDF72', desc: 'Mac & cheese, shepherd\'s pie - hangover cures' },
             { id: 'sun-bbq2', name: 'Last Night BBQ', emoji: '\uD83D\uDD25', desc: 'Use up the rest - final BBQ blowout' },

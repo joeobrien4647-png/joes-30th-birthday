@@ -54,7 +54,7 @@ const Store = {
 const GUEST_DATA = {
     'joe30': {
         name: 'Joe', fullName: 'Joe O\'Brien', room: 'Master Suite',
-        team: 'Team Vouvray', nickname: 'His Royal Ancientness',
+        team: 'Team Champagne', nickname: 'His Royal Ancientness',
         missions: [
             { id: 'm1', text: 'Accept at least 3 birthday toasts gracefully', completed: false },
             { id: 'm2', text: 'Dance to Mr. Brightside at your party', completed: false },
@@ -64,7 +64,7 @@ const GUEST_DATA = {
     },
     'sophie30': {
         name: 'Sophie', fullName: 'Sophie Geen', room: 'Master Suite',
-        team: 'Team Chinon', nickname: 'The Control Freak',
+        team: 'Team Champagne', nickname: 'The Control Freak',
         missions: [
             { id: 'm1', text: 'Make sure Joe doesn\'t find out about the surprise activity', completed: false },
             { id: 'm2', text: 'Get a candid photo of Joe laughing', completed: false },
@@ -74,7 +74,7 @@ const GUEST_DATA = {
     },
     'luke30': {
         name: 'Luke', fullName: 'Luke Recchia', room: 'Room 2',
-        team: 'Team Chinon', nickname: 'DJ No-Requests',
+        team: 'Team Bordeaux', nickname: 'DJ No-Requests',
         missions: [
             { id: 'm1', text: 'Get everyone dancing at least once', completed: false },
             { id: 'm2', text: 'Challenge Joe to a game and let him win', completed: false },
@@ -84,7 +84,7 @@ const GUEST_DATA = {
     },
     'sam30': {
         name: 'Samantha', fullName: 'Samantha Recchia', room: 'Room 2',
-        team: 'Team Vouvray', nickname: 'The Paparazzi',
+        team: 'Team Bordeaux', nickname: 'The Paparazzi',
         missions: [
             { id: 'm1', text: 'Take at least 50 group photos', completed: false },
             { id: 'm2', text: 'Create a mini photo montage by end of trip', completed: false },
@@ -94,7 +94,7 @@ const GUEST_DATA = {
     },
     'hannah30': {
         name: 'Hannah', fullName: 'Hannah O\'Brien', room: 'Room 3',
-        team: 'Team Chinon', nickname: 'The Snitch',
+        team: 'Team Champagne', nickname: 'The Snitch',
         missions: [
             { id: 'm1', text: 'Share an embarrassing childhood story about Joe', completed: false },
             { id: 'm2', text: 'Make sure Joe\'s birthday cake is perfect', completed: false },
@@ -104,7 +104,7 @@ const GUEST_DATA = {
     },
     'robin30': {
         name: 'Robin', fullName: 'Robin Hughes', room: 'Room 3',
-        team: 'Team Vouvray', nickname: 'The Liability',
+        team: 'Team Rose', nickname: 'The Liability',
         missions: [
             { id: 'm1', text: 'Suggest a spontaneous adventure', completed: false },
             { id: 'm2', text: 'Be first in the pool at least once', completed: false },
@@ -114,7 +114,7 @@ const GUEST_DATA = {
     },
     'johnny30': {
         name: 'Johnny', fullName: 'Johnny Gates O\'Brien', room: 'Room 4',
-        team: 'Team Sancerre', nickname: 'Thinks He\'s Funny',
+        team: 'Team Bordeaux', nickname: 'Thinks He\'s Funny',
         missions: [
             { id: 'm1', text: 'Tell at least 5 jokes (good or bad)', completed: false },
             { id: 'm2', text: 'Do an impression of Joe', completed: false },
@@ -124,7 +124,7 @@ const GUEST_DATA = {
     },
     'florrie30': {
         name: 'Florrie', fullName: 'Florrie Gates O\'Brien', room: 'Room 4',
-        team: 'Team Vouvray', nickname: 'The Loud One',
+        team: 'Team Rose', nickname: 'The Loud One',
         missions: [
             { id: 'm1', text: 'Lead a group cheer for Joe', completed: false },
             { id: 'm2', text: 'Help decorate for the birthday dinner', completed: false },
@@ -134,7 +134,7 @@ const GUEST_DATA = {
     },
     'razon30': {
         name: 'Razon', fullName: 'Razon Mahebub', room: 'Room 5',
-        team: 'Team Muscadet', nickname: 'The Schemer',
+        team: 'Team Champagne', nickname: 'The Schemer',
         missions: [
             { id: 'm1', text: 'Win a strategy game', completed: false },
             { id: 'm2', text: 'Help plan a surprise moment', completed: false },
@@ -144,7 +144,7 @@ const GUEST_DATA = {
     },
     'neeve30': {
         name: 'Neeve', fullName: 'Neeve Fletcher', room: 'Room 5',
-        team: 'Team Chinon', nickname: 'The Hangry One',
+        team: 'Team Bordeaux', nickname: 'The Hangry One',
         missions: [
             { id: 'm1', text: 'Find the best local cheese', completed: false },
             { id: 'm2', text: 'Help with one group meal', completed: false },
@@ -154,7 +154,7 @@ const GUEST_DATA = {
     },
     'george30': {
         name: 'George', fullName: 'George Heyworth', room: 'Room 6',
-        team: 'Team Muscadet', nickname: 'The Foghorn',
+        team: 'Team Bordeaux', nickname: 'The Foghorn',
         missions: [
             { id: 'm1', text: 'Start a chant at the birthday dinner', completed: false },
             { id: 'm2', text: 'Be the last one standing at the party', completed: false },
@@ -164,7 +164,7 @@ const GUEST_DATA = {
     },
     'emmaw30': {
         name: 'Emma W', fullName: 'Emma Winup', room: 'Room 6',
-        team: 'Team Sancerre', nickname: 'Spreadsheet Queen',
+        team: 'Team Champagne', nickname: 'Spreadsheet Queen',
         missions: [
             { id: 'm1', text: 'Make sure activities run on time', completed: false },
             { id: 'm2', text: 'Help coordinate the group photo', completed: false },
@@ -174,7 +174,7 @@ const GUEST_DATA = {
     },
     'tom30': {
         name: 'Tom', fullName: 'Tom Heyworth', room: 'Room 7',
-        team: 'Team Vouvray', nickname: 'The Exaggerator',
+        team: 'Team Bordeaux', nickname: 'The Exaggerator',
         missions: [
             { id: 'm1', text: 'Tell a "remember when" story about Joe', completed: false },
             { id: 'm2', text: 'Document at least one funny moment', completed: false },
@@ -184,7 +184,7 @@ const GUEST_DATA = {
     },
     'robert30': {
         name: 'Robert', fullName: 'Robert Winup', room: 'Room 7',
-        team: 'Team Sancerre', nickname: 'The Wine Snob',
+        team: 'Team Rose', nickname: 'The Wine Snob',
         missions: [
             { id: 'm1', text: 'Recommend the best wine at tasting', completed: false },
             { id: 'm2', text: 'Teach someone something about wine', completed: false },
@@ -194,7 +194,7 @@ const GUEST_DATA = {
     },
     'sarah30': {
         name: 'Sarah', fullName: 'Sarah', room: 'Room 8',
-        team: 'Team Muscadet', nickname: 'The Gossip',
+        team: 'Team Champagne', nickname: 'The Gossip',
         missions: [
             { id: 'm1', text: 'Introduce two people who haven\'t met', completed: false },
             { id: 'm2', text: 'Start a conversation game', completed: false },
@@ -204,7 +204,7 @@ const GUEST_DATA = {
     },
     'kiran30': {
         name: 'Kiran', fullName: 'Kiran Ruparelia', room: 'Room 8',
-        team: 'Team Sancerre', nickname: 'Last Man Standing',
+        team: 'Team Bordeaux', nickname: 'Last Man Standing',
         missions: [
             { id: 'm1', text: 'Be part of a late-night chat', completed: false },
             { id: 'm2', text: 'Suggest a midnight activity', completed: false },
@@ -214,7 +214,7 @@ const GUEST_DATA = {
     },
     'shane30': {
         name: 'Shane', fullName: 'Shane Pallian', room: 'Room 9',
-        team: 'Team Chinon', nickname: 'The Sore Loser',
+        team: 'Team Rose', nickname: 'The Sore Loser',
         missions: [
             { id: 'm1', text: 'Win at least one game/challenge', completed: false },
             { id: 'm2', text: 'Challenge Joe to something competitive', completed: false },
@@ -224,7 +224,7 @@ const GUEST_DATA = {
     },
     'oli30': {
         name: 'Oli', fullName: 'Oli Moran', room: 'Room 9',
-        team: 'Team Anjou', nickname: 'The Horizontal One',
+        team: 'Team Champagne', nickname: 'The Horizontal One',
         missions: [
             { id: 'm1', text: 'Keep everyone calm if things get hectic', completed: false },
             { id: 'm2', text: 'Suggest a relaxing activity', completed: false },
@@ -234,7 +234,7 @@ const GUEST_DATA = {
     },
     'peter30': {
         name: 'Peter', fullName: 'Peter London', room: 'Room 10',
-        team: 'Team Anjou', nickname: 'The Loose Cannon',
+        team: 'Team Bordeaux', nickname: 'The Loose Cannon',
         missions: [
             { id: 'm1', text: 'Do something unexpected', completed: false },
             { id: 'm2', text: 'Suggest a bold activity', completed: false },
@@ -244,7 +244,7 @@ const GUEST_DATA = {
     },
     'emmal30': {
         name: 'Emma L', fullName: 'Emma Levett', room: 'Room 10',
-        team: 'Team Muscadet', nickname: 'The Pinterest Addict',
+        team: 'Team Rose', nickname: 'The Pinterest Addict',
         missions: [
             { id: 'm1', text: 'Help with decorations or presentation', completed: false },
             { id: 'm2', text: 'Create a small handmade gift/card', completed: false },
@@ -254,7 +254,7 @@ const GUEST_DATA = {
     },
     'jonnyl30': {
         name: 'Jonny L', fullName: 'Jonny Levett', room: 'Room 11',
-        team: 'Team Sancerre', nickname: 'The Menace',
+        team: 'Team Champagne', nickname: 'The Menace',
         missions: [
             { id: 'm1', text: 'Pull a harmless prank', completed: false },
             { id: 'm2', text: 'Keep the jokes coming all week', completed: false },
@@ -264,7 +264,7 @@ const GUEST_DATA = {
     },
     'jonnyw30': {
         name: 'Jonny W', fullName: 'Jonny Williams', room: 'Room 11',
-        team: 'Team Vouvray', nickname: 'Self-Proclaimed Legend',
+        team: 'Team Bordeaux', nickname: 'Self-Proclaimed Legend',
         missions: [
             { id: 'm1', text: 'Share a classic Joe story', completed: false },
             { id: 'm2', text: 'Help with the birthday toast', completed: false },
@@ -274,7 +274,7 @@ const GUEST_DATA = {
     },
     'will30': {
         name: 'Will', fullName: 'Will Turner', room: 'Room 12',
-        team: 'Team Anjou', nickname: 'Captain Obvious',
+        team: 'Team Rose', nickname: 'Captain Obvious',
         missions: [
             { id: 'm1', text: 'Lead a group activity', completed: false },
             { id: 'm2', text: 'Make sure no one gets left behind', completed: false },
@@ -284,7 +284,7 @@ const GUEST_DATA = {
     },
     'chris30': {
         name: 'Chris', fullName: 'Chris Coggin', room: 'Room 12',
-        team: 'Team Muscadet', nickname: 'The Quiet Assassin',
+        team: 'Team Champagne', nickname: 'The Quiet Assassin',
         missions: [
             { id: 'm1', text: 'Be dependable when things are needed', completed: false },
             { id: 'm2', text: 'Help with setup/cleanup', completed: false },
@@ -294,7 +294,7 @@ const GUEST_DATA = {
     },
     'oscar30': {
         name: 'Oscar', fullName: 'Oscar Walters', room: 'Room 13',
-        team: 'Team Anjou', nickname: 'The Bad Influence',
+        team: 'Team Bordeaux', nickname: 'The Bad Influence',
         missions: [
             { id: 'm1', text: 'Get the party started at least once', completed: false },
             { id: 'm2', text: 'Lead a drinking game', completed: false },
@@ -304,7 +304,7 @@ const GUEST_DATA = {
     },
     'matt30': {
         name: 'Matt', fullName: 'Matt Hill', room: 'Room 13',
-        team: 'Team Anjou', nickname: 'The Diplomat',
+        team: 'Team Rose', nickname: 'The Diplomat',
         missions: [
             { id: 'm1', text: 'Keep conversations flowing', completed: false },
             { id: 'm2', text: 'Help resolve any friendly disputes', completed: false },
@@ -314,7 +314,7 @@ const GUEST_DATA = {
     },
     'pranay30': {
         name: 'Pranay', fullName: 'Pranay Dube', room: 'Room 14',
-        team: 'Team Chinon', nickname: 'The Human Puppy',
+        team: 'Team Champagne', nickname: 'The Human Puppy',
         missions: [
             { id: 'm1', text: 'Be enthusiastic about every activity', completed: false },
             { id: 'm2', text: 'Encourage others to join in', completed: false },
@@ -326,16 +326,14 @@ const GUEST_DATA = {
 
 /* Players mapped to teams (for leaderboard) */
 const PLAYERS = {
-    'Joe': 'vouvray', 'Sam': 'vouvray', 'Robin': 'vouvray',
-    'Florrie': 'vouvray', 'Tom': 'vouvray', 'Jonny W': 'vouvray',
-    'Sophie': 'chinon', 'Luke': 'chinon', 'Hannah': 'chinon',
-    'Neeve': 'chinon', 'Shane': 'chinon', 'Pranay': 'chinon',
-    'Johnny': 'sancerre', 'Emma W': 'sancerre', 'Jonny L': 'sancerre',
-    'Robert': 'sancerre', 'Kiran': 'sancerre',
-    'George': 'muscadet', 'Razon': 'muscadet', 'Emma L': 'muscadet',
-    'Sarah': 'muscadet', 'Chris': 'muscadet',
-    'Peter': 'anjou', 'Oli': 'anjou', 'Oscar': 'anjou',
-    'Will': 'anjou', 'Matt': 'anjou'
+    'Joe': 'champagne', 'Sophie': 'champagne', 'Hannah': 'champagne',
+    'Razon': 'champagne', 'Emma W': 'champagne', 'Sarah': 'champagne',
+    'Oli': 'champagne', 'Jonny L': 'champagne', 'Chris': 'champagne', 'Pranay': 'champagne',
+    'Luke': 'bordeaux', 'Sam': 'bordeaux', 'Johnny': 'bordeaux',
+    'Neeve': 'bordeaux', 'Tom': 'bordeaux', 'Kiran': 'bordeaux',
+    'George': 'bordeaux', 'Peter': 'bordeaux', 'Jonny W': 'bordeaux', 'Oscar': 'bordeaux',
+    'Robin': 'rose', 'Florrie': 'rose', 'Robert': 'rose',
+    'Emma L': 'rose', 'Shane': 'rose', 'Will': 'rose', 'Matt': 'rose'
 };
 
 /* Reveal Date — teams & nicknames hidden until this date */
@@ -627,10 +625,139 @@ function initGuestPreview() {
     }
 }
 
+/* Live Leaderboard Banner (all pages) */
+function initLeaderboardBanner() {
+    const TEAM_NAMES = { vouvray: 'VOU', chinon: 'CHI', sancerre: 'SAN', muscadet: 'MUS', anjou: 'ANJ' };
+    const TEAM_COLORS = { vouvray: '#f0c040', chinon: '#a94442', sancerre: '#d4a574', muscadet: '#5a9e5a', anjou: '#e91e8c' };
+    const TEAMS = ['vouvray', 'chinon', 'sancerre', 'muscadet', 'anjou'];
+
+    const bar = document.createElement('div');
+    bar.className = 'lb-banner';
+    bar.id = 'lb-banner';
+
+    function render() {
+        const scores = Store.get('lb_teamScores', { vouvray: 0, chinon: 0, sancerre: 0, muscadet: 0, anjou: 0 });
+        const sorted = TEAMS.slice().sort((a, b) => (scores[b] || 0) - (scores[a] || 0));
+        const revealed = typeof isRevealed === 'function' ? isRevealed() : true;
+
+        bar.innerHTML = '<span class="lb-banner-label">\uD83C\uDFC6</span>' +
+            sorted.map((t, i) => {
+                const name = revealed ? TEAM_NAMES[t] : ('T' + (i + 1));
+                const color = revealed ? TEAM_COLORS[t] : 'rgba(255,255,255,0.5)';
+                const pts = scores[t] || 0;
+                return '<span class="lb-banner-team" style="border-color:' + color + '">' +
+                    '<span class="lb-banner-name" style="color:' + color + '">' + name + '</span>' +
+                    '<span class="lb-banner-pts">' + pts + '</span></span>';
+            }).join('');
+    }
+
+    render();
+    document.body.appendChild(bar);
+    setInterval(render, 15000);
+}
+
+/* Dark Mode Auto-Switch (9pm-7am) */
+function autoDarkMode() {
+    const hour = new Date().getHours();
+    const manualSet = localStorage.getItem('darkMode');
+    // Only auto-switch if user hasn't manually toggled
+    if (manualSet === null) {
+        if (hour >= 21 || hour < 7) {
+            document.body.classList.add('dark-mode');
+            const toggle = document.getElementById('dark-mode-toggle');
+            if (toggle) toggle.textContent = '\u2600\uFE0F';
+        }
+    }
+}
+
+/* Background Ambiance Toggle */
+function initAmbiance() {
+    let audioCtx = null;
+    let ambianceNodes = [];
+    let playing = false;
+
+    const btn = document.createElement('button');
+    btn.className = 'ambiance-btn';
+    btn.innerHTML = '\uD83C\uDFB6';
+    btn.title = 'Toggle ambient sounds';
+
+    function startAmbiance() {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        // Gentle cicada-like noise + soft pad
+        const bufferSize = audioCtx.sampleRate * 2;
+        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+            data[i] = (Math.random() * 2 - 1) * 0.015;
+        }
+        const noise = audioCtx.createBufferSource();
+        noise.buffer = buffer;
+        noise.loop = true;
+
+        // Band-pass filter for cicada-like texture
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.value = 4000;
+        filter.Q.value = 2;
+
+        const gainNode = audioCtx.createGain();
+        gainNode.gain.value = 0.3;
+
+        noise.connect(filter);
+        filter.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        noise.start();
+
+        // Soft warm pad
+        const pad = audioCtx.createOscillator();
+        const padGain = audioCtx.createGain();
+        pad.type = 'sine';
+        pad.frequency.value = 220;
+        padGain.gain.value = 0.02;
+        pad.connect(padGain);
+        padGain.connect(audioCtx.destination);
+        pad.start();
+
+        ambianceNodes = [noise, pad, gainNode, padGain, filter];
+    }
+
+    function stopAmbiance() {
+        ambianceNodes.forEach(n => { try { n.stop ? n.stop() : n.disconnect(); } catch(e) {} });
+        ambianceNodes = [];
+        if (audioCtx) { audioCtx.close(); audioCtx = null; }
+    }
+
+    btn.addEventListener('click', function () {
+        playing = !playing;
+        if (playing) {
+            try { startAmbiance(); } catch(e) { playing = false; }
+        } else {
+            stopAmbiance();
+        }
+        btn.classList.toggle('active', playing);
+    });
+
+    document.body.appendChild(btn);
+}
+
+/* Page Transition (fade-in on load) */
+function initPageTransition() {
+    document.body.classList.add('page-enter');
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            document.body.classList.add('page-ready');
+        });
+    });
+}
+
 /* Initialize shared components on every page */
 document.addEventListener('DOMContentLoaded', function () {
+    // Page transition
+    initPageTransition();
     // Apply saved dark mode
     initDarkMode();
+    // Auto dark mode (time-based)
+    autoDarkMode();
     // Apply saved theme
     initThemeSwitcher();
     // Scroll reveal for sections
@@ -641,6 +768,16 @@ document.addEventListener('DOMContentLoaded', function () {
     updateNavGuest();
     // Admin guest preview toggle
     initGuestPreview();
+    // Live leaderboard banner
+    initLeaderboardBanner();
+    // Background ambiance toggle
+    initAmbiance();
+    // Keyboard shortcuts
+    initKeyboardShortcuts();
+    // Animated scroll counters
+    initScrollCounters();
+    // Enhanced lightbox with swipe
+    initEnhancedLightbox();
 });
 
 /* Update nav to show guest name */
@@ -650,4 +787,277 @@ function updateNavGuest() {
         guestNameEl.textContent = 'Hi, ' + Auth.getGuestName();
         guestNameEl.style.display = 'inline-block';
     }
+}
+
+/* ============================================
+   Confirmation Modal
+   ============================================ */
+function confirmAction(message, onConfirm) {
+    // Remove any existing confirmation modal
+    const existing = document.getElementById('confirm-modal');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'confirm-modal';
+    overlay.className = 'confirm-overlay';
+
+    overlay.innerHTML =
+        '<div class="confirm-card">' +
+            '<p class="confirm-message">' + escapeHtml(message) + '</p>' +
+            '<div class="confirm-buttons">' +
+                '<button class="confirm-btn confirm-btn-cancel">Cancel</button>' +
+                '<button class="confirm-btn confirm-btn-confirm">Confirm</button>' +
+            '</div>' +
+        '</div>';
+
+    function close() {
+        overlay.classList.add('confirm-closing');
+        setTimeout(function () { overlay.remove(); }, 200);
+    }
+
+    overlay.querySelector('.confirm-btn-cancel').addEventListener('click', close);
+    overlay.querySelector('.confirm-btn-confirm').addEventListener('click', function () {
+        close();
+        if (typeof onConfirm === 'function') onConfirm();
+    });
+
+    // Close on overlay click
+    overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) close();
+    });
+
+    document.body.appendChild(overlay);
+    // Focus the confirm button for accessibility
+    overlay.querySelector('.confirm-btn-confirm').focus();
+}
+
+/* ============================================
+   Photo Compression
+   ============================================ */
+function compressImage(file, maxWidth, quality) {
+    maxWidth = maxWidth || 800;
+    quality = quality || 0.6;
+
+    return new Promise(function (resolve, reject) {
+        if (!file || !file.type.startsWith('image/')) {
+            reject(new Error('Invalid image file'));
+            return;
+        }
+
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var img = new Image();
+            img.onload = function () {
+                var canvas = document.createElement('canvas');
+                var w = img.width;
+                var h = img.height;
+
+                if (w > maxWidth) {
+                    h = Math.round(h * (maxWidth / w));
+                    w = maxWidth;
+                }
+
+                canvas.width = w;
+                canvas.height = h;
+
+                var ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, w, h);
+
+                resolve(canvas.toDataURL('image/jpeg', quality));
+            };
+            img.onerror = function () { reject(new Error('Failed to load image')); };
+            img.src = e.target.result;
+        };
+        reader.onerror = function () { reject(new Error('Failed to read file')); };
+        reader.readAsDataURL(file);
+    });
+}
+
+/* ============================================
+   Keyboard Shortcuts
+   ============================================ */
+function initKeyboardShortcuts() {
+    document.addEventListener('keydown', function (e) {
+        // ESC - close modals and lightbox
+        if (e.key === 'Escape') {
+            // Close lightbox first
+            var lightbox = document.getElementById('lightbox');
+            if (lightbox && lightbox.classList.contains('active')) {
+                lightbox.classList.remove('active');
+                return;
+            }
+            // Close confirmation modal
+            var confirmModal = document.getElementById('confirm-modal');
+            if (confirmModal) {
+                confirmModal.remove();
+                return;
+            }
+            // Close any visible modal (class contains 'modal' and is visible)
+            var modals = document.querySelectorAll('[class*="modal"]');
+            for (var i = 0; i < modals.length; i++) {
+                var m = modals[i];
+                var style = window.getComputedStyle(m);
+                if (style.display !== 'none' && style.visibility !== 'hidden' && m.offsetParent !== null) {
+                    // Skip modals that have their own close handlers
+                    if (m.id === 'guest-login-modal' || m.id === 'password-modal' || m.id === 'profile-modal') continue;
+                    m.style.display = 'none';
+                    return;
+                }
+            }
+        }
+
+        // Left/Right arrows - navigate day tabs
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+            // Don't intercept when typing in inputs
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) return;
+
+            var tabs = document.querySelectorAll('.tab-btn');
+            if (tabs.length === 0) return;
+
+            var activeIdx = -1;
+            for (var j = 0; j < tabs.length; j++) {
+                if (tabs[j].classList.contains('active')) { activeIdx = j; break; }
+            }
+            if (activeIdx === -1) return;
+
+            var nextIdx = e.key === 'ArrowRight'
+                ? Math.min(activeIdx + 1, tabs.length - 1)
+                : Math.max(activeIdx - 1, 0);
+
+            if (nextIdx !== activeIdx) {
+                tabs[nextIdx].click();
+            }
+        }
+    });
+}
+
+/* ============================================
+   Notification Toasts
+   ============================================ */
+function showToast(message, type) {
+    type = type || 'info';
+
+    // Create container if it doesn't exist
+    var container = document.getElementById('toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toast-container';
+        container.className = 'toast-container';
+        document.body.appendChild(container);
+    }
+
+    var icons = { success: '\u2713', info: '\u2139', warning: '\u26A0' };
+
+    var toast = document.createElement('div');
+    toast.className = 'toast toast-' + type;
+    toast.innerHTML = '<span class="toast-icon">' + (icons[type] || icons.info) + '</span>' +
+                      '<span class="toast-message">' + escapeHtml(message) + '</span>';
+
+    container.appendChild(toast);
+
+    // Trigger slide-in
+    requestAnimationFrame(function () {
+        toast.classList.add('toast-visible');
+    });
+
+    // Auto-dismiss after 3 seconds
+    setTimeout(function () {
+        toast.classList.remove('toast-visible');
+        toast.classList.add('toast-exit');
+        setTimeout(function () { toast.remove(); }, 300);
+    }, 3000);
+}
+
+/* ============================================
+   Animated Scroll Counters
+   ============================================ */
+function initScrollCounters() {
+    var counters = document.querySelectorAll('.count-up');
+    if (counters.length === 0) return;
+
+    var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var el = entry.target;
+            if (el.dataset.counted) return;
+            el.dataset.counted = 'true';
+
+            var target = parseInt(el.textContent, 10);
+            if (isNaN(target) || target === 0) return;
+
+            var start = 0;
+            var duration = 1000;
+            var startTime = null;
+
+            function step(timestamp) {
+                if (!startTime) startTime = timestamp;
+                var progress = Math.min((timestamp - startTime) / duration, 1);
+                // Ease-out cubic
+                var eased = 1 - Math.pow(1 - progress, 3);
+                el.textContent = Math.round(start + (target - start) * eased);
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                } else {
+                    el.textContent = target;
+                }
+            }
+
+            el.textContent = '0';
+            requestAnimationFrame(step);
+            observer.unobserve(el);
+        });
+    }, { threshold: 0.3 });
+
+    counters.forEach(function (el) { observer.observe(el); });
+}
+
+/* ============================================
+   Enhanced Lightbox with Swipe Support
+   ============================================ */
+function initEnhancedLightbox() {
+    var lightbox = document.getElementById('lightbox');
+    if (!lightbox) return;
+
+    var closeBtn = lightbox.querySelector('.lightbox-close');
+    var prevBtn = lightbox.querySelector('.lightbox-prev');
+    var nextBtn = lightbox.querySelector('.lightbox-next');
+
+    // Make close button larger for touch
+    if (closeBtn) {
+        closeBtn.classList.add('lightbox-close-enhanced');
+    }
+
+    // Add swipe indicator arrows
+    if (prevBtn) prevBtn.classList.add('lightbox-swipe-indicator');
+    if (nextBtn) nextBtn.classList.add('lightbox-swipe-indicator');
+
+    // Touch swipe handling
+    var touchStartX = 0;
+    var touchStartY = 0;
+    var swiping = false;
+
+    lightbox.addEventListener('touchstart', function (e) {
+        touchStartX = e.changedTouches[0].clientX;
+        touchStartY = e.changedTouches[0].clientY;
+        swiping = true;
+    }, { passive: true });
+
+    lightbox.addEventListener('touchend', function (e) {
+        if (!swiping) return;
+        swiping = false;
+
+        var touchEndX = e.changedTouches[0].clientX;
+        var touchEndY = e.changedTouches[0].clientY;
+        var deltaX = touchEndX - touchStartX;
+        var deltaY = touchEndY - touchStartY;
+
+        // Only trigger if horizontal swipe is dominant
+        if (Math.abs(deltaX) < 50 || Math.abs(deltaY) > Math.abs(deltaX)) return;
+
+        if (deltaX < -50 && nextBtn) {
+            nextBtn.click();
+        } else if (deltaX > 50 && prevBtn) {
+            prevBtn.click();
+        }
+    }, { passive: true });
 }

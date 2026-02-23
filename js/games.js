@@ -505,10 +505,10 @@ function initLeaderboard() {
     if (!tabs.length) return;
 
     /* ---- Constants ---- */
-    const TEAMS = ['vouvray', 'chinon', 'sancerre', 'muscadet', 'anjou'];
-    const TEAM_NAMES = { vouvray: 'Team Vouvray', chinon: 'Team Chinon', sancerre: 'Team Sancerre', muscadet: 'Team Muscadet', anjou: 'Team Anjou' };
-    const TEAM_HIDDEN = { vouvray: 'Team 1', chinon: 'Team 2', sancerre: 'Team 3', muscadet: 'Team 4', anjou: 'Team 5' };
-    const TEAM_EMOJI = { vouvray: '\uD83C\uDF7E', chinon: '\uD83C\uDF77', sancerre: '\uD83E\uDD42', muscadet: '\uD83C\uDF4B', anjou: '\uD83C\uDF39' };
+    const TEAMS = ['champagne', 'bordeaux', 'rose'];
+    const TEAM_NAMES = { champagne: 'Team Champagne', bordeaux: 'Team Bordeaux', rose: 'Team Rose' };
+    const TEAM_HIDDEN = { champagne: 'Team 1', bordeaux: 'Team 2', rose: 'Team 3' };
+    const TEAM_EMOJI = { champagne: '\uD83E\uDD42', bordeaux: '\uD83C\uDF77', rose: '\uD83C\uDF39' };
     const CATEGORY_EMOJI = { games: '\uD83C\uDFAE', duties: '\uD83D\uDC68\u200D\uD83C\uDF73', challenges: '\uD83C\uDFC6', bonus: '\u2B50', penalty: '\uD83D\uDFE5' };
     const CATEGORY_LABELS = { games: 'Games', duties: 'Duties', challenges: 'Challenges', bonus: 'Bonus', penalty: 'Penalty' };
 
@@ -3373,7 +3373,7 @@ function initDailyRecapGenerator() {
         var statuses = Store.get('challengeStatuses', {});
         var gamesComplete = Object.keys(statuses).length;
 
-        var TEAM_NAMES = { vouvray: 'Team Vouvray', chinon: 'Team Chinon', sancerre: 'Team Sancerre', muscadet: 'Team Muscadet', anjou: 'Team Anjou' };
+        var TEAM_NAMES = { champagne: 'Team Champagne', bordeaux: 'Team Bordeaux', rose: 'Team Rose' };
 
         var html = '<div class="gazette-header">' +
             '<div class="gazette-masthead">The Daily Gazette</div>' +
