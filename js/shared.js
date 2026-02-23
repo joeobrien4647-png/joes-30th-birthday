@@ -54,7 +54,7 @@ const Store = {
 const GUEST_DATA = {
     'joe30': {
         name: 'Joe', fullName: 'Joe O\'Brien', room: 'Master Suite',
-        team: 'Team Champagne', nickname: 'His Royal Ancientness',
+        team: 'Team 1', nickname: 'His Royal Ancientness',
         missions: [
             { id: 'm1', text: 'Accept at least 3 birthday toasts gracefully', completed: false },
             { id: 'm2', text: 'Dance to Mr. Brightside at your party', completed: false },
@@ -64,7 +64,7 @@ const GUEST_DATA = {
     },
     'sophie30': {
         name: 'Sophie', fullName: 'Sophie Geen', room: 'Master Suite',
-        team: 'Team Champagne', nickname: 'The Control Freak',
+        team: 'Team 1', nickname: 'The Control Freak',
         missions: [
             { id: 'm1', text: 'Make sure Joe doesn\'t find out about the surprise activity', completed: false },
             { id: 'm2', text: 'Get a candid photo of Joe laughing', completed: false },
@@ -74,7 +74,7 @@ const GUEST_DATA = {
     },
     'luke30': {
         name: 'Luke', fullName: 'Luke Recchia', room: 'Room 2',
-        team: 'Team Bordeaux', nickname: 'DJ No-Requests',
+        team: 'Team 2', nickname: 'DJ No-Requests',
         missions: [
             { id: 'm1', text: 'Get everyone dancing at least once', completed: false },
             { id: 'm2', text: 'Challenge Joe to a game and let him win', completed: false },
@@ -84,7 +84,7 @@ const GUEST_DATA = {
     },
     'sam30': {
         name: 'Samantha', fullName: 'Samantha Recchia', room: 'Room 2',
-        team: 'Team Bordeaux', nickname: 'The Paparazzi',
+        team: 'Team 2', nickname: 'The Paparazzi',
         missions: [
             { id: 'm1', text: 'Take at least 50 group photos', completed: false },
             { id: 'm2', text: 'Create a mini photo montage by end of trip', completed: false },
@@ -94,7 +94,7 @@ const GUEST_DATA = {
     },
     'hannah30': {
         name: 'Hannah', fullName: 'Hannah O\'Brien', room: 'Room 3',
-        team: 'Team Champagne', nickname: 'The Snitch',
+        team: 'Team 1', nickname: 'The Snitch',
         missions: [
             { id: 'm1', text: 'Share an embarrassing childhood story about Joe', completed: false },
             { id: 'm2', text: 'Make sure Joe\'s birthday cake is perfect', completed: false },
@@ -104,7 +104,7 @@ const GUEST_DATA = {
     },
     'robin30': {
         name: 'Robin', fullName: 'Robin Hughes', room: 'Room 3',
-        team: 'Team Rose', nickname: 'The Liability',
+        team: 'Team 3', nickname: 'The Liability',
         missions: [
             { id: 'm1', text: 'Suggest a spontaneous adventure', completed: false },
             { id: 'm2', text: 'Be first in the pool at least once', completed: false },
@@ -114,7 +114,7 @@ const GUEST_DATA = {
     },
     'johnny30': {
         name: 'Johnny', fullName: 'Johnny Gates O\'Brien', room: 'Room 4',
-        team: 'Team Bordeaux', nickname: 'Thinks He\'s Funny',
+        team: 'Team 2', nickname: 'Thinks He\'s Funny',
         missions: [
             { id: 'm1', text: 'Tell at least 5 jokes (good or bad)', completed: false },
             { id: 'm2', text: 'Do an impression of Joe', completed: false },
@@ -124,7 +124,7 @@ const GUEST_DATA = {
     },
     'florrie30': {
         name: 'Florrie', fullName: 'Florrie Gates O\'Brien', room: 'Room 4',
-        team: 'Team Rose', nickname: 'The Loud One',
+        team: 'Team 3', nickname: 'The Loud One',
         missions: [
             { id: 'm1', text: 'Lead a group cheer for Joe', completed: false },
             { id: 'm2', text: 'Help decorate for the birthday dinner', completed: false },
@@ -134,7 +134,7 @@ const GUEST_DATA = {
     },
     'razon30': {
         name: 'Razon', fullName: 'Razon Mahebub', room: 'Room 5',
-        team: 'Team Champagne', nickname: 'The Schemer',
+        team: 'Team 1', nickname: 'The Schemer',
         missions: [
             { id: 'm1', text: 'Win a strategy game', completed: false },
             { id: 'm2', text: 'Help plan a surprise moment', completed: false },
@@ -144,7 +144,7 @@ const GUEST_DATA = {
     },
     'neeve30': {
         name: 'Neeve', fullName: 'Neeve Fletcher', room: 'Room 5',
-        team: 'Team Bordeaux', nickname: 'The Hangry One',
+        team: 'Team 2', nickname: 'The Hangry One',
         missions: [
             { id: 'm1', text: 'Find the best local cheese', completed: false },
             { id: 'm2', text: 'Help with one group meal', completed: false },
@@ -154,7 +154,7 @@ const GUEST_DATA = {
     },
     'george30': {
         name: 'George', fullName: 'George Heyworth', room: 'Room 6',
-        team: 'Team Bordeaux', nickname: 'The Foghorn',
+        team: 'Team 2', nickname: 'The Foghorn',
         missions: [
             { id: 'm1', text: 'Start a chant at the birthday dinner', completed: false },
             { id: 'm2', text: 'Be the last one standing at the party', completed: false },
@@ -164,7 +164,7 @@ const GUEST_DATA = {
     },
     'emmaw30': {
         name: 'Emma W', fullName: 'Emma Winup', room: 'Room 6',
-        team: 'Team Champagne', nickname: 'Spreadsheet Queen',
+        team: 'Team 1', nickname: 'Spreadsheet Queen',
         missions: [
             { id: 'm1', text: 'Make sure activities run on time', completed: false },
             { id: 'm2', text: 'Help coordinate the group photo', completed: false },
@@ -174,7 +174,7 @@ const GUEST_DATA = {
     },
     'tom30': {
         name: 'Tom', fullName: 'Tom Heyworth', room: 'Room 7',
-        team: 'Team Bordeaux', nickname: 'The Exaggerator',
+        team: 'Team 2', nickname: 'The Exaggerator',
         missions: [
             { id: 'm1', text: 'Tell a "remember when" story about Joe', completed: false },
             { id: 'm2', text: 'Document at least one funny moment', completed: false },
@@ -184,7 +184,7 @@ const GUEST_DATA = {
     },
     'robert30': {
         name: 'Robert', fullName: 'Robert Winup', room: 'Room 7',
-        team: 'Team Rose', nickname: 'The Wine Snob',
+        team: 'Team 3', nickname: 'The Wine Snob',
         missions: [
             { id: 'm1', text: 'Recommend the best wine at tasting', completed: false },
             { id: 'm2', text: 'Teach someone something about wine', completed: false },
@@ -194,7 +194,7 @@ const GUEST_DATA = {
     },
     'sarah30': {
         name: 'Sarah', fullName: 'Sarah', room: 'Room 8',
-        team: 'Team Champagne', nickname: 'The Gossip',
+        team: 'Team 1', nickname: 'The Gossip',
         missions: [
             { id: 'm1', text: 'Introduce two people who haven\'t met', completed: false },
             { id: 'm2', text: 'Start a conversation game', completed: false },
@@ -204,7 +204,7 @@ const GUEST_DATA = {
     },
     'kiran30': {
         name: 'Kiran', fullName: 'Kiran Ruparelia', room: 'Room 8',
-        team: 'Team Bordeaux', nickname: 'Last Man Standing',
+        team: 'Team 2', nickname: 'Last Man Standing',
         missions: [
             { id: 'm1', text: 'Be part of a late-night chat', completed: false },
             { id: 'm2', text: 'Suggest a midnight activity', completed: false },
@@ -214,7 +214,7 @@ const GUEST_DATA = {
     },
     'shane30': {
         name: 'Shane', fullName: 'Shane Pallian', room: 'Room 9',
-        team: 'Team Rose', nickname: 'The Sore Loser',
+        team: 'Team 3', nickname: 'The Sore Loser',
         missions: [
             { id: 'm1', text: 'Win at least one game/challenge', completed: false },
             { id: 'm2', text: 'Challenge Joe to something competitive', completed: false },
@@ -224,7 +224,7 @@ const GUEST_DATA = {
     },
     'oli30': {
         name: 'Oli', fullName: 'Oli Moran', room: 'Room 9',
-        team: 'Team Champagne', nickname: 'The Horizontal One',
+        team: 'Team 1', nickname: 'The Horizontal One',
         missions: [
             { id: 'm1', text: 'Keep everyone calm if things get hectic', completed: false },
             { id: 'm2', text: 'Suggest a relaxing activity', completed: false },
@@ -234,7 +234,7 @@ const GUEST_DATA = {
     },
     'peter30': {
         name: 'Peter', fullName: 'Peter London', room: 'Room 10',
-        team: 'Team Bordeaux', nickname: 'The Loose Cannon',
+        team: 'Team 2', nickname: 'The Loose Cannon',
         missions: [
             { id: 'm1', text: 'Do something unexpected', completed: false },
             { id: 'm2', text: 'Suggest a bold activity', completed: false },
@@ -244,7 +244,7 @@ const GUEST_DATA = {
     },
     'emmal30': {
         name: 'Emma L', fullName: 'Emma Levett', room: 'Room 10',
-        team: 'Team Rose', nickname: 'The Pinterest Addict',
+        team: 'Team 3', nickname: 'The Pinterest Addict',
         missions: [
             { id: 'm1', text: 'Help with decorations or presentation', completed: false },
             { id: 'm2', text: 'Create a small handmade gift/card', completed: false },
@@ -254,7 +254,7 @@ const GUEST_DATA = {
     },
     'jonnyl30': {
         name: 'Jonny L', fullName: 'Jonny Levett', room: 'Room 11',
-        team: 'Team Champagne', nickname: 'The Menace',
+        team: 'Team 1', nickname: 'The Menace',
         missions: [
             { id: 'm1', text: 'Pull a harmless prank', completed: false },
             { id: 'm2', text: 'Keep the jokes coming all week', completed: false },
@@ -264,7 +264,7 @@ const GUEST_DATA = {
     },
     'jonnyw30': {
         name: 'Jonny W', fullName: 'Jonny Williams', room: 'Room 11',
-        team: 'Team Bordeaux', nickname: 'Self-Proclaimed Legend',
+        team: 'Team 2', nickname: 'Self-Proclaimed Legend',
         missions: [
             { id: 'm1', text: 'Share a classic Joe story', completed: false },
             { id: 'm2', text: 'Help with the birthday toast', completed: false },
@@ -274,7 +274,7 @@ const GUEST_DATA = {
     },
     'will30': {
         name: 'Will', fullName: 'Will Turner', room: 'Room 12',
-        team: 'Team Rose', nickname: 'Captain Obvious',
+        team: 'Team 3', nickname: 'Captain Obvious',
         missions: [
             { id: 'm1', text: 'Lead a group activity', completed: false },
             { id: 'm2', text: 'Make sure no one gets left behind', completed: false },
@@ -284,7 +284,7 @@ const GUEST_DATA = {
     },
     'chris30': {
         name: 'Chris', fullName: 'Chris Coggin', room: 'Room 12',
-        team: 'Team Champagne', nickname: 'The Quiet Assassin',
+        team: 'Team 1', nickname: 'The Quiet Assassin',
         missions: [
             { id: 'm1', text: 'Be dependable when things are needed', completed: false },
             { id: 'm2', text: 'Help with setup/cleanup', completed: false },
@@ -294,7 +294,7 @@ const GUEST_DATA = {
     },
     'oscar30': {
         name: 'Oscar', fullName: 'Oscar Walters', room: 'Room 13',
-        team: 'Team Bordeaux', nickname: 'The Bad Influence',
+        team: 'Team 2', nickname: 'The Bad Influence',
         missions: [
             { id: 'm1', text: 'Get the party started at least once', completed: false },
             { id: 'm2', text: 'Lead a drinking game', completed: false },
@@ -304,7 +304,7 @@ const GUEST_DATA = {
     },
     'matt30': {
         name: 'Matt', fullName: 'Matt Hill', room: 'Room 13',
-        team: 'Team Rose', nickname: 'The Diplomat',
+        team: 'Team 3', nickname: 'The Diplomat',
         missions: [
             { id: 'm1', text: 'Keep conversations flowing', completed: false },
             { id: 'm2', text: 'Help resolve any friendly disputes', completed: false },
@@ -314,7 +314,7 @@ const GUEST_DATA = {
     },
     'pranay30': {
         name: 'Pranay', fullName: 'Pranay Dube', room: 'Room 14',
-        team: 'Team Champagne', nickname: 'The Human Puppy',
+        team: 'Team 1', nickname: 'The Human Puppy',
         missions: [
             { id: 'm1', text: 'Be enthusiastic about every activity', completed: false },
             { id: 'm2', text: 'Encourage others to join in', completed: false },
@@ -324,20 +324,20 @@ const GUEST_DATA = {
     }
 };
 
-/* Players mapped to teams (for leaderboard) */
+/* Players mapped to teams (for leaderboard) — TODO: assign real teams before trip */
 const PLAYERS = {
-    'Joe': 'champagne', 'Sophie': 'champagne', 'Hannah': 'champagne',
-    'Razon': 'champagne', 'Emma W': 'champagne', 'Sarah': 'champagne',
-    'Oli': 'champagne', 'Jonny L': 'champagne', 'Chris': 'champagne', 'Pranay': 'champagne',
-    'Luke': 'bordeaux', 'Sam': 'bordeaux', 'Johnny': 'bordeaux',
-    'Neeve': 'bordeaux', 'Tom': 'bordeaux', 'Kiran': 'bordeaux',
-    'George': 'bordeaux', 'Peter': 'bordeaux', 'Jonny W': 'bordeaux', 'Oscar': 'bordeaux',
-    'Robin': 'rose', 'Florrie': 'rose', 'Robert': 'rose',
-    'Emma L': 'rose', 'Shane': 'rose', 'Will': 'rose', 'Matt': 'rose'
+    'Joe': 'team1', 'Sophie': 'team1', 'Hannah': 'team1',
+    'Razon': 'team1', 'Emma W': 'team1', 'Sarah': 'team1', 'Oli': 'team1',
+    'Jonny L': 'team2', 'Chris': 'team2', 'Pranay': 'team2',
+    'Luke': 'team2', 'Sam': 'team2', 'Johnny': 'team2', 'Neeve': 'team2',
+    'Tom': 'team3', 'Kiran': 'team3', 'George': 'team3',
+    'Peter': 'team3', 'Jonny W': 'team3', 'Oscar': 'team3', 'Robin': 'team3',
+    'Florrie': 'team4', 'Robert': 'team4', 'Emma L': 'team4',
+    'Shane': 'team4', 'Will': 'team4', 'Matt': 'team4'
 };
 
-/* Reveal Date — teams & nicknames hidden until this date */
-const REVEAL_DATE = new Date('2026-04-26T00:00:00');
+/* Reveal Date — teams & nicknames hidden until arrival night */
+const REVEAL_DATE = new Date('2026-04-29T22:00:00');
 
 function isRevealed() {
     // Guest preview mode — admins can see what guests see
@@ -627,16 +627,16 @@ function initGuestPreview() {
 
 /* Live Leaderboard Banner (all pages) */
 function initLeaderboardBanner() {
-    const TEAM_NAMES = { vouvray: 'VOU', chinon: 'CHI', sancerre: 'SAN', muscadet: 'MUS', anjou: 'ANJ' };
-    const TEAM_COLORS = { vouvray: '#f0c040', chinon: '#a94442', sancerre: '#d4a574', muscadet: '#5a9e5a', anjou: '#e91e8c' };
-    const TEAMS = ['vouvray', 'chinon', 'sancerre', 'muscadet', 'anjou'];
+    const TEAM_NAMES = { team1: 'T1', team2: 'T2', team3: 'T3', team4: 'T4' };
+    const TEAM_COLORS = { team1: '#f9d423', team2: '#4fc3f7', team3: '#81c784', team4: '#f48fb1' };
+    const TEAMS = ['team1', 'team2', 'team3', 'team4'];
 
     const bar = document.createElement('div');
     bar.className = 'lb-banner';
     bar.id = 'lb-banner';
 
     function render() {
-        const scores = Store.get('lb_teamScores', { vouvray: 0, chinon: 0, sancerre: 0, muscadet: 0, anjou: 0 });
+        const scores = Store.get('lb_teamScores', { team1: 0, team2: 0, team3: 0, team4: 0 });
         const sorted = TEAMS.slice().sort((a, b) => (scores[b] || 0) - (scores[a] || 0));
         const revealed = typeof isRevealed === 'function' ? isRevealed() : true;
 

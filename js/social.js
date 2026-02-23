@@ -1772,9 +1772,9 @@ function initTeamChat() {
     const formEl = section.querySelector('#team-chat-form');
     if (!tabsEl || !messagesEl || !formEl) return;
 
-    const TEAM_KEYS = ['champagne', 'bordeaux', 'rose'];
-    const TEAM_LABELS = { champagne: 'Champagne', bordeaux: 'Bordeaux', rose: 'Rose' };
-    const TEAM_HIDDEN = { champagne: 'Team 1', bordeaux: 'Team 2', rose: 'Team 3' };
+    const TEAM_KEYS = ['team1', 'team2', 'team3', 'team4'];
+    const TEAM_LABELS = { team1: 'Team 1', team2: 'Team 2', team3: 'Team 3', team4: 'Team 4' };
+    const TEAM_HIDDEN = { team1: 'Team 1', team2: 'Team 2', team3: 'Team 3', team4: 'Team 4' };
     const MAX_MESSAGES = 50;
 
     const guestCode = Auth.getGuestCode() || 'anon';

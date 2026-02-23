@@ -241,8 +241,8 @@ function initGuestLogin() {
 
 /* Live Stats Dashboard */
 function initLiveStats() {
-    const TEAMS_LIST = ['champagne', 'bordeaux', 'rose'];
-    const TEAM_NAMES_MAP = { champagne: 'Champagne', bordeaux: 'Bordeaux', rose: 'Rose' };
+    const TEAMS_LIST = ['team1', 'team2', 'team3', 'team4'];
+    const TEAM_NAMES_MAP = { team1: 'Team 1', team2: 'Team 2', team3: 'Team 3', team4: 'Team 4' };
 
     function render() {
         const guestCode = localStorage.getItem('guestCode');
@@ -250,7 +250,7 @@ function initLiveStats() {
 
         const guestName = GUEST_DATA[guestCode].name;
         const individualScores = Store.get('lb_individualScores', {});
-        const teamScores = Store.get('lb_teamScores', { champagne: 0, bordeaux: 0, rose: 0 });
+        const teamScores = Store.get('lb_teamScores', { team1: 0, team2: 0, team3: 0, team4: 0 });
         const badges = Store.get('lb_badges', {});
         const pointsLog = Store.get('lb_pointsLog', []);
 

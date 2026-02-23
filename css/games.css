@@ -1097,9 +1097,10 @@
     margin: 0 auto 1rem;
 }
 
-.champagne-bg { background: linear-gradient(135deg, #f9d423, #e6b800); }
-.bordeaux-bg { background: linear-gradient(135deg, #722f37, #a94442); }
-.rose-bg { background: linear-gradient(135deg, #f8a4c8, #e91e8c); }
+.team1-bg { background: linear-gradient(135deg, #f9d423, #e6b800); }
+.team2-bg { background: linear-gradient(135deg, #4fc3f7, #0288d1); }
+.team3-bg { background: linear-gradient(135deg, #81c784, #388e3c); }
+.team4-bg { background: linear-gradient(135deg, #f48fb1, #c2185b); }
 
 .team-card h3 {
     font-size: 1.2rem;

@@ -505,10 +505,10 @@ function initLeaderboard() {
     if (!tabs.length) return;
 
     /* ---- Constants ---- */
-    const TEAMS = ['champagne', 'bordeaux', 'rose'];
-    const TEAM_NAMES = { champagne: 'Team Champagne', bordeaux: 'Team Bordeaux', rose: 'Team Rose' };
-    const TEAM_HIDDEN = { champagne: 'Team 1', bordeaux: 'Team 2', rose: 'Team 3' };
-    const TEAM_EMOJI = { champagne: '\uD83E\uDD42', bordeaux: '\uD83C\uDF77', rose: '\uD83C\uDF39' };
+    const TEAMS = ['team1', 'team2', 'team3', 'team4'];
+    const TEAM_NAMES = { team1: 'Team 1', team2: 'Team 2', team3: 'Team 3', team4: 'Team 4' };
+    const TEAM_HIDDEN = { team1: 'Team 1', team2: 'Team 2', team3: 'Team 3', team4: 'Team 4' };
+    const TEAM_EMOJI = { team1: '1\uFE0F\u20E3', team2: '2\uFE0F\u20E3', team3: '3\uFE0F\u20E3', team4: '4\uFE0F\u20E3' };
     const CATEGORY_EMOJI = { games: '\uD83C\uDFAE', duties: '\uD83D\uDC68\u200D\uD83C\uDF73', challenges: '\uD83C\uDFC6', bonus: '\u2B50', penalty: '\uD83D\uDFE5' };
     const CATEGORY_LABELS = { games: 'Games', duties: 'Duties', challenges: 'Challenges', bonus: 'Bonus', penalty: 'Penalty' };
 
@@ -1170,7 +1170,7 @@ function initLeaderboard() {
                     const members = Object.keys(PLAYERS).filter(n => PLAYERS[n] === team);
                     membersEl.textContent = members.join(', ');
                 } else {
-                    membersEl.innerHTML = '<em>Teams revealed 26 Apr...</em>';
+                    membersEl.innerHTML = '<em>Teams revealed on arrival night...</em>';
                 }
             }
 
@@ -3373,7 +3373,7 @@ function initDailyRecapGenerator() {
         var statuses = Store.get('challengeStatuses', {});
         var gamesComplete = Object.keys(statuses).length;
 
-        var TEAM_NAMES = { champagne: 'Team Champagne', bordeaux: 'Team Bordeaux', rose: 'Team Rose' };
+        var TEAM_NAMES = { team1: 'Team 1', team2: 'Team 2', team3: 'Team 3', team4: 'Team 4' };
 
         var html = '<div class="gazette-header">' +
             '<div class="gazette-masthead">The Daily Gazette</div>' +
