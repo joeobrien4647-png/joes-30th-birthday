@@ -515,3 +515,399 @@ body.dark-mode .sub-nav {
     background: white;
     color: #ff6b00;
 }
+
+/* ============================================
+   Live Leaderboard Banner
+   ============================================ */
+.lb-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    background: rgba(26, 26, 46, 0.95);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 8px 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lb-banner-label {
+    font-size: 1rem;
+}
+
+.lb-banner-team {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 0.75rem;
+    transition: transform 0.2s ease;
+}
+
+.lb-banner-team:first-of-type {
+    border-width: 2px;
+}
+
+.lb-banner-name {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.lb-banner-pts {
+    color: white;
+    font-weight: 600;
+}
+
+@media (max-width: 480px) {
+    .lb-banner {
+        gap: 6px;
+        padding: 6px 8px;
+    }
+    .lb-banner-team {
+        padding: 2px 6px;
+        font-size: 0.65rem;
+    }
+}
+
+/* ============================================
+   Background Ambiance Button
+   ============================================ */
+.ambiance-btn {
+    position: fixed;
+    bottom: 50px;
+    right: 20px;
+    z-index: 98;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(26, 26, 46, 0.7);
+    backdrop-filter: blur(6px);
+    font-size: 1.1rem;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.ambiance-btn:hover {
+    opacity: 0.9;
+    transform: scale(1.1);
+}
+
+.ambiance-btn.active {
+    opacity: 1;
+    background: rgba(124, 58, 237, 0.7);
+    box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+    animation: ambiancePulse 2s ease-in-out infinite;
+}
+
+@keyframes ambiancePulse {
+    0%, 100% { box-shadow: 0 0 15px rgba(124, 58, 237, 0.3); }
+    50% { box-shadow: 0 0 25px rgba(124, 58, 237, 0.6); }
+}
+
+/* ============================================
+   Page Transitions
+   ============================================ */
+body.page-enter {
+    opacity: 0;
+    transform: translateY(8px);
+}
+
+body.page-ready {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* Ensure footer has padding for banner */
+footer {
+    padding-bottom: 50px !important;
+}
+
+/* ============================================
+   Confirmation Modal
+   ============================================ */
+.confirm-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10001;
+    animation: confirmFadeIn 0.2s ease;
+}
+
+.confirm-overlay.confirm-closing {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.confirm-card {
+    background: var(--bg-white);
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 380px;
+    width: 90%;
+    box-shadow: var(--shadow-lg);
+    animation: confirmSlideUp 0.25s ease;
+}
+
+.confirm-message {
+    font-size: 1.05rem;
+    color: var(--text-dark);
+    text-align: center;
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+
+.confirm-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.confirm-btn {
+    padding: 10px 28px;
+    border-radius: 12px;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: var(--font-body);
+}
+
+.confirm-btn-cancel {
+    background: var(--bg-light);
+    color: var(--text-light);
+}
+
+.confirm-btn-cancel:hover {
+    background: #ddd;
+}
+
+.confirm-btn-confirm {
+    background: var(--gradient-primary);
+    color: white;
+}
+
+.confirm-btn-confirm:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+@keyframes confirmFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes confirmSlideUp {
+    from { opacity: 0; transform: translateY(16px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+body.dark-mode .confirm-card {
+    background: var(--bg-white);
+}
+
+/* ============================================
+   Notification Toasts
+   ============================================ */
+.toast-container {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 10002;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.toast {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    border-radius: 12px;
+    background: var(--bg-white);
+    box-shadow: var(--shadow-md);
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    pointer-events: auto;
+    transform: translateX(120%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    max-width: 340px;
+    font-family: var(--font-body);
+    border-left: 4px solid transparent;
+}
+
+.toast-visible {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.toast-exit {
+    transform: translateX(120%);
+    opacity: 0;
+}
+
+.toast-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: 700;
+}
+
+.toast-success {
+    border-left-color: #6BCB77;
+}
+
+.toast-success .toast-icon {
+    background: rgba(107, 203, 119, 0.15);
+    color: #6BCB77;
+}
+
+.toast-info {
+    border-left-color: #4ECDC4;
+}
+
+.toast-info .toast-icon {
+    background: rgba(78, 205, 196, 0.15);
+    color: #4ECDC4;
+}
+
+.toast-warning {
+    border-left-color: #FFB347;
+}
+
+.toast-warning .toast-icon {
+    background: rgba(255, 179, 71, 0.15);
+    color: #FFB347;
+}
+
+.toast-message {
+    flex-grow: 1;
+    line-height: 1.4;
+}
+
+body.dark-mode .toast {
+    background: var(--bg-white);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* ============================================
+   Loading Shimmer (Skeleton)
+   ============================================ */
+.shimmer {
+    background: linear-gradient(90deg,
+        #e8e8e8 25%,
+        #f5f5f5 50%,
+        #e8e8e8 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmerSlide 1.5s ease-in-out infinite;
+    border-radius: 8px;
+}
+
+.shimmer-line {
+    height: 16px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.shimmer-card {
+    height: 120px;
+    border-radius: 16px;
+}
+
+.shimmer-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+@keyframes shimmerSlide {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+body.dark-mode .shimmer {
+    background: linear-gradient(90deg,
+        rgba(255, 255, 255, 0.06) 25%,
+        rgba(255, 255, 255, 0.12) 50%,
+        rgba(255, 255, 255, 0.06) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmerSlide 1.5s ease-in-out infinite;
+}
+
+/* ============================================
+   Animated Count-Up
+   ============================================ */
+.count-up {
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+/* ============================================
+   Enhanced Lightbox
+   ============================================ */
+.lightbox-close-enhanced {
+    width: 48px !important;
+    height: 48px !important;
+    font-size: 2rem !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.4) !important;
+    backdrop-filter: blur(4px);
+}
+
+.lightbox-close-enhanced:hover {
+    background: rgba(0, 0, 0, 0.6) !important;
+    transform: scale(1.1);
+}
+
+.lightbox-swipe-indicator {
+    width: 48px;
+    height: 48px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.3) !important;
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.lightbox:hover .lightbox-swipe-indicator,
+.lightbox:active .lightbox-swipe-indicator {
+    opacity: 1;
+}
+
+@media (pointer: coarse) {
+    .lightbox-swipe-indicator {
+        opacity: 0.5;
+    }
+}

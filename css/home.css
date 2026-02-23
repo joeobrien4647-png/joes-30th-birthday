@@ -528,6 +528,305 @@
     animation-play-state: paused;
 }
 
+/* Live Stats Dashboard Cards */
+.live-stats-card .stats-grid,
+.trip-numbers-card .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.stat-big {
+    font-size: 2rem !important;
+    background: var(--gradient-festive);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stat-badges-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dash-badge {
+    font-size: 1.5rem;
+    cursor: default;
+    transition: transform 0.2s ease;
+}
+
+.dash-badge:hover {
+    transform: scale(1.3);
+}
+
+.trip-numbers-card {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(255, 107, 157, 0.15)) !important;
+}
+
+/* ============================================
+   Parallax Hero Background
+   ============================================ */
+.hero::before {
+    background:
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
+        linear-gradient(180deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.03) 40%,
+            rgba(0, 0, 0, 0.08) 100%
+        );
+    background-attachment: fixed;
+    background-size: 60px 60px, 100% 100%;
+}
+
+@supports (background-attachment: fixed) {
+    .hero::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background:
+            radial-gradient(ellipse at 20% 80%, rgba(255, 217, 61, 0.08) 0%, transparent 50%),
+            radial-gradient(ellipse at 80% 20%, rgba(255, 107, 157, 0.08) 0%, transparent 50%);
+        background-attachment: fixed;
+        pointer-events: none;
+    }
+}
+
+/* ============================================
+   Countdown Milestones
+   ============================================ */
+.countdown-milestone {
+    text-align: center;
+    margin-bottom: 30px;
+    min-height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.countdown-milestone.milestone-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.milestone-emoji {
+    display: inline-block;
+    font-size: 1.4rem;
+    margin-right: 8px;
+    animation: milestonePulse 2s ease-in-out infinite;
+}
+
+.milestone-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.95);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.milestone-month {
+    background: rgba(255, 255, 255, 0.12);
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 24px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.milestone-week {
+    background: rgba(255, 179, 71, 0.25);
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 24px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 179, 71, 0.4);
+}
+
+.milestone-week .milestone-text {
+    color: #FFD93D;
+}
+
+.milestone-tomorrow {
+    background: rgba(255, 107, 107, 0.3);
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 28px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 107, 107, 0.5);
+    animation: milestoneGlow 1.5s ease-in-out infinite;
+}
+
+.milestone-tomorrow .milestone-text {
+    color: #FFD93D;
+    font-size: 1.3rem;
+}
+
+.milestone-now {
+    background: linear-gradient(135deg, rgba(255, 107, 157, 0.4), rgba(124, 58, 237, 0.4));
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 32px;
+    border-radius: 30px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    animation: milestoneGlow 1s ease-in-out infinite;
+}
+
+.milestone-now .milestone-text {
+    color: white;
+    font-size: 1.5rem;
+}
+
+.milestone-now .milestone-emoji {
+    font-size: 1.8rem;
+}
+
+@keyframes milestonePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+@keyframes milestoneGlow {
+    0%, 100% { box-shadow: 0 0 20px rgba(255, 107, 157, 0.3); }
+    50% { box-shadow: 0 0 40px rgba(255, 107, 157, 0.6); }
+}
+
+/* ============================================
+   Who's Awake?
+   ============================================ */
+.whos-awake-section {
+    background: var(--bg-white);
+    padding: 60px 0;
+}
+
+.awake-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.awake-header h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.awake-count {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-light);
+    background: var(--bg-light);
+    padding: 6px 16px;
+    border-radius: 20px;
+}
+
+.awake-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.awake-avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+}
+
+.awake-letter {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    background: #e0e0e0;
+    color: #999;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.awake-name {
+    font-size: 0.7rem;
+    color: var(--text-light);
+    text-align: center;
+    max-width: 70px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.awake-avatar.awake-active .awake-letter {
+    background: var(--gradient-primary);
+    color: white;
+    border-color: rgba(255, 107, 157, 0.4);
+    box-shadow: 0 0 16px rgba(255, 107, 157, 0.35);
+    animation: awakeGlow 2s ease-in-out infinite;
+}
+
+.awake-avatar.awake-active .awake-name {
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+@keyframes awakeGlow {
+    0%, 100% { box-shadow: 0 0 12px rgba(255, 107, 157, 0.3); }
+    50% { box-shadow: 0 0 22px rgba(255, 107, 157, 0.5); }
+}
+
+.awake-checkin-btn {
+    display: block;
+    margin: 0 auto;
+    padding: 12px 36px;
+    border-radius: 30px;
+    border: none;
+    background: var(--gradient-primary);
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: var(--font-body);
+}
+
+.awake-checkin-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.awake-checkin-btn.awake-checked {
+    background: #6BCB77;
+    cursor: default;
+}
+
+.awake-checkin-btn.awake-checked:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+body.dark-mode .awake-letter {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.3);
+}
+
+body.dark-mode .awake-avatar.awake-active .awake-letter {
+    background: var(--gradient-primary);
+    color: white;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .countdown { gap: 10px; }
@@ -536,6 +835,8 @@
     .quick-links-grid { grid-template-columns: repeat(2, 1fr); }
     .stats-grid { grid-template-columns: 1fr; }
     .dashboard-header { flex-direction: column; text-align: center; }
+    .awake-grid { grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 10px; }
+    .awake-letter { width: 42px; height: 42px; font-size: 1rem; }
 }
 
 @media (max-width: 480px) {

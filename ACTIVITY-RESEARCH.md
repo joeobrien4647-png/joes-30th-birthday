@@ -1385,6 +1385,691 @@ The Loire Valley has excellent Michelin-starred restaurants:
 
 ---
 
-*Last updated: January 2026*
+# 7. LOCAL ACTIVITIES NEAR CIRON / LE BLANC (Within 1-1.5 Hours)
+
+> **Important context:** Chateau Roussignol is at Route de Chemeray 9, 36300 Ciron, Indre.
+> Le Blanc is 15km / ~15 min drive. The chateau overlooks the River Creuse.
+> This section covers activities genuinely local to the chateau, unlike Sections 1-6 which reference the more distant central Loire Valley (Tours/Amboise area, which is ~1h40 away).
+
+---
+
+## 7.1 CANOEING / KAYAKING ON THE CREUSE RIVER
+
+### Canoe Decouverte Val de Creuse (Le Blanc)
+The closest and most relevant operator -- located at the entrance to Le Blanc on the road to Chateauroux. They offer canoe/kayak rental on both the Creuse and Anglin rivers.
+
+| Detail | Information |
+|--------|-------------|
+| **Location** | Entrance to Le Blanc (road to Chateauroux) |
+| **Distance from Ciron** | ~15 min drive (15km) |
+| **Website** | [canoe-valdecreuse.fr](http://www.canoe-valdecreuse.fr/) |
+| **Phone** | 02 54 37 77 99 |
+| **Email** | canoedecouverte.leblc@gmail.com |
+| **TripAdvisor** | [Canoe Decouverte reviews](https://www.tripadvisor.com/Attraction_Review-g1922521-d12680712-Reviews-Canoe_Decouverte-Le_Blanc_Indre_Berry_Centre_Val_de_Loire.html) |
+
+#### Routes & Pricing
+
+| Route | Duration | Price/person | Notes |
+|-------|----------|-------------|-------|
+| **Full Day: Ciron to Le Blanc** | ~4 hours paddling | 18 EUR | Embark at the foot of Romefort Castle, pass through Ruffec and its abbey. THIS IS THE ONE -- starts right at your doorstep! |
+| **Afternoon: Ruffec to Le Blanc** | ~2-4 hours | 13 EUR | Shorter route through Devil's Ford gorges and Gatevine mill |
+| **Morning: from Romefort** | ~4 hours | 18 EUR | Morning departure from Romefort castle |
+| **Evening Paddle (Nocturne)** | Evening | 15 EUR | Departs around 7pm -- atmospheric |
+| **Bivouac (camping trip)** | Overnight | 45 EUR | Min 8 people, guided, includes camping by the river |
+
+#### Group Booking (27 people)
+- Minimum group size: 8 people (easily exceeded)
+- **Estimated total for 27 people (full day):** ~486 EUR (27 x 18 EUR)
+- **Estimated total for 27 people (afternoon):** ~351 EUR (27 x 13 EUR)
+- Contact them directly for a group rate -- likely negotiable for 27 people
+- They will need advance notice to arrange enough canoes/kayaks for this size
+- Shuttle service back to start point included in price
+
+#### Why This Is Perfect
+- The Ciron-to-Le-Blanc route literally starts at your doorstep
+- Paddle past Romefort Castle, through the beautiful Creuse valley
+- No need to drive anywhere -- the river is right there
+- Great for all abilities (the Creuse is calm, not white water)
+- Late April/early May = ideal water levels and weather
+
+---
+
+## 7.2 ACCROBRANCHE / TREETOP ADVENTURE PARKS
+
+### Option A: Parcours Aventure de Bellebouche (Brenne)
+Located within the Brenne Natural Park at the stunning Bellebouche lake -- a 100-hectare pond with a leisure base.
+
+| Detail | Information |
+|--------|-------------|
+| **Location** | Bellebouche, 36290 Mezieres-en-Brenne |
+| **Distance from Ciron** | ~30 min drive (~30km) |
+| **Phone** | 02 54 39 35 06 |
+| **Website** | [domainedebellebouche.com](https://www.domainedebellebouche.com/fr) |
+| **Park website** | [parc-naturel-brenne.fr](https://www.parc-naturel-brenne.fr/bougez/sur-terre/parcours-aventure-de-bellebouche-66) |
+
+#### Courses & Pricing
+
+| Course | Difficulty | Notes |
+|--------|-----------|-------|
+| Kids course | Ages 3-5 | |
+| Yellow | Ages 6-12 | |
+| Green | Moderate | |
+| Blue | Intermediate | |
+| Red | Challenging | |
+| Zip lines | Thrilling | |
+| 15m Jump | Adrenaline | |
+
+| Pricing | Cost |
+|---------|------|
+| **Adults (group of 10+)** | 17 EUR per person |
+| **Estimated total for 27** | ~459 EUR |
+
+#### Bonus Activities at Bellebouche
+The leisure base also offers: pedalo hire, stand-up paddleboarding, kayak, mini golf. You could easily spend a full day here combining the treetop course with water activities.
+
+---
+
+### Option B: Parc de l'Envol (Le Vigeant, Vienne)
+A more serious adventure park with spectacular zip lines over the river.
+
+| Detail | Information |
+|--------|-------------|
+| **Location** | Le Vigeant, Vienne (86) |
+| **Distance from Ciron** | ~50-60 min drive (~55km) |
+| **Website** | [parcdelenvol.com](https://parcdelenvol.com/) |
+
+#### Highlights
+- 75+ games across 6 progressive courses
+- Continuous safety line system throughout
+- **Two giant zip lines: 505m and 202m over the river** -- genuinely spectacular
+- Quick Jump: 22m jump from the viaduct
+- Parcours Pitchoun for ages 3-6
+
+#### Pricing (estimated)
+- Adults approximately 20-25 EUR per person
+- Group rates available -- contact directly
+- **Estimated total for 27:** ~540-675 EUR
+
+---
+
+### Option C: Laleuf Loisirs (Saint-Maur, near Chateauroux)
+A multi-activity adventure park in 120 hectares of forest. Offers accrobranche plus many other activities.
+
+| Detail | Information |
+|--------|-------------|
+| **Location** | Saint-Maur 36250 (near Chateauroux) |
+| **Distance from Ciron** | ~45 min drive (~48km) |
+| **Website** | [laleuf.com](https://www.laleuf.com/) |
+| **Opening** | March-October, 10:00-12:30 and 14:00-18:30 |
+
+#### Activities Available
+- Accrobranche / tree climbing courses
+- Paintball (6 hectares of wooded terrain)
+- Bubble football
+- Blaster game (Gellyball -- paintball without paint)
+- Obstacle courses
+- Horse riding (see Section 7.7)
+
+#### Pricing
+- From 22 EUR per person (adult full rate)
+- Group rates available on request
+- **Can combine multiple activities** -- ideal for a full day out
+
+---
+
+### Option D: DefiPlanet (Dienne, Vienne)
+A large adventure and nature park with accrobranche and 18 sport/nature activities.
+
+| Detail | Information |
+|--------|-------------|
+| **Location** | Domaine de Dienne, 86410 Dienne |
+| **Distance from Ciron** | ~55-65 min drive (~60km) |
+| **Website** | [defiplanet.com](https://www.defiplanet.com/) |
+
+#### Activities
+- Accrobranche with Clic-it safety system
+- Over 1km of zip lines
+- Hiking and mountain biking
+- Horseback riding
+- "Mission Areka" adventure game
+- 18 sport and nature activities total
+
+#### Pricing
+- Adults: 14 EUR (standard), group rates available
+- Facilities for large group reception
+- **Estimated total for 27:** ~378 EUR at standard rate
+
+---
+
+## 7.3 GO-KARTING
+
+### Option A: Base US Karting (Etrechet / Chateauroux) -- RECOMMENDED
+The best option -- a large leisure complex with 50 karts and group event facilities.
+
+| Detail | Information |
+|--------|-------------|
+| **Location** | Z.I. La Martinerie, Rue Lafayette, 36120 Etrechet |
+| **Distance from Ciron** | ~45 min drive (~48km via A20) |
+| **Phone** | 02 54 25 23 08 |
+| **Website** | [baseuskarting.com](https://baseuskarting.com/) |
+
+#### Facilities
+- 700m outdoor track
+- 400m indoor track (2 levels) -- rain backup!
+- Fleet of 50 karts (adults, juniors, reduced mobility)
+- Karaoke rooms
+- Quiz Boxing
+- On-site restaurant (Le V8)
+- 60m2 seminar room
+- **Capacity: 6 to 200 people** -- perfect for 27
+
+#### Pricing
+
+| Package | Price/person | Includes |
+|---------|-------------|----------|
+| Single karting session | from 17 EUR | 8-10 min session |
+| Birthday package | 28 EUR | 1 kart session + Quiz Boxing or Karaoke 30 min + Shuffle Board + cakes/drinks |
+| Premium package | 34 EUR | 2 kart sessions (8 min each) |
+
+#### Why This Is Perfect for 27 People
+- They explicitly cater for groups of 6-200 people
+- Custom event packages available (call to discuss)
+- Multiple activities beyond karting -- could fill half a day
+- Le V8 restaurant on-site for lunch
+- Indoor track means it works even in bad weather
+- **Estimated total for 27 (basic):** ~459 EUR (27 x 17 EUR)
+- **Estimated total for 27 (birthday package):** ~756 EUR (27 x 28 EUR)
+
+---
+
+### Option B: Karting de Chatillon-sur-Indre
+Smaller but closer option.
+
+| Detail | Information |
+|--------|-------------|
+| **Location** | Chatillon-sur-Indre |
+| **Distance from Ciron** | ~35-40 min drive |
+| **Track** | 1000m circuit |
+| **Karts** | 270cc and Rotax Max 2-stroke (adults), mini-karts for children 7+ |
+
+---
+
+### Option C: Circuit de l'Indre
+
+| Detail | Information |
+|--------|-------------|
+| **Website** | [circuit-de-lindre.com](https://www.circuit-de-lindre.com/nos-tarifs) |
+| **Karts** | 160cc (ages 7-13), 270cc (18+) |
+
+---
+
+## 7.4 WINE TASTING EXPERIENCES
+
+### Distance Reference from Ciron
+
+| Wine Region | Distance | Drive Time | Notes |
+|-------------|----------|-----------|-------|
+| **Chinon** | ~99km | ~1h30 | Cabernet Franc reds, medieval town |
+| **Vouvray** | ~115km | ~1h45 | Via Tours, sparkling Chenin Blanc in caves |
+| **Tours (city)** | ~101km | ~1h40 | Gateway to Touraine wine region |
+| **Sancerre** | ~200km+ | ~2h30+ | Too far for a comfortable day trip |
+
+> **Reality check:** The major Loire wine regions are 1.5-2 hours from Ciron. This is doable as a day trip but it's a commitment. Chinon is the closest major wine area.
+
+### Option A: Chinon Wine Tasting (~1h30 drive)
+Chinon is the closest significant wine region. Famous for Cabernet Franc reds.
+
+**Recommended Domaines:**
+
+| Domaine | Group Size | Notes |
+|---------|-----------|-------|
+| **Chateau du Petit Thouars** | Groups welcome | Family vineyard 10 min from Chinon, wine tastings, tours, and picnics. [chateaudptwines.com](http://www.chateaudptwines.com/) |
+| **Domaine Fabrice Gasnier** | Groups welcome | 35 hectares, organic and biodynamic. Good for large groups |
+| **Domaine Charles Joguet** | Contact directly | One of Chinon's most famous producers |
+| **Domaine Couly-Dutheil** | Contact directly | Historic Chinon producer |
+
+**Pricing:** Typically 15-30 EUR per person for a tasting of 4-6 wines. Some include cellar tour.
+
+**Combine with:** Visit to the medieval town of Chinon itself, lunch at a wine bar, visit to the Chateau de Chinon (fortress, Joan of Arc history, ~10 EUR entry).
+
+### Option B: Vouvray Cave Tastings (~1h45 drive)
+Famous for sparkling (Cremant) and still Chenin Blanc wines aged in troglodyte caves carved from tuffeau limestone.
+
+**Recommended Domaines:**
+- **Domaine Huet** -- One of the most famous Vouvray producers (+33 2 47 52 78 87)
+- **Chateau Gaudrelle** -- Beautiful estate
+- **Cave des Producteurs de Vouvray** -- Cooperative, good for large groups
+
+**Pricing:** 15-30 EUR per person for guided tour and tasting
+
+### Option C: Private Sommelier at the Chateau (No Driving!)
+See Section 1 -- bring the wine to you. A professional sommelier comes to Chateau Roussignol with a curated selection of Loire Valley wines. 400-800 EUR for the group. **This is arguably the best option** since it avoids the long drive to wine country.
+
+---
+
+## 7.5 CHATEAU DE VALENCAY
+
+A magnificent Renaissance chateau once owned by Talleyrand (Napoleon's foreign minister). Often called "a small Chambord."
+
+| Detail | Information |
+|--------|-------------|
+| **Location** | 2 Rue du Chateau, 36600 Valencay |
+| **Distance from Ciron** | ~1h15 drive (~82km) |
+| **Phone** | +33 (0)2 54 00 10 66 |
+| **Email** | accueil@chateau-valencay.fr |
+| **Website** | [chateau-valencay.fr](https://www.chateau-valencay.fr/) |
+| **TripAdvisor** | [Reviews](https://www.tripadvisor.com/Attraction_Review-g187131-d2227457-Reviews-Chateau_de_Valencay-Valencay_Indre_Berry_Centre_Val_de_Loire.html) |
+
+#### Pricing
+
+| Ticket | Price |
+|--------|-------|
+| **Adult (individual)** | 14.50 EUR |
+| **Group rate (15+ people)** | 11.50 EUR |
+| **Children 7-17, EU students** | 11.50 EUR |
+| **Children 4-6** | 5.00 EUR |
+| **Free entries** | 1 free per 20 paying; bus driver free |
+
+#### Group Visit Details
+- Group rate from 15 visitors (you have 27 -- qualifies!)
+- 1 free visit for every 20 paying entries (so 1 free out of 27)
+- All group visits must be confirmed in writing
+- Contact for group bookings: [chateau-valencay.fr/en/preparer/adultes/](https://www.chateau-valencay.fr/en/preparer/adultes/)
+
+#### Estimated Total for 27
+- 26 paying at group rate: 26 x 11.50 = 299 EUR + 1 free = **~299 EUR total**
+
+#### Is It Worth It?
+**Yes, but with caveats:**
+- It's a beautiful Renaissance chateau with impressive grounds
+- The Talleyrand history is fascinating (Napoleon's master diplomat)
+- The gardens are lovely in late April/May
+- However, at 1h15 drive, it's the same commitment as going to Chinon for wine
+- If you're already planning a Chinon wine day, Valencay is in the opposite direction
+- **Best combined with:** A lunch stop in Valencay town (famous for its AOC goat cheese!)
+
+---
+
+## 7.6 ANGLES-SUR-L'ANGLIN
+
+One of the "Plus Beaux Villages de France" (Most Beautiful Villages of France) since 1982 -- and it genuinely deserves the title.
+
+| Detail | Information |
+|--------|-------------|
+| **Distance from Ciron** | ~30 min drive (~25km) |
+| **Distance from Le Blanc** | ~17km |
+| **Website** | [les-plus-beaux-villages-de-france.org](https://www.les-plus-beaux-villages-de-france.org/fr/nos-villages/angles-sur-langlin/) |
+| **Tourism info** | [tourisme-vienne.com](https://www.tourisme-vienne.com/en/webzines/echappee-angles/) |
+
+#### What to See
+- Medieval castle ruins dominating the landscape above the Anglin river
+- Beautiful stone houses cascading down to the river
+- Traditional hand-made "jours" embroidery (150-year tradition, unique to this village)
+- Roc aux Sorciers -- significant prehistoric site with Magdalenian rock carvings
+- Charming riverside walks
+
+#### Why This Is a Must-Visit
+- Only 30 minutes from the chateau -- easy half-day trip
+- Genuinely stunning -- one of the most picturesque villages in all of France
+- Free to wander (no entry fee for the village itself)
+- Castle ruins entry is a few euros
+- Perfect for a morning wander + lunch
+- Great for photos
+- Combine with a walk along the Anglin river
+
+#### Restaurants in Angles-sur-l'Anglin
+
+| Restaurant | Rating | Notes |
+|-----------|--------|-------|
+| **Le Relais du Lyon d'Or** | Good | Has a big room -- potential for group dining. Very good quality |
+| **Le Donjon de Bacchus** | Good | Breathtaking views of the fortress. Has accommodated groups before |
+| **Le Gout Des Mets** | 5.0/5 (TripAdvisor) | Excellent but only ~20 covers -- too small for 27 |
+| **Salon de The N15** | #1 rated | British/European, lovely terrace, more for tea/brunch |
+| **Au p'tit Roc** | Good | French restaurant, lunch and dinner |
+
+> **For 27 people:** Le Relais du Lyon d'Or is your best bet with its large room. Contact well in advance. Le Donjon de Bacchus has also accommodated groups. For 27, you'd likely need to book privately or split across two restaurants.
+
+---
+
+## 7.7 OTHER GROUP ACTIVITIES
+
+### Paintball
+
+#### Laleuf Loisirs (Saint-Maur) -- RECOMMENDED
+
+| Detail | Information |
+|--------|-------------|
+| **Location** | Laleuf, Saint-Maur 36250 |
+| **Distance from Ciron** | ~45 min drive |
+| **Price** | 18 EUR per person (paintball) |
+| **Terrain** | 6 hectares of wooded forest |
+| **Hours** | Year-round by reservation, 9am-6pm |
+| **Website** | [laleuf.com/activites-loisirs/paintball/](https://www.laleuf.com/activites-loisirs/paintball/) |
+| **Estimated total for 27** | ~486 EUR |
+
+Also offers **Gellyball** (paintball without paint -- gentler, no bruises, suitable for all) at the same location.
+
+---
+
+### Horse Riding
+
+#### Laleuf Loisirs (Saint-Maur)
+
+| Duration | Price | Notes |
+|----------|-------|-------|
+| 1 hour | 17 EUR | Trail ride |
+| 2 hours | 30 EUR | Longer forest ride |
+| Pony ride (1 hour) | 7 EUR | |
+
+- 25km hikes available for experienced riders
+- Shorter forest rides for beginners with instructor
+- Located in 800 hectares of forest
+- **Note:** 27 horses at once is unlikely. Would need to split into groups or do half the group at a time.
+
+---
+
+### Cycling / Bike Hire
+
+#### Brenne Natural Park Bike Rental
+
+| Detail | Information |
+|--------|-------------|
+| **Location** | Brenne Natural Park office |
+| **Bikes available** | 5 mountain bikes, 5 hybrid bikes (adults), helmets and locks included |
+| **Distance from Ciron** | Within the Brenne park |
+
+> **Issue for 27 people:** Only 10 bikes available. Not practical for the whole group at once.
+
+#### Cycle et Sport (Brenne area)
+
+| Detail | Information |
+|--------|-------------|
+| **Bikes** | 8 electric bikes (Shimano motor), 1 children's trailer |
+| **Booking** | 24 hours advance reservation required |
+| **Delivery** | Can deliver bikes to your accommodation (min 2 bikes) |
+| **Transport** | Can transport bikes and cyclists to routes (2-5 people) |
+| **Routes** | Angles-sur-l'Anglin, Maison du Parc, and more |
+
+> **Issue for 27 people:** Only 8 electric bikes. Would need multiple providers or split the group.
+
+#### Detours de Loire
+
+| Detail | Information |
+|--------|-------------|
+| **Website** | [detoursdeloire.com](https://www.detoursdeloire.com/en/indre-by-bike/) |
+| **Service** | Electric and regular bike rental with delivery |
+| **Extras** | Packages with accommodation, GPS/road-book, luggage transfer, technical assistance |
+
+> **Best cycling option for 27:** Contact Detours de Loire directly -- they're the largest Loire bike rental company and may be able to supply 27 bikes with delivery to Ciron.
+
+---
+
+### Escape Rooms (Chateauroux, ~45 min drive)
+
+#### Le Manoir de l'Illusion et du Mysterieux
+
+| Detail | Information |
+|--------|-------------|
+| **Location** | Chateauroux |
+| **What** | Immersive escape game in a manor house setting |
+| **Extra activities** | Karaoke quiz, bar, board games |
+| **Website** | [manoirdelillusion.fr](https://manoirdelillusion.fr/) |
+
+#### Horror Berry Experience
+
+| Detail | Information |
+|--------|-------------|
+| **Location** | Chateauroux |
+| **What** | Traditional escape games, horror escape games with actors, axe throwing, Rage Room |
+| **Website** | [hbe2019.fr](https://www.hbe2019.fr/) |
+
+> **Note for 27 people:** Escape rooms typically accommodate 4-8 people per room. You'd need to book multiple rooms simultaneously or do rotations. The axe throwing and Rage Room at Horror Berry Experience might work better for larger groups.
+
+---
+
+### Futuroscope (Poitiers area)
+
+| Detail | Information |
+|--------|-------------|
+| **Location** | Jaunay-Clan (near Poitiers) |
+| **Distance from Ciron** | ~1h15 drive (~75km via Poitiers) |
+| **What** | Major theme park focused on technology, multimedia, and motion simulation |
+| **Website** | [futuroscope.com](https://www.futuroscope.com/en/) |
+| **Duration** | Full day |
+
+> **Consideration:** This is a major theme park and would fill an entire day. Good for a rainy day backup. Group tickets may be available. However, it's probably not the vibe most people want on a birthday trip in the French countryside.
+
+---
+
+### Brenne Natural Park -- Nature & Bird Watching
+
+| Detail | Information |
+|--------|-------------|
+| **Location** | All around you -- Ciron is IN the Brenne park |
+| **Maison du Parc** | Le Bouchet, Rosnay (~20 min drive) |
+| **What** | 250+ guided nature outings per year with expert guides |
+| **Highlights** | Bird watching, botanical walks, nature photography |
+| **Bird hides** | 15+ hides within 20km, free access, open year-round |
+| **Website** | [parc-naturel-brenne.fr](https://www.parc-naturel-brenne.fr/en) |
+
+#### Key Nature Sites
+- **Cherine National Nature Reserve** -- bird hides, rare species
+- **Foucault/Masse Regional Nature Reserve** -- more bird hides
+- **Bellebouche Lake** -- 100-hectare pond, walking trails
+- **Guided nature tours** -- 2-3 hours with experienced guides
+
+> **Good for:** A peaceful morning activity for part of the group. Unlikely to appeal to all 27 but could be offered as an optional activity.
+
+---
+
+### Chateau d'Azay-le-Ferron (Local Chateau)
+
+| Detail | Information |
+|--------|-------------|
+| **Location** | Azay-le-Ferron, Indre |
+| **Distance from Ciron** | ~25-30 min drive |
+| **Website** | [chateau-azay-le-ferron.com](https://www.chateau-azay-le-ferron.com/en/) |
+
+#### Pricing
+
+| Visit Type | Adult (Group 15+) | Child 6-17 |
+|-----------|-------------------|-----------|
+| Guided tour + park/gardens | 8 EUR | 3.50 EUR |
+| Park and gardens only | 4 EUR | 2 EUR |
+| Free entries | 1 free per 20 + driver | |
+
+#### Highlights
+- 15 richly furnished rooms spanning history from the 15th century
+- English park and French gardens
+- Much closer than Valencay and still interesting
+- **Estimated total for 27 (guided tour):** ~208 EUR (26 x 8 = 208)
+
+---
+
+### Other Local Attractions
+
+| Attraction | Distance from Ciron | Notes |
+|-----------|-------------------|-------|
+| **Saint-Benoit-du-Sault** | ~30 min (24km SE) | Medieval village, "plus beau village" candidate |
+| **Argenton-sur-Creuse** | ~25 min (21km) | Pretty riverside town, "Venice of Berry" |
+| **Le Blanc market** | 15 min | Local market for provisions |
+| **Romefort Castle** | ~5 min | Right next to the chateau, on the Creuse |
+| **Chateau du Bouchet** | ~25 min (Rosnay) | Castle within Brenne park |
+| **Chateau Guillaume de Lignac** | ~20 min | Historic castle |
+
+---
+
+## 7.8 RESTAURANTS FOR A GROUP OF 27
+
+### In Le Blanc (~15 min from Ciron)
+
+#### Restaurant Le Cygne -- BEST OPTION
+
+| Detail | Information |
+|--------|-------------|
+| **Address** | 13 Rue Pierre Colin de Souvigny, 36300 Le Blanc |
+| **Phone** | 02 54 28 71 63 |
+| **Website** | [lecygneleblanc.fr](https://www.lecygneleblanc.fr/) |
+| **Style** | Gastronomic French |
+| **Price range** | 25-40 EUR per person |
+| **TripAdvisor** | [Reviews](https://www.tripadvisor.com/Restaurant_Review-g1922521-d4554459-Reviews-Restaurant_Le_Cygne-Le_Blanc_Indre_Berry_Centre_Val_de_Loire.html) |
+| **Signature dishes** | Raviole de chevre, quenelles de brochet, coupe de cygne dessert |
+
+> Contact directly about accommodating 27. May need private room or full restaurant booking.
+
+#### L'Aristide
+
+| Detail | Information |
+|--------|-------------|
+| **Address** | 19 Rue Aristide Briand, Le Blanc |
+| **TripAdvisor** | [Reviews](https://www.tripadvisor.com/Restaurant_Review-g1922521-d14088548-Reviews-L_Aristide-Le_Blanc_Indre_Berry_Centre_Val_de_Loire.html) |
+| **Notes** | Ranked highly, friendly staff, speaks English |
+
+#### L'Orchidee
+
+| Detail | Information |
+|--------|-------------|
+| **Rating** | 4.2/5 (91 reviews) |
+| **Style** | French and pizza |
+
+#### Auberge-Gite on RN151 (Ciron)
+
+| Detail | Information |
+|--------|-------------|
+| **Address** | 33 RN 151, Ciron |
+| **Price range** | 12-25 EUR per person |
+| **Notes** | Very local, basic but close |
+
+---
+
+### In Angles-sur-l'Anglin (~30 min from Ciron)
+
+Best combined with a village visit. See Section 7.6 for restaurant details. **Le Relais du Lyon d'Or** has a big room and is most likely to accommodate 27.
+
+---
+
+### At Base US Karting, Etrechet (~45 min)
+
+#### Restaurant Le V8
+
+| Detail | Information |
+|--------|-------------|
+| **Location** | On-site at the karting complex |
+| **Website** | [lev8-restaurant.fr](https://lev8-restaurant.fr/) |
+| **Notes** | Combine with a karting session -- lunch and activity in one stop |
+
+---
+
+### Group Dining Strategy for 27 People
+
+> **The honest truth:** Finding a single restaurant near Ciron/Le Blanc that can seat 27 for dinner is challenging. This is rural France, not Paris. Here are your realistic options:
+>
+> 1. **Book Restaurant Le Cygne privately** -- call well in advance, explain you're 27. They may close to other diners for you or set up a private area.
+> 2. **Le Relais du Lyon d'Or in Angles** -- has a large room, combined with the village visit.
+> 3. **Private chef at the chateau** -- honestly the best option for most dinners. See Section 1. Avoids the logistics of transporting 27 people.
+> 4. **Base US Karting + Le V8** -- works perfectly for a combined activity + lunch day.
+> 5. **Restogroupes** ([restogroupes.com](https://www.restogroupes.com/en/)) -- France's #1 network of restaurants that welcome groups. Search their site for the Indre/Brenne area.
+> 6. **Contact Le Blanc tourist office** -- they'll know which local restaurants can handle large groups.
+
+---
+
+## 7.9 DISTANCE SUMMARY FROM CIRON
+
+| Destination | Distance (km) | Drive Time | Best For |
+|------------|---------------|-----------|----------|
+| **Le Blanc** | 15 | 15 min | Canoeing, restaurants, shopping |
+| **Angles-sur-l'Anglin** | 25 | 30 min | Beautiful village, lunch out |
+| **Romefort Castle** | 5 | 5 min | Quick visit, canoe launch |
+| **Azay-le-Ferron chateau** | 25 | 25-30 min | Local chateau visit |
+| **Argenton-sur-Creuse** | 21 | 25 min | Pretty town, "Venice of Berry" |
+| **Saint-Benoit-du-Sault** | 24 | 30 min | Medieval village |
+| **Mezieres-en-Brenne / Bellebouche** | 30 | 30 min | Accrobranche, lake activities |
+| **Chateauroux** | 43 | 40 min | Go-karting, escape rooms, shopping |
+| **Saint-Maur (Laleuf Loisirs)** | 48 | 45 min | Paintball, horse riding, multi-activity |
+| **Poitiers** | 61 | 1h | City, Futuroscope |
+| **Le Vigeant (Parc de l'Envol)** | 55 | 55 min | Accrobranche with giant zip lines |
+| **DefiPlanet (Dienne)** | 60 | 1h | Adventure park |
+| **Chateau de Valencay** | 82 | 1h15 | Renaissance chateau |
+| **Futuroscope** | 75 | 1h15 | Theme park |
+| **Chinon (wine)** | 99 | 1h30 | Wine tasting, medieval town |
+| **Tours** | 101 | 1h40 | City, nightlife, gateway to Vouvray |
+| **Vouvray** | 115 | 1h45 | Cave wine tastings |
+
+---
+
+## 7.10 RECOMMENDED DAY-OUT ITINERARIES
+
+### Day Out A: "Active Adventure" (Full Day)
+| Time | Activity | Location |
+|------|----------|----------|
+| 9:30am | Depart Ciron | |
+| 10:00am | Go-karting tournament (2 sessions) | Base US Karting, Etrechet |
+| 12:30pm | Lunch at Le V8 restaurant | On-site |
+| 2:30pm | Return to chateau | |
+| 3:30pm | Pool time / chill | Chateau Roussignol |
+
+**Cost estimate per person:** ~28-34 EUR (karting) + ~15-25 EUR (lunch) = ~43-59 EUR
+
+### Day Out B: "Paddle & Village" (Half Day)
+| Time | Activity | Location |
+|------|----------|----------|
+| 9:30am | Canoe launch from Ciron | Creuse River |
+| 1:30pm | Arrive Le Blanc, dry off | Le Blanc |
+| 2:00pm | Lunch at Le Cygne | Le Blanc |
+| 3:30pm | Drive to Angles-sur-l'Anglin | |
+| 4:00pm | Explore the village | Angles-sur-l'Anglin |
+| 5:30pm | Return to chateau | |
+
+**Cost estimate per person:** 18 EUR (canoe) + ~25-40 EUR (lunch) = ~43-58 EUR
+
+### Day Out C: "Treetops & Lake" (Full Day)
+| Time | Activity | Location |
+|------|----------|----------|
+| 10:00am | Depart for Bellebouche | |
+| 10:30am | Accrobranche course | Bellebouche |
+| 12:30pm | Picnic lunch by the lake | Bellebouche |
+| 2:00pm | Pedalo / paddleboarding / mini golf | Bellebouche |
+| 4:00pm | Return to chateau | |
+
+**Cost estimate per person:** 17 EUR (accrobranche) + ~10 EUR (water activities) + packed lunch = ~27+ EUR
+
+### Day Out D: "Wine Country" (Full Day -- Long Trip)
+| Time | Activity | Location |
+|------|----------|----------|
+| 9:00am | Depart Ciron | |
+| 10:30am | Wine tasting at first domaine | Chinon |
+| 12:00pm | Lunch in Chinon old town | Chinon |
+| 2:00pm | Visit Chateau de Chinon | Chinon |
+| 3:30pm | Wine tasting at second domaine | Chinon area |
+| 5:00pm | Depart for Ciron | |
+| 6:30pm | Arrive back | Chateau Roussignol |
+
+**Cost estimate per person:** ~15-30 EUR (tastings) + ~20-35 EUR (lunch) + ~10 EUR (chateau) = ~45-75 EUR
+
+### Day Out E: "Paintball & Action" (Full Day)
+| Time | Activity | Location |
+|------|----------|----------|
+| 9:30am | Depart Ciron | |
+| 10:15am | Paintball (teams tournament) | Laleuf Loisirs, Saint-Maur |
+| 12:30pm | Lunch on-site or in Chateauroux | |
+| 2:30pm | Escape room / axe throwing | Chateauroux |
+| 5:00pm | Return to chateau | |
+
+**Cost estimate per person:** 18 EUR (paintball) + ~15-25 EUR (lunch) + ~15-20 EUR (escape/axe) = ~48-63 EUR
+
+### Day Out F: "Angles & Nature" (Gentle Half Day)
+| Time | Activity | Location |
+|------|----------|----------|
+| 10:00am | Drive to Angles-sur-l'Anglin | |
+| 10:30am | Explore the village, castle ruins | Angles-sur-l'Anglin |
+| 12:30pm | Lunch at Le Relais du Lyon d'Or | Angles-sur-l'Anglin |
+| 2:30pm | Riverside walk / optional bird watching | Anglin river |
+| 4:00pm | Return to chateau | |
+
+**Cost estimate per person:** Free (village) + ~20-35 EUR (lunch) = ~20-35 EUR
+
+---
+
+*Last updated: February 2026*
 *Prices are estimates and may vary*
 *Always confirm bookings and prices directly with providers*

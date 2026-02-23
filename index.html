@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Joe's 30th Birthday Trip to France!</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>">
-    <link rel="stylesheet" href="css/base.css?v=4">
+    <link rel="stylesheet" href="css/base.css?v=6">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/nav.css">
-    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/home.css?v=3">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -157,7 +157,7 @@
 
             <div class="dashboard-card stats-card">
                 <div class="card-header">
-                    <h3>📊 Your Trip Stats</h3>
+                    <h3>&#128202; Your Trip Stats</h3>
                 </div>
                 <div class="stats-grid">
                     <div class="stat-item">
@@ -174,20 +174,58 @@
                     </div>
                 </div>
             </div>
+
+            <div class="dashboard-card live-stats-card">
+                <div class="card-header">
+                    <h3>&#127942; Your Live Stats</h3>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-value stat-big" id="stat-points">0</span>
+                        <span class="stat-label">Points</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="stat-rank">-</span>
+                        <span class="stat-label">Rank</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="stat-team-rank">-</span>
+                        <span class="stat-label">Team Rank</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="stat-badges">0</span>
+                        <span class="stat-label">Badges</span>
+                    </div>
+                </div>
+                <div class="stat-badges-row" id="stat-badges-row"></div>
+            </div>
+
+            <div class="dashboard-card trip-numbers-card">
+                <div class="card-header">
+                    <h3>&#128200; The Trip in Numbers</h3>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-value stat-big" id="stat-total-pts">0</span>
+                        <span class="stat-label">Total Points Awarded</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="stat-total-msgs">0</span>
+                        <span class="stat-label">Messages</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="stat-total-photos">0</span>
+                        <span class="stat-label">Photos</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="stat-total-songs">0</span>
+                        <span class="stat-label">Song Requests</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Facts Ticker -->
-    <div class="facts-ticker" id="facts-ticker">
-        <div class="ticker-content">
-            <span class="ticker-item">🎂 Fun Fact: Joe once ate 12 croissants in one sitting</span>
-            <span class="ticker-item">🎉 Did you know: Joe's first word was "cheese"</span>
-            <span class="ticker-item">🍷 True story: Joe can name 47 types of wine</span>
-            <span class="ticker-item">✈️ Adventure: Joe has visited 23 countries</span>
-            <span class="ticker-item">🎵 Music: Joe's guilty pleasure is ABBA</span>
-            <span class="ticker-item">🏆 Achievement: Joe once won a cheese-eating contest</span>
-        </div>
-    </div>
 
     <!-- Quick Links to Pages -->
     <section class="quick-links section visible">
@@ -241,8 +279,8 @@
         </div>
     </footer>
 
-    <script src="js/shared.js?v=4"></script>
+    <script src="js/shared.js?v=6"></script>
     <script src="js/nav.js"></script>
-    <script src="js/home.js"></script>
+    <script src="js/home.js?v=2"></script>
 </body>
 </html>
