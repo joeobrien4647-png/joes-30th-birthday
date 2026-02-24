@@ -1542,10 +1542,15 @@ function injectDaySummaries() {
             });
         });
 
-        // Build 3-column poster HTML
+        // Build 3-column poster — max 3 items per period, highlights first
+        var MAX_PER_PERIOD = 3;
         var colsHtml = periods.map(function(period, i) {
             var icon = PERIOD_ICONS[period] || '•';
-            var itemsHtml = periodMap[period].map(function(item) {
+            var all = periodMap[period];
+            var highlights = all.filter(function(x) { return x.highlight || x.secret; });
+            var rest = all.filter(function(x) { return !x.highlight && !x.secret; });
+            var shown = highlights.concat(rest).slice(0, MAX_PER_PERIOD);
+            var itemsHtml = shown.map(function(item) {
                 var cls = 'dp-item' +
                     (item.highlight ? ' dp-highlight' : '') +
                     (item.secret ? ' dp-secret' : '');

@@ -2328,7 +2328,7 @@
 
 .dp-col {
     flex: 1;
-    padding: 22px 18px 20px;
+    padding: 28px 22px 24px;
     display: flex;
     flex-direction: column;
     gap: 0;
@@ -2338,24 +2338,24 @@
 .dp-divider {
     width: 1px;
     background: rgba(0, 0, 0, 0.06);
-    margin: 20px 0;
+    margin: 24px 0;
     flex-shrink: 0;
 }
 
 .dp-col-header {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: 0.64rem;
+    gap: 8px;
+    font-size: 0.72rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1.3px;
     color: var(--text-light);
-    margin-bottom: 13px;
+    margin-bottom: 16px;
 }
 
 .dp-period-icon {
-    font-size: 0.95rem;
+    font-size: 1.4rem;
     line-height: 1;
 }
 
@@ -2365,15 +2365,15 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 9px;
+    gap: 12px;
 }
 
 .dp-item {
-    font-size: 0.83rem;
+    font-size: 1rem;
     font-weight: 500;
     color: var(--text-dark);
-    line-height: 1.4;
-    padding-left: 12px;
+    line-height: 1.45;
+    padding-left: 14px;
     position: relative;
 }
 
@@ -2382,24 +2382,24 @@
     content: '';
     position: absolute;
     left: 0;
-    top: 6px;
-    width: 4px;
-    height: 4px;
+    top: 8px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
     background: #ccc;
 }
 
 .dp-item.dp-highlight {
     font-weight: 700;
+    font-size: 1.05rem;
 }
 
 .dp-item.dp-highlight::before {
     background: var(--poster-gradient, #7C3AED);
-    /* Fake gradient dot using a box-shadow trick */
-    width: 5px;
-    height: 5px;
-    top: 5px;
-    box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.15);
+    width: 6px;
+    height: 6px;
+    top: 7px;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
 }
 
 .dp-item.dp-secret {
