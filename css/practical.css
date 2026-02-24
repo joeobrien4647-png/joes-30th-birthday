@@ -82,6 +82,67 @@
 }
 
 /* ============================================
+   Chateau Gallery
+   ============================================ */
+.chateau-gallery {
+    margin-top: 40px;
+}
+
+.chateau-gallery h3 {
+    text-align: center;
+    color: var(--secondary);
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.chateau-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.chateau-gallery-grid img:first-child {
+    grid-column: span 2;
+    grid-row: span 1;
+}
+
+.chateau-gallery-grid img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+}
+
+.chateau-gallery-grid img:hover {
+    transform: scale(1.02);
+    box-shadow: var(--shadow-lg);
+}
+
+.gallery-credit {
+    text-align: center;
+    color: var(--text-light);
+    margin-top: 12px;
+    font-size: 0.85rem;
+}
+
+.gallery-credit a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+@media (max-width: 600px) {
+    .chateau-gallery-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .chateau-gallery-grid img:first-child {
+        grid-column: span 2;
+    }
+}
+
+/* ============================================
    Map Container
    ============================================ */
 .map-container {
