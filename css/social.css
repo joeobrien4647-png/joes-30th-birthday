@@ -11,35 +11,36 @@
 
 .rooms-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 28px;
 }
 
 .room-card {
     background: var(--bg-white);
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.10);
     transition: var(--transition-normal);
+    border: 1px solid rgba(0,0,0,0.06);
 }
 
 .room-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-md);
+    transform: translateY(-6px);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.16);
 }
 
 .room-header {
     background: var(--bg-light);
-    padding: 15px 20px;
+    padding: 16px 22px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.07);
 }
 
 .room-number {
-    font-weight: 700;
-    font-size: 1rem;
+    font-weight: 800;
+    font-size: 1.1rem;
     color: var(--secondary);
 }
 
@@ -86,10 +87,10 @@
 }
 
 .bed-visual {
-    width: 80px;
-    border-radius: 8px;
+    width: 104px;
+    border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.13);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.16);
 }
 
 .sixbed .bed-visual {
@@ -97,20 +98,20 @@
 }
 
 .bed-headboard {
-    height: 16px;
-    background: linear-gradient(180deg, #d4956a, #b87744);
-    border-radius: 8px 8px 0 0;
+    height: 22px;
+    background: linear-gradient(180deg, #c8874e, #a06235, #8a5229);
+    border-radius: 10px 10px 0 0;
 }
 
 .bed-body {
     background: #f5f0e8;
-    border-left: 2px solid #e5ddd0;
-    border-right: 2px solid #e5ddd0;
-    padding: 12px 8px;
+    border-left: 3px solid #e0d5c5;
+    border-right: 3px solid #e0d5c5;
+    padding: 14px 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 88px;
+    min-height: 100px;
 }
 
 .sixbed .bed-body {
@@ -119,20 +120,21 @@
 }
 
 .bed-pillow {
-    width: 50px;
-    height: 50px;
+    width: 72px;
+    height: 72px;
     border-radius: 50%;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
-    font-size: 0.85rem;
-    border: 3px solid rgba(255,255,255,0.8);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    font-weight: 800;
+    font-size: 1rem;
+    border: 4px solid rgba(255,255,255,0.9);
+    box-shadow: 0 3px 12px rgba(0,0,0,0.22);
     letter-spacing: 0.5px;
-    transition: box-shadow 0.2s ease;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    overflow: hidden;
 }
 
 .sixbed .bed-pillow {
@@ -146,27 +148,28 @@
     background: linear-gradient(135deg, #ffd93d 0%, #ff9800 100%);
     color: #1a1a2e;
     animation: pulse 2s infinite;
-    box-shadow: 0 0 16px rgba(255, 217, 61, 0.5);
+    box-shadow: 0 0 20px rgba(255, 217, 61, 0.6);
 }
 
 .bed:hover .bed-pillow {
-    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+    transform: scale(1.08);
 }
 
 .bed-footer {
-    height: 10px;
-    background: linear-gradient(180deg, #b87744, #9a6235);
-    border-radius: 0 0 8px 8px;
+    height: 14px;
+    background: linear-gradient(180deg, #a06235, #7a4a25);
+    border-radius: 0 0 10px 10px;
 }
 
 .bed-name {
     display: block;
     text-align: center;
-    font-size: 0.72rem;
-    font-weight: 600;
-    margin-top: 7px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-top: 8px;
     color: var(--text-dark);
-    max-width: 85px;
+    max-width: 110px;
     line-height: 1.25;
 }
 
@@ -193,22 +196,22 @@
 
 .bed-visual-wide {
     width: 100%;
-    max-width: 260px;
-    border-radius: 10px;
+    max-width: 300px;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+    box-shadow: 0 5px 22px rgba(0,0,0,0.16);
 }
 
 .bed-body-wide {
     background: #f5f0e8;
-    border-left: 2px solid #e5ddd0;
-    border-right: 2px solid #e5ddd0;
-    padding: 16px 24px;
+    border-left: 3px solid #e0d5c5;
+    border-right: 3px solid #e0d5c5;
+    padding: 20px 28px;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    gap: 14px;
-    min-height: 90px;
+    gap: 20px;
+    min-height: 110px;
 }
 
 .bed-body-wide .bed-pillow {
@@ -217,33 +220,33 @@
 
 .bed-body-wide .bed-pillow:hover {
     transform: scale(1.12);
-    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
 }
 
 .double-names {
     display: flex;
     width: 100%;
-    max-width: 260px;
-    margin-top: 8px;
+    max-width: 300px;
+    margin-top: 10px;
     justify-content: space-around;
 }
 
 .double-names span {
-    font-size: 0.72rem;
-    font-weight: 600;
+    font-size: 0.78rem;
+    font-weight: 700;
     color: var(--text-dark);
     text-align: center;
     flex: 1;
-    line-height: 1.25;
+    line-height: 1.3;
 }
 
 /* Solo room — narrower single-person bed */
 .double-bed.solo-bed .bed-visual-wide {
-    max-width: 130px;
+    max-width: 150px;
 }
 
 .double-bed.solo-bed .double-names {
-    max-width: 130px;
+    max-width: 150px;
     justify-content: center;
 }
 
