@@ -369,14 +369,27 @@ function initAgendaTabs() {
     tabBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             const day = this.dataset.day;
+            const current = document.querySelector('.day-content.active');
+            const next = document.querySelector('.day-content[data-day="' + day + '"]');
+            if (current === next) return;
 
-            // Remove active class from all tabs and content
+            // Remove active class from all tabs
             tabBtns.forEach(b => b.classList.remove('active'));
-            dayContents.forEach(c => c.classList.remove('active'));
-
-            // Add active class to clicked tab and corresponding content
             this.classList.add('active');
-            document.querySelector(`.day-content[data-day="${day}"]`).classList.add('active');
+
+            // Crossfade: fade out current, fade in next
+            if (current) {
+                current.classList.add('day-exit');
+                current.classList.remove('active');
+            }
+            next.classList.add('day-enter');
+            next.classList.add('active');
+
+            // Clean up animation classes after transition
+            setTimeout(function() {
+                if (current) current.classList.remove('day-exit');
+                next.classList.remove('day-enter');
+            }, 300);
         });
     });
 }
@@ -1587,6 +1600,68 @@ function injectDaySummaries() {
     });
 }
 
+/* ---- Sticky day tabs ---- */
+function initStickyTabs() {
+    var wrapper = document.querySelector('.agenda-tabs-wrapper');
+    if (!wrapper) return;
+
+    var placeholder = document.createElement('div');
+    placeholder.className = 'sticky-tabs-placeholder';
+    placeholder.style.display = 'none';
+
+    wrapper.parentNode.insertBefore(placeholder, wrapper);
+
+    var subNav = document.querySelector('.sub-nav');
+    var stickyOffset = subNav ? subNav.offsetHeight + 65 : 65;
+
+    function onScroll() {
+        var trigger = placeholder.getBoundingClientRect().top;
+        if (trigger <= stickyOffset) {
+            if (!wrapper.classList.contains('tabs-stuck')) {
+                placeholder.style.display = 'block';
+                placeholder.style.height = wrapper.offsetHeight + 'px';
+                wrapper.classList.add('tabs-stuck');
+                wrapper.style.top = stickyOffset + 'px';
+            }
+        } else {
+            placeholder.style.display = 'none';
+            wrapper.classList.remove('tabs-stuck');
+            wrapper.style.top = '';
+        }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+}
+
+/* ---- Scroll-spy: highlight active sub-nav link ---- */
+function initScrollSpy() {
+    var links = document.querySelectorAll('.sub-nav-links a');
+    var sections = [];
+    links.forEach(function(link) {
+        var id = link.getAttribute('href').replace('#', '');
+        var el = document.getElementById(id);
+        if (el) sections.push({ el: el, link: link });
+    });
+    if (!sections.length) return;
+
+    function onScroll() {
+        var scrollY = window.scrollY + 180;
+        var active = sections[0];
+        for (var i = sections.length - 1; i >= 0; i--) {
+            if (sections[i].el.offsetTop <= scrollY) {
+                active = sections[i];
+                break;
+            }
+        }
+        links.forEach(function(l) { l.classList.remove('active'); });
+        if (active) active.link.classList.add('active');
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+}
+
 /* ---- Initialize on page load ---- */
 document.addEventListener('DOMContentLoaded', function() {
     initAgendaTabs();
@@ -1597,4 +1672,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initTimeBuckets();
     injectDayHeroes();
     injectDaySummaries();
+    initStickyTabs();
+    initScrollSpy();
 });

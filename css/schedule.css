@@ -695,46 +695,39 @@
     background: linear-gradient(135deg, rgba(255, 217, 61, 0.2) 0%, rgba(255, 107, 157, 0.2) 100%);
 }
 
-/* House Rules */
-.house-rules-list {
-    background: var(--bg-white);
-    border-radius: 20px;
-    padding: 40px;
-    box-shadow: var(--shadow-sm);
-}
-
-.house-rules-list h3 {
-    text-align: center;
-    font-size: 1.8rem;
-    margin-bottom: 30px;
-    color: var(--secondary);
-}
-
-.rules-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-}
-
-.rule {
-    display: flex;
-    align-items: flex-start;
-    gap: 15px;
-    padding: 15px;
-    background: var(--bg-light);
-    border-radius: 10px;
-}
-
-.rule-number {
-    width: 35px;
-    height: 35px;
-    background: var(--gradient-primary);
-    color: var(--text-white);
-    border-radius: 50%;
+/* Good to Know banner */
+.good-to-know {
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-weight: 700;
+    gap: 16px;
+    padding: 18px 24px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.06), rgba(118, 75, 162, 0.04));
+    border: 1.5px solid rgba(102, 126, 234, 0.15);
+    border-radius: 14px;
+    margin-top: 30px;
+}
+
+.gtk-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.gtk-items {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    line-height: 1.5;
+}
+
+.gtk-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--text-light);
     flex-shrink: 0;
 }
 
@@ -2480,4 +2473,174 @@
     .dp-col {
         padding: 16px 18px;
     }
+}
+
+/* ============================================================
+   Sticky Day Tabs
+   ============================================================ */
+.agenda-tabs-wrapper.tabs-stuck {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 80;
+    background: var(--bg-white, #fff);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    padding: 12px 0;
+    margin-bottom: 0;
+    animation: slideDown 0.25s ease;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* ============================================================
+   Day Transition Animations
+   ============================================================ */
+.day-content.active {
+    animation: none;
+}
+
+.day-content.day-enter {
+    animation: dayFadeIn 0.3s ease forwards;
+}
+
+.day-content.day-exit {
+    animation: dayFadeOut 0.15s ease forwards;
+    position: absolute;
+    width: 100%;
+    pointer-events: none;
+}
+
+@keyframes dayFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes dayFadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.agenda-content {
+    position: relative;
+}
+
+/* ============================================================
+   Focus & Keyboard Accessibility
+   ============================================================ */
+.tab-btn:focus-visible {
+    outline: 3px solid var(--primary, #7C3AED);
+    outline-offset: 2px;
+}
+
+.full-schedule-toggle:focus-visible,
+.av-vote-btn:focus-visible,
+.av-expand-btn:focus-visible,
+.agenda-arrow:focus-visible {
+    outline: 3px solid var(--primary, #7C3AED);
+    outline-offset: 2px;
+}
+
+.sub-nav-links a:focus-visible {
+    outline: 2px solid var(--primary, #7C3AED);
+    outline-offset: 2px;
+    border-radius: 20px;
+}
+
+/* ============================================================
+   Dark Mode Overrides
+   ============================================================ */
+body.dark-mode .day-poster {
+    background: var(--bg-white);
+    border-color: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .dp-col:nth-child(3) {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+body.dark-mode .dp-divider {
+    background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.06), transparent);
+}
+
+body.dark-mode .dp-item::before {
+    background: #555;
+}
+
+body.dark-mode .dp-item.dp-highlight {
+    border-image: linear-gradient(135deg, #667eea, #764ba2) 1;
+}
+
+body.dark-mode .full-schedule-toggle {
+    border-color: rgba(255, 255, 255, 0.12);
+    color: var(--text-light);
+}
+
+body.dark-mode .full-schedule-toggle:hover,
+body.dark-mode .full-schedule-toggle.open {
+    border-color: rgba(102, 126, 234, 0.5);
+    color: #667eea;
+    background: rgba(102, 126, 234, 0.08);
+}
+
+body.dark-mode .time-bucket-header {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+body.dark-mode .activity {
+    background: var(--bg-white);
+    border-color: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .timeline-item.highlight .activity {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(118, 75, 162, 0.08) 100%);
+    box-shadow: 0 4px 18px rgba(102, 126, 234, 0.2);
+}
+
+body.dark-mode .day-hero-chip {
+    background: var(--bg-light);
+    border-color: rgba(102, 126, 234, 0.2);
+    box-shadow: none;
+}
+
+body.dark-mode .rota-table {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+body.dark-mode .av-card {
+    border-top-color: rgba(102, 126, 234, 0.3);
+}
+
+body.dark-mode .agenda-tabs-wrapper.tabs-stuck {
+    background: var(--bg-white);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .bucket-time-range {
+    background: var(--bg-light);
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+/* ============================================================
+   Consistent Section Spacing
+   ============================================================ */
+#agenda,
+#rotas,
+#activity-signups {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+#rotas .section-title,
+#activity-signups .section-title {
+    margin-bottom: 10px;
+}
+
+#rotas .section-subtitle,
+#activity-signups .section-subtitle {
+    margin-bottom: 35px;
 }
