@@ -272,16 +272,6 @@ const GUEST_DATA = {
         ],
         personalNotes: 'Bring the legendary energy!'
     },
-    'will30': {
-        name: 'Will', fullName: 'Will Turner', room: 'Room 12',
-        team: 'Team 3', nickname: 'Captain Obvious',
-        missions: [
-            { id: 'm1', text: 'Lead a group activity', completed: false },
-            { id: 'm2', text: 'Make sure no one gets left behind', completed: false },
-            { id: 'm3', text: 'Give a captain\'s toast', completed: false }
-        ],
-        personalNotes: 'Take charge when needed - you\'re a natural leader!'
-    },
     'chris30': {
         name: 'Chris', fullName: 'Chris Coggin', room: 'Room 12',
         team: 'Team 1', nickname: 'The Quiet Assassin',
@@ -301,16 +291,6 @@ const GUEST_DATA = {
             { id: 'm3', text: 'Be on the dance floor first', completed: false }
         ],
         personalNotes: 'When energy is needed, you\'re the spark!'
-    },
-    'matt30': {
-        name: 'Matt', fullName: 'Matt Hill', room: 'Room 13',
-        team: 'Team 3', nickname: 'The Diplomat',
-        missions: [
-            { id: 'm1', text: 'Keep conversations flowing', completed: false },
-            { id: 'm2', text: 'Help resolve any friendly disputes', completed: false },
-            { id: 'm3', text: 'Be the voice of reason when needed', completed: false }
-        ],
-        personalNotes: 'Keep the peace and keep things smooth!'
     },
     'pranay30': {
         name: 'Pranay', fullName: 'Pranay Dube', room: 'Room 14',
@@ -333,7 +313,7 @@ const PLAYERS = {
     'Tom': 'team3', 'Kiran': 'team3', 'George': 'team3',
     'Peter': 'team3', 'Jonny W': 'team3', 'Oscar': 'team3', 'Robin': 'team3',
     'Florrie': 'team4', 'Robert': 'team4', 'Emma L': 'team4',
-    'Shane': 'team4', 'Will': 'team4', 'Matt': 'team4'
+    'Shane': 'team4'
 };
 
 /* Reveal Date — teams & nicknames hidden until arrival night */
