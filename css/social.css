@@ -180,6 +180,82 @@
     cursor: pointer;
 }
 
+/* ============================================
+   Double Bed Layout (Rooms 1-11)
+   ============================================ */
+.double-bed {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 10px 15px 15px;
+}
+
+.bed-visual-wide {
+    width: 100%;
+    max-width: 260px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+}
+
+.bed-body-wide {
+    background: #f5f0e8;
+    border-left: 2px solid #e5ddd0;
+    border-right: 2px solid #e5ddd0;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 14px;
+    min-height: 90px;
+}
+
+.bed-body-wide .bed-pillow {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bed-body-wide .bed-pillow:hover {
+    transform: scale(1.12);
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+}
+
+.double-names {
+    display: flex;
+    width: 100%;
+    max-width: 260px;
+    margin-top: 8px;
+    justify-content: space-around;
+}
+
+.double-names span {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    text-align: center;
+    flex: 1;
+    line-height: 1.25;
+}
+
+/* Solo room — narrower single-person bed */
+.double-bed.solo-bed .bed-visual-wide {
+    max-width: 130px;
+}
+
+.double-bed.solo-bed .double-names {
+    max-width: 130px;
+    justify-content: center;
+}
+
+/* Room 12 — 4 single beds in 2x2 grid */
+.room-beds.fourbeds {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    padding: 20px;
+    justify-items: center;
+}
+
 /* Birthday Room Special Styling */
 .room-card.birthday-room {
     border: 3px solid var(--accent);
