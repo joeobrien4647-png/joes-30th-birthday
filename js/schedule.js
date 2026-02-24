@@ -1618,8 +1618,13 @@ function initStickyTabs() {
         var trigger = placeholder.getBoundingClientRect().top;
         if (trigger <= stickyOffset) {
             if (!wrapper.classList.contains('tabs-stuck')) {
+                // Include margin in placeholder to prevent content jump
+                var style = getComputedStyle(wrapper);
+                var totalHeight = wrapper.offsetHeight +
+                    parseInt(style.marginTop || 0) +
+                    parseInt(style.marginBottom || 0);
                 placeholder.style.display = 'block';
-                placeholder.style.height = wrapper.offsetHeight + 'px';
+                placeholder.style.height = totalHeight + 'px';
                 wrapper.classList.add('tabs-stuck');
                 wrapper.style.top = stickyOffset + 'px';
             }

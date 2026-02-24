@@ -56,207 +56,89 @@
 }
 
 /* ============================================
-   Bed Visual Layout
+   Guest Card Layout
    ============================================ */
-.room-beds {
+.room-guests {
     display: flex;
-    gap: 20px;
     justify-content: center;
-    align-items: flex-start;
+    gap: 20px;
     padding: 20px;
     flex-wrap: wrap;
 }
 
-.room-beds.sixbed {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-    padding: 20px;
-}
-
-.bed {
+.guest-card {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 8px;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    padding: 14px;
+    border-radius: 16px;
+    transition: transform 0.2s ease, background 0.2s ease;
+    min-width: 110px;
+    position: relative;
 }
 
-.bed:hover {
-    transform: scale(1.06);
+.guest-card:hover {
+    transform: translateY(-4px);
+    background: var(--bg-light);
 }
 
-.bed-visual {
-    width: 104px;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.16);
-}
-
-.sixbed .bed-visual {
-    width: 100%;
-}
-
-.bed-headboard {
-    height: 22px;
-    background: linear-gradient(180deg, #c8874e, #a06235, #8a5229);
-    border-radius: 10px 10px 0 0;
-}
-
-.bed-body {
-    background: #f5f0e8;
-    border-left: 3px solid #e0d5c5;
-    border-right: 3px solid #e0d5c5;
-    padding: 14px 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100px;
-}
-
-.sixbed .bed-body {
-    min-height: 68px;
-    padding: 10px 6px;
-}
-
-.bed-pillow {
-    width: 72px;
-    height: 72px;
+.guest-avatar {
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    overflow: hidden;
+    border: 3px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    position: relative;
+    flex-shrink: 0;
+}
+
+.guest-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.guest-initials {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: white;
     font-weight: 800;
-    font-size: 1rem;
-    border: 4px solid rgba(255,255,255,0.9);
-    box-shadow: 0 3px 12px rgba(0,0,0,0.22);
+    font-size: 1.1rem;
     letter-spacing: 0.5px;
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-    overflow: hidden;
 }
 
-.sixbed .bed-pillow {
-    width: 38px;
-    height: 38px;
-    font-size: 0.7rem;
-    border-width: 2px;
-}
-
-.bed-pillow.birthday {
+.guest-avatar.birthday {
     background: linear-gradient(135deg, #ffd93d 0%, #ff9800 100%);
-    color: #1a1a2e;
+    box-shadow: 0 0 20px rgba(255, 217, 61, 0.5);
     animation: pulse 2s infinite;
-    box-shadow: 0 0 20px rgba(255, 217, 61, 0.6);
 }
 
-.bed:hover .bed-pillow {
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
-    transform: scale(1.08);
+.guest-avatar.birthday .guest-initials {
+    color: #1a1a2e;
 }
 
-.bed-footer {
-    height: 14px;
-    background: linear-gradient(180deg, #a06235, #7a4a25);
-    border-radius: 0 0 10px 10px;
-}
-
-.bed-name {
-    display: block;
-    text-align: center;
-    font-size: 0.75rem;
+.guest-name {
     font-weight: 700;
-    margin-top: 8px;
-    color: var(--text-dark);
-    max-width: 110px;
-    line-height: 1.25;
-}
-
-.sixbed .bed-name {
-    font-size: 0.65rem;
-    max-width: 100%;
-}
-
-/* keep .guest selector for JS modal compatibility */
-.guest {
-    cursor: pointer;
-}
-
-/* ============================================
-   Double Bed Layout (Rooms 1-11)
-   ============================================ */
-.double-bed {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    padding: 10px 15px 15px;
-}
-
-.bed-visual-wide {
-    width: 100%;
-    max-width: 300px;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 5px 22px rgba(0,0,0,0.16);
-}
-
-.bed-body-wide {
-    background: #f5f0e8;
-    border-left: 3px solid #e0d5c5;
-    border-right: 3px solid #e0d5c5;
-    padding: 20px 28px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    gap: 20px;
-    min-height: 110px;
-}
-
-.bed-body-wide .bed-pillow {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.bed-body-wide .bed-pillow:hover {
-    transform: scale(1.12);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
-}
-
-.double-names {
-    display: flex;
-    width: 100%;
-    max-width: 300px;
-    margin-top: 10px;
-    justify-content: space-around;
-}
-
-.double-names span {
-    font-size: 0.78rem;
-    font-weight: 700;
+    font-size: 0.9rem;
     color: var(--text-dark);
     text-align: center;
-    flex: 1;
     line-height: 1.3;
 }
 
-/* Solo room — narrower single-person bed */
-.double-bed.solo-bed .bed-visual-wide {
-    max-width: 150px;
-}
-
-.double-bed.solo-bed .double-names {
-    max-width: 150px;
-    justify-content: center;
-}
-
-/* Room 12 — 4 single beds in 2x2 grid */
-.room-beds.fourbeds {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    padding: 20px;
-    justify-items: center;
+.guest-tagline {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    text-align: center;
+    max-width: 140px;
+    line-height: 1.3;
 }
 
 /* Birthday Room Special Styling */
@@ -289,42 +171,9 @@
 }
 
 /* Solo Room Styling */
-.room-card.solo-room .guest-avatar {
-    width: 60px;
-    height: 60px;
-    font-size: 1.1rem;
-}
-
-.room-card.solo-room .guest {
-    padding: 15px 10px;
-}
-
 .room-tag.solo {
     background: var(--accent-alt);
     color: var(--text-white);
-}
-
-/* Clickable guest indicator */
-.guest::after {
-    content: 'View Profile';
-    position: absolute;
-    bottom: -25px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--text-dark);
-    color: var(--text-white);
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 0.7rem;
-    opacity: 0;
-    transition: var(--transition-fast);
-    white-space: nowrap;
-    pointer-events: none;
-}
-
-.guest:hover::after {
-    opacity: 1;
-    bottom: -20px;
 }
 
 /* ============================================
