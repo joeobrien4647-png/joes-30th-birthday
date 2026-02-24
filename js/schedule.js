@@ -1450,14 +1450,14 @@ function initTimeBuckets() {
     });
 }
 
-/* ---- Style Toggle ---- */
+/* ---- Day Hero Data ---- */
 var DAY_HERO_DATA = {
-    '1': { emoji: '✈️', gradient: 'linear-gradient(135deg, #f97316, #fbbf24)' },
-    '2': { emoji: '🏰', gradient: 'linear-gradient(135deg, #059669, #34d399)' },
-    '3': { emoji: '🛶', gradient: 'linear-gradient(135deg, #0ea5e9, #6366f1)' },
-    '4': { emoji: '🎂', gradient: 'linear-gradient(135deg, #f59e0b, #ec4899, #a855f7)' },
-    '5': { emoji: '🌲', gradient: 'linear-gradient(135deg, #06b6d4, #3b82f6)' },
-    '6': { emoji: '🏠', gradient: 'linear-gradient(135deg, #ec4899, #8b5cf6)' }
+    '1': { emoji: '✈️', gradient: 'linear-gradient(135deg, #f97316, #fbbf24)', subtitle: 'France, Here We Come' },
+    '2': { emoji: '🏰', gradient: 'linear-gradient(135deg, #059669, #34d399)', subtitle: 'Chateau Life Begins' },
+    '3': { emoji: '🛶', gradient: 'linear-gradient(135deg, #0ea5e9, #6366f1)', subtitle: 'Paddles, Villages & Wine' },
+    '4': { emoji: '🎂', gradient: 'linear-gradient(135deg, #f59e0b, #ec4899, #a855f7)', subtitle: "The Birthday That Can\u2019t Be Topped" },
+    '5': { emoji: '🌲', gradient: 'linear-gradient(135deg, #06b6d4, #3b82f6)', subtitle: 'Treetops, Lakes & Last Night' },
+    '6': { emoji: '🏠', gradient: 'linear-gradient(135deg, #ec4899, #8b5cf6)', subtitle: 'Au Revoir, Roussignol' }
 };
 
 function injectDayHeroes() {
@@ -1490,6 +1490,7 @@ function injectDayHeroes() {
                 '<span class="day-hero-big-emoji">' + data.emoji + '</span>' +
                 '<div class="day-hero-date">' + datePart + '</div>' +
                 '<div class="day-hero-name">' + namePart + '</div>' +
+                '<div class="day-hero-subtitle">' + data.subtitle + '</div>' +
             '</div>' +
             '<div class="day-hero-chips">' + chipsHtml + '</div>';
 
@@ -1497,27 +1498,82 @@ function injectDayHeroes() {
     });
 }
 
-function initStyleToggle() {
-    var toggle = document.getElementById('view-toggle');
-    if (!toggle) return;
-    var agenda = document.getElementById('agenda');
+/* ---- Map time buckets to Morning / Afternoon / Evening ---- */
+function getPeriodLabel(timeRangeText) {
+    var match = timeRangeText.match(/^(\d+)(?::\d+)?\s*(AM|PM)/i);
+    if (!match) return 'Morning';
+    var hour = parseInt(match[1]);
+    var ampm = match[2].toUpperCase();
+    if (ampm === 'AM') return 'Morning';
+    if (hour === 12 || hour <= 5) return 'Afternoon';
+    return 'Evening';
+}
 
-    // Restore saved preference (default: festival)
-    var saved = localStorage.getItem('agendaStyle') || 'festival';
-    agenda.setAttribute('data-agenda-style', saved);
-    toggle.querySelectorAll('.view-toggle-btn').forEach(function(btn) {
-        btn.classList.toggle('active', btn.dataset.style === saved);
-    });
-
-    toggle.addEventListener('click', function(e) {
-        var btn = e.target.closest('.view-toggle-btn');
-        if (!btn) return;
-        var style = btn.dataset.style;
-        toggle.querySelectorAll('.view-toggle-btn').forEach(function(b) {
-            b.classList.toggle('active', b === btn);
+function mapBucketsToPeriods() {
+    document.querySelectorAll('.day-content').forEach(function(day) {
+        var lastPeriod = null;
+        day.querySelectorAll('.time-bucket').forEach(function(bucket) {
+            var timeRangeEl = bucket.querySelector('.bucket-time-range');
+            var titleEl = bucket.querySelector('.bucket-title');
+            var header = bucket.querySelector('.time-bucket-header');
+            if (!timeRangeEl || !titleEl) return;
+            var period = getPeriodLabel(timeRangeEl.textContent.trim());
+            titleEl.textContent = period;
+            if (period === lastPeriod) {
+                header.classList.add('period-hidden');
+            }
+            lastPeriod = period;
         });
-        agenda.setAttribute('data-agenda-style', style);
-        localStorage.setItem('agendaStyle', style);
+    });
+}
+
+/* ---- Inject horizontal day timeline strip ---- */
+function shortName(text) {
+    var words = text.trim().split(/\s+/);
+    if (words.length <= 3) return text.trim();
+    return words.slice(0, 3).join(' ') + '\u2026';
+}
+
+function injectDayTimelines() {
+    document.querySelectorAll('.day-content').forEach(function(day) {
+        if (day.querySelector('.day-timeline-strip')) return;
+        var timeline = day.querySelector('.timeline');
+        if (!timeline) return;
+
+        var items = [];
+        day.querySelectorAll('.timeline-item').forEach(function(item) {
+            var timeEl = item.querySelector('.time');
+            var h4 = item.querySelector('.activity h4');
+            if (!timeEl || !h4) return;
+            items.push({
+                time: timeEl.textContent.trim(),
+                name: h4.textContent.trim(),
+                highlight: item.classList.contains('highlight'),
+                secret: item.classList.contains('top-secret')
+            });
+        });
+
+        if (items.length === 0) return;
+
+        var itemsHtml = items.map(function(item) {
+            var cls = 'dts-item' +
+                (item.highlight ? ' dts-highlight' : '') +
+                (item.secret ? ' dts-secret' : '');
+            var name = item.secret ? '🔒 Secret' : shortName(item.name);
+            return '<div class="' + cls + '">' +
+                '<div class="dts-time">' + item.time + '</div>' +
+                '<div class="dts-dot"></div>' +
+                '<div class="dts-name">' + name + '</div>' +
+                '</div>';
+        }).join('');
+
+        var strip = document.createElement('div');
+        strip.className = 'day-timeline-strip';
+        strip.innerHTML =
+            '<div class="dts-label">Full Day at a Glance</div>' +
+            '<div class="dts-scroll"><div class="dts-track">' + itemsHtml + '</div></div>';
+
+        timeline.parentNode.insertBefore(strip, timeline.nextSibling);
     });
 }
 
@@ -1530,5 +1586,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initScheduleEmptyStates();
     initTimeBuckets();
     injectDayHeroes();
-    initStyleToggle();
+    mapBucketsToPeriods();
+    injectDayTimelines();
 });
