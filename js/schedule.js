@@ -1527,8 +1527,10 @@ function injectDaySummaries() {
             }
             bucket.querySelectorAll('.timeline-item').forEach(function(item) {
                 var h4 = item.querySelector('.activity h4');
+                var timeEl = item.querySelector('.time');
                 if (!h4) return;
                 periodMap[period].push({
+                    time: timeEl ? timeEl.textContent.trim() : '',
                     name: h4.textContent.trim(),
                     highlight: item.classList.contains('highlight'),
                     secret: item.classList.contains('top-secret')
@@ -1542,7 +1544,10 @@ function injectDaySummaries() {
                     (item.highlight ? ' ds-highlight' : '') +
                     (item.secret ? ' ds-secret' : '');
                 var name = item.secret ? '\uD83D\uDD12 Secret' : item.name;
-                return '<div class="' + cls + '">' + name + '</div>';
+                return '<div class="' + cls + '">' +
+                    '<div class="ds-time">' + item.time + '</div>' +
+                    '<div class="ds-title">' + name + '</div>' +
+                    '</div>';
             }).join('');
             return '<div class="ds-period">' +
                 '<div class="ds-period-label">' + period + '</div>' +

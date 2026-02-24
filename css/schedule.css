@@ -2302,58 +2302,117 @@
     display: block;
 }
 
-/* ---- Day summary: vertical Morning / Afternoon / Evening overview ---- */
+/* ---- Day summary: proper vertical agenda/timeline ---- */
 .day-summary {
     margin: 20px 0 8px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 28px;
 }
 
 .ds-period {
     display: flex;
     flex-direction: column;
-    gap: 8px;
 }
 
 .ds-period-label {
-    font-size: 0.68rem;
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.66rem;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--text-light);
-    margin: 0 0 2px 2px;
+    letter-spacing: 1.4px;
+    color: var(--primary, #7C3AED);
+    background: rgba(124, 58, 237, 0.08);
+    padding: 4px 11px;
+    border-radius: 20px;
+    width: fit-content;
+    margin-bottom: 14px;
 }
 
 .ds-items {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    position: relative;
+    padding-left: 22px;
+}
+
+/* Vertical connecting line */
+.ds-items::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: linear-gradient(to bottom, rgba(124, 58, 237, 0.2), rgba(124, 58, 237, 0.05));
+    border-radius: 2px;
 }
 
 .ds-item {
-    padding: 11px 16px;
-    background: var(--bg-white, #fff);
-    border-radius: 10px;
-    font-size: 0.92rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 6px 0;
+    position: relative;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.ds-item:last-child { border-bottom: none; }
+
+/* Dot on the connecting line */
+.ds-item::before {
+    content: '';
+    position: absolute;
+    left: -18px;
+    top: 10px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #d8d8d8;
+    border: 2px solid white;
+    box-shadow: 0 0 0 1px #d8d8d8;
+    flex-shrink: 0;
+}
+
+.ds-item.ds-highlight::before {
+    background: var(--primary, #7C3AED);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.18);
+}
+
+.ds-item.ds-secret::before {
+    background: #888;
+    box-shadow: 0 0 0 1px #aaa;
+}
+
+.ds-time {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--primary, #7C3AED);
+    min-width: 64px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    opacity: 0.65;
+    letter-spacing: 0.2px;
+}
+
+.ds-item.ds-highlight .ds-time { opacity: 1; }
+
+.ds-title {
+    font-size: 0.9rem;
     font-weight: 500;
     color: var(--text-dark);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
-    border-left: 3px solid transparent;
-    line-height: 1.35;
+    line-height: 1.4;
+    flex: 1;
 }
 
-.ds-item.ds-highlight {
-    border-left-color: var(--primary, #7C3AED);
-    font-weight: 600;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.06) 0%, rgba(118, 75, 162, 0.03) 100%);
+.ds-item.ds-highlight .ds-title {
+    font-weight: 700;
 }
 
-.ds-item.ds-secret {
+.ds-item.ds-secret .ds-title {
     color: var(--text-light);
     font-style: italic;
-    border-left-color: #2c3e50;
-    background: rgba(44, 62, 80, 0.04);
 }
 
 /* ---- Full Schedule expand toggle ---- */
