@@ -4211,3 +4211,164 @@
     color: var(--text-secondary);
     font-style: italic;
 }
+
+/* ============================================
+   Locked Game Cards
+   ============================================ */
+.ch-locked-card {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.5rem 1.75rem;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.04), rgba(99, 102, 241, 0.06));
+    border: 2px dashed rgba(124, 58, 237, 0.2);
+    border-radius: 14px;
+    margin-bottom: 0.75rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.ch-locked-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 10px,
+        rgba(124, 58, 237, 0.02) 10px,
+        rgba(124, 58, 237, 0.02) 20px
+    );
+    pointer-events: none;
+}
+
+.ch-locked-icon {
+    font-size: 2rem;
+    min-width: 50px;
+    text-align: center;
+    opacity: 0.5;
+}
+
+.ch-locked-info {
+    flex: 1;
+}
+
+.ch-locked-info h4 {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    margin-bottom: 0.15rem;
+    opacity: 0.7;
+}
+
+.ch-locked-info p {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    opacity: 0.6;
+}
+
+.ch-locked-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.35rem 0.85rem;
+    border-radius: 20px;
+    background: rgba(124, 58, 237, 0.1);
+    color: var(--primary);
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* Birthday locked cards */
+.ch-locked-birthday {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.06), rgba(255, 107, 157, 0.06));
+    border-color: rgba(255, 215, 0, 0.25);
+}
+
+.ch-locked-birthday .ch-locked-badge {
+    background: rgba(255, 215, 0, 0.15);
+    color: #b8860b;
+}
+
+.ch-locked-birthday::before {
+    background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 10px,
+        rgba(255, 215, 0, 0.03) 10px,
+        rgba(255, 215, 0, 0.03) 20px
+    );
+}
+
+/* ============================================
+   Teams Locked Overlay
+   ============================================ */
+.teams-locked-overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 2px dashed rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    padding: 3rem 2rem;
+}
+
+.teams-locked-content {
+    text-align: center;
+    max-width: 420px;
+}
+
+.teams-locked-icon {
+    font-size: 4rem;
+    display: block;
+    margin-bottom: 1rem;
+    opacity: 0.6;
+}
+
+.teams-locked-content h3 {
+    font-size: 1.6rem;
+    margin-bottom: 0.75rem;
+    color: #ffd700;
+}
+
+.teams-locked-content p {
+    font-size: 1.05rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.teams-locked-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.teams-locked-hint span {
+    font-size: 1.2rem;
+}
+
+/* Dark mode overrides for locked cards */
+.dark-mode .ch-locked-card {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.08), rgba(99, 102, 241, 0.1));
+    border-color: rgba(124, 58, 237, 0.25);
+}
+
+.dark-mode .ch-locked-info h4 {
+    color: var(--dm-text);
+}
+
+.dark-mode .ch-locked-info p {
+    color: var(--dm-text-secondary);
+}
+
+.dark-mode .ch-locked-birthday {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 107, 157, 0.1));
+    border-color: rgba(255, 215, 0, 0.3);
+}

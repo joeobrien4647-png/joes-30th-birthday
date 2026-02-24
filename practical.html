@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/base.css?v=6">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/nav.css">
-    <link rel="stylesheet" href="css/practical.css?v=5">
+    <link rel="stylesheet" href="css/practical.css?v=7">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -47,7 +47,6 @@
         <ul class="sub-nav-links">
             <li><a href="#info" class="active">Info</a></li>
             <li><a href="#travel">Travel</a></li>
-            <li><a href="#expenses">Expenses</a></li>
         </ul>
     </nav>
 
@@ -97,27 +96,21 @@
                     </ul>
                 </div>
 
-                <!-- Money & Costs -->
-                <div class="info-card">
-                    <div class="info-icon">💷</div>
-                    <h3>Costs</h3>
+                <!-- Food & Drink Kitty -->
+                <div class="info-card kitty">
+                    <div class="info-icon">🍷</div>
+                    <h3>Food &amp; Drink Kitty</h3>
+                    <div class="kitty-price">
+                        <span class="kitty-amount">&euro;10</span>
+                        <span class="kitty-per">per person / per day</span>
+                    </div>
                     <ul>
-                        <li><strong>Accommodation:</strong> £245.30 per person</li>
-                        <li><strong>Food Kitty:</strong> €125 per person (€25/day x 5 days)</li>
-                        <li><strong>Bring:</strong> Cash/card for activities, wine & meals out</li>
+                        <li><strong>Covers:</strong> Groceries, cooking ingredients, breakfast supplies, BBQ, and communal drinks</li>
+                        <li><strong>Doesn't cover:</strong> Eating out, personal bar tabs, or activity costs</li>
+                        <li><strong>How it works:</strong> Each cooking team shops for their meal from the kitty. Receipts go to Joe</li>
+                        <li><strong>5 days</strong> = &euro;50 total per person (~&pound;43)</li>
                     </ul>
-                </div>
-
-                <!-- Payment -->
-                <div class="info-card">
-                    <div class="info-icon">💳</div>
-                    <h3>Payment Details</h3>
-                    <ul>
-                        <li><strong>Name:</strong> Joseph O'Brien</li>
-                        <li><strong>Sort Code:</strong> 60-84-07</li>
-                        <li><strong>Account:</strong> 41194141</li>
-                        <li><strong>Amount:</strong> £245.30</li>
-                    </ul>
+                    <p class="kitty-optout">Rather sort your own food? No problem &mdash; let Joe know on the WhatsApp group and you can opt out of the kitty</p>
                 </div>
 
                 <!-- Important Contacts -->
@@ -128,28 +121,6 @@
                         <li><strong>Joe:</strong> +44 7501 395277</li>
                         <li><strong>Emergency Contact:</strong> Yoke O'Brien - 07799 801708</li>
                         <li><strong>WhatsApp Group:</strong> <a href="https://chat.whatsapp.com/DcrbNPUiLq62lavkRYcQiv" target="_blank">Join here</a></li>
-                    </ul>
-                </div>
-
-                <!-- Weather -->
-                <div class="info-card">
-                    <div class="info-icon">🌤️</div>
-                    <h3>Weather</h3>
-                    <ul>
-                        <li>Late April in Loire Valley</li>
-                        <li>Average temp: 15-20°C</li>
-                        <li>Bring layers - evenings can be cool!</li>
-                    </ul>
-                </div>
-
-                <!-- Local Area & Shops -->
-                <div class="info-card">
-                    <div class="info-icon">🛒</div>
-                    <h3>Local Area & Shops</h3>
-                    <ul>
-                        <li><strong>Ciron Village:</strong> Walking distance - boulangerie for fresh bread & pastries</li>
-                        <li><strong>Le Blanc:</strong> ~14km / 15 min drive - supermarkets (Carrefour, Lidl), pharmacies, petrol stations</li>
-                        <li><strong>Tip:</strong> Stock up on essentials at Le Blanc on arrival day!</li>
                     </ul>
                 </div>
 
@@ -164,28 +135,6 @@
                         <li><strong>Nearest Hospital:</strong> Centre Hospitalier de Le Blanc (~15 min)</li>
                         <li><strong>UK Embassy Paris:</strong> +33 1 44 51 31 00</li>
                     </ul>
-                </div>
-
-                <!-- Booked Activities -->
-                <div class="info-card">
-                    <div class="info-icon">&#127947;</div>
-                    <h3>Booked Activities</h3>
-                    <ul>
-                        <li><strong>Thu AM:</strong> Golf - Golf du Val de l'Indre, 9 holes (~&pound;65/pp, optional)</li>
-                        <li><strong>Fri AM:</strong> Canoeing - Creuse river from Ciron (~&euro;15-18/pp)</li>
-                        <li><strong>Fri 6PM:</strong> Wine tasting - Private sommelier at the chateau</li>
-                        <li><strong>Sun PM:</strong> Bellebouche - Accrobranche + lake (~&euro;20/pp)</li>
-                    </ul>
-                </div>
-
-                <!-- Dietary Requirements -->
-                <div class="info-card dietary">
-                    <div class="info-icon">🍽️</div>
-                    <h3>Dietary Requirements</h3>
-                    <div class="dietary-tags" id="dietary-tags">
-                        <span class="dietary-tag">Share in WhatsApp group</span>
-                    </div>
-                    <p class="dietary-note">Let the group know so cooking teams can plan ahead</p>
                 </div>
             </div>
 
@@ -284,17 +233,6 @@
         </div>
     </section>
 
-
-    <!-- ======== EXPENSE SPLITTER ======== -->
-    <section id="expenses" class="section expenses">
-        <div class="container">
-            <h2 class="section-title">Expense Splitter</h2>
-            <p class="section-subtitle">Track shared costs and settle up easily</p>
-            <div id="expense-splitter-container"></div>
-        </div>
-    </section>
-
-
     <!-- Theme Switcher -->
     <div class="theme-switcher" id="theme-switcher">
         <button class="theme-toggle-btn" id="theme-toggle-btn">🎨</button>
@@ -319,6 +257,6 @@
 
     <script src="js/shared.js?v=6"></script>
     <script src="js/nav.js"></script>
-    <script src="js/practical.js?v=5"></script>
+    <script src="js/practical.js?v=6"></script>
 </body>
 </html>

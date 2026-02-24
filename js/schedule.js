@@ -38,7 +38,7 @@ const ACTIVITIES = [
         cost: { min: 30, max: 150 },
         duration: 'Full day',
         driveTime: '1h',
-        groupFit: 'Split across 2\u20133 minivans with guides',
+        groupFit: 'Split across 2\u20133 hire cars with guides',
         mood: ['cultural', 'social'],
         highlight: false,
         pairedWith: null
