@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/base.css?v=6">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/nav.css">
-    <link rel="stylesheet" href="css/social.css?v=9">
+    <link rel="stylesheet" href="css/social.css?v=10">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -48,8 +48,7 @@
         <ul class="sub-nav-links">
             <li><a href="#crew">Crew</a></li>
             <li><a href="#messages">Messages</a></li>
-            <li><a href="#superlatives">Superlatives</a></li>
-            <li><a href="#music-requests">Music</a></li>
+            <li><a href="#music-requests">Playlist</a></li>
             <li><a href="#photo-wall">Photos</a></li>
         </ul>
     </nav>
@@ -318,142 +317,39 @@
         </div>
     </section>
 
-    <!-- Superlatives Voting -->
-    <section id="superlatives" class="section superlatives">
-        <div class="container">
-            <h2 class="section-title">Trip Superlatives</h2>
-            <p class="section-subtitle">Vote for who wins each award!</p>
-
-            <div class="superlatives-grid" id="superlatives-grid">
-                <div class="superlative-card" data-category="early-bird">
-                    <h3>🌅 Early Bird</h3>
-                    <p>First one up every morning</p>
-                    <select class="superlative-vote">
-                        <option value="">Select someone...</option>
-                    </select>
-                    <div class="superlative-results"></div>
-                </div>
-                <div class="superlative-card" data-category="night-owl">
-                    <h3>🦉 Night Owl</h3>
-                    <p>Last one standing</p>
-                    <select class="superlative-vote">
-                        <option value="">Select someone...</option>
-                    </select>
-                    <div class="superlative-results"></div>
-                </div>
-                <div class="superlative-card" data-category="masterchef">
-                    <h3>👨‍🍳 MasterChef</h3>
-                    <p>Best cook of the trip</p>
-                    <select class="superlative-vote">
-                        <option value="">Select someone...</option>
-                    </select>
-                    <div class="superlative-results"></div>
-                </div>
-                <div class="superlative-card" data-category="party-animal">
-                    <h3>🎉 Party Animal</h3>
-                    <p>Life of the party</p>
-                    <select class="superlative-vote">
-                        <option value="">Select someone...</option>
-                    </select>
-                    <div class="superlative-results"></div>
-                </div>
-                <div class="superlative-card" data-category="best-dressed">
-                    <h3>👗 Best Dressed</h3>
-                    <p>Most stylish of the trip</p>
-                    <select class="superlative-vote">
-                        <option value="">Select someone...</option>
-                    </select>
-                    <div class="superlative-results"></div>
-                </div>
-                <div class="superlative-card" data-category="wine-snob">
-                    <h3>🍷 Wine Connoisseur</h3>
-                    <p>Knows their Pinot from their Merlot</p>
-                    <select class="superlative-vote">
-                        <option value="">Select someone...</option>
-                    </select>
-                    <div class="superlative-results"></div>
-                </div>
-                <div class="superlative-card" data-category="photographer">
-                    <h3>📸 Trip Photographer</h3>
-                    <p>Always taking photos</p>
-                    <select class="superlative-vote">
-                        <option value="">Select someone...</option>
-                    </select>
-                    <div class="superlative-results"></div>
-                </div>
-                <div class="superlative-card" data-category="pool-king">
-                    <h3>🏊 Pool King/Queen</h3>
-                    <p>Lives in the pool</p>
-                    <select class="superlative-vote">
-                        <option value="">Select someone...</option>
-                    </select>
-                    <div class="superlative-results"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- Music Requests -->
+    <!-- Party Playlist -->
     <section id="music-requests" class="section music-requests">
         <div class="container">
-            <h2 class="section-title">Song Requests</h2>
-            <p class="section-subtitle">Add songs to the party playlist!</p>
+            <h2 class="section-title">Party Playlist</h2>
+            <p class="section-subtitle">Add your bangers — it's a collaborative Spotify playlist</p>
 
-            <form class="music-form" id="music-form">
-                <div class="form-row">
-                    <input type="text" id="song-title" placeholder="Song title" required>
-                    <input type="text" id="song-artist" placeholder="Artist" required>
-                    <input type="text" id="song-requester" placeholder="Your name" required>
-                    <button type="submit" class="btn btn-primary">🎵 Request</button>
+            <div class="simple-link-card">
+                <div class="slc-icon">🎵</div>
+                <div class="slc-info">
+                    <h3>Joe's 30th Birthday Playlist</h3>
+                    <p>Open in Spotify and hit <strong>Add to this playlist</strong> to drop your song in. Anyone can add.</p>
                 </div>
-            </form>
-
-            <div class="music-list" id="music-list">
-                <div class="music-item">
-                    <div class="music-info">
-                        <span class="song-title">Mr. Brightside</span>
-                        <span class="song-artist">The Killers</span>
-                    </div>
-                    <span class="song-requester">Joe (obviously)</span>
-                    <button class="upvote-btn" data-song="mr-brightside">👍 <span>0</span></button>
-                </div>
+                <a href="https://open.spotify.com/playlist/2wg5wjy3Yn4vzxXm6dMK96" class="btn btn-primary slc-btn" target="_blank" rel="noopener">Open Spotify →</a>
             </div>
         </div>
     </section>
 
-    <!-- Photo Wall -->
+    <!-- Photos -->
     <section id="photo-wall" class="section photo-wall">
         <div class="container">
-            <h2 class="section-title">Live Photo Wall</h2>
-            <p class="section-subtitle">Upload trip pics as they happen!</p>
+            <h2 class="section-title">Trip Photos</h2>
+            <p class="section-subtitle">Share your pics and videos with the whole group</p>
 
-            <form class="photo-upload-form" id="photo-upload-form">
-                <label class="photo-upload-btn">
-                    <input type="file" id="photo-input" accept="image/*" multiple hidden>
-                    📸 Upload Photos
-                </label>
-                <input type="text" id="photo-caption" placeholder="Caption (optional)">
-                <input type="text" id="photo-uploader" placeholder="Your name">
-            </form>
-
-            <div class="photo-grid" id="photo-grid">
-                <div class="photo-placeholder">
-                    <span>📸</span>
-                    <p>The gallery is ready for memories!</p>
-                    <p class="small">Be the first to capture the magic</p>
+            <div class="simple-link-card">
+                <div class="slc-icon">💬</div>
+                <div class="slc-info">
+                    <h3>Post to the WhatsApp Group</h3>
+                    <p>Drop your photos and videos straight into the group chat. Everyone will see them instantly.</p>
                 </div>
+                <a href="https://chat.whatsapp.com/DcrbNPUiLq62lavkRYcQiv" class="btn btn-primary slc-btn" target="_blank" rel="noopener">Open WhatsApp →</a>
             </div>
         </div>
     </section>
-
-    <!-- Lightbox for photo viewing -->
-    <div class="lightbox" id="lightbox">
-        <button class="lightbox-close">&times;</button>
-        <button class="lightbox-prev">&#10094;</button>
-        <button class="lightbox-next">&#10095;</button>
-        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="" class="lightbox-image">
-    </div>
 
 
 
