@@ -54,59 +54,130 @@
     letter-spacing: 0.5px;
 }
 
-.room-guests {
-    padding: 15px 20px;
+/* ============================================
+   Bed Visual Layout
+   ============================================ */
+.room-beds {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    flex-wrap: wrap;
+}
+
+.room-beds.sixbed {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    padding: 20px;
+}
+
+.bed {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-}
-
-.guest {
-    display: flex;
     align-items: center;
-    gap: 15px;
-    padding: 10px;
-    border-radius: 12px;
-    transition: var(--transition-fast);
     cursor: pointer;
-    position: relative;
+    transition: transform 0.2s ease;
 }
 
-.guest:hover {
-    background: var(--bg-light);
+.bed:hover {
+    transform: scale(1.06);
 }
 
-.guest-avatar {
+.bed-visual {
+    width: 80px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.13);
+}
+
+.sixbed .bed-visual {
+    width: 100%;
+}
+
+.bed-headboard {
+    height: 16px;
+    background: linear-gradient(180deg, #d4956a, #b87744);
+    border-radius: 8px 8px 0 0;
+}
+
+.bed-body {
+    background: #f5f0e8;
+    border-left: 2px solid #e5ddd0;
+    border-right: 2px solid #e5ddd0;
+    padding: 12px 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 88px;
+}
+
+.sixbed .bed-body {
+    min-height: 68px;
+    padding: 10px 6px;
+}
+
+.bed-pillow {
     width: 50px;
     height: 50px;
-    background: var(--gradient-primary);
     border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    color: var(--text-white);
-    font-size: 0.9rem;
-    flex-shrink: 0;
-}
-
-.guest-avatar.birthday {
-    background: var(--accent);
-    color: var(--text-dark);
-    animation: pulse 2s infinite;
-    box-shadow: 0 0 20px rgba(255, 217, 61, 0.5);
-}
-
-.guest-info h4 {
-    font-size: 1rem;
-    margin-bottom: 2px;
-    color: var(--text-dark);
-}
-
-.guest-info p {
     font-size: 0.85rem;
-    color: var(--text-light);
-    font-style: italic;
+    border: 3px solid rgba(255,255,255,0.8);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    letter-spacing: 0.5px;
+    transition: box-shadow 0.2s ease;
+}
+
+.sixbed .bed-pillow {
+    width: 38px;
+    height: 38px;
+    font-size: 0.7rem;
+    border-width: 2px;
+}
+
+.bed-pillow.birthday {
+    background: linear-gradient(135deg, #ffd93d 0%, #ff9800 100%);
+    color: #1a1a2e;
+    animation: pulse 2s infinite;
+    box-shadow: 0 0 16px rgba(255, 217, 61, 0.5);
+}
+
+.bed:hover .bed-pillow {
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+}
+
+.bed-footer {
+    height: 10px;
+    background: linear-gradient(180deg, #b87744, #9a6235);
+    border-radius: 0 0 8px 8px;
+}
+
+.bed-name {
+    display: block;
+    text-align: center;
+    font-size: 0.72rem;
+    font-weight: 600;
+    margin-top: 7px;
+    color: var(--text-dark);
+    max-width: 85px;
+    line-height: 1.25;
+}
+
+.sixbed .bed-name {
+    font-size: 0.65rem;
+    max-width: 100%;
+}
+
+/* keep .guest selector for JS modal compatibility */
+.guest {
+    cursor: pointer;
 }
 
 /* Birthday Room Special Styling */
