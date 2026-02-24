@@ -252,9 +252,8 @@ function initBingo() {
 
     if (!bingoCard) return;
 
-    const BINGO_LOCKED = true; // Set to false when ready to release
-    const isUnlocked = !BINGO_LOCKED && Auth.isAdmin() || !BINGO_LOCKED && Date.now() >= new Date('2026-04-29T07:00:00').getTime();
-    // To unlock: set BINGO_LOCKED = false above
+    const BINGO_LOCKED = true; // Set to false when ready to release (blocks everyone including admin)
+    const isUnlocked = !BINGO_LOCKED;
 
     if (!isUnlocked) {
         if (lockOverlay) lockOverlay.style.display = 'flex';
