@@ -1498,9 +1498,9 @@ function injectDayHeroes() {
     });
 }
 
-/* ---- Map time buckets to Morning / Afternoon / Evening ---- */
+/* ---- Day summary: group timeline items by Morning / Afternoon / Evening ---- */
 function getPeriodLabel(timeRangeText) {
-    var match = timeRangeText.match(/^(\d+)(?::\d+)?\s*(AM|PM)/i);
+    var match = timeRangeText.match(/^~?(\d+)(?::\d+)?\s*(AM|PM)/i);
     if (!match) return 'Morning';
     var hour = parseInt(match[1]);
     var ampm = match[2].toUpperCase();
@@ -1509,71 +1509,63 @@ function getPeriodLabel(timeRangeText) {
     return 'Evening';
 }
 
-function mapBucketsToPeriods() {
+function injectDaySummaries() {
     document.querySelectorAll('.day-content').forEach(function(day) {
-        var lastPeriod = null;
-        day.querySelectorAll('.time-bucket').forEach(function(bucket) {
-            var timeRangeEl = bucket.querySelector('.bucket-time-range');
-            var titleEl = bucket.querySelector('.bucket-title');
-            var header = bucket.querySelector('.time-bucket-header');
-            if (!timeRangeEl || !titleEl) return;
-            var period = getPeriodLabel(timeRangeEl.textContent.trim());
-            titleEl.textContent = period;
-            if (period === lastPeriod) {
-                header.classList.add('period-hidden');
-            }
-            lastPeriod = period;
-        });
-    });
-}
-
-/* ---- Inject horizontal day timeline strip ---- */
-function shortName(text) {
-    var words = text.trim().split(/\s+/);
-    if (words.length <= 3) return text.trim();
-    return words.slice(0, 3).join(' ') + '\u2026';
-}
-
-function injectDayTimelines() {
-    document.querySelectorAll('.day-content').forEach(function(day) {
-        if (day.querySelector('.day-timeline-strip')) return;
+        if (day.querySelector('.day-summary')) return;
         var timeline = day.querySelector('.timeline');
         if (!timeline) return;
 
-        var items = [];
-        day.querySelectorAll('.timeline-item').forEach(function(item) {
-            var timeEl = item.querySelector('.time');
-            var h4 = item.querySelector('.activity h4');
-            if (!timeEl || !h4) return;
-            items.push({
-                time: timeEl.textContent.trim(),
-                name: h4.textContent.trim(),
-                highlight: item.classList.contains('highlight'),
-                secret: item.classList.contains('top-secret')
+        // Group items by period, preserving order of first appearance
+        var periods = [];
+        var periodMap = {};
+        day.querySelectorAll('.time-bucket').forEach(function(bucket) {
+            var timeRangeEl = bucket.querySelector('.bucket-time-range');
+            var period = timeRangeEl ? getPeriodLabel(timeRangeEl.textContent.trim()) : 'Morning';
+            if (!periodMap[period]) {
+                periodMap[period] = [];
+                periods.push(period);
+            }
+            bucket.querySelectorAll('.timeline-item').forEach(function(item) {
+                var h4 = item.querySelector('.activity h4');
+                if (!h4) return;
+                periodMap[period].push({
+                    name: h4.textContent.trim(),
+                    highlight: item.classList.contains('highlight'),
+                    secret: item.classList.contains('top-secret')
+                });
             });
         });
 
-        if (items.length === 0) return;
-
-        var itemsHtml = items.map(function(item) {
-            var cls = 'dts-item' +
-                (item.highlight ? ' dts-highlight' : '') +
-                (item.secret ? ' dts-secret' : '');
-            var name = item.secret ? '🔒 Secret' : shortName(item.name);
-            return '<div class="' + cls + '">' +
-                '<div class="dts-time">' + item.time + '</div>' +
-                '<div class="dts-dot"></div>' +
-                '<div class="dts-name">' + name + '</div>' +
+        var summaryHtml = periods.map(function(period) {
+            var itemsHtml = periodMap[period].map(function(item) {
+                var cls = 'ds-item' +
+                    (item.highlight ? ' ds-highlight' : '') +
+                    (item.secret ? ' ds-secret' : '');
+                var name = item.secret ? '\uD83D\uDD12 Secret' : item.name;
+                return '<div class="' + cls + '">' + name + '</div>';
+            }).join('');
+            return '<div class="ds-period">' +
+                '<div class="ds-period-label">' + period + '</div>' +
+                '<div class="ds-items">' + itemsHtml + '</div>' +
                 '</div>';
         }).join('');
 
-        var strip = document.createElement('div');
-        strip.className = 'day-timeline-strip';
-        strip.innerHTML =
-            '<div class="dts-label">Full Day at a Glance</div>' +
-            '<div class="dts-scroll"><div class="dts-track">' + itemsHtml + '</div></div>';
+        var summary = document.createElement('div');
+        summary.className = 'day-summary';
+        summary.innerHTML = summaryHtml;
 
-        timeline.parentNode.insertBefore(strip, timeline.nextSibling);
+        var toggle = document.createElement('button');
+        toggle.className = 'full-schedule-toggle';
+        toggle.innerHTML = 'Full Schedule <span class="fst-chevron">&#9660;</span>';
+        toggle.addEventListener('click', function() {
+            var isOpen = timeline.classList.toggle('full-schedule-open');
+            toggle.classList.toggle('open', isOpen);
+            toggle.innerHTML = (isOpen ? 'Hide Schedule' : 'Full Schedule') +
+                ' <span class="fst-chevron">&#9660;</span>';
+        });
+
+        timeline.parentNode.insertBefore(summary, timeline);
+        timeline.parentNode.insertBefore(toggle, timeline);
     });
 }
 
@@ -1586,6 +1578,5 @@ document.addEventListener('DOMContentLoaded', function() {
     initScheduleEmptyStates();
     initTimeBuckets();
     injectDayHeroes();
-    mapBucketsToPeriods();
-    injectDayTimelines();
+    injectDaySummaries();
 });
