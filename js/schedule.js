@@ -1509,11 +1509,17 @@ function getPeriodLabel(timeRangeText) {
     return 'Evening';
 }
 
+var PERIOD_ICONS = { 'Morning': '☀️', 'Afternoon': '⛅', 'Evening': '🌙' };
+
 function injectDaySummaries() {
     document.querySelectorAll('.day-content').forEach(function(day) {
-        if (day.querySelector('.day-summary')) return;
+        if (day.querySelector('.day-poster')) return;
         var timeline = day.querySelector('.timeline');
         if (!timeline) return;
+
+        var dayNum = day.dataset.day;
+        var heroData = DAY_HERO_DATA[dayNum];
+        var gradient = heroData ? heroData.gradient : 'linear-gradient(135deg, #667eea, #764ba2)';
 
         // Group items by period, preserving order of first appearance
         var periods = [];
@@ -1527,10 +1533,8 @@ function injectDaySummaries() {
             }
             bucket.querySelectorAll('.timeline-item').forEach(function(item) {
                 var h4 = item.querySelector('.activity h4');
-                var timeEl = item.querySelector('.time');
                 if (!h4) return;
                 periodMap[period].push({
-                    time: timeEl ? timeEl.textContent.trim() : '',
                     name: h4.textContent.trim(),
                     highlight: item.classList.contains('highlight'),
                     secret: item.classList.contains('top-secret')
@@ -1538,26 +1542,30 @@ function injectDaySummaries() {
             });
         });
 
-        var summaryHtml = periods.map(function(period) {
+        // Build 3-column poster HTML
+        var colsHtml = periods.map(function(period, i) {
+            var icon = PERIOD_ICONS[period] || '•';
             var itemsHtml = periodMap[period].map(function(item) {
-                var cls = 'ds-item' +
-                    (item.highlight ? ' ds-highlight' : '') +
-                    (item.secret ? ' ds-secret' : '');
+                var cls = 'dp-item' +
+                    (item.highlight ? ' dp-highlight' : '') +
+                    (item.secret ? ' dp-secret' : '');
                 var name = item.secret ? '\uD83D\uDD12 Secret' : item.name;
-                return '<div class="' + cls + '">' +
-                    '<div class="ds-time">' + item.time + '</div>' +
-                    '<div class="ds-title">' + name + '</div>' +
-                    '</div>';
+                return '<li class="' + cls + '">' + name + '</li>';
             }).join('');
-            return '<div class="ds-period">' +
-                '<div class="ds-period-label">' + period + '</div>' +
-                '<div class="ds-items">' + itemsHtml + '</div>' +
+            var divider = i > 0 ? '<div class="dp-divider"></div>' : '';
+            return divider +
+                '<div class="dp-col">' +
+                    '<div class="dp-col-header">' +
+                        '<span class="dp-period-icon">' + icon + '</span>' + period +
+                    '</div>' +
+                    '<ul class="dp-list">' + itemsHtml + '</ul>' +
                 '</div>';
         }).join('');
 
-        var summary = document.createElement('div');
-        summary.className = 'day-summary';
-        summary.innerHTML = summaryHtml;
+        var poster = document.createElement('div');
+        poster.className = 'day-poster';
+        poster.style.setProperty('--poster-gradient', gradient);
+        poster.innerHTML = colsHtml;
 
         var toggle = document.createElement('button');
         toggle.className = 'full-schedule-toggle';
@@ -1569,7 +1577,7 @@ function injectDaySummaries() {
                 ' <span class="fst-chevron">&#9660;</span>';
         });
 
-        timeline.parentNode.insertBefore(summary, timeline);
+        timeline.parentNode.insertBefore(poster, timeline);
         timeline.parentNode.insertBefore(toggle, timeline);
     });
 }

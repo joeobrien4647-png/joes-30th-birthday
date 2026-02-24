@@ -2302,132 +2302,127 @@
     display: block;
 }
 
-/* ---- Day summary: proper vertical agenda/timeline ---- */
-.day-summary {
+/* ---- Day poster card: single visual overview card per day ---- */
+.day-poster {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    background: var(--bg-white, #fff);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.09);
     margin: 20px 0 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.ds-period {
-    display: flex;
-    flex-direction: column;
+/* Gradient top accent bar using the day's hero colour */
+.day-poster::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--poster-gradient, linear-gradient(135deg, #667eea, #764ba2));
+    z-index: 1;
 }
 
-.ds-period-label {
-    display: inline-flex;
+.dp-col {
+    flex: 1;
+    padding: 22px 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* Vertical divider between columns */
+.dp-divider {
+    width: 1px;
+    background: rgba(0, 0, 0, 0.06);
+    margin: 20px 0;
+    flex-shrink: 0;
+}
+
+.dp-col-header {
+    display: flex;
     align-items: center;
-    font-size: 0.66rem;
+    gap: 6px;
+    font-size: 0.64rem;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 1.4px;
-    color: var(--primary, #7C3AED);
-    background: rgba(124, 58, 237, 0.08);
-    padding: 4px 11px;
-    border-radius: 20px;
-    width: fit-content;
-    margin-bottom: 14px;
+    letter-spacing: 1.3px;
+    color: var(--text-light);
+    margin-bottom: 13px;
 }
 
-.ds-items {
+.dp-period-icon {
+    font-size: 0.95rem;
+    line-height: 1;
+}
+
+.dp-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
     display: flex;
     flex-direction: column;
-    position: relative;
-    padding-left: 22px;
+    gap: 9px;
 }
 
-/* Vertical connecting line */
-.ds-items::before {
-    content: '';
-    position: absolute;
-    left: 6px;
-    top: 8px;
-    bottom: 8px;
-    width: 2px;
-    background: linear-gradient(to bottom, rgba(124, 58, 237, 0.2), rgba(124, 58, 237, 0.05));
-    border-radius: 2px;
-}
-
-.ds-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 6px 0;
-    position: relative;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-}
-
-.ds-item:last-child { border-bottom: none; }
-
-/* Dot on the connecting line */
-.ds-item::before {
-    content: '';
-    position: absolute;
-    left: -18px;
-    top: 10px;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #d8d8d8;
-    border: 2px solid white;
-    box-shadow: 0 0 0 1px #d8d8d8;
-    flex-shrink: 0;
-}
-
-.ds-item.ds-highlight::before {
-    background: var(--primary, #7C3AED);
-    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.18);
-}
-
-.ds-item.ds-secret::before {
-    background: #888;
-    box-shadow: 0 0 0 1px #aaa;
-}
-
-.ds-time {
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: var(--primary, #7C3AED);
-    min-width: 64px;
-    flex-shrink: 0;
-    margin-top: 1px;
-    opacity: 0.65;
-    letter-spacing: 0.2px;
-}
-
-.ds-item.ds-highlight .ds-time { opacity: 1; }
-
-.ds-title {
-    font-size: 0.9rem;
+.dp-item {
+    font-size: 0.83rem;
     font-weight: 500;
     color: var(--text-dark);
     line-height: 1.4;
-    flex: 1;
+    padding-left: 12px;
+    position: relative;
 }
 
-.ds-item.ds-highlight .ds-title {
+/* Small dot bullet */
+.dp-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #ccc;
+}
+
+.dp-item.dp-highlight {
     font-weight: 700;
 }
 
-.ds-item.ds-secret .ds-title {
+.dp-item.dp-highlight::before {
+    background: var(--poster-gradient, #7C3AED);
+    /* Fake gradient dot using a box-shadow trick */
+    width: 5px;
+    height: 5px;
+    top: 5px;
+    box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.15);
+}
+
+.dp-item.dp-secret {
     color: var(--text-light);
     font-style: italic;
+}
+
+.dp-item.dp-secret::before {
+    background: #bbb;
 }
 
 /* ---- Full Schedule expand toggle ---- */
 .full-schedule-toggle {
     width: 100%;
     margin-top: 16px;
-    padding: 12px 20px;
+    padding: 11px 20px;
     background: transparent;
     border: 2px dashed #ddd;
     border-radius: 12px;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     font-weight: 700;
     color: var(--text-light);
     cursor: pointer;
-    text-align: center;
     transition: all 0.2s ease;
     font-family: var(--font-body, Arial);
     letter-spacing: 0.3px;
@@ -2461,8 +2456,15 @@
 }
 
 @media (max-width: 600px) {
-    .ds-item {
-        font-size: 0.88rem;
-        padding: 10px 14px;
+    .day-poster {
+        flex-direction: column;
+    }
+    .dp-divider {
+        width: auto;
+        height: 1px;
+        margin: 0 16px;
+    }
+    .dp-col {
+        padding: 16px 18px;
     }
 }
