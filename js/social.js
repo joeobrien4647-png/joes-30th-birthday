@@ -40,9 +40,20 @@ function initProfiles() {
 
         var avatar = document.createElement('div');
         var isBirthday = data.birthday === 'true';
-        avatar.textContent = data.initials || '';
-        avatar.style.cssText = 'width:70px;height:70px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:1.3rem;flex-shrink:0;' +
+        avatar.style.cssText = 'width:70px;height:70px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:1.3rem;flex-shrink:0;overflow:hidden;' +
             (isBirthday ? 'background:#ffd93d;color:#1a1a2e;box-shadow:0 0 20px rgba(255,217,61,0.5);' : 'background:linear-gradient(135deg,#667eea,#764ba2);');
+
+        // Try to show photo, fallback to initials
+        var photoPath = 'images/guests/' + slugify(data.name) + '.jpg';
+        var avatarImg = document.createElement('img');
+        avatarImg.style.cssText = 'width:100%;height:100%;object-fit:cover;display:none;';
+        avatarImg.addEventListener('load', function () { this.style.display = 'block'; avatarInitials.style.display = 'none'; });
+        avatarImg.addEventListener('error', function () { this.style.display = 'none'; });
+        avatarImg.src = photoPath;
+        var avatarInitials = document.createElement('span');
+        avatarInitials.textContent = data.initials || '';
+        avatar.appendChild(avatarImg);
+        avatar.appendChild(avatarInitials);
 
         var titleDiv = document.createElement('div');
         var nameEl = document.createElement('h2');
@@ -137,6 +148,25 @@ function initProfiles() {
         }
         document.body.style.overflow = '';
     }
+
+    // Handle guest avatar images — hide broken, show on load
+    document.querySelectorAll('.guest-avatar img').forEach(function (img) {
+        img.style.display = 'none';
+        img.addEventListener('load', function () {
+            this.style.display = 'block';
+            var initials = this.nextElementSibling;
+            if (initials) initials.style.display = 'none';
+        });
+        img.addEventListener('error', function () {
+            this.style.display = 'none';
+        });
+        // Re-trigger for cached images
+        if (img.complete && img.naturalWidth > 0) {
+            img.style.display = 'block';
+            var initials = img.nextElementSibling;
+            if (initials) initials.style.display = 'none';
+        }
+    });
 
     // Event delegation — catches clicks on .guest anywhere
     document.addEventListener('click', function (e) {
