@@ -8,7 +8,7 @@
 ### Content to Fill In
 - [ ] **Team names** — decide on a theme (funny/French), update all code across site
 - [ ] **Guest profile photos** — collect from each guest (WhatsApp/share link)
-- [ ] **Update guest count** — games.html says "27 of you", social.html subtitle says "25 legends" — pick one and make consistent
+- [ ] **Guest profiles** — real one-line facts, nicknames, superlatives for all 25 guests (currently placeholder)
 - [ ] **Crew page team assignments** — assign each guest to their team once names are decided
 
 ### Nice to Have
@@ -135,8 +135,8 @@
 - [x] Add emergency contact (Yoke O'Brien)
 - [x] Remove low-value features (activity voting, meal planner, scavenger hunt, assassin, taskmaster, timer, quote wall)
 - [x] 24/25 guests paid (Robin to pay later, Matt TBC)
-- [x] Guest profiles written — real bios, superlatives, facts for all 27 guests
-- [x] Room assignments set — all 27 guests assigned to rooms 1–12
+- [x] Room assignments set — all 25 guests assigned to rooms 1–12
+- [x] Guest count fixed — consistently 25 across all pages
 - [x] Agenda Days 2–5 written — all 6 days fully detailed with times, activities, costs
 - [x] 4-team restructure — leaderboard, games, rota all updated to 4 teams
 - [x] Bingo locked — personal cards hidden until manually released
