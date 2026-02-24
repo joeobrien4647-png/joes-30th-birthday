@@ -1450,6 +1450,77 @@ function initTimeBuckets() {
     });
 }
 
+/* ---- Style Toggle ---- */
+var DAY_HERO_DATA = {
+    '1': { emoji: '✈️', gradient: 'linear-gradient(135deg, #f97316, #fbbf24)' },
+    '2': { emoji: '🏰', gradient: 'linear-gradient(135deg, #059669, #34d399)' },
+    '3': { emoji: '🛶', gradient: 'linear-gradient(135deg, #0ea5e9, #6366f1)' },
+    '4': { emoji: '🎂', gradient: 'linear-gradient(135deg, #f59e0b, #ec4899, #a855f7)' },
+    '5': { emoji: '🌲', gradient: 'linear-gradient(135deg, #06b6d4, #3b82f6)' },
+    '6': { emoji: '🏠', gradient: 'linear-gradient(135deg, #ec4899, #8b5cf6)' }
+};
+
+function injectDayHeroes() {
+    document.querySelectorAll('.day-content').forEach(function(day) {
+        if (day.querySelector('.day-hero')) return;
+        var dayNum = day.dataset.day;
+        var data = DAY_HERO_DATA[dayNum];
+        if (!data) return;
+
+        var h3 = day.querySelector(':scope > h3');
+        if (!h3) return;
+        var fullTitle = h3.textContent.trim();
+        var dashIdx = fullTitle.indexOf(' - ');
+        var datePart = dashIdx > -1 ? fullTitle.substring(0, dashIdx) : fullTitle;
+        var namePart = dashIdx > -1 ? fullTitle.substring(dashIdx + 3) : '';
+
+        var highlights = Array.from(day.querySelectorAll('.timeline-item.highlight .activity h4'))
+            .slice(0, 3)
+            .map(function(el) { return el.textContent.trim(); });
+
+        var chipsHtml = highlights.map(function(h) {
+            return '<span class="day-hero-chip">' + h + '</span>';
+        }).join('');
+
+        var hero = document.createElement('div');
+        hero.className = 'day-hero';
+        hero.style.setProperty('--hero-gradient', data.gradient);
+        hero.innerHTML =
+            '<div class="day-hero-band">' +
+                '<span class="day-hero-big-emoji">' + data.emoji + '</span>' +
+                '<div class="day-hero-date">' + datePart + '</div>' +
+                '<div class="day-hero-name">' + namePart + '</div>' +
+            '</div>' +
+            '<div class="day-hero-chips">' + chipsHtml + '</div>';
+
+        day.insertBefore(hero, h3);
+    });
+}
+
+function initStyleToggle() {
+    var toggle = document.getElementById('view-toggle');
+    if (!toggle) return;
+    var agenda = document.getElementById('agenda');
+
+    // Restore saved preference (default: festival)
+    var saved = localStorage.getItem('agendaStyle') || 'festival';
+    agenda.setAttribute('data-agenda-style', saved);
+    toggle.querySelectorAll('.view-toggle-btn').forEach(function(btn) {
+        btn.classList.toggle('active', btn.dataset.style === saved);
+    });
+
+    toggle.addEventListener('click', function(e) {
+        var btn = e.target.closest('.view-toggle-btn');
+        if (!btn) return;
+        var style = btn.dataset.style;
+        toggle.querySelectorAll('.view-toggle-btn').forEach(function(b) {
+            b.classList.toggle('active', b === btn);
+        });
+        agenda.setAttribute('data-agenda-style', style);
+        localStorage.setItem('agendaStyle', style);
+    });
+}
+
 /* ---- Initialize on page load ---- */
 document.addEventListener('DOMContentLoaded', function() {
     initAgendaTabs();
@@ -1458,4 +1529,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initActivitySignups();
     initScheduleEmptyStates();
     initTimeBuckets();
+    injectDayHeroes();
+    initStyleToggle();
 });
