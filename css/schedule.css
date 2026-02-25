@@ -322,17 +322,23 @@
     100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* ---- Page Content: hidden during animation ---- */
+/* ---- Page Content: stable behind opaque overlay ---- */
+/* Override scroll-reveal, page-transition, and any other systems.
+   Content is fully rendered underneath the overlay — the overlay
+   fading out is the only reveal animation needed. */
+body.envelope-active,
+body.envelope-active.page-enter {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+}
+
 body.envelope-active .page-header,
 body.envelope-active .sub-nav,
 body.envelope-active .section,
 body.envelope-active .footer,
 body.envelope-active .theme-switcher,
-body.envelope-active .confetti-cannon {
-    opacity: 0 !important;
-    transition: opacity 0.5s ease;
-}
-
+body.envelope-active .confetti-cannon,
 body.envelope-revealed .page-header,
 body.envelope-revealed .sub-nav,
 body.envelope-revealed .section,
@@ -340,6 +346,8 @@ body.envelope-revealed .footer,
 body.envelope-revealed .theme-switcher,
 body.envelope-revealed .confetti-cannon {
     opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
 }
 
 /* ---- Confetti Burst ---- */

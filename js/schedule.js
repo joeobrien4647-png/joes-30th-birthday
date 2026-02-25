@@ -1747,7 +1747,7 @@ function initEnvelopeAnimation() {
 
         setTimeout(function() {
             overlay.remove();
-            document.body.classList.remove('envelope-active');
+            document.body.classList.remove('envelope-active', 'envelope-revealed');
             if (typeof triggerMiniConfetti === 'function') {
                 triggerMiniConfetti();
             }
