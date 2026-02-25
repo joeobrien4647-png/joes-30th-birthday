@@ -2814,45 +2814,165 @@
 }
 
 /* ============================================
-   Dark Mode Overrides for New Features
+   Dark Mode Overrides
    ============================================ */
-.dark-mode .speech-form,
-.dark-mode .mm-zone,
-.dark-mode .mm-memory-item,
-.dark-mode .roast-prompt-btn,
-.dark-mode .roast-editor textarea,
-.dark-mode .speech-item,
-.dark-mode .music-now-playing {
+
+/* ---- Section gradient backgrounds ---- */
+body.dark-mode .superlatives {
+    background: linear-gradient(135deg, #2a1a2e 0%, #1a2040 100%);
+}
+
+body.dark-mode .memories-timeline {
+    background: linear-gradient(135deg, #251a3a 0%, #1a2545 100%);
+}
+
+body.dark-mode .music-requests {
+    background: linear-gradient(135deg, #151830 0%, #1a1230 100%);
+}
+
+body.dark-mode .photo-wall {
+    background: linear-gradient(135deg, #221535 0%, #2a1528 100%);
+}
+
+body.dark-mode .quote-wall {
+    background: linear-gradient(135deg, #2a2218 0%, #2a1a1a 100%);
+}
+
+body.dark-mode .predictions {
+    background: linear-gradient(135deg, #1a2a28 0%, #2a1a22 100%);
+}
+
+body.dark-mode .time-capsule {
+    background: linear-gradient(135deg, #0f1520 0%, #1a0a30 100%);
+}
+
+body.dark-mode .costume-contest {
+    background: linear-gradient(135deg, #2a1528 0%, #2a1518 100%);
+}
+
+body.dark-mode .photo-challenge {
+    background: linear-gradient(135deg, #142a1e 0%, #142a2a 100%);
+}
+
+body.dark-mode .yearbook {
+    background: linear-gradient(135deg, #2a2218 0%, #2a1a1a 50%, #2a1520 100%);
+}
+
+body.dark-mode .this-day {
+    background: linear-gradient(135deg, #151830 0%, #1a1230 100%);
+}
+
+body.dark-mode .roast-builder {
+    background: linear-gradient(135deg, #2a1520 0%, #221528 50%, #1a1a2e 100%);
+}
+
+body.dark-mode .speech-signups {
+    background: linear-gradient(135deg, #2a2518 0%, #2a1a18 100%);
+}
+
+body.dark-mode .memory-map {
+    background: linear-gradient(135deg, #142a22 0%, #1a2235 100%);
+}
+
+body.dark-mode .team-chat {
+    background: linear-gradient(135deg, #0f1520 0%, #121d30 100%);
+}
+
+/* ---- Room cards ---- */
+body.dark-mode .room-card {
+    border-color: rgba(255,255,255,0.08);
+}
+
+body.dark-mode .room-header {
+    border-bottom-color: rgba(255,255,255,0.08);
+}
+
+body.dark-mode .room-card.birthday-room {
+    background: linear-gradient(135deg, rgba(255,217,61,0.08) 0%, rgba(255,107,157,0.08) 100%);
+}
+
+body.dark-mode .room-card.party-room {
+    background: linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(200,80,192,0.08) 100%);
+}
+
+/* ---- Form inputs & components ---- */
+body.dark-mode .speech-form,
+body.dark-mode .mm-zone,
+body.dark-mode .mm-memory-item,
+body.dark-mode .roast-prompt-btn,
+body.dark-mode .roast-editor textarea,
+body.dark-mode .speech-item,
+body.dark-mode .music-now-playing {
     background: var(--bg-white);
     color: var(--text-dark);
 }
 
-.dark-mode .speech-form input[type="text"],
-.dark-mode .mm-add-form input {
+body.dark-mode .speech-form input[type="text"],
+body.dark-mode .mm-add-form input {
     background: var(--bg-light);
     color: var(--text-dark);
 }
 
-.dark-mode .vote-net {
+body.dark-mode .capsule-form textarea,
+body.dark-mode .capsule-form select {
+    background: var(--bg-white);
+    color: var(--text-dark);
+}
+
+/* ---- Music section ---- */
+body.dark-mode .vote-net {
     color: var(--text-white);
 }
 
-.dark-mode .vote-btn {
+body.dark-mode .vote-btn {
     background: rgba(255,255,255,0.1);
     color: var(--text-dark);
 }
 
-.dark-mode .genre-filter-btn.active {
+body.dark-mode .genre-filter-btn.active {
     color: var(--primary);
 }
 
-.dark-mode .song-genre-tag {
+body.dark-mode .song-genre-tag {
     background: rgba(255,255,255,0.1);
 }
 
-.dark-mode .team-chat-form input {
+body.dark-mode .now-playing-highlight {
+    background: linear-gradient(90deg, rgba(124,58,237,0.2) 0%, var(--bg-white) 100%) !important;
+}
+
+/* ---- Team chat ---- */
+body.dark-mode .team-chat-form input {
     background: rgba(255,255,255,0.1);
     color: var(--text-white);
+}
+
+/* ---- Photo placeholder ---- */
+body.dark-mode .photo-placeholder {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.15);
+}
+
+/* ---- Box shadows on dark backgrounds ---- */
+body.dark-mode .room-card,
+body.dark-mode .superlative-card,
+body.dark-mode .music-item,
+body.dark-mode .memory-content,
+body.dark-mode .quote-bubble,
+body.dark-mode .prediction-question,
+body.dark-mode .prediction-result-card,
+body.dark-mode .costume-card,
+body.dark-mode .challenge-today,
+body.dark-mode .yearbook-stat,
+body.dark-mode .yearbook-highlight,
+body.dark-mode .yearbook-teams,
+body.dark-mode .speech-form {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ---- Quote bubble tail ---- */
+body.dark-mode .quote-bubble::after {
+    border-left-color: var(--bg-white);
 }
 
 /* ============================================
