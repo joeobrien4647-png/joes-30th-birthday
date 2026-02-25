@@ -1739,6 +1739,9 @@ function initEnvelopeAnimation() {
         document.body.classList.add('envelope-revealed');
         document.body.classList.remove('modal-open');
 
+        // Scroll to top so page starts at the agenda, not rotas
+        window.scrollTo(0, 0);
+
         setTimeout(function() {
             overlay.remove();
             document.body.classList.remove('envelope-active');
