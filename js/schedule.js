@@ -1703,28 +1703,25 @@ function initEnvelopeAnimation() {
         if (opened) return;
         opened = true;
 
-        // Phase 1: Seal cracks
+        // Phase 1: Seal cracks (0ms)
         envelope.classList.add('seal-cracking');
 
-        // Phase 2: Flap opens (400ms delay)
+        // Phase 2: Cut line sweeps across top (300ms)
         setTimeout(function() {
-            envelope.classList.add('flap-opening');
-        }, 400);
+            envelope.classList.add('cut-opening');
+        }, 300);
 
-        // Phase 3: Letter rises (1000ms)
+        // Phase 3: Letter rises out of opened envelope (1000ms)
         setTimeout(function() {
             envelope.classList.add('letter-rising');
         }, 1000);
 
-        // Phase 4: Confetti burst (1400ms)
+        // Phase 4: 2-second pause on letter, then confetti + reveal
+        // Letter finishes rising ~2200ms, pause until 4200ms
         setTimeout(function() {
             spawnEnvelopeConfetti();
-        }, 1400);
-
-        // Phase 5: Reveal page (2200ms)
-        setTimeout(function() {
             revealPage();
-        }, 2200);
+        }, 4200);
     }
 
     function skipAnimation() {
