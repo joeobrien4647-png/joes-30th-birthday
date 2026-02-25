@@ -88,10 +88,24 @@ function initCountdown() {
         const daysLeft = Math.floor(distance / (1000 * 60 * 60 * 24));
 
         if (distance < 0) {
-            daysEl.textContent = '00';
-            hoursEl.textContent = '00';
-            minutesEl.textContent = '00';
-            secondsEl.textContent = '00';
+            // Trip has started — show which day we're on
+            var tripEnd = new Date('May 4, 2026 23:59:59').getTime();
+            var dayNumber = Math.floor(-distance / (1000 * 60 * 60 * 24)) + 1;
+            var countdownWrap = daysEl.closest('.countdown');
+            if (now < tripEnd && countdownWrap) {
+                countdownWrap.innerHTML =
+                    '<div class="countdown-live">' +
+                    '<span class="countdown-live-day">Day ' + Math.min(dayNumber, 6) + ' of 6</span>' +
+                    '<span class="countdown-live-sub">The adventure is happening!</span>' +
+                    '</div>';
+            } else if (countdownWrap) {
+                countdownWrap.innerHTML =
+                    '<div class="countdown-live">' +
+                    '<span class="countdown-live-day">What a trip!</span>' +
+                    '<span class="countdown-live-sub">Thanks for the memories</span>' +
+                    '</div>';
+            }
+            return; // stop the interval from updating destroyed elements
         } else {
             daysEl.textContent = daysLeft.toString().padStart(3, '0');
             hoursEl.textContent = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');

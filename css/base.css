@@ -74,6 +74,16 @@ body {
     overflow-x: hidden;
 }
 
+/* Placeholder text readability */
+::placeholder {
+    color: var(--text-light);
+    opacity: 0.7;
+}
+
+body.dark-mode ::placeholder {
+    opacity: 0.5;
+}
+
 /* Focus-Visible: Keyboard accessibility */
 :focus-visible {
     outline: 3px solid var(--primary);

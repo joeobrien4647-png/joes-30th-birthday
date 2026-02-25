@@ -1805,6 +1805,16 @@ function initEnvelopeAnimation() {
     setTimeout(function() { envelope.focus(); }, 1100);
 }
 
+/* Envelope Replay Button */
+(function() {
+    var btn = document.getElementById('envelope-replay');
+    if (!btn) return;
+    btn.addEventListener('click', function() {
+        sessionStorage.removeItem('envelope_seen');
+        location.reload();
+    });
+})();
+
 /* ---- Initialize on page load ---- */
 document.addEventListener('DOMContentLoaded', function() {
     initEnvelopeAnimation();
