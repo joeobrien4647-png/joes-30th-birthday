@@ -152,9 +152,39 @@ function initTravelPlans() {
 }
 
 /* ============================================
+   Arrival Countdown
+   ============================================ */
+function initArrivalCountdown() {
+    var el = document.getElementById('arrival-countdown');
+    if (!el) return;
+    var arrivalDate = new Date('2026-04-29T10:30:00Z'); // 12:30 CEST
+    function update() {
+        var now = Date.now();
+        var diff = arrivalDate.getTime() - now;
+        if (diff <= 0) {
+            el.textContent = 'Everyone has arrived! Let the party begin!';
+            return;
+        }
+        var days = Math.floor(diff / 86400000);
+        var hrs = Math.floor((diff % 86400000) / 3600000);
+        var mins = Math.floor((diff % 3600000) / 60000);
+        if (days > 0) {
+            el.textContent = days + 'd ' + hrs + 'h until chateau arrival';
+        } else if (hrs > 0) {
+            el.textContent = hrs + 'h ' + mins + 'm until chateau arrival';
+        } else {
+            el.textContent = mins + 'm until chateau arrival!';
+        }
+    }
+    update();
+    setInterval(update, 60000);
+}
+
+/* ============================================
    Initialize All on DOMContentLoaded
    ============================================ */
 document.addEventListener('DOMContentLoaded', function() {
     initSubNavHighlight();
     initTravelPlans();
+    initArrivalCountdown();
 });
