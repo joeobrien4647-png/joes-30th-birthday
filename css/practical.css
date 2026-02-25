@@ -107,7 +107,7 @@
 
 /* Emergency Info Card */
 .info-card.emergency {
-    border-left: 4px solid #ef4444;
+    border-left: 4px solid var(--emergency-red, #ef4444);
 }
 
 /* ============================================

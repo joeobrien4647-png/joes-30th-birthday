@@ -132,7 +132,7 @@
 }
 
 .guest-login-content {
-    background: white;
+    background: var(--bg-white);
     padding: 3rem;
     border-radius: 20px;
     text-align: center;
@@ -841,5 +841,7 @@ body.dark-mode .awake-avatar.awake-active .awake-letter {
 
 @media (max-width: 480px) {
     .hero-title { font-size: 2.5rem; }
+    .hero-buttons { flex-direction: column; align-items: center; }
+    .hero-buttons .btn { width: 100%; max-width: 280px; }
     .quick-links-grid { grid-template-columns: 1fr; }
 }

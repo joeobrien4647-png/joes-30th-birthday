@@ -88,7 +88,7 @@
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--gradient-hero);
     overflow: hidden;
     border: 3px solid rgba(255, 255, 255, 0.9);
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
@@ -116,7 +116,7 @@
 }
 
 .guest-avatar.birthday {
-    background: linear-gradient(135deg, #ffd93d 0%, #ff9800 100%);
+    background: linear-gradient(135deg, var(--accent) 0%, #ff9800 100%);
     box-shadow: 0 0 20px rgba(255, 217, 61, 0.5);
     animation: pulse 2s infinite;
 }

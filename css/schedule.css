@@ -54,6 +54,10 @@
 
 @media (max-width: 480px) {
     .bucket-time-range { min-width: 90px; font-size: 0.65rem; }
+    .time-bucket-header { min-height: 44px; }
+    .av-expand-btn { min-height: 44px; min-width: 44px; }
+    .av-vote-btn { min-height: 44px; }
+    .av-filter-pill { min-height: 44px; display: flex; align-items: center; }
 }
 
 /* ---- Agenda Section ---- */
@@ -272,8 +276,8 @@
 
 .av-filter-pill {
     padding: 8px 18px;
-    border: 2px solid #e0e0e0;
-    background: white;
+    border: 2px solid var(--bg-light);
+    background: var(--bg-white);
     border-radius: 30px;
     font-size: 0.9rem;
     font-weight: 600;
@@ -515,7 +519,7 @@
 /* Expandable details */
 .av-card-details {
     padding: 14px 0 8px;
-    border-top: 1px solid #f0f0f0;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
     margin-top: 4px;
     animation: fadeIn 0.3s ease;
 }
@@ -546,7 +550,7 @@
     align-items: center;
     margin-top: 14px;
     padding-top: 14px;
-    border-top: 1px solid #f0f0f0;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .av-expand-btn {
@@ -572,8 +576,8 @@
     align-items: center;
     gap: 8px;
     padding: 8px 18px;
-    border: 2px solid #e0e0e0;
-    background: white;
+    border: 2px solid var(--bg-light);
+    background: var(--bg-white);
     border-radius: 30px;
     font-size: 0.9rem;
     font-weight: 600;
@@ -616,19 +620,20 @@
 .av-card-admin {
     margin-top: 10px;
     padding-top: 10px;
-    border-top: 1px dashed #e0e0e0;
+    border-top: 1px dashed rgba(0, 0, 0, 0.1);
 }
 
 .av-status-select {
     width: 100%;
     padding: 8px 12px;
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--bg-light);
     border-radius: 10px;
     font-size: 0.85rem;
     font-weight: 600;
     font-family: var(--font-body);
     cursor: pointer;
-    background: white;
+    background: var(--bg-white);
+    color: var(--text-dark);
 }
 
 /* ---- Rotas Section ---- */
@@ -662,11 +667,17 @@
 
 .rota-table {
     border-radius: 14px;
-    overflow: hidden;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     display: flex;
     flex-direction: column;
     gap: 3px;
     background: rgba(0, 0, 0, 0.04);
+    min-width: 0;
+}
+
+.rota-table .rota-row {
+    min-width: 320px;
 }
 
 .rota-row {
@@ -1563,7 +1574,7 @@
     padding: 12px 18px;
     border: 2px solid var(--primary);
     border-radius: 14px;
-    background: white;
+    background: var(--bg-white);
     color: var(--primary);
     font-family: var(--font-body);
     font-size: 0.95rem;
@@ -1899,6 +1910,21 @@
 
 /* ---- Mobile ---- */
 @media (max-width: 600px) {
+    .time-bucket-header {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 10px 14px;
+    }
+
+    .bucket-summary {
+        flex: 1 1 100%;
+        order: 2;
+    }
+
+    .bucket-time-range {
+        order: 1;
+    }
+
     .time-bucket-detail::before {
         left: 62px;
     }

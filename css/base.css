@@ -40,6 +40,15 @@
     --section-padding: 100px;
     --container-width: 1200px;
 
+    /* Semantic */
+    --emergency-red: #ef4444;
+
+    /* Border Radius Scale */
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 20px;
+    --radius-pill: 30px;
+
     /* Transitions */
     --transition-fast: 0.2s ease;
     --transition-normal: 0.3s ease;
@@ -63,6 +72,27 @@ body {
     background: var(--bg-light);
     line-height: 1.6;
     overflow-x: hidden;
+}
+
+/* Focus-Visible: Keyboard accessibility */
+:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 2px;
+}
+
+button:focus-visible,
+.btn:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Remove outline on mouse click but keep for keyboard */
+:focus:not(:focus-visible) {
+    outline: none;
 }
 
 /* Confetti Canvas */
@@ -144,7 +174,8 @@ body {
 }
 
 .page-header p {
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--text-white);
+    opacity: 0.9;
     font-size: 1.2rem;
     position: relative;
     z-index: 1;
@@ -446,6 +477,38 @@ body.dark-mode .sub-nav {
 @media (max-width: 480px) {
     .page-header h1 {
         font-size: 2.5rem;
+    }
+
+    /* Touch targets: ensure 44px minimum on mobile */
+    .btn, button, .confirm-btn, .sub-nav-links a {
+        min-height: 44px;
+    }
+}
+
+/* Short viewport: compress fixed button stack */
+@media (max-height: 600px) {
+    .confetti-cannon {
+        bottom: 130px;
+        width: 48px;
+        height: 48px;
+        font-size: 1.4rem;
+    }
+
+    .theme-switcher {
+        bottom: 74px;
+    }
+
+    .theme-toggle-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+
+    .ambiance-btn {
+        bottom: 34px;
+        width: 36px;
+        height: 36px;
+        font-size: 0.95rem;
     }
 }
 
