@@ -61,28 +61,26 @@ Each guest has a unique code (format: `firstname30` or `firstnamelastinit30`). L
 | emmal30 | Emma Levett | Room 10 | Rose |
 | jonnyl30 | Jonny Levett | Room 11 | Champagne |
 | jonnyw30 | Jonny Williams | Room 11 | Bordeaux |
-| will30 | Will Turner | Room 12 | Rose |
 | chris30 | Chris Coggin | Room 12 | Champagne |
 | oscar30 | Oscar Walters | Room 13 | Bordeaux |
-| matt30 | Matt Hill | Room 13 | Rose |
 | pranay30 | Pranay Dube | Room 14 | Champagne |
 
 ## Three Teams
-- **Team Champagne** (~10 members): Joe, Sophie, Hannah, Razon, Emma W, Sarah, Oli, Jonny L, Chris, Pranay
-- **Team Bordeaux** (~10 members): Luke, Sam, Johnny, Neeve, Tom, Kiran, George, Peter, Jonny W, Oscar
-- **Team Rose** (~7 members): Robin, Florrie, Robert, Emma L, Shane, Will, Matt
+- **Team Champagne** (~9 members): Joe, Sophie, Hannah, Razon, Emma W, Sarah, Oli, Jonny L, Chris, Pranay
+- **Team Bordeaux** (~9 members): Luke, Sam, Johnny, Neeve, Tom, Kiran, George, Peter, Jonny W, Oscar
+- **Team Rose** (~5 members): Robin, Florrie, Robert, Emma L, Shane
 
 ## Travel Arrangements
-**Main convoy from Sevenoaks (17 people, 2x 9-seater vans):**
-Joe, Sophie, Hannah, Robin (maybe), Razon, Neeve, Tom, Robert, Sarah, Kiran, Shane, Oli, Pete, Jonny Williams, Chris Coggin, Oscar, Matt
+**Main convoy from Sevenoaks (15 people, 2x 9-seater vans):**
+Joe, Sophie, Hannah, Robin (maybe), Razon, Neeve, Tom, Robert, Sarah, Kiran, Shane, Oli, Pete, Jonny Williams, Chris Coggin, Oscar
 
 **Making their own way:**
-Luke & Sam, Johnny & Florrie, George & Emma W, Emma L & Jonny L, Will, Pranay
+Luke & Sam, Johnny & Florrie, George & Emma W, Emma L & Jonny L, Pranay
 
 ## Payment Status (from spreadsheet)
 - **Confirmed & Paid**: Rooms 1-12 + Chris Coggin (24 people)
 - **Confirmed but not paid**: Oscar Walters
-- **Unconfirmed**: Matt Hill, Pranay Dube
+- **Unconfirmed**: Pranay Dube
 
 ## All Sections/Features (in page order)
 

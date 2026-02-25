@@ -320,7 +320,7 @@ function initSuperlatives() {
         'Razon Mahebub', 'Neeve Fletcher', 'George Heyworth', 'Emma Winup',
         'Tom Heyworth', 'Robert Winup', 'Sarah', 'Kiran Ruparelia', 'Shane Pallian',
         'Oli Moran', 'Peter London', 'Emma Levett', 'Jonny Levett',
-        'Jonny Williams', 'Will Turner', 'Chris Coggin', 'Oscar Walters', 'Matt Hill', 'Pranay Dube'
+        'Jonny Williams', 'Chris Coggin', 'Oscar Walters', 'Pranay Dube'
     ];
 
     let votes = Store.get('superlativeVotes', {});
@@ -732,7 +732,7 @@ const ALL_GUESTS = [
     'Razon Mahebub', 'Neeve Fletcher', 'George Heyworth', 'Emma Winup',
     'Tom Heyworth', 'Robert Winup', 'Sarah', 'Kiran Ruparelia', 'Shane Pallian',
     'Oli Moran', 'Peter London', 'Emma Levett', 'Jonny Levett',
-    'Jonny Williams', 'Will Turner', 'Chris Coggin', 'Oscar Walters', 'Matt Hill', 'Pranay Dube'
+    'Jonny Williams', 'Chris Coggin', 'Oscar Walters', 'Pranay Dube'
 ];
 
 function populateGuestSelect(selectEl, placeholder) {
