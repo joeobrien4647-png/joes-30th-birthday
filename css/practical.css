@@ -400,6 +400,10 @@ body.dark-mode .travel-overview-row {
     border-bottom-color: rgba(255, 255, 255, 0.06);
 }
 
+body.dark-mode .info-card li {
+    border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
 /* ============================================
    Responsive
    ============================================ */

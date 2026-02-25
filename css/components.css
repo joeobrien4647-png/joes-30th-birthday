@@ -338,6 +338,12 @@
     margin-bottom: 1.5rem;
 }
 
+body.dark-mode .day-note {
+    background: rgba(52, 152, 219, 0.1);
+    border-left-color: #2980b9;
+    color: var(--text-dark);
+}
+
 /* Poll Component */
 .poll-option {
     display: flex;

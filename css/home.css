@@ -819,6 +819,10 @@
     box-shadow: none;
 }
 
+body.dark-mode .my-dashboard {
+    background: linear-gradient(135deg, #151830 0%, #1a1230 100%);
+}
+
 body.dark-mode .awake-letter {
     background: rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.3);
