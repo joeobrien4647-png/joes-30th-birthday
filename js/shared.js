@@ -510,7 +510,16 @@ function triggerMiniConfetti() {
 /* Scroll Reveal */
 function initScrollReveal() {
     const sections = document.querySelectorAll('.section');
-    const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+
+    // Immediately reveal sections already in viewport (prevents blank content bug)
+    sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+            section.classList.add('visible');
+        }
+    });
+
+    const observerOptions = { root: null, rootMargin: '0px 0px 50px 0px', threshold: 0.05 };
 
     const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
@@ -521,7 +530,16 @@ function initScrollReveal() {
         });
     }, observerOptions);
 
-    sections.forEach(section => observer.observe(section));
+    sections.forEach(section => {
+        if (!section.classList.contains('visible')) {
+            observer.observe(section);
+        }
+    });
+
+    // Safety fallback: reveal all sections after 2s in case observer misses any
+    setTimeout(function() {
+        sections.forEach(function(s) { s.classList.add('visible'); });
+    }, 2000);
 }
 
 /* Dark Mode */
