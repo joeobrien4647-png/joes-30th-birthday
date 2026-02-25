@@ -406,8 +406,11 @@ body.dark-mode .sub-nav {
     --primary: #002654;
     --primary-dark: #001a3a;
     --secondary: #ED2939;
-    --accent: #FFFFFF;
+    --accent: #D4AF37;
     --gradient-primary: linear-gradient(135deg, #002654 0%, #ED2939 100%);
+    --gradient-hero: linear-gradient(135deg, #002654 0%, #ED2939 100%);
+    --gradient-festive: linear-gradient(135deg, #002654 0%, #ED2939 50%, #D4AF37 100%);
+    --shadow-glow: 0 0 30px rgba(237, 41, 57, 0.3);
 }
 
 [data-theme="wine"] {
@@ -416,6 +419,9 @@ body.dark-mode .sub-nav {
     --secondary: #C7A17A;
     --accent: #E8D5B7;
     --gradient-primary: linear-gradient(135deg, #722F37 0%, #9B4D56 100%);
+    --gradient-hero: linear-gradient(135deg, #722F37 0%, #9B4D56 100%);
+    --gradient-festive: linear-gradient(135deg, #722F37 0%, #C7A17A 50%, #E8D5B7 100%);
+    --shadow-glow: 0 0 30px rgba(199, 161, 122, 0.3);
 }
 
 [data-theme="sunset"] {
@@ -424,6 +430,9 @@ body.dark-mode .sub-nav {
     --secondary: #F7C59F;
     --accent: #EFEFD0;
     --gradient-primary: linear-gradient(135deg, #FF6B35 0%, #F7C59F 100%);
+    --gradient-hero: linear-gradient(135deg, #FF6B35 0%, #F7C59F 100%);
+    --gradient-festive: linear-gradient(135deg, #FF6B35 0%, #F7C59F 50%, #EFEFD0 100%);
+    --shadow-glow: 0 0 30px rgba(255, 107, 53, 0.3);
 }
 
 [data-theme="disco"] {
@@ -432,6 +441,9 @@ body.dark-mode .sub-nav {
     --secondary: #3498DB;
     --accent: #F39C12;
     --gradient-primary: linear-gradient(135deg, #9B59B6 0%, #3498DB 50%, #F39C12 100%);
+    --gradient-hero: linear-gradient(135deg, #9B59B6 0%, #3498DB 100%);
+    --gradient-festive: linear-gradient(135deg, #9B59B6 0%, #3498DB 50%, #F39C12 100%);
+    --shadow-glow: 0 0 30px rgba(155, 89, 182, 0.3);
 }
 
 /* Keyframes */
@@ -1025,52 +1037,6 @@ body.dark-mode .toast {
 }
 
 /* ============================================
-   Loading Shimmer (Skeleton)
-   ============================================ */
-.shimmer {
-    background: linear-gradient(90deg,
-        #e8e8e8 25%,
-        #f5f5f5 50%,
-        #e8e8e8 75%
-    );
-    background-size: 200% 100%;
-    animation: shimmerSlide 1.5s ease-in-out infinite;
-    border-radius: 8px;
-}
-
-.shimmer-line {
-    height: 16px;
-    border-radius: 4px;
-    margin-bottom: 8px;
-}
-
-.shimmer-card {
-    height: 120px;
-    border-radius: 16px;
-}
-
-.shimmer-circle {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-}
-
-@keyframes shimmerSlide {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-}
-
-body.dark-mode .shimmer {
-    background: linear-gradient(90deg,
-        rgba(255, 255, 255, 0.06) 25%,
-        rgba(255, 255, 255, 0.12) 50%,
-        rgba(255, 255, 255, 0.06) 75%
-    );
-    background-size: 200% 100%;
-    animation: shimmerSlide 1.5s ease-in-out infinite;
-}
-
-/* ============================================
    Animated Count-Up
    ============================================ */
 .count-up {
@@ -1155,46 +1121,6 @@ body.modal-open {
         opacity: 1;
         transform: none;
     }
-}
-
-/* ---- Skeleton Loading Shimmer ---- */
-.skeleton {
-    position: relative;
-    overflow: hidden;
-    background: var(--bg-light);
-    border-radius: 8px;
-}
-.skeleton::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
-    animation: shimmer 1.5s infinite;
-}
-body.dark-mode .skeleton::after {
-    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 50%, transparent 100%);
-}
-@keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
-.skeleton-line {
-    height: 14px;
-    margin-bottom: 10px;
-    border-radius: 6px;
-}
-.skeleton-line.short { width: 60%; }
-.skeleton-line.medium { width: 80%; }
-.skeleton-line.long { width: 95%; }
-.skeleton-circle {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-}
-.skeleton-card {
-    padding: 16px;
-    margin-bottom: 12px;
 }
 
 /* ============================================

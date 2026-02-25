@@ -13,7 +13,6 @@
 
 document.addEventListener('DOMContentLoaded', function () {
     initBingo();
-    initSpinWheel();
     initChallenges();
     initLeaderboard();
     initDailyChallengeReveal();
@@ -21,6 +20,20 @@ document.addEventListener('DOMContentLoaded', function () {
     initHowItWorks();
 });
 
+
+/* ============================================
+   How It Works Toggle
+   ============================================ */
+function initHowItWorks() {
+    var toggle = document.getElementById('hiw-toggle');
+    var body = document.getElementById('hiw-body');
+    if (!toggle || !body) return;
+    toggle.addEventListener('click', function() {
+        var open = body.style.display !== 'none';
+        body.style.display = open ? 'none' : 'block';
+        toggle.classList.toggle('active', !open);
+    });
+}
 
 /* ============================================
    Trip Bingo
@@ -33,8 +46,8 @@ function initBingo() {
 
     if (!bingoCard) return;
 
-    const BINGO_LOCKED = true; // Set to false when ready to release (blocks everyone including admin)
-    const isUnlocked = !BINGO_LOCKED;
+    const BINGO_LOCKED = true; // Set to false when ready to release
+    const isUnlocked = !BINGO_LOCKED || Auth.isAdmin();
 
     if (!isUnlocked) {
         if (lockOverlay) lockOverlay.style.display = 'flex';
@@ -79,7 +92,7 @@ function initBingo() {
         "The group splits and has a better time"       // 29
     ];
 
-    // 27 personal cards: 8 personal items + 16 pool indexes each
+    // 25 personal cards: 8 personal items + 16 pool indexes each
     const BINGO_CARDS = {
         'joe30': { p: ["Someone reminds you you\u2019re 30 (again)","Sophie organises something without telling you","You give a speech and get emotional","You wake up last","Someone calls you \u2018old man\u2019","You eat an embarrassing amount of cheese","You attempt French \u2014 and it works","You win a game and act surprised"], pool: [1,2,3,5,6,8,9,10,12,17,20,21,23,25,28,29] },
         'sophie30': { p: ["You reorganise someone else\u2019s things","You know the schedule better than Joe","Someone ignores your plan","You coordinate the perfect group photo","You check the weather app more than once in an hour","You worry about something that doesn\u2019t happen","You say \u2018actually, I organised that\u2019","You make a spreadsheet (or wish you had one)"], pool: [0,1,4,7,8,9,10,13,15,17,18,21,22,24,26,29] },
@@ -118,7 +131,8 @@ function initBingo() {
     }
 
     var guestCode = localStorage.getItem('guestCode') || 'guest';
-    var card = buildCard(guestCode);
+    var bingoKey = guestCode.indexOf('-') > -1 ? guestCode.split('-')[0].toLowerCase() + '30' : guestCode;
+    var card = buildCard(bingoKey);
 
     if (!card) {
         bingoCard.innerHTML = '<p class="bingo-no-card">Log in with your guest code to see your personal card!</p>';
@@ -493,7 +507,7 @@ function initLeaderboard() {
     }
 
     /* ---- Load Data ---- */
-    let teamScores = Store.get('lb_teamScores', { vouvray: 0, chinon: 0, sancerre: 0, muscadet: 0, anjou: 0 });
+    let teamScores = Store.get('lb_teamScores', { team1: 0, team2: 0, team3: 0, team4: 0 });
     let individualScores = Store.get('lb_individualScores', {});
     let pointsLog = Store.get('lb_pointsLog', []);
     let badges = Store.get('lb_badges', {});
@@ -1081,6 +1095,10 @@ function initLeaderboard() {
         sorted.forEach((p, i) => { newPositions[p.name] = i + 1; });
 
         board.innerHTML = '';
+        if (sorted.every(p => p.points === 0)) {
+            board.innerHTML = '<p class="board-empty">No individual scores yet — let the games begin!</p>';
+            return;
+        }
         sorted.forEach((player, i) => {
             const row = document.createElement('div');
             row.className = 'ind-row' + (i < 3 && player.points > 0 ? ' top-3' : '');
@@ -1215,7 +1233,7 @@ function initLeaderboard() {
 
             // Team performance bars
             if (teamBars) {
-                const teamDay = { vouvray: 0, chinon: 0, sancerre: 0, muscadet: 0, anjou: 0 };
+                const teamDay = { team1: 0, team2: 0, team3: 0, team4: 0 };
                 dayEntries.forEach(e => {
                     if (e.type === 'team') {
                         teamDay[e.target] = (teamDay[e.target] || 0) + e.amount;
@@ -1296,7 +1314,7 @@ function initLeaderboard() {
         const freshLog = Store.get('lb_pointsLog', []);
         if (freshLog.length !== pointsLog.length) {
             pointsLog = freshLog;
-            teamScores = Store.get('lb_teamScores', { vouvray: 0, chinon: 0, sancerre: 0, muscadet: 0, anjou: 0 });
+            teamScores = Store.get('lb_teamScores', { team1: 0, team2: 0, team3: 0, team4: 0 });
             individualScores = Store.get('lb_individualScores', {});
             badges = Store.get('lb_badges', {});
             renderAll();
@@ -2427,7 +2445,7 @@ function initWouldYouRather() {
     var card = document.getElementById('wyr-card');
     if (!card) return;
 
-    function escapeHtml(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+    function escapeHtml(t) { if (t == null) return ''; var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
 
     var QUESTIONS = [
         { a: "Only drink wine for the whole trip", b: "Only drink beer" },
@@ -2677,7 +2695,7 @@ function initScavengerPhotos() {
     var galleryEl = document.getElementById('scav-gallery');
     if (!listEl || !galleryEl) return;
 
-    function escapeHtml(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+    function escapeHtml(t) { if (t == null) return ''; var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
 
     var guestCode = (typeof Auth !== 'undefined' && Auth.getGuestCode) ? Auth.getGuestCode() || 'guest' : 'guest';
     var photoKey = 'scavengerPhotos_' + guestCode;
@@ -2865,7 +2883,7 @@ function initMVPOfDay() {
     var card = document.getElementById('mvp-day-card');
     if (!card) return;
 
-    function escapeHtml(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+    function escapeHtml(t) { if (t == null) return ''; var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
 
     function getDay() {
         if (typeof getTripDay === 'function') return getTripDay();
@@ -2929,7 +2947,7 @@ function initH2HBracket() {
     var container = document.getElementById('bracket-container');
     if (!container) return;
 
-    function escapeHtml(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+    function escapeHtml(t) { if (t == null) return ''; var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
 
     var isAdmin = Auth.isAdmin();
 
@@ -3142,7 +3160,7 @@ function initDailyRecapGenerator() {
     var recapContent = document.querySelector('.recap-content');
     if (!recapContent) return;
 
-    function escapeHtml(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+    function escapeHtml(t) { if (t == null) return ''; var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
 
     function getDay() {
         if (typeof getTripDay === 'function') return getTripDay();

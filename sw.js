@@ -1,27 +1,27 @@
 /* Service Worker - Offline Cache for Joe's 30th Birthday Trip */
-var CACHE_NAME = 'joe30-v1';
+var CACHE_NAME = 'joe30-v2';
 var ASSETS = [
-    '/',
-    '/index.html',
-    '/schedule.html',
-    '/games.html',
-    '/social.html',
-    '/practical.html',
-    '/css/base.css',
-    '/css/components.css',
-    '/css/nav.css',
-    '/css/home.css',
-    '/css/schedule.css',
-    '/css/games.css',
-    '/css/social.css',
-    '/css/practical.css',
-    '/js/shared.js',
-    '/js/nav.js',
-    '/js/home.js',
-    '/js/schedule.js',
-    '/js/games.js',
-    '/js/social.js',
-    '/js/practical.js'
+    './',
+    'index.html',
+    'schedule.html',
+    'games.html',
+    'social.html',
+    'practical.html',
+    'css/base.css',
+    'css/components.css',
+    'css/nav.css',
+    'css/home.css',
+    'css/schedule.css',
+    'css/games.css',
+    'css/social.css',
+    'css/practical.css',
+    'js/shared.js',
+    'js/nav.js',
+    'js/home.js',
+    'js/schedule.js',
+    'js/games.js',
+    'js/social.js',
+    'js/practical.js'
 ];
 
 // Install: cache core assets

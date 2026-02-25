@@ -72,7 +72,7 @@
                         <li><strong>Returns:</strong> Mon 4 May, 16:15 → arrives 16:40</li>
                         <li><strong>Cost:</strong> ~£38 return (hand luggage only)</li>
                         <li><strong>Book via:</strong> Ryanair.com - book your own flights!</li>
-                        <li><strong>Airport to Chateau:</strong> ~45 min drive - hire cars being arranged</li>
+                        <li><strong>Airport to Chateau:</strong> ~1 hr drive - hire cars being arranged</li>
                     </ul>
                 </div>
 
@@ -101,21 +101,22 @@
                     </ul>
                 </div>
 
-                <!-- Food & Drink Kitty -->
+                <!-- Group Expenses -->
                 <div class="info-card kitty">
                     <div class="info-icon">🍷</div>
-                    <h3>Food &amp; Drink Kitty</h3>
+                    <h3>Group Expenses</h3>
                     <div class="kitty-price">
-                        <span class="kitty-amount">&pound;10</span>
-                        <span class="kitty-per">per person / per day</span>
+                        <span class="kitty-amount">Shares</span>
+                        <span class="kitty-per">1 day = 1 share per person</span>
                     </div>
                     <ul>
-                        <li><strong>Covers:</strong> Groceries, cooking ingredients, breakfast supplies, BBQ, and communal drinks</li>
-                        <li><strong>Doesn't cover:</strong> Eating out, personal bar tabs, or activity costs</li>
-                        <li><strong>How it works:</strong> Each cooking team shops for their meal from the kitty. Receipts go to Joe</li>
-                        <li><strong>5 days</strong> = &pound;50 total per person</li>
+                        <li><strong>How it works:</strong> Joe will handle all big group purchases (groceries, communal drinks, BBQ supplies, etc.) and track the total spend</li>
+                        <li><strong>Fair split:</strong> 1 day at the chateau = 1 share. If you're there 5 days you get 5 shares, 3 days = 3 shares, etc.</li>
+                        <li><strong>What you owe:</strong> Your shares &divide; total shares &times; total spend. So you only pay for the days you're actually there</li>
+                        <li><strong>Not included:</strong> Meals out, personal bar tabs, activity costs, or anything bought between smaller groups &mdash; sort those between yourselves</li>
+                        <li><strong>Settlement:</strong> Joe will send everyone their total after the trip</li>
                     </ul>
-                    <p class="kitty-optout">Rather sort your own food? No problem &mdash; let Joe know on the WhatsApp group and you can opt out of the kitty</p>
+                    <p class="kitty-optout">Want to opt out of group food? No problem &mdash; let Joe know on the WhatsApp group</p>
                 </div>
 
                 <!-- Important Contacts -->
@@ -123,8 +124,8 @@
                     <div class="info-icon">📞</div>
                     <h3>Contacts</h3>
                     <ul>
-                        <li><strong>Joe:</strong> +44 7501 395277</li>
-                        <li><strong>Emergency Contact:</strong> Yoke O'Brien - 07799 801708</li>
+                        <li><strong>Joe:</strong> <a href="tel:+447501395277">+44 7501 395277</a></li>
+                        <li><strong>Emergency Contact:</strong> Yoke O'Brien - <a href="tel:+447799801708">+44 7799 801708</a></li>
                         <li><strong>WhatsApp Group:</strong> <a href="https://chat.whatsapp.com/DcrbNPUiLq62lavkRYcQiv" target="_blank">Join here</a></li>
                     </ul>
                 </div>
@@ -162,6 +163,7 @@
                 <div class="video-embed">
                     <iframe
                         src="https://www.youtube.com/embed/K3vBY7qEAwM"
+                        title="Chateau Roussignol video tour"
                         width="100%"
                         height="450"
                         style="border:0; border-radius: 15px;"
@@ -177,6 +179,7 @@
                 <div class="map-embed">
                     <iframe
                         src="https://maps.google.com/maps?q=46.645545,1.1417388&z=15&output=embed"
+                        title="Chateau Roussignol location map"
                         width="100%"
                         height="350"
                         style="border:0; border-radius: 15px;"
@@ -220,7 +223,7 @@
                         <span class="arrival-badge flight">Main Flight</span>
                         <span class="arrival-time">Stansted 05:55 &rarr; Poitiers 08:25</span>
                     </div>
-                    <div class="arrival-names" data-group="flight">Joe, Sophie, Hannah, Razon, Neeve, Tom, Robert, Sarah, Kiran, Shane, Oli, Pete, Jonny W, Chris, Oscar, Matt</div>
+                    <div class="arrival-names" data-group="flight">Joe, Sophie, Hannah, Razon, Neeve, Tom, Robert, Sarah, Kiran, Shane, Oli, Pete, Jonny W, Chris, Oscar</div>
                     <div class="arrival-eta" data-eta="2026-04-29T11:30:00+02:00">At chateau ~12:30 PM</div>
                 </div>
                 <div class="arrival-group">
@@ -228,7 +231,7 @@
                         <span class="arrival-badge own-way">Own Way</span>
                         <span class="arrival-time">Arriving independently</span>
                     </div>
-                    <div class="arrival-names" data-group="own-way">Luke &amp; Sam, Johnny &amp; Florrie, George &amp; Emma W, Emma L &amp; Jonny L, Will, Pranay, Robin</div>
+                    <div class="arrival-names" data-group="own-way">Luke &amp; Sam, Johnny &amp; Florrie, George &amp; Emma W, Emma L &amp; Jonny L, Pranay, Robin</div>
                     <div class="arrival-eta" data-eta="2026-04-29T16:00:00+02:00">Aiming for afternoon</div>
                 </div>
                 <div class="arrival-countdown" id="arrival-countdown"></div>
@@ -247,7 +250,7 @@
                 </div>
                 <div id="travel-status-confirmed" style="display:none;">
                     <div class="travel-confirmed-msg" id="travel-confirmed-msg"></div>
-                    <button class="btn btn-secondary btn-sm" id="travel-change-btn">Change</button>
+                    <button class="btn btn-secondary btn-small" id="travel-change-btn">Change</button>
                 </div>
                 <p class="travel-login-note" id="travel-login-note" style="display:none;">Log in to confirm your travel status</p>
             </div>

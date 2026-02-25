@@ -14,6 +14,11 @@ document.addEventListener('DOMContentLoaded', function () {
 function initLoadingScreen() {
     const loadingScreen = document.getElementById('loading-screen');
     if (!loadingScreen) return;
+    if (sessionStorage.getItem('loadingShown')) {
+        loadingScreen.classList.add('hidden');
+        return;
+    }
+    sessionStorage.setItem('loadingShown', 'true');
     setTimeout(() => {
         loadingScreen.classList.add('hidden');
     }, 1800);
@@ -53,7 +58,7 @@ function initPasswordProtection() {
 
 /* Countdown Timer with Milestones */
 function initCountdown() {
-    const tripDate = new Date('April 29, 2026 16:00:00').getTime();
+    const tripDate = new Date('2026-04-29T08:25:00+02:00').getTime();
 
     const daysEl = document.getElementById('days');
     const hoursEl = document.getElementById('hours');
@@ -89,8 +94,9 @@ function initCountdown() {
 
         if (distance < 0) {
             // Trip has started — show which day we're on
-            var tripEnd = new Date('May 4, 2026 23:59:59').getTime();
-            var dayNumber = Math.floor(-distance / (1000 * 60 * 60 * 24)) + 1;
+            var tripStart = new Date('2026-04-29T00:00:00+02:00').getTime();
+            var tripEnd = new Date('2026-05-04T23:59:59+02:00').getTime();
+            var dayNumber = Math.floor((now - tripStart) / (1000 * 60 * 60 * 24)) + 1;
             var countdownWrap = daysEl.closest('.countdown');
             if (now < tripEnd && countdownWrap) {
                 countdownWrap.innerHTML =
@@ -105,7 +111,8 @@ function initCountdown() {
                     '<span class="countdown-live-sub">Thanks for the memories</span>' +
                     '</div>';
             }
-            return; // stop the interval from updating destroyed elements
+            clearInterval(countdownInterval);
+            return;
         } else {
             daysEl.textContent = daysLeft.toString().padStart(3, '0');
             hoursEl.textContent = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
@@ -133,7 +140,7 @@ function initCountdown() {
     }
 
     updateCountdown();
-    setInterval(updateCountdown, 1000);
+    var countdownInterval = setInterval(updateCountdown, 1000);
 }
 
 /* Guest Login */
@@ -159,7 +166,7 @@ function initGuestLogin() {
     // Handle login
     form.addEventListener('submit', function (e) {
         e.preventDefault();
-        const code = document.getElementById('guest-code').value.toLowerCase().trim();
+        const code = document.getElementById('guest-code').value.toUpperCase().trim();
         if (GUEST_DATA[code]) {
             localStorage.setItem('guestCode', code);
             modal.style.display = 'none';
@@ -170,6 +177,11 @@ function initGuestLogin() {
             errorEl.style.display = 'block';
             document.getElementById('guest-code').value = '';
         }
+    });
+
+    // Hide error when user starts retyping
+    document.getElementById('guest-code').addEventListener('input', function () {
+        if (errorEl) errorEl.style.display = 'none';
     });
 
     // Skip
@@ -184,7 +196,6 @@ function initGuestLogin() {
     if (logoutBtn) {
         logoutBtn.addEventListener('click', function () {
             localStorage.removeItem('guestCode');
-            localStorage.removeItem('missionProgress');
             if (dashboardSection) dashboardSection.style.display = 'none';
             modal.style.display = 'flex';
             const guestNameEl = document.getElementById('nav-guest-name');
@@ -200,8 +211,8 @@ function initGuestLogin() {
 
         document.getElementById('dashboard-name').textContent = guest.name;
         document.getElementById('stat-room').textContent = guest.room;
-        document.getElementById('stat-team').textContent = isRevealed() ? guest.team : '??? (Revealed 26 Apr)';
-        document.getElementById('stat-nickname').textContent = isRevealed() ? guest.nickname : '??? (Revealed 26 Apr)';
+        document.getElementById('stat-team').textContent = isRevealed() ? guest.team : '??? (Revealed 29 Apr)';
+        document.getElementById('stat-nickname').textContent = isRevealed() ? guest.nickname : '??? (Revealed 29 Apr)';
 
         const personalAgenda = document.getElementById('personal-agenda');
         if (personalAgenda) personalAgenda.innerHTML = '<p>' + escapeHtml(guest.personalNotes) + '</p>';

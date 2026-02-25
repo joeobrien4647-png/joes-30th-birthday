@@ -142,11 +142,9 @@
     border-radius: 14px;
     box-shadow: 0 3px 14px rgba(0, 0, 0, 0.07);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    cursor: pointer;
 }
 
 .chateau-gallery-grid img:hover {
-    transform: scale(1.02);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
@@ -452,7 +450,7 @@ body.dark-mode .info-card li {
     color: var(--text-dark);
 }
 .arrival-group {
-    background: var(--bg-main);
+    background: var(--bg-white);
     border-radius: 12px;
     padding: 14px 16px;
     margin-bottom: 12px;
@@ -500,7 +498,7 @@ body.dark-mode .info-card li {
     text-align: center;
     font-size: 0.9rem;
     font-weight: 600;
-    color: var(--accent);
+    color: var(--primary);
     padding: 8px 0 0;
 }
 @media (max-width: 480px) {
@@ -513,5 +511,5 @@ body.dark-mode .arrival-tracker {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 body.dark-mode .arrival-group {
-    background: var(--bg-main);
+    background: var(--bg-white);
 }

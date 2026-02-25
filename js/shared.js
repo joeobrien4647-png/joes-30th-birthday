@@ -4,6 +4,7 @@
 
 /* Utility: Escape HTML (single copy, used everywhere) */
 function escapeHtml(text) {
+    if (text == null) return '';
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
@@ -20,26 +21,6 @@ function debounce(func, wait) {
         clearTimeout(timeout);
         timeout = setTimeout(later, wait);
     };
-}
-
-/* Skeleton Loading Helpers */
-function showSkeleton(container, count) {
-    if (!container) return;
-    count = count || 3;
-    var html = '';
-    for (var i = 0; i < count; i++) {
-        html += '<div class="skeleton skeleton-card">' +
-            '<div class="skeleton skeleton-line long"></div>' +
-            '<div class="skeleton skeleton-line medium"></div>' +
-            '<div class="skeleton skeleton-line short"></div>' +
-            '</div>';
-    }
-    container.innerHTML = html;
-}
-function clearSkeleton(container) {
-    if (!container) return;
-    var skeletons = container.querySelectorAll('.skeleton-card');
-    skeletons.forEach(function(s) { s.remove(); });
 }
 
 /* localStorage Helpers */
@@ -70,11 +51,11 @@ const Store = {
     }
 };
 
-/* Guest Data - All 27 guests */
+/* Guest Data - All 25 guests (invite codes are random, not guessable) */
 const GUEST_DATA = {
-    'joe30': {
+    'JOE-7K9X': {
         name: 'Joe', fullName: 'Joe O\'Brien', room: 'Master Suite',
-        team: 'Team 1', nickname: 'His Royal Ancientness',
+        team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Accept at least 3 birthday toasts gracefully', completed: false },
             { id: 'm2', text: 'Dance to Mr. Brightside at your party', completed: false },
@@ -82,9 +63,9 @@ const GUEST_DATA = {
         ],
         personalNotes: 'You\'re the star of the show! Just enjoy yourself and let everyone spoil you.'
     },
-    'sophie30': {
+    'SOPHIE-M3P2': {
         name: 'Sophie', fullName: 'Sophie Geen', room: 'Master Suite',
-        team: 'Team 1', nickname: 'The Control Freak',
+        team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Make sure Joe doesn\'t find out about the surprise activity', completed: false },
             { id: 'm2', text: 'Get a candid photo of Joe laughing', completed: false },
@@ -92,9 +73,9 @@ const GUEST_DATA = {
         ],
         personalNotes: 'You\'re on secret keeper duty! The surprise activity on Day 4 must stay hidden.'
     },
-    'luke30': {
+    'LUKE-4WN8': {
         name: 'Luke', fullName: 'Luke Recchia', room: 'Room 2',
-        team: 'Team 2', nickname: 'DJ No-Requests',
+        team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Get everyone dancing at least once', completed: false },
             { id: 'm2', text: 'Challenge Joe to a game and let him win', completed: false },
@@ -102,9 +83,9 @@ const GUEST_DATA = {
         ],
         personalNotes: 'You\'re in charge of party vibes! Make sure the music is always on point.'
     },
-    'sam30': {
+    'SAM-R6DQ': {
         name: 'Samantha', fullName: 'Samantha Recchia', room: 'Room 2',
-        team: 'Team 2', nickname: 'The Paparazzi',
+        team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Take at least 50 group photos', completed: false },
             { id: 'm2', text: 'Create a mini photo montage by end of trip', completed: false },
@@ -112,9 +93,9 @@ const GUEST_DATA = {
         ],
         personalNotes: 'You\'re the unofficial photographer - capture all the memories!'
     },
-    'hannah30': {
+    'HANNAH-8FJ3': {
         name: 'Hannah', fullName: 'Hannah O\'Brien', room: 'Room 3',
-        team: 'Team 1', nickname: 'The Snitch',
+        team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Share an embarrassing childhood story about Joe', completed: false },
             { id: 'm2', text: 'Make sure Joe\'s birthday cake is perfect', completed: false },
@@ -122,9 +103,9 @@ const GUEST_DATA = {
         ],
         personalNotes: 'Sibling duty: bring the embarrassing stories and the love!'
     },
-    'robin30': {
+    'ROBIN-2VL5': {
         name: 'Robin', fullName: 'Robin Hughes', room: 'Room 3',
-        team: 'Team 3', nickname: 'The Liability',
+        team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Suggest a spontaneous adventure', completed: false },
             { id: 'm2', text: 'Be first in the pool at least once', completed: false },
@@ -132,9 +113,9 @@ const GUEST_DATA = {
         ],
         personalNotes: 'Bring the adventure energy! Suggest something fun and spontaneous.'
     },
-    'johnny30': {
+    'JOHNNY-9XT4': {
         name: 'Johnny', fullName: 'Johnny Gates O\'Brien', room: 'Room 4',
-        team: 'Team 2', nickname: 'Thinks He\'s Funny',
+        team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Tell at least 5 jokes (good or bad)', completed: false },
             { id: 'm2', text: 'Do an impression of Joe', completed: false },
@@ -142,9 +123,9 @@ const GUEST_DATA = {
         ],
         personalNotes: 'You\'re the entertainment - keep the laughs coming!'
     },
-    'florrie30': {
+    'FLORRIE-5HK7': {
         name: 'Florrie', fullName: 'Florrie Gates O\'Brien', room: 'Room 4',
-        team: 'Team 3', nickname: 'The Loud One',
+        team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Lead a group cheer for Joe', completed: false },
             { id: 'm2', text: 'Help decorate for the birthday dinner', completed: false },
@@ -152,9 +133,9 @@ const GUEST_DATA = {
         ],
         personalNotes: 'Spread the good vibes and make sure everyone feels part of the celebration!'
     },
-    'razon30': {
+    'RAZON-3BM6': {
         name: 'Razon', fullName: 'Razon Mahebub', room: 'Room 5',
-        team: 'Team 1', nickname: 'The Schemer',
+        team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Win a strategy game', completed: false },
             { id: 'm2', text: 'Help plan a surprise moment', completed: false },
@@ -162,9 +143,9 @@ const GUEST_DATA = {
         ],
         personalNotes: 'Put those strategic skills to use - help make the surprises work!'
     },
-    'neeve30': {
+    'NEEVE-6PW2': {
         name: 'Neeve', fullName: 'Neeve Fletcher', room: 'Room 5',
-        team: 'Team 2', nickname: 'The Hangry One',
+        team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Find the best local cheese', completed: false },
             { id: 'm2', text: 'Help with one group meal', completed: false },
@@ -172,9 +153,9 @@ const GUEST_DATA = {
         ],
         personalNotes: 'You\'re the culinary guide - find us the best food and drinks!'
     },
-    'george30': {
+    'GEORGE-1CY9': {
         name: 'George', fullName: 'George Heyworth', room: 'Room 6',
-        team: 'Team 2', nickname: 'The Foghorn',
+        team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Start a chant at the birthday dinner', completed: false },
             { id: 'm2', text: 'Be the last one standing at the party', completed: false },
@@ -182,9 +163,9 @@ const GUEST_DATA = {
         ],
         personalNotes: 'Bring the ENERGY! Get everyone hyped for Joe\'s big day.'
     },
-    'emmaw30': {
+    'EMMAW-8RJ4': {
         name: 'Emma W', fullName: 'Emma Winup', room: 'Room 6',
-        team: 'Team 1', nickname: 'Spreadsheet Queen',
+        team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Make sure activities run on time', completed: false },
             { id: 'm2', text: 'Help coordinate the group photo', completed: false },
@@ -192,9 +173,9 @@ const GUEST_DATA = {
         ],
         personalNotes: 'Your organisational skills are needed - help keep things running smoothly!'
     },
-    'tom30': {
+    'TOM-5QL7': {
         name: 'Tom', fullName: 'Tom Heyworth', room: 'Room 7',
-        team: 'Team 2', nickname: 'The Exaggerator',
+        team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Tell a "remember when" story about Joe', completed: false },
             { id: 'm2', text: 'Document at least one funny moment', completed: false },
@@ -202,9 +183,9 @@ const GUEST_DATA = {
         ],
         personalNotes: 'Bring the stories! Joe\'s 30th needs some legendary tales.'
     },
-    'robert30': {
+    'ROBERT-2NG8': {
         name: 'Robert', fullName: 'Robert Winup', room: 'Room 7',
-        team: 'Team 3', nickname: 'The Wine Snob',
+        team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Recommend the best wine at tasting', completed: false },
             { id: 'm2', text: 'Teach someone something about wine', completed: false },
@@ -212,9 +193,9 @@ const GUEST_DATA = {
         ],
         personalNotes: 'Share your wine wisdom! Help everyone appreciate the Loire Valley.'
     },
-    'sarah30': {
+    'SARAH-4KV3': {
         name: 'Sarah', fullName: 'Sarah', room: 'Room 8',
-        team: 'Team 1', nickname: 'The Gossip',
+        team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Introduce two people who haven\'t met', completed: false },
             { id: 'm2', text: 'Start a conversation game', completed: false },
@@ -222,9 +203,9 @@ const GUEST_DATA = {
         ],
         personalNotes: 'Help everyone mingle and connect - be the social glue!'
     },
-    'kiran30': {
-        name: 'Kiran', fullName: 'Kiran Ruparelia', room: 'Room 8',
-        team: 'Team 2', nickname: 'Last Man Standing',
+    'KIRAN-7DX1': {
+        name: 'Kiran', fullName: 'Kiran Ruparelia', room: 'Room 9',
+        team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Be part of a late-night chat', completed: false },
             { id: 'm2', text: 'Suggest a midnight activity', completed: false },
@@ -232,9 +213,9 @@ const GUEST_DATA = {
         ],
         personalNotes: 'You\'re the after-hours entertainment - keep the night alive!'
     },
-    'shane30': {
+    'SHANE-9FH6': {
         name: 'Shane', fullName: 'Shane Pallian', room: 'Room 9',
-        team: 'Team 3', nickname: 'The Sore Loser',
+        team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Win at least one game/challenge', completed: false },
             { id: 'm2', text: 'Challenge Joe to something competitive', completed: false },
@@ -242,9 +223,9 @@ const GUEST_DATA = {
         ],
         personalNotes: 'Bring the competitive spirit! Make the games exciting.'
     },
-    'oli30': {
-        name: 'Oli', fullName: 'Oli Moran', room: 'Room 9',
-        team: 'Team 1', nickname: 'The Horizontal One',
+    'OLI-3WT5': {
+        name: 'Oli', fullName: 'Oli Moran', room: 'Room 10',
+        team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Keep everyone calm if things get hectic', completed: false },
             { id: 'm2', text: 'Suggest a relaxing activity', completed: false },
@@ -252,9 +233,9 @@ const GUEST_DATA = {
         ],
         personalNotes: 'Balance out the chaos with some chill vibes when needed.'
     },
-    'peter30': {
+    'PETER-6BN2': {
         name: 'Peter', fullName: 'Peter London', room: 'Room 10',
-        team: 'Team 2', nickname: 'The Loose Cannon',
+        team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Do something unexpected', completed: false },
             { id: 'm2', text: 'Suggest a bold activity', completed: false },
@@ -262,9 +243,9 @@ const GUEST_DATA = {
         ],
         personalNotes: 'Be unpredictable! Bring the surprises.'
     },
-    'emmal30': {
-        name: 'Emma L', fullName: 'Emma Levett', room: 'Room 10',
-        team: 'Team 3', nickname: 'The Pinterest Addict',
+    'EMMAL-1RK8': {
+        name: 'Emma L', fullName: 'Emma Levett', room: 'Room 11',
+        team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Help with decorations or presentation', completed: false },
             { id: 'm2', text: 'Create a small handmade gift/card', completed: false },
@@ -272,9 +253,9 @@ const GUEST_DATA = {
         ],
         personalNotes: 'Bring your creative touch to make things special!'
     },
-    'jonnyl30': {
+    'JONNYL-4VP9': {
         name: 'Jonny L', fullName: 'Jonny Levett', room: 'Room 11',
-        team: 'Team 1', nickname: 'The Menace',
+        team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Pull a harmless prank', completed: false },
             { id: 'm2', text: 'Keep the jokes coming all week', completed: false },
@@ -282,9 +263,9 @@ const GUEST_DATA = {
         ],
         personalNotes: 'Comedy is your mission - bring the laughs!'
     },
-    'jonnyw30': {
-        name: 'Jonny W', fullName: 'Jonny Williams', room: 'Room 11',
-        team: 'Team 2', nickname: 'Self-Proclaimed Legend',
+    'JONNYW-8HQ3': {
+        name: 'Jonny W', fullName: 'Jonny Williams', room: 'Room 12',
+        team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Share a classic Joe story', completed: false },
             { id: 'm2', text: 'Help with the birthday toast', completed: false },
@@ -292,9 +273,9 @@ const GUEST_DATA = {
         ],
         personalNotes: 'Bring the legendary energy!'
     },
-    'chris30': {
+    'CHRIS-2FM7': {
         name: 'Chris', fullName: 'Chris Coggin', room: 'Room 12',
-        team: 'Team 1', nickname: 'The Quiet Assassin',
+        team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Be dependable when things are needed', completed: false },
             { id: 'm2', text: 'Help with setup/cleanup', completed: false },
@@ -302,9 +283,9 @@ const GUEST_DATA = {
         ],
         personalNotes: 'You\'re the reliable one - help keep things running!'
     },
-    'oscar30': {
-        name: 'Oscar', fullName: 'Oscar Walters', room: 'Room 13',
-        team: 'Team 2', nickname: 'The Bad Influence',
+    'OSCAR-5DL4': {
+        name: 'Oscar', fullName: 'Oscar Walters', room: 'Room 12',
+        team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Get the party started at least once', completed: false },
             { id: 'm2', text: 'Lead a drinking game', completed: false },
@@ -312,9 +293,9 @@ const GUEST_DATA = {
         ],
         personalNotes: 'When energy is needed, you\'re the spark!'
     },
-    'pranay30': {
-        name: 'Pranay', fullName: 'Pranay Dube', room: 'Room 14',
-        team: 'Team 1', nickname: 'The Human Puppy',
+    'PRANAY-9WX6': {
+        name: 'Pranay', fullName: 'Pranay Dube', room: 'Room 12',
+        team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Be enthusiastic about every activity', completed: false },
             { id: 'm2', text: 'Encourage others to join in', completed: false },
@@ -325,16 +306,7 @@ const GUEST_DATA = {
 };
 
 /* Players mapped to teams (for leaderboard) — TODO: assign real teams before trip */
-const PLAYERS = {
-    'Joe': 'team1', 'Sophie': 'team1', 'Hannah': 'team1',
-    'Razon': 'team1', 'Emma W': 'team1', 'Sarah': 'team1', 'Oli': 'team1',
-    'Jonny L': 'team2', 'Chris': 'team2', 'Pranay': 'team2',
-    'Luke': 'team2', 'Sam': 'team2', 'Johnny': 'team2', 'Neeve': 'team2',
-    'Tom': 'team3', 'Kiran': 'team3', 'George': 'team3',
-    'Peter': 'team3', 'Jonny W': 'team3', 'Oscar': 'team3', 'Robin': 'team3',
-    'Florrie': 'team4', 'Robert': 'team4', 'Emma L': 'team4',
-    'Shane': 'team4'
-};
+const PLAYERS = {};
 
 /* Full name lookup: short name → full name (for leaderboard display) */
 const FULL_NAMES = {};
@@ -343,7 +315,7 @@ Object.values(GUEST_DATA).forEach(function(g) {
 });
 
 /* Reveal Date — teams & nicknames hidden until arrival night */
-const REVEAL_DATE = new Date('2026-04-29T22:00:00');
+const REVEAL_DATE = new Date('2026-04-29T22:00:00+02:00');
 
 function isRevealed() {
     // Guest preview mode — admins can see what guests see
@@ -363,7 +335,7 @@ const Auth = {
         return !!code && code !== 'guest';
     },
     isAdmin() {
-        return ['joe30', 'sophie30', 'hannah30'].includes(this.getGuestCode());
+        return ['JOE-7K9X', 'SOPHIE-M3P2', 'HANNAH-8FJ3'].includes(this.getGuestCode());
     },
     getGuestData() {
         return GUEST_DATA[this.getGuestCode()];
@@ -372,33 +344,28 @@ const Auth = {
         const guest = this.getGuestData();
         return guest ? guest.name : 'Guest';
     },
-    checkAuth() {
-        // On non-home pages, redirect to index if not site-authenticated
-        const isHomePage = window.location.pathname.endsWith('index.html') ||
-                           window.location.pathname.endsWith('/');
-        if (!isHomePage) {
-            // If password protection was set and not authenticated, redirect
-            const siteAuth = localStorage.getItem('siteAuthenticated');
-            // Only redirect if site password was actually set (we check this loosely)
-            // Guest login is optional, so we don't force redirect for that
-        }
-    }
 };
 
 /* Confetti Animation */
+var _confettiAnimId = null;
+var _confettiResize = null;
+
 function triggerConfetti() {
     const canvas = document.getElementById('confetti-canvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+
+    // Cancel any running animation
+    if (_confettiAnimId) cancelAnimationFrame(_confettiAnimId);
+    if (_confettiResize) window.removeEventListener('resize', _confettiResize);
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
     const confetti = [];
     const colors = ['#FF6B9D', '#7C3AED', '#FFD93D', '#6BCB77', '#4ECDC4', '#FF6B6B'];
-    const confettiCount = 150;
 
-    for (let i = 0; i < confettiCount; i++) {
+    for (let i = 0; i < 150; i++) {
         confetti.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height - canvas.height,
@@ -412,15 +379,22 @@ function triggerConfetti() {
         });
     }
 
-    let animationId;
     let startTime = Date.now();
     const duration = 4000;
+
+    _confettiResize = function() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    };
+    window.addEventListener('resize', _confettiResize);
 
     function animate() {
         const elapsed = Date.now() - startTime;
         if (elapsed > duration) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            cancelAnimationFrame(animationId);
+            _confettiAnimId = null;
+            window.removeEventListener('resize', _confettiResize);
+            _confettiResize = null;
             return;
         }
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -440,20 +414,17 @@ function triggerConfetti() {
                 particle.x = Math.random() * canvas.width;
             }
         });
-        animationId = requestAnimationFrame(animate);
+        _confettiAnimId = requestAnimationFrame(animate);
     }
     animate();
-
-    window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    });
 }
 
 function triggerMiniConfetti() {
     const canvas = document.getElementById('confetti-canvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+
+    if (_confettiAnimId) cancelAnimationFrame(_confettiAnimId);
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -477,14 +448,13 @@ function triggerMiniConfetti() {
         });
     }
 
-    let animationId;
     let startTime = Date.now();
 
     function animate() {
         const elapsed = Date.now() - startTime;
         if (elapsed > 2000) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            cancelAnimationFrame(animationId);
+            _confettiAnimId = null;
             return;
         }
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -502,7 +472,7 @@ function triggerMiniConfetti() {
             ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
             ctx.restore();
         });
-        animationId = requestAnimationFrame(animate);
+        _confettiAnimId = requestAnimationFrame(animate);
     }
     animate();
 }
@@ -904,7 +874,7 @@ function initEmergencyCard() {
 /* Register Service Worker for offline support */
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/sw.js').catch(function() {});
+        navigator.serviceWorker.register('sw.js').catch(function() {});
     });
 }
 

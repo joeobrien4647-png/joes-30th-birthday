@@ -78,34 +78,35 @@ function initProfiles() {
         var videoWrap = document.createElement('div');
         videoWrap.className = 'profile-video-wrap';
 
-        var videoEl = document.createElement('video');
-        videoEl.className = 'profile-video';
-        videoEl.setAttribute('playsinline', '');
-        videoEl.muted = true;
-        videoEl.loop = true;
+        // Only load video if guest has a data-video attribute
+        if (data.video) {
+            var videoEl = document.createElement('video');
+            videoEl.className = 'profile-video';
+            videoEl.setAttribute('playsinline', '');
+            videoEl.muted = true;
+            videoEl.loop = true;
 
-        var soundBtn = document.createElement('button');
-        soundBtn.className = 'profile-video-sound';
-        soundBtn.textContent = '\uD83D\uDD07';
-        soundBtn.addEventListener('click', function (e) {
-            e.stopPropagation();
-            videoEl.muted = !videoEl.muted;
-            soundBtn.textContent = videoEl.muted ? '\uD83D\uDD07' : '\uD83D\uDD0A';
-        });
+            var soundBtn = document.createElement('button');
+            soundBtn.className = 'profile-video-sound';
+            soundBtn.textContent = '\uD83D\uDD07';
+            soundBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                videoEl.muted = !videoEl.muted;
+                soundBtn.textContent = videoEl.muted ? '\uD83D\uDD07' : '\uD83D\uDD0A';
+            });
 
-        videoWrap.appendChild(videoEl);
-        videoWrap.appendChild(soundBtn);
-        card.appendChild(videoWrap);
+            videoWrap.appendChild(videoEl);
+            videoWrap.appendChild(soundBtn);
+            card.appendChild(videoWrap);
 
-        var slug = slugify(data.name);
-        var videoPath = data.video || ('videos/' + slug + '.mp4');
-        videoEl.oncanplay = function () {
-            videoWrap.style.display = 'block';
-            videoEl.play().catch(function () {});
-            videoEl.oncanplay = null;
-        };
-        videoEl.onerror = function () { videoEl.onerror = null; };
-        videoEl.src = videoPath;
+            videoEl.oncanplay = function () {
+                videoWrap.style.display = 'block';
+                videoEl.play().catch(function () {});
+                videoEl.oncanplay = null;
+            };
+            videoEl.onerror = function () { videoEl.onerror = null; };
+            videoEl.src = data.video;
+        }
 
         var body = document.createElement('div');
         body.className = 'profile-body';
@@ -271,6 +272,9 @@ function initBirthdayMessages() {
 
     form.addEventListener('submit', function(e) {
         e.preventDefault();
+        var submitBtn = form.querySelector('button[type="submit"]');
+        if (submitBtn && submitBtn.disabled) return;
+        if (submitBtn) submitBtn.disabled = true;
 
         const nameInput = document.getElementById('message-name');
         const textInput = document.getElementById('message-text');
@@ -292,6 +296,7 @@ function initBirthdayMessages() {
 
             triggerMiniConfetti();
         }
+        setTimeout(function() { if (submitBtn) submitBtn.disabled = false; }, 1000);
     });
 
     // Character counter
@@ -367,433 +372,9 @@ function initBirthdayMessages() {
 }
 
 /* ============================================
-   Superlatives Voting
-   ============================================ */
-function initSuperlatives() {
-    const grid = document.getElementById('superlatives-grid');
-
-    if (!grid) return;
-
-    const guests = [
-        'Joe O\'Brien', 'Sophie Geen', 'Luke Recchia', 'Samantha Recchia',
-        'Hannah O\'Brien', 'Robin Hughes', 'Johnny Gates O\'Brien', 'Florrie Gates O\'Brien',
-        'Razon Mahebub', 'Neeve Fletcher', 'George Heyworth', 'Emma Winup',
-        'Tom Heyworth', 'Robert Winup', 'Sarah', 'Kiran Ruparelia', 'Shane Pallian',
-        'Oli Moran', 'Peter London', 'Emma Levett', 'Jonny Levett',
-        'Jonny Williams', 'Chris Coggin', 'Oscar Walters', 'Pranay Dube'
-    ];
-
-    let votes = Store.get('superlativeVotes', {});
-
-    const selects = grid.querySelectorAll('.superlative-vote');
-    selects.forEach(select => {
-        guests.forEach(guest => {
-            const option = document.createElement('option');
-            option.value = guest;
-            option.textContent = guest;
-            select.appendChild(option);
-        });
-
-        const category = select.closest('.superlative-card').dataset.category;
-        if (votes[category]) {
-            select.value = votes[category];
-        }
-
-        select.addEventListener('change', function() {
-            votes[category] = this.value;
-            Store.set('superlativeVotes', votes);
-            updateResults(category);
-        });
-
-        updateResults(category);
-    });
-
-    function updateResults(category) {
-        const card = grid.querySelector(`[data-category="${category}"]`);
-        if (!card) return;
-        const resultsDiv = card.querySelector('.superlative-results');
-        if (!resultsDiv) return;
-
-        if (votes[category]) {
-            resultsDiv.innerHTML = `<span class="superlative-leader">Your pick: ${escapeHtml(votes[category])}</span>`;
-        }
-    }
-}
-
-/* ============================================
-   Music Requests (Enhanced with Genres, Downvotes, Now Playing)
-   ============================================ */
-function initMusicRequests() {
-    const form = document.getElementById('music-form');
-    const list = document.getElementById('music-list');
-
-    if (!form || !list) return;
-
-    const GENRES = ['Pop', 'Rock', '90s', 'Dance', 'Indie', 'Other'];
-    let songs = Store.get('musicRequests', []);
-    let votes = Store.get('musicVotes', {}); // { songId: { up: n, down: n } }
-    let userVotes = Store.get('musicUserVotes', {}); // { songId_guestCode: 'up'|'down' }
-    let nowPlaying = Store.get('musicNowPlaying', null);
-    let activeGenre = null;
-    const guestCode = Auth.getGuestCode() || 'anon';
-
-    // Migrate old upvotes to new format
-    const oldUpvotes = Store.get('musicUpvotes', null);
-    if (oldUpvotes && Object.keys(votes).length === 0) {
-        Object.entries(oldUpvotes).forEach(function(entry) {
-            votes[entry[0]] = { up: entry[1] || 0, down: 0 };
-        });
-        Store.set('musicVotes', votes);
-    }
-
-    // Add genre select to form if not present
-    if (!document.getElementById('song-genre')) {
-        const genreSelect = document.createElement('select');
-        genreSelect.id = 'song-genre';
-        genreSelect.required = true;
-        genreSelect.innerHTML = '<option value="">Genre</option>' +
-            GENRES.map(function(g) { return '<option value="' + g + '">' + g + '</option>'; }).join('');
-        const formRow = form.querySelector('.form-row');
-        const submitBtn = formRow.querySelector('.btn');
-        formRow.insertBefore(genreSelect, submitBtn);
-    }
-
-    // Add genre filter bar + now-playing display
-    let filterBar = document.getElementById('music-filter-bar');
-    if (!filterBar) {
-        filterBar = document.createElement('div');
-        filterBar.id = 'music-filter-bar';
-        filterBar.className = 'music-filter-bar';
-        list.parentNode.insertBefore(filterBar, list);
-    }
-
-    let nowPlayingEl = document.getElementById('music-now-playing');
-    if (!nowPlayingEl) {
-        nowPlayingEl = document.createElement('div');
-        nowPlayingEl.id = 'music-now-playing';
-        nowPlayingEl.className = 'music-now-playing';
-        list.parentNode.insertBefore(nowPlayingEl, filterBar);
-    }
-
-    renderFilterBar();
-    renderNowPlaying();
-    renderSongs();
-
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const title = document.getElementById('song-title').value.trim();
-        const artist = document.getElementById('song-artist').value.trim();
-        const requester = document.getElementById('song-requester').value.trim();
-        const genre = document.getElementById('song-genre').value;
-
-        if (!title || !artist || !requester || !genre) return;
-
-        const song = {
-            id: Date.now().toString(),
-            title: title,
-            artist: artist,
-            requester: requester,
-            genre: genre,
-            timestamp: Date.now()
-        };
-        songs.push(song);
-        votes[song.id] = { up: 0, down: 0 };
-
-        Store.set('musicRequests', songs);
-        Store.set('musicVotes', votes);
-
-        form.reset();
-        renderSongs();
-    });
-
-    function getNetScore(songId) {
-        const v = votes[songId] || { up: 0, down: 0 };
-        return (v.up || 0) - (v.down || 0);
-    }
-
-    function renderFilterBar() {
-        filterBar.innerHTML = '<button class="genre-filter-btn active" data-genre="">All</button>' +
-            GENRES.map(function(g) {
-                return '<button class="genre-filter-btn" data-genre="' + g + '">' + g + '</button>';
-            }).join('');
-
-        filterBar.querySelectorAll('.genre-filter-btn').forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                activeGenre = this.dataset.genre || null;
-                filterBar.querySelectorAll('.genre-filter-btn').forEach(function(b) { b.classList.remove('active'); });
-                this.classList.add('active');
-                renderSongs();
-            });
-        });
-    }
-
-    function renderNowPlaying() {
-        if (nowPlaying) {
-            const song = songs.find(function(s) { return s.id === nowPlaying; });
-            if (song) {
-                nowPlayingEl.innerHTML = '<span class="now-playing-label">Now Playing</span> <span class="now-playing-title">' +
-                    escapeHtml(song.title) + '</span> <span class="now-playing-artist">by ' + escapeHtml(song.artist) + '</span>';
-                nowPlayingEl.style.display = '';
-                return;
-            }
-        }
-        nowPlayingEl.style.display = 'none';
-    }
-
-    function renderSongs() {
-        list.innerHTML = '';
-
-        // Filter by genre
-        let filtered = activeGenre ? songs.filter(function(s) { return s.genre === activeGenre; }) : songs.slice();
-
-        // Sort by net score descending
-        filtered.sort(function(a, b) { return getNetScore(b.id) - getNetScore(a.id); });
-
-        if (filtered.length === 0) {
-            list.innerHTML = '<p class="empty-state">No songs yet. Request the first tune!</p>';
-            return;
-        }
-
-        filtered.forEach(function(song) {
-            const net = getNetScore(song.id);
-            const v = votes[song.id] || { up: 0, down: 0 };
-            const userVoteKey = song.id + '_' + guestCode;
-            const userVote = userVotes[userVoteKey] || null;
-            const isNowPlaying = nowPlaying === song.id;
-
-            const item = document.createElement('div');
-            item.className = 'music-item' + (isNowPlaying ? ' now-playing-highlight' : '');
-            item.innerHTML =
-                (isNowPlaying ? '<span class="now-playing-badge">Now Playing</span>' : '') +
-                '<div class="music-info">' +
-                    '<span class="song-title">' + escapeHtml(song.title) + '</span>' +
-                    '<span class="song-artist">' + escapeHtml(song.artist) + '</span>' +
-                    (song.genre ? '<span class="song-genre-tag">' + escapeHtml(song.genre) + '</span>' : '') +
-                '</div>' +
-                '<span class="song-requester">' + escapeHtml(song.requester) + '<span class="timestamp">' + timeAgo(song.timestamp) + '</span></span>' +
-                '<div class="vote-controls">' +
-                    '<button class="vote-btn vote-up' + (userVote === 'up' ? ' voted' : '') + '" data-song="' + song.id + '" data-dir="up">&#9650; ' + (v.up || 0) + '</button>' +
-                    '<span class="vote-net">' + net + '</span>' +
-                    '<button class="vote-btn vote-down' + (userVote === 'down' ? ' voted' : '') + '" data-song="' + song.id + '" data-dir="down">&#9660; ' + (v.down || 0) + '</button>' +
-                '</div>' +
-                (Auth.isAdmin() ? '<button class="music-np-btn" data-song="' + song.id + '" title="Set as Now Playing">&#9654;</button>' : '');
-
-            // Vote button handlers
-            item.querySelectorAll('.vote-btn').forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                    var sid = this.dataset.song;
-                    var dir = this.dataset.dir;
-                    var key = sid + '_' + guestCode;
-                    if (userVotes[key] === dir) return; // already voted this direction
-
-                    // If switching vote, undo previous
-                    if (userVotes[key]) {
-                        var prev = userVotes[key];
-                        if (votes[sid]) votes[sid][prev] = Math.max(0, (votes[sid][prev] || 0) - 1);
-                    }
-
-                    if (!votes[sid]) votes[sid] = { up: 0, down: 0 };
-                    votes[sid][dir] = (votes[sid][dir] || 0) + 1;
-                    userVotes[key] = dir;
-
-                    Store.set('musicVotes', votes);
-                    Store.set('musicUserVotes', userVotes);
-                    renderSongs();
-                });
-            });
-
-            // Admin: set now playing
-            var npBtn = item.querySelector('.music-np-btn');
-            if (npBtn) {
-                npBtn.addEventListener('click', function() {
-                    nowPlaying = nowPlaying === this.dataset.song ? null : this.dataset.song;
-                    Store.set('musicNowPlaying', nowPlaying);
-                    renderNowPlaying();
-                    renderSongs();
-                });
-            }
-
-            list.appendChild(item);
-        });
-    }
-}
-
-/* ============================================
-   Photo Wall
-   ============================================ */
-function compressPhoto(dataUrl, maxSize, quality) {
-    return new Promise(function(resolve) {
-        var img = new Image();
-        img.onload = function() {
-            var w = img.width;
-            var h = img.height;
-            if (w > maxSize || h > maxSize) {
-                var ratio = Math.min(maxSize / w, maxSize / h);
-                w = Math.round(w * ratio);
-                h = Math.round(h * ratio);
-            }
-            var canvas = document.createElement('canvas');
-            canvas.width = w;
-            canvas.height = h;
-            canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-            resolve(canvas.toDataURL('image/jpeg', quality));
-        };
-        img.onerror = function() { resolve(dataUrl); };
-        img.src = dataUrl;
-    });
-}
-
-function initPhotoWall() {
-    const form = document.getElementById('photo-upload-form');
-    const input = document.getElementById('photo-input');
-    const grid = document.getElementById('photo-grid');
-    const captionInput = document.getElementById('photo-caption');
-    const uploaderInput = document.getElementById('photo-uploader');
-
-    if (!form || !input || !grid) return;
-
-    let photos = Store.get('tripPhotos', []);
-
-    // Photo count indicator
-    var countEl = document.createElement('div');
-    countEl.className = 'photo-count-info';
-    form.parentNode.insertBefore(countEl, form.nextSibling);
-
-    function updatePhotoCount() {
-        var n = photos.length;
-        countEl.textContent = n + ' / 10 photos';
-        countEl.classList.toggle('photo-count-warn', n >= 8);
-        if (input) input.disabled = n >= 10;
-        var uploadBtn = form.querySelector('label, button[type="submit"]');
-        if (uploadBtn) uploadBtn.classList.toggle('disabled', n >= 10);
-    }
-
-    // Render saved photos
-    if (photos.length > 0) {
-        grid.innerHTML = '';
-        photos.forEach(p => addPhotoToGrid(p));
-    }
-    updatePhotoCount();
-
-    input.addEventListener('change', function(e) {
-        const files = Array.from(e.target.files);
-
-        files.forEach(file => {
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                // Compress to max 800px, JPEG quality 0.6 (~50-80KB per photo)
-                compressPhoto(event.target.result, 800, 0.6).then(function(compressed) {
-                    const caption = captionInput ? captionInput.value.trim() : '';
-                    const uploader = uploaderInput && uploaderInput.value.trim()
-                        ? uploaderInput.value.trim()
-                        : 'Anonymous';
-
-                    const photo = {
-                        id: Date.now().toString() + Math.random(),
-                        data: compressed,
-                        caption,
-                        uploader,
-                        timestamp: Date.now()
-                    };
-
-                    photos.push(photo);
-
-                    // Only keep last 10 photos in localStorage (size limit)
-                    if (photos.length > 10) {
-                        photos = photos.slice(-10);
-                    }
-
-                    Store.set('tripPhotos', photos);
-
-                    // Clear placeholder if exists
-                    const placeholder = grid.querySelector('.photo-placeholder');
-                    if (placeholder) {
-                        grid.innerHTML = '';
-                    }
-
-                    addPhotoToGrid(photo);
-                    updatePhotoCount();
-                });
-            };
-            reader.readAsDataURL(file);
-        });
-
-        // Reset inputs
-        input.value = '';
-        if (captionInput) captionInput.value = '';
-    });
-
-    function addPhotoToGrid(photo) {
-        const item = document.createElement('div');
-        item.className = 'photo-item';
-        item.innerHTML = `
-            <img src="${photo.data}" alt="Trip photo">
-            <div class="photo-item-caption">
-                ${photo.caption ? `<p>${escapeHtml(photo.caption)}</p>` : ''}
-                <span>📸 ${escapeHtml(photo.uploader)}</span>
-            </div>
-        `;
-
-        // WhatsApp share button
-        const shareText = photo.caption
-            ? 'Check out this photo from Joe\'s 30th: "' + photo.caption + '" - ' + photo.uploader
-            : 'Check out this photo from Joe\'s 30th! - ' + photo.uploader;
-        item.appendChild(createWhatsAppBtn(shareText));
-
-        // Click to view in lightbox
-        item.addEventListener('click', function() {
-            const lightbox = document.getElementById('lightbox');
-            if (lightbox) {
-                lightbox.querySelector('.lightbox-image').src = photo.data;
-                lightbox.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
-        });
-
-        grid.appendChild(item);
-    }
-}
-
-/* ============================================
-   Lightbox Close Handler
-   ============================================ */
-function initLightbox() {
-    const lightbox = document.getElementById('lightbox');
-    if (!lightbox) return;
-
-    const closeBtn = lightbox.querySelector('.lightbox-close');
-    if (!closeBtn) return;
-
-    closeBtn.addEventListener('click', function() {
-        lightbox.classList.remove('active');
-        document.body.style.overflow = '';
-    });
-
-    lightbox.addEventListener('click', function(e) {
-        if (e.target === lightbox) {
-            lightbox.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-    });
-}
-
-/* REMOVED: 12 orphaned features (QuoteWall, Predictions, TimeCapsule,
-   CostumeContest, PhotoChallenge, Yearbook, ThisDayInHistory,
-   SpeechSignups, MemoryMap, RoastBuilder, TeamChat, MemoryTimeline)
-   — None had HTML containers or were initialised. ~1,150 lines deleted. */
-
-/* DO NOT PASTE BACK: if you want any of these features, rebuild properly
-   with HTML containers and add init calls to DOMContentLoaded. */
-
-/* ============================================
    Initialize All Social Features
    ============================================ */
 document.addEventListener('DOMContentLoaded', function() {
     initProfiles();
     initBirthdayMessages();
-    initSuperlatives();
-    initMusicRequests();
-    initPhotoWall();
-    initLightbox();
 });

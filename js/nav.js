@@ -19,12 +19,20 @@ function initNavigation() {
         this.classList.toggle('active');
     });
 
-    // Close mobile menu when clicking a link
-    navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
+    // Close mobile menu when clicking a link or button
+    navLinks.querySelectorAll('a, button').forEach(el => {
+        el.addEventListener('click', () => {
             navLinks.classList.remove('active');
             navToggle.classList.remove('active');
         });
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function (e) {
+        if (navLinks.classList.contains('active') && !navLinks.contains(e.target) && !navToggle.contains(e.target)) {
+            navLinks.classList.remove('active');
+            navToggle.classList.remove('active');
+        }
     });
 
     // Smooth scroll for in-page anchor links
@@ -61,6 +69,7 @@ function highlightCurrentPage() {
     const path = window.location.pathname;
     const links = document.querySelectorAll('.nav-links a[data-page]');
 
+    links.forEach(link => link.classList.remove('active'));
     links.forEach(link => {
         const page = link.getAttribute('data-page');
         if (path.endsWith(page) || (page === 'index.html' && (path.endsWith('/') || path === ''))) {
