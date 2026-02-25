@@ -13,6 +13,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     initQuiz();
     initBingo();
+    initSpinWheel();
     initChallenges();
     initLeaderboard();
     initDailyChallengeReveal();
