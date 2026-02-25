@@ -2,6 +2,506 @@
    Schedule Page Styles
    ============================================ */
 
+/* ============================================
+   Envelope Opening Animation
+   ============================================ */
+
+/* ---- Overlay ---- */
+.envelope-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10500;
+    background: var(--bg-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 0.6s ease;
+    overflow: hidden;
+}
+
+.envelope-overlay.envelope-done {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.envelope-overlay.envelope-hidden {
+    display: none;
+}
+
+/* ---- 3D Scene ---- */
+.envelope-scene {
+    perspective: 1200px;
+    perspective-origin: 50% 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/* ---- Skip Button ---- */
+.envelope-skip {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 22px;
+    border: 2px solid var(--text-light);
+    background: transparent;
+    color: var(--text-light);
+    border-radius: var(--radius-pill, 50px);
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    z-index: 10501;
+    transition: all 0.3s ease;
+    opacity: 0;
+    animation: envelopeSkipFadeIn 0.5s ease 1.5s forwards;
+}
+
+.envelope-skip:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: rgba(124, 58, 237, 0.06);
+}
+
+.envelope-skip:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.envelope-skip-arrow {
+    display: inline-block;
+    transition: transform 0.2s ease;
+}
+
+.envelope-skip:hover .envelope-skip-arrow {
+    transform: translateX(3px);
+}
+
+@keyframes envelopeSkipFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ---- Envelope Container ---- */
+.envelope {
+    position: relative;
+    width: 380px;
+    height: 260px;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease;
+}
+
+.envelope:hover {
+    transform: translateY(-4px);
+}
+
+/* ---- Envelope Back ---- */
+.envelope-back {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(145deg, #d4a76a 0%, #c49456 40%, #b8854a 100%);
+    border-radius: 8px;
+    box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.2),
+        0 2px 8px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Paper texture */
+.envelope-back::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 8px;
+    background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+}
+
+/* Dashed inner border */
+.envelope-back::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border-radius: 6px;
+    border: 1px dashed rgba(160, 100, 40, 0.2);
+    pointer-events: none;
+}
+
+/* ---- Envelope Flap ---- */
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 130px;
+    transform-origin: bottom center;
+    transform: rotateX(0deg);
+    transition: transform 1s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: 3;
+}
+
+.envelope-flap-inner {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, #c49456 0%, #d4a76a 100%);
+    clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+    position: relative;
+}
+
+/* Flap crease */
+.envelope-flap-inner::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.08);
+}
+
+/* Flap open */
+.envelope.flap-opening .envelope-flap {
+    transform: rotateX(-180deg);
+    transition: transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* ---- Wax Seal ---- */
+.envelope-seal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%,
+        #c0392b 0%, #a93226 30%, #922b21 60%, #7b241c 100%
+    );
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.3),
+        inset 0 2px 4px rgba(255, 255, 255, 0.15),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s ease;
+}
+
+/* Seal ridged border */
+.envelope-seal::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 3px solid rgba(192, 57, 43, 0.4);
+}
+
+.seal-text {
+    font-family: 'Pacifico', cursive;
+    font-size: 1.6rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    line-height: 1;
+}
+
+/* Seal crack animation */
+.envelope.seal-cracking .envelope-seal {
+    animation: sealCrack 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes sealCrack {
+    0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
+    30% { transform: translate(-50%, -50%) scale(1.15) rotate(-5deg); }
+    60% { transform: translate(-50%, -50%) scale(1.1) rotate(3deg); opacity: 0.8; }
+    100% { transform: translate(-50%, -50%) scale(0.8) rotate(-10deg); opacity: 0; }
+}
+
+/* ---- The Letter ---- */
+.envelope-letter {
+    position: absolute;
+    left: 15px;
+    right: 15px;
+    bottom: 10px;
+    top: 40px;
+    background: #fefcf7;
+    border-radius: 4px;
+    z-index: 2;
+    transform: translateY(0);
+    transition: transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.envelope.letter-rising .envelope-letter {
+    transform: translateY(-180px);
+    transition: transform 1.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.letter-content {
+    padding: 30px 24px 20px;
+    text-align: center;
+    color: #4a3c2e;
+}
+
+.letter-fleur {
+    display: block;
+    font-size: 1.4rem;
+    color: #b8854a;
+    margin-bottom: 8px;
+}
+
+.letter-title {
+    font-family: 'Pacifico', cursive;
+    font-size: 1.5rem;
+    color: #5b3a1a;
+    margin: 0 0 6px;
+    letter-spacing: 0.5px;
+}
+
+.letter-subtitle {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #8b7355;
+    margin: 0 0 2px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.letter-date {
+    font-size: 0.8rem;
+    color: #a89070;
+    margin: 0 0 14px;
+    font-weight: 500;
+}
+
+.letter-decoration {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 auto 14px;
+    max-width: 220px;
+}
+
+.letter-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #c4a87a, transparent);
+}
+
+.letter-ornament {
+    font-size: 1.2rem;
+}
+
+.letter-message {
+    font-size: 0.95rem;
+    font-style: italic;
+    color: #7a6950;
+    margin: 0 0 16px;
+    line-height: 1.5;
+}
+
+.letter-cta {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #b8854a;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    animation: ctaPulse 2s ease-in-out infinite;
+}
+
+@keyframes ctaPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* ---- Front Pocket ---- */
+.envelope-front {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 130px;
+    background: linear-gradient(0deg, #c49456 0%, #d4a76a 100%);
+    clip-path: polygon(0% 0%, 50% 50%, 100% 0%, 100% 100%, 0% 100%);
+    border-radius: 0 0 8px 8px;
+    z-index: 5;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* ---- Entrance Animation ---- */
+.envelope-overlay.envelope-entering .envelope {
+    animation: envelopeEntrance 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes envelopeEntrance {
+    0% { opacity: 0; transform: translateY(40px) scale(0.9); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ---- Page Content: hidden during animation ---- */
+body.envelope-active .page-header,
+body.envelope-active .sub-nav,
+body.envelope-active .section,
+body.envelope-active .footer,
+body.envelope-active .theme-switcher,
+body.envelope-active .confetti-cannon {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s;
+}
+
+body.envelope-revealed .page-header,
+body.envelope-revealed .sub-nav,
+body.envelope-revealed .section,
+body.envelope-revealed .footer,
+body.envelope-revealed .theme-switcher,
+body.envelope-revealed .confetti-cannon {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ---- Confetti Burst ---- */
+.envelope-confetti {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10499;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.envelope-confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    animation: confettiFall 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    opacity: 0;
+}
+
+@keyframes confettiFall {
+    0% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
+    100% { opacity: 0; transform: translateY(100vh) rotate(720deg) scale(0.3); }
+}
+
+/* ---- Dark Mode ---- */
+body.dark-mode .envelope-overlay {
+    background: var(--bg-light);
+}
+
+body.dark-mode .envelope-back {
+    background: linear-gradient(145deg, #8b6914 0%, #6d5210 40%, #5a430d 100%);
+}
+
+body.dark-mode .envelope-flap-inner {
+    background: linear-gradient(180deg, #6d5210 0%, #8b6914 100%);
+}
+
+body.dark-mode .envelope-front {
+    background: linear-gradient(0deg, #6d5210 0%, #8b6914 100%);
+}
+
+body.dark-mode .envelope-letter {
+    background: #2a2540;
+}
+
+body.dark-mode .letter-content {
+    color: #d4c8b0;
+}
+
+body.dark-mode .letter-title {
+    color: #e8d5b7;
+}
+
+body.dark-mode .letter-subtitle,
+body.dark-mode .letter-date {
+    color: #a89070;
+}
+
+body.dark-mode .letter-message {
+    color: #c4b090;
+}
+
+body.dark-mode .letter-cta {
+    color: #d4a76a;
+}
+
+body.dark-mode .letter-line {
+    background: linear-gradient(90deg, transparent, #6d5210, transparent);
+}
+
+body.dark-mode .envelope-seal {
+    background: radial-gradient(circle at 35% 35%,
+        #992220 0%, #8b1a18 30%, #7a1614 60%, #6b1210 100%
+    );
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 480px) {
+    .envelope {
+        width: 300px;
+        height: 210px;
+    }
+    .envelope-flap { height: 105px; }
+    .envelope-front { height: 105px; }
+    .envelope-seal { width: 52px; height: 52px; }
+    .seal-text { font-size: 1.3rem; }
+    .letter-title { font-size: 1.25rem; }
+    .letter-content { padding: 20px 16px 14px; }
+    .letter-subtitle { font-size: 0.75rem; }
+    .envelope-letter { left: 12px; right: 12px; }
+    .envelope.letter-rising .envelope-letter {
+        transform: translateY(-140px);
+    }
+    .envelope-skip {
+        top: 14px;
+        right: 14px;
+        padding: 8px 16px;
+        font-size: 0.8rem;
+        min-height: 44px;
+    }
+}
+
+@media (max-width: 360px) {
+    .envelope { width: 260px; height: 185px; }
+    .envelope-flap { height: 92px; }
+    .envelope-front { height: 92px; }
+    .envelope.letter-rising .envelope-letter {
+        transform: translateY(-120px);
+    }
+}
+
+/* ---- Reduced Motion ---- */
+@media (prefers-reduced-motion: reduce) {
+    .envelope-overlay { transition: none; }
+    .envelope-overlay.envelope-entering .envelope { animation: none; opacity: 1; }
+    .envelope-flap, .envelope-letter { transition: none !important; }
+    .envelope-seal { transition: none !important; }
+    .envelope.seal-cracking .envelope-seal { animation: none; opacity: 0; }
+    .letter-cta { animation: none; opacity: 1; }
+    .envelope-skip { animation: none; opacity: 1; }
+    .envelope-confetti-piece { animation: none; display: none; }
+    body.envelope-active .page-header,
+    body.envelope-active .sub-nav,
+    body.envelope-active .section,
+    body.envelope-active .footer,
+    body.envelope-active .theme-switcher,
+    body.envelope-active .confetti-cannon { transition: none; }
+}
+
+/* ============================================
+   End Envelope Animation
+   ============================================ */
+
 /* ---- Time Buckets ---- */
 .time-bucket {
     margin-bottom: 6px;

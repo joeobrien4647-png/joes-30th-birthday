@@ -8,12 +8,48 @@
     <link rel="stylesheet" href="css/base.css?v=8">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/nav.css">
-    <link rel="stylesheet" href="css/schedule.css?v=19">
+    <link rel="stylesheet" href="css/schedule.css?v=20">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Envelope Animation Overlay -->
+    <div id="envelope-overlay" class="envelope-overlay" role="dialog" aria-label="Opening your itinerary" aria-modal="true">
+        <div class="envelope-scene">
+            <button class="envelope-skip" id="envelope-skip" aria-label="Skip animation">
+                Skip <span class="envelope-skip-arrow">&rarr;</span>
+            </button>
+            <div class="envelope" id="envelope">
+                <div class="envelope-back"></div>
+                <div class="envelope-flap" id="envelope-flap">
+                    <div class="envelope-flap-inner"></div>
+                </div>
+                <div class="envelope-seal" id="envelope-seal">
+                    <span class="seal-text">30</span>
+                </div>
+                <div class="envelope-letter" id="envelope-letter">
+                    <div class="letter-content">
+                        <div class="letter-header">
+                            <span class="letter-fleur" aria-hidden="true">&#9884;</span>
+                            <h2 class="letter-title">Your Itinerary</h2>
+                            <p class="letter-subtitle">Ch&acirc;teau Roussignol &middot; Loire Valley</p>
+                            <p class="letter-date">29 April &ndash; 4 May 2026</p>
+                        </div>
+                        <div class="letter-decoration">
+                            <div class="letter-line"></div>
+                            <span class="letter-ornament" aria-hidden="true">&#127874;</span>
+                            <div class="letter-line"></div>
+                        </div>
+                        <p class="letter-message">6 days of adventure, food, and fun await&hellip;</p>
+                        <p class="letter-cta">Tap to open</p>
+                    </div>
+                </div>
+                <div class="envelope-front"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- Confetti Canvas -->
     <canvas id="confetti-canvas"></canvas>
 
@@ -1006,6 +1042,6 @@
 
     <script src="js/shared.js?v=7"></script>
     <script src="js/nav.js"></script>
-    <script src="js/schedule.js?v=17"></script>
+    <script src="js/schedule.js?v=18"></script>
 </body>
 </html>

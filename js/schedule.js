@@ -1667,8 +1667,141 @@ function initScrollSpy() {
     onScroll();
 }
 
+/* ============================================
+   Envelope Opening Animation
+   ============================================ */
+function initEnvelopeAnimation() {
+    var overlay = document.getElementById('envelope-overlay');
+    if (!overlay) return;
+
+    // Only play once per session
+    var SEEN_KEY = 'envelope_seen';
+    if (sessionStorage.getItem(SEEN_KEY)) {
+        overlay.classList.add('envelope-hidden');
+        return;
+    }
+
+    // Reduced motion: skip entirely
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        sessionStorage.setItem(SEEN_KEY, 'true');
+        overlay.classList.add('envelope-hidden');
+        return;
+    }
+
+    // Lock scroll and hide page content
+    document.body.classList.add('envelope-active', 'modal-open');
+
+    var envelope = document.getElementById('envelope');
+    var skipBtn = document.getElementById('envelope-skip');
+    var opened = false;
+
+    // Entrance animation
+    overlay.classList.add('envelope-entering');
+
+    // Open sequence
+    function openEnvelope() {
+        if (opened) return;
+        opened = true;
+
+        // Phase 1: Seal cracks
+        envelope.classList.add('seal-cracking');
+
+        // Phase 2: Flap opens (400ms delay)
+        setTimeout(function() {
+            envelope.classList.add('flap-opening');
+        }, 400);
+
+        // Phase 3: Letter rises (1000ms)
+        setTimeout(function() {
+            envelope.classList.add('letter-rising');
+        }, 1000);
+
+        // Phase 4: Confetti burst (1400ms)
+        setTimeout(function() {
+            spawnEnvelopeConfetti();
+        }, 1400);
+
+        // Phase 5: Reveal page (2200ms)
+        setTimeout(function() {
+            revealPage();
+        }, 2200);
+    }
+
+    function skipAnimation() {
+        if (opened) return;
+        opened = true;
+        revealPage();
+    }
+
+    function revealPage() {
+        sessionStorage.setItem(SEEN_KEY, 'true');
+        overlay.classList.add('envelope-done');
+        document.body.classList.add('envelope-revealed');
+        document.body.classList.remove('modal-open');
+
+        setTimeout(function() {
+            overlay.remove();
+            document.body.classList.remove('envelope-active');
+            if (typeof triggerMiniConfetti === 'function') {
+                triggerMiniConfetti();
+            }
+        }, 700);
+    }
+
+    function spawnEnvelopeConfetti() {
+        var container = document.createElement('div');
+        container.className = 'envelope-confetti';
+        var colors = ['#FF6B9D', '#7C3AED', '#FFD93D', '#6BCB77', '#4ECDC4', '#FF6B6B', '#d4a76a', '#c0392b'];
+        for (var i = 0; i < 40; i++) {
+            var piece = document.createElement('div');
+            piece.className = 'envelope-confetti-piece';
+            piece.style.left = (50 + (Math.random() - 0.5) * 30) + 'vw';
+            piece.style.top = (40 + (Math.random() - 0.5) * 20) + 'vh';
+            piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            piece.style.animationDelay = (Math.random() * 0.5) + 's';
+            piece.style.animationDuration = (1.5 + Math.random() * 1.5) + 's';
+            piece.style.width = (6 + Math.random() * 8) + 'px';
+            piece.style.height = (6 + Math.random() * 8) + 'px';
+            piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+            container.appendChild(piece);
+        }
+        document.body.appendChild(container);
+        setTimeout(function() { container.remove(); }, 4000);
+    }
+
+    // Event listeners
+    envelope.addEventListener('click', openEnvelope);
+    envelope.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openEnvelope();
+        }
+    });
+    envelope.setAttribute('tabindex', '0');
+    envelope.setAttribute('role', 'button');
+    envelope.setAttribute('aria-label', 'Open your itinerary envelope');
+
+    skipBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        skipAnimation();
+    });
+
+    // ESC to skip
+    function handleEsc(e) {
+        if (e.key === 'Escape') {
+            skipAnimation();
+            document.removeEventListener('keydown', handleEsc);
+        }
+    }
+    document.addEventListener('keydown', handleEsc);
+
+    // Focus envelope for keyboard users
+    setTimeout(function() { envelope.focus(); }, 1100);
+}
+
 /* ---- Initialize on page load ---- */
 document.addEventListener('DOMContentLoaded', function() {
+    initEnvelopeAnimation();
     initAgendaTabs();
     initSecretAgenda();
     initAgendaSwipe();
