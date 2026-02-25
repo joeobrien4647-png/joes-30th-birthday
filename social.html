@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="css/base.css?v=9">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/nav.css">
-    <link rel="stylesheet" href="css/social.css?v=14">
+    <link rel="stylesheet" href="css/social.css?v=15">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -372,7 +372,8 @@
             <form class="message-form" id="message-form">
                 <div class="message-form-row">
                     <input type="text" id="message-name" placeholder="Your name" required>
-                    <textarea id="message-text" placeholder="Write your birthday message..." rows="3" required></textarea>
+                    <textarea id="message-text" placeholder="Write your birthday message..." rows="3" maxlength="500" required></textarea>
+                    <span class="char-count" id="message-char-count">0 / 500</span>
                 </div>
                 <button type="submit" class="btn btn-primary">Post Message</button>
             </form>
@@ -443,6 +444,6 @@
 
     <script src="js/shared.js?v=8"></script>
     <script src="js/nav.js"></script>
-    <script src="js/social.js?v=12"></script>
+    <script src="js/social.js?v=13"></script>
 </body>
 </html>

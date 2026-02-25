@@ -5,12 +5,24 @@
    Uses Store.get / Store.set from shared.js.
    ============================================ */
 
+/* Time Ago Helper */
+function timeAgo(ts) {
+    if (!ts) return '';
+    var diff = Math.floor((Date.now() - ts) / 1000);
+    if (diff < 60) return 'just now';
+    if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+    if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
+    if (diff < 604800) return Math.floor(diff / 86400) + 'd ago';
+    return new Date(ts).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+}
+
 /* ============================================
    Profile Modal — dynamically created overlay
    Bypasses all CSS by building the modal from scratch.
    ============================================ */
 function initProfiles() {
     var activeOverlay = null;
+    var previousFocus = null;
 
     function slugify(name) {
         return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
@@ -18,6 +30,7 @@ function initProfiles() {
 
     function openProfile(data) {
         if (activeOverlay) closeProfile();
+        previousFocus = document.activeElement;
 
         // Build overlay from scratch — no dependency on HTML modal element
         var overlay = document.createElement('div');
@@ -139,6 +152,23 @@ function initProfiles() {
         document.body.appendChild(overlay);
         document.body.style.overflow = 'hidden';
         activeOverlay = overlay;
+
+        // Focus the close button and trap focus inside modal
+        closeBtn.focus();
+        overlay.addEventListener('keydown', function(e) {
+            if (e.key !== 'Tab') return;
+            var focusable = overlay.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+            if (focusable.length === 0) return;
+            var first = focusable[0];
+            var last = focusable[focusable.length - 1];
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
+        });
     }
 
     function closeProfile() {
@@ -147,6 +177,7 @@ function initProfiles() {
             activeOverlay = null;
         }
         document.body.style.overflow = '';
+        if (previousFocus) { try { previousFocus.focus(); } catch(e) {} previousFocus = null; }
     }
 
     // Handle guest avatar images — hide broken, show on load
@@ -246,6 +277,18 @@ function initBirthdayMessages() {
         }
     });
 
+    // Character counter
+    var textInput = document.getElementById('message-text');
+    var charCount = document.getElementById('message-char-count');
+    if (textInput && charCount) {
+        textInput.addEventListener('input', function() {
+            var len = this.value.length;
+            var max = this.maxLength || 500;
+            charCount.textContent = len + ' / ' + max;
+            charCount.classList.toggle('char-count-warn', len > max * 0.9);
+        });
+    }
+
     function getMessageId(message) {
         return message.id || ('msg_' + message.timestamp);
     }
@@ -266,7 +309,7 @@ function initBirthdayMessages() {
         }).join('');
 
         card.innerHTML = `
-            <div class="message-author">${escapeHtml(message.name)}</div>
+            <div class="message-author">${escapeHtml(message.name)}<span class="timestamp">${timeAgo(message.timestamp)}</span></div>
             <p>${escapeHtml(message.text)}</p>
             <div class="emoji-reactions">${reactionsHtml}</div>
         `;
@@ -400,6 +443,7 @@ function initMemoryTimeline() {
             <div class="memory-content">
                 <p>"${escapeHtml(mem.text)}"</p>
                 <span class="memory-author">- ${escapeHtml(mem.author)}</span>
+                <span class="timestamp">${timeAgo(mem.timestamp)}</span>
             </div>
         `;
         timeline.appendChild(item);
@@ -557,7 +601,7 @@ function initMusicRequests() {
                     '<span class="song-artist">' + escapeHtml(song.artist) + '</span>' +
                     (song.genre ? '<span class="song-genre-tag">' + escapeHtml(song.genre) + '</span>' : '') +
                 '</div>' +
-                '<span class="song-requester">' + escapeHtml(song.requester) + '</span>' +
+                '<span class="song-requester">' + escapeHtml(song.requester) + '<span class="timestamp">' + timeAgo(song.timestamp) + '</span></span>' +
                 '<div class="vote-controls">' +
                     '<button class="vote-btn vote-up' + (userVote === 'up' ? ' voted' : '') + '" data-song="' + song.id + '" data-dir="up">&#9650; ' + (v.up || 0) + '</button>' +
                     '<span class="vote-net">' + net + '</span>' +
@@ -619,11 +663,26 @@ function initPhotoWall() {
 
     let photos = Store.get('tripPhotos', []);
 
+    // Photo count indicator
+    var countEl = document.createElement('div');
+    countEl.className = 'photo-count-info';
+    form.parentNode.insertBefore(countEl, form.nextSibling);
+
+    function updatePhotoCount() {
+        var n = photos.length;
+        countEl.textContent = n + ' / 20 photos';
+        countEl.classList.toggle('photo-count-warn', n >= 18);
+        if (input) input.disabled = n >= 20;
+        var uploadBtn = form.querySelector('label, button[type="submit"]');
+        if (uploadBtn) uploadBtn.classList.toggle('disabled', n >= 20);
+    }
+
     // Render saved photos
     if (photos.length > 0) {
         grid.innerHTML = '';
         photos.forEach(p => addPhotoToGrid(p));
     }
+    updatePhotoCount();
 
     input.addEventListener('change', function(e) {
         const files = Array.from(e.target.files);
@@ -660,6 +719,7 @@ function initPhotoWall() {
                 }
 
                 addPhotoToGrid(photo);
+                updatePhotoCount();
             };
             reader.readAsDataURL(file);
         });

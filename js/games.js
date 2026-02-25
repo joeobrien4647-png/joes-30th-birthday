@@ -351,10 +351,12 @@ function initBingo() {
     renderCard();
     if (resetBtn) {
         resetBtn.addEventListener('click', function() {
-            markedCells = [12];
-            Store.set(storeKey, markedCells);
-            renderCard();
-            if (winnerDisplay) winnerDisplay.style.display = 'none';
+            confirmAction('Reset your bingo card? Your progress will be lost.', function() {
+                markedCells = [12];
+                Store.set(storeKey, markedCells);
+                renderCard();
+                if (winnerDisplay) winnerDisplay.style.display = 'none';
+            });
         });
     }
 
