@@ -160,18 +160,18 @@
     background: rgba(0, 0, 0, 0.1);
 }
 
-/* Flap open: folds backward */
+/* Flap open: folds backward (away from viewer) */
 .envelope.flap-opening .envelope-flap {
-    transform: rotateX(180deg);
+    transform: rotateX(-180deg);
     transition: transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-/* ---- Wax Seal (centered on the flap tip) ---- */
+/* ---- Wax Seal (centered on envelope face) ---- */
 .envelope-seal {
     position: absolute;
-    bottom: 6px;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     width: 64px;
     height: 64px;
     border-radius: 50%;
@@ -212,10 +212,10 @@
 }
 
 @keyframes sealCrack {
-    0% { transform: translateX(-50%) scale(1) rotate(0deg); opacity: 1; }
-    30% { transform: translateX(-50%) scale(1.15) rotate(-5deg); }
-    60% { transform: translateX(-50%) scale(1.1) rotate(3deg); opacity: 0.8; }
-    100% { transform: translateX(-50%) scale(0.8) rotate(-10deg); opacity: 0; }
+    0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
+    30% { transform: translate(-50%, -50%) scale(1.15) rotate(-5deg); }
+    60% { transform: translate(-50%, -50%) scale(1.1) rotate(3deg); opacity: 0.8; }
+    100% { transform: translate(-50%, -50%) scale(0.8) rotate(-10deg); opacity: 0; }
 }
 
 /* ---- The Letter ---- */
