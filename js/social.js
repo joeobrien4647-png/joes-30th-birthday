@@ -32,34 +32,27 @@ function initProfiles() {
         if (activeOverlay) closeProfile();
         previousFocus = document.activeElement;
 
-        // Build overlay from scratch — no dependency on HTML modal element
         var overlay = document.createElement('div');
-        overlay.id = 'profile-overlay-dynamic';
-        overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box;backdrop-filter:blur(5px);';
+        overlay.className = 'profile-overlay';
 
         var card = document.createElement('div');
-        card.style.cssText = 'background:#fff;border-radius:25px;max-width:450px;width:100%;max-height:90vh;overflow-y:auto;position:relative;animation:profilePop 0.3s ease;';
+        card.className = 'profile-card';
 
-        // Close button
         var closeBtn = document.createElement('button');
+        closeBtn.className = 'profile-close';
         closeBtn.innerHTML = '&times;';
-        closeBtn.style.cssText = 'position:absolute;top:12px;right:16px;background:none;border:none;font-size:2rem;cursor:pointer;color:#666;z-index:2;line-height:1;';
         closeBtn.addEventListener('click', function (e) { e.stopPropagation(); closeProfile(); });
         card.appendChild(closeBtn);
 
-        // Header
         var header = document.createElement('div');
-        header.style.cssText = 'display:flex;align-items:center;gap:15px;padding:30px 25px 15px;';
+        header.className = 'profile-header';
 
         var avatar = document.createElement('div');
         var isBirthday = data.birthday === 'true';
-        avatar.style.cssText = 'width:70px;height:70px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:1.3rem;flex-shrink:0;overflow:hidden;' +
-            (isBirthday ? 'background:#ffd93d;color:#1a1a2e;box-shadow:0 0 20px rgba(255,217,61,0.5);' : 'background:linear-gradient(135deg,#667eea,#764ba2);');
+        avatar.className = 'profile-avatar' + (isBirthday ? ' birthday' : '');
 
-        // Try to show photo, fallback to initials
         var photoPath = 'images/guests/' + slugify(data.name) + '.jpg';
         var avatarImg = document.createElement('img');
-        avatarImg.style.cssText = 'width:100%;height:100%;object-fit:cover;display:none;';
         avatarImg.addEventListener('load', function () { this.style.display = 'block'; avatarInitials.style.display = 'none'; });
         avatarImg.addEventListener('error', function () { this.style.display = 'none'; });
         avatarImg.src = photoPath;
@@ -70,11 +63,11 @@ function initProfiles() {
 
         var titleDiv = document.createElement('div');
         var nameEl = document.createElement('h2');
+        nameEl.className = 'profile-name';
         nameEl.textContent = data.name || '';
-        nameEl.style.cssText = 'margin:0;font-size:1.4rem;color:#1a1a2e;';
         var roomEl = document.createElement('p');
+        roomEl.className = 'profile-room';
         roomEl.textContent = data.room || '';
-        roomEl.style.cssText = 'margin:4px 0 0;font-size:0.9rem;color:#888;';
         titleDiv.appendChild(nameEl);
         titleDiv.appendChild(roomEl);
 
@@ -82,19 +75,18 @@ function initProfiles() {
         header.appendChild(titleDiv);
         card.appendChild(header);
 
-        // Video container
         var videoWrap = document.createElement('div');
-        videoWrap.style.cssText = 'display:none;margin:0 20px;border-radius:15px;overflow:hidden;background:#000;position:relative;';
+        videoWrap.className = 'profile-video-wrap';
 
         var videoEl = document.createElement('video');
+        videoEl.className = 'profile-video';
         videoEl.setAttribute('playsinline', '');
         videoEl.muted = true;
         videoEl.loop = true;
-        videoEl.style.cssText = 'width:100%;max-height:320px;object-fit:cover;display:block;';
 
         var soundBtn = document.createElement('button');
+        soundBtn.className = 'profile-video-sound';
         soundBtn.textContent = '\uD83D\uDD07';
-        soundBtn.style.cssText = 'position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.6);border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1.2rem;color:#fff;';
         soundBtn.addEventListener('click', function (e) {
             e.stopPropagation();
             videoEl.muted = !videoEl.muted;
@@ -105,7 +97,6 @@ function initProfiles() {
         videoWrap.appendChild(soundBtn);
         card.appendChild(videoWrap);
 
-        // Try to load video
         var slug = slugify(data.name);
         var videoPath = data.video || ('videos/' + slug + '.mp4');
         videoEl.oncanplay = function () {
@@ -116,9 +107,8 @@ function initProfiles() {
         videoEl.onerror = function () { videoEl.onerror = null; };
         videoEl.src = videoPath;
 
-        // Info fields
         var body = document.createElement('div');
-        body.style.cssText = 'padding:20px 25px 30px;';
+        body.className = 'profile-body';
 
         var fields = [
             ['Superlative', data.superlative],
@@ -129,13 +119,13 @@ function initProfiles() {
         fields.forEach(function (f) {
             if (!f[1]) return;
             var field = document.createElement('div');
-            field.style.cssText = 'margin-bottom:15px;';
+            field.className = 'profile-field';
             var label = document.createElement('span');
+            label.className = 'profile-label';
             label.textContent = f[0];
-            label.style.cssText = 'display:block;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;color:#888;margin-bottom:4px;font-weight:600;';
             var value = document.createElement('p');
+            value.className = 'profile-value';
             value.textContent = f[1];
-            value.style.cssText = 'margin:0;color:#333;font-size:0.95rem;line-height:1.5;';
             field.appendChild(label);
             field.appendChild(value);
             body.appendChild(field);

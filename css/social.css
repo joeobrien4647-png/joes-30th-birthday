@@ -179,26 +179,23 @@
 /* ============================================
    Profile Modal
    ============================================ */
-.profile-modal {
-    display: none;
+.profile-overlay {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(5px);
-    z-index: 1001;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 99999;
+    display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
+    box-sizing: border-box;
+    backdrop-filter: blur(5px);
 }
 
-.profile-modal.active {
-    display: flex;
-}
-
-.profile-modal-content {
+.profile-card {
     background: var(--bg-white);
     border-radius: 25px;
     max-width: 450px;
@@ -222,80 +219,78 @@
 
 .profile-close {
     position: absolute;
-    top: 15px;
-    right: 15px;
-    background: var(--bg-light);
+    top: 12px;
+    right: 16px;
+    background: none;
     border: none;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    font-size: 1.5rem;
+    font-size: 2rem;
     cursor: pointer;
-    transition: var(--transition-fast);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
+    color: var(--text-muted, #666);
+    z-index: 2;
+    line-height: 1;
 }
 
 .profile-close:hover {
-    background: var(--primary);
-    color: var(--text-white);
+    color: var(--primary);
 }
 
 .profile-header {
-    background: var(--gradient-primary);
-    padding: 40px 30px 30px;
-    text-align: center;
-    border-radius: 25px 25px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 30px 25px 15px;
 }
 
 .profile-avatar {
-    width: 100px;
-    height: 100px;
-    background: var(--bg-white);
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
     font-weight: 700;
-    color: var(--primary);
-    margin: 0 auto 15px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    overflow: hidden;
+    background: linear-gradient(135deg, #667eea, #764ba2);
 }
 
 .profile-avatar.birthday {
-    background: var(--accent);
-    color: var(--text-dark);
-    animation: pulse 2s infinite;
+    background: #ffd93d;
+    color: #1a1a2e;
+    box-shadow: 0 0 20px rgba(255, 217, 61, 0.5);
 }
 
-.profile-title h2 {
-    color: var(--text-white);
-    font-size: 1.8rem;
-    margin-bottom: 5px;
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+}
+
+.profile-name {
+    margin: 0;
+    font-size: 1.4rem;
+    color: var(--text-dark);
 }
 
 .profile-room {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 1rem;
+    margin: 4px 0 0;
+    font-size: 0.9rem;
+    color: var(--text-muted, #888);
 }
 
 .profile-body {
-    padding: 25px 30px 30px;
+    padding: 20px 25px 30px;
 }
 
 .profile-field {
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--bg-light);
+    margin-bottom: 15px;
 }
 
 .profile-field:last-child {
     margin-bottom: 0;
-    padding-bottom: 0;
-    border-bottom: none;
 }
 
 .profile-label {
@@ -303,24 +298,28 @@
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: var(--primary);
+    color: var(--text-muted, #888);
+    margin-bottom: 4px;
     font-weight: 600;
-    margin-bottom: 8px;
 }
 
 .profile-value {
-    font-size: 1.1rem;
+    margin: 0;
     color: var(--text-dark);
+    font-size: 0.95rem;
     line-height: 1.5;
 }
 
 /* ============================================
-   Profile Video Showcase (Sky Sports style)
+   Profile Video Showcase
    ============================================ */
 .profile-video-wrap {
-    position: relative;
-    background: #0a0a0a;
+    display: none;
+    margin: 0 20px;
+    border-radius: 15px;
     overflow: hidden;
+    background: #000;
+    position: relative;
 }
 
 .profile-video {
@@ -332,26 +331,41 @@
 
 .profile-video-sound {
     position: absolute;
-    bottom: 12px;
-    right: 12px;
+    bottom: 10px;
+    right: 10px;
     width: 36px;
     height: 36px;
     border-radius: 50%;
     border: none;
     background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
     color: #fff;
-    font-size: 1rem;
+    font-size: 1.2rem;
     cursor: pointer;
-    transition: var(--transition-fast);
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .profile-video-sound:hover {
     background: rgba(255, 107, 157, 0.8);
     transform: scale(1.1);
+}
+
+/* Profile modal dark mode */
+body.dark-mode .profile-card {
+    background: var(--bg-light);
+}
+body.dark-mode .profile-close {
+    color: var(--text-light, #ccc);
+}
+body.dark-mode .profile-name {
+    color: var(--text-light);
+}
+body.dark-mode .profile-room {
+    color: rgba(255, 255, 255, 0.5);
+}
+body.dark-mode .profile-label {
+    color: rgba(255, 255, 255, 0.5);
+}
+body.dark-mode .profile-value {
+    color: var(--text-light);
 }
 
 /* ============================================
@@ -1045,23 +1059,22 @@
     }
 
     /* Profile modal responsive */
-    .profile-modal-content {
+    .profile-card {
         border-radius: 20px;
     }
 
     .profile-header {
-        padding: 30px 20px 25px;
-        border-radius: 20px 20px 0 0;
+        padding: 25px 20px 10px;
     }
 
     .profile-avatar {
-        width: 80px;
-        height: 80px;
-        font-size: 1.5rem;
+        width: 60px;
+        height: 60px;
+        font-size: 1.1rem;
     }
 
-    .profile-title h2 {
-        font-size: 1.5rem;
+    .profile-name {
+        font-size: 1.2rem;
     }
 
     .profile-body {
