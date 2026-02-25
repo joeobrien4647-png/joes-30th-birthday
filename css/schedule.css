@@ -3150,7 +3150,15 @@ body.dark-mode .bucket-time-range {
 /* ============================================================
    Consistent Section Spacing
    ============================================================ */
-#agenda,
+#agenda {
+    padding-top: 70px;
+    padding-bottom: 50px;
+}
+
+#agenda .section-title {
+    margin-bottom: 15px;
+}
+
 #rotas,
 #activity-signups {
     padding-top: 50px;
