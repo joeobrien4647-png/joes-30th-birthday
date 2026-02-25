@@ -316,6 +316,12 @@ const PLAYERS = {
     'Shane': 'team4'
 };
 
+/* Full name lookup: short name → full name (for leaderboard display) */
+const FULL_NAMES = {};
+Object.values(GUEST_DATA).forEach(function(g) {
+    if (g.name && g.fullName) FULL_NAMES[g.name] = g.fullName;
+});
+
 /* Reveal Date — teams & nicknames hidden until arrival night */
 const REVEAL_DATE = new Date('2026-04-29T22:00:00');
 

@@ -847,7 +847,7 @@ function initLeaderboard() {
         if (biggest) {
             highlights.push({
                 icon: '\uD83C\uDFC6',
-                text: 'Biggest award: +' + biggest.amount + ' to ' + biggest.target + ' for ' + biggest.reason
+                text: 'Biggest award: +' + biggest.amount + ' to ' + (FULL_NAMES[biggest.target] || biggest.target) + ' for ' + biggest.reason
             });
         }
 
@@ -860,7 +860,7 @@ function initLeaderboard() {
         if (mostActive) {
             highlights.push({
                 icon: '\uD83D\uDD25',
-                text: 'Most active: ' + mostActive[0] + ' (' + mostActive[1] + ' awards)'
+                text: 'Most active: ' + (FULL_NAMES[mostActive[0]] || mostActive[0]) + ' (' + mostActive[1] + ' awards)'
             });
         }
 
@@ -898,7 +898,7 @@ function initLeaderboard() {
             Object.keys(PLAYERS).sort().forEach(name => {
                 const opt = document.createElement('option');
                 opt.value = name;
-                opt.textContent = name;
+                opt.textContent = FULL_NAMES[name] || name;
                 targetSelect.appendChild(opt);
             });
         }
@@ -1224,7 +1224,7 @@ function initLeaderboard() {
             if (membersEl) {
                 if (isRevealed()) {
                     const members = Object.keys(PLAYERS).filter(n => PLAYERS[n] === team);
-                    membersEl.textContent = members.join(', ');
+                    membersEl.textContent = members.map(n => FULL_NAMES[n] || n).join(', ');
                 } else {
                     membersEl.innerHTML = '<em>Teams revealed on arrival night...</em>';
                 }
@@ -1275,7 +1275,7 @@ function initLeaderboard() {
                 <div class="feed-item" style="animation-delay: ${i * 0.05}s">
                     <span class="feed-emoji">${emoji}</span>
                     <div class="feed-detail">
-                        <strong>${escapeHtml(entry.target)}</strong>
+                        <strong>${escapeHtml(FULL_NAMES[entry.target] || entry.target)}</strong>
                         <span class="feed-points ${isPositive ? 'positive' : 'negative'}">${isPositive ? '+' : ''}${entry.amount}</span>
                         <span class="feed-reason">${escapeHtml(entry.reason)}</span>
                     </div>
@@ -1341,7 +1341,7 @@ function initLeaderboard() {
             row.innerHTML = `
                 <span class="ind-rank">${rankDisplay}${posArrow}</span>
                 <span class="ind-team-dot ${isRevealed() ? (player.team || '') : ''}"></span>
-                <span class="ind-name">${escapeHtml(player.name)}${badgeIcons ? '<span class="ind-badges">' + badgeIcons + '</span>' : ''}</span>
+                <span class="ind-name">${escapeHtml(FULL_NAMES[player.name] || player.name)}${badgeIcons ? '<span class="ind-badges">' + badgeIcons + '</span>' : ''}</span>
                 <span class="ind-cats">${catDots}</span>
                 <span class="ind-points">${player.points} pts</span>
             `;
@@ -1366,7 +1366,7 @@ function initLeaderboard() {
             const div = document.createElement('div');
             div.className = 'log-entry';
             const isPositive = entry.amount > 0;
-            const displayTarget = entry.type === 'team' ? teamDisplayName(entry.target) : entry.target;
+            const displayTarget = entry.type === 'team' ? teamDisplayName(entry.target) : (FULL_NAMES[entry.target] || entry.target);
             const cat = getCategoryForEntry(entry);
             const emoji = CATEGORY_EMOJI[cat] || '';
 
@@ -1412,7 +1412,7 @@ function initLeaderboard() {
                             <span class="mvp-icon">\uD83C\uDFC5</span>
                             <div class="mvp-info">
                                 <span class="mvp-label">MVP of Day ${day}</span>
-                                <span class="mvp-name">${escapeHtml(mvpName)}</span>
+                                <span class="mvp-name">${escapeHtml(FULL_NAMES[mvpName] || mvpName)}</span>
                                 <span class="mvp-pts">${maxPts} pts</span>
                             </div>
                         </div>
@@ -1427,7 +1427,7 @@ function initLeaderboard() {
                     topSection.innerHTML = '';
                 } else {
                     topSection.innerHTML = sorted.map(([name, pts], i) =>
-                        `<div class="recap-row"><span class="recap-rank">${i + 1}.</span><span class="recap-name">${escapeHtml(name)}</span><span class="recap-pts">+${pts}</span></div>`
+                        `<div class="recap-row"><span class="recap-rank">${i + 1}.</span><span class="recap-name">${escapeHtml(FULL_NAMES[name] || name)}</span><span class="recap-pts">+${pts}</span></div>`
                     ).join('');
                 }
             }
@@ -1472,7 +1472,7 @@ function initLeaderboard() {
                 });
                 if (dayBadges.length > 0) {
                     badgesSection.innerHTML = '<h5>Badges Earned</h5>' + dayBadges.map(({ name, badge }) =>
-                        `<span class="recap-badge">${badge.icon} ${escapeHtml(name)}</span>`
+                        `<span class="recap-badge">${badge.icon} ${escapeHtml(FULL_NAMES[name] || name)}</span>`
                     ).join('');
                 } else {
                     badgesSection.innerHTML = '';
