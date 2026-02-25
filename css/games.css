@@ -4385,18 +4385,85 @@ body.dark-mode .bingo {
 /* ============================================
    Dark Mode Section Overrides
    ============================================ */
+
+/* ---- Bright gradient sections ---- */
 body.dark-mode .wheel {
-    background: linear-gradient(135deg, rgba(240, 147, 251, 0.15) 0%, rgba(245, 87, 108, 0.15) 100%);
+    background: linear-gradient(135deg, #2a1528 0%, #2a1518 100%);
 }
 
 body.dark-mode .rollcall-section {
-    background: linear-gradient(135deg, rgba(255, 236, 210, 0.1) 0%, rgba(252, 182, 159, 0.1) 100%);
+    background: linear-gradient(135deg, #2a2218 0%, #2a1a1a 100%);
 }
 
 body.dark-mode .nhie-section {
-    background: linear-gradient(135deg, rgba(240, 147, 251, 0.15) 0%, rgba(245, 87, 108, 0.15) 100%);
+    background: linear-gradient(135deg, #2a1528 0%, #2a1518 100%);
 }
 
+body.dark-mode .truth-or-dare-section {
+    background: linear-gradient(135deg, #151830 0%, #1a1230 100%);
+}
+
+body.dark-mode .wyr-section {
+    background: linear-gradient(135deg, #251a3a 0%, #1a2545 100%);
+}
+
+body.dark-mode .mvp-day-section {
+    background: linear-gradient(135deg, #2a2518 0%, #2a1a10 50%, #2a1510 100%);
+}
+
+body.dark-mode .mvp-day-section .section-title,
+body.dark-mode .mvp-day-section .section-subtitle {
+    color: var(--text-dark);
+}
+
+/* ---- Already-dark sections: add subtle border so they don't vanish ---- */
+body.dark-mode .leaderboard {
+    background: linear-gradient(135deg, #1a1a2e 0%, #1a2040 50%, #142850 100%);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+body.dark-mode .assassin-tracker {
+    background: linear-gradient(135deg, #1a1a30 0%, #1a2540 100%);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+body.dark-mode .drink-tracker-section {
+    background: linear-gradient(135deg, #1a1a30 0%, #1a2540 100%);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+body.dark-mode .h2h-section {
+    background: linear-gradient(135deg, #12102a 0%, #25204a 50%, #1e1e38 100%);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+body.dark-mode .awards-section {
+    background: linear-gradient(135deg, #12102a 0%, #25204a 50%, #1e1e38 100%);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+body.dark-mode .soundboard {
+    background: linear-gradient(135deg, #12102a 0%, #25204a 50%, #1e1e38 100%);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+body.dark-mode .bracket-section {
+    background: linear-gradient(135deg, #12102a 0%, #25204a 50%, #1e1e38 100%);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+body.dark-mode .badge-toast {
+    background: linear-gradient(135deg, #1a1a30 0%, #1a2540 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ---- Team colors (muted for dark mode) ---- */
+body.dark-mode .team1-bg { background: linear-gradient(135deg, #6b5a10, #4a3f00); }
+body.dark-mode .team2-bg { background: linear-gradient(135deg, #1a5070, #0a3050); }
+body.dark-mode .team3-bg { background: linear-gradient(135deg, #2a5030, #1a3a20); }
+body.dark-mode .team4-bg { background: linear-gradient(135deg, #5a2040, #3a1028); }
+
+/* ---- Component fixes ---- */
 body.dark-mode .rc-open {
     background: rgba(39, 174, 96, 0.15);
     color: #6BCB77;
@@ -4415,4 +4482,8 @@ body.dark-mode .ch-type.individual {
 body.dark-mode .ch-status.done {
     background: rgba(39, 174, 96, 0.15);
     color: #6BCB77;
+}
+
+body.dark-mode .timer-overlay-inner {
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
