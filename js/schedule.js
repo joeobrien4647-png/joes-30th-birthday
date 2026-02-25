@@ -1456,11 +1456,35 @@ function initScheduleEmptyStates() {
 
 /* ---- Time Bucket Toggles ---- */
 function initTimeBuckets() {
+    var isMobile = window.matchMedia('(max-width: 768px)').matches;
+
     document.querySelectorAll('.time-bucket-header').forEach(function(header) {
         header.addEventListener('click', function() {
-            this.closest('.time-bucket').classList.toggle('collapsed');
+            var bucket = this.closest('.time-bucket');
+            var wasCollapsed = bucket.classList.contains('collapsed');
+            bucket.classList.toggle('collapsed');
+
+            // Accordion on mobile: opening one collapses siblings
+            if (isMobile && wasCollapsed) {
+                var day = bucket.closest('.day-content');
+                if (day) {
+                    day.querySelectorAll('.time-bucket').forEach(function(sib) {
+                        if (sib !== bucket) sib.classList.add('collapsed');
+                    });
+                }
+            }
         });
     });
+
+    // On mobile, start all buckets collapsed except the first per day
+    if (isMobile) {
+        document.querySelectorAll('.day-content').forEach(function(day) {
+            var buckets = day.querySelectorAll('.time-bucket');
+            for (var i = 1; i < buckets.length; i++) {
+                buckets[i].classList.add('collapsed');
+            }
+        });
+    }
 }
 
 /* ---- Day Hero Data ---- */

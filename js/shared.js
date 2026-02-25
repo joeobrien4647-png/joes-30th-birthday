@@ -730,6 +730,73 @@ function initPageTransition() {
     });
 }
 
+/* Back-to-Top Button */
+function initBackToTop() {
+    var btn = document.createElement('button');
+    btn.className = 'back-to-top';
+    btn.innerHTML = '&#8679;';
+    btn.setAttribute('aria-label', 'Back to top');
+    btn.title = 'Back to top';
+    document.body.appendChild(btn);
+
+    var visible = false;
+    window.addEventListener('scroll', debounce(function () {
+        var show = window.scrollY > 600;
+        if (show !== visible) {
+            visible = show;
+            btn.classList.toggle('visible', show);
+        }
+    }, 100));
+
+    btn.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
+/* Nav Badges - show dot when new content arrives on other pages */
+function initNavBadges() {
+    // Map localStorage keys to their nav page
+    var WATCHERS = {
+        'social.html': ['messages', 'musicRequests', 'photos'],
+        'games.html': ['lb_pointsLog', 'lb_individualScores']
+    };
+
+    var seen = Store.get('navBadgeSeen', {});
+    var currentPage = window.location.pathname.split('/').pop() || 'index.html';
+
+    // On the current page, mark all its keys as "seen" at current counts
+    if (WATCHERS[currentPage]) {
+        WATCHERS[currentPage].forEach(function (key) {
+            var data = Store.get(key, null);
+            var count = Array.isArray(data) ? data.length : (data && typeof data === 'object' ? Object.keys(data).length : 0);
+            seen[key] = count;
+        });
+        Store.set('navBadgeSeen', seen);
+    }
+
+    // For other pages, check if counts have changed
+    var navLinks = document.querySelectorAll('.nav-links a[data-page]');
+    navLinks.forEach(function (link) {
+        var page = link.getAttribute('data-page');
+        var keys = WATCHERS[page];
+        if (!keys || page === currentPage) return;
+
+        var hasNew = keys.some(function (key) {
+            var data = Store.get(key, null);
+            var count = Array.isArray(data) ? data.length : (data && typeof data === 'object' ? Object.keys(data).length : 0);
+            var lastSeen = seen[key] || 0;
+            return count > lastSeen;
+        });
+
+        if (hasNew) {
+            var dot = document.createElement('span');
+            dot.className = 'nav-badge-dot';
+            link.style.position = 'relative';
+            link.appendChild(dot);
+        }
+    });
+}
+
 /* Initialize shared components on every page */
 document.addEventListener('DOMContentLoaded', function () {
     // Page transition
@@ -758,6 +825,10 @@ document.addEventListener('DOMContentLoaded', function () {
     initScrollCounters();
     // Enhanced lightbox with swipe
     initEnhancedLightbox();
+    // Back-to-top button
+    initBackToTop();
+    // New-content nav badges
+    initNavBadges();
 });
 
 /* Update nav to show guest name */

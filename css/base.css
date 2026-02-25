@@ -689,6 +689,42 @@ body.dark-mode .sub-nav {
     50% { box-shadow: 0 0 25px rgba(124, 58, 237, 0.6); }
 }
 
+/* Back to Top Button */
+.back-to-top {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    z-index: 95;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: var(--gradient-primary);
+    color: var(--text-white);
+    font-size: 1.3rem;
+    cursor: pointer;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.back-to-top.visible {
+    opacity: 0.85;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.back-to-top:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+}
+
+body.dark-mode .back-to-top {
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
+}
+
 /* ============================================
    Page Transitions
    ============================================ */
