@@ -80,6 +80,7 @@ function initTravelPlans() {
             Store.set('allTravelStatuses', allStatuses);
 
             showConfirmed(status);
+            renderTravelOverview();
         });
     });
 
@@ -90,32 +91,63 @@ function initTravelPlans() {
         });
     }
 
-    // Admin panel for joe30
-    if (guestCode === 'joe30' && adminPanel) {
-        adminPanel.style.display = 'block';
-        const allStatuses = Store.get('allTravelStatuses', {});
-        const summary = document.getElementById('travel-admin-summary');
+    // Public travel overview (visible to all logged-in guests)
+    renderTravelOverview();
 
-        const grouped = {};
-        Object.keys(STATUS_LABELS).forEach(k => grouped[k] = []);
-        grouped['unknown'] = [];
+    function renderTravelOverview() {
+        var overviewPanel = document.getElementById('travel-overview-panel');
+        if (!overviewPanel || !guestCode) return;
 
-        Object.entries(allStatuses).forEach(function([code, data]) {
-            const s = data.status || 'unknown';
+        var allStatuses = Store.get('allTravelStatuses', {});
+        var totalResponses = Object.keys(allStatuses).length;
+        if (totalResponses === 0) return;
+
+        overviewPanel.style.display = 'block';
+
+        // Guest name lookup from global GUEST_DATA
+        function getName(code) {
+            if (typeof GUEST_DATA !== 'undefined' && GUEST_DATA[code]) {
+                return GUEST_DATA[code].name || GUEST_DATA[code].fullName || code;
+            }
+            var name = code.replace('30', '');
+            return name.charAt(0).toUpperCase() + name.slice(1);
+        }
+
+        // Group by status
+        var grouped = {};
+        Object.keys(STATUS_LABELS).forEach(function(k) { grouped[k] = []; });
+
+        Object.entries(allStatuses).forEach(function(entry) {
+            var code = entry[0];
+            var data = entry[1];
+            var s = data.status || 'unknown';
             if (!grouped[s]) grouped[s] = [];
-            grouped[s].push(code.replace('30', '').replace(/([a-z])([a-z]+)/i, (_, f, r) => f.toUpperCase() + r));
+            grouped[s].push(getName(code));
         });
 
-        let html = '';
-        Object.entries(STATUS_LABELS).forEach(function([key, label]) {
-            const names = grouped[key] || [];
-            html += '<div class="travel-admin-row">' +
-                '<span class="travel-admin-label">' + escapeHtml(label) + '</span>' +
-                '<span class="travel-admin-names">' + (names.length ? names.map(escapeHtml).join(', ') : '<em>none yet</em>') + '</span>' +
+        // Stats bar
+        var statsEl = document.getElementById('travel-overview-stats');
+        var bookedCount = (grouped['booked'] || []).length;
+        statsEl.innerHTML = '<div class="travel-stat-bar">' +
+            '<span class="travel-stat">' + bookedCount + ' booked</span>' +
+            '<span class="travel-stat">' + totalResponses + ' responded</span>' +
+            '</div>';
+
+        // Breakdown
+        var breakdownEl = document.getElementById('travel-overview-breakdown');
+        var html = '';
+        Object.entries(STATUS_LABELS).forEach(function(entry) {
+            var key = entry[0];
+            var label = entry[1];
+            var names = grouped[key] || [];
+            if (names.length === 0) return;
+            html += '<div class="travel-overview-row">' +
+                '<div class="travel-overview-label">' + escapeHtml(label) + '</div>' +
+                '<div class="travel-overview-names">' + names.map(escapeHtml).join(', ') + '</div>' +
             '</div>';
         });
 
-        summary.innerHTML = html || '<p>No responses yet</p>';
+        breakdownEl.innerHTML = html || '<p>No responses yet</p>';
     }
 }
 

@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="css/base.css?v=8">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/nav.css">
-    <link rel="stylesheet" href="css/practical.css?v=8">
+    <link rel="stylesheet" href="css/practical.css?v=9">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -230,10 +230,11 @@
                 <p class="travel-login-note" id="travel-login-note" style="display:none;">Log in to confirm your travel status</p>
             </div>
 
-            <!-- Admin Overview (joe30 only) -->
-            <div class="travel-admin-panel" id="travel-admin-panel" style="display:none;">
-                <h3>🔐 Travel Overview</h3>
-                <div id="travel-admin-summary"></div>
+            <!-- Travel Overview (visible to all logged-in guests) -->
+            <div class="travel-overview-panel" id="travel-overview-panel" style="display:none;">
+                <h3>✈️ Who's Sorted?</h3>
+                <div class="travel-overview-stats" id="travel-overview-stats"></div>
+                <div id="travel-overview-breakdown"></div>
             </div>
         </div>
     </section>
@@ -262,6 +263,6 @@
 
     <script src="js/shared.js?v=7"></script>
     <script src="js/nav.js"></script>
-    <script src="js/practical.js?v=6"></script>
+    <script src="js/practical.js?v=7"></script>
 </body>
 </html>
