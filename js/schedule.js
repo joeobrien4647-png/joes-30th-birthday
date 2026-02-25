@@ -1732,12 +1732,18 @@ function initEnvelopeAnimation() {
 
     function revealPage() {
         sessionStorage.setItem(SEEN_KEY, 'true');
+
+        // Scroll to top BEFORE revealing content
+        window.scrollTo(0, 0);
+
+        // Mark all sections as visible so scroll-reveal doesn't re-hide them
+        document.querySelectorAll('.section').forEach(function(s) {
+            s.classList.add('visible');
+        });
+
         overlay.classList.add('envelope-done');
         document.body.classList.add('envelope-revealed');
         document.body.classList.remove('modal-open');
-
-        // Scroll to top so page starts at the agenda, not rotas
-        window.scrollTo(0, 0);
 
         setTimeout(function() {
             overlay.remove();
