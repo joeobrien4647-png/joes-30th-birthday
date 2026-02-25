@@ -180,6 +180,33 @@ function initProfiles() {
         if (previousFocus) { try { previousFocus.focus(); } catch(e) {} previousFocus = null; }
     }
 
+    // Assign unique gradient colours to each guest avatar fallback
+    var AVATAR_PALETTES = [
+        ['#667eea', '#764ba2'], ['#f093fb', '#f5576c'], ['#4facfe', '#00f2fe'],
+        ['#43e97b', '#38f9d7'], ['#fa709a', '#fee140'], ['#a18cd1', '#fbc2eb'],
+        ['#fccb90', '#d57eeb'], ['#e0c3fc', '#8ec5fc'], ['#f6d365', '#fda085'],
+        ['#89f7fe', '#66a6ff'], ['#fddb92', '#d1fdff'], ['#c471f5', '#fa71cd'],
+        ['#48c6ef', '#6f86d6'], ['#feada6', '#f5efef'], ['#a1c4fd', '#c2e9fb'],
+        ['#d4fc79', '#96e6a1'], ['#84fab0', '#8fd3f4'], ['#cfd9df', '#e2ebf0'],
+        ['#fbc2eb', '#a6c1ee'], ['#ffecd2', '#fcb69f'], ['#ff9a9e', '#fecfef'],
+        ['#f794a4', '#fdd6bd'], ['#64b3f4', '#c2e59c'], ['#a8edea', '#fed6e3'],
+        ['#d299c2', '#fef9d7'], ['#89f7fe', '#66a6ff'], ['#fdcbf1', '#e6dee9']
+    ];
+    function hashName(str) {
+        var h = 0;
+        for (var i = 0; i < str.length; i++) h = ((h << 5) - h) + str.charCodeAt(i);
+        return Math.abs(h);
+    }
+    document.querySelectorAll('.guest-avatar').forEach(function(avatar) {
+        if (avatar.classList.contains('birthday')) return;
+        var initialsEl = avatar.querySelector('.guest-initials');
+        var name = initialsEl ? initialsEl.textContent.trim() : '';
+        if (!name) return;
+        var idx = hashName(name) % AVATAR_PALETTES.length;
+        var pal = AVATAR_PALETTES[idx];
+        avatar.style.background = 'linear-gradient(135deg, ' + pal[0] + ' 0%, ' + pal[1] + ' 100%)';
+    });
+
     // Handle guest avatar images — hide broken, show on load
     document.querySelectorAll('.guest-avatar img').forEach(function (img) {
         img.style.display = 'none';

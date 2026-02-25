@@ -3200,3 +3200,74 @@ body.dark-mode .bucket-time-range {
 #activity-signups .section-subtitle {
     margin-bottom: 35px;
 }
+
+/* ---- Arrival Tracker ---- */
+.arrival-tracker {
+    background: var(--bg-light);
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    border: 2px solid rgba(var(--accent-rgb, 255, 217, 61), 0.3);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+.arrival-tracker h4 {
+    margin: 0 0 16px;
+    font-size: 1.05rem;
+    color: var(--text-dark);
+}
+.arrival-group {
+    background: var(--bg-main);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+}
+.arrival-group:last-of-type { margin-bottom: 16px; }
+.arrival-group-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+.arrival-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+.arrival-badge.flight {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    color: #fff;
+}
+.arrival-badge.own-way {
+    background: linear-gradient(135deg, #43e97b, #38f9d7);
+    color: #1a1a2e;
+}
+.arrival-time {
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+.arrival-names {
+    font-size: 0.85rem;
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+.arrival-eta {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    margin-top: 6px;
+    font-style: italic;
+}
+.arrival-countdown {
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--accent);
+    padding: 8px 0 0;
+}
+@media (max-width: 480px) {
+    .arrival-tracker { padding: 14px 16px; }
+    .arrival-group { padding: 10px 12px; }
+}

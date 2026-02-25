@@ -22,6 +22,26 @@ function debounce(func, wait) {
     };
 }
 
+/* Skeleton Loading Helpers */
+function showSkeleton(container, count) {
+    if (!container) return;
+    count = count || 3;
+    var html = '';
+    for (var i = 0; i < count; i++) {
+        html += '<div class="skeleton skeleton-card">' +
+            '<div class="skeleton skeleton-line long"></div>' +
+            '<div class="skeleton skeleton-line medium"></div>' +
+            '<div class="skeleton skeleton-line short"></div>' +
+            '</div>';
+    }
+    container.innerHTML = html;
+}
+function clearSkeleton(container) {
+    if (!container) return;
+    var skeletons = container.querySelectorAll('.skeleton-card');
+    skeletons.forEach(function(s) { s.remove(); });
+}
+
 /* localStorage Helpers */
 const Store = {
     get(key, fallback) {
@@ -562,6 +582,24 @@ function initThemeSwitcher() {
     }
 }
 
+/* Daily Auto-Theme — changes theme based on trip day (only if user hasn't manually set one) */
+function autoDayTheme() {
+    if (localStorage.getItem('siteTheme')) return; // user picked a theme, respect it
+    var DAY_THEMES = {
+        1: 'france',   // Travel day — blue/white/red
+        2: 'default',  // Chateau chill — default pink/purple
+        3: 'wine',     // Wine day — deep reds
+        4: 'disco',    // Birthday party — disco!
+        5: 'sunset',   // Recovery — warm sunset
+        6: 'france'    // Departure — au revoir
+    };
+    var start = new Date('2026-04-29').getTime();
+    var day = Math.floor((Date.now() - start) / 86400000) + 1;
+    if (day >= 1 && day <= 6) {
+        document.documentElement.setAttribute('data-theme', DAY_THEMES[day]);
+    }
+}
+
 /* Confetti Cannon Button */
 function initConfettiCannon() {
     const cannon = document.getElementById('confetti-cannon');
@@ -803,6 +841,55 @@ function initNavBadges() {
     });
 }
 
+/* Floating Emergency Contacts Card */
+function initEmergencyCard() {
+    // Create toggle button
+    var btn = document.createElement('button');
+    btn.className = 'emergency-fab';
+    btn.innerHTML = '🚨';
+    btn.setAttribute('aria-label', 'Emergency contacts');
+    btn.title = 'Emergency contacts';
+
+    // Create the card
+    var card = document.createElement('div');
+    card.className = 'emergency-card';
+    card.innerHTML =
+        '<h4>Emergency Contacts</h4>' +
+        '<ul>' +
+        '<li><strong>EU Emergency:</strong> <a href="tel:112">112</a></li>' +
+        '<li><strong>French Police:</strong> <a href="tel:17">17</a></li>' +
+        '<li><strong>Ambulance (SAMU):</strong> <a href="tel:15">15</a></li>' +
+        '<li><strong>Joe:</strong> <a href="tel:+447501395277">+44 7501 395277</a></li>' +
+        '<li><strong>Yoke (Emergency):</strong> <a href="tel:+447799801708">07799 801708</a></li>' +
+        '<li><strong>Nearest Hospital:</strong> Centre Hospitalier de Le Blanc (~15 min)</li>' +
+        '</ul>' +
+        '<button class="emergency-card-close">&times;</button>';
+
+    document.body.appendChild(btn);
+    document.body.appendChild(card);
+
+    var open = false;
+    function toggle() {
+        open = !open;
+        card.classList.toggle('open', open);
+        btn.classList.toggle('active', open);
+    }
+    btn.addEventListener('click', toggle);
+    card.querySelector('.emergency-card-close').addEventListener('click', toggle);
+    document.addEventListener('click', function(e) {
+        if (open && !card.contains(e.target) && e.target !== btn) {
+            toggle();
+        }
+    });
+}
+
+/* Register Service Worker for offline support */
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js').catch(function() {});
+    });
+}
+
 /* Initialize shared components on every page */
 document.addEventListener('DOMContentLoaded', function () {
     // Page transition
@@ -811,8 +898,9 @@ document.addEventListener('DOMContentLoaded', function () {
     initDarkMode();
     // Auto dark mode (time-based)
     autoDarkMode();
-    // Apply saved theme
+    // Apply saved theme (or auto-theme for trip days)
     initThemeSwitcher();
+    autoDayTheme();
     // Scroll reveal for sections
     initScrollReveal();
     // Confetti cannon button
@@ -835,6 +923,8 @@ document.addEventListener('DOMContentLoaded', function () {
     initBackToTop();
     // New-content nav badges
     initNavBadges();
+    // Floating emergency contacts
+    initEmergencyCard();
 });
 
 /* Update nav to show guest name */
