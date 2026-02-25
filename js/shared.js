@@ -864,6 +864,7 @@ function initKeyboardShortcuts() {
             var lightbox = document.getElementById('lightbox');
             if (lightbox && lightbox.classList.contains('active')) {
                 lightbox.classList.remove('active');
+                document.body.style.overflow = '';
                 return;
             }
             // Close confirmation modal

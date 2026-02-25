@@ -78,6 +78,7 @@ body {
 :focus-visible {
     outline: 3px solid var(--primary);
     outline-offset: 2px;
+    box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.1);
 }
 
 button:focus-visible,
@@ -88,6 +89,7 @@ textarea:focus-visible,
 a:focus-visible {
     outline: 3px solid var(--primary);
     outline-offset: 2px;
+    box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Remove outline on mouse click but keep for keyboard */
@@ -239,6 +241,7 @@ a:focus-visible {
     animation: floatUp 15s ease-in-out infinite;
     animation-delay: var(--delay);
     opacity: 0.6;
+    will-change: transform, opacity;
 }
 
 /* Confetti Cannon Button */
@@ -250,7 +253,7 @@ a:focus-visible {
     height: 60px;
     border-radius: 50%;
     border: none;
-    background: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 50%, #6bcb77 100%);
+    background: var(--gradient-festive);
     font-size: 1.8rem;
     cursor: pointer;
     box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
@@ -261,6 +264,7 @@ a:focus-visible {
     align-items: center;
     justify-content: center;
     animation: cannonPulse 2s infinite;
+    will-change: transform;
 }
 
 .confetti-cannon:hover {
@@ -758,7 +762,8 @@ footer {
 }
 
 .confirm-btn-cancel:hover {
-    background: #ddd;
+    background: var(--bg-light);
+    filter: brightness(0.95);
 }
 
 .confirm-btn-confirm {
@@ -972,5 +977,40 @@ body.dark-mode .shimmer {
 @media (pointer: coarse) {
     .lightbox-swipe-indicator {
         opacity: 0.5;
+    }
+}
+
+/* ============================================
+   Modal Scroll Lock
+   ============================================ */
+body.modal-open {
+    overflow: hidden;
+}
+
+/* ============================================
+   Reduced Motion: Accessibility
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    .balloon,
+    .confetti-cannon,
+    .hero-title,
+    .loading-balloon {
+        animation: none !important;
+    }
+
+    .section {
+        opacity: 1;
+        transform: none;
     }
 }

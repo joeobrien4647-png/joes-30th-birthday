@@ -588,7 +588,7 @@
 
 .av-vote-btn:hover:not(.at-limit) {
     border-color: var(--primary);
-    background: #f8f0ff;
+    background: rgba(124, 58, 237, 0.06);
     transform: translateY(-1px);
 }
 
@@ -1410,7 +1410,7 @@
 .grocery-menu-item:hover:not(.added) {
     border-color: var(--primary);
     color: var(--primary);
-    background: #f8f0ff;
+    background: rgba(124, 58, 237, 0.06);
 }
 
 .grocery-menu-item.added {
@@ -1898,8 +1898,8 @@
 
 /* ---- Day note ---- */
 .day-note {
-    background: linear-gradient(135deg, rgba(52, 152, 219, 0.08), rgba(52, 152, 219, 0.04));
-    border-left: 3px solid #3498db;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(102, 126, 234, 0.04));
+    border-left: 3px solid var(--primary);
     border-radius: 0 10px 10px 0;
     padding: 12px 16px;
     font-size: 0.9rem;

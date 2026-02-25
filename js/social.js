@@ -692,6 +692,7 @@ function initPhotoWall() {
             if (lightbox) {
                 lightbox.querySelector('.lightbox-image').src = photo.data;
                 lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
             }
         });
 
@@ -711,11 +712,13 @@ function initLightbox() {
 
     closeBtn.addEventListener('click', function() {
         lightbox.classList.remove('active');
+        document.body.style.overflow = '';
     });
 
     lightbox.addEventListener('click', function(e) {
         if (e.target === lightbox) {
             lightbox.classList.remove('active');
+            document.body.style.overflow = '';
         }
     });
 }

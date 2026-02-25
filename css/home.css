@@ -161,11 +161,13 @@
 
 #guest-code {
     padding: 1rem 1.5rem;
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--bg-light);
     border-radius: 10px;
     font-size: 1.1rem;
     text-align: center;
     transition: all 0.3s ease;
+    background: var(--bg-white);
+    color: var(--text-dark);
 }
 
 #guest-code:focus {
@@ -753,8 +755,8 @@
     justify-content: center;
     font-size: 1.2rem;
     font-weight: 700;
-    background: #e0e0e0;
-    color: #999;
+    background: var(--bg-light);
+    color: var(--text-light);
     transition: all 0.3s ease;
     border: 2px solid transparent;
 }
