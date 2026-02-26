@@ -310,7 +310,28 @@
     gap: 15px;
     justify-content: center;
     flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.hero-spotify-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
     margin-bottom: 30px;
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.hero-spotify-link:hover {
+    color: #1DB954;
+    border-color: #1DB954;
+    background: rgba(29, 185, 84, 0.08);
 }
 
 .scroll-indicator {
