@@ -181,10 +181,43 @@ function initArrivalCountdown() {
 }
 
 /* ============================================
+   Pre-trip Checklist (localStorage persistence)
+   ============================================ */
+function initPretripChecklist() {
+    var checks = document.querySelectorAll('#prettrip-checklist input[type="checkbox"]');
+    if (!checks.length) return;
+
+    var saved = Store.get('pretripChecklist', {});
+
+    function updateProgress() {
+        var total = checks.length;
+        var done = Array.from(checks).filter(function(cb) { return cb.checked; }).length;
+        var fill = document.getElementById('checklist-progress-fill');
+        var text = document.getElementById('checklist-progress-text');
+        if (fill) fill.style.width = (total ? Math.round(done / total * 100) : 0) + '%';
+        if (text) text.textContent = done + ' / ' + total + ' done' + (done === total ? ' 🎉' : '');
+    }
+
+    checks.forEach(function (cb) {
+        var key = cb.getAttribute('data-check');
+        if (saved[key]) cb.checked = true;
+
+        cb.addEventListener('change', function () {
+            saved[key] = cb.checked;
+            Store.set('pretripChecklist', saved);
+            updateProgress();
+        });
+    });
+
+    updateProgress();
+}
+
+/* ============================================
    Initialize All on DOMContentLoaded
    ============================================ */
 document.addEventListener('DOMContentLoaded', function() {
     initSubNavHighlight();
     initTravelPlans();
     initArrivalCountdown();
+    initPretripChecklist();
 });

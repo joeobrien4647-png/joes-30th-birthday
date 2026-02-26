@@ -710,30 +710,30 @@ function initActivitySignups() {
     var SIGNUP_ACTIVITIES = [
         {
             id: 'golf',
-            name: 'Golf - Val de l\'Indre',
+            name: 'Golf des Sarrays (9 holes)',
             day: 'Day 2 (Thu 30 Apr)',
-            cost: '~\u00A365/pp',
+            cost: '~\u20AC30\u201340/pp',
             max: 12,
             emoji: '\u26F3',
-            description: '9-hole parkland course with century-old cedars. Club hire and buggies available. ~50 min drive from the chateau.'
+            description: '9-hole course near Ch\u00E2teauroux. Flat, wooded, beginner-friendly \u2014 no handicap needed. Club hire available. ~45 min drive.'
         },
         {
             id: 'canoe',
             name: 'Canoeing on the Creuse',
             day: 'Day 3 (Fri 1 May)',
-            cost: '~\u20AC15\u201318/pp',
-            max: 27,
+            cost: '~\u20AC13\u201318/pp',
+            max: 25,
             emoji: '\uD83D\uDEF6',
-            description: 'Paddle downstream past castles and through the countryside. All equipment and shuttle service provided. Just 5 min from the chateau!'
+            description: 'Paddle downstream past castles and through the Creuse valley. All equipment and shuttle back included. Starts right on our doorstep!'
         },
         {
             id: 'bellebouche',
             name: 'Bellebouche Accrobranche',
             day: 'Day 5 (Sun 3 May)',
-            cost: '~\u20AC20/pp',
-            max: 27,
+            cost: '~\u20AC17/pp',
+            max: 25,
             emoji: '\uD83C\uDF33',
-            description: 'Treetop adventure courses (zip lines, Tarzan swings!) plus lake activities: p\u00E9dalos, paddle boards, kayaks. ~25 min drive.'
+            description: 'Treetop adventure courses (zip lines, Tarzan swings!) plus lake activities: p\u00E9dalos, paddle boards, kayaks. ~30 min drive.'
         }
     ];
 

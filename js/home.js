@@ -141,6 +141,33 @@ function initCountdown() {
 
     updateCountdown();
     var countdownInterval = setInterval(updateCountdown, 1000);
+
+    // Rotating countdown tips
+    var tips = [
+        'Start practising your French!',
+        'Pack your swimwear — there\'s a pool!',
+        'Got your fancy dress sorted?',
+        'Book those flights if you haven\'t!',
+        'Add a song to the trip playlist!',
+        'Leave Joe a message on the Social wall!',
+        'Sign up for activities on the Schedule page!'
+    ];
+    var tipEl = document.createElement('p');
+    tipEl.className = 'countdown-tip';
+    var heroButtons = document.querySelector('.hero-buttons');
+    if (heroButtons && countdownEl) {
+        countdownEl.parentNode.insertBefore(tipEl, heroButtons);
+        var tipIdx = Math.floor(Math.random() * tips.length);
+        tipEl.textContent = tips[tipIdx];
+        setInterval(function () {
+            tipEl.style.opacity = '0';
+            setTimeout(function () {
+                tipIdx = (tipIdx + 1) % tips.length;
+                tipEl.textContent = tips[tipIdx];
+                tipEl.style.opacity = '1';
+            }, 400);
+        }, 6000);
+    }
 }
 
 /* Guest Login */
@@ -214,6 +241,9 @@ function initGuestLogin() {
         document.getElementById('stat-team').textContent = isRevealed() ? guest.team : '??? (Revealed 29 Apr)';
         document.getElementById('stat-nickname').textContent = isRevealed() ? guest.nickname : '??? (Revealed 29 Apr)';
 
+        var teamExplainer = document.getElementById('team-explainer');
+        if (teamExplainer) teamExplainer.style.display = isRevealed() ? 'none' : 'block';
+
         const personalAgenda = document.getElementById('personal-agenda');
         if (personalAgenda) personalAgenda.innerHTML = '<p>' + escapeHtml(guest.personalNotes) + '</p>';
 
@@ -261,6 +291,8 @@ function initGuestLogin() {
 
         if (completedEl) completedEl.textContent = completedCount;
         if (totalEl) totalEl.textContent = missions.length;
+        var barFill = document.getElementById('missions-bar-fill');
+        if (barFill) barFill.style.width = (missions.length ? Math.round(completedCount / missions.length * 100) : 0) + '%';
     }
 }
 
@@ -269,9 +301,20 @@ function initLiveStats() {
     const TEAMS_LIST = ['team1', 'team2', 'team3', 'team4'];
     const TEAM_NAMES_MAP = { team1: 'Team 1 \u2014 \uD83D\uDD12 TBA', team2: 'Team 2 \u2014 \uD83D\uDD12 TBA', team3: 'Team 3 \u2014 \uD83D\uDD12 TBA', team4: 'Team 4 \u2014 \uD83D\uDD12 TBA' };
 
+    // Pre-trip: show teaser card. During trip: show live stats + trip numbers.
+    var teaser = document.getElementById('stats-teaser');
+    var liveCard = document.getElementById('live-stats-card');
+    var numbersCard = document.getElementById('trip-numbers-card');
+    if (isRevealed()) {
+        if (teaser) teaser.style.display = 'none';
+        if (liveCard) liveCard.style.display = '';
+        if (numbersCard) numbersCard.style.display = '';
+    }
+
     function render() {
         const guestCode = localStorage.getItem('guestCode');
         if (!guestCode || !GUEST_DATA[guestCode]) return;
+        if (!isRevealed()) return;
 
         const guestName = GUEST_DATA[guestCode].name;
         const individualScores = Store.get('lb_individualScores', {});

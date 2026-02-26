@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="css/base.css?v=10">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/nav.css">
-    <link rel="stylesheet" href="css/home.css?v=6">
+    <link rel="stylesheet" href="css/home.css?v=8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -56,9 +56,9 @@
                 <input type="text" id="guest-code" placeholder="Your invite code (e.g., SOPHIE-M3P2)" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" required>
                 <button type="submit" class="btn btn-primary">Unlock My Dashboard</button>
             </form>
-            <p class="guest-login-hint">Check your invite for your personal code!</p>
             <p class="guest-login-error" id="guest-login-error" style="display: none;">Code not recognized — check your invite for your personal code</p>
-            <button class="skip-login-btn" id="skip-guest-login">Continue as Guest &rarr;</button>
+            <p class="guest-login-hint">Don't have your code yet? No worries — it'll arrive with your invite. Explore the site for now!</p>
+            <button class="skip-login-btn" id="skip-guest-login">Explore as Guest &rarr;</button>
         </div>
     </div>
 
@@ -150,6 +150,7 @@
                     <span class="missions-progress"><span id="missions-completed">0</span>/<span id="missions-total">0</span></span>
                 </div>
                 <p class="missions-intro">Complete these before the trip ends - but keep them secret!</p>
+                <div class="missions-bar-wrap"><div class="missions-bar-fill" id="missions-bar-fill"></div></div>
                 <div class="missions-list" id="missions-list"></div>
             </div>
 
@@ -178,9 +179,35 @@
                         <span class="stat-label">Trip Nickname</span>
                     </div>
                 </div>
+                <p class="team-explainer" id="team-explainer" style="display:none;">Teams compete in games, cooking duties &amp; challenges throughout the trip. Revealed on arrival!</p>
             </div>
 
-            <div class="dashboard-card live-stats-card">
+            <div class="dashboard-card stats-teaser-card" id="stats-teaser">
+                <div class="card-header">
+                    <h3>&#127942; Leaderboard &amp; Stats</h3>
+                </div>
+                <p class="stats-teaser-text">Unlocks on <strong>April 29th</strong> when the trip begins. Here's what's coming:</p>
+                <div class="stats-teaser-grid">
+                    <div class="teaser-feature">
+                        <span class="teaser-feature-icon">&#127942;</span>
+                        <span class="teaser-feature-label">Team Leaderboard</span>
+                    </div>
+                    <div class="teaser-feature">
+                        <span class="teaser-feature-icon">&#127919;</span>
+                        <span class="teaser-feature-label">Your Points &amp; Rank</span>
+                    </div>
+                    <div class="teaser-feature">
+                        <span class="teaser-feature-icon">&#127941;</span>
+                        <span class="teaser-feature-label">Badges &amp; Awards</span>
+                    </div>
+                    <div class="teaser-feature">
+                        <span class="teaser-feature-icon">&#128200;</span>
+                        <span class="teaser-feature-label">Live Trip Stats</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-card live-stats-card" id="live-stats-card" style="display:none;">
                 <div class="card-header">
                     <h3>&#127942; Your Live Stats</h3>
                 </div>
@@ -205,7 +232,7 @@
                 <div class="stat-badges-row" id="stat-badges-row"></div>
             </div>
 
-            <div class="dashboard-card trip-numbers-card">
+            <div class="dashboard-card trip-numbers-card" id="trip-numbers-card" style="display:none;">
                 <div class="card-header">
                     <h3>&#128200; The Trip in Numbers</h3>
                 </div>
@@ -286,6 +313,6 @@
 
     <script src="js/shared.js?v=10"></script>
     <script src="js/nav.js"></script>
-    <script src="js/home.js?v=3"></script>
+    <script src="js/home.js?v=4"></script>
 </body>
 </html>

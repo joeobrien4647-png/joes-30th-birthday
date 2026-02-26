@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="css/base.css?v=10">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/nav.css">
-    <link rel="stylesheet" href="css/games.css?v=9">
+    <link rel="stylesheet" href="css/games.css?v=11">
 </head>
 <body>
     <!-- Confetti Canvas -->
@@ -54,6 +54,7 @@
         <ul class="sub-nav-links">
             <li><a href="#challenges" class="active">Challenges</a></li>
             <li><a href="#leaderboard">Leaderboard</a></li>
+            <li><a href="#meal-ratings">Rate the Chefs</a></li>
             <li><a href="#bingo">Bingo</a></li>
         </ul>
     </nav>
@@ -66,25 +67,115 @@
 
             <!-- How It Works -->
             <div class="how-it-works">
-                <button class="hiw-toggle" id="hiw-toggle">
-                    <span>&#8505;&#65039; How It Works</span>
-                    <span class="hiw-chevron">&#9656;</span>
-                </button>
-                <div class="hiw-body" id="hiw-body" style="display:none;">
-                    <div class="hiw-grid">
-                        <div class="hiw-card">
-                            <h4>&#128104;&#8205;&#127859; Cooking &amp; Tidy-Up Rota</h4>
-                            <p>4 teams, 4 full days. Each team cooks breakfast + dinner for a day. If you cook, you don't clean. Full rota on the <a href="schedule.html#rotas">Schedule page</a>.</p>
+                <div class="hiw-banner">
+                    <span class="hiw-banner-emoji">&#127918;</span>
+                    <div>
+                        <h3>How It Works</h3>
+                        <p>25 players. 4 teams. 6 days. One winner.</p>
+                    </div>
+                </div>
+
+                <div class="hiw-rules">
+                    <div class="hiw-rule">
+                        <div class="hiw-rule-num">1</div>
+                        <div class="hiw-rule-body">
+                            <h4>&#128274; Teams are secret</h4>
+                            <p>You'll find out your team on arrival night. No leaks, no hints. Check back once you're at the chateau.</p>
                         </div>
-                        <div class="hiw-card">
-                            <h4>&#127942; Points &amp; Scoring</h4>
-                            <p>Games, challenges, and duties all earn points for <strong>your team</strong> and for you individually. Details revealed on arrival &mdash; just know that everything counts!</p>
-                            <p>Awards are given by Joe throughout the trip. Keep your eyes on the <strong>Leaderboard</strong> tab.</p>
+                    </div>
+                    <div class="hiw-rule">
+                        <div class="hiw-rule-num">2</div>
+                        <div class="hiw-rule-body">
+                            <h4>&#127942; Everything earns points</h4>
+                            <p>Daily games, all-week challenges, cooking duties — it all counts for your team and for you individually. Joe awards points throughout the trip.</p>
                         </div>
-                        <div class="hiw-card">
-                            <h4>&#128274; Teams</h4>
-                            <p>Team names are a secret until arrival night. The leaderboard unlocks when teams are revealed. Check back on the night.</p>
+                    </div>
+                    <div class="hiw-rule">
+                        <div class="hiw-rule-num">3</div>
+                        <div class="hiw-rule-body">
+                            <h4>&#128104;&#8205;&#127859; Cooking rota</h4>
+                            <p>4 teams take turns cooking breakfast + dinner across the trip. Cook one day, don't clean. Clean one day, don't cook. Full rota on the <a href="schedule.html#rotas">Schedule page</a>.</p>
                         </div>
+                    </div>
+                    <div class="hiw-rule">
+                        <div class="hiw-rule-num">4</div>
+                        <div class="hiw-rule-body">
+                            <h4>&#127881; Winner takes glory</h4>
+                            <p>The winning team gets bragging rights and a prize TBA. Individual leaderboard winner gets their own award at the closing ceremony.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hiw-pf-section">
+                    <div class="hiw-pf-header prizes">&#127942; Prizes</div>
+                    <div class="hiw-pf-cards">
+                        <div class="hiw-pf-card prize">
+                            <span class="pf-icon">&#129351;</span>
+                            <span class="pf-title">Winning Team</span>
+                            <span class="pf-desc">First served at the final dinner. Losers watch.</span>
+                        </div>
+                        <div class="hiw-pf-card prize">
+                            <span class="pf-icon">&#129354;</span>
+                            <span class="pf-title">Individual Winner</span>
+                            <span class="pf-desc">Champion sash, controls the music on the last night &amp; Joe owes them one favour.</span>
+                        </div>
+                        <div class="hiw-pf-card prize">
+                            <span class="pf-icon">&#128104;&#8205;&#127859;</span>
+                            <span class="pf-title">Best Rated Chefs</span>
+                            <span class="pf-desc">Skip the washing up after their meal. Everyone else handles it.</span>
+                        </div>
+                    </div>
+
+                    <div class="hiw-pf-header forfeits">&#128128; Forfeits</div>
+                    <div class="hiw-pf-cards">
+                        <div class="hiw-pf-card forfeit">
+                            <span class="pf-icon">&#129365;</span>
+                            <span class="pf-title">Last Place Individual</span>
+                            <span class="pf-desc">Wooden spoon ceremony. Must give a speech about their worst moment at the final dinner.</span>
+                        </div>
+                        <div class="hiw-pf-card forfeit">
+                            <span class="pf-icon">&#128293;</span>
+                            <span class="pf-title">Worst Rated Chefs</span>
+                            <span class="pf-desc">Public apology to the group &amp; makes everyone a round of drinks next morning.</span>
+                        </div>
+                        <div class="hiw-pf-card forfeit">
+                            <span class="pf-icon">&#127917;</span>
+                            <span class="pf-title">Most Penalties</span>
+                            <span class="pf-desc">Wears the beret for all of Sunday. Non-negotiable.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hiw-points-grid">
+                    <div class="hiw-points-card">
+                        <span class="hiw-pts-emoji">&#127918;</span>
+                        <span class="hiw-pts-label">Game win</span>
+                        <span class="hiw-pts-value">+5 pts</span>
+                    </div>
+                    <div class="hiw-points-card">
+                        <span class="hiw-pts-emoji">&#129352;</span>
+                        <span class="hiw-pts-label">Runner up</span>
+                        <span class="hiw-pts-value">+3 pts</span>
+                    </div>
+                    <div class="hiw-points-card">
+                        <span class="hiw-pts-emoji">&#128104;&#8205;&#127859;</span>
+                        <span class="hiw-pts-label">Cook duty</span>
+                        <span class="hiw-pts-value">+3 pts</span>
+                    </div>
+                    <div class="hiw-points-card">
+                        <span class="hiw-pts-emoji">&#127919;</span>
+                        <span class="hiw-pts-label">Challenge win</span>
+                        <span class="hiw-pts-value">+10 pts</span>
+                    </div>
+                    <div class="hiw-points-card hiw-pts-penalty">
+                        <span class="hiw-pts-emoji">&#128997;</span>
+                        <span class="hiw-pts-label">Penalty</span>
+                        <span class="hiw-pts-value">-1 pt</span>
+                    </div>
+                    <div class="hiw-points-card hiw-pts-bonus">
+                        <span class="hiw-pts-emoji">&#11088;</span>
+                        <span class="hiw-pts-label">Bonus</span>
+                        <span class="hiw-pts-value">+1 pt</span>
                     </div>
                 </div>
             </div>
@@ -107,37 +198,37 @@
 
                 <!-- Day 1 - Travel Day -->
                 <div class="ch-day-content active" data-chday="1">
-                    <div class="ch-locked-card">
-                        <div class="ch-locked-icon">&#128274;</div>
+                    <div class="ch-locked-card ch-locked-arrival">
+                        <div class="ch-locked-icon">&#9992;&#65039;</div>
                         <div class="ch-locked-info">
-                            <h4>Games TBA</h4>
-                            <p>Announced on arrival</p>
+                            <h4>Arrival Night</h4>
+                            <p>Get here. Get settled. Then the games begin.</p>
                         </div>
-                        <span class="ch-locked-badge">Coming soon</span>
+                        <span class="ch-locked-badge">Wed 29 Apr</span>
                     </div>
                 </div>
 
                 <!-- Day 2 - Chateau Day -->
                 <div class="ch-day-content" data-chday="2">
-                    <div class="ch-locked-card">
-                        <div class="ch-locked-icon">&#128274;</div>
+                    <div class="ch-locked-card ch-locked-water">
+                        <div class="ch-locked-icon">&#128678;</div>
                         <div class="ch-locked-info">
-                            <h4>Games TBA</h4>
-                            <p>Announced on arrival</p>
+                            <h4>Canoeing &amp; Chateau Day</h4>
+                            <p>Down the river, back to the pool. Points start here.</p>
                         </div>
-                        <span class="ch-locked-badge">Coming soon</span>
+                        <span class="ch-locked-badge">Thu 30 Apr</span>
                     </div>
                 </div>
 
                 <!-- Day 3 - Adventure Day -->
                 <div class="ch-day-content" data-chday="3">
-                    <div class="ch-locked-card">
-                        <div class="ch-locked-icon">&#128274;</div>
+                    <div class="ch-locked-card ch-locked-wine">
+                        <div class="ch-locked-icon">&#127863;</div>
                         <div class="ch-locked-info">
-                            <h4>Games TBA</h4>
-                            <p>Announced on arrival</p>
+                            <h4>Wine &amp; Adventure Day</h4>
+                            <p>Medieval villages, ros&eacute; in hand. The best kind of Friday.</p>
                         </div>
-                        <span class="ch-locked-badge">Coming soon</span>
+                        <span class="ch-locked-badge">Fri 1 May</span>
                     </div>
                 </div>
 
@@ -155,25 +246,25 @@
 
                 <!-- Day 5 - Last Full Day -->
                 <div class="ch-day-content" data-chday="5">
-                    <div class="ch-locked-card">
-                        <div class="ch-locked-icon">&#128274;</div>
+                    <div class="ch-locked-card ch-locked-sunset">
+                        <div class="ch-locked-icon">&#127785;</div>
                         <div class="ch-locked-info">
-                            <h4>Games TBA</h4>
-                            <p>Announced on arrival</p>
+                            <h4>Last Full Day</h4>
+                            <p>Final games, closing ceremony &amp; last team dinner.</p>
                         </div>
-                        <span class="ch-locked-badge">Coming soon</span>
+                        <span class="ch-locked-badge">Sun 3 May</span>
                     </div>
                 </div>
 
                 <!-- Day 6 - Departure -->
                 <div class="ch-day-content" data-chday="6">
-                    <div class="ch-locked-card">
-                        <div class="ch-locked-icon">&#128274;</div>
+                    <div class="ch-locked-card ch-locked-travel">
+                        <div class="ch-locked-icon">&#128652;</div>
                         <div class="ch-locked-info">
-                            <h4>Games TBA</h4>
-                            <p>Announced on arrival</p>
+                            <h4>Departure Day</h4>
+                            <p>Pack up, clean up, head home happy.</p>
                         </div>
-                        <span class="ch-locked-badge">Coming soon</span>
+                        <span class="ch-locked-badge">Mon 4 May</span>
                     </div>
                 </div>
             </div>
@@ -319,6 +410,15 @@
         </div>
     </section>
 
+    <!-- Rate the Chefs Section -->
+    <section id="meal-ratings" class="section meal-ratings">
+        <div class="container">
+            <h2 class="section-title">Rate the Chefs &#11088;</h2>
+            <p class="section-subtitle">Score each team's dinner — results go on the leaderboard</p>
+            <div id="meal-ratings-inner"></div>
+        </div>
+    </section>
+
     <!-- Trip Bingo Section -->
     <section id="bingo" class="section bingo">
         <div class="container">
@@ -379,6 +479,6 @@
     <!-- Scripts -->
     <script src="js/shared.js?v=10"></script>
     <script src="js/nav.js"></script>
-    <script src="js/games.js?v=14"></script>
+    <script src="js/games.js?v=16"></script>
 </body>
 </html>

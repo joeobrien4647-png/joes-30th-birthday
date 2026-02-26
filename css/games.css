@@ -4115,64 +4115,293 @@ body.dark-mode .bingo {
 /* ============================================
    How It Works Panel
    ============================================ */
-.how-it-works {
-    margin-bottom: 1.5rem;
-}
-.hiw-toggle {
+.how-it-works { margin-bottom: 2rem; }
+
+.hiw-banner {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    background: var(--bg-card, #fff);
-    border: 1.5px solid var(--border, #e0e0e0);
-    border-radius: 10px;
-    padding: 0.75rem 1.25rem;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    cursor: pointer;
-    width: 100%;
-    text-align: left;
-    transition: background 0.2s;
+    gap: 16px;
+    background: var(--gradient-hero);
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    color: white;
 }
-.hiw-toggle:hover { background: var(--bg-secondary, #f5f5f5); }
-.hiw-chevron { margin-left: auto; font-size: 0.85rem; }
-.hiw-body {
-    margin-top: 0.75rem;
-    padding: 1.25rem;
-    background: var(--bg-card, #fff);
-    border: 1.5px solid var(--border, #e0e0e0);
-    border-radius: 10px;
+.hiw-banner-emoji { font-size: 2.5rem; line-height: 1; }
+.hiw-banner h3 { margin: 0; font-size: 1.3rem; font-weight: 800; }
+.hiw-banner p { margin: 4px 0 0; font-size: 0.9rem; opacity: 0.85; }
+
+.hiw-rules { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+
+.hiw-rule {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: var(--bg-white);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: var(--shadow-sm);
 }
-.hiw-grid {
+.hiw-rule-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--gradient-hero);
+    color: white;
+    font-weight: 800;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.hiw-rule-body h4 { margin: 0 0 4px; font-size: 0.95rem; font-weight: 700; color: var(--text-dark); }
+.hiw-rule-body p { margin: 0; font-size: 0.85rem; color: var(--text-light); line-height: 1.5; }
+.hiw-rule-body a { color: var(--primary); font-weight: 600; }
+
+/* Prizes & Forfeits */
+.hiw-pf-section { margin-bottom: 20px; }
+
+.hiw-pf-header {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+.hiw-pf-header.prizes {
+    background: rgba(76, 175, 80, 0.12);
+    color: #2e7d32;
+}
+.hiw-pf-header.forfeits {
+    background: rgba(244, 67, 54, 0.1);
+    color: #c62828;
+    margin-top: 16px;
+}
+
+.hiw-pf-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
 }
-.hiw-card {
-    padding: 1rem;
-    background: var(--bg-secondary, #f9f9f9);
-    border-radius: 8px;
+
+.hiw-pf-card {
+    background: var(--bg-white);
+    border-radius: 14px;
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+    box-shadow: var(--shadow-sm);
+    border-top: 3px solid transparent;
 }
-.hiw-card h4 {
+.hiw-pf-card.prize { border-top-color: #4caf50; }
+.hiw-pf-card.forfeit { border-top-color: #f44336; }
+
+.pf-icon { font-size: 1.8rem; line-height: 1; }
+.pf-title {
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    line-height: 1.2;
+}
+.pf-desc {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    line-height: 1.4;
+}
+
+@media (max-width: 500px) {
+    .hiw-pf-cards { grid-template-columns: 1fr; }
+    .hiw-pf-card { flex-direction: row; text-align: left; gap: 12px; }
+    .pf-icon { font-size: 1.5rem; flex-shrink: 0; }
+}
+
+.hiw-points-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+.hiw-points-card {
+    background: var(--bg-white);
+    border-radius: 12px;
+    padding: 14px 10px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border-top: 3px solid var(--primary);
+}
+.hiw-pts-penalty { border-top-color: #f44336; }
+.hiw-pts-bonus { border-top-color: #ff9800; }
+.hiw-pts-emoji { font-size: 1.4rem; }
+.hiw-pts-label { font-size: 0.72rem; color: var(--text-light); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.hiw-pts-value { font-size: 1rem; font-weight: 800; color: var(--primary); }
+.hiw-pts-penalty .hiw-pts-value { color: #f44336; }
+.hiw-pts-bonus .hiw-pts-value { color: #ff9800; }
+
+@media (max-width: 480px) {
+    .hiw-points-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ============================================
+   Rate the Chefs
+   ============================================ */
+.meal-ratings { background: var(--bg-light); }
+
+.meal-lock {
+    text-align: center;
+    padding: 50px 20px;
+    color: var(--text-light);
+}
+.meal-lock-icon { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+.meal-lock h3 { margin: 0 0 8px; font-size: 1.2rem; color: var(--text-dark); }
+.meal-lock p { margin: 0; font-size: 0.9rem; }
+
+.meal-day-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+}
+.meal-day-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 2px solid var(--border-color);
+    background: var(--bg-white);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+.meal-day-tab.active {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: white;
+}
+.meal-day-tab.special { border-color: #ffd700; }
+.meal-day-tab.special.active { background: linear-gradient(135deg, #ff9800, #ffd700); border-color: #ffd700; }
+.meal-tab-day { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; opacity: 0.7; }
+.meal-day-tab.active .meal-tab-day { opacity: 0.85; }
+.meal-tab-title { font-size: 0.82rem; font-weight: 700; }
+
+.meal-card {
+    background: var(--bg-white);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+.meal-card-special { border: 2px solid #ffd700; }
+
+.meal-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border-color);
+}
+.meal-card-header h3 { margin: 0; font-size: 1.1rem; }
+.meal-card-day { font-size: 0.8rem; color: var(--text-light); font-weight: 600; }
+
+.meal-form { padding: 20px 24px; }
+
+.meal-cat-row, .meal-result-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+.meal-cat-row:last-of-type, .meal-result-row:last-child { border-bottom: none; }
+
+.meal-cat-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    min-width: 130px;
+}
+.meal-cat-emoji { font-size: 1.1rem; }
+
+.star-row { display: flex; gap: 4px; }
+.star {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #ddd;
+    padding: 0;
+    line-height: 1;
+    transition: color 0.15s, transform 0.1s;
+}
+.star.filled, .star.hover { color: #ffc107; }
+.star:not([disabled]):hover { transform: scale(1.2); }
+.star[disabled] { cursor: default; }
+
+.meal-result-score {
     font-size: 0.9rem;
     font-weight: 700;
-    margin: 0 0 0.6rem;
-    color: var(--accent, #e91e8c);
+    color: var(--primary);
+    min-width: 28px;
+    text-align: right;
 }
-.hiw-card p {
-    font-size: 0.82rem;
-    margin: 0 0 0.5rem;
-    line-height: 1.5;
-    color: var(--text-secondary);
+
+.meal-submit-btn { margin-top: 20px; width: 100%; }
+
+.meal-rated-msg {
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.9rem;
+    color: var(--text-dark);
 }
-.hiw-card ul {
-    font-size: 0.82rem;
-    margin: 0 0 0.5rem;
-    padding-left: 1.2rem;
-    line-height: 1.7;
-    color: var(--text-secondary);
+.meal-change-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 3px 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    color: var(--text-light);
 }
-.hiw-card a { color: var(--accent, #e91e8c); }
+
+.meal-divider { border: none; border-top: 1px solid var(--border-color); margin: 0; }
+
+.meal-results { padding: 16px 24px 20px; }
+.meal-results-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light); margin: 0 0 12px; }
+
+.meal-overall {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+.meal-overall-score { font-size: 2.5rem; font-weight: 800; color: var(--primary); line-height: 1; }
+.meal-overall-label { font-size: 0.85rem; color: var(--text-light); }
+
+.meal-no-ratings { color: var(--text-light); font-size: 0.9rem; font-style: italic; margin: 0; }
+.meal-login-note { padding: 20px 24px; color: var(--text-light); font-size: 0.9rem; font-style: italic; }
+
+@media (max-width: 480px) {
+    .meal-cat-label { min-width: 110px; font-size: 0.82rem; }
+    .star { font-size: 1.3rem; }
+}
 
 /* ============================================
    Personal Bingo Lock
@@ -4308,6 +4537,61 @@ body.dark-mode .bingo {
     );
 }
 
+/* Arrival (Day 1) */
+.ch-locked-arrival {
+    background: linear-gradient(135deg, rgba(148, 163, 184, 0.06), rgba(100, 116, 139, 0.08));
+    border-color: rgba(100, 116, 139, 0.25);
+}
+.ch-locked-arrival .ch-locked-badge {
+    background: rgba(100, 116, 139, 0.12);
+    color: #475569;
+}
+.ch-locked-arrival .ch-locked-icon { opacity: 0.75; }
+
+/* Water / Canoeing (Day 2) */
+.ch-locked-water {
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.06), rgba(14, 165, 233, 0.08));
+    border-color: rgba(14, 165, 233, 0.3);
+}
+.ch-locked-water .ch-locked-badge {
+    background: rgba(14, 165, 233, 0.12);
+    color: #0369a1;
+}
+.ch-locked-water .ch-locked-icon { opacity: 0.8; }
+
+/* Wine / Adventure (Day 3) */
+.ch-locked-wine {
+    background: linear-gradient(135deg, rgba(167, 139, 250, 0.06), rgba(139, 92, 246, 0.08));
+    border-color: rgba(139, 92, 246, 0.3);
+}
+.ch-locked-wine .ch-locked-badge {
+    background: rgba(139, 92, 246, 0.12);
+    color: #6d28d9;
+}
+.ch-locked-wine .ch-locked-icon { opacity: 0.8; }
+
+/* Sunset / Last day (Day 5) */
+.ch-locked-sunset {
+    background: linear-gradient(135deg, rgba(251, 146, 60, 0.06), rgba(249, 115, 22, 0.08));
+    border-color: rgba(249, 115, 22, 0.3);
+}
+.ch-locked-sunset .ch-locked-badge {
+    background: rgba(249, 115, 22, 0.12);
+    color: #c2410c;
+}
+.ch-locked-sunset .ch-locked-icon { opacity: 0.8; }
+
+/* Travel / Departure (Day 6) */
+.ch-locked-travel {
+    background: linear-gradient(135deg, rgba(107, 114, 128, 0.05), rgba(75, 85, 99, 0.07));
+    border-color: rgba(107, 114, 128, 0.2);
+}
+.ch-locked-travel .ch-locked-badge {
+    background: rgba(107, 114, 128, 0.1);
+    color: #4b5563;
+}
+.ch-locked-travel .ch-locked-icon { opacity: 0.65; }
+
 /* ============================================
    Teams Locked Overlay
    ============================================ */
@@ -4315,11 +4599,26 @@ body.dark-mode .bingo {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 300px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 2px dashed rgba(255, 255, 255, 0.12);
+    min-height: 320px;
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%);
+    border: 2px solid rgba(255, 215, 0, 0.2);
     border-radius: 20px;
     padding: 3rem 2rem;
+    position: relative;
+    overflow: hidden;
+}
+.teams-locked-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 18px,
+        rgba(255, 215, 0, 0.02) 18px,
+        rgba(255, 215, 0, 0.02) 36px
+    );
+    pointer-events: none;
 }
 
 .teams-locked-content {

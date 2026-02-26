@@ -458,43 +458,97 @@
     font-size: 0.95rem;
 }
 
+/* Missions progress bar */
+.missions-bar-wrap {
+    height: 5px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+    margin: 0 0 14px;
+    overflow: hidden;
+}
+
+.missions-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #ff9f43);
+    border-radius: 3px;
+    width: 0%;
+    transition: width 0.5s ease;
+}
+
 .mission-item {
     display: flex;
     align-items: center;
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    transition: background 0.3s ease;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    margin-bottom: 7px;
+    background: rgba(255, 255, 255, 0.08);
+    border-left: 3px solid rgba(255, 255, 255, 0.12);
+    transition: background 0.25s ease, border-color 0.25s ease;
 }
 
 .mission-item.completed {
-    opacity: 0.7;
+    background: rgba(255, 217, 61, 0.1);
+    border-left-color: var(--accent);
+    opacity: 0.85;
 }
 
 .mission-checkbox {
     position: relative;
     display: inline-flex;
     cursor: pointer;
-    margin-right: 12px;
+    flex-shrink: 0;
 }
 
 .mission-checkbox input {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    accent-color: var(--accent);
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.checkmark {
+    width: 22px;
+    height: 22px;
+    border-radius: 7px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.mission-checkbox input:checked + .checkmark {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+.mission-checkbox input:checked + .checkmark::after {
+    content: '✓';
+    color: #1a1a2e;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1;
 }
 
 .mission-text {
     flex-grow: 1;
-    font-size: 0.95rem;
+    font-size: 0.93rem;
+    line-height: 1.4;
+}
+
+.mission-item.completed .mission-text {
+    text-decoration: line-through;
+    opacity: 0.7;
 }
 
 .mission-done {
     color: var(--accent);
-    font-weight: 600;
-    font-size: 0.85rem;
+    font-weight: 700;
+    font-size: 0.8rem;
+    white-space: nowrap;
 }
 
 .stats-grid {
@@ -587,6 +641,63 @@
 
 .trip-numbers-card {
     background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(255, 107, 157, 0.15)) !important;
+}
+
+.stats-teaser-card {
+    text-align: center;
+    border: 2px dashed rgba(124, 58, 237, 0.2);
+}
+
+.stats-teaser-text {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0 0 16px;
+}
+
+.stats-teaser-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 4px;
+}
+
+@media (max-width: 560px) {
+    .stats-teaser-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.teaser-feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 8px;
+    background: rgba(124, 58, 237, 0.05);
+    border: 1px solid rgba(124, 58, 237, 0.12);
+    border-radius: 12px;
+}
+
+.teaser-feature-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.teaser-feature-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-light);
+    text-align: center;
+    line-height: 1.3;
+}
+
+.team-explainer {
+    color: var(--text-light);
+    font-size: 0.85rem;
+    font-style: italic;
+    text-align: center;
+    margin: 12px 0 0;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
 }
 
 /* ============================================
@@ -716,6 +827,17 @@
 @keyframes milestoneGlow {
     0%, 100% { box-shadow: 0 0 20px rgba(255, 107, 157, 0.3); }
     50% { box-shadow: 0 0 40px rgba(255, 107, 157, 0.6); }
+}
+
+/* Countdown Rotating Tips */
+.countdown-tip {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.95rem;
+    font-style: italic;
+    margin: -10px 0 25px;
+    min-height: 1.4em;
+    transition: opacity 0.4s ease;
 }
 
 /* ============================================

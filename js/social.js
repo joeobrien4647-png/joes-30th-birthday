@@ -53,7 +53,7 @@ function initProfiles() {
 
         var photoPath = 'images/guests/' + slugify(data.name) + '.jpg';
         var avatarImg = document.createElement('img');
-        avatarImg.addEventListener('load', function () { this.style.display = 'block'; avatarInitials.style.display = 'none'; });
+        avatarImg.addEventListener('load', function () { this.style.display = 'block'; avatarInitials.style.display = 'none'; avatar.classList.add('has-photo'); });
         avatarImg.addEventListener('error', function () { this.style.display = 'none'; });
         avatarImg.src = photoPath;
         var avatarInitials = document.createElement('span');
@@ -70,6 +70,12 @@ function initProfiles() {
         roomEl.textContent = data.room || '';
         titleDiv.appendChild(nameEl);
         titleDiv.appendChild(roomEl);
+        if (data.knows) {
+            var knowsEl = document.createElement('p');
+            knowsEl.className = 'profile-knows';
+            knowsEl.textContent = data.knows;
+            titleDiv.appendChild(knowsEl);
+        }
 
         header.appendChild(avatar);
         header.appendChild(titleDiv);
@@ -112,15 +118,18 @@ function initProfiles() {
         body.className = 'profile-body';
 
         var fields = [
+            ['Known for', data.knownfor],
             ['Superlative', data.superlative],
             ['Fun Fact', data.fact],
             ['Bringing to the Trip', data.bringing],
-            ['Party Anthem', data.anthem]
+            ['Party Anthem', data.anthem],
+            ['🤝 Most likely to get on best with', data.bestmatch, 'field-bestmatch'],
+            ['⚡ Most likely to clash with', data.clashwith, 'field-clashwith']
         ];
         fields.forEach(function (f) {
             if (!f[1]) return;
             var field = document.createElement('div');
-            field.className = 'profile-field';
+            field.className = 'profile-field' + (f[2] ? ' ' + f[2] : '');
             var label = document.createElement('span');
             label.className = 'profile-label';
             label.textContent = f[0];

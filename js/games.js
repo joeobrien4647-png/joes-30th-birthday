@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initDailyChallengeReveal();
     initDailyRecapGenerator();
     initHowItWorks();
+    initMealRatings();
 });
 
 
@@ -3286,4 +3287,251 @@ function initDailyRecapGenerator() {
     var activeBtn = document.querySelector('.recap-day-btn.active');
     var initDay = activeBtn ? parseInt(activeBtn.dataset.day) : getDay();
     generateGazette(initDay);
+}
+
+/* ============================================
+   Rate the Chefs
+   ============================================ */
+function initMealRatings() {
+    var wrap = document.getElementById('meal-ratings-inner');
+    if (!wrap) return;
+
+    var MEALS = [
+        { day: 2, label: 'Thu 30 Apr', title: 'Team 3\'s Dinner', team: 'team3', special: false },
+        { day: 3, label: 'Fri 1 May',  title: 'Team 4\'s Dinner', team: 'team4', special: false },
+        { day: 4, label: 'Sat 2 May',  title: 'Team 1\'s Big Dinner', team: 'team1', special: true },
+        { day: 5, label: 'Sun 3 May',  title: 'Team 2\'s Last Dinner', team: 'team2', special: false }
+    ];
+
+    var CATEGORIES = [
+        { id: 'taste',        label: 'Taste',        emoji: '😋' },
+        { id: 'teamwork',     label: 'Teamwork',     emoji: '🤝' },
+        { id: 'creativity',   label: 'Creativity',   emoji: '🎨' },
+        { id: 'presentation', label: 'Presentation', emoji: '🍽️' },
+        { id: 'speed',        label: 'Speed',        emoji: '⚡' }
+    ];
+
+    var currentDay = MEALS[0].day;
+    var guestCode = localStorage.getItem('guestCode') || '';
+
+    // Pre-trip lock
+    if (!isRevealed()) {
+        wrap.innerHTML = '<div class="meal-lock"><span class="meal-lock-icon">🔒</span><h3>Ratings unlock on arrival</h3><p>Come back once you\'re at the chateau and the first dinner is done!</p></div>';
+        return;
+    }
+
+    function getRatings() { return Store.get('mealRatings', {}); }
+    function saveRatings(data) { Store.set('mealRatings', data); }
+
+    function getMyRating(day) {
+        var all = getRatings();
+        return (all[day] && all[day][guestCode]) || null;
+    }
+
+    function submitRating(day, scores) {
+        var all = getRatings();
+        if (!all[day]) all[day] = {};
+        all[day][guestCode] = scores;
+        saveRatings(all);
+
+        // Award +2 leaderboard points for rating
+        if (guestCode && GUEST_DATA[guestCode]) {
+            var name = GUEST_DATA[guestCode].name;
+            var ind = Store.get('lb_individualScores', {});
+            var team = typeof PLAYERS !== 'undefined' ? PLAYERS[name] : null;
+            var ts = Store.get('lb_teamScores', { team1: 0, team2: 0, team3: 0, team4: 0 });
+            var log = Store.get('lb_pointsLog', []);
+            ind[name] = (ind[name] || 0) + 2;
+            if (team) ts[team] = (ts[team] || 0) + 2;
+            log.push({ name: name, team: team, amount: 2, reason: 'Rated Day ' + day + ' dinner', day: day, ts: Date.now() });
+            Store.set('lb_individualScores', ind);
+            Store.set('lb_teamScores', ts);
+            Store.set('lb_pointsLog', log);
+        }
+    }
+
+    function getAverages(day) {
+        var all = getRatings();
+        var dayData = all[day] || {};
+        var voters = Object.keys(dayData);
+        if (!voters.length) return null;
+        var totals = {};
+        CATEGORIES.forEach(function(c) { totals[c.id] = 0; });
+        voters.forEach(function(code) {
+            CATEGORIES.forEach(function(c) { totals[c.id] += (dayData[code][c.id] || 0); });
+        });
+        var avgs = {};
+        CATEGORIES.forEach(function(c) { avgs[c.id] = totals[c.id] / voters.length; });
+        avgs._count = voters.length;
+        avgs._overall = CATEGORIES.reduce(function(s, c) { return s + avgs[c.id]; }, 0) / CATEGORIES.length;
+        return avgs;
+    }
+
+    function renderStars(value, max, interactive, onChange) {
+        var row = document.createElement('div');
+        row.className = 'star-row';
+        for (var i = 1; i <= max; i++) {
+            var star = document.createElement('button');
+            star.className = 'star' + (i <= value ? ' filled' : '');
+            star.textContent = '★';
+            star.setAttribute('data-val', i);
+            if (!interactive) { star.disabled = true; }
+            else {
+                (function(val) {
+                    star.addEventListener('click', function() { onChange(val); });
+                    star.addEventListener('mouseenter', function() {
+                        row.querySelectorAll('.star').forEach(function(s) {
+                            s.classList.toggle('hover', parseInt(s.dataset.val) <= val);
+                        });
+                    });
+                    star.addEventListener('mouseleave', function() {
+                        row.querySelectorAll('.star').forEach(function(s) { s.classList.remove('hover'); });
+                    });
+                })(i);
+            }
+            row.appendChild(star);
+        }
+        return row;
+    }
+
+    function renderRatingForm(meal) {
+        var scores = {};
+        CATEGORIES.forEach(function(c) { scores[c.id] = 0; });
+
+        var form = document.createElement('div');
+        form.className = 'meal-form';
+
+        CATEGORIES.forEach(function(cat) {
+            var row = document.createElement('div');
+            row.className = 'meal-cat-row';
+
+            var label = document.createElement('div');
+            label.className = 'meal-cat-label';
+            label.innerHTML = '<span class="meal-cat-emoji">' + cat.emoji + '</span><span>' + cat.label + '</span>';
+
+            var stars = renderStars(0, 5, true, function(val) {
+                scores[cat.id] = val;
+                var newStars = renderStars(val, 5, true, arguments.callee);
+                row.replaceChild(newStars, row.querySelector('.star-row'));
+                scores[cat.id] = val;
+            });
+
+            row.appendChild(label);
+            row.appendChild(stars);
+            form.appendChild(row);
+        });
+
+        var submitBtn = document.createElement('button');
+        submitBtn.className = 'btn btn-primary meal-submit-btn';
+        submitBtn.textContent = 'Submit Rating';
+        submitBtn.addEventListener('click', function() {
+            var allRated = CATEGORIES.every(function(c) { return scores[c.id] > 0; });
+            if (!allRated) {
+                submitBtn.textContent = 'Rate all 5 categories first!';
+                setTimeout(function() { submitBtn.textContent = 'Submit Rating'; }, 2000);
+                return;
+            }
+            submitRating(meal.day, scores);
+            render();
+            triggerMiniConfetti();
+        });
+
+        form.appendChild(submitBtn);
+        return form;
+    }
+
+    function renderResults(meal) {
+        var avgs = getAverages(meal.day);
+        var res = document.createElement('div');
+        res.className = 'meal-results';
+
+        if (!avgs) {
+            res.innerHTML = '<p class="meal-no-ratings">No ratings yet — be the first!</p>';
+            return res;
+        }
+
+        var overall = document.createElement('div');
+        overall.className = 'meal-overall';
+        overall.innerHTML = '<span class="meal-overall-score">' + avgs._overall.toFixed(1) + '</span><span class="meal-overall-label">/ 5 overall · ' + avgs._count + ' rating' + (avgs._count === 1 ? '' : 's') + '</span>';
+        res.appendChild(overall);
+
+        CATEGORIES.forEach(function(cat) {
+            var row = document.createElement('div');
+            row.className = 'meal-result-row';
+            var lbl = document.createElement('div');
+            lbl.className = 'meal-cat-label';
+            lbl.innerHTML = '<span class="meal-cat-emoji">' + cat.emoji + '</span><span>' + cat.label + '</span>';
+            var stars = renderStars(Math.round(avgs[cat.id]), 5, false, null);
+            var score = document.createElement('span');
+            score.className = 'meal-result-score';
+            score.textContent = avgs[cat.id].toFixed(1);
+            row.appendChild(lbl);
+            row.appendChild(stars);
+            row.appendChild(score);
+            res.appendChild(row);
+        });
+
+        return res;
+    }
+
+    function render() {
+        wrap.innerHTML = '';
+
+        // Day selector tabs
+        var tabs = document.createElement('div');
+        tabs.className = 'meal-day-tabs';
+        MEALS.forEach(function(meal) {
+            var btn = document.createElement('button');
+            btn.className = 'meal-day-tab' + (meal.day === currentDay ? ' active' : '') + (meal.special ? ' special' : '');
+            btn.innerHTML = '<span class="meal-tab-day">' + meal.label + '</span><span class="meal-tab-title">' + meal.title + '</span>';
+            btn.addEventListener('click', function() { currentDay = meal.day; render(); });
+            tabs.appendChild(btn);
+        });
+        wrap.appendChild(tabs);
+
+        var meal = MEALS.find(function(m) { return m.day === currentDay; });
+        var card = document.createElement('div');
+        card.className = 'meal-card' + (meal.special ? ' meal-card-special' : '');
+
+        var header = document.createElement('div');
+        header.className = 'meal-card-header';
+        header.innerHTML = '<h3>' + (meal.special ? '⭐ ' : '') + meal.title + '</h3><span class="meal-card-day">' + meal.label + '</span>';
+        card.appendChild(header);
+
+        var myRating = guestCode ? getMyRating(currentDay) : null;
+
+        if (!guestCode || !GUEST_DATA[guestCode]) {
+            var loginNote = document.createElement('p');
+            loginNote.className = 'meal-login-note';
+            loginNote.textContent = 'Log in to rate the meal';
+            card.appendChild(loginNote);
+        } else if (myRating) {
+            var doneMsg = document.createElement('div');
+            doneMsg.className = 'meal-rated-msg';
+            doneMsg.innerHTML = '✅ You rated this meal! <button class="meal-change-btn">Change</button>';
+            doneMsg.querySelector('.meal-change-btn').addEventListener('click', function() {
+                var all = getRatings();
+                if (all[currentDay]) delete all[currentDay][guestCode];
+                saveRatings(all);
+                render();
+            });
+            card.appendChild(doneMsg);
+        } else {
+            card.appendChild(renderRatingForm(meal));
+        }
+
+        var divider = document.createElement('hr');
+        divider.className = 'meal-divider';
+        card.appendChild(divider);
+
+        var resultsTitle = document.createElement('p');
+        resultsTitle.className = 'meal-results-title';
+        resultsTitle.textContent = 'Group Scores';
+        card.appendChild(resultsTitle);
+        card.appendChild(renderResults(meal));
+
+        wrap.appendChild(card);
+    }
+
+    render();
 }
