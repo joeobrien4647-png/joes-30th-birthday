@@ -2271,6 +2271,34 @@ body.dark-mode .rota-summary-item {
     line-height: 1.55;
 }
 
+/* Activity options list (e.g. lunch venue choices) */
+.activity-options {
+    margin: 8px 0 0;
+    padding-left: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.activity-options li {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    line-height: 1.5;
+    padding: 8px 12px;
+    background: var(--bg-light);
+    border-radius: 8px;
+}
+
+.activity-options li a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.activity-options li a:hover {
+    text-decoration: underline;
+}
+
 /* ---- Highlight items ---- */
 .timeline-item.highlight {
     background: transparent;
