@@ -38,6 +38,19 @@
     box-shadow: var(--shadow-md);
 }
 
+.btn-ghost {
+    background: rgba(255, 255, 255, 0.12);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(4px);
+}
+
+.btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.22);
+    border-color: rgba(255, 255, 255, 0.7);
+    transform: translateY(-3px);
+}
+
 .btn-large {
     padding: 18px 50px;
     font-size: 1.1rem;
