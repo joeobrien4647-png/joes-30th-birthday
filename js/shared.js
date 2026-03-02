@@ -1105,12 +1105,14 @@ function initTodayGlow() {
 }
 
 /* ============================================
-   Admin Shared State (jsonblob.com + localStorage fallback)
-   Syncs team reveal, announcements, and secret overrides
-   across all guests' browsers.
+   Admin Shared State (same-origin config file + localStorage)
+   Reads from /site-config.json (served by GitHub Pages).
+   Admin writes via GitHub web editor (Push Live button).
+   All guests poll the config every 2 min.
    ============================================ */
 const AdminState = {
-    BIN_URL: 'https://jsonblob.com/api/jsonBlob/019cb0aa-a5f3-767f-9a7e-30b92569cb3f',
+    CONFIG_URL: 'site-config.json',
+    EDIT_URL: 'https://github.com/joeobrien4647-png/joes-30th-birthday/edit/main/site-config.json',
     POLL_MS: 120000,
     _cache: null,
     _listeners: [],
@@ -1126,9 +1128,8 @@ const AdminState = {
 
     fetch: function(callback) {
         var self = this;
-        if (!self.BIN_URL) { if (callback) callback(self.get()); return; }
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', self.BIN_URL);
+        xhr.open('GET', self.CONFIG_URL + '?t=' + Date.now());
         xhr.timeout = 5000;
         xhr.onload = function() {
             if (xhr.status === 200) {
@@ -1145,20 +1146,32 @@ const AdminState = {
         xhr.send();
     },
 
+    /* Save to localStorage (instant local effect) and copy JSON for GitHub push */
     save: function(state, callback) {
         state.updatedAt = Date.now();
         this._cache = state;
         Store.set('adminState', state);
         this._notify(state);
+        if (callback) callback(true);
+    },
 
-        if (!this.BIN_URL) { if (callback) callback(false); return; }
-        var xhr = new XMLHttpRequest();
-        xhr.open('PUT', this.BIN_URL);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.timeout = 5000;
-        xhr.onload = function() { if (callback) callback(xhr.status === 200); };
-        xhr.onerror = xhr.ontimeout = function() { if (callback) callback(false); };
-        xhr.send(JSON.stringify(state));
+    /* Copy config JSON to clipboard and open GitHub editor */
+    pushLive: function(callback) {
+        var json = JSON.stringify(this.get(), null, 2) + '\n';
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(json).then(function() {
+                window.open(AdminState.EDIT_URL, '_blank');
+                if (callback) callback(true);
+            }).catch(function() {
+                prompt('Copy this JSON, then paste in the GitHub editor:', json);
+                window.open(AdminState.EDIT_URL, '_blank');
+                if (callback) callback(true);
+            });
+        } else {
+            prompt('Copy this JSON, then paste in the GitHub editor:', json);
+            window.open(AdminState.EDIT_URL, '_blank');
+            if (callback) callback(true);
+        }
     },
 
     onChange: function(fn) { this._listeners.push(fn); },
@@ -1282,10 +1295,9 @@ function initAdminPanel() {
                         '<button class="admin-btn admin-btn-secondary" id="admin-announce-clear">Clear</button>' +
                     '</div>' +
                 '</div>' +
-                '<div class="admin-section admin-sync">' +
-                    '<span class="admin-sync-status" id="admin-sync-status">' +
-                        'Synced' +
-                    '</span>' +
+                '<div class="admin-section admin-push">' +
+                    '<button class="admin-btn admin-btn-push" id="admin-push-live">Push Live to All Guests</button>' +
+                    '<p class="admin-hint" style="margin-top:8px">Copies config to clipboard &amp; opens GitHub editor. Paste, replace all, commit. Changes go live in ~1 min.</p>' +
                 '</div>' +
             '</div>';
 
@@ -1342,17 +1354,20 @@ function initAdminPanel() {
                 saveState(state);
             });
         }
+
+        var pushBtn = drawer.querySelector('#admin-push-live');
+        if (pushBtn) {
+            pushBtn.addEventListener('click', function() {
+                AdminState.pushLive(function() {
+                    pushBtn.textContent = 'Copied! Paste in GitHub editor';
+                    setTimeout(function() { pushBtn.textContent = 'Push Live to All Guests'; }, 4000);
+                });
+            });
+        }
     }
 
     function saveState(state) {
-        var statusEl = drawer.querySelector('#admin-sync-status');
-        if (statusEl) statusEl.textContent = 'Saving...';
-        AdminState.save(state, function(success) {
-            if (statusEl) {
-                statusEl.textContent = success ? 'Synced' : (AdminState.BIN_URL ? 'Saved locally (offline)' : 'Saved locally');
-                statusEl.className = 'admin-sync-status ' + (success ? 'synced' : 'offline');
-            }
-        });
+        AdminState.save(state);
     }
 
     function openDrawer() {

@@ -1722,16 +1722,25 @@ body.dark-mode .admin-announcement--celebration { background: linear-gradient(13
     to { transform: translateY(0); opacity: 1; }
 }
 
-/* Sync status */
-.admin-sync { text-align: center; padding-bottom: 10px; }
-.admin-sync-status {
-    font-size: 0.8rem;
-    padding: 3px 10px;
-    border-radius: 10px;
-    display: inline-block;
+/* Push Live button */
+.admin-push { text-align: center; }
+.admin-btn-push {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.admin-sync-status.synced { background: #e8f5e9; color: #2e7d32; }
-.admin-sync-status.offline { background: #fff3e0; color: #e65100; }
+.admin-btn-push:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+}
 
 @media (max-width: 480px) {
     .admin-fab { bottom: 70px; left: 12px; }
