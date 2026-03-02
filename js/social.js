@@ -24,9 +24,7 @@ function initProfiles() {
     var activeOverlay = null;
     var previousFocus = null;
 
-    function slugify(name) {
-        return name.toLowerCase().replace(/['']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-    }
+    // slugify() is now in shared.js
 
     function openProfile(data) {
         if (activeOverlay) closeProfile();
@@ -52,14 +50,55 @@ function initProfiles() {
         avatar.className = 'profile-avatar' + (isBirthday ? ' birthday' : '');
 
         var photoPath = 'images/guests/' + slugify(data.name) + '.jpg';
+        var localPhoto = getGuestPhoto(data.name);
         var avatarImg = document.createElement('img');
         avatarImg.addEventListener('load', function () { this.style.display = 'block'; avatarInitials.style.display = 'none'; avatar.classList.add('has-photo'); });
-        avatarImg.addEventListener('error', function () { this.style.display = 'none'; });
+        avatarImg.addEventListener('error', function () {
+            if (!this.dataset.triedLocal && localPhoto) {
+                this.dataset.triedLocal = 'true';
+                this.src = localPhoto;
+                return;
+            }
+            this.style.display = 'none';
+        });
         avatarImg.src = photoPath;
         var avatarInitials = document.createElement('span');
         avatarInitials.textContent = data.initials || '';
         avatar.appendChild(avatarImg);
         avatar.appendChild(avatarInitials);
+
+        // Upload button — own profile or admin
+        var isOwnProfile = false;
+        if (typeof Auth !== 'undefined' && Auth.isLoggedIn()) {
+            var gd = Auth.getGuestData();
+            if (gd && gd.fullName === data.name) isOwnProfile = true;
+        }
+        if (isOwnProfile || (typeof Auth !== 'undefined' && Auth.isAdmin())) {
+            var uploadBtn = document.createElement('button');
+            uploadBtn.className = 'profile-upload-btn';
+            uploadBtn.innerHTML = '&#128247;';
+            uploadBtn.title = 'Upload photo';
+            var uploadInput = document.createElement('input');
+            uploadInput.type = 'file';
+            uploadInput.accept = 'image/*';
+            uploadInput.setAttribute('capture', 'user');
+            uploadInput.style.display = 'none';
+            uploadBtn.addEventListener('click', function(e) { e.stopPropagation(); uploadInput.click(); });
+            uploadInput.addEventListener('change', function() {
+                if (!this.files || !this.files[0]) return;
+                compressProfilePhoto(this.files[0], function(dataUrl) {
+                    setGuestPhoto(data.name, dataUrl);
+                    avatarImg.dataset.triedLocal = '';
+                    avatarImg.src = dataUrl;
+                    avatarImg.style.display = 'block';
+                    avatarInitials.style.display = 'none';
+                    avatar.classList.add('has-photo');
+                    updateCrewCardPhoto(data.name, dataUrl);
+                });
+            });
+            avatar.appendChild(uploadBtn);
+            avatar.appendChild(uploadInput);
+        }
 
         var titleDiv = document.createElement('div');
         var nameEl = document.createElement('h2');
@@ -207,7 +246,7 @@ function initProfiles() {
         avatar.style.background = 'linear-gradient(135deg, ' + pal[0] + ' 0%, ' + pal[1] + ' 100%)';
     });
 
-    // Handle guest avatar images — hide broken, show on load
+    // Handle guest avatar images — hide broken, show on load, fallback to localStorage
     document.querySelectorAll('.guest-avatar img').forEach(function (img) {
         img.style.display = 'none';
         img.addEventListener('load', function () {
@@ -216,6 +255,15 @@ function initProfiles() {
             if (initials) initials.style.display = 'none';
         });
         img.addEventListener('error', function () {
+            var card = this.closest('.guest[data-name]');
+            if (card && !this.dataset.triedLocal) {
+                var localPhoto = getGuestPhoto(card.dataset.name);
+                if (localPhoto) {
+                    this.dataset.triedLocal = 'true';
+                    this.src = localPhoto;
+                    return;
+                }
+            }
             this.style.display = 'none';
         });
         // Re-trigger for cached images
@@ -684,6 +732,38 @@ function initAnonTraitTap() {
     });
 }
 
+/* Update crew grid card photo after upload (no reload needed) */
+function updateCrewCardPhoto(name, dataUrl) {
+    document.querySelectorAll('.guest[data-name="' + name + '"]').forEach(function(card) {
+        var img = card.querySelector('.guest-avatar img');
+        if (img) {
+            img.dataset.triedLocal = '';
+            img.src = dataUrl;
+            img.style.display = 'block';
+            var initials = card.querySelector('.guest-initials');
+            if (initials) initials.style.display = 'none';
+            var av = card.querySelector('.guest-avatar');
+            if (av) av.classList.add('img-loaded');
+        }
+    });
+}
+
+/* Teams Reveal — controlled by AdminState */
+function initTeamsReveal() {
+    function apply(revealed) {
+        var teaser = document.querySelector('.teams-locked-teaser');
+        var grid = document.querySelector('.teams-grid-4');
+        if (!teaser || !grid) return;
+        teaser.style.display = revealed ? 'none' : '';
+        grid.style.display = revealed ? '' : 'none';
+    }
+
+    if (typeof AdminState !== 'undefined') {
+        AdminState.onChange(function(state) { apply(state.teamsRevealed); });
+        apply(AdminState.get().teamsRevealed);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     initCrewTabs();
     initProfiles();
@@ -695,4 +775,5 @@ document.addEventListener('DOMContentLoaded', function() {
     initRoomFlip();
     initAnonTraitTap();
     initGuestHighlight();
+    initTeamsReveal();
 });

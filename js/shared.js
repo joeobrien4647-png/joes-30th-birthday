@@ -10,6 +10,42 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
+/* Utility: Slugify guest name for photo keys and image paths */
+function slugify(name) {
+    return name.toLowerCase().replace(/['']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
+/* Utility: Compress and square-crop an image file for profile photo use */
+function compressProfilePhoto(file, callback) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        var img = new Image();
+        img.onload = function() {
+            var canvas = document.createElement('canvas');
+            var size = 200;
+            canvas.width = size;
+            canvas.height = size;
+            var ctx = canvas.getContext('2d');
+            var srcSize = Math.min(img.width, img.height);
+            var srcX = (img.width - srcSize) / 2;
+            var srcY = (img.height - srcSize) / 2;
+            ctx.drawImage(img, srcX, srcY, srcSize, srcSize, 0, 0, size, size);
+            callback(canvas.toDataURL('image/jpeg', 0.6));
+        };
+        img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
+
+/* Utility: Get/set guest profile photo from localStorage */
+function getGuestPhoto(name) {
+    return Store.getRaw('guestPhoto_' + slugify(name));
+}
+function setGuestPhoto(name, dataUrl) {
+    try { Store.setRaw('guestPhoto_' + slugify(name), dataUrl); }
+    catch(e) { console.warn('Could not save profile photo — localStorage may be full'); }
+}
+
 /* Utility: Debounce */
 function debounce(func, wait) {
     let timeout;
@@ -1068,6 +1104,283 @@ function initTodayGlow() {
     }
 }
 
+/* ============================================
+   Admin Shared State (npoint.io + localStorage fallback)
+   Syncs team reveal, announcements, and secret overrides
+   across all guests' browsers.
+   ============================================ */
+const AdminState = {
+    BIN_URL: null, // Set after creating npoint bin, e.g. 'https://api.npoint.io/XXXXXXXX'
+    POLL_MS: 120000,
+    _cache: null,
+    _listeners: [],
+
+    defaults: function() {
+        return { teamsRevealed: false, announcement: null, secretOverrides: [], updatedAt: 0 };
+    },
+
+    get: function() {
+        if (this._cache) return this._cache;
+        return Store.get('adminState', this.defaults());
+    },
+
+    fetch: function(callback) {
+        var self = this;
+        if (!self.BIN_URL) { if (callback) callback(self.get()); return; }
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', self.BIN_URL);
+        xhr.timeout = 5000;
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                try {
+                    var state = JSON.parse(xhr.responseText);
+                    self._cache = state;
+                    Store.set('adminState', state);
+                    self._notify(state);
+                    if (callback) callback(state);
+                } catch(e) { if (callback) callback(self.get()); }
+            } else { if (callback) callback(self.get()); }
+        };
+        xhr.onerror = xhr.ontimeout = function() { if (callback) callback(self.get()); };
+        xhr.send();
+    },
+
+    save: function(state, callback) {
+        state.updatedAt = Date.now();
+        this._cache = state;
+        Store.set('adminState', state);
+        this._notify(state);
+
+        if (!this.BIN_URL) { if (callback) callback(false); return; }
+        var xhr = new XMLHttpRequest();
+        xhr.open('PATCH', this.BIN_URL);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.timeout = 5000;
+        xhr.onload = function() { if (callback) callback(xhr.status === 200); };
+        xhr.onerror = xhr.ontimeout = function() { if (callback) callback(false); };
+        xhr.send(JSON.stringify(state));
+    },
+
+    onChange: function(fn) { this._listeners.push(fn); },
+    _notify: function(state) { this._listeners.forEach(function(fn) { fn(state); }); },
+
+    startPolling: function() {
+        var self = this;
+        self.fetch();
+        setInterval(function() { if (!document.hidden) self.fetch(); }, self.POLL_MS);
+    }
+};
+
+/* Apply admin-controlled shared state on every page */
+function initAdminState() {
+    AdminState.startPolling();
+    AdminState.onChange(function(state) {
+        applyAnnouncement(state.announcement);
+        applySecretOverrides(state.secretOverrides || []);
+    });
+    var state = AdminState.get();
+    applyAnnouncement(state.announcement);
+    applySecretOverrides(state.secretOverrides || []);
+}
+
+function applyAnnouncement(announcement) {
+    var existing = document.getElementById('admin-announcement');
+    if (existing) existing.remove();
+    if (!announcement || !announcement.text) return;
+
+    var banner = document.createElement('div');
+    banner.id = 'admin-announcement';
+    banner.className = 'admin-announcement admin-announcement--' + (announcement.type || 'info');
+    banner.innerHTML = '<span class="announcement-text">' + escapeHtml(announcement.text) + '</span>' +
+        '<button class="announcement-dismiss" aria-label="Dismiss">&times;</button>';
+    banner.querySelector('.announcement-dismiss').addEventListener('click', function() {
+        banner.style.opacity = '0';
+        banner.style.transition = 'opacity 0.3s';
+        setTimeout(function() { banner.remove(); }, 300);
+    });
+
+    var nav = document.querySelector('.main-nav');
+    if (nav) nav.parentNode.insertBefore(banner, nav.nextSibling);
+    else document.body.prepend(banner);
+}
+
+function applySecretOverrides(overrides) {
+    if (!overrides.length) return;
+    document.querySelectorAll('.top-secret[data-unlock]').forEach(function(item) {
+        var unlockDate = item.dataset.unlock.split('T')[0];
+        if (overrides.indexOf(unlockDate) !== -1 || overrides.indexOf(item.dataset.unlock) !== -1) {
+            var overlay = item.querySelector('.secret-overlay');
+            var content = item.querySelector('.secret-content');
+            if (overlay) overlay.style.display = 'none';
+            if (content) content.style.display = 'block';
+            item.classList.add('unlocked');
+            item.classList.remove('top-secret');
+        }
+    });
+}
+
+/* Admin Panel — floating drawer for joe30/admin users */
+function initAdminPanel() {
+    if (!Auth.isAdmin()) return;
+
+    var fab = document.createElement('button');
+    fab.className = 'admin-fab';
+    fab.innerHTML = '&#9881;';
+    fab.title = 'Admin Panel';
+
+    var backdrop = document.createElement('div');
+    backdrop.className = 'admin-backdrop';
+
+    var drawer = document.createElement('div');
+    drawer.className = 'admin-drawer';
+
+    var SECRETS = [
+        { date: '2026-04-29', label: 'Day 1: Team Reveal & Ice Breakers' },
+        { date: '2026-05-02', label: 'Day 4: Birthday Olympics & Roast' }
+    ];
+
+    function buildContent() {
+        var state = AdminState.get();
+        drawer.innerHTML =
+            '<div class="admin-drawer-header">' +
+                '<h3>Admin Panel</h3>' +
+                '<button class="admin-drawer-close">&times;</button>' +
+            '</div>' +
+            '<div class="admin-drawer-body">' +
+                '<div class="admin-section">' +
+                    '<h4>Team Reveal</h4>' +
+                    '<label class="admin-toggle">' +
+                        '<input type="checkbox" id="admin-teams-toggle" ' + (state.teamsRevealed ? 'checked' : '') + '>' +
+                        '<span class="admin-toggle-slider"></span>' +
+                        '<span class="admin-toggle-label">' + (state.teamsRevealed ? 'Teams Visible' : 'Teams Hidden') + '</span>' +
+                    '</label>' +
+                '</div>' +
+                '<div class="admin-section">' +
+                    '<h4>Unlock Secrets</h4>' +
+                    '<p class="admin-hint">Override date locks to reveal content early.</p>' +
+                    '<div class="admin-secret-list">' +
+                        SECRETS.map(function(s) {
+                            var checked = (state.secretOverrides || []).indexOf(s.date) !== -1;
+                            return '<label class="admin-secret-item">' +
+                                '<input type="checkbox" data-date="' + s.date + '" ' + (checked ? 'checked' : '') + '>' +
+                                '<span>' + s.label + '</span></label>';
+                        }).join('') +
+                    '</div>' +
+                '</div>' +
+                '<div class="admin-section">' +
+                    '<h4>Announcement</h4>' +
+                    '<textarea id="admin-announce-text" placeholder="Type a message for all guests..." rows="3">' +
+                        escapeHtml(state.announcement ? state.announcement.text : '') +
+                    '</textarea>' +
+                    '<div class="admin-announce-types">' +
+                        '<button class="admin-announce-type' + (!state.announcement || state.announcement.type === 'info' ? ' active' : '') + '" data-type="info">Info</button>' +
+                        '<button class="admin-announce-type' + (state.announcement && state.announcement.type === 'warning' ? ' active' : '') + '" data-type="warning">Warning</button>' +
+                        '<button class="admin-announce-type' + (state.announcement && state.announcement.type === 'celebration' ? ' active' : '') + '" data-type="celebration">Party</button>' +
+                    '</div>' +
+                    '<div class="admin-announce-actions">' +
+                        '<button class="admin-btn admin-btn-primary" id="admin-announce-post">Post</button>' +
+                        '<button class="admin-btn admin-btn-secondary" id="admin-announce-clear">Clear</button>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="admin-section admin-sync">' +
+                    '<span class="admin-sync-status" id="admin-sync-status">' +
+                        (AdminState.BIN_URL ? 'Synced' : 'Local only (no cloud bin set)') +
+                    '</span>' +
+                '</div>' +
+            '</div>';
+
+        attachEvents(state);
+    }
+
+    function attachEvents(state) {
+        drawer.querySelector('.admin-drawer-close').addEventListener('click', closeDrawer);
+
+        var teamsToggle = drawer.querySelector('#admin-teams-toggle');
+        if (teamsToggle) {
+            teamsToggle.addEventListener('change', function() {
+                state.teamsRevealed = this.checked;
+                this.nextElementSibling.nextElementSibling.textContent = this.checked ? 'Teams Visible' : 'Teams Hidden';
+                saveState(state);
+            });
+        }
+
+        drawer.querySelectorAll('.admin-secret-item input').forEach(function(cb) {
+            cb.addEventListener('change', function() {
+                var date = this.dataset.date;
+                var overrides = state.secretOverrides || [];
+                if (this.checked) { if (overrides.indexOf(date) === -1) overrides.push(date); }
+                else { overrides = overrides.filter(function(d) { return d !== date; }); }
+                state.secretOverrides = overrides;
+                saveState(state);
+            });
+        });
+
+        var announceType = (state.announcement && state.announcement.type) || 'info';
+        drawer.querySelectorAll('.admin-announce-type').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                drawer.querySelectorAll('.admin-announce-type').forEach(function(b) { b.classList.remove('active'); });
+                this.classList.add('active');
+                announceType = this.dataset.type;
+            });
+        });
+
+        var postBtn = drawer.querySelector('#admin-announce-post');
+        if (postBtn) {
+            postBtn.addEventListener('click', function() {
+                var text = drawer.querySelector('#admin-announce-text').value.trim();
+                if (!text) return;
+                state.announcement = { text: text, type: announceType, timestamp: Date.now() };
+                saveState(state);
+            });
+        }
+
+        var clearBtn = drawer.querySelector('#admin-announce-clear');
+        if (clearBtn) {
+            clearBtn.addEventListener('click', function() {
+                state.announcement = null;
+                drawer.querySelector('#admin-announce-text').value = '';
+                saveState(state);
+            });
+        }
+    }
+
+    function saveState(state) {
+        var statusEl = drawer.querySelector('#admin-sync-status');
+        if (statusEl) statusEl.textContent = 'Saving...';
+        AdminState.save(state, function(success) {
+            if (statusEl) {
+                statusEl.textContent = success ? 'Synced' : (AdminState.BIN_URL ? 'Saved locally (offline)' : 'Saved locally');
+                statusEl.className = 'admin-sync-status ' + (success ? 'synced' : 'offline');
+            }
+        });
+    }
+
+    function openDrawer() {
+        buildContent();
+        drawer.classList.add('open');
+        backdrop.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeDrawer() {
+        drawer.classList.remove('open');
+        backdrop.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    fab.addEventListener('click', function() {
+        drawer.classList.contains('open') ? closeDrawer() : openDrawer();
+    });
+    backdrop.addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer();
+    });
+
+    document.body.appendChild(fab);
+    document.body.appendChild(backdrop);
+    document.body.appendChild(drawer);
+}
+
 /* Initialize shared components on every page */
 document.addEventListener('DOMContentLoaded', function () {
     // Page transition
@@ -1123,6 +1436,10 @@ document.addEventListener('DOMContentLoaded', function () {
     initMyTripDrawer();
     // Contextual guest highlighting
     applyGuestHighlighting();
+    // Admin shared state sync
+    initAdminState();
+    // Admin panel (admin users only)
+    initAdminPanel();
 });
 
 /* Update nav to show guest name */

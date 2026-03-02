@@ -309,6 +309,7 @@
 }
 
 .profile-avatar {
+    position: relative;
     width: 90px;
     height: 90px;
     border-radius: 50%;
@@ -319,9 +320,10 @@
     color: #fff;
     font-size: 1.5rem;
     flex-shrink: 0;
-    overflow: hidden;
     background: linear-gradient(135deg, #667eea, #764ba2);
 }
+.profile-avatar img { border-radius: inherit; }
+.profile-avatar.has-photo img { border-radius: 16px 16px 0 0; }
 
 /* When a real photo is present, switch to tall portrait banner */
 .profile-avatar.has-photo {
@@ -329,6 +331,7 @@
     height: 220px;
     border-radius: 16px 16px 0 0;
     margin-bottom: 0;
+    overflow: hidden;
 }
 
 .profile-avatar.birthday {
@@ -345,6 +348,32 @@
     display: none;
 }
 
+
+/* Profile Photo Upload Button */
+.profile-upload-btn {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid white;
+    background: var(--primary);
+    color: white;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s ease;
+    z-index: 2;
+    line-height: 1;
+}
+.profile-upload-btn:hover { transform: scale(1.15); }
+body.dark-mode .profile-upload-btn {
+    border-color: rgba(255, 255, 255, 0.6);
+}
 
 /* Header layout when photo banner is present */
 .profile-card:has(.profile-avatar.has-photo) .profile-header {
