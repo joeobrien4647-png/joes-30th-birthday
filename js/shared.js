@@ -1105,12 +1105,12 @@ function initTodayGlow() {
 }
 
 /* ============================================
-   Admin Shared State (npoint.io + localStorage fallback)
+   Admin Shared State (jsonblob.com + localStorage fallback)
    Syncs team reveal, announcements, and secret overrides
    across all guests' browsers.
    ============================================ */
 const AdminState = {
-    BIN_URL: null, // Set after creating npoint bin, e.g. 'https://api.npoint.io/XXXXXXXX'
+    BIN_URL: 'https://jsonblob.com/api/jsonBlob/019cb0aa-a5f3-767f-9a7e-30b92569cb3f',
     POLL_MS: 120000,
     _cache: null,
     _listeners: [],
@@ -1153,7 +1153,7 @@ const AdminState = {
 
         if (!this.BIN_URL) { if (callback) callback(false); return; }
         var xhr = new XMLHttpRequest();
-        xhr.open('PATCH', this.BIN_URL);
+        xhr.open('PUT', this.BIN_URL);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.timeout = 5000;
         xhr.onload = function() { if (callback) callback(xhr.status === 200); };
@@ -1284,7 +1284,7 @@ function initAdminPanel() {
                 '</div>' +
                 '<div class="admin-section admin-sync">' +
                     '<span class="admin-sync-status" id="admin-sync-status">' +
-                        (AdminState.BIN_URL ? 'Synced' : 'Local only (no cloud bin set)') +
+                        'Synced' +
                     '</span>' +
                 '</div>' +
             '</div>';
