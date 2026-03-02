@@ -25,7 +25,7 @@ function initProfiles() {
     var previousFocus = null;
 
     function slugify(name) {
-        return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        return name.toLowerCase().replace(/['']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
     }
 
     function openProfile(data) {
@@ -226,16 +226,78 @@ function initProfiles() {
         }
     });
 
+    // Collect all navigable guests
+    var allGuests = [];
+    var currentGuestIdx = -1;
+
+    function refreshGuestList() {
+        allGuests = Array.from(document.querySelectorAll('.guest[data-name]'));
+    }
+
+    function navigateProfile(dir) {
+        if (allGuests.length === 0) return;
+        currentGuestIdx = (currentGuestIdx + dir + allGuests.length) % allGuests.length;
+        closeProfile();
+        openProfile(allGuests[currentGuestIdx].dataset);
+        addProfileNav();
+    }
+
+    function addProfileNav() {
+        if (!activeOverlay || allGuests.length < 2) return;
+        var card = activeOverlay.querySelector('.profile-card');
+        if (!card) return;
+
+        // Arrows
+        var arrows = document.createElement('div');
+        arrows.className = 'profile-nav-arrows';
+        arrows.innerHTML = '<button class="profile-nav-arrow" data-dir="-1">&#8249;</button>' +
+            '<button class="profile-nav-arrow" data-dir="1">&#8250;</button>';
+        card.appendChild(arrows);
+        arrows.querySelectorAll('.profile-nav-arrow').forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                navigateProfile(parseInt(this.dataset.dir));
+            });
+        });
+
+        // Page dots (max 12 visible)
+        if (allGuests.length <= 30) {
+            var dots = document.createElement('div');
+            dots.className = 'profile-nav-dots';
+            allGuests.forEach(function (_, i) {
+                var dot = document.createElement('button');
+                dot.className = 'profile-nav-dot' + (i === currentGuestIdx ? ' active' : '');
+                dot.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    currentGuestIdx = i;
+                    closeProfile();
+                    openProfile(allGuests[i].dataset);
+                    addProfileNav();
+                });
+                dots.appendChild(dot);
+            });
+            card.appendChild(dots);
+        }
+    }
+
     // Event delegation — catches clicks on .guest anywhere
     document.addEventListener('click', function (e) {
         var guest = e.target.closest('.guest[data-name]');
         if (!guest) return;
+        refreshGuestList();
+        currentGuestIdx = allGuests.indexOf(guest);
         openProfile(guest.dataset);
+        addProfileNav();
     });
 
-    // Escape to close
+    // Escape to close, arrows to navigate
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && activeOverlay) closeProfile();
+        if (activeOverlay && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            e.preventDefault();
+            navigateProfile(e.key === 'ArrowRight' ? 1 : -1);
+        }
     });
 }
 
@@ -316,7 +378,8 @@ function initBirthdayMessages() {
             var len = this.value.length;
             var max = this.maxLength || 500;
             charCount.textContent = len + ' / ' + max;
-            charCount.classList.toggle('char-count-warn', len > max * 0.9);
+            charCount.classList.toggle('char-count-caution', len >= max * 0.8 && len < max * 0.9);
+            charCount.classList.toggle('char-count-warn', len >= max * 0.9);
         });
     }
 
@@ -365,6 +428,9 @@ function initBirthdayMessages() {
                 Store.set('messageUserReactions', userReactions);
 
                 this.classList.add('reacted');
+                this.classList.remove('just-reacted');
+                void this.offsetWidth;
+                this.classList.add('just-reacted');
                 this.querySelector('span').textContent = reactions[mid][emojiKey];
             });
         });
@@ -381,9 +447,252 @@ function initBirthdayMessages() {
 }
 
 /* ============================================
+   Crew Tabs (Rooms / Teams)
+   ============================================ */
+function initCrewTabs() {
+    var tabs = document.querySelectorAll('.crew-tab-btn');
+    var roomsView = document.getElementById('crew-view-rooms');
+    var teamsView = document.getElementById('crew-view-teams');
+    var barsAnimated = false;
+
+    if (!tabs.length || !roomsView || !teamsView) return;
+
+    function animateTeamsView() {
+        // Animate stat bars
+        if (!barsAnimated) {
+            barsAnimated = true;
+            requestAnimationFrame(function() {
+                requestAnimationFrame(function() {
+                    teamsView.querySelectorAll('.stat-fill').forEach(function(bar) {
+                        bar.style.width = (bar.dataset.pct || 0) + '%';
+                    });
+                });
+            });
+        }
+        // Stagger-pop the anonymous member circles
+        teamsView.querySelectorAll('.anon-member').forEach(function(m, i) {
+            m.style.transitionDelay = (i * 35) + 'ms';
+            m.classList.remove('anon-visible');
+        });
+        requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+                teamsView.querySelectorAll('.anon-member').forEach(function(m) {
+                    m.classList.add('anon-visible');
+                });
+            });
+        });
+    }
+
+    tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+            tabs.forEach(function(t) { t.classList.remove('active'); });
+            this.classList.add('active');
+
+            if (this.dataset.tab === 'teams') {
+                roomsView.style.display = 'none';
+                teamsView.style.display = '';
+                animateTeamsView();
+            } else {
+                teamsView.style.display = 'none';
+                roomsView.style.display = '';
+            }
+        });
+    });
+}
+
+/* ============================================
    Initialize All Social Features
    ============================================ */
+/* Crew Avatar Skeleton Loaders */
+function initCrewSkeletons() {
+    document.querySelectorAll('.guest-avatar img').forEach(function (img) {
+        var avatar = img.closest('.guest-avatar');
+        function onLoad() {
+            avatar.classList.add('img-loaded');
+        }
+        function onError() {
+            img.style.display = 'none'; // reveal initials behind
+            avatar.classList.add('img-loaded'); // stop shimmer
+        }
+        if (img.complete) {
+            img.naturalWidth > 0 ? onLoad() : onError();
+        } else {
+            img.addEventListener('load', onLoad);
+            img.addEventListener('error', onError);
+        }
+    });
+}
+
+/* ============================================
+   Skeleton Loaders for Message Wall
+   ============================================ */
+function initMessageSkeletons() {
+    var wall = document.getElementById('messages-wall');
+    if (!wall) return;
+    // Show skeletons briefly while messages load
+    var count = 3;
+    for (var i = 0; i < count; i++) {
+        var skel = document.createElement('div');
+        skel.className = 'skel-card msg-skeleton';
+        skel.innerHTML = '<div class="skel-circle"></div><div class="skel-line"></div><div class="skel-line"></div><div class="skel-line"></div>';
+        wall.appendChild(skel);
+    }
+    // Remove after real content renders
+    setTimeout(function () {
+        wall.querySelectorAll('.msg-skeleton').forEach(function (s) {
+            s.style.opacity = '0';
+            s.style.transition = 'opacity 0.3s ease';
+            setTimeout(function () { s.remove(); }, 300);
+        });
+    }, 600);
+}
+
+/* ============================================
+   Gesture Hint (mobile swipe hints)
+   ============================================ */
+function initGestureHints() {
+    if (window.innerWidth > 768) return;
+    if (Store.get('gestureHintSeen', false)) return;
+
+    var scrollable = document.querySelector('.messages-wall, .photo-grid, .crew-grid');
+    if (!scrollable) return;
+
+    var hint = document.createElement('div');
+    hint.className = 'gesture-hint';
+    hint.textContent = '\u2194\uFE0F Swipe to explore';
+    document.body.appendChild(hint);
+
+    setTimeout(function () { hint.classList.add('visible'); }, 1200);
+    setTimeout(function () {
+        hint.classList.remove('visible');
+        setTimeout(function () { hint.remove(); }, 300);
+    }, 4000);
+
+    Store.set('gestureHintSeen', true);
+}
+
+/* Social page scroll-spy for sub-nav */
+function initSocialScrollSpy() {
+    var links = document.querySelectorAll('.sub-nav-links a');
+    if (!links.length) return;
+
+    var sections = [];
+    links.forEach(function(link) {
+        var id = link.getAttribute('href');
+        if (id && id.startsWith('#')) {
+            var el = document.querySelector(id);
+            if (el) sections.push({ el: el, link: link });
+        }
+    });
+
+    if (!sections.length) return;
+
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                links.forEach(function(l) { l.classList.remove('active'); });
+                var match = sections.find(function(s) { return s.el === entry.target; });
+                if (match) match.link.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+
+    sections.forEach(function(s) { observer.observe(s.el); });
+}
+
+/* Room card flip reveal on scroll */
+function initRoomFlip() {
+    var cards = document.querySelectorAll('.room-card');
+    if (!cards.length) return;
+
+    cards.forEach(function(card) { card.classList.add('flip-hidden'); });
+
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.remove('flip-hidden');
+                entry.target.classList.add('flip-visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+
+    cards.forEach(function(card, i) {
+        card.style.transitionDelay = (i % 3) * 0.1 + 's';
+        observer.observe(card);
+    });
+}
+
+/* ============================================
+   Guest Highlighting — own room + own profile
+   ============================================ */
+function initGuestHighlight() {
+    function applyHighlights(d) {
+        if (!d || !d.fullName) return;
+
+        // Room matching: GUEST_DATA "Master Suite" = social.html "Room 1"
+        var ROOM_MAP = { 'Master Suite': 'Room 1' };
+        var roomLabel = ROOM_MAP[d.room] || d.room;
+
+        // Highlight own room card
+        document.querySelectorAll('.room-card').forEach(function(card) {
+            var roomNum = card.querySelector('.room-number');
+            if (roomNum && roomNum.textContent.trim() === roomLabel) {
+                card.classList.add('guest-room-highlight');
+                var header = card.querySelector('.room-header');
+                if (header && !header.querySelector('.guest-room-badge')) {
+                    var badge = document.createElement('span');
+                    badge.className = 'guest-room-badge';
+                    badge.textContent = 'Your Room';
+                    header.appendChild(badge);
+                }
+            }
+        });
+
+        // Highlight own profile card
+        document.querySelectorAll('.guest-card.guest[data-name]').forEach(function(card) {
+            if (card.dataset.name === d.fullName) {
+                card.classList.add('guest-self-highlight');
+                if (!card.querySelector('.guest-self-badge')) {
+                    var tag = document.createElement('span');
+                    tag.className = 'guest-self-badge';
+                    tag.textContent = '\uD83D\uDC48 You';
+                    card.appendChild(tag);
+                }
+            }
+        });
+    }
+
+    // Listen for future events (e.g. after switching guest)
+    document.addEventListener('guestHighlight', function(e) { applyHighlights(e.detail); });
+
+    // Apply immediately if already logged in
+    if (typeof Auth !== 'undefined' && Auth.isLoggedIn()) {
+        var guest = Auth.getGuestData();
+        if (guest) applyHighlights({ name: guest.name, fullName: guest.fullName, room: guest.room, code: Auth.getGuestCode() });
+    }
+}
+
+/* Tap-to-toggle scouting report on mobile */
+function initAnonTraitTap() {
+    document.addEventListener('click', function(e) {
+        var member = e.target.closest('.anon-member');
+        document.querySelectorAll('.anon-member.anon-trait-open').forEach(function(m) {
+            if (m !== member) m.classList.remove('anon-trait-open');
+        });
+        if (member) member.classList.toggle('anon-trait-open');
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+    initCrewTabs();
     initProfiles();
+    initMessageSkeletons();
     initBirthdayMessages();
+    initCrewSkeletons();
+    initGestureHints();
+    initSocialScrollSpy();
+    initRoomFlip();
+    initAnonTraitTap();
+    initGuestHighlight();
 });

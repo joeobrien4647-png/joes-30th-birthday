@@ -157,7 +157,7 @@ function initTravelPlans() {
 function initArrivalCountdown() {
     var el = document.getElementById('arrival-countdown');
     if (!el) return;
-    var arrivalDate = new Date('2026-04-29T10:30:00Z'); // 12:30 CEST
+    var arrivalDate = new Date('2026-04-29T08:30:00Z'); // 10:30 CEST
     function update() {
         var now = Date.now();
         var diff = arrivalDate.getTime() - now;
@@ -215,9 +215,40 @@ function initPretripChecklist() {
 /* ============================================
    Initialize All on DOMContentLoaded
    ============================================ */
+/* ============================================
+   Guest Highlighting — travel arrival chip
+   ============================================ */
+function initPracticalHighlight() {
+    function applyHighlights(d) {
+        if (!d || !d.name) return;
+        var gName = d.name.toLowerCase();
+
+        // Highlight the guest's name in arrival chips
+        // Handles: exact match, nickname (Pete vs Peter), pairs (Luke & Sam vs Samantha)
+        document.querySelectorAll('.arrival-chip').forEach(function(chip) {
+            var text = chip.textContent.trim();
+            var parts = text.split('&').map(function(s) { return s.trim().toLowerCase(); });
+            var match = parts.some(function(p) {
+                return p === gName || gName.indexOf(p) === 0 || p.indexOf(gName) === 0;
+            });
+            if (match) chip.classList.add('guest-travel-highlight');
+        });
+    }
+
+    // Listen for future events
+    document.addEventListener('guestHighlight', function(e) { applyHighlights(e.detail); });
+
+    // Apply immediately if already logged in
+    if (typeof Auth !== 'undefined' && Auth.isLoggedIn()) {
+        var guest = Auth.getGuestData();
+        if (guest) applyHighlights({ name: guest.name, fullName: guest.fullName, room: guest.room, code: Auth.getGuestCode() });
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     initSubNavHighlight();
     initTravelPlans();
     initArrivalCountdown();
     initPretripChecklist();
+    initPracticalHighlight();
 });

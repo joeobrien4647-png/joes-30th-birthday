@@ -11,6 +11,99 @@
    ============================================ */
 
 
+/* ---- Locked Content Countdown Timers ---- */
+function initLockedCountdowns() {
+    var targets = document.querySelectorAll('[data-unlock]');
+    if (!targets.length) return;
+
+    function formatCountdown(isoDate) {
+        var now = new Date();
+        var target = new Date(isoDate);
+        var diff = target - now;
+        if (diff <= 0) return null;
+        var days = Math.floor(diff / 86400000);
+        var hours = Math.floor((diff % 86400000) / 3600000);
+        var mins = Math.floor((diff % 3600000) / 60000);
+        if (days > 0) return days + 'd ' + hours + 'h';
+        if (hours > 0) return hours + 'h ' + mins + 'm';
+        return mins + 'm';
+    }
+
+    function update() {
+        targets.forEach(function(el) {
+            var iso = el.getAttribute('data-unlock');
+            var text = formatCountdown(iso);
+            // Find or create a countdown child element
+            var cdEl = el.querySelector('.ch-cd, .ch-pill-cd');
+            if (!cdEl) {
+                cdEl = document.createElement('span');
+                // Badges inside .ch-locked-badge get .ch-cd, pill elements get .ch-pill-cd
+                cdEl.className = el.classList.contains('ch-locked-badge') ? 'ch-cd' : 'ch-pill-cd';
+                el.appendChild(cdEl);
+            }
+            if (text) {
+                cdEl.textContent = '⏱ ' + text;
+                cdEl.style.display = '';
+            } else {
+                cdEl.style.display = 'none';
+            }
+        });
+    }
+
+    update();
+    setInterval(update, 60000);
+}
+
+/* ============================================
+   Guest Highlighting — leaderboard + bingo
+   ============================================ */
+function initGamesHighlight() {
+    function applyHighlights(d) {
+        if (!d || !d.name) return;
+
+        // Highlight own row in individual leaderboard
+        document.querySelectorAll('.ind-row').forEach(function(row) {
+            var nameEl = row.querySelector('.ind-name');
+            if (nameEl && nameEl.textContent.indexOf(d.fullName) !== -1) {
+                row.classList.add('guest-lb-highlight');
+            }
+        });
+
+        // Add "Your Personal Card" label above bingo
+        var bingoCard = document.getElementById('bingo-card');
+        if (bingoCard && !document.querySelector('.bingo-your-card-label')) {
+            var label = document.createElement('div');
+            label.className = 'bingo-your-card-label';
+            label.textContent = '\uD83C\uDFB2 Your Personal Bingo Card';
+            bingoCard.parentNode.insertBefore(label, bingoCard);
+        }
+    }
+
+    // Listen for future events
+    document.addEventListener('guestHighlight', function(e) { applyHighlights(e.detail); });
+
+    // Apply immediately if already logged in
+    if (typeof Auth !== 'undefined' && Auth.isLoggedIn()) {
+        var guest = Auth.getGuestData();
+        if (guest) applyHighlights({ name: guest.name, fullName: guest.fullName, room: guest.room, code: Auth.getGuestCode() });
+    }
+
+    // Re-highlight after leaderboard re-renders (scores change via admin panel)
+    var lbObserver = new MutationObserver(function() {
+        if (!Auth.isLoggedIn()) return;
+        var guest = Auth.getGuestData();
+        if (!guest) return;
+        document.querySelectorAll('.ind-row').forEach(function(row) {
+            var nameEl = row.querySelector('.ind-name');
+            if (nameEl && nameEl.textContent.indexOf(guest.fullName) !== -1) {
+                row.classList.add('guest-lb-highlight');
+            }
+        });
+    });
+    var board = document.getElementById('individual-board');
+    if (board) lbObserver.observe(board, { childList: true });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     initBingo();
     initChallenges();
@@ -19,6 +112,8 @@ document.addEventListener('DOMContentLoaded', function () {
     initDailyRecapGenerator();
     initHowItWorks();
     initMealRatings();
+    initLockedCountdowns();
+    initGamesHighlight();
 });
 
 
@@ -51,8 +146,25 @@ function initBingo() {
     const isUnlocked = !BINGO_LOCKED || Auth.isAdmin();
 
     if (!isUnlocked) {
-        if (lockOverlay) lockOverlay.style.display = 'flex';
-        bingoCard.style.display = 'none';
+        // Render blurred preview grid behind the lock overlay
+        bingoCard.innerHTML = '';
+        for (var i = 0; i < 25; i++) {
+            var cell = document.createElement('div');
+            cell.className = 'bingo-cell bingo-cell-preview' + (i === 12 ? ' free' : '');
+            cell.textContent = i === 12 ? 'FREE \u2B50' : '???';
+            bingoCard.appendChild(cell);
+        }
+        bingoCard.classList.add('bingo-preview');
+
+        if (lockOverlay) {
+            lockOverlay.style.display = 'flex';
+            var wrap = document.createElement('div');
+            wrap.className = 'bingo-preview-wrap';
+            bingoCard.parentNode.insertBefore(wrap, lockOverlay);
+            wrap.appendChild(bingoCard);
+            wrap.appendChild(lockOverlay);
+        }
+
         if (resetBtn) resetBtn.style.display = 'none';
         return;
     }
@@ -176,6 +288,13 @@ function initBingo() {
         }
         Store.set(storeKey, markedCells);
         renderCard();
+        // Tap pop animation
+        var cells = bingoCard.querySelectorAll('.bingo-cell');
+        if (cells[index]) {
+            cells[index].classList.remove('cell-pop');
+            void cells[index].offsetWidth;
+            cells[index].classList.add('cell-pop');
+        }
         checkWin();
     }
 
@@ -186,7 +305,7 @@ function initBingo() {
             [0,6,12,18,24],[4,8,12,16,20]
         ];
         var hasWin = winPatterns.some(function(p) { return p.every(function(i) { return markedCells.includes(i); }); });
-        if (hasWin && winnerDisplay) winnerDisplay.style.display = 'block';
+        if (winnerDisplay) winnerDisplay.style.display = hasWin ? 'block' : 'none';
     }
 }
 
@@ -229,19 +348,26 @@ function initSpinWheel() {
         const options = wheelData[currentWheel];
         const segmentAngle = 360 / options.length;
         const randomIndex = Math.floor(Math.random() * options.length);
-        const extraSpins = 5 * 360; // 5 full rotations
+        const extraSpins = 7 * 360; // 7 full rotations for more drama
         const targetAngle = extraSpins + (360 - (randomIndex * segmentAngle + segmentAngle / 2));
 
         rotation += targetAngle;
         spinner.style.transform = `rotate(${rotation}deg)`;
 
+        // Pointer bounce when wheel stops
+        const pointer = document.querySelector('.wheel-pointer');
         setTimeout(() => {
+            if (pointer) {
+                pointer.classList.remove('pointer-bounce');
+                void pointer.offsetWidth;
+                pointer.classList.add('pointer-bounce');
+            }
             result.innerHTML = `<p>\uD83C\uDFAF ${options[randomIndex]}!</p>`;
             result.classList.add('winner');
             setTimeout(() => result.classList.remove('winner'), 500);
             isSpinning = false;
             spinBtn.disabled = false;
-        }, 4000);
+        }, 5000);
     });
 }
 
@@ -1947,8 +2073,13 @@ function initH2HQuiz() {
         var opts = document.querySelectorAll('#h2h-options .quiz-option');
         opts.forEach(function (o, i) {
             o.style.pointerEvents = 'none';
-            if (i === q.correct) o.classList.add('correct');
-            else if (i === idx && i !== q.correct) o.classList.add('incorrect');
+            if (i === q.correct) {
+                o.classList.add('correct');
+                o.innerHTML = '\u2714\uFE0F ' + o.textContent;
+            } else if (i === idx && i !== q.correct) {
+                o.classList.add('incorrect');
+                o.innerHTML = '\u274C ' + o.textContent;
+            }
         });
 
         if (idx === q.correct) {
@@ -3331,11 +3462,12 @@ function initMealRatings() {
     function submitRating(day, scores) {
         var all = getRatings();
         if (!all[day]) all[day] = {};
+        var alreadyRated = !!all[day][guestCode];
         all[day][guestCode] = scores;
         saveRatings(all);
 
-        // Award +2 leaderboard points for rating
-        if (guestCode && GUEST_DATA[guestCode]) {
+        // Award +2 leaderboard points for rating (only on first submission per day)
+        if (!alreadyRated && guestCode && GUEST_DATA[guestCode]) {
             var name = GUEST_DATA[guestCode].name;
             var ind = Store.get('lb_individualScores', {});
             var team = typeof PLAYERS !== 'undefined' ? PLAYERS[name] : null;

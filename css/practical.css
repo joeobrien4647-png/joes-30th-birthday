@@ -12,7 +12,7 @@
 .info-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 22px;
+    gap: 26px;
 }
 
 .info-card {
@@ -24,8 +24,13 @@
 }
 
 .info-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.1);
+    border-color: rgba(124, 58, 237, 0.12);
+}
+.info-card:hover .info-icon {
+    transform: translateY(-2px) scale(1.08);
+    transition: transform 0.25s cubic-bezier(0.34, 1.2, 0.64, 1);
 }
 
 .info-icon {
@@ -60,7 +65,7 @@
 }
 
 .info-card li {
-    padding: 8px 0 8px 18px;
+    padding: 11px 0 11px 18px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     font-size: 0.93rem;
     color: var(--text-dark);
@@ -134,9 +139,68 @@
     line-height: 1.5;
 }
 
+/* Car Hire Card */
+.car-hire-card {
+    border-left: 4px solid var(--primary);
+}
+.car-hire-breakdown {
+    display: flex;
+    gap: 16px;
+    margin: 16px 0;
+    flex-wrap: wrap;
+}
+.car-hire-stat {
+    flex: 1;
+    min-width: 100px;
+    text-align: center;
+    padding: 12px 8px;
+    background: var(--bg-light);
+    border-radius: 12px;
+}
+.car-hire-num {
+    display: block;
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--primary);
+}
+.car-hire-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+.car-hire-cost {
+    font-size: 0.9rem;
+    margin-top: 12px;
+    line-height: 1.6;
+}
+.car-hire-note {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-top: 8px;
+}
+
 /* Emergency Info Card */
 .info-card.emergency {
     border-left: none;
+    background: linear-gradient(150deg, #fff5f5 0%, #fff 70%);
+}
+
+.info-card.emergency h3 {
+    color: #dc2626;
+}
+
+.info-card.emergency .info-icon {
+    background: rgba(220, 38, 38, 0.12);
+}
+
+.info-card.emergency li::before {
+    background: #dc2626;
+}
+
+.info-card.emergency strong {
+    color: #b91c1c;
 }
 
 /* ============================================
@@ -157,7 +221,7 @@
 .chateau-gallery-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    gap: 16px;
 }
 
 .chateau-gallery-grid img:first-child {
@@ -170,11 +234,19 @@
     object-fit: cover;
     border-radius: 14px;
     box-shadow: 0 3px 14px rgba(0, 0, 0, 0.07);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: zoom-in;
 }
 
 .chateau-gallery-grid img:hover {
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    transform: scale(1.05) rotate(1.2deg);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.22);
+    z-index: 2;
+    position: relative;
+}
+
+.chateau-gallery-grid img:nth-child(even):hover {
+    transform: scale(1.05) rotate(-1.2deg);
 }
 
 .gallery-credit {
@@ -281,7 +353,7 @@
     margin: 0 auto;
 }
 .checklist li {
-    padding: 10px 0;
+    padding: 13px 0;
     border-bottom: 1px solid var(--border-color);
 }
 .checklist li:last-child {
@@ -290,10 +362,18 @@
 .checklist label {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     cursor: pointer;
     font-size: 0.95rem;
     color: var(--text-dark);
+}
+
+.check-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    display: inline-block;
+    width: 26px;
+    text-align: center;
 }
 .checklist input[type="checkbox"] {
     width: 20px;
@@ -356,18 +436,25 @@
 
 .checklist-progress-track {
     flex: 1;
-    height: 7px;
+    height: 10px;
     background: rgba(124, 58, 237, 0.1);
-    border-radius: 4px;
+    border-radius: 5px;
     overflow: hidden;
 }
 
 .checklist-progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--primary), #8b5cf6);
-    border-radius: 4px;
+    background: linear-gradient(90deg, var(--primary) 0%, #8b5cf6 50%, var(--primary) 100%);
+    background-size: 200% 100%;
+    border-radius: 5px;
     width: 0%;
-    transition: width 0.4s ease;
+    transition: width 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+    animation: progressShimmer 2.5s ease-in-out infinite;
+}
+
+@keyframes progressShimmer {
+    0%   { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
 }
 
 .checklist-progress-text {
@@ -458,7 +545,7 @@
 .travel-status-options {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
 }
 
 .travel-status-btn {
@@ -554,6 +641,12 @@ body.dark-mode .travel-overview-row {
 body.dark-mode .info-card li {
     border-bottom-color: rgba(255, 255, 255, 0.06);
 }
+body.dark-mode .info-card.emergency {
+    background: linear-gradient(150deg, rgba(220, 38, 38, 0.12) 0%, var(--bg-white) 70%);
+}
+body.dark-mode .info-card.emergency h3 {
+    color: #f87171;
+}
 
 /* ============================================
    90s Night Costume Callout
@@ -637,7 +730,7 @@ body.dark-mode .info-card li {
 .costume-chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 7px;
+    gap: 10px;
 }
 
 .costume-chip {
@@ -646,17 +739,22 @@ body.dark-mode .info-card li {
     border-radius: 16px;
     padding: 5px 12px;
     font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.65);
     white-space: nowrap;
-    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    transition: all 0.2s ease;
     cursor: default;
 }
 
 .costume-chip:hover {
-    background: rgba(255, 215, 0, 0.1);
-    border-color: rgba(255, 215, 0, 0.3);
+    background: rgba(255, 215, 0, 0.12);
+    border-color: rgba(255, 215, 0, 0.4);
     color: #ffd700;
+    transform: translateY(-2px);
 }
+
+.costume-chip:nth-child(3n+1):hover { color: #ff9ff3; border-color: rgba(255, 159, 243, 0.4); background: rgba(255, 159, 243, 0.08); }
+.costume-chip:nth-child(3n+2):hover { color: #a8edea; border-color: rgba(168, 237, 234, 0.4); background: rgba(168, 237, 234, 0.08); }
+.costume-chip:nth-child(3n):hover   { color: #ffd700; border-color: rgba(255, 215, 0, 0.4); background: rgba(255, 215, 0, 0.08); }
 
 @media (max-width: 700px) {
     .costume-callout {
@@ -749,9 +847,29 @@ body.dark-mode .info-card li {
     color: var(--text-light);
 }
 .arrival-names {
-    font-size: 0.85rem;
-    color: var(--text-dark);
-    line-height: 1.6;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.arrival-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: rgba(59, 130, 246, 0.1);
+    color: #1d4ed8;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    white-space: nowrap;
+}
+
+.arrival-chip--own {
+    background: rgba(16, 185, 129, 0.1);
+    color: #047857;
+    border-color: rgba(16, 185, 129, 0.2);
 }
 .arrival-eta {
     font-size: 0.78rem;
@@ -786,4 +904,14 @@ body.dark-mode .arrival-tracker {
 }
 body.dark-mode .arrival-group {
     background: var(--bg-white);
+}
+
+/* ============================================
+   Guest Highlighting — travel chip
+   ============================================ */
+.guest-travel-highlight {
+    background: linear-gradient(135deg, var(--primary), var(--secondary)) !important;
+    color: #fff !important;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
 }

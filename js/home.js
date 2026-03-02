@@ -111,6 +111,11 @@ function initCountdown() {
                     '<span class="countdown-live-sub">Thanks for the memories</span>' +
                     '</div>';
             }
+            // Auto-trigger confetti when countdown first hits zero
+            if (!Store.get('countdownConfettiFired', false)) {
+                Store.set('countdownConfettiFired', true);
+                if (typeof triggerConfetti === 'function') triggerConfetti();
+            }
             clearInterval(countdownInterval);
             return;
         } else {
@@ -161,72 +166,60 @@ function initCountdown() {
         tipEl.textContent = tips[tipIdx];
         setInterval(function () {
             tipEl.style.opacity = '0';
+            tipEl.style.transform = 'translateY(8px)';
             setTimeout(function () {
+                tipEl.style.transition = 'none';
+                tipEl.style.transform = 'translateY(-8px)';
+                tipEl.offsetHeight; // force reflow
+                tipEl.style.transition = '';
                 tipIdx = (tipIdx + 1) % tips.length;
                 tipEl.textContent = tips[tipIdx];
                 tipEl.style.opacity = '1';
+                tipEl.style.transform = '';
             }, 400);
         }, 6000);
     }
 }
 
-/* Guest Login */
+/* Guest Login — delegates to shared guest picker (shared.js) */
 function initGuestLogin() {
-    const modal = document.getElementById('guest-login-modal');
-    const form = document.getElementById('guest-login-form');
-    const errorEl = document.getElementById('guest-login-error');
-    const skipBtn = document.getElementById('skip-guest-login');
-    const logoutBtn = document.getElementById('dashboard-logout');
     const dashboardSection = document.getElementById('my-dashboard');
+    const logoutBtn = document.getElementById('dashboard-logout');
 
-    if (!modal || !form) return;
+    // Hide old modal if still in DOM
+    var oldModal = document.getElementById('guest-login-modal');
+    if (oldModal) oldModal.style.display = 'none';
 
     // Check if already logged in
     const savedGuest = localStorage.getItem('guestCode');
     if (savedGuest && GUEST_DATA[savedGuest]) {
-        modal.style.display = 'none';
         showDashboard(savedGuest);
-    } else {
-        setTimeout(() => { modal.style.display = 'flex'; }, 2000);
     }
 
-    // Handle login
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const code = document.getElementById('guest-code').value.toUpperCase().trim();
-        if (GUEST_DATA[code]) {
-            localStorage.setItem('guestCode', code);
-            modal.style.display = 'none';
+    // Listen for shared guest picker login
+    document.addEventListener('guestLoggedIn', function (e) {
+        var code = e.detail && e.detail.code;
+        if (code && GUEST_DATA[code]) {
             showDashboard(code);
-            triggerConfetti();
-            updateNavGuest();
-        } else {
-            errorEl.style.display = 'block';
-            document.getElementById('guest-code').value = '';
         }
     });
 
-    // Hide error when user starts retyping
-    document.getElementById('guest-code').addEventListener('input', function () {
-        if (errorEl) errorEl.style.display = 'none';
-    });
-
-    // Skip
-    if (skipBtn) {
-        skipBtn.addEventListener('click', function () {
-            modal.style.display = 'none';
-            localStorage.setItem('guestCode', 'guest');
-        });
-    }
-
-    // Logout
+    // Logout — shows shared picker again
     if (logoutBtn) {
         logoutBtn.addEventListener('click', function () {
             localStorage.removeItem('guestCode');
             if (dashboardSection) dashboardSection.style.display = 'none';
-            modal.style.display = 'flex';
-            const guestNameEl = document.getElementById('nav-guest-name');
+            var guestNameEl = document.getElementById('nav-guest-name');
             if (guestNameEl) guestNameEl.style.display = 'none';
+            // Remove FAB/drawer if present
+            var fab = document.getElementById('my-trip-fab');
+            var drawerEl = document.getElementById('my-trip-drawer');
+            var backdrop = document.querySelector('.my-trip-backdrop');
+            if (fab) fab.remove();
+            if (drawerEl) drawerEl.remove();
+            if (backdrop) backdrop.remove();
+            // Re-create shared guest picker
+            if (typeof initGuestPicker === 'function') initGuestPicker();
         });
     }
 
@@ -296,6 +289,28 @@ function initGuestLogin() {
     }
 }
 
+/* Animate a numeric element from its current displayed value to a new value */
+function animateCount(el, to) {
+    var from = parseInt(el.textContent, 10) || 0;
+    if (from === to || isNaN(to)) return;
+    var item = el.closest('.stat-item');
+    if (item) {
+        item.classList.remove('stat-pulse');
+        void item.offsetWidth; // reset animation
+        item.classList.add('stat-pulse');
+    }
+    var duration = 600;
+    var start = null;
+    function step(ts) {
+        if (!start) start = ts;
+        var progress = Math.min((ts - start) / duration, 1);
+        var eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+        el.textContent = Math.round(from + (to - from) * eased);
+        if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+}
+
 /* Live Stats Dashboard */
 function initLiveStats() {
     const TEAMS_LIST = ['team1', 'team2', 'team3', 'team4'];
@@ -325,7 +340,7 @@ function initLiveStats() {
         // Personal points
         const myPts = individualScores[guestName] || 0;
         const ptsEl = document.getElementById('stat-points');
-        if (ptsEl) ptsEl.textContent = myPts;
+        if (ptsEl) animateCount(ptsEl, myPts);
 
         // Personal rank
         const sorted = Object.entries(individualScores)
@@ -346,7 +361,7 @@ function initLiveStats() {
         // Badges
         const myBadges = badges[guestName] || [];
         const badgeCountEl = document.getElementById('stat-badges');
-        if (badgeCountEl) badgeCountEl.textContent = myBadges.length;
+        if (badgeCountEl) animateCount(badgeCountEl, myBadges.length);
 
         const badgeRowEl = document.getElementById('stat-badges-row');
         if (badgeRowEl && myBadges.length > 0) {
@@ -368,25 +383,25 @@ function initLiveStats() {
         const totalPtsEl = document.getElementById('stat-total-pts');
         if (totalPtsEl) {
             const total = pointsLog.filter(e => e.amount > 0).reduce((s, e) => s + e.amount, 0);
-            totalPtsEl.textContent = total;
+            animateCount(totalPtsEl, total);
         }
 
         const totalMsgsEl = document.getElementById('stat-total-msgs');
         if (totalMsgsEl) {
             const msgs = Store.get('messages', []);
-            totalMsgsEl.textContent = msgs.length;
+            animateCount(totalMsgsEl, msgs.length);
         }
 
         const totalPhotosEl = document.getElementById('stat-total-photos');
         if (totalPhotosEl) {
             const photos = Store.get('photos', []);
-            totalPhotosEl.textContent = photos.length;
+            animateCount(totalPhotosEl, photos.length);
         }
 
         const totalSongsEl = document.getElementById('stat-total-songs');
         if (totalSongsEl) {
             const songs = Store.get('musicRequests', []);
-            totalSongsEl.textContent = songs.length;
+            animateCount(totalSongsEl, songs.length);
         }
     }
 

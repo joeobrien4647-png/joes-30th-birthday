@@ -53,22 +53,22 @@ Each guest has a unique code (format: `firstname30` or `firstnamelastinit30`). L
 | emmaw30 | Emma Winup | Room 6 | Champagne |
 | tom30 | Tom Heyworth | Room 7 | Bordeaux |
 | robert30 | Robert Winup | Room 7 | Rose |
-| sarah30 | Sarah | Room 8 | Champagne |
+| sarah30 | Sarah Shamia | Room 8 | Champagne |
 | kiran30 | Kiran Ruparelia | Room 8 | Bordeaux |
-| shane30 | Shane Pallian | Room 9 | Rose |
+| shane30 | Shane Pallian | Room 12 | Rose |
 | oli30 | Oli Moran | Room 9 | Champagne |
 | peter30 | Peter London | Room 10 | Bordeaux |
 | emmal30 | Emma Levett | Room 10 | Rose |
 | jonnyl30 | Jonny Levett | Room 11 | Champagne |
 | jonnyw30 | Jonny Williams | Room 11 | Bordeaux |
-| chris30 | Chris Coggin | Room 12 | Champagne |
+| chris30 | Chris Coggin | Room 9 | Champagne |
 | oscar30 | Oscar Walters | Room 13 | Bordeaux |
 | pranay30 | Pranay Dube | Room 14 | Champagne |
 
-## Three Teams
-- **Team Champagne** (~9 members): Joe, Sophie, Hannah, Razon, Emma W, Sarah, Oli, Jonny L, Chris, Pranay
-- **Team Bordeaux** (~9 members): Luke, Sam, Johnny, Neeve, Tom, Kiran, George, Peter, Jonny W, Oscar
-- **Team Rose** (~5 members): Robin, Florrie, Robert, Emma L, Shane
+## Four Teams (3 × 6 members + 1 × 7 members = 25 total)
+- Team names and assignments are NOT decided yet — reveal on arrival night (Day 1)
+- Site shows Team 1 / Team 2 / Team 3 / Team 4 as placeholders
+- Do NOT invent or hardcode team names without confirming with Joe first
 
 ## Travel Arrangements
 **Main convoy from Sevenoaks (15 people, 2x 9-seater vans):**

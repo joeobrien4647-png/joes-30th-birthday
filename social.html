@@ -10,10 +10,10 @@
     <meta property="og:image" content="images/og-preview.jpg">
     <meta property="og:type" content="website">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>">
-    <link rel="stylesheet" href="css/base.css?v=10">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/nav.css">
-    <link rel="stylesheet" href="css/social.css?v=17">
+    <link rel="stylesheet" href="css/base.css?v=18">
+    <link rel="stylesheet" href="css/components.css?v=1">
+    <link rel="stylesheet" href="css/nav.css?v=1">
+    <link rel="stylesheet" href="css/social.css?v=32">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -44,7 +44,7 @@
     <!-- Page Header -->
     <header class="page-header">
         <h1>Social Wall</h1>
-        <p>Messages, memories & moments</p>
+        <p>Send a message. Share a memory. Post a photo.</p>
     </header>
 
     <!-- Sub Navigation -->
@@ -63,9 +63,15 @@
     <section id="crew" class="section crew">
         <div class="container">
             <h2 class="section-title">The Crew</h2>
-            <p class="section-subtitle">25 legends across 12 rooms</p>
+            <p class="section-subtitle">25 legends. 4 teams. 12 rooms.</p>
 
-            <div class="rooms-grid">
+            <div class="crew-tab-bar">
+                <button class="crew-tab-btn active" data-tab="rooms">🏠 Rooms</button>
+                <button class="crew-tab-btn" data-tab="teams">🏆 Teams</button>
+            </div>
+
+            <div class="crew-view" id="crew-view-rooms">
+            <div class="rooms-grid stagger-grid">
                 <!-- Room 1 - Birthday Suite -->
                 <div class="room-card birthday-room">
                     <div class="room-header">
@@ -73,21 +79,21 @@
                         <span class="room-tag">👑 Birthday Suite</span>
                     </div>
                     <div class="room-guests">
-                        <div class="guest-card guest" data-name="Joe O'Brien" data-initials="JO" data-room="Room 1 - Birthday Suite" data-superlative="Most likely to make everyone laugh" data-fact="The man, the myth, the legend turning 30!" data-bringing="Birthday cake enthusiasm" data-anthem="Mr. Brightside - The Killers" data-birthday="true">
+                        <div class="guest-card guest" data-name="Joe O'Brien" data-initials="JO" data-room="Room 1 - Birthday Suite" data-superlative="Most likely to peak at his own birthday and somehow still claim he hasn't peaked yet" data-knownfor="Peaking at every social event since 2015" data-fact="Genuinely believes he could've gone pro at something but can't remember what. Has peaked exactly 47 times according to himself. The only person who finds his own impressions convincing" data-bringing="Main character delusion and a fragile ego that needs constant validation" data-anthem="Mr. Brightside - The Killers" data-bestmatch="Sophie — she's the only one legally obligated to laugh at his jokes" data-clashwith="Hannah — 30 years of sibling ammunition and she is NOT afraid to use it" data-birthday="true">
                             <div class="guest-avatar birthday">
                                 <img loading="lazy" src="images/guests/joe-obrien.jpg" alt="Joe O'Brien">
                                 <span class="guest-initials">JO</span>
                             </div>
                             <div class="guest-name">Joe O'Brien</div>
-                            <div class="guest-tagline">The birthday boy</div>
+                            <div class="guest-tagline">The reason we're all here</div>
                         </div>
-                        <div class="guest-card guest" data-name="Sophie Geen" data-initials="SG" data-room="Room 1 - Birthday Suite" data-superlative="Most likely to have a spreadsheet for the spreadsheets" data-fact="Has been secretly planning this trip for months. Knows more about the chateau than the owners do" data-bringing="The master itinerary (colour-coded)" data-anthem="Dancing Queen - ABBA">
+                        <div class="guest-card guest" data-name="Sophie Geen" data-initials="SG" data-room="Room 1 - Birthday Suite" data-superlative="Most likely to have a contingency plan for the contingency plan" data-knownfor="Running Joe's life while he thinks he's in charge" data-fact="Has a Google Doc for every aspect of this trip that she checks at 3am. Colour-coded. Cross-referenced. Thinks she's relaxed. She is not. Planned Joe's proposal before he knew he was proposing" data-bringing="A laminated itinerary, backup chargers, and the illusion of spontaneity" data-anthem="Dancing Queen - ABBA" data-bestmatch="Emma Winup — fellow control freak. They'll either run the trip perfectly or merge into one super-organiser" data-clashwith="Oli — his horizontal lifestyle is her worst nightmare">
                             <div class="guest-avatar">
                                 <img loading="lazy" src="images/guests/sophie-geen.jpg" alt="Sophie Geen">
                                 <span class="guest-initials">SG</span>
                             </div>
                             <div class="guest-name">Sophie Geen</div>
-                            <div class="guest-tagline">Chief organiser</div>
+                            <div class="guest-tagline">The real brains behind this operation</div>
                         </div>
                     </div>
                 </div>
@@ -96,21 +102,21 @@
                 <div class="room-card">
                     <div class="room-header"><span class="room-number">Room 2</span></div>
                     <div class="room-guests">
-                        <div class="guest-card guest" data-name="Luke Recchia" data-initials="LR" data-room="Room 2" data-superlative="Most likely to take over the aux cord and never give it back" data-fact="Will argue for 45 minutes about why his music taste is superior. Has never lost a DJ battle (in his own head)" data-bringing="A speaker and zero intention of sharing it" data-anthem="Last Nite - The Strokes">
+                        <div class="guest-card guest" data-name="Luke Recchia" data-initials="LR" data-room="Room 2" data-superlative="Most likely to play indie nobody's heard of and act personally attacked when nobody vibes" data-knownfor="Having 'impeccable' music taste (self-assessed, unverified)" data-fact="Will spend 40 minutes curating the perfect playlist, play 12 seconds of each song, then skip to something else. Considers The Strokes a personality trait. Has never once read the room musically" data-bringing="A portable speaker, a Spotify Premium account, and zero regard for requests" data-anthem="Last Nite - The Strokes" data-bestmatch="Tom — both love the sound of their own voice, just about different things" data-clashwith="George — will fight to the death over who controls the music">
                             <div class="guest-avatar">
                                 <img loading="lazy" src="images/guests/luke-recchia.jpg" alt="Luke Recchia">
                                 <span class="guest-initials">LR</span>
                             </div>
                             <div class="guest-name">Luke Recchia</div>
-                            <div class="guest-tagline">Aux cord dictator</div>
+                            <div class="guest-tagline">Self-appointed DJ</div>
                         </div>
-                        <div class="guest-card guest" data-name="Samantha Recchia" data-initials="SR" data-room="Room 2" data-superlative="Most likely to have 400 photos by Day 2" data-fact="Will document everything. Every. Single. Thing. Your candid is already on her camera roll" data-bringing="Three cameras and zero shame" data-anthem="Crazy In Love - Beyonc&eacute;">
+                        <div class="guest-card guest" data-name="Samantha Recchia" data-initials="SR" data-room="Room 2" data-superlative="Most likely to capture your worst angle at the worst possible moment" data-knownfor="A camera roll that doubles as a blackmail archive" data-fact="Has never taken a bad photo of herself but will find the most unhinged photo of you and post it publicly. Your double chin has been documented from 6 angles. Has a 'just for memories!' folder that is actually a weapon" data-bringing="Three lenses, zero mercy, and that photo of you from 2019 you thought was deleted" data-anthem="Crazy In Love - Beyonc&eacute;" data-bestmatch="Emma Levett — the photographer meets the art director. Content creation goes nuclear" data-clashwith="Anyone who puts their hand up when she says 'quick photo!'">
                             <div class="guest-avatar">
                                 <img loading="lazy" src="images/guests/samantha-recchia.jpg" alt="Samantha Recchia">
                                 <span class="guest-initials">SR</span>
                             </div>
                             <div class="guest-name">Sam Recchia</div>
-                            <div class="guest-tagline">Trip photographer</div>
+                            <div class="guest-tagline">Your candid is already on her phone</div>
                         </div>
                     </div>
                 </div>
@@ -119,21 +125,21 @@
                 <div class="room-card">
                     <div class="room-header"><span class="room-number">Room 3</span></div>
                     <div class="room-guests">
-                        <div class="guest-card guest" data-name="Hannah O'Brien" data-initials="HO" data-room="Room 3" data-superlative="Most likely to reveal Joe's most embarrassing stories" data-fact="Has 30 years of sibling dirt and absolutely zero loyalty. Joe should be very afraid" data-bringing="Childhood photos Joe thought were deleted" data-anthem="Since U Been Gone - Kelly Clarkson">
+                        <div class="guest-card guest" data-name="Hannah O'Brien" data-initials="HO" data-room="Room 3" data-superlative="Most likely to drop a nuclear-grade embarrassing story with zero warning" data-knownfor="A photographic memory for every mortifying thing Joe has ever done" data-fact="Has been saving ammunition for 30 years and this trip is her moment. Will weaponise childhood stories for public entertainment. Joe once begged her to delete a photo and she framed it instead. Zero loyalty to blood" data-bringing="Baby photos, receipts, and an encyclopaedic knowledge of Joe's most shameful moments" data-anthem="Since U Been Gone - Kelly Clarkson" data-bestmatch="Florrie — combined volume levels could shatter glass, and they love it" data-clashwith="Joe — sibling rivalry goes nuclear on Day 2. Guaranteed">
                             <div class="guest-avatar">
                                 <img loading="lazy" src="images/guests/hannah-obrien.jpg" alt="Hannah O'Brien">
                                 <span class="guest-initials">HO</span>
                             </div>
                             <div class="guest-name">Hannah O'Brien</div>
-                            <div class="guest-tagline">Sibling intel officer</div>
+                            <div class="guest-tagline">Joe's worst nightmare</div>
                         </div>
-                        <div class="guest-card guest" data-name="Robin Hughes" data-initials="RH" data-room="Room 3" data-superlative="Most likely to suggest something chaotic at 2am" data-fact="Unpredictable in the best way. Will either be first in the pool or missing entirely. No in-between" data-bringing="Questionable decision-making skills" data-anthem="Jump Around - House of Pain">
+                        <div class="guest-card guest" data-name="Robin Hughes" data-initials="RH" data-room="Room 3" data-superlative="Most likely to vanish for 2 hours and return with an unexplained injury" data-knownfor="Suggesting terrible ideas at exactly the right (wrong) moment" data-fact="Will suggest skinny dipping at midnight, a 5am run, or both back to back. His decision-making after 11pm should be classified as a public safety concern. The phrase 'Robin had an idea' has historically never ended well" data-bringing="Chaotic energy and a worrying disregard for personal safety" data-anthem="Jump Around - House of Pain" data-bestmatch="Peter — double wildcard. If they team up, lock the doors" data-clashwith="Sophie — her colour-coded plan is Robin's natural enemy">
                             <div class="guest-avatar">
                                 <img loading="lazy" src="images/guests/robin-hughes.jpg" alt="Robin Hughes">
                                 <span class="guest-initials">RH</span>
                             </div>
                             <div class="guest-name">Robin Hughes</div>
-                            <div class="guest-tagline">2am chaos agent</div>
+                            <div class="guest-tagline">Unpredictable in every direction</div>
                         </div>
                     </div>
                 </div>
@@ -142,21 +148,21 @@
                 <div class="room-card">
                     <div class="room-header"><span class="room-number">Room 4</span></div>
                     <div class="room-guests">
-                        <div class="guest-card guest" data-name="Johnny Gates O'Brien" data-initials="JG" data-room="Room 4" data-superlative="Most likely to think he's the funniest person in the room" data-fact="Will tell a joke, laugh at it himself, then tell it again to someone who wasn't listening" data-bringing="An arsenal of jokes nobody asked for" data-anthem="Don't Look Back In Anger - Oasis">
+                        <div class="guest-card guest" data-name="Johnny Gates O'Brien" data-initials="JG" data-room="Room 4" data-superlative="Most likely to tell a joke, wait for laughter, get none, and tell it again louder" data-knownfor="A hit rate of approximately 1 in 7 jokes being actually funny" data-fact="Considers himself the funniest person in any room and will die on that hill. Has a joke for every occasion — unfortunately. Will repeat the same story from 2018 as if it happened yesterday. Genuinely hurt when people groan but masks it with another bad joke" data-bringing="An unlimited supply of material nobody asked for and the confidence of a man who's never bombed (he has)" data-anthem="Don't Look Back In Anger - Oasis" data-bestmatch="Pranay — the only person who actually laughs at all his jokes (possibly out of kindness)" data-clashwith="Luke — both think they're the entertainer. Only one can be wrong (it's both)">
                             <div class="guest-avatar">
                                 <img loading="lazy" src="images/guests/johnny-gates-obrien.jpg" alt="Johnny Gates O'Brien">
                                 <span class="guest-initials">JG</span>
                             </div>
                             <div class="guest-name">Johnny G O'Brien</div>
-                            <div class="guest-tagline">Self-appointed comedian</div>
+                            <div class="guest-tagline">Laughs at his own jokes before the punchline</div>
                         </div>
-                        <div class="guest-card guest" data-name="Florrie Gates O'Brien" data-initials="FG" data-room="Room 4" data-superlative="Most likely to be heard from three rooms away" data-fact="Volume control is not a concept she's familiar with. You'll know exactly where she is at all times" data-bringing="Energy that doesn't match the hangover" data-anthem="Girls Just Want To Have Fun - Cyndi Lauper">
+                        <div class="guest-card guest" data-name="Florrie Gates O'Brien" data-initials="FG" data-room="Room 4" data-superlative="Most likely to wake up the entire chateau and not understand why people are annoyed" data-knownfor="A voice that carries across county lines" data-fact="Has one volume: maximum. Whispered secrets are not a concept she understands. Will be heard over the music, the pool, the wind, and the entirety of the Loire Valley. Her 'indoor voice' is most people's outdoor voice. She'll deny all of this" data-bringing="Decibels, unmatched energy, and absolutely no awareness of noise complaints" data-anthem="Girls Just Want To Have Fun - Cyndi Lauper" data-bestmatch="Hannah — chaos sisters who enable each other at dangerous volumes" data-clashwith="Oli — trying to nap near Florrie is a clinical impossibility">
                             <div class="guest-avatar">
                                 <img loading="lazy" src="images/guests/florrie-gates-obrien.jpg" alt="Florrie Gates O'Brien">
                                 <span class="guest-initials">FG</span>
                             </div>
                             <div class="guest-name">Florrie G O'Brien</div>
-                            <div class="guest-tagline">Human foghorn</div>
+                            <div class="guest-tagline">Audible from three postcodes away</div>
                         </div>
                     </div>
                 </div>
@@ -165,21 +171,21 @@
                 <div class="room-card">
                     <div class="room-header"><span class="room-number">Room 5</span></div>
                     <div class="room-guests">
-                        <div class="guest-card guest" data-name="Razon Mahebub" data-initials="RM" data-room="Room 5" data-superlative="Most likely to win every board game without trying" data-fact="Quietly strategic. Will smile politely while absolutely destroying you at any card game" data-bringing="A poker face and zero mercy" data-anthem="Can't Hold Us - Macklemore">
+                        <div class="guest-card guest" data-name="Razon Mahebub" data-initials="RM" data-room="Room 5" data-superlative="Most likely to win everything while looking like he doesn't care" data-knownfor="Appearing relaxed while plotting your downfall in any competitive setting" data-fact="Will smile, nod, say 'good game', then absolutely humiliate you at cards, board games, or anything with a score. Never raises his voice, never celebrates, never loses. The quiet confidence is deeply unsettling. You won't see it coming. You never do" data-bringing="A poker face so effective it should be licensed, and ruthless competitiveness hidden behind impeccable manners" data-anthem="Can't Hold Us - Macklemore" data-bestmatch="Chris — two quiet operators who get things done without the theatrics" data-clashwith="Shane — when two competitive people meet, only one can survive. It's always Razon">
                             <div class="guest-avatar">
                                 <img loading="lazy" src="images/guests/razon-mahebub.jpg" alt="Razon Mahebub">
                                 <span class="guest-initials">RM</span>
                             </div>
                             <div class="guest-name">Razon Mahebub</div>
-                            <div class="guest-tagline">Silent assassin</div>
+                            <div class="guest-tagline">Politely destroying you since day one</div>
                         </div>
-                        <div class="guest-card guest" data-name="Neeve Fletcher" data-initials="NF" data-room="Room 5" data-superlative="Most likely to rate every meal out of 10" data-fact="Will find the best cheese within a 50-mile radius. Gets personally offended by bad food" data-bringing="Snack reserves and strong opinions on restaurants" data-anthem="Juice - Lizzo">
+                        <div class="guest-card guest" data-name="Neeve Fletcher" data-initials="NF" data-room="Room 5" data-superlative="Most likely to find the best restaurant in a 50km radius before anyone's unpacked" data-knownfor="Having opinions about food that nobody asked for but everyone receives" data-fact="Takes food personally. If dinner is bad, her entire evening is ruined. Will silently rate every meal and you'll know instantly from her face whether it passed. Once sent back a dish at a friend's dinner party. Will find cheese like a truffle pig finds truffles" data-bringing="A refined palate, unrealistic culinary expectations, and emergency snacks 'just in case'" data-anthem="Juice - Lizzo" data-bestmatch="Robert — they'll turn every meal into a Michelin review nobody wanted" data-clashwith="Whoever's on cooking duty when she doesn't like the menu">
                             <div class="guest-avatar">
                                 <img loading="lazy" src="images/guests/neeve-fletcher.jpg" alt="Neeve Fletcher">
                                 <span class="guest-initials">NF</span>
                             </div>
                             <div class="guest-name">Neeve Fletcher</div>
-                            <div class="guest-tagline">Food critic</div>
+                            <div class="guest-tagline">Will judge your cooking to your face</div>
                         </div>
                     </div>
                 </div>
@@ -188,21 +194,21 @@
                 <div class="room-card">
                     <div class="room-header"><span class="room-number">Room 6</span></div>
                     <div class="room-guests">
-                        <div class="guest-card guest" data-name="George Heyworth" data-initials="GH" data-room="Room 6" data-superlative="Most likely to start a chant out of nowhere" data-fact="Has one volume setting: LOUD. Will rally the troops for any occasion. Foghorn by name, foghorn by nature" data-bringing="Raw unfiltered hype energy" data-anthem="Sweet Caroline - Neil Diamond">
+                        <div class="guest-card guest" data-name="George Heyworth" data-initials="GH" data-room="Room 6" data-superlative="Most likely to start a chant at breakfast" data-knownfor="Turning any moment into a rallying cry whether it needs one or not" data-fact="Has never met a quiet moment he didn't want to ruin with enthusiasm. Will chant your name for doing literally nothing. Treats a Tuesday morning like a cup final. His energy is weaponised — contagious and impossible to resist. You will join the chant. Resistance is futile" data-bringing="Unregulated hype levels, a voice that can be heard from France to England, and the ability to turn any gathering into a festival crowd" data-anthem="Sweet Caroline - Neil Diamond" data-bestmatch="Florrie — combined volume could breach noise ordinances in three countries simultaneously" data-clashwith="Luke — the aux cord war of 2026 is coming and there will be no survivors">
                             <div class="guest-avatar">
                                 <img loading="lazy" src="images/guests/george-heyworth.jpg" alt="George Heyworth">
                                 <span class="guest-initials">GH</span>
                             </div>
                             <div class="guest-name">George Heyworth</div>
-                            <div class="guest-tagline">Hype man</div>
+                            <div class="guest-tagline">Volume: 11. Always</div>
                         </div>
-                        <div class="guest-card guest" data-name="Emma Winup" data-initials="EW" data-room="Room 6" data-superlative="Most likely to have a backup plan for the backup plan" data-fact="Organisational queen. Probably has a shared Google Doc you don't know about yet" data-bringing="A checklist, a timeline, and mild anxiety" data-anthem="Shake It Off - Taylor Swift">
+                        <div class="guest-card guest" data-name="Emma Winup" data-initials="EW" data-room="Room 6" data-superlative="Most likely to re-organise someone else's plans without telling them" data-knownfor="An almost supernatural need to have everything planned, timed, and colour-coded" data-fact="Already has a packing list finalised, a weather forecast saved, and backup plans B through F. Cannot relax until everyone else is organised. Will ask 'what's the plan?' within 4 minutes of any silence. Brings a first aid kit AND a sewing kit 'just in case'" data-bringing="A shared Google Doc, passive-aggressive reminders, and the emotional labour of keeping everyone alive" data-anthem="Shake It Off - Taylor Swift" data-bestmatch="Sophie — the organisation-off nobody asked for but everyone benefits from" data-clashwith="Robin — his chaos is her kryptonite">
                             <div class="guest-avatar">
                                 <img loading="lazy" src="images/guests/emma-winup.jpg" alt="Emma Winup">
                                 <span class="guest-initials">EW</span>
                             </div>
                             <div class="guest-name">Emma Winup</div>
-                            <div class="guest-tagline">Organisational queen</div>
+                            <div class="guest-tagline">Has a spreadsheet you don't know about</div>
                         </div>
                     </div>
                 </div>
@@ -211,21 +217,21 @@
                 <div class="room-card">
                     <div class="room-header"><span class="room-number">Room 7</span></div>
                     <div class="room-guests">
-                        <div class="guest-card guest" data-name="Tom Heyworth" data-initials="TH" data-room="Room 7" data-superlative="Most likely to turn a 2-minute story into a 20-minute epic" data-fact="Every story is the best story he's ever told. Embellishment is an art form and Tom is Picasso" data-bringing="Stories that may or may not be true" data-anthem="Livin' On A Prayer - Bon Jovi">
+                        <div class="guest-card guest" data-name="Tom Heyworth" data-initials="TH" data-room="Room 7" data-superlative="Most likely to turn ordering a coffee into a 15-minute anecdote" data-knownfor="Stories that started as true but are now 80% embellishment" data-fact="Has never told a short story in his life. Every tale has at least three tangents, two callbacks, and a punchline he'll repeat if you didn't laugh hard enough. Will preface every anecdote with 'you're gonna love this'. You might not. He won't notice" data-bringing="A library of exaggerated tales, dramatic pauses, and the delusion that everyone is still listening" data-anthem="Livin' On A Prayer - Bon Jovi" data-bestmatch="Johnny — they'll talk AT each other simultaneously, each convinced the other is listening. Nobody is" data-clashwith="Anyone on a tight schedule — Tom doesn't do 'the short version'">
                             <div class="guest-avatar">
                                 <img loading="lazy" src="images/guests/tom-heyworth.jpg" alt="Tom Heyworth">
                                 <span class="guest-initials">TH</span>
                             </div>
                             <div class="guest-name">Tom Heyworth</div>
-                            <div class="guest-tagline">Master storyteller</div>
+                            <div class="guest-tagline">Every story is 'the best one ever'. It isn't</div>
                         </div>
-                        <div class="guest-card guest" data-name="Robert Winup" data-initials="RW" data-room="Room 7" data-superlative="Most likely to critique the house wine" data-fact="Will swirl, sniff, and sip while everyone else is already on their third glass. Knows his terroir from his tannins" data-bringing="Wine knowledge and mild judgement" data-anthem="Red Red Wine - UB40">
+                        <div class="guest-card guest" data-name="Robert Winup" data-initials="RW" data-room="Room 7" data-superlative="Most likely to sigh audibly when someone adds ice to ros&eacute;" data-knownfor="Wine knowledge that nobody asked for but everyone receives, loudly" data-fact="Will swirl, sniff, and give a 3-minute assessment while everyone else is already pissed. Considers 'house red' a personal insult. Once described a supermarket wine as 'an affront'. In the Loire Valley, he is dangerously in his element" data-bringing="A corkscrew, unsolicited tasting notes, and a look of pain whenever someone says 'it's just wine'" data-anthem="Red Red Wine - UB40" data-bestmatch="Neeve — food meets wine, the pretentious duo nobody can stop" data-clashwith="Oscar — who will put red wine in a pint glass if dared">
                             <div class="guest-avatar">
                                 <img loading="lazy" src="images/guests/robert-winup.jpg" alt="Robert Winup">
                                 <span class="guest-initials">RW</span>
                             </div>
                             <div class="guest-name">Robert Winup</div>
-                            <div class="guest-tagline">Wine snob</div>
+                            <div class="guest-tagline">Judging your glass choice since forever</div>
                         </div>
                     </div>
                 </div>
@@ -237,13 +243,13 @@
                         <span class="room-tag solo">Solo</span>
                     </div>
                     <div class="room-guests">
-                        <div class="guest-card guest" data-name="Sarah" data-initials="S" data-room="Room 8 - Solo" data-superlative="Most likely to know everyone's business by Day 2" data-fact="Has the intel. Will casually drop gossip into conversation like she's discussing the weather" data-bringing="All the tea" data-anthem="Toxic - Britney Spears">
+                        <div class="guest-card guest" data-name="Sarah Shamia" data-initials="SS" data-room="Room 8 - Solo" data-superlative="Most likely to know who kissed who before they've even left the room" data-knownfor="Intelligence-gathering capabilities that rival MI5" data-fact="Will casually drop bombs into conversation like she's discussing the weather. Hears everything, remembers everything, deploys information at maximum impact. Has never actually gossiped — she just 'shares observations'. If you told a secret at this chateau, Sarah already knows" data-bringing="A mental dossier on everyone, excellent listening skills, and an innocent face that hides a filing cabinet of secrets" data-anthem="Toxic - Britney Spears" data-bestmatch="Sam — one documents visually, the other verbally. Together: unstoppable" data-clashwith="Anyone who thinks their secret is safe">
                             <div class="guest-avatar">
-                                <img loading="lazy" src="images/guests/sarah.jpg" alt="Sarah">
-                                <span class="guest-initials">S</span>
+                                <img loading="lazy" src="images/guests/sarah-shamia.jpg" alt="Sarah Shamia">
+                                <span class="guest-initials">SS</span>
                             </div>
-                            <div class="guest-name">Sarah</div>
-                            <div class="guest-tagline">Has all the intel</div>
+                            <div class="guest-name">Sarah Shamia</div>
+                            <div class="guest-tagline">Knows more than she should</div>
                         </div>
                     </div>
                 </div>
@@ -252,21 +258,21 @@
                 <div class="room-card">
                     <div class="room-header"><span class="room-number">Room 9</span></div>
                     <div class="room-guests">
-                        <div class="guest-card guest" data-name="Kiran Ruparelia" data-initials="KR" data-room="Room 9" data-superlative="Most likely to still be going at 4am" data-fact="Outlasts everyone. Will be the last one standing every single night and somehow functional the next morning" data-bringing="Stamina and zero sense of a bedtime" data-anthem="All Night Long - Lionel Richie">
+                        <div class="guest-card guest" data-name="Kiran Ruparelia" data-initials="KR" data-room="Room 9" data-superlative="Most likely to still be awake when the birds start singing and somehow fine the next day" data-knownfor="Having the constitution of an ox and absolutely zero concept of 'bedtime'" data-fact="Will outlast everyone, every night, without exception. He'll be in the kitchen at 4am making toast and wondering why everyone's asleep. Even more terrifying: he'll be fully functional at 8am. Science cannot explain him" data-bringing="Superhuman stamina, a complete inability to call it a night, and the look of a man who has never once experienced a hangover" data-anthem="All Night Long - Lionel Richie" data-bestmatch="Oscar — the enabler meets the endurance athlete. A lethal combination" data-clashwith="Whoever has the room next door and values sleep">
                             <div class="guest-avatar">
                                 <img loading="lazy" src="images/guests/kiran-ruparelia.jpg" alt="Kiran Ruparelia">
                                 <span class="guest-initials">KR</span>
                             </div>
                             <div class="guest-name">Kiran Ruparelia</div>
-                            <div class="guest-tagline">Last man standing</div>
+                            <div class="guest-tagline">4am? That's early</div>
                         </div>
-                        <div class="guest-card guest" data-name="Shane Pallian" data-initials="SP" data-room="Room 9" data-superlative="Most likely to flip the board game when losing" data-fact="Competitive doesn't begin to cover it. Will argue a call in a friendly game like it's a World Cup final" data-bringing="Competitive rage and questionable sportsmanship" data-anthem="Eye of the Tiger - Survivor">
+                        <div class="guest-card guest" data-name="Chris Coggin" data-initials="CC" data-room="Room 9" data-superlative="Most likely to have fixed three problems before anyone noticed they existed" data-knownfor="Being the reason things don't fall apart while everyone else takes the credit" data-fact="Will quietly fix the BBQ, find the corkscrew, sort the bins, restock the fridge, and troubleshoot the WiFi — all before anyone's asked. Will then deflect any praise with 'it's nothing'. The backbone of the trip. Does not drink water, only fixes problems" data-bringing="A toolkit, common sense, and the quiet frustration of a man who knows he'll end up doing everything" data-anthem="Under Pressure - Queen" data-bestmatch="Razon — two calm, competent people who make everyone else look disorganised" data-clashwith="Pranay — whose 'yes to everything' approach creates the problems Chris has to fix">
                             <div class="guest-avatar">
-                                <img loading="lazy" src="images/guests/shane-pallian.jpg" alt="Shane Pallian">
-                                <span class="guest-initials">SP</span>
+                                <img loading="lazy" src="images/guests/chris-coggin.jpg" alt="Chris Coggin">
+                                <span class="guest-initials">CC</span>
                             </div>
-                            <div class="guest-name">Shane Pallian</div>
-                            <div class="guest-tagline">Dangerously competitive</div>
+                            <div class="guest-name">Chris Coggin</div>
+                            <div class="guest-tagline">Does everything. Says nothing</div>
                         </div>
                     </div>
                 </div>
@@ -275,21 +281,21 @@
                 <div class="room-card">
                     <div class="room-header"><span class="room-number">Room 10</span></div>
                     <div class="room-guests">
-                        <div class="guest-card guest" data-name="Oli Moran" data-initials="OM" data-room="Room 10" data-superlative="Most likely to nap through a key event" data-fact="Horizontal is his default state. Will find a sun lounger and not move for 6 hours. Living his best life" data-bringing="A pillow and pure zen energy" data-anthem="No Woman No Cry - Bob Marley">
+                        <div class="guest-card guest" data-name="Oli Moran" data-initials="OM" data-room="Room 10" data-superlative="Most likely to miss a major event because he was 'resting his eyes'" data-knownfor="A commitment to relaxation that borders on the clinical" data-fact="Will be horizontal within 15 minutes of arriving. Will 'just close his eyes for a second' and resurface three hours later asking what he missed. Genuinely believes doing nothing is a skill. The pool lounger is his natural habitat. Do not disturb" data-bringing="A pillow, zero ambition, and a talent for falling asleep in any position, anywhere, within 90 seconds" data-anthem="No Woman No Cry - Bob Marley" data-bestmatch="Peter — they share a room and somehow Pete's chaos doesn't wake Oli. Science" data-clashwith="Sophie — who has events planned when Oli has naps planned">
                             <div class="guest-avatar">
                                 <img loading="lazy" src="images/guests/oli-moran.jpg" alt="Oli Moran">
                                 <span class="guest-initials">OM</span>
                             </div>
                             <div class="guest-name">Oli Moran</div>
-                            <div class="guest-tagline">Professional napper</div>
+                            <div class="guest-tagline">Will find a sun lounger and become one with it</div>
                         </div>
-                        <div class="guest-card guest" data-name="Peter London" data-initials="PL" data-room="Room 10" data-superlative="Most likely to do something nobody saw coming" data-fact="Wildcard energy. Could suggest a midnight swim or a cheese heist. You never know with Pete" data-bringing="Chaos and a worryingly spontaneous attitude" data-anthem="Bonkers - Dizzee Rascal">
+                        <div class="guest-card guest" data-name="Peter London" data-initials="PL" data-room="Room 10" data-superlative="Most likely to suggest something insane at 1am that somehow actually happens" data-knownfor="Decisions that make sense to absolutely nobody but occasionally turn out brilliantly" data-fact="Operates on a level of spontaneity that should require a risk assessment. Could suggest midnight cheese heist, impromptu swimming, or rearranging all the furniture. There is no pattern. There is no logic. There is only Pete. You'll either love it or be terrified. Often both" data-bringing="Absolutely unhinged energy, a complete disregard for plans, and ideas that are either genius or a liability (never in between)" data-anthem="Bonkers - Dizzee Rascal" data-bestmatch="Robin — double wildcard. If they team up, lock the doors" data-clashwith="Emma Winup — his entire existence is her organisational nightmare">
                             <div class="guest-avatar">
                                 <img loading="lazy" src="images/guests/peter-london.jpg" alt="Peter London">
                                 <span class="guest-initials">PL</span>
                             </div>
                             <div class="guest-name">Peter London</div>
-                            <div class="guest-tagline">Certified wildcard</div>
+                            <div class="guest-tagline">Nobody knows what he'll do next. Including him</div>
                         </div>
                     </div>
                 </div>
@@ -298,21 +304,21 @@
                 <div class="room-card">
                     <div class="room-header"><span class="room-number">Room 11</span></div>
                     <div class="room-guests">
-                        <div class="guest-card guest" data-name="Emma Levett" data-initials="EL" data-room="Room 11" data-superlative="Most likely to make everything look aesthetic" data-fact="Will rearrange the dinner table for photos. Has a Pinterest board for this trip that she won't admit to" data-bringing="Fairy lights she'll 100% try to hang somewhere" data-anthem="Espresso - Sabrina Carpenter">
+                        <div class="guest-card guest" data-name="Emma Levett" data-initials="EL" data-room="Room 11" data-superlative="Most likely to rearrange the table setting before allowing photos" data-knownfor="Making absolutely everything look like a curated Instagram grid" data-fact="Will adjust your outfit, fix the background, change the lighting, and still ask for a retake. Has a Pinterest board for this trip she'll pretend doesn't exist. 'Candid' photos take 7 attempts minimum. If the table spread isn't aesthetically pleasing, she will physically move plates" data-bringing="Fairy lights, a ring light, and an interior design eye that's both a gift and a curse" data-anthem="Espresso - Sabrina Carpenter" data-bestmatch="Sam — the photographer meets the art director. Content creation goes nuclear" data-clashwith="Anyone who thinks 'it's fine as it is'. It's never fine as it is">
                             <div class="guest-avatar">
                                 <img loading="lazy" src="images/guests/emma-levett.jpg" alt="Emma Levett">
                                 <span class="guest-initials">EL</span>
                             </div>
                             <div class="guest-name">Emma Levett</div>
-                            <div class="guest-tagline">Aesthetic queen</div>
+                            <div class="guest-tagline">If it's not on brand, it didn't happen</div>
                         </div>
-                        <div class="guest-card guest" data-name="Jonny Levett" data-initials="JL" data-room="Room 11" data-superlative="Most likely to start trouble with a smile" data-fact="Looks innocent. Is not. Will stir the pot, deny everything, and somehow come out clean" data-bringing="Plausible deniability" data-anthem="Trouble - Taylor Swift">
+                        <div class="guest-card guest" data-name="Jonny Levett" data-initials="JL" data-room="Room 11" data-superlative="Most likely to start drama and watch it unfold from a safe distance with a cup of tea" data-knownfor="Plausible deniability and an innocent face that should be registered as a weapon" data-fact="Will drop a comment, light the fuse, step back, and watch the chaos unfold. Has never once been caught stirring. Looks like butter wouldn't melt. It would. He melted it himself and blamed someone else. The most dangerous person in the chateau because nobody suspects him" data-bringing="Subtlety, mischief, and an uncanny ability to be nowhere near the crime scene despite being the architect" data-anthem="Trouble - Taylor Swift" data-bestmatch="Sarah — the intel officer and the pot stirrer. An alliance that should terrify everyone" data-clashwith="Hannah — she's the only one who sees through his act. He knows. She knows he knows">
                             <div class="guest-avatar">
                                 <img loading="lazy" src="images/guests/jonny-levett.jpg" alt="Jonny Levett">
                                 <span class="guest-initials">JL</span>
                             </div>
                             <div class="guest-name">Jonny Levett</div>
-                            <div class="guest-tagline">Pot stirrer</div>
+                            <div class="guest-tagline">Deny everything. Admit nothing</div>
                         </div>
                     </div>
                 </div>
@@ -324,41 +330,163 @@
                         <span class="room-tag party">The Lads</span>
                     </div>
                     <div class="room-guests">
-                        <div class="guest-card guest" data-name="Jonny Williams" data-initials="JW" data-room="Room 12 - The Lads" data-superlative="Most likely to call himself a legend unironically" data-fact="Self-proclaimed king of banter. The stories are long, the confidence is high, the self-awareness is low" data-bringing="Main character energy" data-anthem="Wonderwall - Oasis">
+                        <div class="guest-card guest" data-name="Jonny Williams" data-initials="JW" data-room="Room 12 - The Lads" data-superlative="Most likely to tell you about himself within 30 seconds of meeting you" data-knownfor="Main character syndrome that he's fully aware of and absolutely fine with" data-fact="Will make every moment about himself and somehow you'll let him because the confidence is that powerful. Has never in his life thought 'maybe I shouldn't tell this story'. Has described himself as 'iconic' without irony. Exhausting but impossible to ignore" data-bringing="An ego that needs its own room, supreme self-confidence, and stories where he's always the hero" data-anthem="Wonderwall - Oasis" data-bestmatch="Tom — they'll talk at each other for hours, both convinced the other is fascinated" data-clashwith="George — two alpha personalities and only one spotlight. War is inevitable">
                             <div class="guest-avatar">
                                 <img loading="lazy" src="images/guests/jonny-williams.jpg" alt="Jonny Williams">
                                 <span class="guest-initials">JW</span>
                             </div>
                             <div class="guest-name">Jonny Williams</div>
-                            <div class="guest-tagline">Main character</div>
+                            <div class="guest-tagline">The hero of his own story (and yours, apparently)</div>
                         </div>
-                        <div class="guest-card guest" data-name="Chris Coggin" data-initials="CC" data-room="Room 12 - The Lads" data-superlative="Most likely to quietly sort everything while no one notices" data-fact="Does the work, skips the credit. Will fix the BBQ, restock the fridge, and say nothing about it" data-bringing="Reliability and a toolkit" data-anthem="Under Pressure - Queen">
+                        <div class="guest-card guest" data-name="Shane Pallian" data-initials="SP" data-room="Room 12 - The Lads" data-superlative="Most likely to dispute the rules mid-game and somehow make it personal" data-knownfor="A competitive streak that turns Monopoly into a blood sport" data-fact="Cannot lose gracefully. Has argued a pool shot for 20 minutes, contested a card game ruling for an hour, and once refused to speak to someone for a full evening after losing at darts. Somehow believes every referee is biased against him specifically. Exhausting but hilarious" data-bringing="Anger management issues disguised as 'passion', a rule book he's memorised, and the unshakeable belief that he's never actually lost anything — it was stolen" data-anthem="Eye of the Tiger - Survivor" data-bestmatch="Razon — the only person Shane can't rattle. It infuriates him" data-clashwith="Whoever beats him at anything. So: everyone">
                             <div class="guest-avatar">
-                                <img loading="lazy" src="images/guests/chris-coggin.jpg" alt="Chris Coggin">
-                                <span class="guest-initials">CC</span>
+                                <img loading="lazy" src="images/guests/shane-pallian.jpg" alt="Shane Pallian">
+                                <span class="guest-initials">SP</span>
                             </div>
-                            <div class="guest-name">Chris Coggin</div>
-                            <div class="guest-tagline">Quiet fixer</div>
+                            <div class="guest-name">Shane Pallian</div>
+                            <div class="guest-tagline">Winning isn't everything. It's the only thing</div>
                         </div>
-                        <div class="guest-card guest" data-name="Oscar Walters" data-initials="OW" data-room="Room 12 - The Lads" data-superlative="Most likely to convince you to have 'just one more'" data-fact="The enabler. Will suggest shots when you were about to go to bed. Resistance is futile" data-bringing="Bad influence and zero regret" data-anthem="Shots - LMFAO">
+                        <div class="guest-card guest" data-name="Oscar Walters" data-initials="OW" data-room="Room 12 - The Lads" data-superlative="Most likely to be the reason someone has a hangover" data-knownfor="The phrase 'one more won't hurt' — it will, and he knows" data-fact="Will appear at your side the exact moment you're about to make a responsible decision and destroy it. 'Shall we get shots?' 'Just one more'. 'The night is young'. Has ruined more early nights than jetlag. Has never once been the first to go to bed. Thrives in chaos he personally created" data-bringing="Bad ideas, worse timing, and a gift for making terrible decisions sound like the obvious choice" data-anthem="Shots - LMFAO" data-bestmatch="Kiran — the enabler and the machine. Together they create an unstoppable night-out force" data-clashwith="Anyone who has plans for the morning. Oscar doesn't believe in mornings">
                             <div class="guest-avatar">
                                 <img loading="lazy" src="images/guests/oscar-walters.jpg" alt="Oscar Walters">
                                 <span class="guest-initials">OW</span>
                             </div>
                             <div class="guest-name">Oscar Walters</div>
-                            <div class="guest-tagline">The enabler</div>
+                            <div class="guest-tagline">Your bad decisions are his suggestions</div>
                         </div>
-                        <div class="guest-card guest" data-name="Pranay Dube" data-initials="PD" data-room="Room 12 - The Lads" data-superlative="Most likely to say yes to literally anything" data-fact="Enthusiasm levels: dangerous. Will agree to every activity, every drink, every dare. The human puppy of the group" data-bringing="Unbridled enthusiasm and puppy-dog eyes" data-anthem="Happy - Pharrell Williams">
+                        <div class="guest-card guest" data-name="Pranay Dube" data-initials="PD" data-room="Room 12 - The Lads" data-superlative="Most likely to agree to something insane before you've finished the sentence" data-knownfor="Unlimited enthusiasm and an almost concerning inability to say no" data-fact="If you suggest it, he'll do it. Skydiving? Yes. Midnight run? Yes. Eating something questionable? Triple yes. Will volunteer first for everything, regret nothing, and still be smiling. The trip's golden retriever. Give him a task and he's the happiest man alive" data-bringing="Unwavering positivity, zero filter, and the boundless energy of a Labrador who's just been told he's going to the park" data-anthem="Happy - Pharrell Williams" data-bestmatch="Oscar — one says 'shall we?' and the other says 'yes' before processing the question" data-clashwith="Nobody — it's genuinely impossible to argue with Pranay. He'd agree with your insult">
                             <div class="guest-avatar">
                                 <img loading="lazy" src="images/guests/pranay-dube.jpg" alt="Pranay Dube">
                                 <span class="guest-initials">PD</span>
                             </div>
                             <div class="guest-name">Pranay Dube</div>
-                            <div class="guest-tagline">Says yes to everything</div>
+                            <div class="guest-tagline">The human golden retriever</div>
                         </div>
                     </div>
                 </div>
             </div>
+            </div><!-- /#crew-view-rooms -->
+
+            <!-- Teams View -->
+            <div class="crew-view" id="crew-view-teams" style="display:none">
+                <div class="teams-locked-teaser">
+                    <div class="teams-locked-icon">🔒</div>
+                    <h3 class="teams-locked-title">Teams Coming Soon</h3>
+                    <p class="teams-locked-text">4 teams. Secret scouting reports. Strengths, weaknesses, and players to watch.</p>
+                    <p class="teams-locked-text">Team rosters drop <strong>2 weeks before the trip</strong> — mid April.</p>
+                    <p class="teams-locked-hint">Until then... start sizing up the competition.</p>
+                </div>
+                <!-- Teams grid (hidden until reveal) -->
+                <div class="teams-grid-4" style="display:none">
+
+                    <!-- Team Champagne -->
+                    <div class="team-card team-card--t1">
+                        <div class="team-card-hero">
+                            <span class="team-hero-icon">♠️</span>
+                            <h3 class="team-hero-name">Team 1</h3>
+                            <div class="team-hero-meta">7 members &middot; 🔒 Night 1</div>
+                        </div>
+                        <div class="team-stat-bars">
+                            <div class="stat-row"><span class="stat-label">⚡ Energy</span><div class="stat-track"><div class="stat-fill t1-fill" data-pct="72"></div></div><span class="stat-num">72</span></div>
+                            <div class="stat-row"><span class="stat-label">🎯 Strategy</span><div class="stat-track"><div class="stat-fill t1-fill" data-pct="95"></div></div><span class="stat-num">95</span></div>
+                            <div class="stat-row"><span class="stat-label">🌪️ Chaos</span><div class="stat-track"><div class="stat-fill t1-fill" data-pct="38"></div></div><span class="stat-num">38</span></div>
+                            <div class="stat-row"><span class="stat-label">🃏 Wildcard</span><div class="stat-track"><div class="stat-fill t1-fill" data-pct="62"></div></div><span class="stat-num">62</span></div>
+                        </div>
+                        <div class="team-roster">
+                            <p class="team-roster-hint">Can you guess who's on your team?</p>
+                            <div class="anon-grid">
+                                <div class="anon-member"><div class="anon-circle anon-circle--t1">?</div><p class="anon-superlative">Most likely to peak at his own birthday and somehow still claim he hasn't peaked yet</p><div class="anon-traits"><span class="trait-str">Morale booster</span><span class="trait-weak">Main character syndrome</span><span class="trait-warn">Will try to make everything about himself</span></div></div>
+                                <div class="anon-member"><div class="anon-circle anon-circle--t1">?</div><p class="anon-superlative">Most likely to have a contingency plan for the contingency plan</p><div class="anon-traits"><span class="trait-str">Master planner</span><span class="trait-weak">Cannot let go of control</span><span class="trait-warn">Will reorganise your strategy without asking</span></div></div>
+                                <div class="anon-member"><div class="anon-circle anon-circle--t1">?</div><p class="anon-superlative">Most likely to win everything while looking like he doesn't care</p><div class="anon-traits"><span class="trait-str">Strategic genius</span><span class="trait-weak">Too quiet to rally the troops</span><span class="trait-warn">Has already figured out how to win before you've read the rules</span></div></div>
+                                <div class="anon-member"><div class="anon-circle anon-circle--t1">?</div><p class="anon-superlative">Most likely to re-organise someone else's plans without telling them</p><div class="anon-traits"><span class="trait-str">Organised beyond belief</span><span class="trait-weak">Will panic if anything goes off-script</span><span class="trait-warn">Already has 3 backup strategies you don't know about</span></div></div>
+                                <div class="anon-member"><div class="anon-circle anon-circle--t1">?</div><p class="anon-superlative">Most likely to know who kissed who before they've even left the room</p><div class="anon-traits"><span class="trait-str">Knows everyone's weaknesses</span><span class="trait-weak">May accidentally reveal team secrets</span><span class="trait-warn">Is already gathering intel on the other teams</span></div></div>
+                                <div class="anon-member"><div class="anon-circle anon-circle--t1">?</div><p class="anon-superlative">Most likely to miss a major event because he was 'resting his eyes'</p><div class="anon-traits"><span class="trait-str">Zen energy keeps the team calm</span><span class="trait-weak">May literally fall asleep mid-challenge</span><span class="trait-warn">Will need to be physically retrieved from the sun lounger</span></div></div>
+                                <div class="anon-member"><div class="anon-circle anon-circle--t1">?</div><p class="anon-superlative">Most likely to have fixed three problems before anyone noticed they existed</p><div class="anon-traits"><span class="trait-str">Solves every problem quietly</span><span class="trait-weak">Too nice to call out slackers</span><span class="trait-warn">Doing 80% of the work while saying nothing</span></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team Bordeaux -->
+                    <div class="team-card team-card--t2">
+                        <div class="team-card-hero">
+                            <span class="team-hero-icon">♥️</span>
+                            <h3 class="team-hero-name">Team 2</h3>
+                            <div class="team-hero-meta">6 members &middot; 🔒 Night 1</div>
+                        </div>
+                        <div class="team-stat-bars">
+                            <div class="stat-row"><span class="stat-label">⚡ Energy</span><div class="stat-track"><div class="stat-fill t2-fill" data-pct="92"></div></div><span class="stat-num">92</span></div>
+                            <div class="stat-row"><span class="stat-label">🎯 Strategy</span><div class="stat-track"><div class="stat-fill t2-fill" data-pct="42"></div></div><span class="stat-num">42</span></div>
+                            <div class="stat-row"><span class="stat-label">🌪️ Chaos</span><div class="stat-track"><div class="stat-fill t2-fill" data-pct="84"></div></div><span class="stat-num">84</span></div>
+                            <div class="stat-row"><span class="stat-label">🃏 Wildcard</span><div class="stat-track"><div class="stat-fill t2-fill" data-pct="78"></div></div><span class="stat-num">78</span></div>
+                        </div>
+                        <div class="team-roster">
+                            <p class="team-roster-hint">Can you guess who's on your team?</p>
+                            <div class="anon-grid">
+                                <div class="anon-member"><div class="anon-circle anon-circle--t2">?</div><p class="anon-superlative">Most likely to play indie nobody's heard of and act personally attacked</p><div class="anon-traits"><span class="trait-str">Creative thinker</span><span class="trait-weak">Gets distracted by the playlist</span><span class="trait-warn">Will prioritise the music over the actual challenge</span></div></div>
+                                <div class="anon-member"><div class="anon-circle anon-circle--t2">?</div><p class="anon-superlative">Most likely to capture your worst angle at the worst possible moment</p><div class="anon-traits"><span class="trait-str">Documentation queen</span><span class="trait-weak">Will stop mid-challenge for 'content'</span><span class="trait-warn">Has photographic evidence of every mistake</span></div></div>
+                                <div class="anon-member"><div class="anon-circle anon-circle--t2">?</div><p class="anon-superlative">Most likely to tell a joke, wait for laughter, get none, and tell it again louder</p><div class="anon-traits"><span class="trait-str">Keeps morale up (occasionally)</span><span class="trait-weak">85% of his ideas are terrible</span><span class="trait-warn">Will argue a ruling until everyone gives in from exhaustion</span></div></div>
+                                <div class="anon-member"><div class="anon-circle anon-circle--t2">?</div><p class="anon-superlative">Most likely to find the best restaurant before anyone's unpacked</p><div class="anon-traits"><span class="trait-str">Quality control expert</span><span class="trait-weak">Gets hangry and unreasonable</span><span class="trait-warn">If the cooking challenge doesn't meet her standards, she'll sabotage it</span></div></div>
+                                <div class="anon-member"><div class="anon-circle anon-circle--t2">?</div><p class="anon-superlative">Most likely to still be awake when the birds start singing</p><div class="anon-traits"><span class="trait-str">Outlasts everyone</span><span class="trait-weak">Doesn't know when to quit (literally)</span><span class="trait-warn">Will still be going when the challenge ended 2 hours ago</span></div></div>
+                                <div class="anon-member"><div class="anon-circle anon-circle--t2">?</div><p class="anon-superlative">Most likely to tell you about himself within 30 seconds of meeting you</p><div class="anon-traits"><span class="trait-str">Confidence that inspires (or terrifies)</span><span class="trait-weak">Will make everything about himself</span><span class="trait-warn">Already planning his victory lap before the game starts</span></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team Rosé -->
+                    <div class="team-card team-card--t3">
+                        <div class="team-card-hero">
+                            <span class="team-hero-icon">♦️</span>
+                            <h3 class="team-hero-name">Team 3</h3>
+                            <div class="team-hero-meta">6 members &middot; 🔒 Night 1</div>
+                        </div>
+                        <div class="team-stat-bars">
+                            <div class="stat-row"><span class="stat-label">⚡ Energy</span><div class="stat-track"><div class="stat-fill t3-fill" data-pct="85"></div></div><span class="stat-num">85</span></div>
+                            <div class="stat-row"><span class="stat-label">🎯 Strategy</span><div class="stat-track"><div class="stat-fill t3-fill" data-pct="48"></div></div><span class="stat-num">48</span></div>
+                            <div class="stat-row"><span class="stat-label">🌪️ Chaos</span><div class="stat-track"><div class="stat-fill t3-fill" data-pct="96"></div></div><span class="stat-num">96</span></div>
+                            <div class="stat-row"><span class="stat-label">🃏 Wildcard</span><div class="stat-track"><div class="stat-fill t3-fill" data-pct="70"></div></div><span class="stat-num">70</span></div>
+                        </div>
+                        <div class="team-roster">
+                            <p class="team-roster-hint">Can you guess who's on your team?</p>
+                            <div class="anon-grid">
+                                <div class="anon-member"><div class="anon-circle anon-circle--t3">?</div><p class="anon-superlative">Most likely to vanish for 2 hours and return with an unexplained injury</p><div class="anon-traits"><span class="trait-str">Unpredictable — other teams can't plan against chaos</span><span class="trait-weak">May also be unpredictable against his own team</span><span class="trait-warn">His 2am ideas sound brilliant. They are not</span></div></div>
+                                <div class="anon-member"><div class="anon-circle anon-circle--t3">?</div><p class="anon-superlative">Most likely to wake up the entire chateau and not understand why</p><div class="anon-traits"><span class="trait-str">Intimidation factor</span><span class="trait-weak">Zero subtlety — stealth challenges are impossible</span><span class="trait-warn">Will celebrate before the challenge is over and alert the enemy</span></div></div>
+                                <div class="anon-member"><div class="anon-circle anon-circle--t3">?</div><p class="anon-superlative">Most likely to sigh audibly when someone adds ice to ros&eacute;</p><div class="anon-traits"><span class="trait-str">Sophisticated problem-solving</span><span class="trait-weak">Will overthink everything</span><span class="trait-warn">Will waste 10 minutes discussing strategy when everyone just needs to run</span></div></div>
+                                <div class="anon-member"><div class="anon-circle anon-circle--t3">?</div><p class="anon-superlative">Most likely to rearrange the table setting before allowing photos</p><div class="anon-traits"><span class="trait-str">Presentation and style points</span><span class="trait-weak">Will prioritise how things look over whether they work</span><span class="trait-warn">Will refuse to participate if the outfit isn't right</span></div></div>
+                                <div class="anon-member"><div class="anon-circle anon-circle--t3">?</div><p class="anon-superlative">Most likely to dispute the rules mid-game and make it personal</p><div class="anon-traits"><span class="trait-str">Will literally die before losing</span><span class="trait-weak">May start arguments with his own teammates</span><span class="trait-warn">Takes party games more seriously than his actual job</span></div></div>
+                                <div class="anon-member"><div class="anon-circle anon-circle--t3">?</div><p class="anon-superlative">Most likely to drop a nuclear-grade embarrassing story with zero warning</p><div class="anon-traits"><span class="trait-str">Psychological warfare expert</span><span class="trait-weak">Gets so focused on roasting Joe she forgets the actual game</span><span class="trait-warn">If Joe's team is ahead, she's coming for blood</span></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team Vouvray -->
+                    <div class="team-card team-card--t4">
+                        <div class="team-card-hero">
+                            <span class="team-hero-icon">♣️</span>
+                            <h3 class="team-hero-name">Team 4</h3>
+                            <div class="team-hero-meta">6 members &middot; 🔒 Night 1</div>
+                        </div>
+                        <div class="team-stat-bars">
+                            <div class="stat-row"><span class="stat-label">⚡ Energy</span><div class="stat-track"><div class="stat-fill t4-fill" data-pct="78"></div></div><span class="stat-num">78</span></div>
+                            <div class="stat-row"><span class="stat-label">🎯 Strategy</span><div class="stat-track"><div class="stat-fill t4-fill" data-pct="58"></div></div><span class="stat-num">58</span></div>
+                            <div class="stat-row"><span class="stat-label">🌪️ Chaos</span><div class="stat-track"><div class="stat-fill t4-fill" data-pct="65"></div></div><span class="stat-num">65</span></div>
+                            <div class="stat-row"><span class="stat-label">🃏 Wildcard</span><div class="stat-track"><div class="stat-fill t4-fill" data-pct="94"></div></div><span class="stat-num">94</span></div>
+                        </div>
+                        <div class="team-roster">
+                            <p class="team-roster-hint">Can you guess who's on your team?</p>
+                            <div class="anon-grid">
+                                <div class="anon-member"><div class="anon-circle anon-circle--t4">?</div><p class="anon-superlative">Most likely to turn ordering a coffee into a 15-minute anecdote</p><div class="anon-traits"><span class="trait-str">Can talk his way out of anything</span><span class="trait-weak">Will talk his way PAST the time limit</span><span class="trait-warn">If there's a debate round, he'll still be talking when everyone else has left</span></div></div>
+                                <div class="anon-member"><div class="anon-circle anon-circle--t4">?</div><p class="anon-superlative">Most likely to start a chant at breakfast</p><div class="anon-traits"><span class="trait-str">Team energy is through the roof</span><span class="trait-weak">Energy sometimes exceeds actual ability</span><span class="trait-warn">Will start a chant whether the team is winning or losing</span></div></div>
+                                <div class="anon-member"><div class="anon-circle anon-circle--t4">?</div><p class="anon-superlative">Most likely to suggest something insane at 1am that somehow actually happens</p><div class="anon-traits"><span class="trait-str">Will attempt things nobody else would</span><span class="trait-weak">Also most likely to accidentally sabotage his own team</span><span class="trait-warn">His 'strategy' changes every 30 seconds</span></div></div>
+                                <div class="anon-member"><div class="anon-circle anon-circle--t4">?</div><p class="anon-superlative">Most likely to start drama and watch it unfold from a safe distance</p><div class="anon-traits"><span class="trait-str">Psychological mind games against other teams</span><span class="trait-weak">May accidentally stir his own team</span><span class="trait-warn">If he's quiet, something is happening. Run</span></div></div>
+                                <div class="anon-member"><div class="anon-circle anon-circle--t4">?</div><p class="anon-superlative">Most likely to be the reason someone has a hangover</p><div class="anon-traits"><span class="trait-str">Team unity — gets people on board</span><span class="trait-weak">Will get the team to agree to a terrible plan</span><span class="trait-warn">Most dangerous when he says 'trust me on this'</span></div></div>
+                                <div class="anon-member"><div class="anon-circle anon-circle--t4">?</div><p class="anon-superlative">Most likely to agree to something insane before you've finished the sentence</p><div class="anon-traits"><span class="trait-str">Enthusiasm is unlimited</span><span class="trait-weak">Cannot say no, even to bad ideas</span><span class="trait-warn">Will volunteer before knowing what the challenge involves</span></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- /.teams-grid-4 -->
+            </div><!-- /#crew-view-teams -->
+
         </div>
     </section>
 
@@ -366,18 +494,24 @@
     <section id="messages" class="section messages">
         <div class="container">
             <h2 class="section-title">Birthday Wall</h2>
-            <p class="section-subtitle">Leave a birthday message, a memory, or just something nice &mdash; Joe will read them all on the trip!</p>
+            <p class="section-subtitle">Leave a birthday message, a memory, or just something nice. Joe will read them all on the trip.</p>
 
             <form class="message-form" id="message-form">
                 <div class="message-form-row">
                     <input type="text" id="message-name" placeholder="Your name" required>
-                    <textarea id="message-text" placeholder="Write your birthday message..." rows="3" maxlength="500" required></textarea>
-                    <span class="char-count" id="message-char-count">0 / 500</span>
+                    <div class="message-textarea-wrap">
+                        <textarea id="message-text" placeholder="Write your birthday message..." rows="3" maxlength="500" required></textarea>
+                        <span class="char-count" id="message-char-count">0 / 500</span>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Post Message</button>
             </form>
 
             <div class="messages-wall" id="messages-wall">
+                <div class="messages-empty-state">
+                    <span class="messages-empty-icon">✉️</span>
+                    <p>No messages yet — be the first to write one above.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -388,13 +522,15 @@
             <h2 class="section-title">Party Playlist</h2>
             <p class="section-subtitle">Add your bangers to our collaborative Spotify playlist</p>
 
-            <div class="simple-link-card">
-                <div class="slc-icon">🎵</div>
+            <div class="simple-link-card slc--spotify">
+                <div class="slc-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="slc-brand-icon"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+                </div>
                 <div class="slc-info">
                     <h3>Joe's 30th Birthday Playlist</h3>
                     <p>Open in Spotify and hit <strong>Add to this playlist</strong> to drop your song in. Anyone can add.</p>
                 </div>
-                <a href="https://open.spotify.com/playlist/2wg5wjy3Yn4vzxXm6dMK96" class="btn btn-primary slc-btn" target="_blank" rel="noopener">Open Spotify →</a>
+                <a href="https://open.spotify.com/playlist/2wg5wjy3Yn4vzxXm6dMK96" class="btn slc-btn slc-btn--spotify" target="_blank" rel="noopener">Open Spotify →</a>
             </div>
         </div>
     </section>
@@ -405,13 +541,15 @@
             <h2 class="section-title">Trip Photos</h2>
             <p class="section-subtitle">Share your pics and videos with the whole group</p>
 
-            <div class="simple-link-card">
-                <div class="slc-icon">💬</div>
+            <div class="simple-link-card slc--whatsapp">
+                <div class="slc-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="slc-brand-icon"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                </div>
                 <div class="slc-info">
                     <h3>Post to the WhatsApp Group</h3>
                     <p>Drop your photos and videos straight into the group chat. Everyone will see them instantly.</p>
                 </div>
-                <a href="https://chat.whatsapp.com/DcrbNPUiLq62lavkRYcQiv" class="btn btn-primary slc-btn" target="_blank" rel="noopener">Open WhatsApp →</a>
+                <a href="https://chat.whatsapp.com/DcrbNPUiLq62lavkRYcQiv" class="btn slc-btn slc-btn--whatsapp" target="_blank" rel="noopener">Open WhatsApp →</a>
             </div>
         </div>
     </section>
@@ -441,8 +579,8 @@
         </div>
     </footer>
 
-    <script src="js/shared.js?v=10"></script>
-    <script src="js/nav.js"></script>
-    <script src="js/social.js?v=16"></script>
+    <script src="js/shared.js?v=16"></script>
+    <script src="js/nav.js?v=1"></script>
+    <script src="js/social.js?v=24"></script>
 </body>
 </html>

@@ -17,7 +17,7 @@
 .nav-container {
     max-width: var(--container-width);
     margin: 0 auto;
-    padding: 12px 20px;
+    padding: 14px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -28,12 +28,25 @@
     font-size: 1.5rem;
     color: var(--primary);
     text-decoration: none;
+    display: inline-block;
+}
+
+.nav-logo:hover {
+    animation: logoWiggle 0.5s ease;
+}
+
+@keyframes logoWiggle {
+    0%, 100% { transform: rotate(0); }
+    20% { transform: rotate(-3deg); }
+    40% { transform: rotate(3deg); }
+    60% { transform: rotate(-2deg); }
+    80% { transform: rotate(2deg); }
 }
 
 .nav-links {
     display: flex;
     list-style: none;
-    gap: 8px;
+    gap: 10px;
     align-items: center;
 }
 

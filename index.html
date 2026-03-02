@@ -10,10 +10,10 @@
     <meta property="og:image" content="images/og-preview.jpg">
     <meta property="og:type" content="website">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>">
-    <link rel="stylesheet" href="css/base.css?v=10">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/nav.css">
-    <link rel="stylesheet" href="css/home.css?v=9">
+    <link rel="stylesheet" href="css/base.css?v=18">
+    <link rel="stylesheet" href="css/components.css?v=1">
+    <link rel="stylesheet" href="css/nav.css?v=1">
+    <link rel="stylesheet" href="css/home.css?v=12">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -47,8 +47,8 @@
         </div>
     </div>
 
-    <!-- Guest Login Modal -->
-    <div class="guest-login-modal" id="guest-login-modal">
+    <!-- Guest Login Modal (replaced by shared guest picker) -->
+    <div class="guest-login-modal" id="guest-login-modal" style="display:none">
         <div class="guest-login-content">
             <h2>🎉 Welcome to Joe's 30th!</h2>
             <p>Enter your personal code to unlock your secret missions</p>
@@ -56,8 +56,8 @@
                 <input type="text" id="guest-code" placeholder="Your invite code (e.g., SOPHIE-M3P2)" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" required>
                 <button type="submit" class="btn btn-primary">Unlock My Dashboard</button>
             </form>
-            <p class="guest-login-error" id="guest-login-error" style="display: none;">Code not recognized — check your invite for your personal code</p>
-            <p class="guest-login-hint">Don't have your code yet? No worries — it'll arrive with your invite. Explore the site for now!</p>
+            <p class="guest-login-error" id="guest-login-error" style="display: none;">Code not recognised. Check your invite for your personal code.</p>
+            <p class="guest-login-hint">Don't have your code yet? No worries. It'll arrive with your invite. Explore the site for now!</p>
             <button class="skip-login-btn" id="skip-guest-login">Explore as Guest &rarr;</button>
         </div>
     </div>
@@ -99,7 +99,7 @@
         <div class="hero-content">
             <p class="hero-subtitle">You're invited to</p>
             <h1 class="hero-title">Joe's 30th Birthday!</h1>
-            <p class="hero-location">Chateau Roussignol, Loire Valley</p>
+            <p class="hero-location">Château Roussignol, Loire Valley</p>
             <p class="hero-dates">Wed 29 Apr - Mon 4 May 2026</p>
 
             <div class="countdown">
@@ -135,6 +135,7 @@
             <span>Scroll to explore</span>
             <div class="scroll-arrow"></div>
         </div>
+        <div class="hero-bottom-fade" aria-hidden="true"></div>
     </section>
 
     <!-- Personal Dashboard (shown after login) -->
@@ -267,27 +268,27 @@
     <section class="quick-links section visible">
         <div class="container">
             <h2 class="section-title">Explore</h2>
-            <p class="section-subtitle">Everything you need for the trip</p>
-            <div class="quick-links-grid">
-                <a href="schedule.html" class="quick-link">
+            <p class="section-subtitle">Five pages. Everything covered.</p>
+            <div class="quick-links-grid stagger-grid">
+                <a href="schedule.html" class="quick-link quick-link--schedule">
                     <span class="emoji" aria-hidden="true">📅</span>
                     <h3>Schedule</h3>
-                    <p>Daily agenda & itineraries</p>
+                    <p>Daily agenda &amp; itineraries</p>
                 </a>
-                <a href="games.html" class="quick-link">
+                <a href="games.html" class="quick-link quick-link--games">
                     <span class="emoji" aria-hidden="true">🏆</span>
                     <h3>Games</h3>
-                    <p>Challenges, quiz & leaderboard</p>
+                    <p>Challenges, quiz &amp; leaderboard</p>
                 </a>
-                <a href="social.html" class="quick-link">
+                <a href="social.html" class="quick-link quick-link--social">
                     <span class="emoji" aria-hidden="true">💬</span>
                     <h3>Social</h3>
-                    <p>Messages, photos & memories</p>
+                    <p>Messages, photos &amp; memories</p>
                 </a>
-                <a href="practical.html" class="quick-link">
+                <a href="practical.html" class="quick-link quick-link--info">
                     <span class="emoji" aria-hidden="true">🧳</span>
                     <h3>Info</h3>
-                    <p>Travel, packing & payments</p>
+                    <p>Travel, packing &amp; payments</p>
                 </a>
             </div>
         </div>
@@ -315,8 +316,8 @@
         </div>
     </footer>
 
-    <script src="js/shared.js?v=10"></script>
-    <script src="js/nav.js"></script>
-    <script src="js/home.js?v=4"></script>
+    <script src="js/shared.js?v=16"></script>
+    <script src="js/nav.js?v=1"></script>
+    <script src="js/home.js?v=6"></script>
 </body>
 </html>

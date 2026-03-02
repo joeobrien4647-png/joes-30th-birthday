@@ -418,8 +418,9 @@ function initSecretAgenda() {
     });
 
     // Admin override - click secret 5 times to reveal (for testing)
-    let clickCount = 0;
     secretItems.forEach(item => {
+        if (item.classList.contains('unlocked')) return;
+        let clickCount = 0;
         item.addEventListener('click', function() {
             clickCount++;
             if (clickCount >= 5) {
@@ -710,9 +711,9 @@ function initActivitySignups() {
     var SIGNUP_ACTIVITIES = [
         {
             id: 'golf',
-            name: 'Golf des Sarrays (9 holes)',
+            name: 'Golf du Val de l\'Indre (9 holes)',
             day: 'Day 2 (Thu 30 Apr)',
-            cost: '~\u20AC30\u201340/pp',
+            cost: '~\u20AC65/pp',
             max: 12,
             emoji: '\u26F3',
             description: '9-hole course near Ch\u00E2teauroux. Flat, wooded, beginner-friendly \u2014 no handicap needed. Club hire available. ~45 min drive.'
@@ -1149,44 +1150,6 @@ function injectDaySummaries() {
     });
 }
 
-/* ---- Sticky day tabs ---- */
-function initStickyTabs() {
-    var wrapper = document.querySelector('.agenda-tabs-wrapper');
-    if (!wrapper) return;
-
-    var placeholder = document.createElement('div');
-    placeholder.className = 'sticky-tabs-placeholder';
-    placeholder.style.display = 'none';
-
-    wrapper.parentNode.insertBefore(placeholder, wrapper);
-
-    var subNav = document.querySelector('.sub-nav');
-    var stickyOffset = subNav ? subNav.offsetHeight + 65 : 65;
-
-    function onScroll() {
-        var trigger = placeholder.getBoundingClientRect().top;
-        if (trigger <= stickyOffset) {
-            if (!wrapper.classList.contains('tabs-stuck')) {
-                // Include margin in placeholder to prevent content jump
-                var style = getComputedStyle(wrapper);
-                var totalHeight = wrapper.offsetHeight +
-                    parseInt(style.marginTop || 0) +
-                    parseInt(style.marginBottom || 0);
-                placeholder.style.display = 'block';
-                placeholder.style.height = totalHeight + 'px';
-                wrapper.classList.add('tabs-stuck');
-                wrapper.style.top = stickyOffset + 'px';
-            }
-        } else {
-            placeholder.style.display = 'none';
-            wrapper.classList.remove('tabs-stuck');
-            wrapper.style.top = '';
-        }
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-}
 
 /* ---- Scroll-spy: highlight active sub-nav link ---- */
 function initScrollSpy() {
@@ -1265,15 +1228,25 @@ function initEnvelopeAnimation() {
             envelope.classList.add('letter-rising');
         }, 1000);
 
-        // Phase 4: 2-second pause on letter, then confetti + reveal
-        // Letter finishes rising ~2200ms, pause until 4200ms
+        // Phase 4: Fireworks burst (1900ms — just as letter clears the envelope)
         setTimeout(function() {
-            spawnEnvelopeConfetti();
-            revealPage();
-        }, 4200);
+            spawnFireworks();
+        }, 1900);
+
+        // Phase 5: Show fullscreen letter (2300ms)
+        setTimeout(function() {
+            showLetterFullscreen();
+        }, 2300);
     }
 
     function skipAnimation() {
+        // Close letter fullscreen if it's showing
+        var lfs = document.getElementById('letter-fullscreen');
+        if (lfs && lfs.style.display === 'flex') {
+            lfs.style.opacity = '0';
+            setTimeout(revealPage, 300);
+            return;
+        }
         if (opened) return;
         opened = true;
         revealPage();
@@ -1281,6 +1254,10 @@ function initEnvelopeAnimation() {
 
     function revealPage() {
         sessionStorage.setItem(SEEN_KEY, 'true');
+
+        // Hide letter fullscreen if showing
+        var lfs = document.getElementById('letter-fullscreen');
+        if (lfs) { lfs.style.display = 'none'; }
 
         // Scroll to top BEFORE revealing content
         window.scrollTo(0, 0);
@@ -1303,25 +1280,104 @@ function initEnvelopeAnimation() {
         }, 700);
     }
 
-    function spawnEnvelopeConfetti() {
+    function spawnFireworks() {
         var container = document.createElement('div');
-        container.className = 'envelope-confetti';
-        var colors = ['#FF6B9D', '#7C3AED', '#FFD93D', '#6BCB77', '#4ECDC4', '#FF6B6B', '#d4a76a', '#c0392b'];
-        for (var i = 0; i < 40; i++) {
-            var piece = document.createElement('div');
-            piece.className = 'envelope-confetti-piece';
-            piece.style.left = (50 + (Math.random() - 0.5) * 30) + 'vw';
-            piece.style.top = (40 + (Math.random() - 0.5) * 20) + 'vh';
-            piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            piece.style.animationDelay = (Math.random() * 0.5) + 's';
-            piece.style.animationDuration = (1.5 + Math.random() * 1.5) + 's';
-            piece.style.width = (6 + Math.random() * 8) + 'px';
-            piece.style.height = (6 + Math.random() * 8) + 'px';
-            piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-            container.appendChild(piece);
-        }
+        container.className = 'fireworks-container';
         document.body.appendChild(container);
-        setTimeout(function() { container.remove(); }, 4000);
+
+        // Screen flash
+        var flashEl = document.createElement('div');
+        flashEl.className = 'fw-screen-flash';
+        document.body.appendChild(flashEl);
+        setTimeout(function() { if (flashEl.parentNode) flashEl.remove(); }, 500);
+
+        var COLORS = [
+            '#FFD700', '#FFF8DC', '#FFE066',   // golds
+            '#FF6B9D', '#FFB3D1',               // pinks
+            '#C8A2C8', '#A855F7',               // purples
+            '#FFB347', '#FF8C00',               // oranges
+            '#FFFFFF', '#FFFACD',               // whites/creams
+            '#6BCB77', '#4ECDC4'                // green/teal
+        ];
+
+        var origins = [
+            { x: 20, y: 20 }, { x: 50, y: 12 }, { x: 80, y: 20 },
+            { x: 12, y: 55 }, { x: 88, y: 50 },
+            { x: 35, y: 38 }, { x: 65, y: 35 },
+            { x: 50, y: 65 }
+        ];
+
+        origins.forEach(function(origin, i) {
+            setTimeout(function() {
+                spawnBurst(container, origin.x, origin.y, COLORS, 48 + Math.floor(Math.random() * 18));
+            }, i * 110 + Math.random() * 50);
+        });
+
+        setTimeout(function() { if (container.parentNode) container.remove(); }, 6000);
+    }
+
+    function spawnBurst(container, cx, cy, COLORS, count) {
+        var flash = document.createElement('div');
+        flash.className = 'fw-flash';
+        flash.style.left = cx + 'vw';
+        flash.style.top = cy + 'vh';
+        container.appendChild(flash);
+
+        for (var i = 0; i < count; i++) {
+            var p = document.createElement('div');
+            p.className = 'fw-particle';
+            var angle = (i / count) * 360 + (Math.random() - 0.5) * (360 / count) * 0.8;
+            var dist = 55 + Math.random() * 130;
+            var dx = Math.cos(angle * Math.PI / 180) * dist;
+            var dy = Math.sin(angle * Math.PI / 180) * dist;
+            p.style.left = cx + 'vw';
+            p.style.top = cy + 'vh';
+            p.style.setProperty('--dx', dx + 'px');
+            p.style.setProperty('--dy', dy + 'px');
+            p.style.backgroundColor = COLORS[Math.floor(Math.random() * COLORS.length)];
+            p.style.animationDelay = (Math.random() * 0.25) + 's';
+            p.style.animationDuration = (0.75 + Math.random() * 0.85) + 's';
+            var size = 3 + Math.random() * 7;
+            p.style.width = size + 'px';
+            p.style.height = size + 'px';
+            if (Math.random() > 0.55) p.style.borderRadius = '2px';
+            container.appendChild(p);
+        }
+    }
+
+    function showLetterFullscreen() {
+        var lfs = document.getElementById('letter-fullscreen');
+        if (!lfs) { revealPage(); return; }
+
+        // Darken overlay background to warm black
+        overlay.style.background = 'rgba(8, 4, 2, 0.97)';
+
+        lfs.style.display = 'flex';
+        // Double rAF to allow display:flex to take effect before transition
+        requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+                lfs.classList.add('lfs-visible');
+                lfs.setAttribute('aria-hidden', 'false');
+            });
+        });
+
+        var cta = document.getElementById('letter-fs-cta');
+        if (cta) {
+            cta.addEventListener('click', function() {
+                lfs.style.transition = 'opacity 0.4s ease';
+                lfs.style.opacity = '0';
+                setTimeout(revealPage, 400);
+            });
+        }
+
+        // Also wire skip button to dismiss letter
+        skipBtn.removeEventListener('click', skipAnimation);
+        skipBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            lfs.style.transition = 'opacity 0.3s ease';
+            lfs.style.opacity = '0';
+            setTimeout(revealPage, 300);
+        });
     }
 
     // Event listeners
@@ -1366,16 +1422,76 @@ function initEnvelopeAnimation() {
 
 /* ---- Arrival Countdown ---- */
 /* ---- Initialize on page load ---- */
+/* ---- Agenda Overview Strip ---- */
+function initOverviewStrip() {
+    var overviewTiles = document.querySelectorAll('.overview-tile');
+    var tabBtns = document.querySelectorAll('.tab-btn');
+
+    if (!overviewTiles.length || !tabBtns.length) return;
+
+    function syncOverviewActive() {
+        var activeTab = document.querySelector('.tab-btn.active');
+        if (!activeTab) return;
+        var day = activeTab.dataset.day;
+        overviewTiles.forEach(function(t) { t.classList.remove('active'); });
+        var tile = document.querySelector('.overview-tile[data-day="' + day + '"]');
+        if (tile) tile.classList.add('active');
+    }
+
+    // Click on overview tile → click the corresponding tab button
+    overviewTiles.forEach(function(tile) {
+        tile.addEventListener('click', function() {
+            var tabBtn = document.querySelector('.tab-btn[data-day="' + this.dataset.day + '"]');
+            if (tabBtn) tabBtn.click();
+        });
+    });
+
+    // Watch tab buttons for .active class changes (covers tabs, arrows, swipe)
+    var observer = new MutationObserver(syncOverviewActive);
+    tabBtns.forEach(function(btn) {
+        observer.observe(btn, { attributes: true, attributeFilter: ['class'] });
+    });
+}
+
+/* ============================================
+   Guest Highlighting — voted activity cards
+   ============================================ */
+function initScheduleHighlight() {
+    function applyHighlights(d) {
+        if (!d || !d.code) return;
+
+        var userVotes = Store.get('av_userVotes', {});
+        var myVotes = userVotes[d.code] || [];
+        if (!myVotes.length) return;
+
+        document.querySelectorAll('.av-card[data-id]').forEach(function(card) {
+            if (myVotes.indexOf(card.dataset.id) !== -1) {
+                card.classList.add('guest-voted-card');
+            }
+        });
+    }
+
+    // Listen for future events
+    document.addEventListener('guestHighlight', function(e) { applyHighlights(e.detail); });
+
+    // Apply immediately if already logged in
+    if (typeof Auth !== 'undefined' && Auth.isLoggedIn()) {
+        var guest = Auth.getGuestData();
+        if (guest) applyHighlights({ name: guest.name, fullName: guest.fullName, room: guest.room, code: Auth.getGuestCode() });
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     initEnvelopeAnimation();
     initAgendaTabs();
     initSecretAgenda();
     initAgendaSwipe();
+    initOverviewStrip();
     initActivitySignups();
     initScheduleEmptyStates();
     initTimeBuckets();
     injectDayHeroes();
     injectDaySummaries();
-    initStickyTabs();
     initScrollSpy();
+    initScheduleHighlight();
 });

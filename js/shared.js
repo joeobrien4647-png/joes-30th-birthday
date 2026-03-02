@@ -194,7 +194,7 @@ const GUEST_DATA = {
         personalNotes: 'Share your wine wisdom! Help everyone appreciate the Loire Valley.'
     },
     'SARAH-4KV3': {
-        name: 'Sarah', fullName: 'Sarah', room: 'Room 8',
+        name: 'Sarah', fullName: 'Sarah Shamia', room: 'Room 8',
         team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Introduce two people who haven\'t met', completed: false },
@@ -214,7 +214,7 @@ const GUEST_DATA = {
         personalNotes: 'You\'re the after-hours entertainment - keep the night alive!'
     },
     'SHANE-9FH6': {
-        name: 'Shane', fullName: 'Shane Pallian', room: 'Room 9',
+        name: 'Shane', fullName: 'Shane Pallian', room: 'Room 12',
         team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Win at least one game/challenge', completed: false },
@@ -274,7 +274,7 @@ const GUEST_DATA = {
         personalNotes: 'Bring the legendary energy!'
     },
     'CHRIS-2FM7': {
-        name: 'Chris', fullName: 'Chris Coggin', room: 'Room 12',
+        name: 'Chris', fullName: 'Chris Coggin', room: 'Room 9',
         team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Be dependable when things are needed', completed: false },
@@ -345,6 +345,11 @@ const Auth = {
         return guest ? guest.name : 'Guest';
     },
 };
+
+/* Build sorted guest list for name picker */
+const GUEST_LIST = Object.entries(GUEST_DATA)
+    .map(function(entry) { return { code: entry[0], name: entry[1].fullName }; })
+    .sort(function(a, b) { return a.name.localeCompare(b.name); });
 
 /* Confetti Animation */
 var _confettiAnimId = null;
@@ -595,8 +600,9 @@ function initConfettiCannon() {
 
     cannon.addEventListener('click', function () {
         triggerConfetti();
-        this.style.transform = 'scale(0.9)';
-        setTimeout(() => { this.style.transform = ''; }, 100);
+        cannon.classList.remove('cannon-fired');
+        void cannon.offsetWidth; // force reflow
+        cannon.classList.add('cannon-fired');
     });
 }
 
@@ -878,6 +884,190 @@ if ('serviceWorker' in navigator) {
     });
 }
 
+/* ============================================
+   Trip Progress Bar (under nav, all pages)
+   ============================================ */
+function initTripProgress() {
+    var tripStart = new Date('2026-04-29T07:00:00+01:00').getTime();
+    var tripEnd   = new Date('2026-05-04T12:00:00+02:00').getTime();
+    var now = Date.now();
+
+    // Only show during/after trip start
+    if (now < tripStart - 86400000) return; // show 1 day before
+
+    var pct = Math.max(0, Math.min(100, ((now - tripStart) / (tripEnd - tripStart)) * 100));
+
+    var bar = document.createElement('div');
+    bar.className = 'trip-progress';
+    bar.innerHTML = '<div class="trip-progress-fill" style="width:' + pct + '%"></div>' +
+        '<span class="trip-progress-label">' +
+        (now < tripStart ? 'Tomorrow!' : (pct >= 100 ? 'Trip complete!' : 'Day ' + Math.min(6, Math.ceil(((now - tripStart) / 86400000) + 0.01)) + ' of 6')) +
+        '</span>';
+
+    var nav = document.querySelector('.main-nav') || document.querySelector('nav');
+    if (nav) nav.parentNode.insertBefore(bar, nav.nextSibling);
+}
+
+/* ============================================
+   Scroll-Triggered Stagger Animations
+   ============================================ */
+function initScrollStagger() {
+    var grids = document.querySelectorAll('.stagger-grid');
+    if (grids.length === 0) return;
+
+    // Auto-apply stagger-item to direct children that don't have it
+    grids.forEach(function (g) {
+        Array.from(g.children).forEach(function (child) {
+            if (!child.classList.contains('stagger-item')) {
+                child.classList.add('stagger-item');
+            }
+        });
+    });
+
+    var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var children = entry.target.querySelectorAll('.stagger-item');
+            children.forEach(function (child, i) {
+                child.style.transitionDelay = (i * 0.07) + 's';
+                child.classList.add('stagger-visible');
+            });
+            observer.unobserve(entry.target);
+        });
+    }, { threshold: 0.15 });
+
+    grids.forEach(function (g) { observer.observe(g); });
+}
+
+/* ============================================
+   Sticky Scroll Spy Label
+   ============================================ */
+function initScrollSpy() {
+    var sections = document.querySelectorAll('.section[id]');
+    if (sections.length < 3) return; // only on pages with enough sections
+
+    var pill = document.createElement('div');
+    pill.className = 'scroll-spy-pill';
+    pill.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(pill);
+
+    var currentLabel = '';
+    var hideTimer = null;
+
+    var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var title = entry.target.querySelector('.section-title');
+            if (!title) return;
+            var text = title.textContent.trim();
+            if (text === currentLabel) return;
+            currentLabel = text;
+            pill.textContent = text;
+            pill.classList.add('visible');
+            clearTimeout(hideTimer);
+            hideTimer = setTimeout(function () { pill.classList.remove('visible'); }, 2000);
+        });
+    }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+
+    sections.forEach(function (s) { observer.observe(s); });
+}
+
+/* ============================================
+   Live Pulse Dot (on "Live" tab buttons)
+   ============================================ */
+function initLivePulseDots() {
+    document.querySelectorAll('.lb-tab[data-lb="feed"]').forEach(function (tab) {
+        if (tab.querySelector('.live-pulse-dot')) return;
+        var dot = document.createElement('span');
+        dot.className = 'live-pulse-dot';
+        tab.appendChild(dot);
+    });
+}
+
+/* ============================================
+   Copy-to-Clipboard with Feedback
+   ============================================ */
+function copyWithFeedback(text, btn) {
+    if (!navigator.clipboard) return;
+    navigator.clipboard.writeText(text).then(function () {
+        var original = btn.textContent;
+        btn.classList.add('copy-feedback', 'copied');
+        btn.textContent = '\u2713 Copied!';
+        setTimeout(function () {
+            btn.classList.remove('copied');
+            btn.textContent = original;
+        }, 1500);
+        showToast('Copied to clipboard', 'success');
+    });
+}
+
+/* ============================================
+   Smooth Tab Indicator Slide
+   ============================================ */
+function initTabSlide() {
+    document.querySelectorAll('.crew-tab-bar, .lb-toggle, .challenge-tabs').forEach(function (bar) {
+        var indicator = document.createElement('span');
+        indicator.className = 'tab-slide-indicator';
+        bar.style.position = 'relative';
+        bar.appendChild(indicator);
+
+        function positionIndicator() {
+            var active = bar.querySelector('.active');
+            if (!active) { indicator.style.opacity = '0'; return; }
+            var barRect = bar.getBoundingClientRect();
+            var activeRect = active.getBoundingClientRect();
+            indicator.style.width = activeRect.width + 'px';
+            indicator.style.left = (activeRect.left - barRect.left) + 'px';
+            indicator.style.opacity = '1';
+        }
+
+        positionIndicator();
+
+        bar.addEventListener('click', function (e) {
+            var tab = e.target.closest('button');
+            if (!tab) return;
+            // Wait a frame for active class to update
+            requestAnimationFrame(positionIndicator);
+        });
+
+        window.addEventListener('resize', debounce(positionIndicator, 150));
+    });
+}
+
+/* Scroll depth indicator — thin gradient bar at very top */
+function initScrollDepth() {
+    var bar = document.createElement('div');
+    bar.className = 'scroll-depth';
+    document.body.appendChild(bar);
+
+    window.addEventListener('scroll', function () {
+        var scrollTop = window.scrollY || document.documentElement.scrollTop;
+        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (docHeight > 0) {
+            bar.style.width = (scrollTop / docHeight * 100) + '%';
+        }
+    }, { passive: true });
+}
+
+/* "Today" tile glow on schedule page */
+function initTodayGlow() {
+    var tiles = document.querySelectorAll('.overview-tile[data-day]');
+    if (!tiles.length) return;
+
+    var tripStart = new Date('2026-04-29T00:00:00+02:00');
+    var now = new Date();
+    var diff = Math.floor((now - tripStart) / (1000 * 60 * 60 * 24));
+    var todayDay = diff + 1;
+
+    if (todayDay >= 1 && todayDay <= 6) {
+        tiles.forEach(function (tile) {
+            if (parseInt(tile.dataset.day) === todayDay) {
+                tile.classList.add('today-glow');
+            }
+        });
+    }
+}
+
 /* Initialize shared components on every page */
 document.addEventListener('DOMContentLoaded', function () {
     // Page transition
@@ -913,6 +1103,26 @@ document.addEventListener('DOMContentLoaded', function () {
     initNavBadges();
     // Floating emergency contacts
     initEmergencyCard();
+    // Trip progress bar
+    initTripProgress();
+    // Scroll-triggered stagger animations
+    initScrollStagger();
+    // Sticky scroll spy label
+    initScrollSpy();
+    // Live pulse dots on feed tabs
+    initLivePulseDots();
+    // Smooth tab indicator slide
+    initTabSlide();
+    // Scroll depth indicator
+    initScrollDepth();
+    // "Today" tile glow on schedule page
+    initTodayGlow();
+    // Guest name picker (all pages)
+    initGuestPicker();
+    // My Trip floating drawer
+    initMyTripDrawer();
+    // Contextual guest highlighting
+    applyGuestHighlighting();
 });
 
 /* Update nav to show guest name */
@@ -922,6 +1132,212 @@ function updateNavGuest() {
         guestNameEl.textContent = 'Hi, ' + Auth.getGuestName();
         guestNameEl.style.display = 'inline-block';
     }
+}
+
+/* ============================================
+   Guest Name Picker (replaces code login)
+   ============================================ */
+function initGuestPicker() {
+    if (Auth.isLoggedIn()) return;
+    if (document.getElementById('guest-picker-overlay')) return;
+
+    var overlay = document.createElement('div');
+    overlay.id = 'guest-picker-overlay';
+    overlay.className = 'guest-picker-overlay';
+
+    var card = document.createElement('div');
+    card.className = 'guest-picker-card';
+    card.innerHTML =
+        '<h2>Welcome to Joe\'s 30th!</h2>' +
+        '<p>Pick your name to unlock your personal experience</p>' +
+        '<select id="guest-picker-select" class="guest-picker-select">' +
+        '<option value="" disabled selected>Choose your name\u2026</option>' +
+        GUEST_LIST.map(function(g) {
+            return '<option value="' + g.code + '">' + escapeHtml(g.name) + '</option>';
+        }).join('') +
+        '</select>' +
+        '<button id="guest-picker-go" class="btn btn-primary guest-picker-btn" disabled>That\u2019s Me!</button>' +
+        '<button id="guest-picker-skip" class="guest-picker-skip">Explore as Guest \u2192</button>';
+
+    overlay.appendChild(card);
+    document.body.appendChild(overlay);
+
+    var select = document.getElementById('guest-picker-select');
+    var goBtn = document.getElementById('guest-picker-go');
+    var skipBtn = document.getElementById('guest-picker-skip');
+
+    select.addEventListener('change', function() { goBtn.disabled = !this.value; });
+
+    goBtn.addEventListener('click', function() {
+        var code = select.value;
+        if (!code) return;
+        localStorage.setItem('guestCode', code);
+        overlay.classList.add('guest-picker-closing');
+        setTimeout(function() { overlay.remove(); }, 300);
+        updateNavGuest();
+        initMyTripDrawer();
+        applyGuestHighlighting();
+        if (typeof triggerConfetti === 'function') triggerConfetti();
+        // Tell home.js to show dashboard
+        document.dispatchEvent(new CustomEvent('guestLoggedIn', { detail: { code: code } }));
+    });
+
+    skipBtn.addEventListener('click', function() {
+        localStorage.setItem('guestCode', 'guest');
+        overlay.classList.add('guest-picker-closing');
+        setTimeout(function() { overlay.remove(); }, 300);
+    });
+}
+
+/* ============================================
+   My Trip Floating Drawer
+   ============================================ */
+function initMyTripDrawer() {
+    if (!Auth.isLoggedIn()) return;
+    if (document.getElementById('my-trip-fab')) return;
+
+    var guest = Auth.getGuestData();
+    if (!guest) return;
+    var guestCode = Auth.getGuestCode();
+
+    // FAB
+    var fab = document.createElement('button');
+    fab.id = 'my-trip-fab';
+    fab.className = 'my-trip-fab';
+    fab.innerHTML = '<span class="my-trip-fab-icon">\uD83C\uDF92</span><span class="my-trip-fab-label">My Trip</span>';
+    fab.setAttribute('aria-label', 'Open My Trip panel');
+
+    // Backdrop
+    var backdrop = document.createElement('div');
+    backdrop.id = 'my-trip-backdrop';
+    backdrop.className = 'my-trip-backdrop';
+
+    // Drawer
+    var drawer = document.createElement('div');
+    drawer.id = 'my-trip-drawer';
+    drawer.className = 'my-trip-drawer';
+    drawer.setAttribute('role', 'dialog');
+    drawer.setAttribute('aria-label', 'My Trip');
+
+    var isOpen = false;
+
+    function buildContent() {
+        var progress = Store.get('missionProgress', {});
+        var gp = progress[guestCode] || {};
+        var done = guest.missions.filter(function(m) { return gp[m.id]; }).length;
+        var teamDisplay = isRevealed() ? escapeHtml(guest.team) : '??? (Revealed 29 Apr)';
+        var scores = Store.get('lb_individualScores', {});
+        var pts = scores[guest.name] || 0;
+        var sorted = Object.entries(scores).sort(function(a, b) { return b[1] - a[1]; });
+        var rank = sorted.findIndex(function(e) { return e[0] === guest.name; }) + 1;
+
+        drawer.innerHTML =
+            '<div class="my-trip-header">' +
+                '<h3>My Trip</h3>' +
+                '<button class="my-trip-close" id="my-trip-close">\u00D7</button>' +
+            '</div>' +
+            '<div class="my-trip-body">' +
+                '<div class="my-trip-identity">' +
+                    '<div class="my-trip-name">' + escapeHtml(guest.fullName) + '</div>' +
+                    '<div class="my-trip-meta">' + escapeHtml(guest.room) + ' \u00B7 ' + teamDisplay + '</div>' +
+                '</div>' +
+                '<div class="my-trip-section">' +
+                    '<h4>Secret Missions <span class="my-trip-count">' + done + '/' + guest.missions.length + '</span></h4>' +
+                    '<div class="my-trip-missions">' +
+                        guest.missions.map(function(m) {
+                            var c = gp[m.id] || false;
+                            return '<label class="my-trip-mission' + (c ? ' done' : '') + '">' +
+                                '<input type="checkbox"' + (c ? ' checked' : '') + ' data-mid="' + m.id + '">' +
+                                '<span>' + escapeHtml(m.text) + '</span>' +
+                            '</label>';
+                        }).join('') +
+                    '</div>' +
+                '</div>' +
+                '<div class="my-trip-section">' +
+                    '<h4>Personal Note</h4>' +
+                    '<p class="my-trip-notes">' + escapeHtml(guest.personalNotes) + '</p>' +
+                '</div>' +
+                (isRevealed() ?
+                    '<div class="my-trip-section">' +
+                        '<h4>Stats</h4>' +
+                        '<div class="my-trip-stats-grid">' +
+                            '<div class="my-trip-stat"><span class="my-trip-stat-val">' + pts + '</span><span class="my-trip-stat-lbl">Points</span></div>' +
+                            '<div class="my-trip-stat"><span class="my-trip-stat-val">' + (rank > 0 ? '#' + rank : '-') + '</span><span class="my-trip-stat-lbl">Rank</span></div>' +
+                        '</div>' +
+                    '</div>' : '') +
+                '<div class="my-trip-switch">' +
+                    '<button class="my-trip-switch-btn" id="my-trip-switch">Switch Guest</button>' +
+                '</div>' +
+            '</div>';
+
+        // Mission checkboxes
+        drawer.querySelectorAll('input[data-mid]').forEach(function(cb) {
+            cb.addEventListener('change', function() {
+                var mid = this.dataset.mid;
+                var p = Store.get('missionProgress', {});
+                if (!p[guestCode]) p[guestCode] = {};
+                p[guestCode][mid] = this.checked;
+                Store.set('missionProgress', p);
+                this.closest('.my-trip-mission').classList.toggle('done', this.checked);
+                var cnt = guest.missions.filter(function(m) { return p[guestCode][m.id]; }).length;
+                var cntEl = drawer.querySelector('.my-trip-count');
+                if (cntEl) cntEl.textContent = cnt + '/' + guest.missions.length;
+                if (this.checked && typeof triggerMiniConfetti === 'function') triggerMiniConfetti();
+            });
+        });
+
+        document.getElementById('my-trip-close').addEventListener('click', closeDrawer);
+
+        document.getElementById('my-trip-switch').addEventListener('click', function() {
+            closeDrawer();
+            localStorage.removeItem('guestCode');
+            var navName = document.getElementById('nav-guest-name');
+            if (navName) navName.style.display = 'none';
+            fab.remove(); drawer.remove(); backdrop.remove();
+            var dash = document.getElementById('my-dashboard');
+            if (dash) dash.style.display = 'none';
+            initGuestPicker();
+        });
+    }
+
+    function openDrawer() {
+        buildContent();
+        isOpen = true;
+        drawer.classList.add('open');
+        backdrop.classList.add('open');
+        fab.classList.add('active');
+    }
+
+    function closeDrawer() {
+        isOpen = false;
+        drawer.classList.remove('open');
+        backdrop.classList.remove('open');
+        fab.classList.remove('active');
+    }
+
+    fab.addEventListener('click', function() { isOpen ? closeDrawer() : openDrawer(); });
+    backdrop.addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && isOpen) closeDrawer();
+    });
+
+    document.body.appendChild(backdrop);
+    document.body.appendChild(drawer);
+    document.body.appendChild(fab);
+}
+
+/* ============================================
+   Guest Contextual Highlighting
+   ============================================ */
+function applyGuestHighlighting() {
+    if (!Auth.isLoggedIn()) return;
+    var guest = Auth.getGuestData();
+    if (!guest) return;
+
+    document.body.classList.add('guest-active');
+    document.dispatchEvent(new CustomEvent('guestHighlight', {
+        detail: { name: guest.name, fullName: guest.fullName, room: guest.room, code: Auth.getGuestCode() }
+    }));
 }
 
 /* ============================================

@@ -13,10 +13,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/base.css?v=10">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/nav.css">
-    <link rel="stylesheet" href="css/games.css?v=11">
+    <link rel="stylesheet" href="css/base.css?v=18">
+    <link rel="stylesheet" href="css/components.css?v=1">
+    <link rel="stylesheet" href="css/nav.css?v=1">
+    <link rel="stylesheet" href="css/games.css?v=19">
 </head>
 <body>
     <!-- Confetti Canvas -->
@@ -37,8 +37,8 @@
                 <li><a href="games.html" data-page="games.html" class="active">Games</a></li>
                 <li><a href="social.html" data-page="social.html">Social</a></li>
                 <li><a href="practical.html" data-page="practical.html">Info</a></li>
-                <li><button class="dark-mode-toggle" id="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button></li>
                 <li><span class="nav-guest-name" id="nav-guest-name" style="display: none;"></span></li>
+                <li><button class="dark-mode-toggle" id="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button></li>
             </ul>
         </div>
     </nav>
@@ -46,7 +46,7 @@
     <!-- Page Header -->
     <header class="page-header">
         <h1>Games & Challenges</h1>
-        <p>Compete, laugh, and earn points for your team!</p>
+        <p>Four teams. Six days. One winner. May the best team win.</p>
     </header>
 
     <!-- Sub Navigation -->
@@ -87,7 +87,7 @@
                         <div class="hiw-rule-num">2</div>
                         <div class="hiw-rule-body">
                             <h4>&#127942; Everything earns points</h4>
-                            <p>Daily games, all-week challenges, cooking duties — it all counts for your team and for you individually. Joe awards points throughout the trip.</p>
+                            <p>Daily games, all-week challenges, cooking duties. It all counts for your team and for you individually. Joe awards points throughout the trip.</p>
                         </div>
                     </div>
                     <div class="hiw-rule">
@@ -107,41 +107,22 @@
                 </div>
 
                 <div class="hiw-pf-section">
-                    <div class="hiw-pf-header prizes">&#127942; Prizes</div>
-                    <div class="hiw-pf-cards">
-                        <div class="hiw-pf-card prize">
-                            <span class="pf-icon">&#129351;</span>
-                            <span class="pf-title">Winning Team</span>
-                            <span class="pf-desc">First served at the final dinner. Losers watch.</span>
+                    <div class="hiw-pf-teaser-row">
+                        <div class="hiw-pf-teaser hiw-pf-teaser--prizes">
+                            <span class="hiw-pf-teaser-icon">🏆</span>
+                            <div>
+                                <strong>Prizes await the winners</strong>
+                                <p>Glory, bragging rights &amp; something special. Revealed on arrival night.</p>
+                            </div>
+                            <span class="hiw-pf-teaser-lock">🔒</span>
                         </div>
-                        <div class="hiw-pf-card prize">
-                            <span class="pf-icon">&#129354;</span>
-                            <span class="pf-title">Individual Winner</span>
-                            <span class="pf-desc">Champion sash, controls the music on the last night &amp; Joe owes them one favour.</span>
-                        </div>
-                        <div class="hiw-pf-card prize">
-                            <span class="pf-icon">&#128104;&#8205;&#127859;</span>
-                            <span class="pf-title">Best Rated Chefs</span>
-                            <span class="pf-desc">Skip the washing up after their meal. Everyone else handles it.</span>
-                        </div>
-                    </div>
-
-                    <div class="hiw-pf-header forfeits">&#128128; Forfeits</div>
-                    <div class="hiw-pf-cards">
-                        <div class="hiw-pf-card forfeit">
-                            <span class="pf-icon">&#129365;</span>
-                            <span class="pf-title">Last Place Individual</span>
-                            <span class="pf-desc">Wooden spoon ceremony. Must give a speech about their worst moment at the final dinner.</span>
-                        </div>
-                        <div class="hiw-pf-card forfeit">
-                            <span class="pf-icon">&#128293;</span>
-                            <span class="pf-title">Worst Rated Chefs</span>
-                            <span class="pf-desc">Public apology to the group &amp; makes everyone a round of drinks next morning.</span>
-                        </div>
-                        <div class="hiw-pf-card forfeit">
-                            <span class="pf-icon">&#127917;</span>
-                            <span class="pf-title">Most Penalties</span>
-                            <span class="pf-desc">Wears the beret for all of Sunday. Non-negotiable.</span>
+                        <div class="hiw-pf-teaser hiw-pf-teaser--forfeits">
+                            <span class="hiw-pf-teaser-icon">😬</span>
+                            <div>
+                                <strong>Forfeits for the losers</strong>
+                                <p>Let's just say you don't want to finish last. Details TBA.</p>
+                            </div>
+                            <span class="hiw-pf-teaser-lock">🔒</span>
                         </div>
                     </div>
                 </div>
@@ -202,69 +183,69 @@
                         <div class="ch-locked-icon">&#9992;&#65039;</div>
                         <div class="ch-locked-info">
                             <h4>Arrival Night</h4>
-                            <p>Get here. Get settled. Then the games begin.</p>
+                            <p>Welcome drinks. BBQ. Drinking games. 25 people, one château. Night one starts here.</p>
                         </div>
-                        <span class="ch-locked-badge">Wed 29 Apr</span>
+                        <span class="ch-locked-badge" data-unlock="2026-04-29T19:00:00+02:00">Wed 29 Apr</span>
                     </div>
                 </div>
 
-                <!-- Day 2 - Chateau Day -->
+                <!-- Day 2 - First Full Day -->
                 <div class="ch-day-content" data-chday="2">
                     <div class="ch-locked-card ch-locked-water">
-                        <div class="ch-locked-icon">&#128678;</div>
+                        <div class="ch-locked-icon">&#9971;</div>
                         <div class="ch-locked-info">
-                            <h4>Canoeing &amp; Chateau Day</h4>
-                            <p>Down the river, back to the pool. Points start here.</p>
+                            <h4>First Full Day</h4>
+                            <p>Golf or yoga in the morning. Pool battles in the afternoon. Team dinner. Points are live.</p>
                         </div>
-                        <span class="ch-locked-badge">Thu 30 Apr</span>
+                        <span class="ch-locked-badge" data-unlock="2026-04-30T09:00:00+02:00">Thu 30 Apr</span>
                     </div>
                 </div>
 
                 <!-- Day 3 - Adventure Day -->
                 <div class="ch-day-content" data-chday="3">
                     <div class="ch-locked-card ch-locked-wine">
-                        <div class="ch-locked-icon">&#127863;</div>
+                        <div class="ch-locked-icon">&#128678;</div>
                         <div class="ch-locked-info">
-                            <h4>Wine &amp; Adventure Day</h4>
-                            <p>Medieval villages, ros&eacute; in hand. The best kind of Friday.</p>
+                            <h4>Adventure Day</h4>
+                            <p>Canoe the Creuse river in teams. Wine tasting on the terrace as the sun goes down.</p>
                         </div>
-                        <span class="ch-locked-badge">Fri 1 May</span>
+                        <span class="ch-locked-badge" data-unlock="2026-05-01T09:00:00+02:00">Fri 1 May</span>
                     </div>
                 </div>
 
                 <!-- Day 4 - BIRTHDAY -->
                 <div class="ch-day-content" data-chday="4">
                     <div class="ch-locked-card ch-locked-birthday">
-                        <div class="ch-locked-icon">&#128274;</div>
+                        <div class="ch-locked-icon">&#127874;</div>
                         <div class="ch-locked-info">
-                            <h4>Games TBA</h4>
-                            <p>It's the big day - expect surprises</p>
+                            <h4>The Big Day</h4>
+                            <p>Birthday Olympics. Pool party. The 90s Icons party. Reveals itself when Joe turns 30.</p>
                         </div>
-                        <span class="ch-locked-badge">TOP SECRET</span>
+                        <span class="ch-locked-badge">&#128274; TOP SECRET</span>
                     </div>
                 </div>
 
                 <!-- Day 5 - Last Full Day -->
                 <div class="ch-day-content" data-chday="5">
                     <div class="ch-locked-card ch-locked-sunset">
-                        <div class="ch-locked-icon">&#127785;</div>
+                        <div class="ch-locked-icon">&#127795;</div>
                         <div class="ch-locked-info">
                             <h4>Last Full Day</h4>
-                            <p>Final games, closing ceremony &amp; last team dinner.</p>
+                            <p>Bellebouche: ropes, mini golf, p&eacute;dalos on the lake. One last evening together.</p>
                         </div>
-                        <span class="ch-locked-badge">Sun 3 May</span>
+                        <span class="ch-locked-badge" data-unlock="2026-05-03T10:00:00+02:00">Sun 3 May</span>
                     </div>
                 </div>
 
                 <!-- Day 6 - Departure -->
                 <div class="ch-day-content" data-chday="6">
                     <div class="ch-locked-card ch-locked-travel">
-                        <div class="ch-locked-icon">&#128652;</div>
+                        <div class="ch-locked-icon">&#128247;</div>
                         <div class="ch-locked-info">
-                            <h4>Departure Day</h4>
-                            <p>Pack up, clean up, head home happy.</p>
+                            <h4>Farewell Day</h4>
+                            <p>Last croissants. Big clean. Group photo on the steps. Au revoir, ch&acirc;teau.</p>
                         </div>
-                        <span class="ch-locked-badge">Mon 4 May</span>
+                        <span class="ch-locked-badge" data-unlock="2026-05-04T08:00:00+02:00">Mon 4 May</span>
                     </div>
                 </div>
             </div>
@@ -272,12 +253,12 @@
             <!-- All-Week Challenges -->
             <div class="ch-content" data-ch="ongoing">
                 <div class="ch-locked-card">
-                    <div class="ch-locked-icon">&#128274;</div>
+                    <div class="ch-locked-icon">&#127942;</div>
                     <div class="ch-locked-info">
                         <h4>All-Week Challenges</h4>
-                        <p>Ongoing challenges revealed on arrival</p>
+                        <p>Daily bonus points up for grabs from the moment you land. Every day counts.</p>
                     </div>
-                    <span class="ch-locked-badge">Coming soon</span>
+                    <span class="ch-locked-badge" data-unlock="2026-04-29T22:00:00+02:00">&#128197; Unlocks Apr 29</span>
                 </div>
             </div>
         </div>
@@ -287,7 +268,7 @@
     <section id="leaderboard" class="section leaderboard">
         <div class="container">
             <h2 class="section-title">Leaderboard</h2>
-            <p class="section-subtitle">Teams battle, individuals shine - who's coming out on top?</p>
+            <p class="section-subtitle">Teams battle. Individuals shine. Updated live throughout the trip.</p>
 
             <div class="lb-toggle">
                 <button class="lb-tab active" data-lb="teams">Teams</button>
@@ -306,6 +287,39 @@
                         <p>Teams will be revealed on arrival night at the chateau. Until then, it's all under wraps.</p>
                         <div class="teams-locked-hint">
                             <span>&#128064;</span> 4 teams. 25 players. Who's on your side? Find out Wed 29th April.
+                        </div>
+                        <div class="teams-locked-suits">
+                            <span class="tls-suit" style="color:#4fc3f7">♠</span>
+                            <span class="tls-suit" style="color:#f48fb1">♥</span>
+                            <span class="tls-suit" style="color:#81c784">♦</span>
+                            <span class="tls-suit" style="color:#f9d423">♣</span>
+                        </div>
+                        <div class="teams-unlock-date" data-unlock="2026-04-29T22:00:00+02:00">&#128197; Unlocks Wed 29 Apr</div>
+                        <div class="lb-teaser-preview" aria-hidden="true">
+                            <div class="lb-teaser-row">
+                                <span class="lb-tr-pos">1st &#129351;</span>
+                                <span class="lb-tr-suit" style="color:#4fc3f7">&#9824;</span>
+                                <span class="lb-tr-name">???</span>
+                                <span class="lb-tr-pts">&#8212; pts</span>
+                            </div>
+                            <div class="lb-teaser-row">
+                                <span class="lb-tr-pos">2nd &#129352;</span>
+                                <span class="lb-tr-suit" style="color:#f48fb1">&#9829;</span>
+                                <span class="lb-tr-name">???</span>
+                                <span class="lb-tr-pts">&#8212; pts</span>
+                            </div>
+                            <div class="lb-teaser-row">
+                                <span class="lb-tr-pos">3rd &#129353;</span>
+                                <span class="lb-tr-suit" style="color:#81c784">&#9830;</span>
+                                <span class="lb-tr-name">???</span>
+                                <span class="lb-tr-pts">&#8212; pts</span>
+                            </div>
+                            <div class="lb-teaser-row">
+                                <span class="lb-tr-pos">4th</span>
+                                <span class="lb-tr-suit" style="color:#f9d423">&#9827;</span>
+                                <span class="lb-tr-name">???</span>
+                                <span class="lb-tr-pts">&#8212; pts</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -414,7 +428,7 @@
     <section id="meal-ratings" class="section meal-ratings">
         <div class="container">
             <h2 class="section-title">Rate the Chefs &#11088;</h2>
-            <p class="section-subtitle">Score each team's dinner — results go on the leaderboard</p>
+            <p class="section-subtitle">Score each team's dinner. Results go on the leaderboard.</p>
             <div id="meal-ratings-inner"></div>
         </div>
     </section>
@@ -432,6 +446,7 @@
                     <h3>Personal Bingo Cards</h3>
                     <p>Your card unlocks on departure morning (Wed 29 Apr). Each card is tailored to you, no two are the same.</p>
                     <p class="bingo-lock-hint">Check back once you're on the plane!</p>
+                    <div class="bingo-unlock-pill" data-unlock="2026-04-29T10:30:00+02:00">&#128197; Unlocks Wed 29 Apr</div>
                 </div>
             </div>
 
@@ -477,8 +492,8 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="js/shared.js?v=10"></script>
-    <script src="js/nav.js"></script>
-    <script src="js/games.js?v=16"></script>
+    <script src="js/shared.js?v=16"></script>
+    <script src="js/nav.js?v=1"></script>
+    <script src="js/games.js?v=21"></script>
 </body>
 </html>

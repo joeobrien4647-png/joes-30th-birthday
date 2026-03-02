@@ -10,10 +10,10 @@
     <meta property="og:image" content="images/og-preview.jpg">
     <meta property="og:type" content="website">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>">
-    <link rel="stylesheet" href="css/base.css?v=10">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/nav.css">
-    <link rel="stylesheet" href="css/schedule.css?v=33">
+    <link rel="stylesheet" href="css/base.css?v=18">
+    <link rel="stylesheet" href="css/components.css?v=1">
+    <link rel="stylesheet" href="css/nav.css?v=1">
+    <link rel="stylesheet" href="css/schedule.css?v=39">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -43,13 +43,78 @@
                             <span class="letter-ornament" aria-hidden="true">&#127874;</span>
                             <div class="letter-line"></div>
                         </div>
-                        <p class="letter-message">6 days of adventure, food, and fun await&hellip;</p>
+                        <p class="letter-message">Six days. One ch&acirc;teau. Nothing left to plan.</p>
                         <p class="letter-cta">Tap to open</p>
                     </div>
                 </div>
                 <div class="envelope-front"></div>
                 <div class="envelope-cut-line"></div>
             </div>
+        </div>
+    </div>
+
+    <!-- Letter Full Screen (shown after envelope opens) -->
+    <div id="letter-fullscreen" class="letter-fullscreen" aria-hidden="true">
+        <div class="letter-fs-paper">
+            <div class="letter-fs-stamp">&#127467;&#127479;<span class="letter-fs-stamp-text">FRANCE</span></div>
+            <div class="letter-fs-ornament">&#10022; &middot; &#10022; &middot; &#10022;</div>
+            <h2>Your Itinerary</h2>
+            <p class="letter-fs-sub">Ch&acirc;teau Roussignol &middot; Loire Valley</p>
+            <p class="letter-fs-dates">29 April &ndash; 4 May 2026</p>
+            <div class="letter-fs-rule"></div>
+            <div class="letter-fs-body">
+                <p class="letter-salutation">Dear guest,</p>
+                <p>You made it onto the list. Here's what's waiting.</p>
+                <ul class="letter-day-list">
+                    <li class="letter-day-item">
+                        <div class="letter-day-meta">
+                            <span class="letter-day-date">Wed 29 Apr</span>
+                            <span class="letter-day-title">Arrival Day &#9992;&#65039;</span>
+                        </div>
+                        <p class="letter-day-desc">Up at 2am, on French soil by breakfast. Check-in from 10:30am — straight to the ch&acirc;teau, no waiting around. Welcome BBQ in the evening. The trip starts properly.</p>
+                    </li>
+                    <li class="letter-day-item">
+                        <div class="letter-day-meta">
+                            <span class="letter-day-date">Thu 30 Apr</span>
+                            <span class="letter-day-title">First Full Day &#9971;</span>
+                        </div>
+                        <p class="letter-day-desc">Golf for the keen ones, yoga and croissants for everyone else. By lunch the group reunites and the team battles begin. Pool games, team dinner, evening games. Points are on the board.</p>
+                    </li>
+                    <li class="letter-day-item">
+                        <div class="letter-day-meta">
+                            <span class="letter-day-date">Fri 1 May</span>
+                            <span class="letter-day-title">Adventure Day &#128678;</span>
+                        </div>
+                        <p class="letter-day-desc">Canoe the Creuse river in the morning. Wine tasting on the terrace in the afternoon: a private sommelier, Loire Valley wines, teams competing blind. One of those days you'll be talking about for years.</p>
+                    </li>
+                    <li class="letter-day-item">
+                        <div class="letter-day-meta">
+                            <span class="letter-day-date">Sat 2 May</span>
+                            <span class="letter-day-title">The Big Day &#127874;</span>
+                        </div>
+                        <p class="letter-day-desc">Joe turns 30. Birthday Olympics on the lawn, pool party in the afternoon, birthday dinner at 7. Then the 90s Icons party: fancy dress mandatory, PopWorld in the garden, dancing till the neighbours complain.</p>
+                    </li>
+                    <li class="letter-day-item">
+                        <div class="letter-day-meta">
+                            <span class="letter-day-date">Sun 3 May</span>
+                            <span class="letter-day-title">Last Full Day &#127795;</span>
+                        </div>
+                        <p class="letter-day-desc">Lazy brunch to shake off the night before. Bellebouche: treetop ropes, mini golf, pedalos on the lake. One final evening together, outdoor cinema in the garden.</p>
+                    </li>
+                    <li class="letter-day-item">
+                        <div class="letter-day-meta">
+                            <span class="letter-day-date">Mon 4 May</span>
+                            <span class="letter-day-title">Au Revoir &#9992;&#65039;</span>
+                        </div>
+                        <p class="letter-day-desc">Last croissants. Big clean. Group photo on the steps. Flight home from Poitiers at 16:15. The best week of the 20s.</p>
+                    </li>
+                </ul>
+                <div class="letter-fs-footer">
+                    <p>There are games. There are prizes. There are forfeits.<br>And a few secrets that don't get revealed until you're actually there.</p>
+                    <p class="letter-signoff">See you at Stansted.<br><span class="letter-signature">Joe x</span></p>
+                </div>
+            </div>
+            <button class="letter-fs-cta" id="letter-fs-cta">Open the Full Schedule &rarr;</button>
         </div>
     </div>
 
@@ -78,7 +143,7 @@
     <!-- Page Header -->
     <header class="page-header">
         <h1>The Schedule</h1>
-        <p>6 days of adventure, food, and fun at Ch&acirc;teau Roussignol</p>
+        <p>Six days. One ch&acirc;teau. Everything sorted.</p>
         <button class="envelope-replay-btn" id="envelope-replay" title="Replay envelope animation">&#9993; Replay Envelope</button>
     </header>
 
@@ -95,7 +160,47 @@
     <section id="agenda" class="section agenda" data-agenda-style="hero">
         <div class="container">
             <h2 class="section-title">The Agenda</h2>
-            <p class="section-subtitle">A week of adventure, good food, and great company</p>
+            <p class="section-subtitle">Six days. Good food, great company, and zero excuses to be bored.</p>
+
+            <!-- 6-Day Overview Strip -->
+            <div class="agenda-overview-strip" id="agenda-overview-strip">
+                <div class="overview-tile active" data-day="1">
+                    <span class="ov-num">Day 1</span>
+                    <span class="ov-emoji">&#9992;&#65039;</span>
+                    <span class="ov-date">Wed 29 Apr</span>
+                    <span class="ov-name">Arrival</span>
+                </div>
+                <div class="overview-tile" data-day="2">
+                    <span class="ov-num">Day 2</span>
+                    <span class="ov-emoji">&#9971;</span>
+                    <span class="ov-date">Thu 30 Apr</span>
+                    <span class="ov-name">First Day</span>
+                </div>
+                <div class="overview-tile" data-day="3">
+                    <span class="ov-num">Day 3</span>
+                    <span class="ov-emoji">&#128678;</span>
+                    <span class="ov-date">Fri 1 May</span>
+                    <span class="ov-name">Adventure</span>
+                </div>
+                <div class="overview-tile" data-day="4">
+                    <span class="ov-num">Day 4</span>
+                    <span class="ov-emoji">&#127874;</span>
+                    <span class="ov-date">Sat 2 May</span>
+                    <span class="ov-name">The Big Day</span>
+                </div>
+                <div class="overview-tile" data-day="5">
+                    <span class="ov-num">Day 5</span>
+                    <span class="ov-emoji">&#127795;</span>
+                    <span class="ov-date">Sun 3 May</span>
+                    <span class="ov-name">Last Day</span>
+                </div>
+                <div class="overview-tile" data-day="6">
+                    <span class="ov-num">Day 6</span>
+                    <span class="ov-emoji">&#9992;&#65039;</span>
+                    <span class="ov-date">Mon 4 May</span>
+                    <span class="ov-name">Au Revoir</span>
+                </div>
+            </div>
 
             <div class="agenda-tabs-wrapper">
                 <button class="agenda-arrow agenda-arrow-left" id="agenda-arrow-left" aria-label="Previous day" disabled>&#10094;</button>
@@ -113,8 +218,13 @@
             <div class="agenda-content">
                 <!-- Day 1 - Wednesday 29 April -->
                 <div class="day-content active" data-day="1">
-                    <h3>Wednesday 29th - Travel &amp; Arrival Day</h3>
-                    <p class="day-note">✈️ Main group: Ryanair, Stansted → Poitiers, departs 05:55. Some guests travelling independently or on different flights, everyone aims to arrive at the chateau by late afternoon.</p>
+                    <div class="day-letter-header">
+                        <div class="dlh-ornament">&#10022; &middot; &#10022; &middot; &#10022;</div>
+                        <div class="dlh-date">Wednesday 29th April</div>
+                        <h3 class="dlh-title">Travel &amp; Arrival Day &#9992;&#65039;</h3>
+                        <div class="dlh-rule"></div>
+                        <p class="dlh-note">Up at 2am. On French soil by breakfast. 25 people, one ch&acirc;teau, six days. It starts here.</p>
+                    </div>
 
                     <div class="timeline">
 
@@ -132,21 +242,21 @@
                                     <div class="time">2:00 AM</div>
                                     <div class="activity">
                                         <h4>Leave for Stansted</h4>
-                                        <p>Very early start. Set multiple alarms! 1.5hr drive, aim to arrive at airport by 3:55am for a 2-hour check-in window.</p>
+                                        <p>Very early start. Set multiple alarms. Aim to arrive by 3:55am for a 2-hour check-in window.</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item">
                                     <div class="time">5:55 AM</div>
                                     <div class="activity">
                                         <h4>Depart London Stansted ✈️</h4>
-                                        <p>Ryanair to Poitiers, just 1hr 30m. Bonjour la France!</p>
+                                        <p>Ryanair to Poitiers. 1hr 30m. Bonjour la France.</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item">
                                     <div class="time">8:25 AM</div>
                                     <div class="activity">
                                         <h4>Land at Poitiers Airport</h4>
-                                        <p>Pick up hire cars and regroup. We're in France!</p>
+                                        <p>Hire cars, regroup, and breathe. We're in France.</p>
                                     </div>
                                 </div>
                             </div>
@@ -154,33 +264,33 @@
 
                         <div class="time-bucket">
                             <div class="time-bucket-header">
-                                <span class="bucket-time-range">9:00 AM – 12:30 PM</span>
+                                <span class="bucket-time-range">9:00 AM – 10:30 AM</span>
                                 <div class="bucket-summary">
                                     <span class="bucket-emoji">☕</span>
-                                    <span class="bucket-title">Poitiers &amp; Shop</span>
+                                    <span class="bucket-title">Coffee &amp; Drive</span>
                                 </div>
                                 <span class="bucket-chevron">▾</span>
                             </div>
                             <div class="time-bucket-detail">
                                 <div class="timeline-item">
-                                    <div class="time">~9:30 AM</div>
+                                    <div class="time">~9:00 AM</div>
                                     <div class="activity">
-                                        <h4>Coffee &amp; Breakfast in Poitiers</h4>
-                                        <p>Loose wander, find a café, get croissants, explore the medieval old town. Notre-Dame la Grande church is worth a look.</p>
+                                        <h4>Quick Coffee Near the Airport</h4>
+                                        <p>Pick up hire cars, grab a quick coffee and croissants nearby. No lingering — the château is waiting.</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item">
-                                    <div class="time">~10:30 AM</div>
+                                    <div class="time">~9:30 AM</div>
                                     <div class="activity">
                                         <h4>Drive to Chateau</h4>
-                                        <p>Hire cars from the airport and head straight to the chateau (~1hr). One car peels off at Le Blanc for the big food &amp; booze shop (Carrefour/Lidl).</p>
+                                        <p>Head straight to the château (~1hr drive). Windows down, music up. We're nearly there.</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item highlight">
-                                    <div class="time">~12:30 PM</div>
+                                    <div class="time">~10:30 AM</div>
                                     <div class="activity">
                                         <h4>Arrive at Ch&acirc;teau Roussignol! 🏰</h4>
-                                        <p>Walk in to a stocked fridge. Chateau is pre-stocked on arrival. Shopping car arrives shortly after with the bulk supplies.</p>
+                                        <p>Check-in from 10:30am — we're straight in. Keys in hand, bags down, first look at the place we've all been waiting for.</p>
                                     </div>
                                 </div>
                             </div>
@@ -188,7 +298,7 @@
 
                         <div class="time-bucket">
                             <div class="time-bucket-header">
-                                <span class="bucket-time-range">12:30 PM – 6:30 PM</span>
+                                <span class="bucket-time-range">10:30 AM – 6:30 PM</span>
                                 <div class="bucket-summary">
                                     <span class="bucket-emoji">🏰</span>
                                     <span class="bucket-title">Settle In</span>
@@ -197,17 +307,17 @@
                             </div>
                             <div class="time-bucket-detail">
                                 <div class="timeline-item">
-                                    <div class="time">~1:15 PM</div>
+                                    <div class="time">~11:00 AM</div>
                                     <div class="activity">
-                                        <h4>Shopping Car Arrives</h4>
-                                        <p>Bulk wine, beer, BBQ supplies and food for the week lands. Everyone unpack and get settled.</p>
+                                        <h4>Shops Run</h4>
+                                        <p>Quick group trip to grab wine, beer, BBQ supplies and food for the week. Le Blanc or Le Blanc Carrefour nearby. Everyone chips in, back within the hour.</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item">
                                     <div class="time">Afternoon</div>
                                     <div class="activity">
                                         <h4>Explore &amp; Decompress</h4>
-                                        <p>First dip in the pool, wander the grounds, explore the chateau. You've been up since 2am. Soak it all in.</p>
+                                        <p>First dip in the pool, wander the grounds, explore the château. You've been up since 2am — now you've got the whole afternoon to soak it in.</p>
                                     </div>
                                 </div>
                             </div>
@@ -227,7 +337,7 @@
                                     <div class="time">7:00 PM</div>
                                     <div class="activity">
                                         <h4>🎲 Party &amp; Drinking Games</h4>
-                                        <p>Get the trip started properly: drinking games, chaos, and settling in</p>
+                                        <p>The trip starts properly. Drinking games, chaos, and 25 people finally in one place.</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item">
@@ -259,8 +369,13 @@
 
                 <!-- Day 2 - Thursday 30 April -->
                 <div class="day-content" data-day="2">
-                    <h3>Thursday 30th - First Full Day</h3>
-                    <p class="day-note">First full morning at the chateau. Pick your vibe. Everyone back together for lunch, then the team battles begin. Breakfast is casual today: croissants and pastries, help yourself.</p>
+                    <div class="day-letter-header">
+                        <div class="dlh-ornament">&#10022; &middot; &#10022; &middot; &#10022;</div>
+                        <div class="dlh-date">Thursday 30th April</div>
+                        <h3 class="dlh-title">First Full Day &#9971;</h3>
+                        <div class="dlh-rule"></div>
+                        <p class="dlh-note">First full morning. Golf crew up early. Everyone else: croissants, coffee, no alarm needed. By lunch, the team battles begin.</p>
+                    </div>
                     <div class="timeline">
 
                         <div class="time-bucket">
@@ -311,7 +426,7 @@
                                     <div class="time">12:30 PM</div>
                                     <div class="activity">
                                         <h4>Lunch: Everyone Back Together</h4>
-                                        <p>Golfers back, everyone reconvenes. Lunch TBC — details to follow.</p>
+                                        <p>Golfers back, everyone reconvenes. Lunch details to follow.</p>
                                     </div>
                                 </div>
                             </div>
@@ -331,7 +446,7 @@
                                     <div class="time">2:30 PM</div>
                                     <div class="activity">
                                         <h4>🏊 Pool &amp; Garden Team Games 🔒</h4>
-                                        <p>Team battle in and around the pool. Points up for grabs. Start practising your dives — judging will be brutal.</p>
+                                        <p>Team battle in and around the pool. Points up for grabs. Start practising your dives. Judging will be brutal.</p>
                                     </div>
                                 </div>
                             </div>
@@ -376,8 +491,13 @@
 
                 <!-- Day 3 - Friday 1 May -->
                 <div class="day-content" data-day="3">
-                    <h3>Friday 1st - Adventure Day</h3>
-                    <p class="day-note">Paddles in the water, rosé in the afternoon, wine tasting on the terrace. One of those days that's hard to beat.</p>
+                    <div class="day-letter-header">
+                        <div class="dlh-ornament">&#10022; &middot; &#10022; &middot; &#10022;</div>
+                        <div class="dlh-date">Friday 1st May</div>
+                        <h3 class="dlh-title">Adventure Day &#128678;</h3>
+                        <div class="dlh-rule"></div>
+                        <p class="dlh-note">River by morning. Ros&eacute; by afternoon. Wine tasting on the terrace as the sun goes down. One of those days.</p>
+                    </div>
                     <div class="timeline">
 
                         <div class="time-bucket">
@@ -393,15 +513,15 @@
                                 <div class="timeline-item">
                                     <div class="time">8:30 AM</div>
                                     <div class="activity">
-                                        <h4>🥐 Help Yourself — Breakfast</h4>
-                                        <p>Busy morning ahead — grab what you need and get ready. No rota today.</p>
+                                        <h4>🥐 Help Yourself: Breakfast</h4>
+                                        <p>Busy morning ahead. Grab what you need and get ready.</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item">
                                     <div class="time">9:30 AM</div>
                                     <div class="activity">
                                         <h4>Drive to Le Blanc</h4>
-                                        <p>14km, ~15 min from the chateau. Meet <strong>Canoe Découverte</strong> at their base — they shuttle the group upstream to the launch point by minibus. Cars stay at Le Blanc while you paddle back. All equipment (canoes, paddles, life jackets) provided.</p>
+                                        <p>14km, ~15 min from the château. Meet <strong>Canoe Découverte</strong> at their base. They shuttle the group upstream by minibus and you paddle back. Cars stay at Le Blanc. All equipment provided.</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item highlight">
@@ -434,8 +554,8 @@
                                 <div class="timeline-item highlight">
                                     <div class="time">1:00 PM</div>
                                     <div class="activity">
-                                        <h4>Lunch — TBC</h4>
-                                        <p>18km, ~18 min drive from Le Blanc. Lunch location to be confirmed — details to follow.</p>
+                                        <h4>Lunch: TBC</h4>
+                                        <p>18km, ~18 min from Le Blanc. Lunch location to be confirmed.</p>
                                     </div>
                                 </div>
                             </div>
@@ -455,7 +575,7 @@
                                     <div class="time">3:30 PM</div>
                                     <div class="activity">
                                         <h4>Back at the Chateau &amp; Freshen Up</h4>
-                                        <p>Quick turnaround — showers and get changed. Wine tasting starts at 4.</p>
+                                        <p>Quick turnaround. Showers, get changed. Wine tasting starts at 4.</p>
                                     </div>
                                 </div>
                             </div>
@@ -500,14 +620,19 @@
 
                 <!-- Day 4 - Saturday 2 May - BIRTHDAY! -->
                 <div class="day-content" data-day="4">
-                    <h3>Saturday 2nd - THE BIG DAY! &#127874;</h3>
-                    <p class="day-note">Joe's 30th Birthday. Olympics in the morning, 90s Icons party at night.</p>
+                    <div class="day-letter-header">
+                        <div class="dlh-ornament">&#10022; &middot; &#10022; &middot; &#10022;</div>
+                        <div class="dlh-date">Saturday 2nd May</div>
+                        <h3 class="dlh-title">The Big Day &#127874;</h3>
+                        <div class="dlh-rule"></div>
+                        <p class="dlh-note">Thirty years in the making. Birthday Olympics on the lawn, birthday dinner at 7, then the 90s Icons party till sunrise. Happy birthday, Joe.</p>
+                    </div>
 
                     <div class="party-banner">
                         <div class="party-banner-eyebrow">Saturday 2nd May &bull; Château Roussignol</div>
                         <h2 class="party-banner-title">&#129705; 90s Icons Night &#129705;</h2>
                         <div class="party-banner-rule">&#128081; Fancy Dress: Mandatory</div>
-                        <p class="party-banner-desc">Come dressed as your favourite 90s icon &mdash; anyone iconic from 1990&ndash;1999. Best costume wins a prize at the awards ceremony.</p>
+                        <p class="party-banner-desc">Come dressed as your favourite 90s icon. Anyone iconic from 1990 to 1999. We're bringing PopWorld to France. Best costume wins. No excuses.</p>
                         <hr class="party-banner-divider">
                         <p class="party-banner-inspo-label">Need inspiration?</p>
                         <div class="party-banner-chips">
@@ -665,7 +790,7 @@
                                     <div class="time">10:15 PM</div>
                                     <div class="activity">
                                         <h4>&#127898; 90s ICONS PARTY!</h4>
-                                        <p>Disco ball ON. Smoke machine ON. Spice Girls into Oasis into Backstreet Boys. Dancing till late!</p>
+                                        <p>Disco ball ON. Smoke machine ON. Spice Girls, Oasis, Backstreet Boys. Dancing till the neighbours complain.</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item">
@@ -683,8 +808,13 @@
 
                 <!-- Day 5 - Sunday 3 May -->
                 <div class="day-content" data-day="5">
-                    <h3>Sunday 3rd - Last Full Day</h3>
-                    <p class="day-note">Shake off the party, hit the treetops at Bellebouche: accrobranche, mini golf, pedalos, then one final evening together.</p>
+                    <div class="day-letter-header">
+                        <div class="dlh-ornament">&#10022; &middot; &#10022; &middot; &#10022;</div>
+                        <div class="dlh-date">Sunday 3rd May</div>
+                        <h3 class="dlh-title">Last Full Day &#127795;</h3>
+                        <div class="dlh-rule"></div>
+                        <p class="dlh-note">Shake off the party, then into the trees. Bellebouche: accrobranche, mini golf, p&eacute;dalos on the lake. One final evening together.</p>
+                    </div>
                     <div class="timeline">
 
                         <div class="time-bucket">
@@ -821,8 +951,13 @@
 
                 <!-- Day 6 - Monday 4 May -->
                 <div class="day-content" data-day="6">
-                    <h3>Monday 4th - Farewell (Bank Holiday)</h3>
-                    <p class="day-note">It's a UK bank holiday so no rush. Last breakfast together, big clean, then homeward bound.</p>
+                    <div class="day-letter-header">
+                        <div class="dlh-ornament">&#10022; &middot; &#10022; &middot; &#10022;</div>
+                        <div class="dlh-date">Monday 4th May &middot; Bank Holiday</div>
+                        <h3 class="dlh-title">Au Revoir &#9992;&#65039;</h3>
+                        <div class="dlh-rule"></div>
+                        <p class="dlh-note">Bank holiday. No rush. Last croissants, big clean, group photo on the steps. Then home. The best week of the 20s.</p>
+                    </div>
                     <div class="timeline">
 
                         <div class="time-bucket">
@@ -873,7 +1008,7 @@
                                     <div class="time">11:00 AM</div>
                                     <div class="activity">
                                         <h4>Depart: Au Revoir, Ch&acirc;teau!</h4>
-                                        <p>Head to the airport. It's been the best week.</p>
+                                        <p>Head to the airport. The best week of the 20s.</p>
                                     </div>
                                 </div>
                             </div>
@@ -925,190 +1060,202 @@
     <section id="rotas" class="section rotas">
         <div class="container">
             <h2 class="section-title">House Rules &amp; Rotas</h2>
-            <p class="section-subtitle">4 teams, 4 roles. Every team cooks once, cleans once &mdash; never both on the same day!</p>
+            <p class="section-subtitle">4 teams. Each team cooks twice, cleans twice. Points awarded for every shift.</p>
 
-            <!-- Visual Day Cards -->
-            <div class="rota-day-cards">
-                <div class="rota-day-card shared">
-                    <div class="rota-day-label">
-                        <span class="rota-day-name">Wed 29</span>
-                        <span class="rota-day-vibe">Arrival Night</span>
-                    </div>
-                    <div class="rota-duties">
-                        <div class="rota-duty cook">
-                            <span class="rota-duty-icon">👨‍🍳</span>
-                            <span class="rota-duty-text">Everyone chips in &mdash; Welcome BBQ</span>
-                        </div>
-                        <div class="rota-duty clean">
-                            <span class="rota-duty-icon">🧹</span>
-                            <span class="rota-duty-text">Everyone chips in</span>
-                        </div>
-                    </div>
-                </div>
+            <!-- Duty Matrix -->
+            <div class="rota-matrix">
+                <div class="rota-matrix-table">
+                    <!-- Header -->
+                    <div class="rmt-head rmt-day-col"></div>
+                    <div class="rmt-head rmt-t1">Team 1 🔒</div>
+                    <div class="rmt-head rmt-t2">Team 2 🔒</div>
+                    <div class="rmt-head rmt-t3">Team 3 🔒</div>
+                    <div class="rmt-head rmt-t4">Team 4 🔒</div>
 
-                <div class="rota-day-card">
-                    <div class="rota-day-label">
-                        <span class="rota-day-name">Thu 30</span>
-                        <span class="rota-day-vibe">First Full Day</span>
+                    <!-- Wed 29 — Arrival Night (shared) -->
+                    <div class="rmt-day">
+                        <span class="rmt-date">Wed 29</span>
+                        <span class="rmt-vibe">Arrival</span>
                     </div>
-                    <div class="rota-duties">
-                        <div class="rota-duty cook">
-                            <span class="rota-duty-icon">🍽️</span>
-                            <div class="rota-duty-detail"><strong>Team 3</strong><span>Cooks dinner</span></div>
-                        </div>
-                        <div class="rota-duty clean">
-                            <span class="rota-duty-icon">🧹</span>
-                            <div class="rota-duty-detail"><strong>Team 4</strong><span>Cleans after dinner</span></div>
-                        </div>
-                        <div class="rota-duty cook">
-                            <span class="rota-duty-icon">🌅</span>
-                            <div class="rota-duty-detail"><strong>Breakfast</strong><span>Help yourself &mdash; busy morning!</span></div>
-                        </div>
+                    <div class="rmt-cell rmt-shared" style="grid-column: 2 / 6;">
+                        <span class="rmt-shared-icon">🏰</span>
+                        <span>Everyone chips in &mdash; Welcome BBQ. No rota tonight.</span>
                     </div>
-                </div>
 
-                <div class="rota-day-card">
-                    <div class="rota-day-label">
-                        <span class="rota-day-name">Fri 1</span>
-                        <span class="rota-day-vibe">Adventure Day</span>
+                    <!-- Thu 30 — First Full Day -->
+                    <div class="rmt-day">
+                        <span class="rmt-date">Thu 30</span>
+                        <span class="rmt-vibe">First Day</span>
                     </div>
-                    <div class="rota-duties">
-                        <div class="rota-duty cook">
-                            <span class="rota-duty-icon">🍳</span>
-                            <div class="rota-duty-detail"><strong>Team 2</strong><span>Cooks breakfast</span></div>
-                        </div>
-                        <div class="rota-duty clean">
-                            <span class="rota-duty-icon">🧹</span>
-                            <div class="rota-duty-detail"><strong>Team 3</strong><span>Cleans after breakfast</span></div>
-                        </div>
-                        <div class="rota-duty cook">
-                            <span class="rota-duty-icon">🍽️</span>
-                            <div class="rota-duty-detail"><strong>Team 4</strong><span>Cooks dinner</span></div>
-                        </div>
-                        <div class="rota-duty clean">
-                            <span class="rota-duty-icon">🧹</span>
-                            <div class="rota-duty-detail"><strong>Team 1</strong><span>Cleans after dinner</span></div>
-                        </div>
-                    </div>
-                </div>
+                    <div class="rmt-cell rmt-idle">—</div>
+                    <div class="rmt-cell rmt-idle">—</div>
+                    <div class="rmt-cell rmt-cook">🍽️ Cooks dinner<span class="rmt-pts">+3pts</span></div>
+                    <div class="rmt-cell rmt-clean">🧹 Cleans up<span class="rmt-pts">+2pts</span></div>
 
-                <div class="rota-day-card">
-                    <div class="rota-day-label">
-                        <span class="rota-day-name">Sat 2</span>
-                        <span class="rota-day-vibe">The Big One</span>
+                    <!-- Fri 1 — Adventure Day -->
+                    <div class="rmt-day">
+                        <span class="rmt-date">Fri 1</span>
+                        <span class="rmt-vibe">Adventure</span>
                     </div>
-                    <div class="rota-duties">
-                        <div class="rota-duty cook">
-                            <span class="rota-duty-icon">🍳</span>
-                            <div class="rota-duty-detail"><strong>Team 3</strong><span>Cooks breakfast</span></div>
-                        </div>
-                        <div class="rota-duty clean">
-                            <span class="rota-duty-icon">🧹</span>
-                            <div class="rota-duty-detail"><strong>Team 4</strong><span>Cleans after breakfast</span></div>
-                        </div>
-                        <div class="rota-duty cook">
-                            <span class="rota-duty-icon">🍽️</span>
-                            <div class="rota-duty-detail"><strong>Team 1</strong><span>Cooks the big dinner</span></div>
-                        </div>
-                        <div class="rota-duty clean">
-                            <span class="rota-duty-icon">🧹</span>
-                            <div class="rota-duty-detail"><strong>Team 2</strong><span>Cleans after dinner</span></div>
-                        </div>
-                    </div>
-                </div>
+                    <div class="rmt-cell rmt-clean">🧹 Cleans dinner<span class="rmt-pts">+2pts</span></div>
+                    <div class="rmt-cell rmt-cook">🍳 Cooks breakfast<span class="rmt-pts">+3pts</span></div>
+                    <div class="rmt-cell rmt-clean">🧹 Cleans breakfast<span class="rmt-pts">+2pts</span></div>
+                    <div class="rmt-cell rmt-cook">🍽️ Cooks dinner<span class="rmt-pts">+3pts</span></div>
 
-                <div class="rota-day-card">
-                    <div class="rota-day-label">
-                        <span class="rota-day-name">Sun 3</span>
-                        <span class="rota-day-vibe">Recovery Day</span>
+                    <!-- Sat 2 — The Big Day -->
+                    <div class="rmt-day rmt-bday-day">
+                        <span class="rmt-date">Sat 2 🎂</span>
+                        <span class="rmt-vibe">The Big Day</span>
                     </div>
-                    <div class="rota-duties">
-                        <div class="rota-duty cook">
-                            <span class="rota-duty-icon">🍳</span>
-                            <div class="rota-duty-detail"><strong>Team 4</strong><span>Cooks brunch</span></div>
-                        </div>
-                        <div class="rota-duty clean">
-                            <span class="rota-duty-icon">🧹</span>
-                            <div class="rota-duty-detail"><strong>Team 1</strong><span>Cleans after brunch</span></div>
-                        </div>
-                        <div class="rota-duty cook">
-                            <span class="rota-duty-icon">🍽️</span>
-                            <div class="rota-duty-detail"><strong>Team 2</strong><span>Cooks last dinner</span></div>
-                        </div>
-                        <div class="rota-duty clean">
-                            <span class="rota-duty-icon">🧹</span>
-                            <div class="rota-duty-detail"><strong>Team 3</strong><span>Cleans after dinner</span></div>
-                        </div>
-                    </div>
-                </div>
+                    <div class="rmt-cell rmt-cook">🍽️ The big dinner<span class="rmt-pts">+3pts</span></div>
+                    <div class="rmt-cell rmt-clean">🧹 Cleans up<span class="rmt-pts">+2pts</span></div>
+                    <div class="rmt-cell rmt-cook">🍳 Cooks breakfast<span class="rmt-pts">+3pts</span></div>
+                    <div class="rmt-cell rmt-clean">🧹 Cleans breakfast<span class="rmt-pts">+2pts</span></div>
 
-                <div class="rota-day-card">
-                    <div class="rota-day-label">
-                        <span class="rota-day-name">Mon 4</span>
-                        <span class="rota-day-vibe">Departure</span>
+                    <!-- Sun 3 — Last Full Day -->
+                    <div class="rmt-day">
+                        <span class="rmt-date">Sun 3</span>
+                        <span class="rmt-vibe">Last Day</span>
                     </div>
-                    <div class="rota-duties">
-                        <div class="rota-duty cook">
-                            <span class="rota-duty-icon">🍳</span>
-                            <div class="rota-duty-detail"><strong>Team 1</strong><span>Cooks last breakfast</span></div>
-                        </div>
-                        <div class="rota-duty clean">
-                            <span class="rota-duty-icon">🧹</span>
-                            <div class="rota-duty-detail"><strong>Team 2</strong><span>Cleans up after breakfast</span></div>
-                        </div>
-                        <div class="rota-duty clean">
-                            <span class="rota-duty-icon">🏠</span>
-                            <div class="rota-duty-detail"><strong>Everyone</strong><span>Checkout clean before we leave</span></div>
-                        </div>
+                    <div class="rmt-cell rmt-clean">🧹 Cleans brunch<span class="rmt-pts">+2pts</span></div>
+                    <div class="rmt-cell rmt-cook">🍽️ Cooks dinner<span class="rmt-pts">+3pts</span></div>
+                    <div class="rmt-cell rmt-clean">🧹 Cleans dinner<span class="rmt-pts">+2pts</span></div>
+                    <div class="rmt-cell rmt-cook">🍳 Cooks brunch<span class="rmt-pts">+3pts</span></div>
+
+                    <!-- Mon 4 — Departure -->
+                    <div class="rmt-day">
+                        <span class="rmt-date">Mon 4</span>
+                        <span class="rmt-vibe">Departure</span>
                     </div>
+                    <div class="rmt-cell rmt-cook">🍳 Last breakfast<span class="rmt-pts">+3pts</span></div>
+                    <div class="rmt-cell rmt-clean">🧹 Cleans up<span class="rmt-pts">+2pts</span></div>
+                    <div class="rmt-cell rmt-idle">—</div>
+                    <div class="rmt-cell rmt-idle">—</div>
                 </div>
             </div>
 
-            <!-- At a Glance Summary -->
-            <div class="rota-summary">
-                <div class="rota-summary-item">
-                    <span class="rota-summary-team">Team 1</span>
-                    <span class="rota-summary-detail">Breakfast Mon &bull; Dinner Sat &bull; Cleans Fri + Sun</span>
+            <!-- Team Summary Cards -->
+            <div class="team-duty-cards">
+                <div class="tdc tdc--t1">
+                    <div class="tdc-head">
+                        <span class="tdc-badge">T1</span>
+                        <div>
+                            <div class="tdc-title">Team 1</div>
+                            <div class="tdc-total">10 pts on the line</div>
+                        </div>
+                    </div>
+                    <ul class="tdc-duties">
+                        <li class="tdc-clean"><strong>Fri evening</strong>🧹 Cleans after dinner</li>
+                        <li class="tdc-cook"><strong>Sat evening</strong>🍽️ Cooks the birthday dinner</li>
+                        <li class="tdc-clean"><strong>Sun morning</strong>🧹 Cleans after brunch</li>
+                        <li class="tdc-cook"><strong>Mon morning</strong>🍳 Cooks last breakfast</li>
+                    </ul>
                 </div>
-                <div class="rota-summary-item">
-                    <span class="rota-summary-team">Team 2</span>
-                    <span class="rota-summary-detail">Breakfast Fri &bull; Dinner Sun &bull; Cleans Thu + Sat</span>
+
+                <div class="tdc tdc--t2">
+                    <div class="tdc-head">
+                        <span class="tdc-badge">T2</span>
+                        <div>
+                            <div class="tdc-title">Team 2</div>
+                            <div class="tdc-total">10 pts on the line</div>
+                        </div>
+                    </div>
+                    <ul class="tdc-duties">
+                        <li class="tdc-cook"><strong>Fri morning</strong>🍳 Cooks breakfast</li>
+                        <li class="tdc-clean"><strong>Sat evening</strong>🧹 Cleans after dinner</li>
+                        <li class="tdc-cook"><strong>Sun evening</strong>🍽️ Cooks last dinner</li>
+                        <li class="tdc-clean"><strong>Mon morning</strong>🧹 Cleans after breakfast</li>
+                    </ul>
                 </div>
-                <div class="rota-summary-item">
-                    <span class="rota-summary-team">Team 3</span>
-                    <span class="rota-summary-detail">Breakfast Sat &bull; Dinner Thu &bull; Cleans Fri + Sun</span>
+
+                <div class="tdc tdc--t3">
+                    <div class="tdc-head">
+                        <span class="tdc-badge">T3</span>
+                        <div>
+                            <div class="tdc-title">Team 3</div>
+                            <div class="tdc-total">10 pts on the line</div>
+                        </div>
+                    </div>
+                    <ul class="tdc-duties">
+                        <li class="tdc-cook"><strong>Thu evening</strong>🍽️ Cooks dinner</li>
+                        <li class="tdc-clean"><strong>Fri morning</strong>🧹 Cleans after breakfast</li>
+                        <li class="tdc-cook"><strong>Sat morning</strong>🍳 Cooks birthday breakfast</li>
+                        <li class="tdc-clean"><strong>Sun evening</strong>🧹 Cleans after dinner</li>
+                    </ul>
                 </div>
-                <div class="rota-summary-item">
-                    <span class="rota-summary-team">Team 4</span>
-                    <span class="rota-summary-detail">Breakfast Sun &bull; Dinner Fri &bull; Cleans Thu + Sat</span>
+
+                <div class="tdc tdc--t4">
+                    <div class="tdc-head">
+                        <span class="tdc-badge">T4</span>
+                        <div>
+                            <div class="tdc-title">Team 4</div>
+                            <div class="tdc-total">10 pts on the line</div>
+                        </div>
+                    </div>
+                    <ul class="tdc-duties">
+                        <li class="tdc-clean"><strong>Thu evening</strong>🧹 Cleans after dinner</li>
+                        <li class="tdc-cook"><strong>Fri evening</strong>🍽️ Cooks dinner</li>
+                        <li class="tdc-clean"><strong>Sat morning</strong>🧹 Cleans after breakfast</li>
+                        <li class="tdc-cook"><strong>Sun morning</strong>🍳 Cooks brunch</li>
+                    </ul>
                 </div>
             </div>
 
             <!-- House Rules -->
-            <div class="rota-card house-rules-card">
-                <h3>🏰 Chateau House Rules</h3>
-                <p class="rota-intro">It's someone's actual chateau — let's leave it how we found it!</p>
-                <ul class="house-rules-list">
-                    <li><strong>Pool:</strong> No glass near the pool. Towels provided — hang them to dry after use</li>
-                    <li><strong>Kitchen:</strong> Communal space — clean as you go, even if it's not your rota day</li>
-                    <li><strong>Noise:</strong> Keep it down after midnight outside — we have neighbours</li>
-                    <li><strong>Bins:</strong> Recycling and general waste separated. Take bags out when full</li>
-                    <li><strong>Checkout (Mon 4 May):</strong> All hands on deck for the big clean before we leave. Strip beds, hoover, wipe down surfaces</li>
-                    <li><strong>Breakages:</strong> Accidents happen — just let Joe know so we can sort it</li>
-                </ul>
+            <div class="house-rules-section">
+                <h3 class="rules-heading">🏰 House Rules</h3>
+                <p class="rules-sub">It's someone's actual ch&acirc;teau. Leave it better than you found it.</p>
+                <div class="rules-grid">
+                    <div class="rule-card">
+                        <span class="rule-icon">🏊</span>
+                        <h4>Pool</h4>
+                        <p>No glass near the pool. Towels provided — hang them to dry after use.</p>
+                    </div>
+                    <div class="rule-card">
+                        <span class="rule-icon">🍳</span>
+                        <h4>Kitchen</h4>
+                        <p>Communal space. Clean as you go, even if it's not your rota day.</p>
+                    </div>
+                    <div class="rule-card">
+                        <span class="rule-icon">🤫</span>
+                        <h4>Noise</h4>
+                        <p>Keep it down after midnight outside. We have neighbours.</p>
+                    </div>
+                    <div class="rule-card">
+                        <span class="rule-icon">♻️</span>
+                        <h4>Bins</h4>
+                        <p>Recycling and general waste separated. Take bags out when full.</p>
+                    </div>
+                    <div class="rule-card">
+                        <span class="rule-icon">🏠</span>
+                        <h4>Checkout</h4>
+                        <p>Mon 4 May — all hands on deck. Strip beds, hoover, wipe surfaces before we leave.</p>
+                    </div>
+                    <div class="rule-card">
+                        <span class="rule-icon">💔</span>
+                        <h4>Breakages</h4>
+                        <p>Accidents happen. Just tell Joe and we'll sort it together.</p>
+                    </div>
+                </div>
             </div>
 
-            <!-- Good to Know -->
-            <div class="good-to-know">
-                <span class="gtk-icon">💡</span>
-                <div class="gtk-items">
-                    <span>If you cook, you don't clean</span>
-                    <span class="gtk-dot"></span>
-                    <span>Each team owns a full day (breakfast + dinner)</span>
-                    <span class="gtk-dot"></span>
-                    <span>Wed &amp; Mon = everyone chips in</span>
-                    <span class="gtk-dot"></span>
-                    <span>Clean as you go — it's everyone's kitchen</span>
+            <!-- Quick Rules Strip -->
+            <div class="rota-rules-strip">
+                <div class="rrs-item">
+                    <span class="rrs-icon">🙅</span>
+                    <span>Cook = no cleaning that meal</span>
+                </div>
+                <div class="rrs-item">
+                    <span class="rrs-icon">🏆</span>
+                    <span>Cooking earns +3pts, cleaning earns +2pts</span>
+                </div>
+                <div class="rrs-item">
+                    <span class="rrs-icon">🫂</span>
+                    <span>Wed &amp; Mon = everyone together</span>
+                </div>
+                <div class="rrs-item">
+                    <span class="rrs-icon">✨</span>
+                    <span>Clean as you go &mdash; it's everyone's kitchen</span>
                 </div>
             </div>
         </div>
@@ -1118,7 +1265,7 @@
     <section id="activity-signups" class="section activity-signups">
         <div class="container">
             <h2 class="section-title">Activity Sign-ups</h2>
-            <p class="section-subtitle">Reserve your spot for the booked activities &mdash; please confirm by <strong>1st April</strong> so we can pre-book</p>
+            <p class="section-subtitle">Reserve your spot for the booked activities. Please confirm by <strong>1st April</strong> so we can pre-book.</p>
             <div id="activity-signups-container"></div>
         </div>
     </section>
@@ -1145,8 +1292,8 @@
         </div>
     </footer>
 
-    <script src="js/shared.js?v=10"></script>
-    <script src="js/nav.js"></script>
-    <script src="js/schedule.js?v=22"></script>
+    <script src="js/shared.js?v=16"></script>
+    <script src="js/nav.js?v=1"></script>
+    <script src="js/schedule.js?v=25"></script>
 </body>
 </html>
