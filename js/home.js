@@ -228,6 +228,195 @@ function initCountdown() {
     }
 }
 
+/* ── Auth modal controller ── */
+function showAuthModal(mode) {
+  const modal = document.getElementById('auth-modal');
+  if (!modal) return;
+  modal.style.display = 'flex';
+
+  if (mode === 'register') {
+    showAuthStep('auth-step-1');
+    populateNameDropdown();
+  } else {
+    showAuthStep('auth-step-login');
+    const code = localStorage.getItem(AUTH_KEYS.guestCode);
+    if (code && GUEST_DATA[code]) {
+      const el = document.getElementById('auth-return-name');
+      if (el) el.textContent = 'Welcome back, ' + GUEST_DATA[code].name + '! 👋';
+    }
+  }
+}
+
+function showAuthStep(stepId) {
+  document.querySelectorAll('.auth-step').forEach(s => s.style.display = 'none');
+  const step = document.getElementById(stepId);
+  if (step) step.style.display = 'flex';
+}
+
+function populateNameDropdown() {
+  const select = document.getElementById('auth-name-select');
+  if (!select) return;
+  while (select.options.length > 1) select.remove(1);
+  const sorted = Object.entries(GUEST_DATA).sort((a, b) =>
+    a[1].fullName.localeCompare(b[1].fullName)
+  );
+  sorted.forEach(([code, guest]) => {
+    const opt = document.createElement('option');
+    opt.value = code;
+    opt.textContent = guest.fullName;
+    select.appendChild(opt);
+  });
+}
+
+function prefillProfileStep(code) {
+  const guest = GUEST_DATA[code];
+  if (!guest) return;
+  const ni = document.getElementById('auth-nickname');
+  const bi = document.getElementById('auth-bio');
+  const av = document.getElementById('auth-avatar-preview');
+  if (ni) ni.value = (guest.nickname && guest.nickname !== 'TBA') ? guest.nickname : '';
+  if (bi) bi.value = guest.bio || '';
+  const slug = code.toLowerCase();
+  const savedPhoto = localStorage.getItem('guestPhoto_' + slug);
+  if (av && savedPhoto) {
+    const img = document.createElement('img');
+    img.src = savedPhoto;
+    av.innerHTML = '';
+    av.appendChild(img);
+  } else if (av) {
+    av.textContent = (guest.name || '?')[0].toUpperCase();
+  }
+}
+
+function initRegistration() {
+  let selectedCode = null;
+
+  /* Step 1: name selection */
+  const select = document.getElementById('auth-name-select');
+  const step1Next = document.getElementById('auth-step1-next');
+  if (select && step1Next) {
+    select.addEventListener('change', () => {
+      selectedCode = select.value || null;
+      step1Next.disabled = !selectedCode;
+    });
+    step1Next.addEventListener('click', () => {
+      if (!selectedCode) return;
+      const guest = GUEST_DATA[selectedCode];
+      const nameEl = document.getElementById('auth-welcome-name');
+      if (nameEl) nameEl.textContent = 'Hey ' + guest.name + '! 👋';
+      showAuthStep('auth-step-2');
+    });
+  }
+
+  /* Step 2: password */
+  const pw = document.getElementById('auth-password');
+  const pwc = document.getElementById('auth-password-confirm');
+  const pwErr = document.getElementById('auth-pw-error');
+  const step2Next = document.getElementById('auth-step2-next');
+  const step2Back = document.getElementById('auth-step2-back');
+
+  if (step2Back) step2Back.addEventListener('click', () => showAuthStep('auth-step-1'));
+
+  if (step2Next && pw && pwc && pwErr) {
+    step2Next.addEventListener('click', async () => {
+      pwErr.style.display = 'none';
+      if (pw.value.length < 4) {
+        pwErr.textContent = 'Password must be at least 4 characters';
+        pwErr.style.display = 'block'; return;
+      }
+      if (pw.value !== pwc.value) {
+        pwErr.textContent = "Passwords don't match";
+        pwErr.style.display = 'block'; return;
+      }
+      const hash = await hashPassword(pw.value);
+      localStorage.setItem(AUTH_KEYS.pwHash, hash);
+      localStorage.setItem(AUTH_KEYS.guestCode, selectedCode);
+      prefillProfileStep(selectedCode);
+      showAuthStep('auth-step-3');
+    });
+  }
+
+  /* Step 3: profile */
+  const photoInput = document.getElementById('auth-photo-input');
+  const avatarPreview = document.getElementById('auth-avatar-preview');
+
+  if (photoInput && avatarPreview) {
+    photoInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const img = document.createElement('img');
+        img.src = ev.target.result;
+        avatarPreview.innerHTML = '';
+        avatarPreview.appendChild(img);
+        const slug = selectedCode ? selectedCode.toLowerCase() : 'guest';
+        if (typeof compressProfilePhoto === 'function') {
+          compressProfilePhoto(ev.target.result, (compressed) => {
+            localStorage.setItem('guestPhoto_' + slug, compressed);
+          });
+        } else {
+          localStorage.setItem('guestPhoto_' + slug, ev.target.result);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  const step3Done = document.getElementById('auth-step3-done');
+  if (step3Done) {
+    step3Done.addEventListener('click', () => {
+      const nicknameInput = document.getElementById('auth-nickname');
+      const bioInput = document.getElementById('auth-bio');
+      if (selectedCode && nicknameInput && bioInput) {
+        const profileKey = 'guestProfile_' + selectedCode;
+        const existing = JSON.parse(localStorage.getItem(profileKey) || '{}');
+        existing.nickname = nicknameInput.value.trim() || existing.nickname;
+        existing.bio = bioInput.value.trim() || existing.bio;
+        localStorage.setItem(profileKey, JSON.stringify(existing));
+      }
+      localStorage.setItem(AUTH_KEYS.registered, 'true');
+      document.getElementById('auth-modal').style.display = 'none';
+      document.dispatchEvent(new CustomEvent('guestLoggedIn', { detail: { code: selectedCode } }));
+    });
+  }
+
+  /* Return visitor login */
+  const returnPw = document.getElementById('auth-return-password');
+  const returnErr = document.getElementById('auth-return-error');
+  const returnSubmit = document.getElementById('auth-return-submit');
+  const returnReset = document.getElementById('auth-return-reset');
+
+  if (returnSubmit && returnPw && returnErr) {
+    returnSubmit.addEventListener('click', async () => {
+      returnErr.style.display = 'none';
+      const ok = await verifyPassword(returnPw.value);
+      if (ok) {
+        document.getElementById('auth-modal').style.display = 'none';
+        const code = localStorage.getItem(AUTH_KEYS.guestCode);
+        document.dispatchEvent(new CustomEvent('guestLoggedIn', { detail: { code } }));
+      } else {
+        returnErr.style.display = 'block';
+        returnPw.value = '';
+        returnPw.focus();
+      }
+    });
+    returnPw.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') returnSubmit.click();
+    });
+  }
+
+  if (returnReset) {
+    returnReset.addEventListener('click', () => {
+      localStorage.removeItem(AUTH_KEYS.registered);
+      localStorage.removeItem(AUTH_KEYS.pwHash);
+      localStorage.removeItem(AUTH_KEYS.guestCode);
+      showAuthStep('auth-step-1');
+      populateNameDropdown();
+    });
+  }
+}
+
 /* Guest Login — delegates to shared guest picker (shared.js) */
 function initGuestLogin() {
     const dashboardSection = document.getElementById('my-dashboard');
