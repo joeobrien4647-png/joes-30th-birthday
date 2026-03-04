@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="robots" content="noindex,nofollow">
+    <script>
+      var code = localStorage.getItem('guestCode');
+      var admins = ['JOE-7K9X', 'SOPHIE-M3P2', 'HANNAH-8FJ3'];
+      if (admins.indexOf(code) === -1) window.location.replace('index.html');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joe's 30th — To-Do</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #0f0f1a; color: #e0e0e0; min-height: 100vh; padding: 24px 16px 60px; }
+
+        header { text-align: center; margin-bottom: 28px; }
+        header h1 { font-size: 1.8rem; background: linear-gradient(135deg, #f9d423, #ff4e50); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 6px; }
+        header p { color: #666; font-size: 0.85rem; }
+
+        .overall-progress { max-width: 700px; margin: 0 auto 24px; background: #1a1a2e; border-radius: 14px; padding: 18px 22px; border: 1px solid #2a2a3e; }
+        .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 0.9rem; color: #aaa; }
+        .progress-top span { color: #f9d423; font-weight: 700; }
+        .bar-outer { background: #2a2a3e; border-radius: 999px; height: 10px; overflow: hidden; }
+        .bar-inner { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #f9d423, #ff4e50); transition: width 0.4s; }
+
+        .deadlines { max-width: 700px; margin: 0 auto 28px; background: #1a1a2e; border-radius: 14px; padding: 18px 22px; border: 1px solid #2a2a3e; }
+        .deadlines h2 { font-size: 0.95rem; font-weight: 700; color: #f9d423; margin-bottom: 12px; }
+        .dl-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid #22223a; font-size: 0.83rem; gap: 12px; }
+        .dl-row:last-child { border-bottom: none; }
+        .dl-date { color: #f9d423; font-weight: 600; min-width: 110px; flex-shrink: 0; }
+        .dl-row.urgent .dl-date { color: #ff4e50; }
+        .dl-row.crossed { opacity: 0.35; text-decoration: line-through; }
+
+        .grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
+
+        .card { background: #1a1a2e; border-radius: 14px; border: 1px solid #2a2a3e; overflow: hidden; }
+        .card-header { padding: 14px 18px 12px; border-bottom: 1px solid #2a2a3e; display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
+        .card-header:hover { background: #1e1e32; }
+        .card-title { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.9rem; }
+        .card-right { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; color: #777; }
+        .mini-bar { width: 50px; height: 5px; background: #2a2a3e; border-radius: 999px; overflow: hidden; }
+        .mini-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #f9d423, #ff4e50); transition: width 0.4s; }
+        .chevron { font-size: 0.7rem; color: #555; transition: transform 0.2s; }
+        .card.collapsed .chevron { transform: rotate(-90deg); }
+        .card-body { padding: 10px 18px 14px; }
+        .card.collapsed .card-body { display: none; }
+
+        .item { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; border-bottom: 1px solid #1e1e30; cursor: pointer; }
+        .item:last-child { border-bottom: none; }
+        .item:hover { opacity: 0.8; }
+        .item.done { opacity: 0.4; }
+        .item.done .item-text { text-decoration: line-through; color: #666; }
+        .checkbox { width: 17px; height: 17px; border-radius: 4px; border: 2px solid #3a3a5a; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; color: transparent; transition: all 0.15s; }
+        .item.done .checkbox { background: linear-gradient(135deg, #f9d423, #ff4e50); border-color: transparent; color: #0f0f1a; }
+        .item-text { font-size: 0.83rem; color: #ccc; line-height: 1.4; flex: 1; }
+        .tag { font-size: 0.68rem; padding: 2px 6px; border-radius: 999px; font-weight: 600; flex-shrink: 0; margin-top: 2px; }
+        .tag-urgent { background: rgba(255,78,80,0.15); color: #ff4e50; }
+        .tag-website { background: rgba(99,179,237,0.15); color: #63b3ed; }
+        .tag-logistics { background: rgba(154,230,180,0.15); color: #9ae6b4; }
+        .tag-money { background: rgba(249,212,35,0.15); color: #f9d423; }
+
+        .done-section { max-width: 1100px; margin: 22px auto 0; }
+        .done-btn { background: none; border: 1px solid #2a2a3e; border-radius: 10px; padding: 9px 16px; color: #555; cursor: pointer; font-size: 0.82rem; margin-bottom: 12px; }
+        .done-btn:hover { border-color: #444; color: #999; }
+        .done-grid { display: none; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
+        .done-grid.show { display: grid; }
+        .done-item { background: #1a1a2e; border-radius: 10px; padding: 10px 14px; font-size: 0.8rem; color: #555; text-decoration: line-through; display: flex; align-items: center; gap: 8px; border: 1px solid #1e1e30; }
+        .done-item::before { content: "✓"; color: #f9d423; flex-shrink: 0; text-decoration: none; display: inline-block; }
+
+        .reset-btn { display: block; margin: 20px auto 0; background: none; border: 1px solid #222; color: #444; padding: 7px 14px; border-radius: 8px; cursor: pointer; font-size: 0.75rem; }
+        .reset-btn:hover { color: #777; border-color: #444; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🎂 Joe's 30th — Trip To-Do</h1>
+    <p>Click any item to check it off. Progress saves automatically.</p>
+</header>
+
+<div class="overall-progress">
+    <div class="progress-top">Overall Progress <span id="prog-label">0 / 0 done</span></div>
+    <div class="bar-outer"><div class="bar-inner" id="prog-bar" style="width:0%"></div></div>
+</div>
+
+<div class="deadlines">
+    <h2>⏰ Key Deadlines</h2>
+    <div class="dl-row urgent"><span class="dl-date">ASAP</span><span>Share joes30.com with guests + send login codes</span></div>
+    <div class="dl-row urgent"><span class="dl-date">ASAP</span><span>Book Turo cars for Poitiers airport (29 Apr – 4 May)</span></div>
+    <div class="dl-row"><span class="dl-date">End of Feb</span><span>Chase all guests to book Ryanair flights</span></div>
+    <div class="dl-row"><span class="dl-date">End of March</span><span>Matt Hill — confirm or free up his place</span></div>
+    <div class="dl-row"><span class="dl-date">Early April</span><span>Order team merchandise (allow 2-3 weeks lead time)</span></div>
+    <div class="dl-row"><span class="dl-date">Mid April</span><span>Confirm all activity bookings + food kitty plan</span></div>
+    <div class="dl-row"><span class="dl-date">28 April</span><span>Final headcount + car allocation confirmed</span></div>
+    <div class="dl-row crossed"><span class="dl-date">Done ✓</span><span>Buy joes30.com and go live on GitHub Pages</span></div>
+</div>
+
+<div class="grid" id="main-grid"></div>
+
+<div class="done-section">
+    <button class="done-btn" id="done-btn" onclick="toggleDone()">✓ Show what's already done</button>
+    <div class="done-grid" id="done-grid">
+        <div class="done-item">Book chateau (Chateau Roussignol, 29 Apr – 4 May)</div>
+        <div class="done-item">Book Ryanair flights (Stansted to Poitiers)</div>
+        <div class="done-item">Build the full website with all core features</div>
+        <div class="done-item">Set up GitHub Pages hosting</div>
+        <div class="done-item">Buy domain joes30.com</div>
+        <div class="done-item">Connect joes30.com to GitHub Pages with HTTPS</div>
+        <div class="done-item">Remove all van and ferry references, switch to flights</div>
+        <div class="done-item">Rebuild travel section as flight confirmation widget</div>
+        <div class="done-item">Add emergency contact (Yoke O'Brien)</div>
+        <div class="done-item">Remove 7 low-value features and archive them</div>
+        <div class="done-item">24 of 25 guests paid (Robin agreed to pay later)</div>
+    </div>
+</div>
+
+<button class="reset-btn" onclick="resetAll()">Reset all checkboxes</button>
+
+<script>
+var SECTIONS = [
+    {
+        id: "website-content",
+        emoji: "🌐",
+        title: "Website — Content",
+        items: [
+            { id: "w1", text: "Decide team names (funny/French theme)", tag: "urgent" },
+            { id: "w2", text: "Update all code with the chosen team names", tag: "website" },
+            { id: "w3", text: "Write real one-line facts for all 25 guests", tag: "website" },
+            { id: "w4", text: "Collect profile photos from each guest", tag: "website" },
+            { id: "w5", text: "Flesh out agenda Days 2-5 with real confirmed plan", tag: "website" },
+            { id: "w6", text: "Update guest count (site says 27, should be 25 + 1 TBC)", tag: "website" },
+            { id: "w7", text: "Assign guests to their teams on the crew page", tag: "website" },
+            { id: "w8", text: "Confirm and update the 14 room pairings", tag: "website" }
+        ]
+    },
+    {
+        id: "website-games",
+        emoji: "🎮",
+        title: "Website — Games & Leaderboard",
+        items: [
+            { id: "g1", text: "Expandable game cards (click to reveal full rules)", tag: "website" },
+            { id: "g2", text: "Write detailed rules for all ~30 games across Days 1-6", tag: "website" },
+            { id: "g3", text: "Add 5 new ongoing challenges (Assassin, Taskmaster etc.)", tag: "website" },
+            { id: "g4", text: "Animated score counters on leaderboard", tag: "website" },
+            { id: "g5", text: "8 new leaderboard badges", tag: "website" },
+            { id: "g6", text: "Position change arrows (up/down) in rankings", tag: "website" },
+            { id: "g7", text: "Day-specific quick award buttons in admin panel", tag: "website" },
+            { id: "g8", text: "Sound effects on point awards", tag: "website" },
+            { id: "g9", text: "Props shopping list card on games page", tag: "website" }
+        ]
+    },
+    {
+        id: "website-launch",
+        emoji: "📣",
+        title: "Website — Launch",
+        items: [
+            { id: "l1", text: "Share joes30.com with the WhatsApp group", tag: "urgent" },
+            { id: "l2", text: "Send each guest their personal login code", tag: "urgent" },
+            { id: "l3", text: "Test all pages on mobile (375px)", tag: "website" }
+        ]
+    },
+    {
+        id: "travel",
+        emoji: "✈️",
+        title: "Travel & Logistics",
+        items: [
+            { id: "t1", text: "Chase guests who have not booked Ryanair flights yet", tag: "urgent" },
+            { id: "t2", text: "Book Turo cars — Poitiers airport, 29 Apr to 4 May", tag: "urgent" },
+            { id: "t3", text: "Decide who is driving each car and share the plan", tag: "logistics" },
+            { id: "t4", text: "Confirm chateau check-in time with Oliver's Travels", tag: "logistics" },
+            { id: "t5", text: "Plan what to do in Poitiers if check-in is late afternoon", tag: "logistics" },
+            { id: "t6", text: "Save chateau emergency contact number", tag: "logistics" }
+        ]
+    },
+    {
+        id: "activities",
+        emoji: "🏄",
+        title: "Activities",
+        items: [
+            { id: "a1", text: "Confirm golf booking — Val de l'Indre, Thu morning", tag: "logistics" },
+            { id: "a2", text: "Confirm canoeing booking — Creuse river, Fri morning", tag: "logistics" },
+            { id: "a3", text: "Confirm wine tasting booking — Fri 6pm at chateau", tag: "logistics" },
+            { id: "a4", text: "Confirm Bellebouche booking — accrobranche + lake, Sun PM", tag: "logistics" },
+            { id: "a5", text: "Plan birthday party for Sat 2 May — cake, decs, surprises", tag: "logistics" }
+        ]
+    },
+    {
+        id: "props",
+        emoji: "🛒",
+        title: "Props & Shopping (for Games)",
+        items: [
+            { id: "p1", text: "Giant foam dice x2 — Amazon ~£15", tag: "logistics" },
+            { id: "p2", text: "Plastic balls (50+) — Amazon ~£10 — Human Hungry Hippos", tag: "logistics" },
+            { id: "p3", text: "Noise-cancelling headphones x2 — bring from home", tag: "logistics" },
+            { id: "p4", text: "Petanque set — Amazon or Decathlon ~£20", tag: "logistics" },
+            { id: "p5", text: "Printed face paddles (Joe + Sophie) — print at home", tag: "logistics" },
+            { id: "p6", text: "Travel bingo cards — print at home", tag: "logistics" },
+            { id: "p7", text: "Blindfolds x10 — Amazon ~£8 — wine tasting", tag: "logistics" },
+            { id: "p8", text: "Sealed envelopes — any shop — Taskmaster tasks", tag: "logistics" },
+            { id: "p9", text: "Folded name slips — write by hand — Secret Assassin", tag: "logistics" }
+        ]
+    },
+    {
+        id: "merch",
+        emoji: "👕",
+        title: "Team Merchandise",
+        items: [
+            { id: "m1", text: "Finalise team names before ordering anything", tag: "urgent" },
+            { id: "m2", text: "Decide: bucket hats, t-shirts, or both?", tag: "logistics" },
+            { id: "m3", text: "Design custom items per team (colours + logo)", tag: "logistics" },
+            { id: "m4", text: "Collect sizes from all 25 guests", tag: "logistics" },
+            { id: "m5", text: "Order via Clothes2Order — allow 2-3 weeks lead time", tag: "logistics" }
+        ]
+    },
+    {
+        id: "money",
+        emoji: "💰",
+        title: "Payments & Admin",
+        items: [
+            { id: "mo1", text: "Chase Robin for £245.30 accommodation payment", tag: "money" },
+            { id: "mo2", text: "Matt Hill — set deadline to confirm (end of March)", tag: "urgent" },
+            { id: "mo3", text: "Plan food kitty collection — £125/person cash on arrival", tag: "money" },
+            { id: "mo4", text: "Ask guests to flag dietary requirements in WhatsApp", tag: "logistics" },
+            { id: "mo5", text: "Fancy dress reminder — 90s Icons, Saturday night", tag: "logistics" }
+        ]
+    }
+];
+
+var STORE = "joe30_todo";
+var COLLAPSE = "joe30_collapsed";
+
+function getChecked() {
+    try { return JSON.parse(localStorage.getItem(STORE)) || {}; } catch(e) { return {}; }
+}
+
+function getCollapsed() {
+    try { return JSON.parse(localStorage.getItem(COLLAPSE)) || {}; } catch(e) { return {}; }
+}
+
+function toggleItem(id) {
+    var checked = getChecked();
+    checked[id] = !checked[id];
+    localStorage.setItem(STORE, JSON.stringify(checked));
+    render();
+}
+
+function toggleSection(id) {
+    var collapsed = getCollapsed();
+    collapsed[id] = !collapsed[id];
+    localStorage.setItem(COLLAPSE, JSON.stringify(collapsed));
+    render();
+}
+
+function toggleDone() {
+    var grid = document.getElementById("done-grid");
+    var btn = document.getElementById("done-btn");
+    grid.classList.toggle("show");
+    btn.textContent = grid.classList.contains("show") ? "▲ Hide completed items" : "✓ Show what's already done";
+}
+
+function resetAll() {
+    if (confirm("Reset all checkboxes?")) {
+        localStorage.removeItem(STORE);
+        render();
+    }
+}
+
+function render() {
+    var checked = getChecked();
+    var collapsed = getCollapsed();
+    var grid = document.getElementById("main-grid");
+    grid.innerHTML = "";
+
+    var totalAll = 0;
+    var doneAll = 0;
+
+    for (var s = 0; s < SECTIONS.length; s++) {
+        var section = SECTIONS[s];
+        var doneCnt = 0;
+        for (var i = 0; i < section.items.length; i++) {
+            if (checked[section.items[i].id]) doneCnt++;
+        }
+        totalAll += section.items.length;
+        doneAll += doneCnt;
+        var pct = section.items.length > 0 ? Math.round((doneCnt / section.items.length) * 100) : 0;
+        var isCollapsed = !!collapsed[section.id];
+
+        var card = document.createElement("div");
+        card.className = "card" + (isCollapsed ? " collapsed" : "");
+
+        // Header
+        var header = document.createElement("div");
+        header.className = "card-header";
+        header.setAttribute("data-id", section.id);
+        header.onclick = function() { toggleSection(this.getAttribute("data-id")); };
+        header.innerHTML = '<div class="card-title"><span>' + section.emoji + '</span>' + section.title + '</div>'
+            + '<div class="card-right">'
+            + '<span>' + doneCnt + '/' + section.items.length + '</span>'
+            + '<div class="mini-bar"><div class="mini-fill" style="width:' + pct + '%"></div></div>'
+            + '<span class="chevron">▾</span>'
+            + '</div>';
+        card.appendChild(header);
+
+        // Body
+        var body = document.createElement("div");
+        body.className = "card-body";
+
+        for (var j = 0; j < section.items.length; j++) {
+            var item = section.items[j];
+            var isDone = !!checked[item.id];
+
+            var row = document.createElement("div");
+            row.className = "item" + (isDone ? " done" : "");
+            row.setAttribute("data-id", item.id);
+            row.onclick = function() { toggleItem(this.getAttribute("data-id")); };
+
+            var box = document.createElement("div");
+            box.className = "checkbox";
+            box.textContent = "✓";
+
+            var txt = document.createElement("span");
+            txt.className = "item-text";
+            txt.textContent = item.text;
+
+            row.appendChild(box);
+            row.appendChild(txt);
+
+            if (item.tag) {
+                var tag = document.createElement("span");
+                tag.className = "tag tag-" + item.tag;
+                tag.textContent = item.tag;
+                row.appendChild(tag);
+            }
+
+            body.appendChild(row);
+        }
+
+        card.appendChild(body);
+        grid.appendChild(card);
+    }
+
+    // Update overall progress
+    var overallPct = totalAll > 0 ? Math.round((doneAll / totalAll) * 100) : 0;
+    document.getElementById("prog-label").textContent = doneAll + " / " + totalAll + " done";
+    document.getElementById("prog-bar").style.width = overallPct + "%";
+}
+
+render();
+</script>
+</body>
+</html>
