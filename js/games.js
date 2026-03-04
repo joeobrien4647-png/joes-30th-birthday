@@ -146,25 +146,10 @@ function initBingo() {
     const isUnlocked = !BINGO_LOCKED || Auth.isAdmin();
 
     if (!isUnlocked) {
-        // Render blurred preview grid behind the lock overlay
-        bingoCard.innerHTML = '';
-        for (var i = 0; i < 25; i++) {
-            var cell = document.createElement('div');
-            cell.className = 'bingo-cell bingo-cell-preview' + (i === 12 ? ' free' : '');
-            cell.textContent = i === 12 ? 'FREE \u2B50' : '???';
-            bingoCard.appendChild(cell);
-        }
-        bingoCard.classList.add('bingo-preview');
-
-        if (lockOverlay) {
-            lockOverlay.style.display = 'flex';
-            var wrap = document.createElement('div');
-            wrap.className = 'bingo-preview-wrap';
-            bingoCard.parentNode.insertBefore(wrap, lockOverlay);
-            wrap.appendChild(bingoCard);
-            wrap.appendChild(lockOverlay);
-        }
-
+        bingoCard.innerHTML = Array(25).fill(
+            '<div class="bingo-cell locked-cell"></div>'
+        ).join('');
+        if (lockOverlay) lockOverlay.style.display = 'none';
         if (resetBtn) resetBtn.style.display = 'none';
         return;
     }
