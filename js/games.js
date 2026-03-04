@@ -312,64 +312,6 @@ function initBingo() {
 /* ============================================
    Spin the Wheel
    ============================================ */
-function initSpinWheel() {
-    const spinner = document.getElementById('wheel-spinner');
-    const spinBtn = document.getElementById('spin-wheel');
-    const result = document.getElementById('wheel-result');
-    const tabs = document.querySelectorAll('.wheel-tab');
-
-    if (!spinner || !spinBtn) return;
-
-    const wheelData = {
-        drinking: ['Take 2 sips', 'Give 3 sips', 'Waterfall!', 'Truth or Dare', 'Categories', 'Make a rule', 'Skip turn', 'Cheers!'],
-        cooking: ['Joe', 'Sophie', 'Luke', 'Hannah', 'George', 'Tom', 'Emma L', 'Jonny W'],
-        activity: ['Pool party', 'Wine tasting', 'Board games', 'Karaoke', 'Movie night', 'Poker', 'Explore town', 'BBQ'],
-        dare: ['Do an impression', 'Tell a secret', 'Sing a song', 'Dance battle', 'Call someone', 'Do 10 pushups', 'Act like Joe', 'Speak French']
-    };
-
-    let currentWheel = 'drinking';
-    let isSpinning = false;
-    let rotation = 0;
-
-    tabs.forEach(tab => {
-        tab.addEventListener('click', function () {
-            tabs.forEach(t => t.classList.remove('active'));
-            this.classList.add('active');
-            currentWheel = this.dataset.wheel;
-        });
-    });
-
-    spinBtn.addEventListener('click', function () {
-        if (isSpinning) return;
-
-        isSpinning = true;
-        spinBtn.disabled = true;
-
-        const options = wheelData[currentWheel];
-        const segmentAngle = 360 / options.length;
-        const randomIndex = Math.floor(Math.random() * options.length);
-        const extraSpins = 7 * 360; // 7 full rotations for more drama
-        const targetAngle = extraSpins + (360 - (randomIndex * segmentAngle + segmentAngle / 2));
-
-        rotation += targetAngle;
-        spinner.style.transform = `rotate(${rotation}deg)`;
-
-        // Pointer bounce when wheel stops
-        const pointer = document.querySelector('.wheel-pointer');
-        setTimeout(() => {
-            if (pointer) {
-                pointer.classList.remove('pointer-bounce');
-                void pointer.offsetWidth;
-                pointer.classList.add('pointer-bounce');
-            }
-            result.innerHTML = `<p>\uD83C\uDFAF ${options[randomIndex]}!</p>`;
-            result.classList.add('winner');
-            setTimeout(() => result.classList.remove('winner'), 500);
-            isSpinning = false;
-            spinBtn.disabled = false;
-        }, 5000);
-    });
-}
 
 /* ============================================
    Games & Challenges
