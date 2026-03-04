@@ -24,6 +24,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- ── Cinematic first-visit overlay ── -->
+    <div id="cinematic-overlay" style="display:none">
+      <div id="co-particles"></div>
+      <div id="co-stage">
+        <div class="co-line" id="co-l1">Your invitation has arrived</div>
+        <div class="co-line" id="co-l2">Joe's 30th</div>
+        <div class="co-line co-sub" id="co-l3">Chateau Roussignol &bull; Loire Valley &bull; April 2026</div>
+      </div>
+    </div>
+
     <!-- Loading Screen -->
     <div class="loading-screen" id="loading-screen">
         <div class="loading-content">
@@ -52,19 +62,62 @@
         </div>
     </div>
 
-    <!-- Guest Login Modal (replaced by shared guest picker) -->
-    <div class="guest-login-modal" id="guest-login-modal" style="display:none">
-        <div class="guest-login-content">
-            <h2>🎉 Welcome to Joe's 30th!</h2>
-            <p>Enter your personal code to unlock your secret missions</p>
-            <form id="guest-login-form">
-                <input type="text" id="guest-code" placeholder="Your invite code (e.g., SOPHIE-M3P2)" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" required>
-                <button type="submit" class="btn btn-primary">Unlock My Dashboard</button>
-            </form>
-            <p class="guest-login-error" id="guest-login-error" style="display: none;">Code not recognised. Check your invite for your personal code.</p>
-            <p class="guest-login-hint">Don't have your code yet? No worries. It'll arrive with your invite. Explore the site for now!</p>
-            <button class="skip-login-btn" id="skip-guest-login">Explore as Guest &rarr;</button>
+    <!-- ── Registration / login modal ── -->
+    <div id="auth-modal" style="display:none">
+      <div class="auth-box">
+
+        <!-- STEP 1: Who are you? -->
+        <div class="auth-step" id="auth-step-1">
+          <div class="auth-icon">🎉</div>
+          <h2 class="auth-title">Welcome to Joe's 30th</h2>
+          <p class="auth-sub">Who are you?</p>
+          <select id="auth-name-select" class="auth-select">
+            <option value="">— Select your name —</option>
+          </select>
+          <button id="auth-step1-next" class="auth-btn" disabled>Continue →</button>
         </div>
+
+        <!-- STEP 2: Set password -->
+        <div class="auth-step" id="auth-step-2" style="display:none">
+          <div class="auth-icon">🔑</div>
+          <h2 class="auth-title" id="auth-welcome-name">Hey there!</h2>
+          <p class="auth-sub">Set a password to keep your profile safe</p>
+          <input type="password" id="auth-password" class="auth-input" placeholder="Choose a password (4+ characters)" minlength="4" autocomplete="new-password">
+          <input type="password" id="auth-password-confirm" class="auth-input" placeholder="Confirm password" autocomplete="new-password">
+          <p class="auth-error" id="auth-pw-error" style="display:none"></p>
+          <button id="auth-step2-next" class="auth-btn">Set Password →</button>
+          <button class="auth-back" id="auth-step2-back">← Back</button>
+        </div>
+
+        <!-- STEP 3: Your profile -->
+        <div class="auth-step" id="auth-step-3" style="display:none">
+          <div class="auth-icon">📸</div>
+          <h2 class="auth-title">Your Profile</h2>
+          <p class="auth-sub">Add a photo and tweak your bio</p>
+          <div class="auth-photo-wrap">
+            <div class="auth-avatar" id="auth-avatar-preview"></div>
+            <label class="auth-photo-btn">
+              Upload Photo
+              <input type="file" id="auth-photo-input" accept="image/*" style="display:none">
+            </label>
+          </div>
+          <input type="text" id="auth-nickname" class="auth-input" placeholder="Nickname">
+          <textarea id="auth-bio" class="auth-input auth-textarea" placeholder="One-line bio" rows="2"></textarea>
+          <button id="auth-step3-done" class="auth-btn">Let's go! 🎉</button>
+        </div>
+
+        <!-- RETURN VISITOR: Login -->
+        <div class="auth-step" id="auth-step-login" style="display:none">
+          <div class="auth-icon">👋</div>
+          <h2 class="auth-title" id="auth-return-name">Welcome back!</h2>
+          <p class="auth-sub">Enter your password to continue</p>
+          <input type="password" id="auth-return-password" class="auth-input" placeholder="Your password" autocomplete="current-password">
+          <p class="auth-error" id="auth-return-error" style="display:none">Wrong password — try again</p>
+          <button id="auth-return-submit" class="auth-btn">Enter →</button>
+          <button class="auth-back" id="auth-return-reset">Not you? Start over</button>
+        </div>
+
+      </div>
     </div>
 
     <!-- Confetti Canvas -->
