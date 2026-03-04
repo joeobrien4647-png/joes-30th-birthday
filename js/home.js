@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initPasswordProtection();
     initCountdown();
     initRegistration();
+    initGuestLogin();
     if (!isFirstTimeVisitor()) {
         showAuthModal('login');
     }
@@ -352,7 +353,7 @@ function initRegistration() {
         avatarPreview.appendChild(img);
         const slug = selectedCode ? selectedCode.toLowerCase() : 'guest';
         if (typeof compressProfilePhoto === 'function') {
-          compressProfilePhoto(ev.target.result, (compressed) => {
+          compressProfilePhoto(file, (compressed) => {
             localStorage.setItem('guestPhoto_' + slug, compressed);
           });
         } else {

@@ -1496,6 +1496,7 @@ function updateNavGuest() {
    Guest Name Picker (replaces code login)
    ============================================ */
 function initGuestPicker() {
+    if (document.getElementById('auth-modal')) return;
     if (Auth.isLoggedIn()) return;
     if (document.getElementById('guest-picker-overlay')) return;
 
