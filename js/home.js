@@ -3,12 +3,59 @@
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', function () {
+    initCinematicOverlay();
     initLoadingScreen();
     initPasswordProtection();
     initCountdown();
-    initGuestLogin();
+    initRegistration();
+    if (!isFirstTimeVisitor()) {
+        showAuthModal('login');
+    }
     initLiveStats();
 });
+
+/* Cinematic Overlay — first-time visitor welcome sequence */
+function initCinematicOverlay() {
+    // Only show on first-time visitors
+    if (!isFirstTimeVisitor()) return;
+
+    const overlay = document.getElementById('cinematic-overlay');
+    if (!overlay) return;
+
+    overlay.style.display = 'flex';
+
+    // Spawn particles
+    const pc = document.getElementById('co-particles');
+    for (let i = 0; i < 20; i++) {
+        const p = document.createElement('div');
+        p.className = 'cp';
+        p.style.left = (5 + Math.random() * 90) + '%';
+        p.style.animationDuration = (8 + Math.random() * 14) + 's';
+        p.style.animationDelay = -(Math.random() * 10) + 's';
+        pc.appendChild(p);
+    }
+
+    // Animate lines in sequence
+    const l1 = document.getElementById('co-l1');
+    const l2 = document.getElementById('co-l2');
+    const l3 = document.getElementById('co-l3');
+
+    // Add title class to l2
+    if (l2) l2.classList.add('co-title');
+
+    setTimeout(() => l1 && l1.classList.add('visible'), 400);
+    setTimeout(() => l2 && l2.classList.add('visible'), 1400);
+    setTimeout(() => l3 && l3.classList.add('visible'), 2200);
+
+    // Fade out overlay, then show auth modal
+    setTimeout(() => {
+        overlay.classList.add('fade-out');
+        setTimeout(() => {
+            overlay.style.display = 'none';
+            showAuthModal('register');
+        }, 800);
+    }, 4000);
+}
 
 /* Loading Screen */
 function initLoadingScreen() {
