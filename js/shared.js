@@ -87,6 +87,32 @@ const Store = {
     }
 };
 
+/* ── Auth password helpers ── */
+const AUTH_KEYS = {
+  registered: 'joe30_registered',
+  pwHash:     'joe30_pwHash',
+  guestCode:  'guestCode',
+};
+
+async function hashPassword(password) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password.trim());
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hashBuffer))
+    .map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function verifyPassword(password) {
+  const stored = localStorage.getItem(AUTH_KEYS.pwHash);
+  if (!stored) return false;
+  const hash = await hashPassword(password);
+  return hash === stored;
+}
+
+function isFirstTimeVisitor() {
+  return !localStorage.getItem(AUTH_KEYS.registered);
+}
+
 /* Guest Data - All 25 guests (invite codes are random, not guessable) */
 const GUEST_DATA = {
     'JOE-7K9X': {
