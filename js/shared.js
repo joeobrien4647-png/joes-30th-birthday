@@ -266,7 +266,7 @@ const GUEST_DATA = {
         personalNotes: 'Help everyone mingle and connect - be the social glue!'
     },
     'KIRAN-7DX1': {
-        name: 'Kiran', fullName: 'Kiran Ruparelia', room: 'Room 9',
+        name: 'Kiran', fullName: 'Kiran Ruparelia', room: 'Room 8',
         team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Be part of a late-night chat', completed: false },
