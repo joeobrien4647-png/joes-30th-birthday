@@ -74,7 +74,7 @@
       transform-origin: 50% 100%;
       transform: rotateX(26deg);
       text-align: center;
-      animation: crawl-scroll 16s 3.3s linear forwards;
+      animation: crawl-scroll 26s 3.3s linear forwards;
     }
     @keyframes crawl-scroll {
       from { bottom: -30%; }
@@ -416,6 +416,9 @@
     <source src="trailer-music.webm" type="audio/webm">
     <source src="trailer-music.mp3" type="audio/mpeg">
   </audio>
+  <audio id="crawl-audio">
+    <source src="star-wars-theme.mp3" type="audio/mpeg">
+  </audio>
 
   <div id="stage">
     <!-- Star Wars crawl -->
@@ -657,7 +660,7 @@
        ═══════════════════════════════════════════ */
 
     const SEQ = [
-      { id: 's-crawl',    ms: 19500 },
+      { id: 's-crawl',    ms: 29500 },
       { id: 's6',         ms: 5000 },
       { id: 's7',         ms: 4000, exit: 'compress' },
       { id: 's-montage',  ms: null, run: 'montage' },
@@ -670,10 +673,9 @@
 
     /* Volume schedule: scene → [target, fadeMs, startTime?] */
     const VOL = {
-      's-crawl': [0.10, 0, 199],
-      's6':      [0.78, 3500],
-      's7':      [0.88, 1500],
-      's-inv':   [0, 4500],
+      's6':    [0.78, 3500],
+      's7':    [0.88, 1500],
+      's-inv': [0, 4500],
     };
 
     const audio = document.getElementById('audio');
@@ -703,8 +705,26 @@
       el.classList.add('on');
       replay(el);
 
-      /* Crawl: gentle mid-scroll volume swell */
-      if (s.id === 's-crawl') setTimeout(() => vol(0.26, 3000), 10000);
+      /* Crawl: Star Wars theme plays, fades out 3s before title card hits */
+      if (s.id === 's-crawl') {
+        const ca = document.getElementById('crawl-audio');
+        if (ca) { ca.currentTime = 0; ca.volume = 1; ca.play().catch(() => {}); }
+        setTimeout(() => {
+          // Fade Star Wars theme out
+          if (ca) {
+            let v = ca.volume;
+            const iv = setInterval(() => {
+              v = Math.max(0, v - 0.04);
+              ca.volume = v;
+              if (v <= 0) { clearInterval(iv); ca.pause(); }
+            }, 80);
+          }
+          // Bring trailer music in quietly ready for title card slam
+          audio.volume = 0; audio.currentTime = 0;
+          audio.play().catch(() => {});
+          vol(0.12, 2000);
+        }, 26500);
+      }
 
       /* Particles off at montage */
       if (s.id === 's-montage') document.getElementById('particles').classList.add('off');
