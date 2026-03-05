@@ -52,15 +52,56 @@
     }
     .scene.on { opacity: 1; pointer-events: auto; }
 
-    /* ── Act 1: Cinematic blur reveal ── */
-    .t1 {
-      font-family: 'Cormorant Garamond', serif; font-weight: 300;
-      font-size: clamp(2.4rem, 6vw, 4.5rem);
-      letter-spacing: 0.35em; text-transform: uppercase; text-align: center;
-      opacity: 0; filter: blur(8px); transform: translateY(14px);
-      animation: blur-in 1s ease forwards;
-      will-change: filter, opacity, transform;
+    /* ── Star Wars crawl ── */
+    #s-crawl { padding: 0; overflow: hidden; }
+    #crawl-intro {
+      position: absolute; top: 42%; left: 50%; transform: translate(-50%, -50%);
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: clamp(0.9rem, 2.2vw, 1.4rem); letter-spacing: 0.25em;
+      color: var(--gold); text-align: center; white-space: nowrap;
+      opacity: 0;
+      animation: blur-in 1s 0.3s ease forwards, crawl-intro-out 0.8s 2.6s ease forwards;
     }
+    @keyframes crawl-intro-out { to { opacity: 0; } }
+    #crawl-field {
+      position: absolute; inset: 0; overflow: hidden;
+      perspective: 380px;
+      opacity: 0; animation: blur-in 0.4s 3.1s ease forwards;
+    }
+    #crawl {
+      position: absolute; bottom: -30%;
+      width: 56%; left: 22%;
+      transform-origin: 50% 100%;
+      transform: rotateX(26deg);
+      text-align: center;
+      animation: crawl-scroll 16s 3.3s linear forwards;
+    }
+    @keyframes crawl-scroll {
+      from { bottom: -30%; }
+      to   { bottom: 160%; }
+    }
+    .crawl-ep {
+      font-family: 'Montserrat', sans-serif; font-weight: 400;
+      font-size: clamp(0.65rem, 1.6vw, 0.9rem); letter-spacing: 0.55em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem;
+    }
+    .crawl-title {
+      font-family: 'Montserrat', sans-serif; font-weight: 900;
+      font-size: clamp(1.6rem, 4.5vw, 3rem); letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 2.2rem;
+    }
+    .crawl-divider {
+      border: none; border-top: 1px solid rgba(245,200,66,0.35);
+      margin: 0 auto 2rem; width: 60%;
+    }
+    .crawl-body {
+      font-family: 'Cormorant Garamond', serif; font-weight: 300;
+      font-size: clamp(0.95rem, 2.3vw, 1.45rem); line-height: 1.95;
+      color: var(--gold);
+    }
+    .crawl-body p { margin-bottom: 1.5rem; }
+
+    /* ── Act 1: Cinematic blur reveal (kept for potential reuse) ── */
     @keyframes blur-in {
       to { opacity: 1; filter: blur(0); transform: translateY(0); }
     }
@@ -394,12 +435,24 @@
   </audio>
 
   <div id="stage">
-    <!-- Act 1 -->
-    <div class="scene" id="s1"><div class="t1">April 2026</div></div>
-    <div class="scene" id="s2"><div class="t1">30 Years</div></div>
-    <div class="scene" id="s3"><div class="t1">26 of Us</div></div>
-    <div class="scene" id="s4"><div class="t1">One Chateau</div></div>
-    <div class="scene" id="s5"><div class="t1">Loire Valley, France</div></div>
+    <!-- Star Wars crawl -->
+    <div class="scene" id="s-crawl">
+      <div id="crawl-intro">A long time ago, in Sevenoaks, England&hellip;</div>
+      <div id="crawl-field">
+        <div id="crawl">
+          <div class="crawl-ep">Episode XXX</div>
+          <div class="crawl-title">Joe's Thirtieth</div>
+          <hr class="crawl-divider">
+          <div class="crawl-body">
+            <p>The time has finally come. After thirty years of growing up, getting into mischief, and dragging his closest friends along for every wild ride — Joe O'Brien is turning 30.</p>
+            <p>Twenty-six of his most beloved accomplices have answered the call. Together, they will descend on Chateau Roussignol in the Loire Valley, France, for five extraordinary days and four unforgettable nights.</p>
+            <p>There will be games. There will be chaos. There will be moments nobody will ever forget — and a few they will desperately try to.</p>
+            <p>The adventure begins 29th April 2026.</p>
+            <p>May the birthday be with you.</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Title -->
     <div class="scene" id="s6">
@@ -695,11 +748,7 @@
        ═══════════════════════════════════════════ */
 
     const SEQ = [
-      { id: 's1',         ms: 3000 },
-      { id: 's2',         ms: 2500 },
-      { id: 's3',         ms: 2000 },
-      { id: 's4',         ms: 2000 },
-      { id: 's5',         ms: 3000 },
+      { id: 's-crawl',    ms: 19500 },
       { id: 's6',         ms: 5000 },
       { id: 's7',         ms: 4000, exit: 'compress' },
       { id: 's-montage',  ms: null, run: 'montage' },
@@ -712,11 +761,10 @@
 
     /* Volume schedule: scene → [target, fadeMs, startTime?] */
     const VOL = {
-      's1':    [0.12, 0, 199],
-      's5':    [0.22, 2500],
-      's6':    [0.78, 3500],
-      's7':    [0.88, 1500],
-      's-inv': [0, 4500],
+      's-crawl': [0.10, 0, 199],
+      's6':      [0.78, 3500],
+      's7':      [0.88, 1500],
+      's-inv':   [0, 4500],
     };
 
     const audio = document.getElementById('audio');
@@ -746,6 +794,9 @@
       /* Show */
       el.classList.add('on');
       replay(el);
+
+      /* Crawl: gentle mid-scroll volume swell */
+      if (s.id === 's-crawl') setTimeout(() => vol(0.26, 3000), 10000);
 
       /* Particles off at montage */
       if (s.id === 's-montage') document.getElementById('particles').classList.add('off');
