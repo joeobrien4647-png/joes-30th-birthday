@@ -708,6 +708,9 @@ function initActivitySignups() {
     var guestCode = Auth.getGuestCode();
     var guestName = Auth.isLoggedIn() ? Auth.getGuestName() : null;
 
+    // Replace with Joe's WhatsApp number in international format (no + or spaces)
+    var JOE_WA_NUMBER = '447XXXXXXXXX';
+
     var SIGNUP_ACTIVITIES = [
         {
             id: 'golf',
@@ -719,11 +722,20 @@ function initActivitySignups() {
             description: '9-hole course near Ch\u00E2teauroux. Flat, wooded, beginner-friendly \u2014 no handicap needed. Club hire available. ~45 min drive.'
         },
         {
+            id: 'wine',
+            name: 'Loire Valley Wine Tasting',
+            day: 'Day 3 (Fri 1 May, evening)',
+            cost: '\u20AC100/pp',
+            max: 26,
+            emoji: '\uD83C\uDF77',
+            description: 'Private sommelier brings 8\u201312 Loire wines to the chateau terrace \u2014 guided tasting covering everything from Muscadet to Pouilly-Fum\u00E9. Blind tasting option available. Sign up so Joe can confirm numbers!'
+        },
+        {
             id: 'canoe',
             name: 'Canoeing on the Creuse',
             day: 'Day 3 (Fri 1 May)',
-            cost: '~\u20AC13\u201318/pp',
-            max: 25,
+            cost: '~\u20AC15\u201318/pp',
+            max: 26,
             emoji: '\uD83D\uDEF6',
             description: 'Paddle downstream past castles and through the Creuse valley. All equipment and shuttle back included. Starts right on our doorstep!'
         },
@@ -732,13 +744,14 @@ function initActivitySignups() {
             name: 'Bellebouche Accrobranche',
             day: 'Day 5 (Sun 3 May)',
             cost: '~\u20AC17/pp',
-            max: 25,
+            max: 26,
             emoji: '\uD83C\uDF33',
             description: 'Treetop adventure courses (zip lines, Tarzan swings!) plus lake activities: p\u00E9dalos, paddle boards, kayaks. ~30 min drive.'
         }
     ];
 
-    var signups = Store.get('activitySignups', { golf: [], canoe: [], bellebouche: [] });
+    var defaultSignups = { golf: [], wine: [], canoe: [], bellebouche: [] };
+    var signups = Store.get('activitySignups', defaultSignups);
 
     function render() {
         var html = '<div class="signup-grid">';
@@ -824,6 +837,7 @@ function initActivitySignups() {
                 html += '<div class="empty-state"><span class="empty-state-emoji">\uD83C\uDFAF</span><p>No sign-ups yet \u2014 be the first!</p></div>';
             }
 
+            html += '<div class="wa-nudge" id="wa-nudge-' + act.id + '" style="display:none"></div>';
             html += '</div>';
         });
 
@@ -836,6 +850,7 @@ function initActivitySignups() {
                 var actId = this.dataset.id;
                 if (!signups[actId]) signups[actId] = [];
                 var idx = signups[actId].indexOf(guestName);
+                var signingUp = idx === -1;
                 if (idx > -1) {
                     signups[actId].splice(idx, 1);
                 } else {
@@ -844,11 +859,99 @@ function initActivitySignups() {
                 }
                 Store.set('activitySignups', signups);
                 render();
+                if (signingUp) {
+                    var actName = SIGNUP_ACTIVITIES.find(function(a) { return a.id === actId; });
+                    var msg = encodeURIComponent('Hi Joe! I\'m in for ' + (actName ? actName.name : actId) + ' \uD83C\uDF89');
+                    var nudge = document.getElementById('wa-nudge-' + actId);
+                    if (nudge) {
+                        nudge.innerHTML = '\uD83D\uDCAC <a href="https://wa.me/' + JOE_WA_NUMBER + '?text=' + msg + '" target="_blank" rel="noopener">Let Joe know on WhatsApp \u2192</a>';
+                        nudge.style.display = 'block';
+                    }
+                }
             });
         });
     }
 
     render();
+    if (Auth.isAdmin()) renderAdminPanel();
+}
+
+function renderAdminPanel() {
+    var container = document.getElementById('activity-signups-container');
+    if (!container) return;
+
+    var existing = document.getElementById('admin-activity-panel');
+    if (existing) existing.remove();
+
+    var JOE_WA_NUMBER = '447XXXXXXXXX';
+
+    var ACTIVITIES = [
+        { id: 'golf', name: 'Golf (Thu 30 Apr)', emoji: '\u26F3' },
+        { id: 'wine', name: 'Wine Tasting (Fri 1 May)', emoji: '\uD83C\uDF77' },
+        { id: 'canoe', name: 'Canoeing (Fri 1 May)', emoji: '\uD83D\uDEF6' },
+        { id: 'bellebouche', name: 'Bellebouche (Sun 3 May)', emoji: '\uD83C\uDF33' }
+    ];
+
+    var confirmed = Store.get('adminActivityConfirmed', { golf: [], wine: [], canoe: [], bellebouche: [] });
+    var allGuests = Object.values(GUEST_DATA).map(function(g) { return g.name; }).sort();
+
+    var panel = document.createElement('div');
+    panel.id = 'admin-activity-panel';
+    panel.className = 'admin-activity-panel';
+
+    var html = '<div class="admin-panel-toggle" id="admin-panel-toggle">' +
+        '<span>\uD83D\uDD11 Admin: Confirmation Tracker</span>' +
+        '<span class="admin-toggle-arrow">\u25BE</span></div>' +
+        '<div class="admin-panel-body" id="admin-panel-body">';
+
+    html += '<p class="admin-panel-note">Tick guests off as they confirm via WhatsApp. Stored on your device only.</p>';
+
+    ACTIVITIES.forEach(function(act) {
+        var conf = confirmed[act.id] || [];
+        html += '<div class="admin-act-section">' +
+            '<div class="admin-act-header">' +
+                '<span>' + act.emoji + ' ' + act.name + '</span>' +
+                '<span class="admin-act-count">' + conf.length + ' confirmed</span>' +
+            '</div>' +
+            '<div class="admin-guest-grid">';
+
+        allGuests.forEach(function(name) {
+            var checked = conf.includes(name);
+            html += '<label class="admin-guest-check' + (checked ? ' checked' : '') + '">' +
+                '<input type="checkbox" data-act="' + act.id + '" data-name="' + escapeHtml(name) + '"' + (checked ? ' checked' : '') + '> ' +
+                escapeHtml(name) + '</label>';
+        });
+
+        html += '</div></div>';
+    });
+
+    html += '</div>';
+    panel.innerHTML = html;
+    container.after(panel);
+
+    // Toggle open/close
+    document.getElementById('admin-panel-toggle').addEventListener('click', function() {
+        var body = document.getElementById('admin-panel-body');
+        var open = body.style.display !== 'none';
+        body.style.display = open ? 'none' : 'block';
+        this.querySelector('.admin-toggle-arrow').textContent = open ? '\u25BE' : '\u25B4';
+    });
+
+    // Checkboxes
+    panel.querySelectorAll('input[type=checkbox]').forEach(function(cb) {
+        cb.addEventListener('change', function() {
+            var actId = this.dataset.act;
+            var name = this.dataset.name;
+            if (!confirmed[actId]) confirmed[actId] = [];
+            if (this.checked) {
+                if (!confirmed[actId].includes(name)) confirmed[actId].push(name);
+            } else {
+                confirmed[actId] = confirmed[actId].filter(function(n) { return n !== name; });
+            }
+            Store.set('adminActivityConfirmed', confirmed);
+            renderAdminPanel();
+        });
+    });
 }
 
 /* ============================================

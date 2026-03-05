@@ -3864,3 +3864,66 @@ body.dark-mode .guest-voted-card {
     box-shadow: 0 0 0 2px var(--primary), 0 4px 20px rgba(124, 58, 237, 0.25);
 }
 
+
+/* ── Activity sign-up: WhatsApp nudge ── */
+.wa-nudge {
+    margin-top: 0.75rem;
+    padding: 0.6rem 0.9rem;
+    background: #e8f5e0;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    border-left: 3px solid #25d366;
+}
+.wa-nudge a { color: #128c4a; font-weight: 600; text-decoration: none; }
+.wa-nudge a:hover { text-decoration: underline; }
+
+/* ── Admin activity panel ── */
+.admin-activity-panel {
+    margin-top: 2rem;
+    border: 2px dashed #f6c90e;
+    border-radius: 12px;
+    background: #fffdf0;
+    overflow: hidden;
+}
+.admin-panel-toggle {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.9rem 1.25rem;
+    background: #fff8d0;
+    cursor: pointer;
+    font-weight: 700; font-size: 0.95rem;
+    user-select: none;
+}
+.admin-panel-toggle:hover { background: #fff3b0; }
+.admin-toggle-arrow { font-size: 1.1rem; }
+.admin-panel-body { padding: 1.25rem; display: block; }
+.admin-panel-note {
+    font-size: 0.82rem; color: #888;
+    margin-bottom: 1rem;
+}
+.admin-act-section { margin-bottom: 1.5rem; }
+.admin-act-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 0.6rem;
+    font-weight: 700; font-size: 0.95rem;
+}
+.admin-act-count {
+    background: #f6c90e; color: #333;
+    padding: 2px 10px; border-radius: 20px;
+    font-size: 0.8rem; font-weight: 700;
+}
+.admin-guest-grid {
+    display: flex; flex-wrap: wrap; gap: 0.4rem;
+}
+.admin-guest-check {
+    display: flex; align-items: center; gap: 0.35rem;
+    padding: 0.3rem 0.7rem;
+    background: #f0f0f0; border-radius: 20px;
+    font-size: 0.82rem; cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.15s;
+}
+.admin-guest-check:hover { background: #e8e8e8; }
+.admin-guest-check.checked {
+    background: #d4edda; border-color: #5cb85c; color: #2d6a2d; font-weight: 600;
+}
+.admin-guest-check input { cursor: pointer; }
