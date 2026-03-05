@@ -253,6 +253,94 @@
       margin-top: 0.8rem; opacity: 0; animation: blur-in 0.8s 0.6s ease forwards;
     }
 
+    /* ── Scan lines ── */
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 7; pointer-events: none;
+      background: repeating-linear-gradient(
+        to bottom, transparent 0px, transparent 3px,
+        rgba(0,0,0,0.045) 3px, rgba(0,0,0,0.045) 4px
+      );
+    }
+
+    /* ── Glitch on title ── */
+    @keyframes glitch-title {
+      0%   { clip-path: inset(0 0 0 0); transform: scale(1); }
+      8%   { clip-path: inset(28% 0 38% 0); transform: translateX(-5px) skewX(-5deg); }
+      16%  { clip-path: inset(0 0 0 0); transform: translateX(4px) skewX(3deg); }
+      24%  { clip-path: inset(52% 0 18% 0); transform: translateX(-4px); }
+      32%  { clip-path: inset(0 0 0 0); transform: translateX(0); }
+      40%  { clip-path: inset(8% 0 72% 0); transform: translateX(5px) skewX(-2deg); opacity: 0.8; }
+      48%  { clip-path: inset(0 0 0 0); transform: translateX(0); opacity: 1; }
+      56%  { clip-path: inset(0 0 0 0); transform: scale(1.008); }
+      100% { clip-path: inset(0 0 0 0); transform: scale(1); opacity: 1; }
+    }
+    .title {
+      font-family: 'Montserrat', sans-serif; font-weight: 900;
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      letter-spacing: 0.08em; text-transform: uppercase; text-align: center;
+      background: linear-gradient(135deg, #fff 30%, var(--gold) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0; transform: scale(0.88);
+      animation: title-in 1.2s ease forwards, glitch-title 0.55s 1.4s ease;
+    }
+
+    /* ── Screen shake ── */
+    @keyframes shake {
+      0%   { transform: translate(0, 0) rotate(0deg); }
+      10%  { transform: translate(-5px, -3px) rotate(-0.6deg); }
+      20%  { transform: translate(5px, 4px) rotate(0.6deg); }
+      30%  { transform: translate(-4px, 2px) rotate(-0.4deg); }
+      40%  { transform: translate(4px, -4px) rotate(0.4deg); }
+      50%  { transform: translate(-2px, 3px) rotate(-0.2deg); }
+      60%  { transform: translate(3px, -2px) rotate(0.2deg); }
+      70%  { transform: translate(-2px, 2px); }
+      85%  { transform: translate(1px, -1px); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+    .shake { animation: shake 0.42s cubic-bezier(0.36, 0.07, 0.19, 0.97) both !important; }
+
+    /* ── QR pulse ── */
+    @keyframes pulse-qr {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 50px rgba(245,200,66,0.12); }
+      50% { transform: scale(1.028); box-shadow: 0 0 80px rgba(245,200,66,0.3); }
+    }
+    #qr-w.beating { animation: blur-in 0.8s 0.2s ease forwards, pulse-qr 2.2s 1.2s ease infinite; }
+
+    /* ── Film grain ── */
+    #grain {
+      position: fixed; inset: 0; z-index: 6; pointer-events: none;
+      opacity: 0.04; mix-blend-mode: overlay;
+      width: 100vw; height: 100vh; image-rendering: pixelated;
+    }
+
+    /* ── Popworld VHS drama ── */
+    @keyframes pw-track {
+      0%   { transform: translateX(0) skewY(0deg); filter: none; }
+      12%  { transform: translateX(-16px) skewY(-1.4deg); filter: brightness(2.2) saturate(5) hue-rotate(50deg); }
+      25%  { transform: translateX(13px) skewY(0.9deg); filter: brightness(0.4) saturate(3) contrast(2.5); }
+      40%  { transform: translateX(-8px) skewY(-0.4deg); filter: brightness(1.5) hue-rotate(-20deg); }
+      60%  { transform: translateX(4px) skewY(0.2deg); filter: brightness(1.1); }
+      80%  { transform: translateX(-2px); filter: none; }
+      100% { transform: translateX(0) skewY(0deg); filter: none; }
+    }
+    @keyframes pw-chromo {
+      0%, 100% { text-shadow: 4px 4px 0 rgba(0,0,0,0.25); }
+      20%  { text-shadow: 10px 0 rgba(255,0,60,1), -10px 0 rgba(0,255,255,0.95), 0 0 30px #fff; }
+      50%  { text-shadow: -6px 0 rgba(255,0,60,0.8), 6px 0 rgba(0,255,255,0.8), 4px 4px 0 rgba(0,0,0,0.25); }
+      80%  { text-shadow: 3px 0 rgba(255,0,60,0.5), -3px 0 rgba(0,255,255,0.5); }
+    }
+
+    /* ── Typewriter ── */
+    .tw-cursor {
+      display: inline-block; width: 2px; height: 0.85em;
+      background: var(--gold); margin-left: 3px; vertical-align: middle;
+      animation: blink 0.65s step-end infinite;
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    .cta-txt { animation: none !important; opacity: 1 !important; }
+
     /* ── Play overlay ── */
     #ov {
       position: fixed; inset: 0; background: #000;
@@ -281,13 +369,15 @@
   </div>
 
   <div id="skip-btn" style="
-    position: fixed; bottom: 2rem; right: 2rem; z-index: 300;
+    position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 300;
     opacity: 0; pointer-events: none; transition: opacity 0.6s ease;
   ">
     <a href="index.html" style="
+      display: inline-block; padding: 0.8rem 1.4rem;
       font-family: 'Montserrat', sans-serif; font-size: 0.7rem;
-      letter-spacing: 0.3em; text-transform: uppercase; color: #555;
-      text-decoration: none; border-bottom: 1px solid #333; padding-bottom: 2px;
+      letter-spacing: 0.3em; text-transform: uppercase; color: #666;
+      text-decoration: none; border: 1px solid #333; border-radius: 4px;
+      transition: color 0.2s, border-color 0.2s;
     ">Enter the site →</a>
   </div>
 
@@ -295,6 +385,7 @@
   <div class="bar bar-bottom"></div>
   <div id="vig"></div>
   <div id="particles"></div>
+  <canvas id="grain"></canvas>
   <div id="flash"></div>
 
   <audio id="audio">
@@ -474,14 +565,112 @@
       }
     }
 
+    /* ── Popworld VHS drama ── */
+    let cleanupPw = null;
+    function pwDrama(sceneEl) {
+      // VHS static canvas (layered on top of the scene)
+      const canvas = document.createElement('canvas');
+      canvas.width = 256; canvas.height = 144;
+      canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:5;pointer-events:none;mix-blend-mode:screen;image-rendering:pixelated;opacity:0;';
+      sceneEl.appendChild(canvas);
+      const ctx = canvas.getContext('2d');
+
+      let dead = false, staticOn = false, sf = 0;
+      (function staticLoop() {
+        if (dead) return;
+        if (staticOn) {
+          if (sf++ % 2 === 0) {
+            const d = ctx.createImageData(256, 144);
+            for (let i = 0; i < d.data.length; i += 4) {
+              const v = Math.random() * 255 | 0;
+              d.data[i] = d.data[i+1] = d.data[i+2] = v;
+              d.data[i+3] = Math.random() * 120 | 0;
+            }
+            ctx.putImageData(d, 0, 0);
+          }
+          canvas.style.opacity = (0.1 + Math.random() * 0.22).toFixed(2);
+        } else {
+          sf = 0; ctx.clearRect(0, 0, 256, 144); canvas.style.opacity = '0';
+        }
+        requestAnimationFrame(staticLoop);
+      })();
+
+      const pwc = sceneEl.querySelector('.pw-c');
+      const big = sceneEl.querySelector('.pw-big');
+      const timers = [];
+
+      function burst(duration) {
+        if (dead) return;
+        const dur = duration || 400;
+        staticOn = true;
+        pwc.style.animation = `pw-track ${dur}ms ease`;
+        big.style.animation = `pw-chromo ${dur}ms ease`;
+        timers.push(setTimeout(() => {
+          pwc.style.animation = '';
+          big.style.animation = '';
+          staticOn = false;
+        }, dur + 20));
+      }
+
+      function flicker() {
+        let n = 0;
+        (function tick() {
+          if (dead || n++ > 32) { sceneEl.style.opacity = ''; return; }
+          sceneEl.style.opacity = Math.random() > 0.2 ? '1' : (0.35 + Math.random() * 0.5).toFixed(2);
+          timers.push(setTimeout(tick, 60 + Math.random() * 150));
+        })();
+      }
+
+      // Timeline: 1.5s clean entry, then VHS chaos erupts
+      timers.push(
+        setTimeout(() => { burst(420); flicker(); }, 1500), // first hit + flicker
+        setTimeout(() => burst(280),  3200),                 // quick slap
+        setTimeout(() => { burst(550); flicker(); }, 4800),  // big hit
+        setTimeout(() => burst(200),  6400)                  // parting shot
+      );
+
+      cleanupPw = () => {
+        dead = true;
+        timers.forEach(clearTimeout);
+        sceneEl.style.opacity = '';
+        pwc.style.animation = '';
+        big.style.animation = '';
+        if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
+        cleanupPw = null;
+      };
+    }
+
+    /* ── Film grain ── */
+    function initGrain() {
+      const canvas = document.getElementById('grain');
+      const ctx = canvas.getContext('2d');
+      canvas.width = 256; canvas.height = 256;
+      let frame = 0;
+      (function drawGrain() {
+        if (frame++ % 3 === 0) {
+          const img = ctx.createImageData(256, 256);
+          for (let i = 0; i < img.data.length; i += 4) {
+            const v = Math.random() * 255 | 0;
+            img.data[i] = img.data[i+1] = img.data[i+2] = v;
+            img.data[i+3] = 255;
+          }
+          ctx.putImageData(img, 0, 0);
+        }
+        requestAnimationFrame(drawGrain);
+      })();
+    }
+
     /* ── Flash ── */
     function flash() {
       const f = document.getElementById('flash');
+      const stage = document.getElementById('stage');
       f.style.transition = 'none';
       f.style.opacity = '0.92';
       void f.offsetHeight;
       f.style.transition = 'opacity 0.35s ease-out';
       f.style.opacity = '0';
+      stage.classList.add('shake');
+      setTimeout(() => stage.classList.remove('shake'), 440);
     }
 
     /* ═══════════════════════════════════════════
@@ -536,6 +725,7 @@
     function hide(id, hard) {
       const el = document.getElementById(id);
       if (!el) return;
+      if (id === 's-pw' && cleanupPw) cleanupPw();
       if (hard) {
         el.classList.remove('on'); el.style.cssText = '';
       } else {
@@ -560,8 +750,28 @@
       /* Particles off at montage */
       if (s.id === 's-montage') document.getElementById('particles').classList.add('off');
 
-      /* Sparkles for Popworld */
-      if (s.id === 's-pw') sparkles();
+      /* Sparkles + VHS drama for Popworld */
+      if (s.id === 's-pw') { sparkles(); pwDrama(el); }
+
+      /* Typewriter for invitation */
+      if (s.id === 's-inv') {
+        const txt = el.querySelector('.cta-txt');
+        const msg = 'Your invitation has arrived';
+        txt.innerHTML = '';
+        const cursor = document.createElement('span');
+        cursor.className = 'tw-cursor';
+        txt.appendChild(cursor);
+        let ci = 0;
+        const iv = setInterval(() => {
+          if (ci >= msg.length) { clearInterval(iv); return; }
+          txt.insertBefore(document.createTextNode(msg[ci++]), cursor);
+        }, 65);
+      }
+
+      /* QR pulse */
+      if (s.id === 's-qr') {
+        document.getElementById('qr-w').classList.add('beating');
+      }
 
       /* Volume */
       const v = VOL[s.id];
@@ -624,6 +834,7 @@
       const o = document.getElementById('ov');
       o.classList.add('gone');
       setTimeout(() => o.remove(), 700);
+      initGrain();
       go(0);
     });
   </script>
