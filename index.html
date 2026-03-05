@@ -115,6 +115,13 @@
           <input type="password" id="auth-return-password" class="auth-input" placeholder="Your password" autocomplete="current-password">
           <p class="auth-error" id="auth-return-error" style="display:none">Wrong password — try again</p>
           <button id="auth-return-submit" class="auth-btn">Enter →</button>
+          <button class="auth-link-btn" id="auth-forgot-toggle">Forgot your password?</button>
+          <div id="auth-forgot-panel" style="display:none">
+            <p class="auth-sub" style="margin-top:0.5rem;margin-bottom:0.5rem">Ask Joe for the reset code, then enter it below.</p>
+            <input type="text" id="auth-reset-code" class="auth-input" placeholder="Reset code" autocomplete="off">
+            <p class="auth-error" id="auth-reset-error" style="display:none">Incorrect code — ask Joe on WhatsApp</p>
+            <button id="auth-reset-submit" class="auth-btn" style="margin-top:0.75rem">Reset my password</button>
+          </div>
           <button class="auth-back" id="auth-return-reset">Not you? Start over</button>
         </div>
 

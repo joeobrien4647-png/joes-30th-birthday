@@ -289,8 +289,11 @@ function prefillProfileStep(code) {
   }
 }
 
+const RESET_CODE = 'joe30reset';
+
 function initRegistration() {
   let selectedCode = null;
+  let isResettingPassword = false;
 
   /* Step 1: name selection */
   const select = document.getElementById('auth-name-select');
@@ -331,9 +334,17 @@ function initRegistration() {
       }
       const hash = await hashPassword(pw.value);
       localStorage.setItem(AUTH_KEYS.pwHash, hash);
-      localStorage.setItem(AUTH_KEYS.guestCode, selectedCode);
-      prefillProfileStep(selectedCode);
-      showAuthStep('auth-step-3');
+      if (!isResettingPassword) {
+        localStorage.setItem(AUTH_KEYS.guestCode, selectedCode);
+        prefillProfileStep(selectedCode);
+        showAuthStep('auth-step-3');
+      } else {
+        isResettingPassword = false;
+        const code = localStorage.getItem(AUTH_KEYS.guestCode);
+        localStorage.setItem(AUTH_KEYS.registered, 'true');
+        document.getElementById('auth-modal').style.display = 'none';
+        document.dispatchEvent(new CustomEvent('guestLoggedIn', { detail: { code } }));
+      }
     });
   }
 
@@ -415,6 +426,42 @@ function initRegistration() {
       showAuthStep('auth-step-1');
       populateNameDropdown();
     });
+  }
+
+  /* Forgot password */
+  const forgotToggle = document.getElementById('auth-forgot-toggle');
+  const forgotPanel = document.getElementById('auth-forgot-panel');
+  const resetCodeInput = document.getElementById('auth-reset-code');
+  const resetSubmit = document.getElementById('auth-reset-submit');
+  const resetErr = document.getElementById('auth-reset-error');
+
+  if (forgotToggle && forgotPanel) {
+    forgotToggle.addEventListener('click', () => {
+      const open = forgotPanel.style.display !== 'none';
+      forgotPanel.style.display = open ? 'none' : 'block';
+      forgotToggle.textContent = open ? 'Forgot your password?' : 'Cancel';
+      if (!open && resetCodeInput) resetCodeInput.focus();
+    });
+  }
+
+  if (resetSubmit && resetCodeInput && resetErr) {
+    const doReset = () => {
+      resetErr.style.display = 'none';
+      if (resetCodeInput.value.trim().toLowerCase() === RESET_CODE) {
+        localStorage.removeItem(AUTH_KEYS.pwHash);
+        isResettingPassword = true;
+        forgotPanel.style.display = 'none';
+        forgotToggle.textContent = 'Forgot your password?';
+        resetCodeInput.value = '';
+        showAuthStep('auth-step-2');
+      } else {
+        resetErr.style.display = 'block';
+        resetCodeInput.value = '';
+        resetCodeInput.focus();
+      }
+    };
+    resetSubmit.addEventListener('click', doReset);
+    resetCodeInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') doReset(); });
   }
 }
 

@@ -1208,6 +1208,24 @@ body.dark-mode .awake-avatar.awake-active .awake-letter {
 }
 .auth-back:hover { color: #555; }
 
+.auth-link-btn {
+  background: none; border: none;
+  color: #bfa76f; font-size: 0.82rem;
+  cursor: pointer; text-align: center;
+  font-family: inherit; padding: 0;
+  text-decoration: underline; margin-top: 0.25rem;
+}
+.auth-link-btn:hover { color: #8a6f3c; }
+
+#auth-forgot-panel {
+  width: 100%;
+  background: #f9f7f2;
+  border: 1px solid #e8e0d0;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 0.5rem;
+}
+
 .auth-error {
   color: #e53e3e; font-size: 0.85rem;
   text-align: center; margin: 0;
