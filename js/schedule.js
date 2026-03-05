@@ -722,15 +722,6 @@ function initActivitySignups() {
             description: '9-hole course near Ch\u00E2teauroux. Flat, wooded, beginner-friendly \u2014 no handicap needed. Club hire available. ~45 min drive.'
         },
         {
-            id: 'wine',
-            name: 'Loire Valley Wine Tasting',
-            day: 'Day 3 (Fri 1 May, evening)',
-            cost: '\u20AC100/pp',
-            max: 26,
-            emoji: '\uD83C\uDF77',
-            description: 'Private sommelier brings 8\u201312 Loire wines to the chateau terrace \u2014 guided tasting covering everything from Muscadet to Pouilly-Fum\u00E9. Blind tasting option available. Sign up so Joe can confirm numbers!'
-        },
-        {
             id: 'canoe',
             name: 'Canoeing on the Creuse',
             day: 'Day 3 (Fri 1 May)',
@@ -750,7 +741,7 @@ function initActivitySignups() {
         }
     ];
 
-    var defaultSignups = { golf: [], wine: [], canoe: [], bellebouche: [] };
+    var defaultSignups = { golf: [], canoe: [], bellebouche: [] };
     var signups = Store.get('activitySignups', defaultSignups);
 
     function render() {
@@ -887,7 +878,6 @@ function renderAdminPanel() {
 
     var ACTIVITIES = [
         { id: 'golf', name: 'Golf (Thu 30 Apr)', emoji: '\u26F3' },
-        { id: 'wine', name: 'Wine Tasting (Fri 1 May)', emoji: '\uD83C\uDF77' },
         { id: 'canoe', name: 'Canoeing (Fri 1 May)', emoji: '\uD83D\uDEF6' },
         { id: 'bellebouche', name: 'Bellebouche (Sun 3 May)', emoji: '\uD83C\uDF33' }
     ];
