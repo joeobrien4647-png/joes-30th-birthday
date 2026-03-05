@@ -516,7 +516,6 @@ function initGuestLogin() {
         document.getElementById('dashboard-name').textContent = guest.name;
         document.getElementById('stat-room').textContent = guest.room;
         document.getElementById('stat-team').textContent = isRevealed() ? guest.team : '🔒 Revealed 29 Apr';
-        document.getElementById('stat-nickname').textContent = isRevealed() ? guest.nickname : '🔒 Revealed 29 Apr';
 
         var teamExplainer = document.getElementById('team-explainer');
         if (teamExplainer) teamExplainer.style.display = isRevealed() ? 'none' : 'block';
