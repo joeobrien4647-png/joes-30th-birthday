@@ -356,23 +356,6 @@
       width: 100vw; height: 100vh; image-rendering: pixelated;
     }
 
-    /* ── Popworld VHS drama ── */
-    @keyframes pw-track {
-      0%   { transform: translateX(0) skewY(0deg); filter: none; }
-      12%  { transform: translateX(-16px) skewY(-1.4deg); filter: brightness(2.2) saturate(5) hue-rotate(50deg); }
-      25%  { transform: translateX(13px) skewY(0.9deg); filter: brightness(0.4) saturate(3) contrast(2.5); }
-      40%  { transform: translateX(-8px) skewY(-0.4deg); filter: brightness(1.5) hue-rotate(-20deg); }
-      60%  { transform: translateX(4px) skewY(0.2deg); filter: brightness(1.1); }
-      80%  { transform: translateX(-2px); filter: none; }
-      100% { transform: translateX(0) skewY(0deg); filter: none; }
-    }
-    @keyframes pw-chromo {
-      0%, 100% { text-shadow: 4px 4px 0 rgba(0,0,0,0.25); }
-      20%  { text-shadow: 10px 0 rgba(255,0,60,1), -10px 0 rgba(0,255,255,0.95), 0 0 30px #fff; }
-      50%  { text-shadow: -6px 0 rgba(255,0,60,0.8), 6px 0 rgba(0,255,255,0.8), 4px 4px 0 rgba(0,0,0,0.25); }
-      80%  { text-shadow: 3px 0 rgba(255,0,60,0.5), -3px 0 rgba(0,255,255,0.5); }
-    }
-
     /* ── Typewriter ── */
     .tw-cursor {
       display: inline-block; width: 2px; height: 0.85em;
@@ -618,80 +601,6 @@
       }
     }
 
-    /* ── Popworld VHS drama ── */
-    let cleanupPw = null;
-    function pwDrama(sceneEl) {
-      // VHS static canvas (layered on top of the scene)
-      const canvas = document.createElement('canvas');
-      canvas.width = 256; canvas.height = 144;
-      canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:5;pointer-events:none;mix-blend-mode:screen;image-rendering:pixelated;opacity:0;';
-      sceneEl.appendChild(canvas);
-      const ctx = canvas.getContext('2d');
-
-      let dead = false, staticOn = false, sf = 0;
-      (function staticLoop() {
-        if (dead) return;
-        if (staticOn) {
-          if (sf++ % 2 === 0) {
-            const d = ctx.createImageData(256, 144);
-            for (let i = 0; i < d.data.length; i += 4) {
-              const v = Math.random() * 255 | 0;
-              d.data[i] = d.data[i+1] = d.data[i+2] = v;
-              d.data[i+3] = Math.random() * 120 | 0;
-            }
-            ctx.putImageData(d, 0, 0);
-          }
-          canvas.style.opacity = (0.1 + Math.random() * 0.22).toFixed(2);
-        } else {
-          sf = 0; ctx.clearRect(0, 0, 256, 144); canvas.style.opacity = '0';
-        }
-        requestAnimationFrame(staticLoop);
-      })();
-
-      const pwc = sceneEl.querySelector('.pw-c');
-      const big = sceneEl.querySelector('.pw-big');
-      const timers = [];
-
-      function burst(duration) {
-        if (dead) return;
-        const dur = duration || 400;
-        staticOn = true;
-        pwc.style.animation = `pw-track ${dur}ms ease`;
-        big.style.animation = `pw-chromo ${dur}ms ease`;
-        timers.push(setTimeout(() => {
-          pwc.style.animation = '';
-          big.style.animation = '';
-          staticOn = false;
-        }, dur + 20));
-      }
-
-      function flicker() {
-        let n = 0;
-        (function tick() {
-          if (dead || n++ > 32) { sceneEl.style.opacity = ''; return; }
-          sceneEl.style.opacity = Math.random() > 0.2 ? '1' : (0.35 + Math.random() * 0.5).toFixed(2);
-          timers.push(setTimeout(tick, 60 + Math.random() * 150));
-        })();
-      }
-
-      // Timeline: 1.5s clean entry, then VHS chaos erupts
-      timers.push(
-        setTimeout(() => { burst(420); flicker(); }, 1500), // first hit + flicker
-        setTimeout(() => burst(280),  3200),                 // quick slap
-        setTimeout(() => { burst(550); flicker(); }, 4800),  // big hit
-        setTimeout(() => burst(200),  6400)                  // parting shot
-      );
-
-      cleanupPw = () => {
-        dead = true;
-        timers.forEach(clearTimeout);
-        sceneEl.style.opacity = '';
-        pwc.style.animation = '';
-        big.style.animation = '';
-        if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
-        cleanupPw = null;
-      };
-    }
 
     /* ── Film grain ── */
     function initGrain() {
@@ -773,7 +682,6 @@
     function hide(id, hard) {
       const el = document.getElementById(id);
       if (!el) return;
-      if (id === 's-pw' && cleanupPw) cleanupPw();
       if (hard) {
         el.classList.remove('on'); el.style.cssText = '';
       } else {
@@ -801,8 +709,8 @@
       /* Particles off at montage */
       if (s.id === 's-montage') document.getElementById('particles').classList.add('off');
 
-      /* Sparkles + VHS drama for Popworld */
-      if (s.id === 's-pw') { sparkles(); pwDrama(el); }
+      /* Sparkles for Popworld */
+      if (s.id === 's-pw') sparkles();
 
       /* Typewriter for invitation */
       if (s.id === 's-inv') {
