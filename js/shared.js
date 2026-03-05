@@ -113,7 +113,7 @@ function isFirstTimeVisitor() {
   return !localStorage.getItem(AUTH_KEYS.registered);
 }
 
-/* Guest Data - All 25 guests (invite codes are random, not guessable) */
+/* Guest Data - All 26 guests (invite codes are random, not guessable) */
 const GUEST_DATA = {
     'JOE-7K9X': {
         name: 'Joe', fullName: 'Joe O\'Brien', room: 'Master Suite',
@@ -286,7 +286,7 @@ const GUEST_DATA = {
         personalNotes: 'Bring the competitive spirit! Make the games exciting.'
     },
     'OLI-3WT5': {
-        name: 'Oli', fullName: 'Oli Moran', room: 'Room 10',
+        name: 'Oli', fullName: 'Oli Moran', room: 'Room 9',
         team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Keep everyone calm if things get hectic', completed: false },
@@ -306,7 +306,7 @@ const GUEST_DATA = {
         personalNotes: 'Be unpredictable! Bring the surprises.'
     },
     'EMMAL-1RK8': {
-        name: 'Emma L', fullName: 'Emma Levett', room: 'Room 11',
+        name: 'Emma L', fullName: 'Emma Levett', room: 'Room 10',
         team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Help with decorations or presentation', completed: false },
@@ -326,7 +326,7 @@ const GUEST_DATA = {
         personalNotes: 'Comedy is your mission - bring the laughs!'
     },
     'JONNYW-8HQ3': {
-        name: 'Jonny W', fullName: 'Jonny Williams', room: 'Room 12',
+        name: 'Jonny W', fullName: 'Jonny Williams', room: 'Room 11',
         team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Share a classic Joe story', completed: false },
@@ -346,7 +346,7 @@ const GUEST_DATA = {
         personalNotes: 'You\'re the reliable one - help keep things running!'
     },
     'OSCAR-5DL4': {
-        name: 'Oscar', fullName: 'Oscar Walters', room: 'Room 12',
+        name: 'Oscar', fullName: 'Oscar Walters', room: 'Room 13',
         team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Get the party started at least once', completed: false },
@@ -356,7 +356,7 @@ const GUEST_DATA = {
         personalNotes: 'When energy is needed, you\'re the spark!'
     },
     'PRANAY-9WX6': {
-        name: 'Pranay', fullName: 'Pranay Dube', room: 'Room 12',
+        name: 'Pranay', fullName: 'Pranay Dube', room: 'Room 14',
         team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Be enthusiastic about every activity', completed: false },
@@ -364,6 +364,16 @@ const GUEST_DATA = {
             { id: 'm3', text: 'Give Joe an enthusiastic birthday hug', completed: false }
         ],
         personalNotes: 'Bring the enthusiasm - your energy is contagious!'
+    },
+    'MATT-3B7K': {
+        name: 'Matt', fullName: 'Matt Hill', room: 'Room TBC',
+        team: 'TBA', nickname: 'TBA',
+        missions: [
+            { id: 'm1', text: 'Make the most of arriving late — dive straight in', completed: false },
+            { id: 'm2', text: 'Win a game within 24 hours of arriving', completed: false },
+            { id: 'm3', text: 'Give Joe a big birthday surprise', completed: false }
+        ],
+        personalNotes: 'Late arrival, but showing up is half the battle. Make it count!'
     }
 };
 
