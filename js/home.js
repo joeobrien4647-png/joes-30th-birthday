@@ -515,16 +515,20 @@ function initGuestLogin() {
 
         document.getElementById('dashboard-name').textContent = guest.name;
         document.getElementById('stat-room').textContent = guest.room;
-        document.getElementById('stat-team').textContent = isRevealed() ? guest.team : '??? (Revealed 29 Apr)';
-        document.getElementById('stat-nickname').textContent = isRevealed() ? guest.nickname : '??? (Revealed 29 Apr)';
+        document.getElementById('stat-team').textContent = isRevealed() ? guest.team : '🔒 Revealed 29 Apr';
+        document.getElementById('stat-nickname').textContent = isRevealed() ? guest.nickname : '🔒 Revealed 29 Apr';
 
         var teamExplainer = document.getElementById('team-explainer');
         if (teamExplainer) teamExplainer.style.display = isRevealed() ? 'none' : 'block';
 
+        // Points — always show (0 pre-trip, live during trip)
+        const individualScores = Store.get('lb_individualScores', {});
+        const myPts = individualScores[guest.name] || 0;
+        const ptsEl = document.getElementById('stat-points');
+        if (ptsEl) animateCount(ptsEl, myPts);
+
         const personalAgenda = document.getElementById('personal-agenda');
         if (personalAgenda) personalAgenda.innerHTML = '<p>' + escapeHtml(guest.personalNotes) + '</p>';
-
-        renderMissions(code, guest.missions);
     }
 
     function renderMissions(code, missions) {
@@ -600,12 +604,10 @@ function initLiveStats() {
     const TEAMS_LIST = ['team1', 'team2', 'team3', 'team4'];
     const TEAM_NAMES_MAP = { team1: 'Team 1 \u2014 \uD83D\uDD12 TBA', team2: 'Team 2 \u2014 \uD83D\uDD12 TBA', team3: 'Team 3 \u2014 \uD83D\uDD12 TBA', team4: 'Team 4 \u2014 \uD83D\uDD12 TBA' };
 
-    // Pre-trip: show teaser card. During trip: show live stats + trip numbers.
-    var teaser = document.getElementById('stats-teaser');
+    // During trip: show live stats + trip numbers cards
     var liveCard = document.getElementById('live-stats-card');
     var numbersCard = document.getElementById('trip-numbers-card');
     if (isRevealed()) {
-        if (teaser) teaser.style.display = 'none';
         if (liveCard) liveCard.style.display = '';
         if (numbersCard) numbersCard.style.display = '';
     }
@@ -620,11 +622,6 @@ function initLiveStats() {
         const teamScores = Store.get('lb_teamScores', { team1: 0, team2: 0, team3: 0, team4: 0 });
         const badges = Store.get('lb_badges', {});
         const pointsLog = Store.get('lb_pointsLog', []);
-
-        // Personal points
-        const myPts = individualScores[guestName] || 0;
-        const ptsEl = document.getElementById('stat-points');
-        if (ptsEl) animateCount(ptsEl, myPts);
 
         // Personal rank
         const sorted = Object.entries(individualScores)
