@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Joe's 30th — Trailer</title>
+  <title>Joe's 30th - Trailer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;700&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;700&family=Montserrat:wght@400;700;900&family=Pathway+Gothic+One&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     :root { --gold: #f5c842; --dim: #aaa; --dark: #080808; }
@@ -55,51 +55,55 @@
     /* ── Star Wars crawl ── */
     #s-crawl { padding: 0; overflow: hidden; }
     #crawl-intro {
-      position: absolute; top: 42%; left: 50%; transform: translate(-50%, -50%);
+      position: absolute; top: 42%; left: 0; right: 0;
       font-family: 'Cormorant Garamond', serif; font-style: italic;
-      font-size: clamp(0.9rem, 2.2vw, 1.4rem); letter-spacing: 0.25em;
+      font-size: clamp(1.6rem, 4vw, 2.6rem); letter-spacing: 0.25em;
       color: var(--gold); text-align: center; white-space: nowrap;
       opacity: 0;
-      animation: blur-in 1s 0.3s ease forwards, crawl-intro-out 0.8s 2.6s ease forwards;
+      animation: crawl-intro-in 1s 0.3s ease forwards, crawl-intro-out 1s 3.5s ease forwards;
     }
+    @keyframes crawl-intro-in { to { opacity: 1; } }
     @keyframes crawl-intro-out { to { opacity: 0; } }
     #crawl-field {
       position: absolute; inset: 0; overflow: hidden;
       perspective: 380px;
-      opacity: 0; animation: blur-in 0.4s 3.1s ease forwards;
+      opacity: 0; animation: crawl-field-in 0.5s 5s ease forwards;
+      -webkit-mask-image: linear-gradient(to bottom, white 0%, white 65%, transparent 92%);
+      mask-image: linear-gradient(to bottom, white 0%, white 65%, transparent 92%);
     }
+    @keyframes crawl-field-in { to { opacity: 1; } }
     #crawl {
-      position: absolute; bottom: -30%;
-      width: 56%; left: 22%;
+      position: absolute; top: 160%;
+      width: 76%; left: 12%;
       transform-origin: 50% 100%;
       transform: rotateX(26deg);
       text-align: center;
-      animation: crawl-scroll 26s 3.3s linear forwards;
+      animation: crawl-scroll 50s 5s linear forwards;
     }
     @keyframes crawl-scroll {
-      from { bottom: -30%; }
-      to   { bottom: 160%; }
+      from { top: 160%; }
+      to   { top: -380%; }
     }
     .crawl-ep {
-      font-family: 'Montserrat', sans-serif; font-weight: 400;
-      font-size: clamp(0.65rem, 1.6vw, 0.9rem); letter-spacing: 0.55em;
-      text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem;
+      font-family: 'Pathway Gothic One', 'Montserrat', sans-serif; font-weight: 400;
+      font-size: clamp(2.2rem, 5vw, 3.2rem); letter-spacing: 0.55em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem;
     }
     .crawl-title {
-      font-family: 'Montserrat', sans-serif; font-weight: 900;
-      font-size: clamp(1.6rem, 4.5vw, 3rem); letter-spacing: 0.06em;
-      text-transform: uppercase; color: var(--gold); margin-bottom: 2.2rem;
+      font-family: 'Pathway Gothic One', 'Montserrat', sans-serif; font-weight: 400;
+      font-size: clamp(5rem, 13vw, 10rem); letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 3rem;
     }
     .crawl-divider {
       border: none; border-top: 1px solid rgba(245,200,66,0.35);
-      margin: 0 auto 2rem; width: 60%;
+      margin: 0 auto 2.8rem; width: 60%;
     }
     .crawl-body {
-      font-family: 'Cormorant Garamond', serif; font-weight: 300;
-      font-size: clamp(0.95rem, 2.3vw, 1.45rem); line-height: 1.95;
+      font-family: 'Pathway Gothic One', 'Cormorant Garamond', serif; font-weight: 400;
+      font-size: clamp(2.8rem, 7vw, 4.4rem); line-height: 1.85;
       color: var(--gold);
     }
-    .crawl-body p { margin-bottom: 1.5rem; }
+    .crawl-body p { margin-bottom: 2.4rem; }
 
     /* ── Act 1: Cinematic blur reveal (kept for potential reuse) ── */
     @keyframes blur-in {
@@ -167,6 +171,257 @@
       font-size: clamp(1rem, 2.2vw, 1.5rem); letter-spacing: 0.2em;
       color: var(--dim); text-align: center; opacity: 0;
       animation: blur-in 0.8s 0.5s ease forwards;
+    }
+
+    /* ── The Plan ── */
+    .plan-label {
+      font-family: 'Montserrat', sans-serif; font-weight: 700;
+      font-size: clamp(0.6rem, 1.4vw, 0.8rem); letter-spacing: 0.5em;
+      text-transform: uppercase; color: var(--dim); margin-bottom: 1.2rem;
+      opacity: 0; animation: blur-in 0.6s 0.2s ease forwards;
+    }
+    .plan-title {
+      font-family: 'Montserrat', sans-serif; font-weight: 900;
+      font-size: clamp(2.2rem, 6vw, 4.5rem); text-transform: uppercase;
+      letter-spacing: 0.06em; text-align: center;
+      background: linear-gradient(135deg, #fff 30%, var(--gold) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      opacity: 0; animation: blur-in 0.8s 0.1s ease forwards;
+    }
+    .plan-grid {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: clamp(0.6rem, 1.5vw, 1.2rem); margin-top: 1.8rem;
+    }
+    .plan-day {
+      text-align: center; padding: 0.8rem 1.2rem;
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 10px;
+      background: rgba(255,255,255,0.03); min-width: 100px;
+      opacity: 0; transform: translateY(15px);
+    }
+    .plan-day-n {
+      font-family: 'Montserrat', sans-serif; font-weight: 700;
+      font-size: clamp(0.55rem, 1.2vw, 0.7rem); letter-spacing: 0.3em;
+      text-transform: uppercase; color: #555;
+    }
+    .plan-day-i { font-size: clamp(1.4rem, 3vw, 2rem); margin: 0.3rem 0; }
+    .plan-day-t {
+      font-family: 'Montserrat', sans-serif; font-weight: 700;
+      font-size: clamp(0.6rem, 1.3vw, 0.8rem); color: var(--gold);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── The Games ── */
+    .games-title {
+      font-family: 'Montserrat', sans-serif; font-weight: 900;
+      font-size: clamp(2.2rem, 6vw, 4.5rem); text-transform: uppercase;
+      letter-spacing: 0.06em; text-align: center;
+      background: linear-gradient(135deg, #fff 30%, var(--gold) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      opacity: 0; animation: blur-in 0.8s 0.1s ease forwards;
+    }
+    .games-sub {
+      font-family: 'Cormorant Garamond', serif; font-weight: 300; font-style: italic;
+      font-size: clamp(1rem, 2.2vw, 1.5rem); color: var(--dim);
+      letter-spacing: 0.15em; margin-top: 0.6rem; text-align: center;
+      opacity: 0; animation: blur-in 0.8s 0.4s ease forwards;
+    }
+    .games-teams {
+      display: flex; gap: clamp(0.8rem, 2vw, 1.5rem);
+      margin-top: 2rem; justify-content: center;
+    }
+    .games-team {
+      width: clamp(60px, 10vw, 90px); height: clamp(60px, 10vw, 90px);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-family: 'Montserrat', sans-serif; font-weight: 900;
+      font-size: clamp(1.2rem, 2.5vw, 1.8rem); color: #fff;
+      border: 2px solid rgba(255,255,255,0.15);
+      opacity: 0; transform: scale(0.5);
+    }
+    .games-stakes {
+      font-family: 'Montserrat', sans-serif; font-weight: 700;
+      font-size: clamp(0.55rem, 1.2vw, 0.7rem); letter-spacing: 0.4em;
+      text-transform: uppercase; color: #555; margin-top: 1.8rem;
+      opacity: 0; animation: blur-in 0.6s 0.8s ease forwards;
+    }
+
+    /* ── The Crew ── */
+    .crew-number {
+      font-family: 'Montserrat', sans-serif; font-weight: 900;
+      font-size: clamp(6rem, 18vw, 14rem); line-height: 0.9;
+      background: linear-gradient(135deg, #fff 20%, var(--gold) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      opacity: 0; transform: scale(0.6);
+      animation: title-in 0.8s ease forwards;
+    }
+    .crew-label {
+      font-family: 'Montserrat', sans-serif; font-weight: 700;
+      font-size: clamp(0.7rem, 1.8vw, 1.1rem); letter-spacing: 0.5em;
+      text-transform: uppercase; color: var(--dim); margin-top: 0.4rem;
+      opacity: 0; animation: blur-in 0.6s 0.3s ease forwards;
+    }
+    .crew-sub {
+      font-family: 'Cormorant Garamond', serif; font-weight: 300; font-style: italic;
+      font-size: clamp(1.1rem, 2.5vw, 1.6rem); color: var(--gold);
+      letter-spacing: 0.15em; margin-top: 1.2rem;
+      opacity: 0; animation: blur-in 0.8s 0.6s ease forwards;
+    }
+    .crew-venue {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(0.55rem, 1.2vw, 0.7rem); letter-spacing: 0.4em;
+      text-transform: uppercase; color: #444; margin-top: 0.6rem;
+      opacity: 0; animation: blur-in 0.6s 0.9s ease forwards;
+    }
+
+    /* ── Chateau photo flash ── */
+    .chateau-photo {
+      position: absolute; inset: 0; z-index: 1;
+      background: url('images/ot_1.jpg') center/cover no-repeat;
+      opacity: 0;
+    }
+    .chateau-photo-label {
+      position: absolute; bottom: 14vh; left: 0; right: 0; text-align: center; z-index: 2;
+      font-family: 'Montserrat', sans-serif; font-weight: 900;
+      font-size: clamp(1.8rem, 5vw, 3.5rem); text-transform: uppercase;
+      letter-spacing: 0.08em; color: #fff;
+      text-shadow: 0 2px 30px rgba(0,0,0,0.8), 0 0 60px rgba(0,0,0,0.5);
+      opacity: 0;
+    }
+    @keyframes photoReveal {
+      0%   { opacity: 0; transform: scale(1.1); }
+      15%  { opacity: 1; }
+      85%  { opacity: 1; }
+      100% { opacity: 0; transform: scale(1); }
+    }
+    @keyframes labelReveal {
+      0%   { opacity: 0; transform: translateY(10px); }
+      20%  { opacity: 1; transform: translateY(0); }
+      80%  { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    /* ── Crew names cascade ── */
+    .crew-names {
+      position: absolute; inset: 10vh 0; overflow: hidden; pointer-events: none; z-index: 1;
+    }
+    .crew-name-float {
+      position: absolute; white-space: nowrap;
+      font-family: 'Montserrat', sans-serif; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      opacity: 0; will-change: transform;
+    }
+    @keyframes nameFloat {
+      0%   { transform: translateY(0); opacity: 0; }
+      8%   { opacity: 0.25; }
+      85%  { opacity: 0.15; }
+      100% { transform: translateY(-85vh); opacity: 0; }
+    }
+
+    /* ── Loading bar ── */
+    .site-loader {
+      margin-top: 2rem; width: min(320px, 60vw); text-align: center;
+      opacity: 0; animation: blur-in 0.5s 1.8s ease forwards;
+    }
+    .site-loader-bar {
+      height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px;
+      overflow: hidden; margin-bottom: 0.5rem;
+    }
+    .site-loader-fill {
+      height: 100%; width: 0; background: var(--gold); border-radius: 2px;
+      transition: width 0.1s linear;
+    }
+    .site-loader-txt {
+      font-family: 'Montserrat', sans-serif; font-weight: 700;
+      font-size: clamp(0.5rem, 1vw, 0.65rem); letter-spacing: 0.3em;
+      text-transform: uppercase; color: #555;
+    }
+
+    /* ── Rules scene ── */
+    .rules-title {
+      font-family: 'Montserrat', sans-serif; font-weight: 900;
+      font-size: clamp(2rem, 5vw, 3.5rem); text-transform: uppercase;
+      letter-spacing: 0.06em; color: #fff; text-align: center;
+      opacity: 0; animation: blur-in 0.6s 0.1s ease forwards;
+    }
+    .rules-list {
+      margin-top: 1.8rem; list-style: none; text-align: center;
+    }
+    .rules-item {
+      font-family: 'Cormorant Garamond', serif; font-weight: 300;
+      font-size: clamp(1.1rem, 2.5vw, 1.7rem); color: var(--dim);
+      letter-spacing: 0.1em; line-height: 2.2;
+      opacity: 0; transform: translateX(-20px);
+    }
+    .rules-item span {
+      font-family: 'Montserrat', sans-serif; font-weight: 900;
+      color: var(--gold); font-size: clamp(0.8rem, 1.6vw, 1rem);
+      letter-spacing: 0.2em; margin-right: 0.8rem;
+    }
+
+    /* ── VHS effect for Popworld ── */
+    @keyframes vhs-track {
+      0%   { transform: translateY(0); }
+      25%  { transform: translateY(-2px); }
+      50%  { transform: translateY(1px); }
+      75%  { transform: translateY(-1px); }
+      100% { transform: translateY(0); }
+    }
+    @keyframes vhs-color {
+      0%, 100% { filter: none; }
+      10% { filter: saturate(1.8) hue-rotate(5deg); }
+      30% { filter: saturate(0.8) hue-rotate(-3deg); }
+      50% { filter: saturate(1.4) brightness(1.1); }
+      70% { filter: saturate(1.2) hue-rotate(2deg); }
+    }
+    .vhs-on {
+      animation: vhs-track 0.08s steps(4) infinite, vhs-color 3s ease infinite;
+    }
+    .vhs-line {
+      position: absolute; left: 0; right: 0; height: 2px;
+      background: rgba(255,255,255,0.08); z-index: 10; pointer-events: none;
+      animation: vhs-scan 2s linear infinite;
+    }
+    @keyframes vhs-scan {
+      from { top: -2px; } to { top: 100%; }
+    }
+    .vhs-label {
+      position: absolute; top: 11vh; right: 5vw; z-index: 10;
+      font-family: 'Montserrat', sans-serif; font-weight: 700;
+      font-size: clamp(0.5rem, 1vw, 0.65rem); letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.3); text-transform: uppercase;
+      animation: blink 1.2s step-end infinite;
+    }
+
+    /* ── The Site ── */
+    .site-title {
+      font-family: 'Montserrat', sans-serif; font-weight: 900;
+      font-size: clamp(2rem, 5vw, 3.5rem); text-transform: uppercase;
+      letter-spacing: 0.06em; text-align: center;
+      background: linear-gradient(135deg, #fff 30%, var(--gold) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      opacity: 0; animation: blur-in 0.8s 0.1s ease forwards;
+    }
+    .site-sub {
+      font-family: 'Cormorant Garamond', serif; font-weight: 300; font-style: italic;
+      font-size: clamp(0.85rem, 1.8vw, 1.2rem); color: var(--dim);
+      letter-spacing: 0.15em; margin-top: 0.4rem; text-align: center;
+      opacity: 0; animation: blur-in 0.6s 0.3s ease forwards;
+    }
+    .site-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: clamp(0.5rem, 1.2vw, 0.9rem); margin-top: 2rem;
+      max-width: 520px; width: 100%;
+    }
+    .site-feat {
+      text-align: center; padding: 1rem 0.5rem;
+      border: 1px solid rgba(255,255,255,0.06); border-radius: 10px;
+      background: rgba(255,255,255,0.02);
+      opacity: 0; transform: scale(0.8);
+    }
+    .site-feat-i { font-size: clamp(1.2rem, 2.5vw, 1.8rem); margin-bottom: 0.3rem; }
+    .site-feat-t {
+      font-family: 'Montserrat', sans-serif; font-weight: 700;
+      font-size: clamp(0.45rem, 1vw, 0.6rem); letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--gold);
     }
 
     /* ── Montage ── */
@@ -413,26 +668,27 @@
   <div id="flash"></div>
 
   <audio id="audio">
-    <source src="trailer-music.webm" type="audio/webm">
-    <source src="trailer-music.mp3" type="audio/mpeg">
-  </audio>
-  <audio id="crawl-audio">
-    <source src="star-wars-theme.mp3" type="audio/mpeg">
+    <source src="trailer-music-full.mp3" type="audio/mpeg">
   </audio>
 
   <div id="stage">
     <!-- Star Wars crawl -->
     <div class="scene" id="s-crawl">
-      <div id="crawl-intro">A long time ago, in Sevenoaks, England&hellip;</div>
+      <div id="crawl-intro">A long time ago, in a chateau far, far away&hellip;</div>
       <div id="crawl-field">
         <div id="crawl">
           <div class="crawl-ep">Episode XXX</div>
           <div class="crawl-title">Joe's Thirtieth</div>
           <hr class="crawl-divider">
           <div class="crawl-body">
-            <p>The time has finally come. After thirty years of growing up, getting into mischief, and dragging his closest friends along for every wild ride — Joe O'Brien is turning 30.</p>
-            <p>Twenty-six of his most beloved accomplices have answered the call. Together, they will descend on Chateau Roussignol in the Loire Valley, France, for five extraordinary days and four unforgettable nights.</p>
-            <p>There will be games. There will be chaos. There will be moments nobody will ever forget — and a few they will desperately try to.</p>
+            <p>The time has finally come. After thirty years of growing up, getting into mischief, and dragging his closest friends along for every wild ride... Joe O'Brien is turning 30.</p>
+            <p>Twenty-five of his most beloved accomplices have answered the call. Together, they will descend on Chateau Roussignol in the Loire Valley, France, for six extraordinary days and five unforgettable nights.</p>
+            <p>Four teams will be forged. A leaderboard will track every triumph and every humiliation. Group games. Individual challenges. Cooking duties. Cleaning rotas. Everything counts. The full list of games will be revealed closer to the time.</p>
+            <p>A custom-built command centre at joes30.com holds the keys to everything: the full agenda, team assignments, cooking duties, FAQs, packing lists, expense tracking, and secrets yet to be revealed.</p>
+            <p>Every guest has their own personal login. Sign in. Study the plan. Prepare yourself.</p>
+            <p>There will be games. There will be chaos. There will be moments nobody will ever forget... and a few they will desperately try to.</p>
+            <p>Saturday night belongs to the 90s. Costumes are mandatory. Dignity is optional.</p>
+            <p>Some will return as legends. Others will return with regrets and a Ryanair hangover.</p>
             <p>The adventure begins 29th April 2026.</p>
             <p>May the birthday be with you.</p>
           </div>
@@ -468,8 +724,82 @@
       <div class="caption">Everything you need, in one place</div>
     </div>
 
+    <!-- The Plan -->
+    <div class="scene" id="s-plan">
+      <div class="plan-label">6 Days in France</div>
+      <div class="plan-title">The Plan</div>
+      <div class="plan-grid">
+        <div class="plan-day"><div class="plan-day-n">Wed</div><div class="plan-day-i">&#9992;&#65039;</div><div class="plan-day-t">Arrive</div></div>
+        <div class="plan-day"><div class="plan-day-n">Thu</div><div class="plan-day-i">&#9728;&#65039;</div><div class="plan-day-t">Pool Day</div></div>
+        <div class="plan-day"><div class="plan-day-n">Fri</div><div class="plan-day-i">&#x1F6F6;</div><div class="plan-day-t">Canoe</div></div>
+        <div class="plan-day"><div class="plan-day-n">Sat</div><div class="plan-day-i">&#127874;</div><div class="plan-day-t">Birthday</div></div>
+        <div class="plan-day"><div class="plan-day-n">Sun</div><div class="plan-day-i">&#127795;</div><div class="plan-day-t">Adventure</div></div>
+        <div class="plan-day"><div class="plan-day-n">Mon</div><div class="plan-day-i">&#128128;</div><div class="plan-day-t">Survive</div></div>
+      </div>
+    </div>
+
+    <!-- Chateau Photo -->
+    <div class="scene" id="s-chateau" style="padding:0;">
+      <div class="chateau-photo" id="chateau-bg"></div>
+      <div class="chateau-photo-label" id="chateau-label">Your Home For The Week</div>
+    </div>
+
+    <!-- The Games -->
+    <div class="scene" id="s-games">
+      <div class="games-title">The Games</div>
+      <div class="games-sub">4 teams, 1 leaderboard, no mercy</div>
+      <div class="games-teams">
+        <div class="games-team" style="background: rgba(220,20,60,0.2); border-color: crimson;">1</div>
+        <div class="games-team" style="background: rgba(30,144,255,0.2); border-color: dodgerblue;">2</div>
+        <div class="games-team" style="background: rgba(50,205,50,0.2); border-color: limegreen;">3</div>
+        <div class="games-team" style="background: rgba(255,165,0,0.2); border-color: orange;">4</div>
+      </div>
+      <div class="games-stakes">Games. Cooking. Cleaning. Everything counts.</div>
+    </div>
+
+    <!-- The Crew -->
+    <div class="scene" id="s-crew">
+      <div class="crew-names" id="crew-names"></div>
+      <div class="crew-number" id="crew-counter">0</div>
+      <div class="crew-label">People</div>
+      <div class="crew-sub">One chateau. One week. God help the neighbours.</div>
+      <div class="crew-venue">Chateau Roussignol &bull; Loire Valley</div>
+    </div>
+
+    <!-- The Site -->
+    <div class="scene" id="s-site">
+      <div class="site-title">Your Command Centre</div>
+      <div class="site-sub">joes30.com has everything covered</div>
+      <div class="site-grid">
+        <div class="site-feat"><div class="site-feat-i">&#128197;</div><div class="site-feat-t">Agenda</div></div>
+        <div class="site-feat"><div class="site-feat-i">&#127860;</div><div class="site-feat-t">Cooking Rota</div></div>
+        <div class="site-feat"><div class="site-feat-i">&#128176;</div><div class="site-feat-t">Expenses</div></div>
+        <div class="site-feat"><div class="site-feat-i">&#10067;</div><div class="site-feat-t">FAQs</div></div>
+        <div class="site-feat"><div class="site-feat-i">&#129520;</div><div class="site-feat-t">Packing List</div></div>
+        <div class="site-feat"><div class="site-feat-i">&#127942;</div><div class="site-feat-t">Leaderboard</div></div>
+        <div class="site-feat"><div class="site-feat-i">&#127926;</div><div class="site-feat-t">Playlist</div></div>
+        <div class="site-feat"><div class="site-feat-i">&#127922;</div><div class="site-feat-t">Games</div></div>
+        <div class="site-feat"><div class="site-feat-i">&#128274;</div><div class="site-feat-t">Top Secret</div></div>
+      </div>
+      <div class="site-loader">
+        <div class="site-loader-bar"><div class="site-loader-fill" id="loader-fill"></div></div>
+        <div class="site-loader-txt" id="loader-txt">Loading chaos... 0%</div>
+      </div>
+    </div>
+
     <!-- Montage -->
     <div class="scene" id="s-montage"></div>
+
+    <!-- Rules -->
+    <div class="scene" id="s-rules">
+      <div class="rules-title">The Rules</div>
+      <ul class="rules-list">
+        <li class="rules-item"><span>RULE 1</span> What happens at the chateau stays at the chateau</li>
+        <li class="rules-item"><span>RULE 2</span> If you have to ask if it's cheating, it's cheating</li>
+        <li class="rules-item"><span>RULE 3</span> Nobody leaves France without a story</li>
+        <li class="rules-item"><span>RULE 4</span> Your team needs you. Don't let them down</li>
+      </ul>
+    </div>
 
     <!-- Popworld -->
     <div class="scene" id="s-pw">
@@ -481,8 +811,10 @@
           <div>Popworld</div>
           <div>Party 🪩</div>
         </div>
-        <div class="pw-bot">Dress code: 90s — no exceptions</div>
+        <div class="pw-bot">Dress code: 90s. No exceptions.</div>
       </div>
+      <div class="vhs-line"></div>
+      <div class="vhs-label">&#9679; REC</div>
     </div>
 
     <!-- Countdown -->
@@ -493,6 +825,8 @@
         <div class="cd-b"><span class="cd-n" id="ch">--</span><span class="cd-l">Hours</span></div>
         <span class="cd-s">:</span>
         <div class="cd-b"><span class="cd-n" id="cm">--</span><span class="cd-l">Mins</span></div>
+        <span class="cd-s">:</span>
+        <div class="cd-b"><span class="cd-n" id="cs" style="color:#888;">--</span><span class="cd-l">Secs</span></div>
       </div>
       <div class="cd-date">29 April 2026</div>
     </div>
@@ -503,13 +837,18 @@
     <div class="scene" id="s-qr" style="gap:1.2rem;">
       <div id="qr-w"><div id="qrcode"></div></div>
       <div class="cta-url">joes30.com</div>
-      <div class="cta-sub">Your personal access code is waiting</div>
+      <div class="cta-sub">Your personal login is waiting</div>
+    </div>
+
+    <!-- See you in France -->
+    <div class="scene" id="s-france">
+      <div class="end-t" style="font-size:clamp(2rem,6vw,4.5rem);">See you in France.</div>
     </div>
 
     <!-- End -->
     <div class="scene" id="s-end">
       <div class="end-t">Joe's 30th</div>
-      <div class="end-s">Chateau Roussignol &bull; Loire Valley &bull; 29 Apr &ndash; 4 May 2026</div>
+      <div class="end-s">Chateau Roussignol &bull; Loire Valley &bull; 29 Apr - 4 May 2026</div>
     </div>
   </div>
 
@@ -543,22 +882,28 @@
       const d = Math.floor(diff / 864e5);
       const h = Math.floor((diff % 864e5) / 36e5);
       const m = Math.floor((diff % 36e5) / 6e4);
+      const s = Math.floor((diff % 6e4) / 1e3);
       ['md','cd'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = d; });
       ['mh','ch'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = pad(h); });
       ['mm','cm'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = pad(m); });
+      const se = document.getElementById('cs'); if (se) se.textContent = pad(s);
     }
     tick(); setInterval(tick, 1000);
 
     /* ── Montage cards ── */
     const CARDS = [
-      { bg: '#071320', c: '#4fc3f7', i: '📅', t: 'THE AGENDA',   d: 'r' },
-      { bg: '#200808', c: '#ff6b6b', i: '🏆', t: 'LEADERBOARD',  d: 'l' },
-      { bg: '#081a08', c: '#81c784', i: '🎮', t: 'GAMES',        d: 'r' },
-      { bg: '#1e1e06', c: '#f9d423', i: '👥', t: 'THE CREW',     d: 'l' },
-      { bg: '#001e06', c: '#1DB954', i: '🎵', t: 'PLAYLIST',     d: 'r' },
-      { bg: '#1e0e00', c: '#ffb74d', i: '🍾', t: 'ACTIVITIES',   d: 'l' },
+      { bg: '#071320', c: '#4fc3f7', i: '📅', t: 'THE AGENDA',    d: 'r' },
+      { bg: '#200808', c: '#ff6b6b', i: '🏆', t: 'LEADERBOARD',   d: 'l' },
+      { bg: '#081a08', c: '#81c784', i: '🎮', t: 'GAMES',         d: 'r' },
+      { bg: '#1e1e06', c: '#f9d423', i: '👥', t: 'THE CREW',      d: 'l' },
+      { bg: '#1a0a0a', c: '#ff8a65', i: '🍳', t: 'COOKING ROTA',  d: 'r' },
+      { bg: '#001e06', c: '#1DB954', i: '🎵', t: 'PLAYLIST',      d: 'l' },
+      { bg: '#0a0a1e', c: '#ce93d8', i: '❓', t: 'FAQS',          d: 'r' },
+      { bg: '#1e0e00', c: '#ffb74d', i: '💰', t: 'EXPENSES',      d: 'l' },
+      { bg: '#0e1e0e', c: '#a5d6a7', i: '🧳', t: 'PACKING LIST',  d: 'r' },
+      { bg: '#1e1e06', c: '#fff176', i: '🔒', t: 'TOP SECRET',    d: 'l', glitch: true },
     ];
-    const GAPS = [500, 400, 310, 240, 180, 140];
+    const GAPS = [420, 350, 300, 260, 220, 190, 160, 140, 120, 100];
 
     function montage(done) {
       const box = document.getElementById('s-montage');
@@ -567,6 +912,11 @@
         div.className = 'mc' + (c.d === 'l' ? ' left' : '');
         div.style.background = c.bg;
         div.innerHTML = '<div class="mc-i">' + c.i + '</div><div class="mc-t" style="color:' + c.c + '">' + c.t + '</div>';
+        if (c.glitch) {
+          div.style.animation = 'glitch-title 0.3s step-end infinite';
+          div.style.background = '#1a0000';
+          div.querySelector('.mc-t').style.color = '#ff2222';
+        }
         box.appendChild(div);
         return div;
       });
@@ -609,11 +959,11 @@
     function initGrain() {
       const canvas = document.getElementById('grain');
       const ctx = canvas.getContext('2d');
-      canvas.width = 256; canvas.height = 256;
+      canvas.width = 512; canvas.height = 512;
       let frame = 0;
       (function drawGrain() {
         if (frame++ % 3 === 0) {
-          const img = ctx.createImageData(256, 256);
+          const img = ctx.createImageData(512, 512);
           for (let i = 0; i < img.data.length; i += 4) {
             const v = Math.random() * 255 | 0;
             img.data[i] = img.data[i+1] = img.data[i+2] = v;
@@ -639,43 +989,50 @@
     }
 
     /* ═══════════════════════════════════════════
-       SCENE ENGINE
+       SCENE ENGINE - EXTENDED TRAILER
        Timeline:
-         0.0s   s1 "April 2026."        music at vol 0.12
-         3.0s   s2 "30 years."
-         5.5s   s3 "25 of us."
-         7.5s   s4 "One chateau."
-         9.5s   s5 "Loire Valley"        vol → 0.22
-        12.5s   s6 Title card            vol → 0.78
-        17.5s   s7 Browser mockup        vol → 0.88
-        21.5s   Browser compresses out
-        22.0s   ★ FLASH (drum fill)
-        22.1s   Montage (~3.5s)
-        25.6s   Popworld (hard cut)
-        33.1s   Countdown
-        38.1s   "Your invitation..."     vol → 0
-        41.6s   QR + URL
-        50.6s   End card (stays)
-        ~60s    Recording ends
+         0.0s   Star Wars crawl (48s)    Star Wars theme
+        48.0s   ★ FLASH → Title card     Score drops
+        53.0s   Browser mockup → compress
+        58.0s   ★ FLASH → The Plan (8s)
+        66.0s   ★ FLASH → The Games (7s)
+        73.0s   The Crew (6s)
+        79.0s   ★ FLASH → The Site (8s)
+        87.0s   Montage (~5s rapid-fire)
+        92.0s   Popworld (hard cut, 7.5s)
+        99.5s   Countdown (5s)
+       104.5s   "Your invitation..." (3.5s)  vol → 0
+       108.0s   QR + URL (9s)
+       117.0s   End card
        ═══════════════════════════════════════════ */
 
     const SEQ = [
-      { id: 's-crawl',    ms: 29500 },
-      { id: 's6',         ms: 5000 },
-      { id: 's7',         ms: 4000, exit: 'compress' },
+      { id: 's-crawl',    ms: 55000 },
+      { id: 's6',         ms: 5000, flash: true },
+      { id: 's7',         ms: 5000, exit: 'compress' },
+      { id: 's-plan',     ms: 8000 },
+      { id: 's-chateau',  ms: 4000 },
+      { id: 's-games',    ms: 7000, flash: true },
+      { id: 's-crew',     ms: 6000 },
+      { id: 's-site',     ms: 8000, flash: true },
       { id: 's-montage',  ms: null, run: 'montage' },
+      { id: 's-rules',    ms: 5500 },
       { id: 's-pw',       ms: 7500, cut: true },
       { id: 's-cd',       ms: 5000 },
       { id: 's-inv',      ms: 3500 },
       { id: 's-qr',       ms: 9000 },
+      { id: 's-france',   ms: 4000 },
       { id: 's-end',      ms: null },
     ];
 
     /* Volume schedule: scene → [target, fadeMs, startTime?] */
     const VOL = {
-      's6':    [0.78, 3500],
-      's7':    [0.88, 1500],
-      's-inv': [0, 4500],
+      's6':     [0.78, 3500],
+      's7':     [0.88, 1500],
+      's-plan': [0.92, 2000],
+      's-crew': [0.96, 1500],
+      's-site': [1.0, 1500],
+      's-inv':  [0, 4500],
     };
 
     const audio = document.getElementById('audio');
@@ -705,25 +1062,142 @@
       el.classList.add('on');
       replay(el);
 
-      /* Crawl: Star Wars theme plays, fades out 3s before title card hits */
+      /* Reset staggered elements */
+      el.querySelectorAll('.plan-day, .games-team, .site-feat, .rules-item').forEach(e => {
+        e.style.transition = 'none'; e.style.opacity = '0';
+        if (e.classList.contains('games-team')) { e.style.transform = 'scale(0.5) rotate(0deg)'; e.style.boxShadow = 'none'; }
+        else if (e.classList.contains('site-feat')) e.style.transform = 'scale(0.8)';
+        else if (e.classList.contains('rules-item')) e.style.transform = 'translateX(-20px)';
+        else e.style.transform = 'translateY(15px)';
+      });
+
+      /* Flash transition on entry */
+      if (s.flash) flash();
+
+      /* Combined audio: Star Wars crossfades into trailer score in one track */
       if (s.id === 's-crawl') {
-        const ca = document.getElementById('crawl-audio');
-        if (ca) { ca.currentTime = 0; ca.volume = 1; ca.play().catch(() => {}); }
-        setTimeout(() => {
-          // Fade Star Wars theme out
-          if (ca) {
-            let v = ca.volume;
-            const iv = setInterval(() => {
-              v = Math.max(0, v - 0.04);
-              ca.volume = v;
-              if (v <= 0) { clearInterval(iv); ca.pause(); }
-            }, 80);
-          }
-          // Bring trailer music in quietly ready for title card slam
-          audio.volume = 0; audio.currentTime = 0;
-          audio.play().catch(() => {});
-          vol(0.12, 2000);
-        }, 26500);
+        audio.currentTime = 0; audio.volume = 0.9;
+        audio.play().catch(() => {});
+      }
+
+      /* Staggered plan day cards */
+      if (s.id === 's-plan') {
+        el.querySelectorAll('.plan-day').forEach((d, i) => {
+          setTimeout(() => {
+            d.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            d.style.opacity = '1'; d.style.transform = 'translateY(0)';
+          }, 600 + i * 200);
+        });
+      }
+
+      /* Staggered game team circles with spin */
+      if (s.id === 's-games') {
+        el.querySelectorAll('.games-team').forEach((t, i) => {
+          setTimeout(() => {
+            t.style.transition = 'opacity 0.5s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1)';
+            t.style.opacity = '1'; t.style.transform = 'scale(1) rotate(360deg)';
+          }, 500 + i * 200);
+          // Add pulsing glow after landing
+          setTimeout(() => {
+            t.style.boxShadow = `0 0 20px ${t.style.borderColor}, 0 0 40px ${t.style.borderColor}40`;
+          }, 1200 + i * 200);
+        });
+      }
+
+      /* Chateau photo reveal */
+      if (s.id === 's-chateau') {
+        const bg = document.getElementById('chateau-bg');
+        const lbl = document.getElementById('chateau-label');
+        bg.style.animation = 'photoReveal 4s ease forwards';
+        lbl.style.animation = 'labelReveal 4s ease forwards';
+      }
+
+      /* Crew: slot machine counter + names cascade */
+      if (s.id === 's-crew') {
+        const counter = document.getElementById('crew-counter');
+        let count = 0;
+        const target = 26;
+        const step = () => {
+          count++;
+          counter.textContent = count;
+          if (count < target) setTimeout(step, 30 + count * 2);
+        };
+        setTimeout(step, 300);
+
+        const NAMES = [
+          'Joe','Sophie','Luke','Sam','Hannah','Robin','Johnny','Florrie',
+          'Razon','Neeve','George','Emma W','Tom','Robert','Sarah','Kiran',
+          'Shane','Oli','Pete','Emma L','Jonny L','Jonny W','Chris','Oscar','Pranay'
+        ];
+        const box = document.getElementById('crew-names');
+        box.innerHTML = '';
+        NAMES.forEach((name, i) => {
+          setTimeout(() => {
+            const span = document.createElement('div');
+            span.className = 'crew-name-float';
+            span.textContent = name;
+            span.style.left = (5 + Math.random() * 85) + '%';
+            span.style.bottom = '0';
+            span.style.fontSize = (0.6 + Math.random() * 0.5) + 'rem';
+            span.style.color = `hsl(${40 + Math.random() * 20}, 80%, ${55 + Math.random() * 25}%)`;
+            span.style.animation = `nameFloat ${3 + Math.random() * 2}s linear forwards`;
+            box.appendChild(span);
+            setTimeout(() => span.remove(), 5000);
+          }, 200 + i * 150);
+        });
+      }
+
+      /* Site: loading bar animation */
+      if (s.id === 's-site') {
+        const fill = document.getElementById('loader-fill');
+        const txt = document.getElementById('loader-txt');
+        if (fill && txt) {
+          fill.style.width = '0';
+          let pct = 0;
+          const msgs = ['Loading chaos...', 'Importing banter...', 'Calibrating wine levels...', 'Assigning blame...', 'Chaos loaded.'];
+          const iv = setInterval(() => {
+            pct += 2 + Math.random() * 5;
+            if (pct >= 100) {
+              pct = 100;
+              clearInterval(iv);
+              txt.textContent = msgs[4] + ' 100%';
+              txt.style.color = 'var(--gold)';
+            } else {
+              const mi = Math.min(msgs.length - 2, Math.floor(pct / 25));
+              txt.textContent = msgs[mi] + ' ' + Math.floor(pct) + '%';
+            }
+            fill.style.width = pct + '%';
+          }, 120);
+        }
+      }
+
+      /* Rules: staggered reveal */
+      if (s.id === 's-rules') {
+        el.querySelectorAll('.rules-item').forEach((r, i) => {
+          r.style.transition = 'none';
+          r.style.opacity = '0';
+          r.style.transform = 'translateX(-20px)';
+          setTimeout(() => {
+            r.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            r.style.opacity = '1';
+            r.style.transform = 'translateX(0)';
+          }, 800 + i * 550);
+        });
+      }
+
+      /* Popworld: VHS effect */
+      if (s.id === 's-pw') {
+        el.querySelector('.pw-c').classList.add('vhs-on');
+      }
+
+      /* Staggered site feature cards */
+      if (s.id === 's-site') {
+        el.querySelectorAll('.site-feat').forEach((f, i) => {
+          setTimeout(() => {
+            f.style.transition = 'opacity 0.35s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1)';
+            f.style.opacity = '1'; f.style.transform = 'scale(1)';
+          }, 400 + i * 120);
+        });
       }
 
       /* Particles off at montage */
@@ -787,7 +1261,6 @@
           const skip = document.getElementById('skip-btn');
           if (skip) { skip.style.opacity = '1'; skip.style.pointerEvents = 'auto'; }
         }, 2000);
-        setTimeout(() => { window.location.href = 'index.html'; }, 6000);
       }
     }
 
