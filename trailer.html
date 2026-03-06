@@ -763,14 +763,28 @@
     /* ── Mobile portrait ── */
     @media (max-width: 768px) and (orientation: portrait) {
       .bar { display: none; }
-      .scene { padding: 4vh 6vw; }
+      .scene { padding: 4vh 6vw; text-align: center; }
+
+      /* Balance wrapped text */
+      .subtitle, .caption, .plan-label, .plan-title,
+      .games-title, .games-sub, .games-stakes,
+      .crew-sub, .crew-venue, .crew-label,
+      .rules-title, .rules-item,
+      .site-title, .site-sub,
+      .pw-top, .pw-big, .pw-bot,
+      .cd-date, .cta-txt, .cta-url, .cta-sub,
+      .mc-t, .chateau-photo-label,
+      #crawl-intro, .crawl-ep, .crawl-title {
+        text-wrap: balance;
+      }
 
       /* Title card */
-      .title { font-size: clamp(2.8rem, 12vw, 5rem); }
-      .subtitle { font-size: clamp(0.7rem, 3vw, 1rem); letter-spacing: 0.25em; }
+      .title { font-size: clamp(2.8rem, 12vw, 5rem); letter-spacing: 0.04em; }
+      .subtitle { font-size: clamp(0.7rem, 3vw, 1rem); letter-spacing: 0.15em; }
 
       /* Star Wars crawl */
-      #crawl-intro { font-size: clamp(1rem, 4vw, 1.8rem); letter-spacing: 0.12em; }
+      #crawl-intro { font-size: clamp(1rem, 4vw, 1.8rem); letter-spacing: 0.1em; }
+      .crawl-ep { letter-spacing: 0.3em; }
       #crawl { width: 90%; left: 5%; }
       .crawl-title { font-size: clamp(3.5rem, 14vw, 6rem); }
       .crawl-body { font-size: clamp(2rem, 6vw, 3rem); line-height: 1.7; }
@@ -825,8 +839,8 @@
 
       /* Popworld */
       .pw-big { font-size: clamp(2.5rem, 12vw, 5rem); }
-      .pw-top { font-size: clamp(0.6rem, 2.8vw, 0.9rem); }
-      .pw-bot { font-size: clamp(0.7rem, 3vw, 1rem); }
+      .pw-top { font-size: clamp(0.6rem, 2.8vw, 0.9rem); letter-spacing: 0.25em; }
+      .pw-bot { font-size: clamp(0.7rem, 3vw, 1rem); letter-spacing: 0.2em; }
 
       /* Countdown */
       .cd-row { gap: clamp(0.8rem, 4vw, 1.8rem); }
