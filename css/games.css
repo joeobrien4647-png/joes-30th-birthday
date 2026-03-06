@@ -5221,7 +5221,7 @@ body.dark-mode .guest-lb-highlight {
    Games Intro Section
    ============================================ */
 .games-nav-section {
-    padding-top: 0;
+    padding-top: 40px;
     padding-bottom: 24px;
     min-height: calc(100vh - 220px);
 }

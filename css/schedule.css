@@ -1820,10 +1820,10 @@ body.dark-mode .dlh-rule {
 }
 
 .rmt-head.rmt-day-col { background: transparent; }
-.rmt-t1 { color: #7c3aed; background: rgba(124,58,237,0.06); }
-.rmt-t2 { color: #d97706; background: rgba(217,119,6,0.06); }
-.rmt-t3 { color: #db2777; background: rgba(219,39,119,0.06); }
-.rmt-t4 { color: #0891b2; background: rgba(8,145,178,0.06); }
+.rmt-t1 { color: #c17900; background: rgba(249,168,37,0.1); }  /* Titans - Gold */
+.rmt-t2 { color: #c62828; background: rgba(198,40,40,0.06); }  /* Spartans - Red */
+.rmt-t3 { color: #1565c0; background: rgba(21,101,192,0.06); } /* Vikings - Blue */
+.rmt-t4 { color: #424242; background: rgba(66,66,66,0.06); }   /* Gladiators - Black */
 
 /* Day label cells */
 .rmt-day {
@@ -1917,6 +1917,19 @@ body.dark-mode .dlh-rule {
 
 .rmt-cook .rmt-pts { background: rgba(217,119,6,0.15); color: #92400e; }
 .rmt-clean .rmt-pts { background: rgba(16,185,129,0.15); color: #065f46; }
+
+@media (max-width: 480px) {
+    .rota-matrix-table {
+        min-width: 420px;
+        grid-template-columns: 80px repeat(4, 1fr);
+    }
+    .rmt-head { font-size: 0.6rem; padding: 8px 4px; letter-spacing: 0.3px; }
+    .rmt-day { padding: 8px 6px; }
+    .rmt-date { font-size: 0.72rem; }
+    .rmt-vibe { font-size: 0.55rem; }
+    .rmt-cell { padding: 8px 4px; font-size: 0.65rem; }
+    .rmt-pts { font-size: 0.5rem; padding: 1px 4px; }
+}
 
 /* ---- Team Duty Cards ---- */
 .team-duty-cards {

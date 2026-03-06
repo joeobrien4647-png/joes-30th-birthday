@@ -153,34 +153,25 @@ function initProfiles() {
             videoEl.src = data.video;
         }
 
-        var body = document.createElement('div');
-        body.className = 'profile-body';
-
-        var fields = [
-            ['Known for', data.knownfor],
-            ['Superlative', data.superlative],
-            ['Fun Fact', data.fact],
-            ['Bringing to the Trip', data.bringing],
-            ['Party Anthem', data.anthem],
-            ['🤝 Most likely to get on best with', data.bestmatch, 'field-bestmatch'],
-            ['⚡ Most likely to clash with', data.clashwith, 'field-clashwith']
-        ];
-        fields.forEach(function (f) {
-            if (!f[1]) return;
-            var field = document.createElement('div');
-            field.className = 'profile-field' + (f[2] ? ' ' + f[2] : '');
-            var label = document.createElement('span');
-            label.className = 'profile-label';
-            label.textContent = f[0];
-            var value = document.createElement('p');
-            value.className = 'profile-value';
-            value.textContent = f[1];
-            field.appendChild(label);
-            field.appendChild(value);
-            body.appendChild(field);
-        });
-
-        card.appendChild(body);
+        // Team info — match full name to PLAYERS keys
+        var teamName = null;
+        if (typeof PLAYERS !== 'undefined' && typeof TEAM_CONFIG !== 'undefined') {
+            var fullName = data.name || '';
+            var firstName = fullName.split(' ')[0];
+            var lastInitial = fullName.split(' ').length > 1 ? fullName.split(' ')[1][0] : '';
+            // Try: exact full name, "First L" short form, first name only
+            var candidates = [fullName, firstName + ' ' + lastInitial, firstName];
+            candidates.forEach(function(c) {
+                if (!teamName && PLAYERS[c]) teamName = PLAYERS[c];
+            });
+        }
+        if (teamName && TEAM_CONFIG[teamName]) {
+            var teamInfo = document.createElement('div');
+            teamInfo.className = 'profile-team';
+            teamInfo.style.color = TEAM_CONFIG[teamName].color;
+            teamInfo.innerHTML = '<span class="profile-team-logo">' + TEAM_CONFIG[teamName].logo + '</span> ' + TEAM_CONFIG[teamName].name;
+            card.appendChild(teamInfo);
+        }
         overlay.appendChild(card);
 
         // Close on background click

@@ -1,0 +1,17 @@
+{
+  "name": "Joe's 30th Birthday Trip",
+  "short_name": "Joe's 30th",
+  "description": "Chateau Roussignol, Loire Valley - 29 Apr to 4 May 2026",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#667eea",
+  "theme_color": "#764ba2",
+  "icons": [
+    {
+      "src": "images/og-preview.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ]
+}

@@ -228,22 +228,141 @@
       opacity: 0; animation: blur-in 0.8s 0.4s ease forwards;
     }
     .games-teams {
-      display: flex; gap: clamp(0.8rem, 2vw, 1.5rem);
-      margin-top: 2rem; justify-content: center;
+      display: flex; gap: clamp(1rem, 3vw, 2rem);
+      margin-top: 2rem; justify-content: center; align-items: flex-start;
     }
     .games-team {
-      width: clamp(60px, 10vw, 90px); height: clamp(60px, 10vw, 90px);
-      border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      font-family: 'Montserrat', sans-serif; font-weight: 900;
-      font-size: clamp(1.2rem, 2.5vw, 1.8rem); color: #fff;
-      border: 2px solid rgba(255,255,255,0.15);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
       opacity: 0; transform: scale(0.5);
+      position: relative;
+    }
+    .team-badge {
+      width: clamp(70px, 12vw, 110px); height: clamp(70px, 12vw, 110px);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      border: 2px solid rgba(255,255,255,0.15);
+      position: relative; overflow: visible;
+    }
+    .team-badge svg { width: 55%; height: 55%; }
+    .team-name {
+      font-family: 'Montserrat', sans-serif; font-weight: 900;
+      font-size: clamp(0.5rem, 1.2vw, 0.75rem); letter-spacing: 0.15em;
+      text-transform: uppercase; color: #fff; text-align: center;
     }
     .games-stakes {
       font-family: 'Montserrat', sans-serif; font-weight: 700;
       font-size: clamp(0.55rem, 1.2vw, 0.7rem); letter-spacing: 0.4em;
       text-transform: uppercase; color: #555; margin-top: 1.8rem;
       opacity: 0; animation: blur-in 0.6s 0.8s ease forwards;
+    }
+
+    /* ── Team elemental effects ── */
+    /* Titans — lightning sparks */
+    .team-titans .team-badge::after {
+      content: ''; position: absolute; inset: -8px; border-radius: 50%;
+      background: transparent; opacity: 0;
+      box-shadow: 0 0 20px #f9a825, 0 0 60px #f9a82580, inset 0 0 20px #f9a82540;
+    }
+    .team-titans.fx .team-badge::after {
+      animation: titanGlow 0.8s ease infinite alternate;
+    }
+    @keyframes titanGlow {
+      0% { opacity: 0.4; box-shadow: 0 0 20px #f9a825, 0 0 40px #f9a82560; }
+      100% { opacity: 1; box-shadow: 0 0 35px #f9a825, 0 0 80px #f9a825, 0 0 120px #f9a82540; }
+    }
+    .titan-spark {
+      position: absolute; pointer-events: none; z-index: 10;
+      width: 2px; background: #f9a825;
+      box-shadow: 0 0 6px #f9a825, 0 0 12px #fff;
+      animation: sparkFlash 0.15s ease forwards;
+      transform-origin: top center;
+    }
+    @keyframes sparkFlash {
+      0% { opacity: 1; height: 0; }
+      40% { opacity: 1; height: var(--len); }
+      100% { opacity: 0; height: var(--len); }
+    }
+    .titan-bolt {
+      position: absolute; pointer-events: none; z-index: 10;
+      opacity: 0;
+    }
+    .titan-bolt.flash {
+      opacity: 1; animation: boltFlash 0.2s ease forwards;
+    }
+    @keyframes boltFlash {
+      0% { opacity: 1; filter: brightness(2); }
+      50% { opacity: 0.8; }
+      100% { opacity: 0; }
+    }
+
+    /* Spartans — fire */
+    .team-spartans .team-badge::after {
+      content: ''; position: absolute; inset: -6px; border-radius: 50%;
+      opacity: 0; background: transparent;
+    }
+    .team-spartans.fx .team-badge::after {
+      animation: spartanGlow 0.6s ease infinite alternate;
+    }
+    @keyframes spartanGlow {
+      0% { opacity: 0.3; box-shadow: 0 0 20px #c62828, 0 0 40px #ff6b6b40; }
+      100% { opacity: 0.9; box-shadow: 0 0 30px #c62828, 0 0 60px #ff4444, 0 0 90px #c6282840; }
+    }
+    .fire-particle {
+      position: absolute; pointer-events: none; z-index: 10;
+      border-radius: 50%; filter: blur(1px);
+      animation: fireRise var(--dur) ease-out forwards;
+    }
+    @keyframes fireRise {
+      0% { opacity: 0.9; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(var(--rise)) scale(0.2); }
+    }
+
+    /* Vikings — ice/frost */
+    .team-vikings .team-badge::after {
+      content: ''; position: absolute; inset: -6px; border-radius: 50%;
+      opacity: 0; background: transparent;
+    }
+    .team-vikings.fx .team-badge::after {
+      animation: vikingGlow 1s ease infinite alternate;
+    }
+    @keyframes vikingGlow {
+      0% { opacity: 0.3; box-shadow: 0 0 20px #1565c0, 0 0 40px #74c0fc40; }
+      100% { opacity: 0.8; box-shadow: 0 0 30px #1565c0, 0 0 60px #74c0fc, 0 0 100px #1565c040; }
+    }
+    .ice-crystal {
+      position: absolute; pointer-events: none; z-index: 10;
+      color: #b3e5fc; font-size: 10px; opacity: 0;
+      animation: iceDrift var(--dur) ease-out forwards;
+      text-shadow: 0 0 6px #74c0fc;
+    }
+    @keyframes iceDrift {
+      0% { opacity: 0; transform: translate(0, 0) rotate(0deg) scale(0.5); }
+      20% { opacity: 0.9; }
+      100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(180deg) scale(0.2); }
+    }
+
+    /* Gladiators — dark energy / shadow */
+    .team-gladiators .team-badge::after {
+      content: ''; position: absolute; inset: -6px; border-radius: 50%;
+      opacity: 0; background: transparent;
+    }
+    .team-gladiators.fx .team-badge::after {
+      animation: gladGlow 0.9s ease infinite alternate;
+    }
+    @keyframes gladGlow {
+      0% { opacity: 0.3; box-shadow: 0 0 20px #424242, 0 0 40px #7c4dff30; }
+      100% { opacity: 0.9; box-shadow: 0 0 30px #616161, 0 0 60px #7c4dff80, 0 0 100px #b388ff30; }
+    }
+    .shadow-wisp {
+      position: absolute; pointer-events: none; z-index: 10;
+      width: 3px; height: 3px; border-radius: 50%;
+      filter: blur(1px);
+      animation: shadowOrbit var(--dur) linear forwards;
+    }
+    @keyframes shadowOrbit {
+      0% { opacity: 0; transform: rotate(0deg) translateX(var(--rad)) scale(1); }
+      15% { opacity: 0.8; }
+      85% { opacity: 0.4; }
+      100% { opacity: 0; transform: rotate(720deg) translateX(var(--rad)) scale(0.3); }
     }
 
     /* ── The Crew ── */
@@ -639,9 +758,70 @@
     #ov:hover .ov-btn { border-color: var(--gold); transform: scale(1.06); }
     .ov-label { font-family: 'Montserrat', sans-serif; font-size: 0.75rem; letter-spacing: 0.4em; text-transform: uppercase; color: #555; }
     .ov-note { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; color: #333; font-style: italic; }
+
+    /* ── Rotate overlay (mobile portrait) ── */
+    #rotate-overlay {
+      display: none;
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--dark);
+      flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem;
+    }
+    #rotate-overlay .rotate-phone {
+      width: 60px; height: 60px;
+      animation: rotateHint 2s ease-in-out infinite;
+    }
+    @keyframes rotateHint {
+      0%, 100% { transform: rotate(0deg); }
+      30%, 70% { transform: rotate(90deg); }
+    }
+    #rotate-overlay .rotate-text {
+      font-family: 'Montserrat', sans-serif; font-weight: 700;
+      font-size: 0.9rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--gold); text-align: center;
+    }
+    #rotate-overlay .rotate-sub {
+      font-family: 'Cormorant Garamond', serif; font-weight: 300; font-style: italic;
+      font-size: 1rem; color: var(--dim); letter-spacing: 0.15em; text-align: center;
+    }
+
+    @media (max-width: 768px) and (orientation: portrait) {
+      #rotate-overlay { display: flex; }
+      #stage, .bar, #vig, #particles, #ov { display: none !important; }
+    }
+
+    /* ── Mobile landscape tweaks ── */
+    @media (max-height: 500px) {
+      .bar { height: 4vh; }
+      .scene { padding: 5vh 5vw; }
+      .title { font-size: clamp(2rem, 7vw, 3.5rem); }
+      .browser { width: min(50vw, 400px); }
+      .b-body { padding: 12px; }
+      .m-cd { min-width: 48px; padding: 6px 8px; }
+      .m-n { font-size: 1.2rem; }
+      .plan-day { min-width: 70px; padding: 0.5rem 0.6rem; }
+      .games-teams { margin-top: 1rem; }
+      .team-badge { width: clamp(44px, 10vw, 65px); height: clamp(44px, 10vw, 65px); }
+      .team-name { font-size: clamp(0.4rem, 1.5vw, 0.6rem); }
+      .cd-n { font-size: clamp(2.5rem, 8vw, 4.5rem); }
+      .rules-item { line-height: 1.8; }
+      .crew-count { font-size: clamp(4rem, 14vw, 7rem); }
+      #qrcode canvas, #qrcode img { max-width: 100px; }
+      .cta-url { font-size: clamp(1.5rem, 5vw, 2.5rem); }
+    }
   </style>
 </head>
 <body>
+
+  <!-- Rotate phone overlay (mobile portrait only) -->
+  <div id="rotate-overlay">
+    <svg class="rotate-phone" viewBox="0 0 60 60" fill="none">
+      <rect x="15" y="5" width="30" height="50" rx="4" stroke="#f5c842" stroke-width="2"/>
+      <circle cx="30" cy="48" r="2" fill="#f5c842"/>
+      <path d="M52 20 C56 20 56 24 52 24 L50 22 M52 20 L50 18" stroke="#aaa" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div class="rotate-text">Rotate Your Phone</div>
+    <div class="rotate-sub">This trailer is best in landscape</div>
+  </div>
 
   <div id="ov">
     <div class="ov-btn">▶</div>
@@ -751,10 +931,30 @@
       <div class="games-title">The Games</div>
       <div class="games-sub">4 teams, 1 leaderboard, no mercy</div>
       <div class="games-teams">
-        <div class="games-team" style="background: rgba(220,20,60,0.2); border-color: crimson;">1</div>
-        <div class="games-team" style="background: rgba(30,144,255,0.2); border-color: dodgerblue;">2</div>
-        <div class="games-team" style="background: rgba(50,205,50,0.2); border-color: limegreen;">3</div>
-        <div class="games-team" style="background: rgba(255,165,0,0.2); border-color: orange;">4</div>
+        <div class="games-team team-titans" data-team="titans">
+          <div class="team-badge" style="background: rgba(249,168,37,0.15); border-color: #f9a825;">
+            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 2 L24 15 L38 15 L27 23 L31 37 L20 29 L9 37 L13 23 L2 15 L16 15 Z" fill="#f9a825" stroke="#c17900" stroke-width="1.5"/><path d="M20 6 L22 14 L16 20 Z" fill="#fff8e1" opacity="0.5"/></svg>
+          </div>
+          <div class="team-name" style="color: #f9a825;">Titans</div>
+        </div>
+        <div class="games-team team-spartans" data-team="spartans">
+          <div class="team-badge" style="background: rgba(198,40,40,0.15); border-color: #c62828;">
+            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 3 L5 16 L5 32 L20 38 L35 32 L35 16 Z" fill="#c62828" stroke="#8e0000" stroke-width="1.5"/><path d="M20 10 L12 18 L12 28 L20 33 L28 28 L28 18 Z" fill="none" stroke="#ef9a9a" stroke-width="1" opacity="0.5"/><path d="M20 14 V26 M15 20 H25" stroke="#ffcdd2" stroke-width="1.5" opacity="0.6"/></svg>
+          </div>
+          <div class="team-name" style="color: #c62828;">Spartans</div>
+        </div>
+        <div class="games-team team-vikings" data-team="vikings">
+          <div class="team-badge" style="background: rgba(21,101,192,0.15); border-color: #1565c0;">
+            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M8 12 C8 12 6 4 12 6 L20 2 L28 6 C34 4 32 12 32 12 L34 28 L20 38 L6 28 Z" fill="#1565c0" stroke="#0d47a1" stroke-width="1.5"/><path d="M14 14 L20 8 L26 14" fill="none" stroke="#bbdefb" stroke-width="1.5" opacity="0.6"/><path d="M20 14 V30" stroke="#bbdefb" stroke-width="1" opacity="0.4"/></svg>
+          </div>
+          <div class="team-name" style="color: #1565c0;">Vikings</div>
+        </div>
+        <div class="games-team team-gladiators" data-team="gladiators">
+          <div class="team-badge" style="background: rgba(66,66,66,0.15); border-color: #616161;">
+            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="17" fill="#2a2a2a" stroke="#616161" stroke-width="1.5"/><circle cx="20" cy="20" r="17" fill="url(#gladGrad)" opacity="0.4"/><defs><radialGradient id="gladGrad"><stop offset="0%" stop-color="#7c4dff"/><stop offset="100%" stop-color="transparent"/></radialGradient></defs><path d="M20 5 L20 35" stroke="#e0e0e0" stroke-width="2" opacity="0.7"/><path d="M13 12 L27 12 M10 20 L30 20" stroke="#e0e0e0" stroke-width="1.5" opacity="0.5"/><circle cx="20" cy="20" r="4" fill="none" stroke="#b388ff" stroke-width="1" opacity="0.6"/></svg>
+          </div>
+          <div class="team-name" style="color: #b0b0b0;">Gladiators</div>
+        </div>
       </div>
       <div class="games-stakes">Games. Cooking. Cleaning. Everything counts.</div>
     </div>
@@ -1034,6 +1234,7 @@
       's-plan': [0.92, 2000],
       's-crew': [0.96, 1500],
       's-site': [1.0, 1500],
+      's-pw':   [1.0, 500],
       's-inv':  [0, 4500],
     };
 
@@ -1067,7 +1268,7 @@
       /* Reset staggered elements */
       el.querySelectorAll('.plan-day, .games-team, .site-feat, .rules-item').forEach(e => {
         e.style.transition = 'none'; e.style.opacity = '0';
-        if (e.classList.contains('games-team')) { e.style.transform = 'scale(0.5) rotate(0deg)'; e.style.boxShadow = 'none'; }
+        if (e.classList.contains('games-team')) { e.style.transform = 'scale(0.5)'; e.classList.remove('fx'); }
         else if (e.classList.contains('site-feat')) e.style.transform = 'scale(0.8)';
         else if (e.classList.contains('rules-item')) e.style.transform = 'translateX(-20px)';
         else e.style.transform = 'translateY(15px)';
@@ -1092,17 +1293,116 @@
         });
       }
 
-      /* Staggered game team circles with spin */
+      /* Staggered team reveals with elemental effects */
       if (s.id === 's-games') {
         el.querySelectorAll('.games-team').forEach((t, i) => {
           setTimeout(() => {
-            t.style.transition = 'opacity 0.5s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1)';
-            t.style.opacity = '1'; t.style.transform = 'scale(1) rotate(360deg)';
-          }, 500 + i * 200);
-          // Add pulsing glow after landing
+            t.style.transition = 'opacity 0.6s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1)';
+            t.style.opacity = '1'; t.style.transform = 'scale(1)';
+          }, 600 + i * 350);
+          // Activate elemental FX after landing
           setTimeout(() => {
-            t.style.boxShadow = `0 0 20px ${t.style.borderColor}, 0 0 40px ${t.style.borderColor}40`;
-          }, 1200 + i * 200);
+            t.classList.add('fx');
+            const team = t.dataset.team;
+            const badge = t.querySelector('.team-badge');
+            const rect = badge.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            const r = rect.width / 2;
+
+            if (team === 'titans') {
+              // Lightning sparks
+              let sparkCount = 0;
+              const sparkInterval = setInterval(() => {
+                if (sparkCount++ > 30) { clearInterval(sparkInterval); return; }
+                const spark = document.createElement('div');
+                spark.className = 'titan-spark';
+                const angle = Math.random() * Math.PI * 2;
+                const dist = r + 5 + Math.random() * 25;
+                const sx = cx + Math.cos(angle) * dist;
+                const sy = cy + Math.sin(angle) * dist;
+                const len = 8 + Math.random() * 18;
+                spark.style.cssText = `left:${sx}px;top:${sy}px;--len:${len}px;height:0;transform:rotate(${angle + Math.PI/2}rad);position:fixed;`;
+                document.body.appendChild(spark);
+                setTimeout(() => spark.remove(), 200);
+              }, 120);
+              // Lightning bolts
+              let boltCount = 0;
+              const boltInterval = setInterval(() => {
+                if (boltCount++ > 5) { clearInterval(boltInterval); return; }
+                const bolt = document.createElement('svg');
+                bolt.className = 'titan-bolt';
+                bolt.setAttribute('viewBox', '0 0 20 40');
+                bolt.style.cssText = `position:fixed;width:16px;height:32px;left:${cx - 8 + (Math.random()-0.5)*r*1.5}px;top:${cy - 16 + (Math.random()-0.5)*r}px;`;
+                bolt.innerHTML = '<path d="M10 0 L6 16 L12 16 L8 40 L16 14 L10 14 Z" fill="#f9a825" stroke="#fff" stroke-width="0.5"/>';
+                document.body.appendChild(bolt);
+                requestAnimationFrame(() => bolt.classList.add('flash'));
+                setTimeout(() => bolt.remove(), 250);
+              }, 400);
+            }
+
+            if (team === 'spartans') {
+              // Fire particles
+              let fireCount = 0;
+              const fireInterval = setInterval(() => {
+                if (fireCount++ > 40) { clearInterval(fireInterval); return; }
+                const p = document.createElement('div');
+                p.className = 'fire-particle';
+                const angle = Math.random() * Math.PI * 2;
+                const dist = r * 0.6 + Math.random() * r * 0.5;
+                const px = cx + Math.cos(angle) * dist;
+                const py = cy + Math.sin(angle) * dist;
+                const size = 3 + Math.random() * 5;
+                const dur = 0.4 + Math.random() * 0.5;
+                const rise = -(20 + Math.random() * 40);
+                const colors = ['#ff4444', '#ff6b6b', '#ff8a65', '#ffab40', '#c62828'];
+                const c = colors[Math.floor(Math.random() * colors.length)];
+                p.style.cssText = `position:fixed;left:${px}px;top:${py}px;width:${size}px;height:${size}px;background:${c};--dur:${dur}s;--rise:${rise}px;`;
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), dur * 1000 + 50);
+              }, 80);
+            }
+
+            if (team === 'vikings') {
+              // Ice crystals
+              const crystals = ['\u2744', '\u2727', '\u00B7', '\u2736'];
+              let iceCount = 0;
+              const iceInterval = setInterval(() => {
+                if (iceCount++ > 30) { clearInterval(iceInterval); return; }
+                const p = document.createElement('div');
+                p.className = 'ice-crystal';
+                const angle = Math.random() * Math.PI * 2;
+                const dist = r * 0.3 + Math.random() * r * 0.4;
+                const px = cx + Math.cos(angle) * dist;
+                const py = cy + Math.sin(angle) * dist;
+                const dx = (Math.random() - 0.5) * 60;
+                const dy = (Math.random() - 0.5) * 60;
+                const dur = 0.8 + Math.random() * 0.8;
+                p.textContent = crystals[Math.floor(Math.random() * crystals.length)];
+                p.style.cssText = `position:fixed;left:${px}px;top:${py}px;--dx:${dx}px;--dy:${dy}px;--dur:${dur}s;font-size:${8 + Math.random()*10}px;`;
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), dur * 1000 + 50);
+              }, 100);
+            }
+
+            if (team === 'gladiators') {
+              // Dark energy wisps orbiting
+              let shadowCount = 0;
+              const shadowInterval = setInterval(() => {
+                if (shadowCount++ > 30) { clearInterval(shadowInterval); return; }
+                const p = document.createElement('div');
+                p.className = 'shadow-wisp';
+                const rad = r + 8 + Math.random() * 25;
+                const dur = 1.2 + Math.random() * 0.8;
+                const colors = ['#b388ff', '#7c4dff', '#e0e0e0', '#9575cd', '#d1c4e9'];
+                const c = colors[Math.floor(Math.random() * colors.length)];
+                const size = 2 + Math.random() * 5;
+                p.style.cssText = `position:fixed;left:${cx}px;top:${cy}px;width:${size}px;height:${size}px;background:${c};--rad:${rad}px;--dur:${dur}s;transform-origin:0 0;`;
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), dur * 1000 + 50);
+              }, 90);
+            }
+          }, 1400 + i * 350);
         });
       }
 

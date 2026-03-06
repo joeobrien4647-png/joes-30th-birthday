@@ -266,7 +266,7 @@ const GUEST_DATA = {
         personalNotes: 'Help everyone mingle and connect - be the social glue!'
     },
     'KIRAN-7DX1': {
-        name: 'Kiran', fullName: 'Kiran Ruparelia', room: 'Room 8',
+        name: 'Kiran', fullName: 'Kiran Ruparelia', room: 'Room 9',
         team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Be part of a late-night chat', completed: false },
@@ -286,7 +286,7 @@ const GUEST_DATA = {
         personalNotes: 'Bring the competitive spirit! Make the games exciting.'
     },
     'OLI-3WT5': {
-        name: 'Oli', fullName: 'Oli Moran', room: 'Room 9',
+        name: 'Oli', fullName: 'Oli Moran', room: 'Room 11',
         team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Keep everyone calm if things get hectic', completed: false },
@@ -296,7 +296,7 @@ const GUEST_DATA = {
         personalNotes: 'Balance out the chaos with some chill vibes when needed.'
     },
     'PETER-6BN2': {
-        name: 'Peter', fullName: 'Peter London', room: 'Room 10',
+        name: 'Peter', fullName: 'Peter London', room: 'Room 11',
         team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Do something unexpected', completed: false },
@@ -316,7 +316,7 @@ const GUEST_DATA = {
         personalNotes: 'Bring your creative touch to make things special!'
     },
     'JONNYL-4VP9': {
-        name: 'Jonny L', fullName: 'Jonny Levett', room: 'Room 11',
+        name: 'Jonny L', fullName: 'Jonny Levett', room: 'Room 10',
         team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Pull a harmless prank', completed: false },
@@ -326,7 +326,7 @@ const GUEST_DATA = {
         personalNotes: 'Comedy is your mission - bring the laughs!'
     },
     'JONNYW-8HQ3': {
-        name: 'Jonny W', fullName: 'Jonny Williams', room: 'Room 11',
+        name: 'Jonny W', fullName: 'Jonny Williams', room: 'Room 12',
         team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Share a classic Joe story', completed: false },
@@ -346,7 +346,7 @@ const GUEST_DATA = {
         personalNotes: 'You\'re the reliable one - help keep things running!'
     },
     'OSCAR-5DL4': {
-        name: 'Oscar', fullName: 'Oscar Walters', room: 'Room 13',
+        name: 'Oscar', fullName: 'Oscar Walters', room: 'Room 12',
         team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Get the party started at least once', completed: false },
@@ -356,7 +356,7 @@ const GUEST_DATA = {
         personalNotes: 'When energy is needed, you\'re the spark!'
     },
     'PRANAY-9WX6': {
-        name: 'Pranay', fullName: 'Pranay Dube', room: 'Room 14',
+        name: 'Pranay', fullName: 'Pranay Dube', room: 'Room 12',
         team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Be enthusiastic about every activity', completed: false },
@@ -366,7 +366,7 @@ const GUEST_DATA = {
         personalNotes: 'Bring the enthusiasm - your energy is contagious!'
     },
     'MATT-3B7K': {
-        name: 'Matt', fullName: 'Matt Hill', room: 'Room TBC',
+        name: 'Matt', fullName: 'Matt Hill', room: 'Room 12',
         team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Make the most of arriving late — dive straight in', completed: false },
@@ -377,8 +377,62 @@ const GUEST_DATA = {
     }
 };
 
-/* Players mapped to teams (for leaderboard) — TODO: assign real teams before trip */
-const PLAYERS = {};
+/* Players mapped to teams (for leaderboard) */
+const PLAYERS = {
+    'Joe': 'titans', 'Samantha': 'titans', 'Robin': 'titans', 'Emma L': 'titans', 'Kiran': 'titans', 'Oscar': 'titans', 'Chris': 'titans',
+    'Razon': 'spartans', 'Sophie': 'spartans', 'Robert': 'spartans', 'Florrie': 'spartans', 'Shane': 'spartans', 'Jonny W': 'spartans', 'Matt': 'spartans',
+    'Hannah': 'vikings', 'Luke': 'vikings', 'George': 'vikings', 'Neeve': 'vikings', 'Oli': 'vikings', 'Jonny L': 'vikings',
+    'Peter': 'gladiators', 'Johnny': 'gladiators', 'Tom': 'gladiators', 'Sarah': 'gladiators', 'Emma W': 'gladiators', 'Pranay': 'gladiators'
+};
+
+/* Team Configuration */
+const TEAM_CONFIG = {
+    titans: {
+        name: 'Titans',
+        color: '#f9a825',
+        darkColor: '#f57f17',
+        captain: 'Joe',
+        logo: '<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 2 L24 15 L38 15 L27 23 L31 37 L20 29 L9 37 L13 23 L2 15 L16 15 Z" fill="#f9a825" stroke="#c17900" stroke-width="1.5"/><path d="M20 6 L22 14 L16 20 Z" fill="#fff8e1" opacity="0.5"/></svg>'
+    },
+    spartans: {
+        name: 'Spartans',
+        color: '#c62828',
+        darkColor: '#b71c1c',
+        captain: 'Razon',
+        logo: '<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 2 C12 2 6 8 6 16 L6 30 C6 30 12 38 20 38 C28 38 34 30 34 30 L34 16 C34 8 28 2 20 2Z" fill="#c62828" stroke="#8e0000" stroke-width="1.5"/><path d="M16 14 L16 28" stroke="#fff" stroke-width="2" opacity="0.6"/><path d="M24 14 L24 28" stroke="#fff" stroke-width="2" opacity="0.6"/><path d="M13 20 L27 20" stroke="#fff" stroke-width="2" opacity="0.6"/><path d="M20 8 L20 12" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>'
+    },
+    vikings: {
+        name: 'Vikings',
+        color: '#1565c0',
+        darkColor: '#0d47a1',
+        captain: 'Hannah',
+        logo: '<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M8 18 C8 10 13 4 20 4 C27 4 32 10 32 18 L32 28 L8 28 Z" fill="#1565c0" stroke="#0d47a1" stroke-width="1.5"/><path d="M8 18 L2 10 L8 14" fill="#1565c0" stroke="#0d47a1" stroke-width="1.2"/><path d="M32 18 L38 10 L32 14" fill="#1565c0" stroke="#0d47a1" stroke-width="1.2"/><rect x="12" y="28" width="16" height="4" rx="1" fill="#0d47a1"/><path d="M14 20 L18 20 L16 24 Z" fill="#fff" opacity="0.5"/><path d="M22 20 L26 20 L24 24 Z" fill="#fff" opacity="0.5"/></svg>'
+    },
+    gladiators: {
+        name: 'Gladiators',
+        color: '#424242',
+        darkColor: '#212121',
+        captain: 'Peter',
+        logo: '<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="17" fill="#2a2a2a" stroke="#616161" stroke-width="1.5"/><path d="M20 5 L20 35" stroke="#e0e0e0" stroke-width="2" opacity="0.8"/><path d="M13 12 L27 12 M10 20 L30 20" stroke="#e0e0e0" stroke-width="1.5" opacity="0.5"/><circle cx="20" cy="20" r="4" fill="none" stroke="#b388ff" stroke-width="1.5" opacity="0.7"/></svg>'
+    }
+};
+
+const TEAM_CAPTAINS = {
+    titans: 'Joe',
+    spartans: 'Razon',
+    vikings: 'Hannah',
+    gladiators: 'Peter'
+};
+
+/* Captain Responsibilities */
+const CAPTAIN_DUTIES = [
+    'Rally your team for games and challenges',
+    'Organise cooking rota shifts — make sure your team shows up',
+    'Settle disputes and pick team order for games',
+    'Apply face paint and hand out headbands on Day 1',
+    'Represent the team in captain-only challenges',
+    'Keep team morale and energy high all trip'
+];
 
 /* Full name lookup: short name → full name (for leaderboard display) */
 const FULL_NAMES = {};
@@ -717,16 +771,16 @@ function initGuestPreview() {
 
 /* Live Leaderboard Banner (all pages) */
 function initLeaderboardBanner() {
-    const TEAM_NAMES = { team1: 'T1', team2: 'T2', team3: 'T3', team4: 'T4' };
-    const TEAM_COLORS = { team1: '#f9d423', team2: '#4fc3f7', team3: '#81c784', team4: '#f48fb1' };
-    const TEAMS = ['team1', 'team2', 'team3', 'team4'];
+    const TEAM_NAMES = { titans: 'TIT', spartans: 'SPA', vikings: 'VIK', gladiators: 'GLA' };
+    const TEAM_COLORS = { titans: TEAM_CONFIG.titans.color, spartans: TEAM_CONFIG.spartans.color, vikings: TEAM_CONFIG.vikings.color, gladiators: TEAM_CONFIG.gladiators.color };
+    const TEAMS = ['titans', 'spartans', 'vikings', 'gladiators'];
 
     const bar = document.createElement('div');
     bar.className = 'lb-banner';
     bar.id = 'lb-banner';
 
     function render() {
-        const scores = Store.get('lb_teamScores', { team1: 0, team2: 0, team3: 0, team4: 0 });
+        const scores = Store.get('lb_teamScores', { titans: 0, spartans: 0, vikings: 0, gladiators: 0 });
         const sorted = TEAMS.slice().sort((a, b) => (scores[b] || 0) - (scores[a] || 0));
         const revealed = typeof isRevealed === 'function' ? isRevealed() : true;
 

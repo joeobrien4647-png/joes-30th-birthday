@@ -445,15 +445,15 @@ function initLeaderboard() {
     if (!tabs.length) return;
 
     /* ---- Constants ---- */
-    const TEAMS = ['team1', 'team2', 'team3', 'team4'];
-    const TEAM_NAMES = { team1: 'Team 1', team2: 'Team 2', team3: 'Team 3', team4: 'Team 4' }; // Real names set on arrival night
-    const TEAM_HIDDEN = { team1: 'Team 1 \u2014 \uD83D\uDD12 Name TBA', team2: 'Team 2 \u2014 \uD83D\uDD12 Name TBA', team3: 'Team 3 \u2014 \uD83D\uDD12 Name TBA', team4: 'Team 4 \u2014 \uD83D\uDD12 Name TBA' };
-    const TEAM_EMOJI = { team1: '\u2753', team2: '\u2753', team3: '\u2753', team4: '\u2753' };
+    const TEAMS = ['titans', 'spartans', 'vikings', 'gladiators'];
+    const TEAM_NAMES = { titans: 'Titans', spartans: 'Spartans', vikings: 'Vikings', gladiators: 'Gladiators' };
+    const TEAM_HIDDEN = { titans: 'Titans', spartans: 'Spartans', vikings: 'Vikings', gladiators: 'Gladiators' };
+    const TEAM_EMOJI = { titans: '⚡', spartans: '🛡️', vikings: '⚔️', gladiators: '🗡️' };
     const CATEGORY_EMOJI = { games: '\uD83C\uDFAE', duties: '\uD83D\uDC68\u200D\uD83C\uDF73', challenges: '\uD83C\uDFC6', bonus: '\u2B50', penalty: '\uD83D\uDFE5' };
     const CATEGORY_LABELS = { games: 'Games', duties: 'Duties', challenges: 'Challenges', bonus: 'Bonus', penalty: 'Penalty' };
 
     function teamDisplayName(team) {
-        return isRevealed() ? TEAM_NAMES[team] : TEAM_HIDDEN[team];
+        return TEAM_NAMES[team] || team;
     }
 
     /* ---- Badge Definitions ---- */
@@ -596,7 +596,7 @@ function initLeaderboard() {
     }
 
     /* ---- Load Data ---- */
-    let teamScores = Store.get('lb_teamScores', { team1: 0, team2: 0, team3: 0, team4: 0 });
+    let teamScores = Store.get('lb_teamScores', { titans: 0, spartans: 0, vikings: 0, gladiators: 0 });
     let individualScores = Store.get('lb_individualScores', {});
     let pointsLog = Store.get('lb_pointsLog', []);
     let badges = Store.get('lb_badges', {});
@@ -1322,7 +1322,7 @@ function initLeaderboard() {
 
             // Team performance bars
             if (teamBars) {
-                const teamDay = { team1: 0, team2: 0, team3: 0, team4: 0 };
+                const teamDay = { titans: 0, spartans: 0, vikings: 0, gladiators: 0 };
                 dayEntries.forEach(e => {
                     if (e.type === 'team') {
                         teamDay[e.target] = (teamDay[e.target] || 0) + e.amount;
@@ -1403,7 +1403,7 @@ function initLeaderboard() {
         const freshLog = Store.get('lb_pointsLog', []);
         if (freshLog.length !== pointsLog.length) {
             pointsLog = freshLog;
-            teamScores = Store.get('lb_teamScores', { team1: 0, team2: 0, team3: 0, team4: 0 });
+            teamScores = Store.get('lb_teamScores', { titans: 0, spartans: 0, vikings: 0, gladiators: 0 });
             individualScores = Store.get('lb_individualScores', {});
             badges = Store.get('lb_badges', {});
             renderAll();
@@ -3323,7 +3323,7 @@ function initDailyRecapGenerator() {
         var statuses = Store.get('challengeStatuses', {});
         var gamesComplete = Object.keys(statuses).length;
 
-        var TEAM_NAMES = { team1: 'Team 1 \u2014 \uD83D\uDD12 TBA', team2: 'Team 2 \u2014 \uD83D\uDD12 TBA', team3: 'Team 3 \u2014 \uD83D\uDD12 TBA', team4: 'Team 4 \u2014 \uD83D\uDD12 TBA' };
+        var TEAM_NAMES = { titans: 'Titans', spartans: 'Spartans', vikings: 'Vikings', gladiators: 'Gladiators' };
 
         var html = '<div class="gazette-header">' +
             '<div class="gazette-masthead">The Daily Gazette</div>' +
@@ -3390,10 +3390,10 @@ function initMealRatings() {
     if (!wrap) return;
 
     var MEALS = [
-        { day: 2, label: 'Thu 30 Apr', title: 'Team 3\'s Dinner', team: 'team3', special: false },
-        { day: 3, label: 'Fri 1 May',  title: 'Team 4\'s Dinner', team: 'team4', special: false },
-        { day: 4, label: 'Sat 2 May',  title: 'Team 1\'s Big Dinner', team: 'team1', special: true },
-        { day: 5, label: 'Sun 3 May',  title: 'Team 2\'s Last Dinner', team: 'team2', special: false }
+        { day: 2, label: 'Thu 30 Apr', title: 'Vikings\' Dinner', team: 'vikings', special: false },
+        { day: 3, label: 'Fri 1 May',  title: 'Gladiators\' Dinner', team: 'gladiators', special: false },
+        { day: 4, label: 'Sat 2 May',  title: 'Titans\' Big Dinner', team: 'titans', special: true },
+        { day: 5, label: 'Sun 3 May',  title: 'Spartans\' Last Dinner', team: 'spartans', special: false }
     ];
 
     var CATEGORIES = [
@@ -3433,7 +3433,7 @@ function initMealRatings() {
             var name = GUEST_DATA[guestCode].name;
             var ind = Store.get('lb_individualScores', {});
             var team = typeof PLAYERS !== 'undefined' ? PLAYERS[name] : null;
-            var ts = Store.get('lb_teamScores', { team1: 0, team2: 0, team3: 0, team4: 0 });
+            var ts = Store.get('lb_teamScores', { titans: 0, spartans: 0, vikings: 0, gladiators: 0 });
             var log = Store.get('lb_pointsLog', []);
             ind[name] = (ind[name] || 0) + 2;
             if (team) ts[team] = (ts[team] || 0) + 2;

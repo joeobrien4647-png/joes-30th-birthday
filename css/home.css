@@ -1305,3 +1305,324 @@ body.dark-mode .awake-avatar.awake-active .awake-letter {
   display: inline-block;
 }
 .auth-photo-btn:hover { border-color: #f5c842; }
+
+/* ============================================
+   Team Wheel Reveal
+   ============================================ */
+#wheel-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100000;
+    animation: wheelFadeIn 0.5s ease;
+}
+
+#wheel-overlay.wheel-fade-out {
+    animation: wheelFadeOut 0.5s ease forwards;
+}
+
+@keyframes wheelFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes wheelFadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.wheel-container {
+    text-align: center;
+    max-width: 500px;
+    width: 95%;
+}
+
+.wheel-title {
+    color: #fff;
+    font-size: 2.2rem;
+    font-weight: 900;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.wheel-subtitle {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.95rem;
+    margin-bottom: 28px;
+}
+
+.wheel-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 28px;
+}
+
+#wheel-canvas {
+    width: 420px;
+    height: 420px;
+    max-width: 90vw;
+    max-height: 90vw;
+    border-radius: 50%;
+    box-shadow:
+        0 0 40px rgba(255, 255, 255, 0.08),
+        0 0 80px rgba(255, 255, 255, 0.04),
+        inset 0 0 20px rgba(0, 0, 0, 0.2);
+    transition: filter 0.3s ease;
+}
+
+.wheel-glow {
+    position: absolute;
+    inset: -20px;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.wheel-glow.spinning {
+    opacity: 1;
+    background: conic-gradient(
+        rgba(249,168,37,0.15),
+        rgba(198,40,40,0.15),
+        rgba(21,101,192,0.15),
+        rgba(66,66,66,0.15),
+        rgba(249,168,37,0.15)
+    );
+    animation: glowPulse 1.5s ease infinite;
+    filter: blur(20px);
+}
+
+@keyframes glowPulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
+}
+
+.wheel-pointer {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-top: 28px solid #fff;
+    filter: drop-shadow(0 3px 8px rgba(0,0,0,0.5));
+    z-index: 2;
+}
+
+.wheel-spin-btn {
+    font-size: 1.3rem;
+    padding: 18px 70px;
+    letter-spacing: 3px;
+    font-weight: 900;
+    text-transform: uppercase;
+    animation: spinBtnPulse 2s ease infinite;
+}
+
+@keyframes spinBtnPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 5px 25px rgba(255, 217, 61, 0.4); }
+    50% { transform: scale(1.08); box-shadow: 0 10px 40px rgba(255, 217, 61, 0.7); }
+}
+
+/* Result */
+.wheel-result {
+    animation: wheelResultIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes wheelResultIn {
+    from { opacity: 0; transform: scale(0.7); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.wheel-result-logo {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px;
+    animation: logoFloat 3s ease infinite;
+}
+
+@keyframes logoFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+.wheel-result-logo svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+}
+
+.wheel-result-name {
+    font-size: 3rem;
+    font-weight: 900;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    text-shadow: 0 2px 20px currentColor;
+}
+
+.wheel-result-caption {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+}
+
+.wheel-result-captain {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
+    margin-bottom: 24px;
+}
+
+.wheel-teammates h4 {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.wheel-teammate-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.wheel-teammate-tag {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.wheel-captain-duties {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    text-align: left;
+}
+
+.wheel-captain-duties h4 {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.wheel-captain-duties ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.wheel-captain-duties li {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.85rem;
+    padding: 4px 0;
+    line-height: 1.5;
+}
+
+.wheel-captain-duties li::before {
+    content: '\2022';
+    color: rgba(255, 255, 255, 0.3);
+    margin-right: 8px;
+}
+
+.wheel-continue-btn {
+    margin-top: 8px;
+}
+
+/* Teammates display */
+.teammates-label {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.teammates-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.teammate-chip {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.teammate-chip.confirmed {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.teammate-chip.locked {
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 1rem;
+    padding: 6px 12px;
+}
+
+/* Team colour flash */
+.wheel-colour-flash {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 100001;
+    animation: colourFlash 1.2s ease forwards;
+}
+
+@keyframes colourFlash {
+    0% { opacity: 0; }
+    15% { opacity: 0.4; }
+    40% { opacity: 0.15; }
+    60% { opacity: 0.3; }
+    100% { opacity: 0; }
+}
+
+/* Firework particles */
+.firework-particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 100002;
+    animation: fireworkBurst 1.2s ease-out forwards;
+}
+
+@keyframes fireworkBurst {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--dx), var(--dy)) scale(0);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .wheel-title { font-size: 1.6rem; }
+    .wheel-result-name { font-size: 2.2rem; letter-spacing: 3px; }
+    #wheel-canvas { width: 300px; height: 300px; }
+    .wheel-spin-btn { padding: 16px 50px; font-size: 1.1rem; }
+    .wheel-result-logo { width: 80px; height: 80px; }
+}

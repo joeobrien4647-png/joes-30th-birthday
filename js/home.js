@@ -389,7 +389,12 @@ function initRegistration() {
       }
       localStorage.setItem(AUTH_KEYS.registered, 'true');
       document.getElementById('auth-modal').style.display = 'none';
-      document.dispatchEvent(new CustomEvent('guestLoggedIn', { detail: { code: selectedCode } }));
+      // Show wheel reveal for first-time registration
+      if (selectedCode && PLAYERS && PLAYERS[GUEST_DATA[selectedCode]?.name]) {
+        showTeamWheel(selectedCode);
+      } else {
+        document.dispatchEvent(new CustomEvent('guestLoggedIn', { detail: { code: selectedCode } }));
+      }
     });
   }
 
@@ -515,10 +520,17 @@ function initGuestLogin() {
 
         document.getElementById('dashboard-name').textContent = guest.name;
         document.getElementById('stat-room').textContent = guest.room;
-        document.getElementById('stat-team').textContent = isRevealed() ? guest.team : '🔒 Revealed 29 Apr';
+        var teamKey = PLAYERS[guest.name];
+        var hasRevealed = localStorage.getItem('teamRevealed_' + code) === 'true';
+        var teamConfig = teamKey && TEAM_CONFIG ? TEAM_CONFIG[teamKey] : null;
+        if (hasRevealed && teamConfig) {
+            document.getElementById('stat-team').innerHTML = '<span style="color:' + teamConfig.color + '">' + teamConfig.name + '</span>';
+        } else {
+            document.getElementById('stat-team').textContent = '🔒 Spin to find out!';
+        }
 
         var teamExplainer = document.getElementById('team-explainer');
-        if (teamExplainer) teamExplainer.style.display = isRevealed() ? 'none' : 'block';
+        if (teamExplainer) teamExplainer.style.display = hasRevealed ? 'none' : 'block';
 
         // Points — always show (0 pre-trip, live during trip)
         const individualScores = Store.get('lb_individualScores', {});
@@ -600,8 +612,8 @@ function animateCount(el, to) {
 
 /* Live Stats Dashboard */
 function initLiveStats() {
-    const TEAMS_LIST = ['team1', 'team2', 'team3', 'team4'];
-    const TEAM_NAMES_MAP = { team1: 'Team 1 \u2014 \uD83D\uDD12 TBA', team2: 'Team 2 \u2014 \uD83D\uDD12 TBA', team3: 'Team 3 \u2014 \uD83D\uDD12 TBA', team4: 'Team 4 \u2014 \uD83D\uDD12 TBA' };
+    const TEAMS_LIST = ['titans', 'spartans', 'vikings', 'gladiators'];
+    const TEAM_NAMES_MAP = { titans: 'Titans', spartans: 'Spartans', vikings: 'Vikings', gladiators: 'Gladiators' };
 
     // During trip: show live stats + trip numbers cards
     var liveCard = document.getElementById('live-stats-card');
@@ -618,7 +630,7 @@ function initLiveStats() {
 
         const guestName = GUEST_DATA[guestCode].name;
         const individualScores = Store.get('lb_individualScores', {});
-        const teamScores = Store.get('lb_teamScores', { team1: 0, team2: 0, team3: 0, team4: 0 });
+        const teamScores = Store.get('lb_teamScores', { titans: 0, spartans: 0, vikings: 0, gladiators: 0 });
         const badges = Store.get('lb_badges', {});
         const pointsLog = Store.get('lb_pointsLog', []);
 
@@ -693,4 +705,318 @@ function initLiveStats() {
     render();
     // Refresh stats every 30 seconds
     setInterval(render, 30000);
+}
+
+/* ============================================
+   Team Wheel Reveal
+   ============================================ */
+function showTeamWheel(guestCode) {
+    var guest = GUEST_DATA[guestCode];
+    if (!guest) return;
+    var teamKey = PLAYERS[guest.name];
+    if (!teamKey || !TEAM_CONFIG[teamKey]) {
+        document.dispatchEvent(new CustomEvent('guestLoggedIn', { detail: { code: guestCode } }));
+        return;
+    }
+
+    var teams = [
+        { key: 'titans', name: 'Titans', color: '#f9a825', darkColor: '#c17900' },
+        { key: 'spartans', name: 'Spartans', color: '#c62828', darkColor: '#8e0000' },
+        { key: 'vikings', name: 'Vikings', color: '#1565c0', darkColor: '#0d47a1' },
+        { key: 'gladiators', name: 'Gladiators', color: '#424242', darkColor: '#212121' }
+    ];
+
+    var targetIndex = teams.findIndex(function(t) { return t.key === teamKey; });
+    var teamConfig = TEAM_CONFIG[teamKey];
+
+    // Build overlay
+    var overlay = document.createElement('div');
+    overlay.id = 'wheel-overlay';
+    overlay.innerHTML =
+        '<div class="wheel-container">' +
+            '<h2 class="wheel-title">Your Team Awaits...</h2>' +
+            '<p class="wheel-subtitle">Spin the wheel to discover your destiny</p>' +
+            '<div class="wheel-wrapper">' +
+                '<canvas id="wheel-canvas" width="420" height="420"></canvas>' +
+                '<div class="wheel-pointer"></div>' +
+                '<div class="wheel-glow"></div>' +
+            '</div>' +
+            '<button class="btn btn-primary wheel-spin-btn" id="wheel-spin-btn">SPIN THE WHEEL</button>' +
+            '<div class="wheel-result" id="wheel-result" style="display:none">' +
+                '<div class="wheel-result-logo" id="wheel-result-logo"></div>' +
+                '<h2 class="wheel-result-name" id="wheel-result-name"></h2>' +
+                '<p class="wheel-result-caption">You are a <strong id="wheel-result-team"></strong></p>' +
+                '<p class="wheel-result-captain">Captain: <strong id="wheel-result-captain"></strong></p>' +
+                '<div class="wheel-teammates" id="wheel-teammates"></div>' +
+                '<div class="wheel-captain-duties" id="wheel-captain-duties" style="display:none"></div>' +
+                '<button class="btn btn-primary wheel-continue-btn" id="wheel-continue-btn">Let\'s Go!</button>' +
+            '</div>' +
+        '</div>';
+
+    document.body.appendChild(overlay);
+
+    // Draw wheel
+    var canvas = document.getElementById('wheel-canvas');
+    var ctx = canvas.getContext('2d');
+    var size = canvas.width;
+    var center = size / 2;
+    var radius = center - 16;
+    var rotation = 0;
+    var spinning = false;
+
+    var teamEmojis = { titans: '\u26A1', spartans: '\uD83D\uDEE1\uFE0F', vikings: '\u2694\uFE0F', gladiators: '\uD83D\uDDE1\uFE0F' };
+
+    function drawWheel(angle) {
+        ctx.clearRect(0, 0, size, size);
+        var sliceAngle = (2 * Math.PI) / teams.length;
+
+        // Outer ring
+        ctx.beginPath();
+        ctx.arc(center, center, radius + 8, 0, 2 * Math.PI);
+        ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+        ctx.lineWidth = 4;
+        ctx.stroke();
+
+        // Tick marks on outer ring
+        for (var t = 0; t < 24; t++) {
+            var tickAngle = (t / 24) * 2 * Math.PI;
+            ctx.beginPath();
+            ctx.moveTo(center + Math.cos(tickAngle) * (radius + 2), center + Math.sin(tickAngle) * (radius + 2));
+            ctx.lineTo(center + Math.cos(tickAngle) * (radius + 12), center + Math.sin(tickAngle) * (radius + 12));
+            ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        teams.forEach(function(team, i) {
+            var startAngle = angle + i * sliceAngle;
+            var endAngle = startAngle + sliceAngle;
+
+            // Segment
+            ctx.beginPath();
+            ctx.moveTo(center, center);
+            ctx.arc(center, center, radius, startAngle, endAngle);
+            ctx.closePath();
+
+            // Gradient fill
+            var midAngle = startAngle + sliceAngle / 2;
+            var gx = center + Math.cos(midAngle) * radius * 0.5;
+            var gy = center + Math.sin(midAngle) * radius * 0.5;
+            var grad = ctx.createRadialGradient(center, center, 20, gx, gy, radius);
+            grad.addColorStop(0, team.darkColor);
+            grad.addColorStop(1, team.color);
+            ctx.fillStyle = grad;
+            ctx.fill();
+
+            // Segment border
+            ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+
+            // Emoji (inner ring)
+            ctx.save();
+            ctx.translate(center, center);
+            ctx.rotate(startAngle + sliceAngle / 2);
+            ctx.font = '32px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(teamEmojis[team.key] || '', radius * 0.38, 0);
+            ctx.restore();
+
+            // Label (outer ring)
+            ctx.save();
+            ctx.translate(center, center);
+            ctx.rotate(startAngle + sliceAngle / 2);
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = team.key === 'titans' ? '#333' : '#fff';
+            ctx.font = 'bold 16px sans-serif';
+            ctx.fillText(team.name.toUpperCase(), radius * 0.72, 0);
+            ctx.restore();
+        });
+
+        // Center circle
+        ctx.beginPath();
+        ctx.arc(center, center, 30, 0, 2 * Math.PI);
+        var centerGrad = ctx.createRadialGradient(center, center, 0, center, center, 30);
+        centerGrad.addColorStop(0, '#fff');
+        centerGrad.addColorStop(1, '#e0e0e0');
+        ctx.fillStyle = centerGrad;
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(255,255,255,0.6)';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        ctx.fillStyle = '#333';
+        ctx.font = 'bold 20px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('?', center, center);
+    }
+
+    drawWheel(0);
+
+    // Spin logic
+    var spinBtn = document.getElementById('wheel-spin-btn');
+    spinBtn.addEventListener('click', function() {
+        if (spinning) return;
+        spinning = true;
+        spinBtn.style.display = 'none';
+
+        var sliceAngle = 360 / teams.length;
+        // Target: pointer at top (270deg in canvas coords), land on target segment center
+        var targetCenter = targetIndex * sliceAngle + sliceAngle / 2;
+        // We need the wheel to stop so the target is at the top (pointer position)
+        // Pointer is at top = -90deg in standard coords
+        var stopAngle = 360 - targetCenter - 90;
+        // Add random full rotations (5-8 full spins) + small random offset within segment
+        var fullSpins = 8 + Math.floor(Math.random() * 4);
+        var jitter = (Math.random() - 0.5) * (sliceAngle * 0.4);
+        var totalDeg = fullSpins * 360 + stopAngle + jitter;
+        if (totalDeg < 0) totalDeg += 360;
+
+        // Add glow pulse during spin
+        var glowEl = document.querySelector('.wheel-glow');
+        if (glowEl) glowEl.classList.add('spinning');
+
+        var duration = 6000;
+        var startTime = null;
+        var startRot = rotation;
+
+        function animateSpin(ts) {
+            if (!startTime) startTime = ts;
+            var elapsed = ts - startTime;
+            var progress = Math.min(elapsed / duration, 1);
+            // Ease out cubic
+            var eased = 1 - Math.pow(1 - progress, 3);
+            var currentDeg = startRot + totalDeg * eased;
+            rotation = currentDeg;
+            drawWheel((currentDeg * Math.PI) / 180);
+
+            if (progress < 1) {
+                requestAnimationFrame(animateSpin);
+            } else {
+                // Reveal!
+                setTimeout(showResult, 500);
+            }
+        }
+
+        requestAnimationFrame(animateSpin);
+    });
+
+    function showResult() {
+        document.getElementById('wheel-result-logo').innerHTML = teamConfig.logo;
+        document.getElementById('wheel-result-name').textContent = teamConfig.name;
+        document.getElementById('wheel-result-name').style.color = teamConfig.color;
+        document.getElementById('wheel-result-team').textContent = teamConfig.name;
+        document.getElementById('wheel-result-team').style.color = teamConfig.color;
+        document.getElementById('wheel-result-captain').textContent = teamConfig.captain;
+
+        // Build teammates list — show confirmed (registered) names, padlock for unregistered
+        var teammatesEl = document.getElementById('wheel-teammates');
+        var teamMembers = [];
+        Object.keys(PLAYERS).forEach(function(name) {
+            if (PLAYERS[name] === teamKey && name !== guest.name) {
+                teamMembers.push(name);
+            }
+        });
+        if (teamMembers.length > 0) {
+            var tHtml = '<p class="teammates-label">Your teammates:</p><div class="teammates-list">';
+            teamMembers.forEach(function(name) {
+                // Check if this person has registered (spun the wheel)
+                var memberCode = null;
+                Object.keys(GUEST_DATA).forEach(function(code) {
+                    if (GUEST_DATA[code].name === name) memberCode = code;
+                });
+                var revealed = memberCode && localStorage.getItem('teamRevealed_' + memberCode) === 'true';
+                if (revealed) {
+                    tHtml += '<span class="teammate-chip confirmed">' + escapeHtml(name) + '</span>';
+                } else {
+                    tHtml += '<span class="teammate-chip locked">\uD83D\uDD12</span>';
+                }
+            });
+            tHtml += '</div>';
+            teammatesEl.innerHTML = tHtml;
+        }
+
+        // Captain duties (show only if this person IS the captain)
+        if (teamConfig.captain === guest.name && typeof CAPTAIN_DUTIES !== 'undefined') {
+            var dutiesEl = document.getElementById('wheel-captain-duties');
+            dutiesEl.style.display = 'block';
+            var dHtml = '<h4>Captain\'s Duties</h4><ul>';
+            CAPTAIN_DUTIES.forEach(function(d) {
+                dHtml += '<li>' + d + '</li>';
+            });
+            dHtml += '</ul>';
+            dutiesEl.innerHTML = dHtml;
+        }
+
+        // Hide wheel, show result with animation
+        document.querySelector('.wheel-wrapper').style.display = 'none';
+        document.querySelector('.wheel-title').textContent = 'You are a...';
+        document.querySelector('.wheel-subtitle').style.display = 'none';
+
+        var resultEl = document.getElementById('wheel-result');
+        resultEl.style.display = 'block';
+
+        // Team colour flash
+        var flash = document.createElement('div');
+        flash.className = 'wheel-colour-flash';
+        flash.style.background = teamConfig.color;
+        overlay.appendChild(flash);
+        setTimeout(function() { flash.remove(); }, 1200);
+
+        // Multiple confetti bursts
+        if (typeof triggerConfetti === 'function') {
+            triggerConfetti();
+            setTimeout(function() { triggerConfetti(); }, 600);
+            setTimeout(function() { triggerConfetti(); }, 1200);
+            setTimeout(function() { triggerConfetti(); }, 2000);
+        }
+
+        // Firework particles
+        launchFireworks(overlay, teamConfig.color);
+
+        // Store revealed flag
+        localStorage.setItem('teamRevealed_' + guestCode, 'true');
+
+        // Continue button
+        document.getElementById('wheel-continue-btn').addEventListener('click', function() {
+            overlay.classList.add('wheel-fade-out');
+            setTimeout(function() {
+                overlay.remove();
+                document.dispatchEvent(new CustomEvent('guestLoggedIn', { detail: { code: guestCode } }));
+            }, 500);
+        });
+    }
+
+    // Firework particle system
+    function launchFireworks(container, color) {
+        var colors = [color, '#fff', '#ffd700', '#ff6b6b', '#69db7c', '#74c0fc'];
+        function burst(x, y, delay) {
+            setTimeout(function() {
+                for (var i = 0; i < 30; i++) {
+                    var p = document.createElement('div');
+                    p.className = 'firework-particle';
+                    var angle = (Math.PI * 2 * i) / 30;
+                    var velocity = 80 + Math.random() * 120;
+                    var dx = Math.cos(angle) * velocity;
+                    var dy = Math.sin(angle) * velocity;
+                    var c = colors[Math.floor(Math.random() * colors.length)];
+                    var size = 4 + Math.random() * 4;
+                    p.style.cssText = 'left:' + x + 'px;top:' + y + 'px;width:' + size + 'px;height:' + size + 'px;background:' + c + ';--dx:' + dx + 'px;--dy:' + dy + 'px;';
+                    container.appendChild(p);
+                    (function(el) {
+                        setTimeout(function() { el.remove(); }, 1200);
+                    })(p);
+                }
+            }, delay);
+        }
+        var w = container.offsetWidth;
+        var h = container.offsetHeight;
+        burst(w * 0.3, h * 0.3, 200);
+        burst(w * 0.7, h * 0.25, 600);
+        burst(w * 0.5, h * 0.4, 1000);
+        burst(w * 0.2, h * 0.5, 1500);
+        burst(w * 0.8, h * 0.45, 1900);
+    }
 }

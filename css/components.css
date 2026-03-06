@@ -481,6 +481,7 @@ body.dark-mode .day-note {
     border-radius: 20px;
     padding: 32px;
     box-shadow: 0 3px 16px rgba(0,0,0,0.06);
+    margin-top: 36px;
     margin-bottom: 28px;
 }
 
@@ -506,9 +507,10 @@ body.dark-mode .day-note {
 .rule-card {
     background: var(--bg-light);
     border-radius: 14px;
-    padding: 18px;
+    padding: 20px 18px;
     border: 1px solid rgba(0,0,0,0.06);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-align: center;
 }
 
 .rule-card:hover {
@@ -517,9 +519,15 @@ body.dark-mode .day-note {
 }
 
 .rule-icon {
-    font-size: 1.8rem;
-    display: block;
-    margin-bottom: 10px;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(124, 58, 237, 0.08);
+    margin: 0 auto 12px;
     line-height: 1;
 }
 

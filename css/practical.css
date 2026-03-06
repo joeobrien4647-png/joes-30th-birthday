@@ -11,78 +11,77 @@
 
 .info-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 26px;
-}
-
-.info-grid--centered {
-    max-width: 720px;
-    margin: 0 auto;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(5, 1fr);
+    gap: 18px;
 }
 
 .info-card {
     background: var(--bg-light);
     border-radius: 20px;
-    padding: 28px;
+    padding: 24px 18px;
     transition: all 0.3s ease;
     border: 2px solid transparent;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .info-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.1);
-    border-color: rgba(124, 58, 237, 0.12);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
 }
 .info-card:hover .info-icon {
-    transform: translateY(-2px) scale(1.08);
+    transform: scale(1.1);
     transition: transform 0.25s cubic-bezier(0.34, 1.2, 0.64, 1);
 }
 
 .info-icon {
-    font-size: 2.2rem;
-    margin-bottom: 14px;
-    width: 52px;
-    height: 52px;
+    font-size: 2.8rem;
+    margin-bottom: 12px;
+    width: 68px;
+    height: 68px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 14px;
+    border-radius: 50%;
     background: var(--info-icon-bg, rgba(124, 58, 237, 0.08));
 }
 
 .info-card h3 {
-    font-size: 1.2rem;
-    margin-bottom: 14px;
+    font-size: 1rem;
+    margin-bottom: 12px;
     color: var(--secondary);
     font-weight: 700;
 }
 
 /* Card accent colours */
-.info-card--flight   { border-top: 4px solid #3b82f6; --info-icon-bg: rgba(59, 130, 246, 0.1); }
-.info-card--chateau  { border-top: 4px solid var(--primary); --info-icon-bg: rgba(124, 58, 237, 0.1); }
-.info-card--packing  { border-top: 4px solid #10b981; --info-icon-bg: rgba(16, 185, 129, 0.1); }
-.info-card--contacts { border-top: 4px solid #14b8a6; --info-icon-bg: rgba(20, 184, 166, 0.1); }
-.info-card.kitty     { border-top: 4px solid var(--secondary); --info-icon-bg: rgba(245, 158, 11, 0.1); }
-.info-card.emergency { border-top: 4px solid #ef4444; --info-icon-bg: rgba(239, 68, 68, 0.1); }
+.info-card--flight   { border-top: 4px solid #3b82f6; --info-icon-bg: rgba(59, 130, 246, 0.12); }
+.info-card--chateau  { border-top: 4px solid var(--primary); --info-icon-bg: rgba(124, 58, 237, 0.12); }
+.info-card--packing  { border-top: 4px solid #10b981; --info-icon-bg: rgba(16, 185, 129, 0.12); }
+.info-card--contacts { border-top: 4px solid #14b8a6; --info-icon-bg: rgba(20, 184, 166, 0.12); }
+.info-card.kitty     { border-top: 4px solid var(--secondary); --info-icon-bg: rgba(245, 158, 11, 0.12); }
+.info-card.emergency { border-top: 4px solid #ef4444; --info-icon-bg: rgba(239, 68, 68, 0.12); }
 
 .info-card ul {
     list-style: none;
+    width: 100%;
 }
 
 .info-card li {
-    padding: 11px 0 11px 18px;
+    padding: 8px 0 8px 16px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    font-size: 0.93rem;
+    font-size: 0.82rem;
     color: var(--text-dark);
-    line-height: 1.5;
+    line-height: 1.45;
+    text-align: left;
     position: relative;
 }
 
 .info-card li::before {
     content: '';
     position: absolute;
-    left: 2px;
+    left: 0;
     top: 50%;
     transform: translateY(-50%);
     width: 6px;
@@ -1059,27 +1058,45 @@ body.dark-mode .info-card.emergency h3 {
 /* ============================================
    Responsive
    ============================================ */
+@media (max-width: 1024px) {
+    .info-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
 @media (max-width: 768px) {
+    .info-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .info-icon { width: 56px; height: 56px; font-size: 2.2rem; }
+}
+
+@media (max-width: 480px) {
     .info-grid {
         grid-template-columns: 1fr;
     }
+    .info-card { text-align: left; flex-direction: row; gap: 14px; padding: 18px; }
+    .info-icon { width: 48px; height: 48px; font-size: 1.8rem; flex-shrink: 0; margin-bottom: 0; }
+    .info-card h3 { margin-bottom: 8px; }
 }
 
 /* ============================================
    Arrival Tracker
    ============================================ */
 .arrival-tracker {
-    background: var(--bg-light);
-    border-radius: 16px;
-    padding: 20px 24px;
+    background: var(--bg-white);
+    border-radius: 20px;
+    padding: 24px 28px;
     margin-bottom: 24px;
-    border: 2px solid rgba(var(--accent-rgb, 255, 217, 61), 0.3);
+    border: 1px solid rgba(0, 0, 0, 0.06);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 .arrival-tracker h4 {
     margin: 0 0 16px;
-    font-size: 1.05rem;
+    font-size: 1.1rem;
+    font-weight: 700;
     color: var(--text-dark);
+    text-align: center;
 }
 .arrival-group {
     background: var(--bg-white);
@@ -1189,7 +1206,7 @@ body.dark-mode .arrival-group {
    FAQ Section
    ============================================ */
 .faq-section {
-    margin-top: 36px;
+    margin-top: 48px;
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
@@ -1199,6 +1216,7 @@ body.dark-mode .arrival-group {
     font-family: var(--font-display);
     font-size: clamp(1.5rem, 3vw, 2rem);
     margin-bottom: 20px;
+    text-align: center;
 }
 
 .faq-list {
