@@ -821,6 +821,14 @@
     </svg>
     <div class="rotate-text">Rotate Your Phone</div>
     <div class="rotate-sub">This trailer is best in landscape</div>
+    <button id="rotate-play-btn" style="
+      margin-top: 1.5rem; padding: 0.7rem 2rem;
+      background: none; border: 1.5px solid rgba(245,200,66,0.4);
+      border-radius: 30px; color: var(--gold);
+      font-family: 'Montserrat', sans-serif; font-size: 0.7rem;
+      font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase;
+      cursor: pointer; transition: border-color 0.2s;
+    ">Or play anyway</button>
   </div>
 
   <div id="ov">
@@ -1588,9 +1596,44 @@
       const o = document.getElementById('ov');
       o.classList.add('gone');
       setTimeout(() => o.remove(), 700);
+
+      /* Request fullscreen on mobile */
+      const el = document.documentElement;
+      const rfs = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
+      if (rfs) {
+        rfs.call(el).catch(() => {});
+        /* Lock to landscape if supported */
+        if (screen.orientation && screen.orientation.lock) {
+          screen.orientation.lock('landscape').catch(() => {});
+        }
+      }
+
       initGrain();
       go(0);
     });
+
+    /* "Play anyway" from portrait rotate screen */
+    const rpb = document.getElementById('rotate-play-btn');
+    if (rpb) {
+      rpb.addEventListener('click', () => {
+        /* Hide rotate overlay */
+        document.getElementById('rotate-overlay').style.display = 'none';
+        /* Show stage + controls */
+        document.getElementById('stage').style.display = '';
+        document.querySelectorAll('.bar, #vig, #particles, #ov').forEach(el => el.style.display = '');
+
+        /* Go fullscreen + landscape */
+        const el = document.documentElement;
+        const rfs = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
+        if (rfs) {
+          rfs.call(el).then(() => {
+            if (screen.orientation && screen.orientation.lock) {
+              screen.orientation.lock('landscape').catch(() => {});
+            }
+          }).catch(() => {});
+        }
+      });
+    }
   </script>
 </body>
 </html>
