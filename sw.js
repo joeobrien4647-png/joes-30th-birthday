@@ -1,5 +1,5 @@
 /* Service Worker - Offline Cache for Joe's 30th Birthday Trip */
-var CACHE_NAME = 'joe30-v5';
+var CACHE_NAME = 'joe30-v6';
 var ASSETS = [
     './',
     'index.html',
@@ -22,8 +22,7 @@ var ASSETS = [
     'js/games.js',
     'js/social.js',
     'js/practical.js',
-    'manifest.json',
-    'trailer.html'
+    'manifest.json'
 ];
 
 // Install: cache core assets
@@ -54,6 +53,8 @@ self.addEventListener('fetch', function(e) {
     // Skip non-GET and external requests
     if (e.request.method !== 'GET') return;
     if (!e.request.url.startsWith(self.location.origin)) return;
+    // Never cache trailer - always fetch fresh
+    if (e.request.url.indexOf('trailer') !== -1) return;
 
     e.respondWith(
         fetch(e.request).then(function(response) {
