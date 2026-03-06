@@ -59,8 +59,9 @@
     #crawl-intro {
       position: absolute; top: 42%; left: 0; right: 0;
       font-family: 'Cormorant Garamond', serif; font-style: italic;
-      font-size: clamp(1.6rem, 4vw, 2.6rem); letter-spacing: 0.25em;
-      color: var(--gold); text-align: center; white-space: nowrap;
+      font-size: clamp(1.2rem, 4vw, 2.6rem); letter-spacing: 0.25em;
+      color: var(--gold); text-align: center;
+      padding: 0 1rem;
       opacity: 0;
       animation: crawl-intro-in 1s 0.3s ease forwards, crawl-intro-out 1s 3.5s ease forwards;
     }
@@ -769,6 +770,7 @@
       .subtitle { font-size: clamp(0.7rem, 3vw, 1rem); letter-spacing: 0.25em; }
 
       /* Star Wars crawl */
+      #crawl-intro { font-size: clamp(1rem, 4vw, 1.8rem); letter-spacing: 0.12em; }
       #crawl { width: 90%; left: 5%; }
       .crawl-title { font-size: clamp(3.5rem, 14vw, 6rem); }
       .crawl-body { font-size: clamp(2rem, 6vw, 3rem); line-height: 1.7; }
@@ -1323,7 +1325,9 @@
       /* Combined audio: Star Wars crossfades into trailer score in one track */
       if (s.id === 's-crawl') {
         audio.currentTime = 0; audio.volume = 0.9;
-        audio.play().catch(() => {});
+        /* Wait for audio to actually start before running timers */
+        const playPromise = audio.play();
+        if (playPromise) playPromise.catch(() => {});
       }
 
       /* Staggered plan day cards */
@@ -1632,12 +1636,14 @@
       o.classList.add('gone');
       setTimeout(() => o.remove(), 700);
 
+      /* Preload audio so it's ready on mobile */
+      audio.load();
+
       /* Request fullscreen on mobile */
       const el = document.documentElement;
       const rfs = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
       if (rfs) {
         rfs.call(el).catch(() => {});
-        /* Lock to landscape if supported */
         if (screen.orientation && screen.orientation.lock) {
           screen.orientation.lock('landscape').catch(() => {});
         }
