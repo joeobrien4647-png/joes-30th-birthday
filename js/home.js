@@ -483,6 +483,7 @@ function initGuestLogin() {
     const savedGuest = localStorage.getItem('guestCode');
     if (savedGuest && GUEST_DATA[savedGuest]) {
         showDashboard(savedGuest);
+        window.scrollTo(0, 0);
     }
 
     // Listen for shared guest picker login
