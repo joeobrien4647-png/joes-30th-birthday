@@ -490,6 +490,7 @@ function initGuestLogin() {
         var code = e.detail && e.detail.code;
         if (code && GUEST_DATA[code]) {
             showDashboard(code);
+            window.scrollTo(0, 0);
         }
     });
 
