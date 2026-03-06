@@ -759,40 +759,94 @@
     .ov-label { font-family: 'Montserrat', sans-serif; font-size: 0.75rem; letter-spacing: 0.4em; text-transform: uppercase; color: #555; }
     .ov-note { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; color: #333; font-style: italic; }
 
-    /* ── Rotate overlay (mobile portrait) ── */
-    #rotate-overlay {
-      display: none;
-      position: fixed; inset: 0; z-index: 9999;
-      background: var(--dark);
-      flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem;
-    }
-    #rotate-overlay .rotate-phone {
-      width: 60px; height: 60px;
-      animation: rotateHint 2s ease-in-out infinite;
-    }
-    @keyframes rotateHint {
-      0%, 100% { transform: rotate(0deg); }
-      30%, 70% { transform: rotate(90deg); }
-    }
-    #rotate-overlay .rotate-text {
-      font-family: 'Montserrat', sans-serif; font-weight: 700;
-      font-size: 0.9rem; letter-spacing: 0.3em; text-transform: uppercase;
-      color: var(--gold); text-align: center;
-    }
-    #rotate-overlay .rotate-sub {
-      font-family: 'Cormorant Garamond', serif; font-weight: 300; font-style: italic;
-      font-size: 1rem; color: var(--dim); letter-spacing: 0.15em; text-align: center;
-    }
-
+    /* ── Mobile portrait ── */
     @media (max-width: 768px) and (orientation: portrait) {
-      #rotate-overlay { display: flex; }
-      #stage, .bar, #vig, #particles, #ov { display: none !important; }
+      .bar { display: none; }
+      .scene { padding: 4vh 6vw; }
+
+      /* Title card */
+      .title { font-size: clamp(2.8rem, 12vw, 5rem); }
+      .subtitle { font-size: clamp(0.7rem, 3vw, 1rem); letter-spacing: 0.25em; }
+
+      /* Star Wars crawl */
+      #crawl { width: 90%; left: 5%; }
+      .crawl-title { font-size: clamp(3.5rem, 14vw, 6rem); }
+      .crawl-body { font-size: clamp(2rem, 6vw, 3rem); line-height: 1.7; }
+      .crawl-ep { font-size: clamp(1.6rem, 6vw, 2.5rem); }
+
+      /* Browser mockup */
+      .browser { width: 90vw; }
+      .b-body { padding: 16px; }
+      .m-row { gap: 8px; }
+      .m-cd { min-width: 56px; padding: 10px 12px; }
+      .m-n { font-size: 1.5rem; }
+      .m-title { font-size: 1.1rem; }
+      .caption { font-size: clamp(0.9rem, 3.5vw, 1.3rem); }
+
+      /* Plan grid */
+      .plan-title { font-size: clamp(2rem, 8vw, 3.5rem); }
+      .plan-grid { gap: 8px; margin-top: 1.2rem; }
+      .plan-day { min-width: 28%; padding: 0.7rem 0.5rem; }
+      .plan-day-i { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+      .plan-day-t { font-size: clamp(0.55rem, 2.5vw, 0.75rem); }
+      .plan-day-n { font-size: clamp(0.5rem, 2vw, 0.65rem); }
+
+      /* Teams */
+      .games-title { font-size: clamp(2rem, 8vw, 3.5rem); }
+      .games-sub { font-size: clamp(0.85rem, 3.5vw, 1.2rem); }
+      .games-teams { gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; justify-content: center; }
+      .team-badge { width: clamp(60px, 18vw, 85px); height: clamp(60px, 18vw, 85px); }
+      .team-name { font-size: clamp(0.5rem, 2.5vw, 0.7rem); }
+      .games-stakes { font-size: clamp(0.5rem, 2.2vw, 0.65rem); }
+
+      /* Crew */
+      .crew-count { font-size: clamp(5rem, 22vw, 9rem); }
+      .crew-label { font-size: clamp(0.6rem, 2.5vw, 0.8rem); }
+      .crew-sub { font-size: clamp(1rem, 4vw, 1.4rem); }
+      .crew-venue { font-size: clamp(0.5rem, 2vw, 0.65rem); }
+
+      /* Site features */
+      .site-title { font-size: clamp(1.8rem, 7vw, 3rem); }
+      .site-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 100%; }
+      .site-feat { padding: 0.8rem 0.4rem; }
+      .site-feat-i { font-size: clamp(1.2rem, 5vw, 1.6rem); }
+      .site-feat-t { font-size: clamp(0.45rem, 2vw, 0.6rem); }
+
+      /* Rules */
+      .rules-title { font-size: clamp(1.8rem, 7vw, 3rem); }
+      .rules-item { font-size: clamp(0.95rem, 3.8vw, 1.4rem); line-height: 2; }
+      .rules-item span { font-size: clamp(0.7rem, 2.5vw, 0.9rem); }
+
+      /* Montage */
+      .mc-t { font-size: clamp(2.5rem, 11vw, 5rem); }
+      .mc-i { font-size: clamp(3rem, 12vw, 5rem); }
+
+      /* Popworld */
+      .pw-big { font-size: clamp(2.5rem, 12vw, 5rem); }
+      .pw-top { font-size: clamp(0.6rem, 2.8vw, 0.9rem); }
+      .pw-bot { font-size: clamp(0.7rem, 3vw, 1rem); }
+
+      /* Countdown */
+      .cd-row { gap: clamp(0.8rem, 4vw, 1.8rem); }
+      .cd-n { font-size: clamp(3rem, 14vw, 6rem); }
+      .cd-l { font-size: clamp(0.45rem, 2vw, 0.6rem); }
+      .cd-s { font-size: clamp(1.8rem, 8vw, 3.5rem); }
+      .cd-date { font-size: clamp(0.9rem, 3.5vw, 1.4rem); letter-spacing: 0.25em; }
+
+      /* CTA */
+      .cta-txt { font-size: clamp(1.1rem, 5vw, 1.8rem); letter-spacing: 0.2em; }
+      .cta-url { font-size: clamp(1.8rem, 8vw, 3rem); }
+      .cta-sub { font-size: clamp(0.5rem, 2.2vw, 0.7rem); }
+      #qrcode canvas, #qrcode img { max-width: 130px; }
+
+      /* Chateau photo label */
+      .chateau-photo-label { font-size: clamp(1.5rem, 7vw, 2.8rem); bottom: 20vh; }
     }
 
-    /* ── Mobile landscape tweaks ── */
+    /* ── Mobile landscape ── */
     @media (max-height: 500px) {
-      .bar { height: 4vh; }
-      .scene { padding: 5vh 5vw; }
+      .bar { height: 3vh; }
+      .scene { padding: 4vh 5vw; }
       .title { font-size: clamp(2rem, 7vw, 3.5rem); }
       .browser { width: min(50vw, 400px); }
       .b-body { padding: 12px; }
@@ -811,61 +865,6 @@
   </style>
 </head>
 <body>
-
-  <!-- Rotate phone overlay (mobile portrait only) -->
-  <div id="rotate-overlay">
-    <svg class="rotate-phone" viewBox="0 0 60 60" fill="none">
-      <rect x="15" y="5" width="30" height="50" rx="4" stroke="#f5c842" stroke-width="2"/>
-      <circle cx="30" cy="48" r="2" fill="#f5c842"/>
-      <path d="M52 20 C56 20 56 24 52 24 L50 22 M52 20 L50 18" stroke="#aaa" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    <div class="rotate-text">Rotate Your Phone</div>
-    <div class="rotate-sub">This trailer is best in landscape</div>
-    <button id="rotate-play-btn" style="
-      margin-top: 1.5rem; padding: 0.7rem 2rem;
-      background: none; border: 1.5px solid rgba(245,200,66,0.4);
-      border-radius: 30px; color: var(--gold);
-      font-family: 'Montserrat', sans-serif; font-size: 0.7rem;
-      font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase;
-      cursor: pointer; transition: border-color 0.2s;
-    ">Or play anyway</button>
-  </div>
-
-  <!-- In-app browser warning -->
-  <div id="inapp-overlay" style="
-    display: none; position: fixed; inset: 0; z-index: 99999;
-    background: #080808; flex-direction: column; align-items: center;
-    justify-content: center; gap: 1.2rem; padding: 2rem; text-align: center;
-  ">
-    <div style="font-size: 2.5rem;">🎬</div>
-    <div style="
-      font-family: 'Montserrat', sans-serif; font-weight: 700;
-      font-size: 1rem; letter-spacing: 0.2em; text-transform: uppercase;
-      color: #f5c842;
-    ">Open in your browser</div>
-    <div style="
-      font-family: 'Cormorant Garamond', serif; font-size: 1rem;
-      color: #aaa; line-height: 1.6; max-width: 280px;
-    ">This trailer works best in Safari or Chrome. Tap the menu <span style="
-      display: inline-block; border: 1px solid #555; border-radius: 4px;
-      padding: 1px 6px; font-family: 'Montserrat', sans-serif; font-size: 0.7rem;
-      color: #888; vertical-align: middle;
-    ">⋯</span> and choose <strong style="color:#fff">"Open in Browser"</strong></div>
-    <a id="inapp-open-btn" style="
-      margin-top: 0.8rem; padding: 0.7rem 2rem;
-      background: none; border: 1.5px solid rgba(245,200,66,0.4);
-      border-radius: 30px; color: #f5c842;
-      font-family: 'Montserrat', sans-serif; font-size: 0.7rem;
-      font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase;
-      text-decoration: none; cursor: pointer;
-    " href="" target="_blank">Try opening now</a>
-    <button id="inapp-skip" style="
-      margin-top: 0.5rem; background: none; border: none;
-      font-family: 'Montserrat', sans-serif; font-size: 0.6rem;
-      letter-spacing: 0.2em; text-transform: uppercase;
-      color: #555; cursor: pointer;
-    ">Watch here anyway</button>
-  </div>
 
   <div id="ov">
     <div class="ov-btn">▶</div>
@@ -1100,20 +1099,6 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script>
-    /* ── In-app browser detection ── */
-    (function() {
-      const ua = navigator.userAgent || '';
-      const isInApp = /FBAN|FBAV|Instagram|Messenger|Line\/|Twitter|Snapchat|WhatsApp/i.test(ua);
-      if (isInApp) {
-        const ov = document.getElementById('inapp-overlay');
-        ov.style.display = 'flex';
-        document.getElementById('inapp-open-btn').href = window.location.href;
-        document.getElementById('inapp-skip').addEventListener('click', function() {
-          ov.style.display = 'none';
-        });
-      }
-    })();
-
     /* ── Init ── */
     new QRCode(document.getElementById('qrcode'), {
       text: 'https://joes30.com', width: 180, height: 180,
@@ -1662,28 +1647,6 @@
       go(0);
     });
 
-    /* "Play anyway" from portrait rotate screen */
-    const rpb = document.getElementById('rotate-play-btn');
-    if (rpb) {
-      rpb.addEventListener('click', () => {
-        /* Hide rotate overlay */
-        document.getElementById('rotate-overlay').style.display = 'none';
-        /* Show stage + controls */
-        document.getElementById('stage').style.display = '';
-        document.querySelectorAll('.bar, #vig, #particles, #ov').forEach(el => el.style.display = '');
-
-        /* Go fullscreen + landscape */
-        const el = document.documentElement;
-        const rfs = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
-        if (rfs) {
-          rfs.call(el).then(() => {
-            if (screen.orientation && screen.orientation.lock) {
-              screen.orientation.lock('landscape').catch(() => {});
-            }
-          }).catch(() => {});
-        }
-      });
-    }
   </script>
 </body>
 </html>
