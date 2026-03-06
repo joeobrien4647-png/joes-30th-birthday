@@ -21,6 +21,9 @@
     --text-light: #666666;
     --text-white: #FFFFFF;
 
+    /* Borders */
+    --border-color: rgba(0, 0, 0, 0.08);
+
     /* Gradients */
     --gradient-primary: linear-gradient(135deg, #FF6B9D 0%, #C850C0 50%, #7C3AED 100%);
     --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 100%);

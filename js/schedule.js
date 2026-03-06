@@ -709,7 +709,7 @@ function initActivitySignups() {
     var guestName = Auth.isLoggedIn() ? Auth.getGuestName() : null;
 
     // Replace with Joe's WhatsApp number in international format (no + or spaces)
-    var JOE_WA_NUMBER = '447XXXXXXXXX';
+    var JOE_WA_NUMBER = '447501395277';
 
     var SIGNUP_ACTIVITIES = [
         {
@@ -874,7 +874,7 @@ function renderAdminPanel() {
     var existing = document.getElementById('admin-activity-panel');
     if (existing) existing.remove();
 
-    var JOE_WA_NUMBER = '447XXXXXXXXX';
+    var JOE_WA_NUMBER = '447501395277';
 
     var ACTIVITIES = [
         { id: 'golf', name: 'Golf (Thu 30 Apr)', emoji: '\u26F3' },
