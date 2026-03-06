@@ -831,6 +831,42 @@
     ">Or play anyway</button>
   </div>
 
+  <!-- In-app browser warning -->
+  <div id="inapp-overlay" style="
+    display: none; position: fixed; inset: 0; z-index: 99999;
+    background: #080808; flex-direction: column; align-items: center;
+    justify-content: center; gap: 1.2rem; padding: 2rem; text-align: center;
+  ">
+    <div style="font-size: 2.5rem;">🎬</div>
+    <div style="
+      font-family: 'Montserrat', sans-serif; font-weight: 700;
+      font-size: 1rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: #f5c842;
+    ">Open in your browser</div>
+    <div style="
+      font-family: 'Cormorant Garamond', serif; font-size: 1rem;
+      color: #aaa; line-height: 1.6; max-width: 280px;
+    ">This trailer works best in Safari or Chrome. Tap the menu <span style="
+      display: inline-block; border: 1px solid #555; border-radius: 4px;
+      padding: 1px 6px; font-family: 'Montserrat', sans-serif; font-size: 0.7rem;
+      color: #888; vertical-align: middle;
+    ">⋯</span> and choose <strong style="color:#fff">"Open in Browser"</strong></div>
+    <a id="inapp-open-btn" style="
+      margin-top: 0.8rem; padding: 0.7rem 2rem;
+      background: none; border: 1.5px solid rgba(245,200,66,0.4);
+      border-radius: 30px; color: #f5c842;
+      font-family: 'Montserrat', sans-serif; font-size: 0.7rem;
+      font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase;
+      text-decoration: none; cursor: pointer;
+    " href="" target="_blank">Try opening now</a>
+    <button id="inapp-skip" style="
+      margin-top: 0.5rem; background: none; border: none;
+      font-family: 'Montserrat', sans-serif; font-size: 0.6rem;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: #555; cursor: pointer;
+    ">Watch here anyway</button>
+  </div>
+
   <div id="ov">
     <div class="ov-btn">▶</div>
     <div class="ov-label">Play Trailer</div>
@@ -1064,6 +1100,20 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script>
+    /* ── In-app browser detection ── */
+    (function() {
+      const ua = navigator.userAgent || '';
+      const isInApp = /FBAN|FBAV|Instagram|Messenger|Line\/|Twitter|Snapchat|WhatsApp/i.test(ua);
+      if (isInApp) {
+        const ov = document.getElementById('inapp-overlay');
+        ov.style.display = 'flex';
+        document.getElementById('inapp-open-btn').href = window.location.href;
+        document.getElementById('inapp-skip').addEventListener('click', function() {
+          ov.style.display = 'none';
+        });
+      }
+    })();
+
     /* ── Init ── */
     new QRCode(document.getElementById('qrcode'), {
       text: 'https://joes30.com', width: 180, height: 180,
