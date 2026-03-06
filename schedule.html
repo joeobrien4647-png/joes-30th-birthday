@@ -15,10 +15,13 @@
     <meta name="twitter:description" content="Château Roussignol, Loire Valley · 29 Apr – 4 May 2026">
     <meta name="twitter:image" content="https://joes30.com/images/og-preview.jpg">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#764ba2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="stylesheet" href="css/base.css?v=19">
-    <link rel="stylesheet" href="css/components.css?v=1">
+    <link rel="stylesheet" href="css/components.css?v=2">
     <link rel="stylesheet" href="css/nav.css?v=1">
-    <link rel="stylesheet" href="css/schedule.css?v=39">
+    <link rel="stylesheet" href="css/schedule.css?v=41">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -54,12 +57,53 @@
                 </div>
                 <div class="envelope-front"></div>
                 <div class="envelope-cut-line"></div>
+                <!-- Letter opener sword -->
+                <div class="envelope-sword" id="envelope-sword">
+                    <svg viewBox="0 0 120 24" xmlns="http://www.w3.org/2000/svg" class="sword-svg">
+                        <!-- Pommel (left end) -->
+                        <circle cx="7" cy="12" r="3.5" fill="#8B6914" stroke="#6d5210" stroke-width="0.8"/>
+                        <circle cx="7.5" cy="11.5" r="1.2" fill="rgba(255,215,0,0.35)"/>
+                        <!-- Grip -->
+                        <rect x="9" y="9" width="18" height="6" rx="2" fill="url(#grip-grad)"/>
+                        <!-- Grip wrapping -->
+                        <line x1="12" y1="9" x2="12" y2="15" stroke="rgba(139,105,20,0.4)" stroke-width="0.6"/>
+                        <line x1="16" y1="9" x2="16" y2="15" stroke="rgba(139,105,20,0.4)" stroke-width="0.6"/>
+                        <line x1="20" y1="9" x2="20" y2="15" stroke="rgba(139,105,20,0.4)" stroke-width="0.6"/>
+                        <line x1="24" y1="9" x2="24" y2="15" stroke="rgba(139,105,20,0.4)" stroke-width="0.6"/>
+                        <!-- Guard -->
+                        <ellipse cx="30" cy="12" rx="4" ry="8" fill="#8B6914" stroke="#6d5210" stroke-width="0.8"/>
+                        <ellipse cx="30" cy="12" rx="2.5" ry="6" fill="none" stroke="rgba(255,215,0,0.3)" stroke-width="0.5"/>
+                        <!-- Blade (tip points right) -->
+                        <polygon points="34,8 120,10 120,14 34,16" fill="url(#blade-grad)"/>
+                        <!-- Blade edge highlight -->
+                        <line x1="36" y1="12" x2="118" y2="12" stroke="rgba(255,255,255,0.5)" stroke-width="0.5"/>
+                        <!-- Blade tip -->
+                        <polygon points="118,10 120,12 118,14" fill="#e0d8c8"/>
+                        <!-- Gradients -->
+                        <defs>
+                            <linearGradient id="blade-grad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#e8e0d0"/>
+                                <stop offset="35%" stop-color="#f5f0e8"/>
+                                <stop offset="50%" stop-color="#ffffff"/>
+                                <stop offset="65%" stop-color="#f5f0e8"/>
+                                <stop offset="100%" stop-color="#c8bfaf"/>
+                            </linearGradient>
+                            <linearGradient id="grip-grad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#5a3e1b"/>
+                                <stop offset="50%" stop-color="#3d2a12"/>
+                                <stop offset="100%" stop-color="#5a3e1b"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
             </div>
+            <p class="envelope-tap-hint">Tap to open</p>
         </div>
     </div>
 
     <!-- Letter Full Screen (shown after envelope opens) -->
     <div id="letter-fullscreen" class="letter-fullscreen" aria-hidden="true">
+        <button class="letter-fs-close" id="letter-fs-close" aria-label="Close letter">&times;</button>
         <div class="letter-fs-paper">
             <div class="letter-fs-stamp">&#127467;&#127479;<span class="letter-fs-stamp-text">FRANCE</span></div>
             <div class="letter-fs-ornament">&#10022; &middot; &#10022; &middot; &#10022;</div>
@@ -69,56 +113,58 @@
             <div class="letter-fs-rule"></div>
             <div class="letter-fs-body">
                 <p class="letter-salutation">Dear guest,</p>
-                <p>You made it onto the list. Here's what's waiting.</p>
+                <p>You made it onto the list. Six days, one ch&acirc;teau, and absolutely nothing left to chance.</p>
                 <ul class="letter-day-list">
                     <li class="letter-day-item">
                         <div class="letter-day-meta">
                             <span class="letter-day-date">Wed 29 Apr</span>
                             <span class="letter-day-title">Arrival Day &#9992;&#65039;</span>
                         </div>
-                        <p class="letter-day-desc">Up at 2am, on French soil by breakfast. Check-in from 10:30am — straight to the ch&acirc;teau, no waiting around. Welcome BBQ in the evening. The trip starts properly.</p>
+                        <p class="letter-day-desc">Stansted at dawn. French soil by breakfast. Welcome BBQ and the first night begins.</p>
                     </li>
                     <li class="letter-day-item">
                         <div class="letter-day-meta">
                             <span class="letter-day-date">Thu 30 Apr</span>
                             <span class="letter-day-title">First Full Day &#9971;</span>
                         </div>
-                        <p class="letter-day-desc">Golf for the keen ones, yoga and croissants for everyone else. By lunch the group reunites and the team battles begin. Pool games, team dinner, evening games. Points are on the board.</p>
+                        <p class="letter-day-desc">Golf, yoga, or a lie-in. Your call. Then the team battles begin.</p>
                     </li>
                     <li class="letter-day-item">
                         <div class="letter-day-meta">
                             <span class="letter-day-date">Fri 1 May</span>
                             <span class="letter-day-title">Adventure Day &#128678;</span>
                         </div>
-                        <p class="letter-day-desc">Canoe the Creuse river in the morning. Wine tasting on the terrace in the afternoon: a private sommelier, Loire Valley wines, teams competing blind. One of those days you'll be talking about for years.</p>
+                        <p class="letter-day-desc">Canoes in the morning. One of France's prettiest villages by afternoon.</p>
                     </li>
                     <li class="letter-day-item">
                         <div class="letter-day-meta">
                             <span class="letter-day-date">Sat 2 May</span>
                             <span class="letter-day-title">The Big Day &#127874;</span>
                         </div>
-                        <p class="letter-day-desc">Joe turns 30. Birthday Olympics on the lawn, pool party in the afternoon, birthday dinner at 7. Then the 90s Icons party: fancy dress mandatory, PopWorld in the garden, dancing till the neighbours complain.</p>
+                        <p class="letter-day-desc">Joe turns 30. Birthday Olympics, the big dinner, then 90s Icons party till sunrise.</p>
                     </li>
                     <li class="letter-day-item">
                         <div class="letter-day-meta">
                             <span class="letter-day-date">Sun 3 May</span>
                             <span class="letter-day-title">Last Full Day &#127795;</span>
                         </div>
-                        <p class="letter-day-desc">Lazy brunch to shake off the night before. Bellebouche: treetop ropes, mini golf, pedalos on the lake. One final evening together, outdoor cinema in the garden.</p>
+                        <p class="letter-day-desc">Treetop adventure, lake, and one final evening together.</p>
                     </li>
                     <li class="letter-day-item">
                         <div class="letter-day-meta">
                             <span class="letter-day-date">Mon 4 May</span>
                             <span class="letter-day-title">Au Revoir &#9992;&#65039;</span>
                         </div>
-                        <p class="letter-day-desc">Last croissants. Big clean. Group photo on the steps. Flight home from Poitiers at 16:15. The best week of the 20s.</p>
+                        <p class="letter-day-desc">Last croissants. Group photo. Home by teatime.</p>
                     </li>
                 </ul>
                 <div class="letter-fs-footer">
-                    <p>There are games. There are prizes. There are forfeits.<br>And a few secrets that don't get revealed until you're actually there.</p>
+                    <p>There are games. There are prizes. There are a few secrets.<br>You'll find out when you get there.</p>
                     <p class="letter-signoff">See you at Stansted.<br><span class="letter-signature">Joe x</span></p>
                 </div>
             </div>
+        </div>
+        <div class="letter-fs-cta-wrap">
             <button class="letter-fs-cta" id="letter-fs-cta">Open the Full Schedule &rarr;</button>
         </div>
     </div>
@@ -155,7 +201,7 @@
     <nav class="sub-nav">
         <ul class="sub-nav-links">
             <li><a href="#agenda">Agenda</a></li>
-            <li><a href="#rotas">Rotas</a></li>
+            <li><a href="#rotas">Kitchen Rotas</a></li>
             <li><a href="#activity-signups">Sign Up</a></li>
         </ul>
     </nav>
@@ -227,7 +273,7 @@
                         <div class="dlh-date">Wednesday 29th April</div>
                         <h3 class="dlh-title">Travel &amp; Arrival Day &#9992;&#65039;</h3>
                         <div class="dlh-rule"></div>
-                        <p class="dlh-note">Up at 2am. On French soil by breakfast. 26 people, one ch&acirc;teau, six days. It starts here.</p>
+                        <p class="dlh-note">Stansted at dawn. French soil by breakfast. 26 people, one ch&acirc;teau, six days. It starts here.</p>
                     </div>
 
                     <div class="timeline">
@@ -246,21 +292,21 @@
                                     <div class="time">2:00 AM</div>
                                     <div class="activity">
                                         <h4>Leave for Stansted</h4>
-                                        <p>Very early start. Set multiple alarms. Aim to arrive by 3:55am for a 2-hour check-in window.</p>
+                                        <p>Very early start. Set multiple alarms.</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item">
                                     <div class="time">5:55 AM</div>
                                     <div class="activity">
                                         <h4>Depart London Stansted ✈️</h4>
-                                        <p>Ryanair to Poitiers. 1hr 30m. Bonjour la France.</p>
+                                        <p>Bonjour la France.</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item">
                                     <div class="time">8:25 AM</div>
                                     <div class="activity">
                                         <h4>Land at Poitiers Airport</h4>
-                                        <p>Hire cars, regroup, and breathe. We're in France.</p>
+                                        <p>We're in France.</p>
                                     </div>
                                 </div>
                             </div>
@@ -268,60 +314,33 @@
 
                         <div class="time-bucket">
                             <div class="time-bucket-header">
-                                <span class="bucket-time-range">9:00 AM – 10:30 AM</span>
+                                <span class="bucket-time-range">9:00 AM – Evening</span>
                                 <div class="bucket-summary">
-                                    <span class="bucket-emoji">☕</span>
-                                    <span class="bucket-title">Coffee &amp; Drive</span>
+                                    <span class="bucket-emoji">🏰</span>
+                                    <span class="bucket-title">Arrive &amp; Settle In</span>
                                 </div>
                                 <span class="bucket-chevron">▾</span>
                             </div>
                             <div class="time-bucket-detail">
-                                <div class="timeline-item">
-                                    <div class="time">~9:00 AM</div>
-                                    <div class="activity">
-                                        <h4>Quick Coffee Near the Airport</h4>
-                                        <p>Pick up hire cars, grab a quick coffee and croissants nearby. No lingering — the château is waiting.</p>
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="time">~9:30 AM</div>
-                                    <div class="activity">
-                                        <h4>Drive to Chateau</h4>
-                                        <p>Head straight to the château (~1hr drive). Windows down, music up. We're nearly there.</p>
-                                    </div>
-                                </div>
                                 <div class="timeline-item highlight">
                                     <div class="time">~10:30 AM</div>
                                     <div class="activity">
                                         <h4>Arrive at Ch&acirc;teau Roussignol! 🏰</h4>
-                                        <p>Check-in from 10:30am — we're straight in. Keys in hand, bags down, first look at the place we've all been waiting for.</p>
+                                        <p>Coffee, croissants, quick drive — then keys in hand. First look at the place we've all been waiting for.</p>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="time-bucket">
-                            <div class="time-bucket-header">
-                                <span class="bucket-time-range">10:30 AM – 6:30 PM</span>
-                                <div class="bucket-summary">
-                                    <span class="bucket-emoji">🏰</span>
-                                    <span class="bucket-title">Settle In</span>
-                                </div>
-                                <span class="bucket-chevron">▾</span>
-                            </div>
-                            <div class="time-bucket-detail">
                                 <div class="timeline-item">
                                     <div class="time">~11:00 AM</div>
                                     <div class="activity">
                                         <h4>Shops Run</h4>
-                                        <p>Quick group trip to grab wine, beer, BBQ supplies and food for the week. Le Blanc or Le Blanc Carrefour nearby. Everyone chips in, back within the hour.</p>
+                                        <p>Quick group trip for wine, beer, BBQ supplies and food for the week.</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item">
                                     <div class="time">Afternoon</div>
                                     <div class="activity">
                                         <h4>Explore &amp; Decompress</h4>
-                                        <p>First dip in the pool, wander the grounds, explore the château. You've been up since 2am — now you've got the whole afternoon to soak it in.</p>
+                                        <p>First dip in the pool, wander the grounds. You've been up since dawn — soak it in.</p>
                                     </div>
                                 </div>
                             </div>
@@ -378,7 +397,7 @@
                         <div class="dlh-date">Thursday 30th April</div>
                         <h3 class="dlh-title">First Full Day &#9971;</h3>
                         <div class="dlh-rule"></div>
-                        <p class="dlh-note">First full morning. Golf crew up early. Everyone else: croissants, coffee, no alarm needed. By lunch, the team battles begin.</p>
+                        <p class="dlh-note">First full morning. Golf crew up early. Everyone else: croissants, coffee, no alarm needed. Pool all afternoon, then dinner and games.</p>
                     </div>
                     <div class="timeline">
 
@@ -395,22 +414,22 @@
                                 <div class="timeline-item highlight">
                                     <div class="time">Option 1</div>
                                     <div class="activity">
-                                        <h4>⛳ Golf</h4>
-                                        <p>Early start. Golf du Val de l'Indre, 9 holes on a beautiful parkland course. ~50 min drive, ~&pound;65/pp inc. club hire. Perfect lads' morning, back by lunch.</p>
+                                        <h4>⛳ Golf <span class="activity-badge badge-optional">Optional</span></h4>
+                                        <p>9 holes on a beautiful parkland course. Back by lunch.</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item">
                                     <div class="time">Option 2</div>
                                     <div class="activity">
-                                        <h4>🧘 Morning Walk &amp; Yoga</h4>
-                                        <p>Sophie leads a yoga session on the lawn, followed by a gentle walk through the chateau grounds. Peaceful, scenic, no alarm needed.</p>
+                                        <h4>🧘 Morning Walk &amp; Yoga <span class="activity-badge badge-optional">Optional</span></h4>
+                                        <p>Yoga on the lawn, gentle walk through the grounds. No alarm needed.</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item">
                                     <div class="time">Option 3</div>
                                     <div class="activity">
-                                        <h4>😴 Sleep In</h4>
-                                        <p>First proper morning at the chateau, no judgment. Croissants and coffee waiting whenever you surface.</p>
+                                        <h4>😴 Sleep In <span class="activity-badge badge-optional">Optional</span></h4>
+                                        <p>Croissants and coffee waiting whenever you surface.</p>
                                     </div>
                                 </div>
                             </div>
@@ -418,19 +437,19 @@
 
                         <div class="time-bucket">
                             <div class="time-bucket-header">
-                                <span class="bucket-time-range">12:30 PM – 2:30 PM</span>
+                                <span class="bucket-time-range">12:30 PM – 7:30 PM</span>
                                 <div class="bucket-summary">
-                                    <span class="bucket-emoji">🥖</span>
-                                    <span class="bucket-title">Lunch &amp; Reunite</span>
+                                    <span class="bucket-emoji">🏊</span>
+                                    <span class="bucket-title">Lunch, Pool &amp; Chill</span>
                                 </div>
                                 <span class="bucket-chevron">▾</span>
                             </div>
                             <div class="time-bucket-detail">
                                 <div class="timeline-item">
-                                    <div class="time">12:30 PM</div>
+                                    <div class="time">Afternoon</div>
                                     <div class="activity">
-                                        <h4>Lunch: Everyone Back Together</h4>
-                                        <p>Golfers back, everyone reconvenes. Lunch details to follow.</p>
+                                        <h4>🏊 Lunch, Pool &amp; Free Time</h4>
+                                        <p>Golfers back, everyone together. Lunch, first dip in the pool, p&eacute;tanque, explore the grounds. No rush.</p>
                                     </div>
                                 </div>
                             </div>
@@ -438,27 +457,7 @@
 
                         <div class="time-bucket">
                             <div class="time-bucket-header">
-                                <span class="bucket-time-range">2:30 PM – 6:00 PM</span>
-                                <div class="bucket-summary">
-                                    <span class="bucket-emoji">🏊</span>
-                                    <span class="bucket-title">Pool &amp; Garden Games</span>
-                                </div>
-                                <span class="bucket-chevron">▾</span>
-                            </div>
-                            <div class="time-bucket-detail">
-                                <div class="timeline-item highlight">
-                                    <div class="time">2:30 PM</div>
-                                    <div class="activity">
-                                        <h4>🏊 Pool &amp; Garden Team Games 🔒</h4>
-                                        <p>Team battle in and around the pool. Points up for grabs. Start practising your dives. Judging will be brutal.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="time-bucket">
-                            <div class="time-bucket-header">
-                                <span class="bucket-time-range">6:00 PM – Late</span>
+                                <span class="bucket-time-range">7:30 PM – Late</span>
                                 <div class="bucket-summary">
                                     <span class="bucket-emoji">🍽️</span>
                                     <span class="bucket-title">Dinner &amp; Evening Games</span>
@@ -466,24 +465,17 @@
                                 <span class="bucket-chevron">▾</span>
                             </div>
                             <div class="time-bucket-detail">
-                                <div class="timeline-item">
-                                    <div class="time">6:00 PM</div>
-                                    <div class="activity">
-                                        <h4>Free Time &amp; Showers</h4>
-                                        <p>Freshen up before the evening kicks off.</p>
-                                    </div>
-                                </div>
                                 <div class="timeline-item highlight">
                                     <div class="time">7:30 PM</div>
                                     <div class="activity">
-                                        <h4>🍽️ Team 3 Cooks Dinner</h4>
-                                        <p>First team dinner of the trip. Set the bar high!</p>
+                                        <h4>🍽️ Team Dinner 🔒 <span class="activity-badge badge-everyone">Everyone</span></h4>
+                                        <p>First team dinner of the trip. Which team's cooking? You'll find out on arrival night.</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item highlight">
                                     <div class="time">9:30 PM</div>
                                     <div class="activity">
-                                        <h4>🍺 Evening Team Games 🔒</h4>
+                                        <h4>🍺 Evening Games 🔒</h4>
                                         <p>Leaderboard drama incoming. Details revealed on the night.</p>
                                     </div>
                                 </div>
@@ -500,7 +492,7 @@
                         <div class="dlh-date">Friday 1st May</div>
                         <h3 class="dlh-title">Adventure Day &#128678;</h3>
                         <div class="dlh-rule"></div>
-                        <p class="dlh-note">River by morning. Ros&eacute; by afternoon. Wine tasting on the terrace as the sun goes down. One of those days.</p>
+                        <p class="dlh-note">River by morning. One of France's most beautiful villages by afternoon. Pre-birthday eve by night.</p>
                     </div>
                     <div class="timeline">
 
@@ -517,29 +509,15 @@
                                 <div class="timeline-item">
                                     <div class="time">8:30 AM</div>
                                     <div class="activity">
-                                        <h4>🥐 Help Yourself: Breakfast</h4>
-                                        <p>Busy morning ahead. Grab what you need and get ready.</p>
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="time">9:30 AM</div>
-                                    <div class="activity">
-                                        <h4>Drive to Le Blanc</h4>
-                                        <p>14km, ~15 min from the château. Meet <strong>Canoe Découverte</strong> at their base. They shuttle the group upstream and you paddle back. Cars stay at Le Blanc. All equipment provided.</p>
+                                        <h4>🥐 Breakfast &amp; Get Ready</h4>
+                                        <p>Busy morning ahead. Grab what you need.</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item highlight">
                                     <div class="time">10:00 AM</div>
                                     <div class="activity">
-                                        <h4>🛶 Canoe Team Race!</h4>
-                                        <p>Teams race down the Creuse river, past castles, through the countryside. Life jackets &amp; paddles provided. Points up for grabs!</p>
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="time">12:30 PM</div>
-                                    <div class="activity">
-                                        <h4>Pull Out at Le Blanc</h4>
-                                        <p>Canoes back with Canoe Découverte (+33 2 54 37 77 99). Cars out, shuttle back, then on to lunch.</p>
+                                        <h4>🛶 Canoe Team Race! <span class="activity-badge badge-everyone">Everyone</span></h4>
+                                        <p>Teams race down the Creuse river, past castles, through the countryside. All equipment provided. Points up for grabs!</p>
                                     </div>
                                 </div>
                             </div>
@@ -547,10 +525,10 @@
 
                         <div class="time-bucket">
                             <div class="time-bucket-header">
-                                <span class="bucket-time-range">1:00 PM – 3:30 PM</span>
+                                <span class="bucket-time-range">1:00 PM – 4:00 PM</span>
                                 <div class="bucket-summary">
                                     <span class="bucket-emoji">🏘️</span>
-                                    <span class="bucket-title">Lunch at Angles-sur-l'Anglin</span>
+                                    <span class="bucket-title">Angles-sur-l'Anglin</span>
                                 </div>
                                 <span class="bucket-chevron">▾</span>
                             </div>
@@ -558,8 +536,8 @@
                                 <div class="timeline-item highlight">
                                     <div class="time">1:00 PM</div>
                                     <div class="activity">
-                                        <h4>Lunch in Le Blanc</h4>
-                                        <p>18km, ~18 min from the canoe drop-off. Grab lunch at a local café or restaurant in Le Blanc before heading back.</p>
+                                        <h4>🏘️ Lunch &amp; Explore Angles-sur-l'Anglin <span class="activity-badge badge-everyone">Everyone</span></h4>
+                                        <p>One of France's most beautiful villages. Medieval streets, castle ruins, lunch by the river.</p>
                                     </div>
                                 </div>
                             </div>
@@ -567,19 +545,19 @@
 
                         <div class="time-bucket">
                             <div class="time-bucket-header">
-                                <span class="bucket-time-range">3:30 PM – 4:00 PM</span>
+                                <span class="bucket-time-range">4:00 PM – 8:00 PM</span>
                                 <div class="bucket-summary">
-                                    <span class="bucket-emoji">🌅</span>
-                                    <span class="bucket-title">Back at the Chateau</span>
+                                    <span class="bucket-emoji">🏊</span>
+                                    <span class="bucket-title">Pool &amp; Chill</span>
                                 </div>
                                 <span class="bucket-chevron">▾</span>
                             </div>
                             <div class="time-bucket-detail">
                                 <div class="timeline-item">
-                                    <div class="time">3:30 PM</div>
+                                    <div class="time">Afternoon</div>
                                     <div class="activity">
-                                        <h4>Back at the Chateau &amp; Freshen Up</h4>
-                                        <p>Quick turnaround. Showers, get changed. Wine tasting starts at 4.</p>
+                                        <h4>🏊 Pool, Sun &amp; Free Time</h4>
+                                        <p>You've earned it. Decompress after canoeing and exploring. Recharge before the big night tomorrow.</p>
                                     </div>
                                 </div>
                             </div>
@@ -587,26 +565,19 @@
 
                         <div class="time-bucket">
                             <div class="time-bucket-header">
-                                <span class="bucket-time-range">4:00 PM – Late</span>
+                                <span class="bucket-time-range">8:00 PM – Late</span>
                                 <div class="bucket-summary">
-                                    <span class="bucket-emoji">🍷</span>
-                                    <span class="bucket-title">Wine Tasting, Dinner &amp; Pre-Birthday Eve</span>
+                                    <span class="bucket-emoji">🎉</span>
+                                    <span class="bucket-title">Dinner &amp; Pre-Birthday Eve</span>
                                 </div>
                                 <span class="bucket-chevron">▾</span>
                             </div>
                             <div class="time-bucket-detail">
                                 <div class="timeline-item highlight">
-                                    <div class="time">4:00 PM</div>
-                                    <div class="activity">
-                                        <h4>🍷 Wine Tasting on the Terrace</h4>
-                                        <p>Private sommelier brings Loire Valley wines for a blind tasting competition between teams. Points on the line.</p>
-                                    </div>
-                                </div>
-                                <div class="timeline-item highlight">
                                     <div class="time">8:00 PM</div>
                                     <div class="activity">
-                                        <h4>🍽️ Team 4 Cooks Dinner</h4>
-                                        <p>Pre-birthday eve meal. Set the tone for tomorrow. Make it a good one.</p>
+                                        <h4>🍽️ Team Dinner 🔒 <span class="activity-badge badge-everyone">Everyone</span></h4>
+                                        <p>Pre-birthday eve meal. Set the tone for tomorrow.</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item highlight">
@@ -670,8 +641,8 @@
                                 <div class="timeline-item highlight">
                                     <div class="time">9:00 AM</div>
                                     <div class="activity">
-                                        <h4>&#127859; Team 3 Cooks Birthday Breakfast</h4>
-                                        <p>Croissants, pastries, full spread. The birthday boy gets the royal treatment.</p>
+                                        <h4>&#127859; Birthday Breakfast 🔒</h4>
+                                        <p>Croissants, pastries, full spread. The birthday boy gets the royal treatment. One team's on duty.</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item top-secret" data-unlock="2026-05-02">
@@ -712,7 +683,7 @@
                                     <div class="time">2:30 PM</div>
                                     <div class="activity">
                                         <h4>&#127944; Pool Party &amp; Free Time</h4>
-                                        <p>Slip and slide, pool inflatables, soak up the sun. Last chance before the evening kicks off.</p>
+                                        <p>Slip and slide, pool inflatables, soak up the sun.</p>
                                     </div>
                                 </div>
                             </div>
@@ -731,22 +702,15 @@
                                 <div class="timeline-item highlight">
                                     <div class="time">5:00 PM</div>
                                     <div class="activity">
-                                        <h4>&#127917; 90s Icons: Costumes On!</h4>
-                                        <p>Time to transform. Spice Girls, Fresh Prince, Britney, Oasis, Austin Powers. Who are you coming as?</p>
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="time">6:30 PM</div>
-                                    <div class="activity">
-                                        <h4>&#127870; Drinks on the Terrace</h4>
-                                        <p>Wind down with drinks on the terrace as the birthday evening begins.</p>
+                                        <h4>&#127917; 90s Icons: Costumes On! <span class="activity-badge badge-everyone">Everyone</span></h4>
+                                        <p>Time to transform. Who are you coming as?</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item highlight">
                                     <div class="time">7:00 PM</div>
                                     <div class="activity">
-                                        <h4>&#127869; Team 1 Cooks the Big Dinner</h4>
-                                        <p>The main event. Personalised wine labels, video messages on the projector. Make it unforgettable.</p>
+                                        <h4>&#127869; The Big Birthday Dinner 🔒 <span class="activity-badge badge-everyone">Everyone</span></h4>
+                                        <p>The main event. Drinks on the terrace, then dinner. Make it unforgettable.</p>
                                     </div>
                                 </div>
                             </div>
@@ -834,8 +798,8 @@
                                 <div class="timeline-item highlight">
                                     <div class="time">10:00 AM</div>
                                     <div class="activity">
-                                        <h4>&#127859; Team 4 Cooks Lazy Brunch</h4>
-                                        <p>No alarms. Surface when you surface. Full English meets French pastries. Paracetamol on the table.</p>
+                                        <h4>&#127859; Lazy Brunch 🔒</h4>
+                                        <p>No alarms. Surface when you surface. Full English meets French pastries. Paracetamol on the table. One team's cooking.</p>
                                     </div>
                                 </div>
                             </div>
@@ -851,39 +815,32 @@
                                 <span class="bucket-chevron">▾</span>
                             </div>
                             <div class="time-bucket-detail">
-                                <div class="timeline-item">
-                                    <div class="time">12:30 PM</div>
-                                    <div class="activity">
-                                        <h4>Drive to Bellebouche</h4>
-                                        <p>~30 min drive through the Brenne nature park. Pack sunscreen and a competitive attitude.</p>
-                                    </div>
-                                </div>
                                 <div class="timeline-item highlight">
                                     <div class="time">1:00 PM</div>
                                     <div class="activity">
-                                        <h4>&#127795; Accrobranche: Treetop Adventure!</h4>
-                                        <p>Team challenge across the treetop rope courses at multiple heights and difficulty levels. Points up for grabs for the fastest teams. ~&euro;17/pp group rate.</p>
+                                        <h4>&#127795; Accrobranche: Treetop Adventure! <span class="activity-badge badge-everyone">Everyone</span></h4>
+                                        <p>Team challenge across treetop rope courses. Points up for grabs!</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item">
                                     <div class="time">2:30 PM</div>
                                     <div class="activity">
                                         <h4>Packed Lunch by the Lake</h4>
-                                        <p>Sandwiches, snacks, cold drinks in the sun. Recover from the ropes and enjoy the view.</p>
+                                        <p>Sandwiches, snacks, cold drinks in the sun.</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item highlight">
                                     <div class="time">3:00 PM</div>
                                     <div class="activity">
-                                        <h4>&#9971; Mini Golf: Leaderboard Points!</h4>
-                                        <p>Teams compete in a proper mini golf tournament. Lowest score wins, points on the board. No excuses, no mulligans.</p>
+                                        <h4>&#9971; Mini Golf <span class="activity-badge badge-everyone">Everyone</span></h4>
+                                        <p>Lowest score wins, points on the board. No mulligans.</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item">
                                     <div class="time">4:00 PM</div>
                                     <div class="activity">
-                                        <h4>&#128675; P&eacute;dalos on the Lake</h4>
-                                        <p>Wind down on the water. Perfect Sunday afternoon energy, no competition, just vibes.</p>
+                                        <h4>&#128675; P&eacute;dalos on the Lake <span class="activity-badge badge-optional">Optional</span></h4>
+                                        <p>Wind down on the water. No competition, just vibes.</p>
                                     </div>
                                 </div>
                             </div>
@@ -891,10 +848,10 @@
 
                         <div class="time-bucket">
                             <div class="time-bucket-header">
-                                <span class="bucket-time-range">5:30 PM – 7:30 PM</span>
+                                <span class="bucket-time-range">5:30 PM – Late</span>
                                 <div class="bucket-summary">
-                                    <span class="bucket-emoji">&#127749;</span>
-                                    <span class="bucket-title">Back at the Chateau</span>
+                                    <span class="bucket-emoji">&#127869;</span>
+                                    <span class="bucket-title">Last Evening Together</span>
                                 </div>
                                 <span class="bucket-chevron">▾</span>
                             </div>
@@ -903,34 +860,14 @@
                                     <div class="time">5:30 PM</div>
                                     <div class="activity">
                                         <h4>Last Afternoon by the Pool</h4>
-                                        <p>P&eacute;tanque, sunbathing, soaking it all in. This time tomorrow you'll be home.</p>
+                                        <p>P&eacute;tanque, sunbathing, soaking it all in.</p>
                                     </div>
                                 </div>
-                                <div class="timeline-item">
-                                    <div class="time">6:30 PM</div>
-                                    <div class="activity">
-                                        <h4>Free Time &amp; Packing</h4>
-                                        <p>Start getting your things together. Wander the grounds one last time.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="time-bucket">
-                            <div class="time-bucket-header">
-                                <span class="bucket-time-range">7:30 PM – Late</span>
-                                <div class="bucket-summary">
-                                    <span class="bucket-emoji">&#127869;</span>
-                                    <span class="bucket-title">Last Night Together</span>
-                                </div>
-                                <span class="bucket-chevron">▾</span>
-                            </div>
-                            <div class="time-bucket-detail">
                                 <div class="timeline-item highlight">
                                     <div class="time">7:30 PM</div>
                                     <div class="activity">
-                                        <h4>&#127869; Team 2 Cooks Last Dinner</h4>
-                                        <p>Final group dinner at the chateau. Make it count, last meal on French soil.</p>
+                                        <h4>&#127869; Last Dinner Together 🔒 <span class="activity-badge badge-everyone">Everyone</span></h4>
+                                        <p>Final group dinner. Make it count — last meal on French soil.</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item">
@@ -977,15 +914,15 @@
                                 <div class="timeline-item highlight">
                                     <div class="time">8:00 AM</div>
                                     <div class="activity">
-                                        <h4>&#127859; Team 1 Cooks Last Breakfast</h4>
+                                        <h4>&#127859; Last Breakfast 🔒</h4>
                                         <p>Final team duty! Last croissants on French soil, clear out the fridge.</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item">
                                     <div class="time">9:00 AM</div>
                                     <div class="activity">
-                                        <h4>Pack Up &amp; Big Clean</h4>
-                                        <p>Leave the chateau exactly as we found it. All hands on deck!</p>
+                                        <h4>Pack Up &amp; Big Clean <span class="activity-badge badge-everyone">Everyone</span></h4>
+                                        <p>Leave the ch&acirc;teau as we found it. All hands on deck!</p>
                                     </div>
                                 </div>
                             </div>
@@ -1032,14 +969,14 @@
                                     <div class="time">~2:00 PM</div>
                                     <div class="activity">
                                         <h4>Leave for Poitiers Airport</h4>
-                                        <p>45 mins to Poitiers, final goodbyes to the chateau on the way out.</p>
+                                        <p>Final goodbyes to the ch&acirc;teau on the way out.</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item">
                                     <div class="time">4:15 PM</div>
                                     <div class="activity">
                                         <h4>Depart Poitiers &#9992;</h4>
-                                        <p>Ryanair back to Stansted, just 1hr 25m. Swap stories, cry a little.</p>
+                                        <p>Swap stories, cry a little.</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item highlight">
@@ -1063,8 +1000,8 @@
     <!-- ======== ROTAS / HOUSE RULES ======== -->
     <section id="rotas" class="section rotas">
         <div class="container">
-            <h2 class="section-title">House Rules &amp; Rotas</h2>
-            <p class="section-subtitle">4 teams. Each team cooks twice, cleans twice. Points awarded for every shift.</p>
+            <h2 class="section-title">Kitchen Rotas</h2>
+            <p class="section-subtitle">You'll be split into 4 teams on arrival night. Each team cooks twice and cleans twice across the trip &mdash; every shift earns your team points.</p>
 
             <!-- Duty Matrix -->
             <div class="rota-matrix">
@@ -1138,130 +1075,7 @@
                 </div>
             </div>
 
-            <!-- Team Summary Cards -->
-            <div class="team-duty-cards">
-                <div class="tdc tdc--t1">
-                    <div class="tdc-head">
-                        <span class="tdc-badge">T1</span>
-                        <div>
-                            <div class="tdc-title">Team 1</div>
-                            <div class="tdc-total">10 pts on the line</div>
-                        </div>
-                    </div>
-                    <ul class="tdc-duties">
-                        <li class="tdc-clean"><strong>Fri evening</strong>🧹 Cleans after dinner</li>
-                        <li class="tdc-cook"><strong>Sat evening</strong>🍽️ Cooks the birthday dinner</li>
-                        <li class="tdc-clean"><strong>Sun morning</strong>🧹 Cleans after brunch</li>
-                        <li class="tdc-cook"><strong>Mon morning</strong>🍳 Cooks last breakfast</li>
-                    </ul>
-                </div>
 
-                <div class="tdc tdc--t2">
-                    <div class="tdc-head">
-                        <span class="tdc-badge">T2</span>
-                        <div>
-                            <div class="tdc-title">Team 2</div>
-                            <div class="tdc-total">10 pts on the line</div>
-                        </div>
-                    </div>
-                    <ul class="tdc-duties">
-                        <li class="tdc-cook"><strong>Fri morning</strong>🍳 Cooks breakfast</li>
-                        <li class="tdc-clean"><strong>Sat evening</strong>🧹 Cleans after dinner</li>
-                        <li class="tdc-cook"><strong>Sun evening</strong>🍽️ Cooks last dinner</li>
-                        <li class="tdc-clean"><strong>Mon morning</strong>🧹 Cleans after breakfast</li>
-                    </ul>
-                </div>
-
-                <div class="tdc tdc--t3">
-                    <div class="tdc-head">
-                        <span class="tdc-badge">T3</span>
-                        <div>
-                            <div class="tdc-title">Team 3</div>
-                            <div class="tdc-total">10 pts on the line</div>
-                        </div>
-                    </div>
-                    <ul class="tdc-duties">
-                        <li class="tdc-cook"><strong>Thu evening</strong>🍽️ Cooks dinner</li>
-                        <li class="tdc-clean"><strong>Fri morning</strong>🧹 Cleans after breakfast</li>
-                        <li class="tdc-cook"><strong>Sat morning</strong>🍳 Cooks birthday breakfast</li>
-                        <li class="tdc-clean"><strong>Sun evening</strong>🧹 Cleans after dinner</li>
-                    </ul>
-                </div>
-
-                <div class="tdc tdc--t4">
-                    <div class="tdc-head">
-                        <span class="tdc-badge">T4</span>
-                        <div>
-                            <div class="tdc-title">Team 4</div>
-                            <div class="tdc-total">10 pts on the line</div>
-                        </div>
-                    </div>
-                    <ul class="tdc-duties">
-                        <li class="tdc-clean"><strong>Thu evening</strong>🧹 Cleans after dinner</li>
-                        <li class="tdc-cook"><strong>Fri evening</strong>🍽️ Cooks dinner</li>
-                        <li class="tdc-clean"><strong>Sat morning</strong>🧹 Cleans after breakfast</li>
-                        <li class="tdc-cook"><strong>Sun morning</strong>🍳 Cooks brunch</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- House Rules -->
-            <div class="house-rules-section">
-                <h3 class="rules-heading">🏰 House Rules</h3>
-                <p class="rules-sub">It's someone's actual ch&acirc;teau. Leave it better than you found it.</p>
-                <div class="rules-grid">
-                    <div class="rule-card">
-                        <span class="rule-icon">🏊</span>
-                        <h4>Pool</h4>
-                        <p>No glass near the pool. Towels provided — hang them to dry after use.</p>
-                    </div>
-                    <div class="rule-card">
-                        <span class="rule-icon">🍳</span>
-                        <h4>Kitchen</h4>
-                        <p>Communal space. Clean as you go, even if it's not your rota day.</p>
-                    </div>
-                    <div class="rule-card">
-                        <span class="rule-icon">🤫</span>
-                        <h4>Noise</h4>
-                        <p>Keep it down after midnight outside. We have neighbours.</p>
-                    </div>
-                    <div class="rule-card">
-                        <span class="rule-icon">♻️</span>
-                        <h4>Bins</h4>
-                        <p>Recycling and general waste separated. Take bags out when full.</p>
-                    </div>
-                    <div class="rule-card">
-                        <span class="rule-icon">🏠</span>
-                        <h4>Checkout</h4>
-                        <p>Mon 4 May — all hands on deck. Strip beds, hoover, wipe surfaces before we leave.</p>
-                    </div>
-                    <div class="rule-card">
-                        <span class="rule-icon">💔</span>
-                        <h4>Breakages</h4>
-                        <p>Accidents happen. Just tell Joe and we'll sort it together.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Quick Rules Strip -->
-            <div class="rota-rules-strip">
-                <div class="rrs-item">
-                    <span class="rrs-icon">🙅</span>
-                    <span>Cook = no cleaning that meal</span>
-                </div>
-                <div class="rrs-item">
-                    <span class="rrs-icon">🏆</span>
-                    <span>Cooking earns +3pts, cleaning earns +2pts</span>
-                </div>
-                <div class="rrs-item">
-                    <span class="rrs-icon">🫂</span>
-                    <span>Wed &amp; Mon = everyone together</span>
-                </div>
-                <div class="rrs-item">
-                    <span class="rrs-icon">✨</span>
-                    <span>Clean as you go &mdash; it's everyone's kitchen</span>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -1298,6 +1112,6 @@
 
     <script src="js/shared.js?v=17"></script>
     <script src="js/nav.js?v=1"></script>
-    <script src="js/schedule.js?v=25"></script>
+    <script src="js/schedule.js?v=29"></script>
 </body>
 </html>

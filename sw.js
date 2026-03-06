@@ -1,5 +1,5 @@
 /* Service Worker - Offline Cache for Joe's 30th Birthday Trip */
-var CACHE_NAME = 'joe30-v2';
+var CACHE_NAME = 'joe30-v3';
 var ASSETS = [
     './',
     'index.html',
@@ -21,7 +21,9 @@ var ASSETS = [
     'js/schedule.js',
     'js/games.js',
     'js/social.js',
-    'js/practical.js'
+    'js/practical.js',
+    'manifest.json',
+    'trailer.html'
 ];
 
 // Install: cache core assets

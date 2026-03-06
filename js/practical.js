@@ -245,10 +245,96 @@ function initPracticalHighlight() {
     }
 }
 
+/* ============================================
+   Chateau Gallery Carousel
+   ============================================ */
+function initGalleryCarousel() {
+    var track = document.getElementById('gallery-track');
+    var dotsWrap = document.getElementById('gallery-dots');
+    var counter = document.getElementById('gallery-counter');
+    if (!track || !dotsWrap) return;
+
+    var imgs = track.querySelectorAll('img');
+    var total = imgs.length;
+    var idx = 0;
+
+    // Build dots
+    for (var i = 0; i < total; i++) {
+        var dot = document.createElement('button');
+        dot.className = 'gallery-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', 'Photo ' + (i + 1));
+        dot.dataset.i = i;
+        dotsWrap.appendChild(dot);
+    }
+
+    function go(n) {
+        idx = (n + total) % total;
+        track.style.transform = 'translateX(-' + (idx * 100) + '%)';
+        dotsWrap.querySelectorAll('.gallery-dot').forEach(function(d, j) {
+            d.classList.toggle('active', j === idx);
+        });
+        if (counter) counter.textContent = (idx + 1) + ' / ' + total;
+    }
+
+    document.getElementById('gallery-prev').addEventListener('click', function(e) { e.stopPropagation(); go(idx - 1); });
+    document.getElementById('gallery-next').addEventListener('click', function(e) { e.stopPropagation(); go(idx + 1); });
+    dotsWrap.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (e.target.dataset.i != null) go(+e.target.dataset.i);
+    });
+
+    // Touch swipe
+    var startX = 0;
+    track.addEventListener('touchstart', function(e) { startX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', function(e) {
+        var diff = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) { go(idx + (diff > 0 ? 1 : -1)); return; }
+    });
+
+    // Lightbox
+    var lightbox = document.getElementById('gallery-lightbox');
+    var lbImg = document.getElementById('gallery-lightbox-img');
+    if (!lightbox || !lbImg) return;
+
+    function openLightbox() {
+        lbImg.src = imgs[idx].src;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    document.getElementById('gallery-carousel').addEventListener('click', openLightbox);
+    document.getElementById('gallery-lightbox-close').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', function(e) { if (e.target === lightbox) closeLightbox(); });
+
+    document.getElementById('gallery-lightbox-prev').addEventListener('click', function(e) {
+        e.stopPropagation();
+        go(idx - 1);
+        lbImg.src = imgs[idx].src;
+    });
+    document.getElementById('gallery-lightbox-next').addEventListener('click', function(e) {
+        e.stopPropagation();
+        go(idx + 1);
+        lbImg.src = imgs[idx].src;
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (!lightbox.classList.contains('active')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') { go(idx - 1); lbImg.src = imgs[idx].src; }
+        if (e.key === 'ArrowRight') { go(idx + 1); lbImg.src = imgs[idx].src; }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     initSubNavHighlight();
     initTravelPlans();
     initArrivalCountdown();
     initPretripChecklist();
     initPracticalHighlight();
+    initGalleryCarousel();
 });

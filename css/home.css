@@ -388,9 +388,9 @@
 
 .quick-links-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 24px;
-    max-width: 900px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    max-width: 1060px;
     margin: 0 auto;
 }
 
@@ -510,9 +510,61 @@
 /* Card left border accents */
 .missions-card  { border-left: 4px solid var(--accent); }
 .agenda-card    { border-left: 4px solid var(--primary); }
-.stats-card     { border-left: 4px solid #FF6B9D; }
 .live-stats-card { border-left: 4px solid #4ade80; }
 .trip-numbers-card { border-left: 4px solid #a78bfa; }
+
+/* Stats Strip — compact inline row */
+.stats-strip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+    border-radius: 14px;
+    padding: 14px 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    margin-bottom: 12px;
+}
+
+.stats-strip-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 20px;
+    white-space: nowrap;
+}
+
+.stats-strip-icon {
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.stats-strip-label {
+    font-size: 0.78rem;
+    opacity: 0.7;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+.stats-strip-value {
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.stats-strip-divider {
+    width: 1px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+    .stats-strip { flex-wrap: wrap; gap: 8px; justify-content: space-around; }
+    .stats-strip-divider { display: none; }
+    .stats-strip-item { padding: 4px 12px; }
+}
 
 .dashboard-card .card-header {
     margin-bottom: 15px;
@@ -1071,7 +1123,7 @@ body.dark-mode .awake-avatar.awake-active .awake-letter {
     .countdown { gap: 10px; }
     .countdown-item { padding: 15px 20px; min-width: 70px; }
     .countdown-number { font-size: 1.8rem; }
-    .quick-links-grid { grid-template-columns: repeat(2, 1fr); }
+    .quick-links-grid { grid-template-columns: repeat(3, 1fr); }
     .stats-grid { grid-template-columns: 1fr; }
     .dashboard-header { flex-direction: column; text-align: center; }
     .awake-grid { grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 10px; }
@@ -1082,7 +1134,7 @@ body.dark-mode .awake-avatar.awake-active .awake-letter {
     .hero-title { font-size: 2.5rem; }
     .hero-buttons { flex-direction: column; align-items: center; }
     .hero-buttons .btn { width: 100%; max-width: 280px; }
-    .quick-links-grid { grid-template-columns: 1fr; }
+    .quick-links-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 /* ═══════════════════════════════════════════

@@ -15,13 +15,16 @@
     <meta name="twitter:description" content="Château Roussignol, Loire Valley · 29 Apr – 4 May 2026">
     <meta name="twitter:image" content="https://joes30.com/images/og-preview.jpg">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#764ba2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/base.css?v=19">
     <link rel="stylesheet" href="css/components.css?v=1">
     <link rel="stylesheet" href="css/nav.css?v=1">
-    <link rel="stylesheet" href="css/games.css?v=19">
+    <link rel="stylesheet" href="css/games.css?v=26">
 </head>
 <body>
     <!-- Confetti Canvas -->
@@ -53,32 +56,39 @@
         <p>Four teams. Six days. One winner. May the best team win.</p>
     </header>
 
-    <!-- Sub Navigation -->
-    <nav class="sub-nav">
-        <ul class="sub-nav-links">
-            <li><a href="#challenges" class="active">Challenges</a></li>
-            <li><a href="#leaderboard">Leaderboard</a></li>
-            <li><a href="#meal-ratings">Rate the Chefs</a></li>
-            <li><a href="#bingo">Bingo</a></li>
-        </ul>
-    </nav>
-
-    <!-- Games & Challenges Section -->
-    <section id="challenges" class="section challenges">
+    <!-- Big Icon Nav -->
+    <section class="section games-nav-section">
         <div class="container">
-            <h2 class="section-title">Games &amp; Challenges</h2>
-            <p class="section-subtitle">Earn points for your team - everything counts!</p>
+            <div class="games-nav-grid">
+                <button class="games-nav-tile games-nav-tile--hiw" data-panel="hiw-panel">
+                    <span class="games-nav-icon">&#127918;</span>
+                    <span class="games-nav-label">How It Works</span>
+                    <span class="games-nav-sub">Rules &amp; points</span>
+                </button>
+                <button class="games-nav-tile games-nav-tile--challenges" data-panel="challenges">
+                    <span class="games-nav-icon">&#9876;&#65039;</span>
+                    <span class="games-nav-label">Daily Games</span>
+                    <span class="games-nav-sub">6 days of challenges</span>
+                </button>
+                <button class="games-nav-tile games-nav-tile--leaderboard" data-panel="leaderboard">
+                    <span class="games-nav-icon">&#127942;</span>
+                    <span class="games-nav-label">Leaderboard</span>
+                    <span class="games-nav-sub">Teams &amp; individuals</span>
+                </button>
+                <button class="games-nav-tile games-nav-tile--chefs" data-panel="meal-ratings">
+                    <span class="games-nav-icon">&#11088;</span>
+                    <span class="games-nav-label">Rate the Chefs</span>
+                    <span class="games-nav-sub">Score each dinner</span>
+                </button>
+                <button class="games-nav-tile games-nav-tile--bingo" data-panel="bingo">
+                    <span class="games-nav-icon">&#127922;</span>
+                    <span class="games-nav-label">Bingo</span>
+                    <span class="games-nav-sub">Your personal card</span>
+                </button>
+            </div>
 
-            <!-- How It Works -->
-            <div class="how-it-works">
-                <div class="hiw-banner">
-                    <span class="hiw-banner-emoji">&#127918;</span>
-                    <div>
-                        <h3>How It Works</h3>
-                        <p>26 players. 4 teams. 6 days. One winner.</p>
-                    </div>
-                </div>
-
+            <!-- How It Works (collapsed by default, toggled by tile) -->
+            <div class="how-it-works game-panel" id="hiw-panel" style="display: none;">
                 <div class="hiw-rules">
                     <div class="hiw-rule">
                         <div class="hiw-rule-num">1</div>
@@ -164,6 +174,15 @@
                     </div>
                 </div>
             </div>
+
+        </div>
+    </section>
+
+    <!-- Games & Challenges Section -->
+    <section id="challenges" class="section challenges game-panel" style="display: none;">
+        <div class="container">
+            <h2 class="section-title">Daily Games</h2>
+            <p class="section-subtitle">Earn points for your team — everything counts!</p>
 
             <div class="challenge-tabs">
                 <button class="ch-tab active" data-ch="daily">Daily Games</button>
@@ -269,7 +288,7 @@
     </section>
 
     <!-- Leaderboard Section -->
-    <section id="leaderboard" class="section leaderboard">
+    <section id="leaderboard" class="section leaderboard game-panel" style="display: none;">
         <div class="container">
             <h2 class="section-title">Leaderboard</h2>
             <p class="section-subtitle">Teams battle. Individuals shine. Updated live throughout the trip.</p>
@@ -429,7 +448,7 @@
     </section>
 
     <!-- Rate the Chefs Section -->
-    <section id="meal-ratings" class="section meal-ratings">
+    <section id="meal-ratings" class="section meal-ratings game-panel" style="display: none;">
         <div class="container">
             <h2 class="section-title">Rate the Chefs &#11088;</h2>
             <p class="section-subtitle">Score each team's dinner. Results go on the leaderboard.</p>
@@ -438,24 +457,24 @@
     </section>
 
     <!-- Trip Bingo Section -->
-    <section id="bingo" class="section bingo">
+    <section id="bingo" class="section bingo game-panel" style="display: none;">
         <div class="container">
             <h2 class="section-title">Your Personal Bingo Card &#127922;</h2>
             <p class="section-subtitle">Every card is unique to you. Tick off moments as they happen on the trip!</p>
 
-            <!-- Lock overlay — hidden after 7am on departure day -->
-            <div class="bingo-lock" id="bingo-lock">
-                <div class="bingo-lock-inner">
-                    <span class="bingo-lock-icon">&#128274;</span>
-                    <h3>Personal Bingo Cards</h3>
-                    <p>Your card unlocks on departure morning (Wed 29 Apr). Each card is tailored to you, no two are the same.</p>
-                    <p class="bingo-lock-hint">Check back once you're on the plane!</p>
-                    <div class="bingo-unlock-pill" data-unlock="2026-04-29T10:30:00+02:00">&#128197; Unlocks Wed 29 Apr</div>
+            <div class="bingo-preview-wrap">
+                <div class="bingo-card" id="bingo-card">
+                    <!-- Generated by JS -->
                 </div>
-            </div>
-
-            <div class="bingo-card" id="bingo-card">
-                <!-- Generated by JS -->
+                <!-- Lock overlay — hidden after 7am on departure day -->
+                <div class="bingo-lock" id="bingo-lock" style="display: none;">
+                    <div class="bingo-lock-inner">
+                        <span class="bingo-lock-icon">&#128274;</span>
+                        <h3>Bingo Cards Locked</h3>
+                        <p>Your card unlocks on departure morning. Each card is unique — no two are the same!</p>
+                        <div class="bingo-unlock-pill" data-unlock="2026-04-29T10:30:00+02:00">&#128197; Unlocks Wed 29 Apr</div>
+                    </div>
+                </div>
             </div>
 
             <div class="bingo-controls" style="margin-top:1rem;">
@@ -498,6 +517,6 @@
     <!-- Scripts -->
     <script src="js/shared.js?v=17"></script>
     <script src="js/nav.js?v=1"></script>
-    <script src="js/games.js?v=21"></script>
+    <script src="js/games.js?v=25"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 # Joe's 30th Birthday Trip - Project Guide
 
 ## Overview
-A comprehensive static website for Joe O'Brien's 30th birthday trip to **Chateau Roussignol, Loire Valley, France** (Wed 29 Apr - Mon 4 May 2026). The site serves as the central hub for 27 guests covering logistics, activities, games, and social features.
+A comprehensive static website for Joe O'Brien's 30th birthday trip to **Chateau Roussignol, Loire Valley, France** (Wed 29 Apr - Mon 4 May 2026). The site serves as the central hub for 26 guests covering logistics, activities, games, and social features.
 
 ## Tech Stack
 - **Vanilla HTML5, CSS3, JavaScript** - No frameworks

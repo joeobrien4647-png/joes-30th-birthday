@@ -716,10 +716,10 @@ function initActivitySignups() {
             id: 'golf',
             name: 'Golf du Val de l\'Indre (9 holes)',
             day: 'Day 2 (Thu 30 Apr)',
-            cost: '~\u20AC65/pp',
+            cost: '~\u20AC70\u201376/pp',
             max: 12,
             emoji: '\u26F3',
-            description: '9-hole course near Ch\u00E2teauroux. Flat, wooded, beginner-friendly \u2014 no handicap needed. Club hire available. ~45 min drive.'
+            description: '9-hole parkland course. Beginner-friendly \u2014 no handicap needed. Green fee \u20AC49 + club hire \u20AC20 + trolley \u20AC7.'
         },
         {
             id: 'canoe',
@@ -728,16 +728,16 @@ function initActivitySignups() {
             cost: '~\u20AC15\u201318/pp',
             max: 26,
             emoji: '\uD83D\uDEF6',
-            description: 'Paddle downstream past castles and through the Creuse valley. All equipment and shuttle back included. Starts right on our doorstep!'
+            description: 'Paddle downstream past castles and through the Creuse valley. All equipment included.'
         },
         {
             id: 'bellebouche',
             name: 'Bellebouche Accrobranche',
             day: 'Day 5 (Sun 3 May)',
-            cost: '~\u20AC17/pp',
+            cost: '~\u20AC20\u201328/pp',
             max: 26,
             emoji: '\uD83C\uDF33',
-            description: 'Treetop adventure courses (zip lines, Tarzan swings!) plus lake activities: p\u00E9dalos, paddle boards, kayaks. ~30 min drive.'
+            description: 'Treetop adventure courses (zip lines, Tarzan swings!). Accrobranche \u20AC20/pp. Lake activities (p\u00E9dalos, paddle boards, kayaks) extra at \u20AC8/30min.'
         }
     ];
 
@@ -772,16 +772,12 @@ function initActivitySignups() {
 
             html += '<p class="signup-desc">' + escapeHtml(act.description) + '</p>';
 
-            // Capacity bar
-            var pct = Math.min(100, (count / act.max) * 100);
+            // Capacity indicator
             html += '<div class="signup-capacity">' +
-                '<div class="signup-capacity-bar">' +
-                    '<div class="signup-capacity-fill' + (isFull ? ' full' : '') + '" style="width:' + pct + '%"></div>' +
-                '</div>' +
-                '<span class="signup-capacity-label">' + Math.min(count, act.max) + ' / ' + act.max + ' signed up' +
-                    (count > act.max ? ' (+' + (count - act.max) + ' waitlist)' : '') +
+                '<span class="signup-capacity-label">' +
+                    (count === 0 ? 'No sign-ups yet' : count + ' interested') +
+                    (isFull && !isSignedUp ? ' \u2014 <span class="signup-full-badge">FULL</span>' : '') +
                 '</span>' +
-                (isFull && !isSignedUp ? '<span class="signup-full-badge">FULL</span>' : '') +
             '</div>';
 
             // Action button
@@ -1110,7 +1106,7 @@ function initTimeBuckets() {
 var DAY_HERO_DATA = {
     '1': { emoji: '✈️', gradient: 'linear-gradient(135deg, #f97316, #fbbf24)', subtitle: 'France, Here We Come' },
     '2': { emoji: '🏰', gradient: 'linear-gradient(135deg, #059669, #34d399)', subtitle: 'Chateau Life Begins' },
-    '3': { emoji: '🛶', gradient: 'linear-gradient(135deg, #0ea5e9, #6366f1)', subtitle: 'Paddles, Villages & Wine' },
+    '3': { emoji: '🛶', gradient: 'linear-gradient(135deg, #0ea5e9, #6366f1)', subtitle: 'Paddles & a Beautiful Village' },
     '4': { emoji: '🎂', gradient: 'linear-gradient(135deg, #f59e0b, #ec4899, #a855f7)', subtitle: "The Birthday That Can\u2019t Be Topped" },
     '5': { emoji: '🌲', gradient: 'linear-gradient(135deg, #06b6d4, #3b82f6)', subtitle: 'Treetops, Lakes & Last Night' },
     '6': { emoji: '🏠', gradient: 'linear-gradient(135deg, #ec4899, #8b5cf6)', subtitle: 'Au Revoir, Roussignol' }
@@ -1190,8 +1186,12 @@ function injectDaySummaries() {
             bucket.querySelectorAll('.timeline-item').forEach(function(item) {
                 var h4 = item.querySelector('.activity h4');
                 if (!h4) return;
+                // Get text without badge spans
+                var name = h4.cloneNode(true);
+                var badges = name.querySelectorAll('.activity-badge');
+                badges.forEach(function(b) { b.remove(); });
                 periodMap[period].push({
-                    name: h4.textContent.trim(),
+                    name: name.textContent.trim(),
                     highlight: item.classList.contains('highlight'),
                     secret: item.classList.contains('top-secret')
                 });
@@ -1303,33 +1303,70 @@ function initEnvelopeAnimation() {
     // Entrance animation
     overlay.classList.add('envelope-entering');
 
+    // After entrance settles, add gentle pulse to draw attention
+    setTimeout(function() {
+        if (!opened) envelope.classList.add('waiting');
+    }, 2000);
+
     // Open sequence
     function openEnvelope() {
+        envelope.classList.remove('waiting');
         if (opened) return;
         opened = true;
+
+        // Hide tap hint immediately
+        var hint = document.querySelector('.envelope-tap-hint');
+        if (hint) hint.style.opacity = '0';
 
         // Phase 1: Seal cracks (0ms)
         envelope.classList.add('seal-cracking');
 
-        // Phase 2: Cut line sweeps across top (300ms)
+        // Phase 2: Sword slashes across the top (300ms)
         setTimeout(function() {
-            envelope.classList.add('cut-opening');
+            envelope.classList.add('sword-slashing');
+            spawnSwordSparks(envelope);
+            // Cut line follows slightly behind the sword
+            setTimeout(function() {
+                envelope.classList.add('cut-opening');
+            }, 100);
         }, 300);
 
-        // Phase 3: Letter rises out of opened envelope (1000ms)
+        // Phase 3: Letter rises out of opened envelope (1100ms)
         setTimeout(function() {
             envelope.classList.add('letter-rising');
-        }, 1000);
+        }, 1100);
 
-        // Phase 4: Fireworks burst (1900ms — just as letter clears the envelope)
+        // Phase 4: Fireworks burst (2000ms — just as letter clears the envelope)
         setTimeout(function() {
             spawnFireworks();
-        }, 1900);
+        }, 2000);
 
-        // Phase 5: Show fullscreen letter (2300ms)
+        // Phase 5: Show fullscreen letter (2400ms)
         setTimeout(function() {
             showLetterFullscreen();
-        }, 2300);
+        }, 2400);
+    }
+
+    function spawnSwordSparks(envelopeEl) {
+        var SPARK_COUNT = 8;
+        var startDelay = 150; // sparks start as sword hits the envelope edge
+        for (var i = 0; i < SPARK_COUNT; i++) {
+            (function(idx) {
+                setTimeout(function() {
+                    var spark = document.createElement('div');
+                    spark.className = 'sword-spark';
+                    // Position along the top edge, spread across the cut path
+                    var progress = idx / SPARK_COUNT;
+                    spark.style.left = (progress * 85 + 5) + '%';
+                    spark.style.top = '-2px';
+                    spark.style.setProperty('--sx', (Math.random() * 16 - 8) + 'px');
+                    spark.style.setProperty('--sy', (-10 - Math.random() * 20) + 'px');
+                    envelopeEl.appendChild(spark);
+                    requestAnimationFrame(function() { spark.classList.add('spark-active'); });
+                    setTimeout(function() { if (spark.parentNode) spark.remove(); }, 600);
+                }, startDelay + idx * 55);
+            })(i);
+        }
     }
 
     function skipAnimation() {
@@ -1454,22 +1491,23 @@ function initEnvelopeAnimation() {
             });
         });
 
-        var cta = document.getElementById('letter-fs-cta');
-        if (cta) {
-            cta.addEventListener('click', function() {
-                lfs.style.transition = 'opacity 0.4s ease';
-                lfs.style.opacity = '0';
-                setTimeout(revealPage, 400);
-            });
+        function dismissLetter() {
+            lfs.style.transition = 'opacity 0.4s ease';
+            lfs.style.opacity = '0';
+            setTimeout(revealPage, 400);
         }
+
+        var cta = document.getElementById('letter-fs-cta');
+        if (cta) cta.addEventListener('click', dismissLetter);
+
+        var closeBtn = document.getElementById('letter-fs-close');
+        if (closeBtn) closeBtn.addEventListener('click', dismissLetter);
 
         // Also wire skip button to dismiss letter
         skipBtn.removeEventListener('click', skipAnimation);
         skipBtn.addEventListener('click', function(e) {
             e.stopPropagation();
-            lfs.style.transition = 'opacity 0.3s ease';
-            lfs.style.opacity = '0';
-            setTimeout(revealPage, 300);
+            dismissLetter();
         });
     }
 

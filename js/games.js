@@ -11,6 +11,38 @@
    ============================================ */
 
 
+/* ---- Games Nav Tile Tabs ---- */
+function initGamesTabs() {
+    var tiles = document.querySelectorAll('.games-nav-tile[data-panel]');
+    var panels = document.querySelectorAll('.game-panel');
+    if (!tiles.length) return;
+
+    tiles.forEach(function (tile) {
+        tile.addEventListener('click', function () {
+            var targetId = tile.dataset.panel;
+            var target = document.getElementById(targetId);
+            var isOpen = tile.classList.contains('active');
+
+            // Close everything
+            tiles.forEach(function (t) { t.classList.remove('active'); });
+            panels.forEach(function (p) { p.style.display = 'none'; });
+
+            // If clicking the same tile, just close (toggle off)
+            if (isOpen) return;
+
+            // Open the clicked one
+            tile.classList.add('active');
+            if (target) {
+                target.style.display = '';
+                // Scroll into view for sections below the nav
+                if (target.tagName === 'SECTION') {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        });
+    });
+}
+
 /* ---- Locked Content Countdown Timers ---- */
 function initLockedCountdowns() {
     var targets = document.querySelectorAll('[data-unlock]');
@@ -105,6 +137,7 @@ function initGamesHighlight() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    initGamesTabs();
     initBingo();
     initChallenges();
     initLeaderboard();
@@ -143,13 +176,15 @@ function initBingo() {
     if (!bingoCard) return;
 
     const BINGO_LOCKED = true; // Set to false when ready to release
-    const isUnlocked = !BINGO_LOCKED || Auth.isAdmin();
+    const inPreview = typeof sessionStorage !== 'undefined' && sessionStorage.getItem('guestPreview') === 'true';
+    const isUnlocked = !BINGO_LOCKED || (Auth.isAdmin() && !inPreview);
 
     if (!isUnlocked) {
+        // Show blank grid with padlock overlay
         bingoCard.innerHTML = Array(25).fill(
             '<div class="bingo-cell locked-cell"></div>'
         ).join('');
-        if (lockOverlay) lockOverlay.style.display = 'none';
+        if (lockOverlay) lockOverlay.style.display = 'flex';
         if (resetBtn) resetBtn.style.display = 'none';
         return;
     }

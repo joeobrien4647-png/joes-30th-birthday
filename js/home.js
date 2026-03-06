@@ -622,6 +622,11 @@ function initLiveStats() {
         const badges = Store.get('lb_badges', {});
         const pointsLog = Store.get('lb_pointsLog', []);
 
+        // Live points
+        const myLivePts = individualScores[guestName] || 0;
+        const livePtsEl = document.getElementById('stat-live-points');
+        if (livePtsEl) animateCount(livePtsEl, myLivePts);
+
         // Personal rank
         const sorted = Object.entries(individualScores)
             .sort((a, b) => b[1] - a[1]);

@@ -105,6 +105,37 @@
     border-color: rgba(255, 255, 255, 0.5);
 }
 
+/* ---- Tap Hint ---- */
+.envelope-tap-hint {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-light);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: tapHintAppear 0.6s ease 2.5s forwards;
+}
+
+@keyframes tapHintAppear {
+    0%   { opacity: 0; transform: translateY(-6px); }
+    100% { opacity: 0.7; transform: translateY(0); }
+}
+
+/* Gentle pulse on envelope after 2s to draw attention */
+@keyframes envelopeNudge {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+}
+
+.envelope-scene .envelope.waiting {
+    animation: envelopeNudge 2s ease-in-out infinite;
+}
+
+.envelope-scene .envelope.waiting:hover {
+    animation: none;
+    transform: translateY(-4px);
+}
+
 /* ---- Envelope Container ---- */
 .envelope {
     position: relative;
@@ -138,6 +169,62 @@
     border-radius: 8px;
     border: 1px dashed rgba(160, 100, 40, 0.25);
     pointer-events: none;
+}
+
+/* ---- Letter Opener Sword ---- */
+.envelope-sword {
+    position: absolute;
+    top: -8px;
+    left: -130px;
+    width: 120px;
+    height: 24px;
+    z-index: 12;
+    pointer-events: none;
+    opacity: 0;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+    transform: rotate(-8deg);
+}
+
+.sword-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.envelope.sword-slashing .envelope-sword {
+    opacity: 1;
+    animation: swordSlash 0.65s cubic-bezier(0.22, 0.68, 0.35, 1) forwards;
+}
+
+@keyframes swordSlash {
+    0%   { left: -130px; opacity: 0; transform: rotate(-12deg); }
+    8%   { opacity: 1; transform: rotate(-8deg); }
+    15%  { left: -80px; transform: rotate(-5deg); }
+    /* Accelerate through the cut */
+    55%  { left: 55%; transform: rotate(2deg); }
+    75%  { left: 90%; transform: rotate(4deg); opacity: 1; }
+    /* Exit off right with slight upward flick */
+    100% { left: 110%; transform: rotate(8deg) translateY(-12px); opacity: 0; }
+}
+
+/* Spark particles along the cut */
+.sword-spark {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #ffd700;
+    pointer-events: none;
+    z-index: 11;
+    opacity: 0;
+}
+
+.sword-spark.spark-active {
+    animation: sparkFly 0.5s ease-out forwards;
+}
+
+@keyframes sparkFly {
+    0%   { opacity: 1; transform: translate(0, 0) scale(1); }
+    100% { opacity: 0; transform: translate(var(--sx, 0px), var(--sy, -20px)) scale(0); }
 }
 
 /* ---- Cut Line (sweeps across top when opened) ---- */
@@ -456,7 +543,7 @@ body.envelope-revealed .confetti-cannon {
         rgba(170, 140, 100, 0.07) 28px
     );
     border-radius: 2px;
-    padding: 52px 44px 44px;
+    padding: 52px 44px 80px;
     box-shadow:
         0 2px 0 rgba(170, 130, 70, 0.5),
         0 5px 0 rgba(150, 110, 50, 0.35),
@@ -661,11 +748,54 @@ body.envelope-revealed .confetti-cannon {
     line-height: 1.1;
 }
 
-/* CTA */
+/* Close button (top-right of letter) */
+.letter-fs-close {
+    position: fixed;
+    top: max(12px, env(safe-area-inset-top, 12px));
+    right: 16px;
+    z-index: 10503;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(6px);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    opacity: 0;
+    animation: tapHintAppear 0.4s ease 0.6s forwards;
+}
+
+.letter-fs-close:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #fff;
+}
+
+/* CTA — sticky at bottom */
+.letter-fs-cta-wrap {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10503;
+    padding: 16px 16px max(16px, env(safe-area-inset-bottom, 16px));
+    background: linear-gradient(to top, rgba(14, 8, 3, 0.98) 60%, transparent);
+    pointer-events: none;
+    opacity: 0;
+    animation: tapHintAppear 0.5s ease 0.8s forwards;
+}
+
 .letter-fs-cta {
     display: block;
-    width: 100%;
-    margin-top: 28px;
+    width: min(520px, 100%);
+    margin: 0 auto;
     padding: 16px 24px;
     background: linear-gradient(135deg, #b8854a, #d4a76a);
     color: #fff;
@@ -678,6 +808,7 @@ body.envelope-revealed .confetti-cannon {
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: 0 4px 16px rgba(180, 120, 50, 0.45);
+    pointer-events: auto;
 }
 
 .letter-fs-cta:hover {
@@ -688,7 +819,7 @@ body.envelope-revealed .confetti-cannon {
 
 @media (max-width: 480px) {
     .letter-fs-paper {
-        padding: 36px 22px 32px;
+        padding: 36px 22px 72px;
     }
     .letter-fs-paper::before { left: 40px; }
     .letter-fs-stamp { top: 18px; right: 18px; }
@@ -1889,68 +2020,6 @@ body.dark-mode .dlh-rule {
     border-left: 3px solid #10b981;
 }
 
-/* ---- House Rules Section ---- */
-.house-rules-section {
-    background: var(--bg-white);
-    border-radius: 20px;
-    padding: 32px;
-    box-shadow: 0 3px 16px rgba(0,0,0,0.06);
-    margin-bottom: 28px;
-}
-
-.rules-heading {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--text-dark);
-    margin-bottom: 6px;
-}
-
-.rules-sub {
-    color: var(--text-light);
-    font-size: 0.92rem;
-    margin-bottom: 24px;
-}
-
-.rules-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-}
-
-.rule-card {
-    background: var(--bg-light);
-    border-radius: 14px;
-    padding: 18px;
-    border: 1px solid rgba(0,0,0,0.06);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.rule-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-}
-
-.rule-icon {
-    font-size: 1.8rem;
-    display: block;
-    margin-bottom: 10px;
-    line-height: 1;
-}
-
-.rule-card h4 {
-    font-size: 0.9rem;
-    font-weight: 800;
-    color: var(--text-dark);
-    margin-bottom: 6px;
-}
-
-.rule-card p {
-    font-size: 0.8rem;
-    color: var(--text-light);
-    line-height: 1.5;
-    margin: 0;
-}
-
 /* ---- Rules Strip ---- */
 .rota-rules-strip {
     display: grid;
@@ -1993,9 +2062,6 @@ body.dark-mode .tdc { background: rgba(255,255,255,0.06); }
 body.dark-mode .tdc-head { border-bottom-color: rgba(255,255,255,0.1); }
 body.dark-mode .tdc-duties li { color: rgba(255,255,255,0.85); }
 body.dark-mode .tdc-duties li strong { color: rgba(255,255,255,0.45); }
-body.dark-mode .house-rules-section { background: rgba(255,255,255,0.06); }
-body.dark-mode .rule-card { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.08); }
-body.dark-mode .rule-card h4 { color: rgba(255,255,255,0.9); }
 body.dark-mode .rrs-item { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); }
 
 /* ---- Responsive Overrides ---- */
@@ -2016,7 +2082,6 @@ body.dark-mode .rrs-item { background: rgba(255,255,255,0.06); border-color: rgb
     }
 
     .team-duty-cards { grid-template-columns: repeat(2, 1fr); }
-    .rules-grid { grid-template-columns: repeat(2, 1fr); }
     .rota-rules-strip { grid-template-columns: repeat(2, 1fr); }
 
     /* Activity voting responsive */
@@ -2106,9 +2171,7 @@ body.dark-mode .rrs-item { background: rgba(255,255,255,0.06); border-color: rgb
     .day-letter-header .dlh-title { font-size: 1.55rem; }
 
     .team-duty-cards { grid-template-columns: 1fr 1fr; }
-    .rules-grid { grid-template-columns: 1fr 1fr; }
     .rota-rules-strip { grid-template-columns: 1fr 1fr; }
-    .house-rules-section { padding: 20px; }
 
     .agenda-arrow {
         width: 36px;
@@ -2948,6 +3011,58 @@ body.dark-mode .rrs-item { background: rgba(255,255,255,0.06); border-color: rgb
     box-shadow: 0 4px 18px rgba(102, 126, 234, 0.15);
 }
 
+/* ---- Activity Badges (Everyone / Optional / Sign Up) ---- */
+.activity-badge {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 10px;
+    vertical-align: middle;
+    margin-left: 6px;
+    line-height: 1.4;
+    position: relative;
+    top: -1px;
+}
+
+.badge-everyone {
+    background: rgba(102, 126, 234, 0.12);
+    color: #5b6abf;
+    border: 1px solid rgba(102, 126, 234, 0.25);
+}
+
+.badge-optional {
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+    border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.badge-signup {
+    background: rgba(245, 158, 11, 0.1);
+    color: #d97706;
+    border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+body.dark-mode .badge-everyone {
+    background: rgba(102, 126, 234, 0.2);
+    color: #93a3f5;
+    border-color: rgba(102, 126, 234, 0.35);
+}
+
+body.dark-mode .badge-optional {
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+body.dark-mode .badge-signup {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
 /* ---- Top-secret item: inherit card styling ---- */
 .timeline-item.top-secret .secret-activity {
     background: transparent;
@@ -3460,10 +3575,10 @@ body.dark-mode .rrs-item { background: rgba(255,255,255,0.06); border-color: rgb
 }
 
 .dp-item {
-    font-size: 1rem;
+    font-size: 0.82rem;
     font-weight: 500;
-    color: var(--text-dark);
-    line-height: 1.45;
+    color: var(--text-light, #888);
+    line-height: 1.4;
     padding-left: 14px;
     position: relative;
 }
@@ -3473,19 +3588,21 @@ body.dark-mode .rrs-item { background: rgba(255,255,255,0.06); border-color: rgb
     content: '';
     position: absolute;
     left: 0;
-    top: 8px;
-    width: 5px;
-    height: 5px;
+    top: 7px;
+    width: 4px;
+    height: 4px;
     border-radius: 50%;
     background: #ccc;
 }
 
 .dp-item.dp-highlight {
     font-weight: 700;
-    font-size: 1.05rem;
-    padding-left: 16px;
+    font-size: 1rem;
+    color: var(--text-dark, #333);
+    padding-left: 14px;
     border-left: 3px solid;
     border-image: var(--poster-gradient, linear-gradient(135deg, #667eea, #764ba2)) 1;
+    margin-bottom: 2px;
 }
 
 .dp-item.dp-highlight::before {
@@ -3495,6 +3612,7 @@ body.dark-mode .rrs-item { background: rgba(255,255,255,0.06); border-color: rgb
 .dp-item.dp-secret {
     color: var(--text-light);
     font-style: italic;
+    font-size: 0.82rem;
 }
 
 .dp-item.dp-secret::before {

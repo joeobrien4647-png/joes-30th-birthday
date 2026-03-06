@@ -15,6 +15,10 @@
     <meta name="twitter:description" content="Château Roussignol, Loire Valley · 29 Apr – 4 May 2026">
     <meta name="twitter:image" content="https://joes30.com/images/og-preview.jpg">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#764ba2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="stylesheet" href="css/base.css?v=19">
     <link rel="stylesheet" href="css/components.css?v=1">
     <link rel="stylesheet" href="css/nav.css?v=1">
@@ -223,26 +227,26 @@
                 <div class="personal-agenda" id="personal-agenda"></div>
             </div>
 
-            <div class="dashboard-card stats-card">
-                <div class="card-header">
-                    <h3>&#128202; Your Trip Stats</h3>
+            <div class="stats-strip" id="stats-strip">
+                <div class="stats-strip-item">
+                    <span class="stats-strip-icon">🛏️</span>
+                    <span class="stats-strip-label">Room</span>
+                    <span class="stats-strip-value" id="stat-room">-</span>
                 </div>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <span class="stat-value" id="stat-room">-</span>
-                        <span class="stat-label">Your Room</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-value" id="stat-team">-</span>
-                        <span class="stat-label">Team</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-value stat-big" id="stat-points">0</span>
-                        <span class="stat-label">Your Points</span>
-                    </div>
+                <div class="stats-strip-divider"></div>
+                <div class="stats-strip-item">
+                    <span class="stats-strip-icon">⚔️</span>
+                    <span class="stats-strip-label">Team</span>
+                    <span class="stats-strip-value" id="stat-team">-</span>
                 </div>
-                <p class="team-explainer" id="team-explainer" style="display:none;">Teams revealed on arrival night — then it's game on!</p>
+                <div class="stats-strip-divider"></div>
+                <div class="stats-strip-item">
+                    <span class="stats-strip-icon">⭐</span>
+                    <span class="stats-strip-label">Points</span>
+                    <span class="stats-strip-value" id="stat-points">0</span>
+                </div>
             </div>
+            <p class="team-explainer" id="team-explainer" style="display:none;">Teams revealed on arrival night — then it's game on!</p>
 
             <div class="dashboard-card live-stats-card" id="live-stats-card" style="display:none;">
                 <div class="card-header">
@@ -250,7 +254,7 @@
                 </div>
                 <div class="stats-grid">
                     <div class="stat-item">
-                        <span class="stat-value stat-big" id="stat-points">0</span>
+                        <span class="stat-value stat-big" id="stat-live-points">0</span>
                         <span class="stat-label">Points</span>
                     </div>
                     <div class="stat-item">

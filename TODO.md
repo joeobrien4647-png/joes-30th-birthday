@@ -1,5 +1,17 @@
 # Joe's 30th Birthday Trip — Master To-Do List
-> Last updated: Feb 2026
+> Last updated: 26 Feb 2026
+
+---
+
+## 📬 Emails Sent — Awaiting Reply
+
+| Sent | To | Contact | Subject | Status |
+|------|-----|---------|---------|--------|
+| 26 Feb | Loire Valley Wine Tour | help@loirevalleywinetour.com | Private wine tasting at our chateau — 1 May 2026, group of 25 | ⏳ Awaiting reply |
+| 26 Feb | Oliver's Travels | info@oliverstravels.com | Château Roussignol — check-in time + early arrival | ⏳ Awaiting reply |
+| 26 Feb | Canoe Découverte | canoedecouverte.leblc@gmail.com | Group canoe booking enquiry — 1st May 2026 | ⏳ Awaiting reply |
+| 26 Feb | Bellebouche | contact@bellebouche.fr | Group booking enquiry — 3rd May 2026 | ⏳ Awaiting reply |
+| —    | Golf du Val de l'Indre | Call: +33 2 54 26 59 44 | Book 9 holes, ~10–15 people, Thu 30 Apr AM | 📞 To call |
 
 ---
 

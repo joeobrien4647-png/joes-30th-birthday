@@ -15,10 +15,13 @@
     <meta name="twitter:description" content="Château Roussignol, Loire Valley · 29 Apr – 4 May 2026">
     <meta name="twitter:image" content="https://joes30.com/images/og-preview.jpg">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#764ba2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="stylesheet" href="css/base.css?v=19">
-    <link rel="stylesheet" href="css/components.css?v=1">
+    <link rel="stylesheet" href="css/components.css?v=2">
     <link rel="stylesheet" href="css/nav.css?v=1">
-    <link rel="stylesheet" href="css/practical.css?v=21">
+    <link rel="stylesheet" href="css/practical.css?v=25">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -55,6 +58,7 @@
     <nav class="sub-nav">
         <ul class="sub-nav-links">
             <li><a href="#info" class="active">Info</a></li>
+            <li><a href="#faq">FAQ</a></li>
             <li><a href="#travel">Travel</a></li>
         </ul>
     </nav>
@@ -71,12 +75,10 @@
                     <div class="info-icon">✈️</div>
                     <h3>Getting There</h3>
                     <ul>
-                        <li><strong>Flight:</strong> Ryanair, London Stansted → Poitiers</li>
-                        <li><strong>Departs:</strong> Wed 29 Apr, 05:55 → arrives 08:25</li>
-                        <li><strong>Returns:</strong> Mon 4 May, 16:15 → arrives 16:40</li>
-                        <li><strong>Cost:</strong> ~£38 return (hand luggage only. Ryanair 10kg cabin bag limit, so pack light for 5 nights!)</li>
-                        <li><strong>Book via:</strong> Ryanair.com - book your own flights!</li>
-                        <li><strong>Airport to Chateau:</strong> ~1 hr drive - hire cars being arranged</li>
+                        <li><strong>Out:</strong> Wed 29 Apr, 05:55 STN → 08:25 Poitiers (Ryanair)</li>
+                        <li><strong>Back:</strong> Mon 4 May, 16:15 Poitiers → 16:40 STN</li>
+                        <li><strong>Luggage:</strong> 10kg cabin bag only — pack light!</li>
+                        <li><strong>Airport → Chateau:</strong> ~1 hr drive</li>
                     </ul>
                 </div>
 
@@ -88,7 +90,7 @@
                         <li><strong>Location:</strong> <a href="https://www.oliverstravels.com/france/loire-valley/chateau-roussignol/" target="_blank">Chateau Roussignol</a>, Ciron, Indre</li>
                         <li><strong>Area:</strong> Brenne Regional Nature Park, Loire Valley</li>
                         <li><strong>Features:</strong> Pool, BBQ area, loads of space!</li>
-                        <li><strong>Rooms:</strong> 14 rooms, 2 per room - see <a href="social.html#crew">Crew page</a> for assignments or <a href="https://www.oliverstravels.com/france/loire-valley/chateau-roussignol/" target="_blank">browse room photos</a></li>
+                        <li><strong>Rooms:</strong> 12 bedrooms (sleeps 28) — see <a href="social.html#crew">Crew page</a> for assignments or <a href="https://www.oliverstravels.com/france/loire-valley/chateau-roussignol/" target="_blank">browse room photos</a></li>
                     </ul>
                 </div>
 
@@ -100,30 +102,60 @@
                         <li>Swimwear (there's a pool!)</li>
                         <li>Comfy clothes for daytime</li>
                         <li>90s Icons fancy dress costume for Saturday night!</li>
-                        <li>Sunscreen & sunglasses</li>
-                        <li>Your best dance moves</li>
+                        <li>Sunscreen &amp; sunglasses</li>
+                        <li>Euros (cash for markets / local spots)</li>
+                        <li>Phone charger &amp; portable battery</li>
+                        <li>Any meds / prescriptions you need</li>
                     </ul>
                 </div>
 
-                <!-- Group Expenses -->
-                <div class="info-card kitty">
-                    <div class="info-icon">🍷</div>
-                    <h3>Group Expenses</h3>
-                    <div class="kitty-price">
-                        <span class="kitty-amount">Shares</span>
-                        <span class="kitty-per">1 day = 1 share per person</span>
+            </div>
+
+            <!-- Group Expenses — prominent callout -->
+            <div class="expenses-callout">
+                <div class="expenses-callout-header">
+                    <span class="expenses-callout-icon">💰</span>
+                    <div>
+                        <h3>Group Expenses</h3>
+                        <p class="expenses-callout-strapline">Fair, simple, sorted after the trip</p>
                     </div>
-                    <ul>
-                        <li><strong>How it works:</strong> Joe will handle all big group purchases (groceries, communal drinks, BBQ supplies, etc.) and track the total spend</li>
-                        <li><strong>Fair split:</strong> 1 day at the chateau = 1 share. If you're there 5 days you get 5 shares, 3 days = 3 shares, etc.</li>
-                        <li><strong>What you owe:</strong> Your shares &divide; total shares &times; total spend. So you only pay for the days you're actually there</li>
-                        <li><strong>Not included:</strong> Meals out, personal bar tabs, activity costs, or anything bought between smaller groups. Sort those between yourselves.</li>
-                        <li><strong>Settlement:</strong> Joe will send everyone their total after the trip</li>
-                        <li><strong>Estimated cost:</strong> ~&pound;10&ndash;15 per person per night (food, drink &amp; supplies). For 5 nights that's roughly &pound;50&ndash;75 total</li>
-                    </ul>
-                    <p class="kitty-optout">Dietary needs or allergies? Let Joe know on the WhatsApp group or drop him a private message so your cooking team knows what to cater for</p>
-                    <p class="kitty-optout">Want to opt out of group food? No problem. Let Joe know on the WhatsApp group.</p>
                 </div>
+                <div class="expenses-callout-body">
+                    <div class="expenses-how">
+                        <div class="expenses-step">
+                            <span class="expenses-step-num">1</span>
+                            <div>
+                                <strong>Joe buys for the group</strong>
+                                <p>Groceries, communal drinks, BBQ supplies — all tracked</p>
+                            </div>
+                        </div>
+                        <div class="expenses-step">
+                            <span class="expenses-step-num">2</span>
+                            <div>
+                                <strong>1 day = 1 share</strong>
+                                <p>There 5 days? 5 shares. There 3 days? 3 shares. You only pay for the days you're actually there</p>
+                            </div>
+                        </div>
+                        <div class="expenses-step">
+                            <span class="expenses-step-num">3</span>
+                            <div>
+                                <strong>Joe settles up after the trip</strong>
+                                <p>Your shares &divide; total shares &times; total spend. Everyone gets a message with their total</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expenses-estimate">
+                        <span class="expenses-estimate-amount">~&pound;10&ndash;15</span>
+                        <span class="expenses-estimate-label">per person, per night (roughly &pound;50&ndash;75 for 5 nights)</span>
+                    </div>
+                    <div class="expenses-notes">
+                        <p><strong>Not included:</strong> Meals out, personal bar tabs, activity costs, or anything between smaller groups</p>
+                        <p>Dietary needs or want to opt out of group food? Let Joe know on WhatsApp</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-grid info-grid--centered stagger-grid">
 
                 <!-- Important Contacts -->
                 <div class="info-card info-card--contacts">
@@ -132,21 +164,55 @@
                     <ul>
                         <li><strong>Joe:</strong> <a href="tel:+447501395277">+44 7501 395277</a></li>
                         <li><strong>Emergency Contact:</strong> Yoke O'Brien - <a href="tel:+447799801708">+44 7799 801708</a></li>
-                        <li><strong>WhatsApp Group:</strong> <a href="https://chat.whatsapp.com/DcrbNPUiLq62lavkRYcQiv" target="_blank">Join here</a></li>
                     </ul>
                 </div>
 
                 <!-- Emergency Info -->
                 <div class="info-card emergency">
                     <div class="info-icon">🚨</div>
-                    <h3>Emergency Info</h3>
+                    <h3>Emergency</h3>
                     <ul>
-                        <li><strong>EU Emergency:</strong> 112</li>
-                        <li><strong>French Police:</strong> 17</li>
-                        <li><strong>Ambulance (SAMU):</strong> 15</li>
-                        <li><strong>Nearest Hospital:</strong> Centre Hospitalier de Le Blanc (~15 min)</li>
-                        <li><strong>UK Embassy Paris:</strong> +33 1 44 51 31 00</li>
+                        <li><strong>Emergency number:</strong> 112 (works across Europe)</li>
+                        <li><strong>Nearest hospital:</strong> Le Blanc (~15 min drive)</li>
                     </ul>
+                </div>
+            </div>
+
+            <!-- House Rules -->
+            <div class="house-rules-section">
+                <h3 class="rules-heading">🏰 House Rules</h3>
+                <p class="rules-sub">It's someone's actual ch&acirc;teau. Leave it better than you found it.</p>
+                <div class="rules-grid">
+                    <div class="rule-card">
+                        <span class="rule-icon">🏊</span>
+                        <h4>Pool</h4>
+                        <p>No glass near the pool. Towels provided — hang them to dry after use.</p>
+                    </div>
+                    <div class="rule-card">
+                        <span class="rule-icon">🍳</span>
+                        <h4>Kitchen</h4>
+                        <p>Communal space. Clean as you go, even if it's not your rota day.</p>
+                    </div>
+                    <div class="rule-card">
+                        <span class="rule-icon">🤫</span>
+                        <h4>Noise</h4>
+                        <p>Keep it down after midnight outside. We have neighbours.</p>
+                    </div>
+                    <div class="rule-card">
+                        <span class="rule-icon">♻️</span>
+                        <h4>Bins</h4>
+                        <p>Recycling and general waste separated. Take bags out when full.</p>
+                    </div>
+                    <div class="rule-card">
+                        <span class="rule-icon">🏠</span>
+                        <h4>Checkout</h4>
+                        <p>Mon 4 May — all hands on deck. Strip beds, hoover, wipe surfaces before we leave.</p>
+                    </div>
+                    <div class="rule-card">
+                        <span class="rule-icon">💔</span>
+                        <h4>Breakages</h4>
+                        <p>Accidents happen. Just tell Joe and we'll sort it together.</p>
+                    </div>
                 </div>
             </div>
 
@@ -154,28 +220,33 @@
             <div class="costume-callout">
                 <div class="costume-callout-left">
                     <div class="costume-eyebrow">Saturday 2nd May &bull; The Big Night</div>
-                    <h3 class="costume-title">&#129705; 90s Icons Night</h3>
+                    <h3 class="costume-title">&#129705; PopWorld Theme Night</h3>
                     <p class="costume-desc">Fancy dress is <strong>mandatory</strong>. Come as anyone iconic from 1990 to 1999. Musician, film character, TV icon, sportsperson. We're bringing PopWorld to France. The more committed the better. Best costume wins.</p>
                     <div class="costume-rule-pill">&#128081; Sort your costume before you fly</div>
                 </div>
                 <div class="costume-callout-right">
                     <p class="costume-inspo-label">Inspiration</p>
                     <div class="costume-chips">
-                        <span class="costume-chip">Spice Girls</span>
-                        <span class="costume-chip">Fresh Prince</span>
-                        <span class="costume-chip">Britney Spears</span>
-                        <span class="costume-chip">Oasis</span>
-                        <span class="costume-chip">Austin Powers</span>
-                        <span class="costume-chip">Backstreet Boys</span>
-                        <span class="costume-chip">Clueless</span>
-                        <span class="costume-chip">Nirvana</span>
-                        <span class="costume-chip">TLC</span>
-                        <span class="costume-chip">Baywatch</span>
-                        <span class="costume-chip">Pulp Fiction</span>
-                        <span class="costume-chip">Jim Carrey</span>
-                        <span class="costume-chip">Trainspotting</span>
-                        <span class="costume-chip">Mel Gibson</span>
-                        <span class="costume-chip">Robbie Williams</span>
+                        <a class="costume-chip" href="https://www.google.com/search?tbm=isch&q=Spice+Girls+costume" target="_blank">Scary/Baby/Posh Spice</a>
+                        <a class="costume-chip" href="https://www.google.com/search?tbm=isch&q=Fresh+Prince+costume" target="_blank">Fresh Prince</a>
+                        <a class="costume-chip" href="https://www.google.com/search?tbm=isch&q=Britney+Spears+schoolgirl+costume" target="_blank">Britney (schoolgirl era)</a>
+                        <a class="costume-chip" href="https://www.google.com/search?tbm=isch&q=Liam+Gallagher+costume" target="_blank">Liam Gallagher</a>
+                        <a class="costume-chip" href="https://www.google.com/search?tbm=isch&q=Austin+Powers+costume" target="_blank">Austin Powers</a>
+                        <a class="costume-chip" href="https://www.google.com/search?tbm=isch&q=Cher+Clueless+costume" target="_blank">Cher from Clueless</a>
+                        <a class="costume-chip" href="https://www.google.com/search?tbm=isch&q=The+Mask+Jim+Carrey+costume" target="_blank">The Mask</a>
+                        <a class="costume-chip" href="https://www.google.com/search?tbm=isch&q=Mia+Wallace+Pulp+Fiction+costume" target="_blank">Mia Wallace</a>
+                        <a class="costume-chip" href="https://www.google.com/search?tbm=isch&q=Baywatch+lifeguard+costume" target="_blank">Baywatch lifeguard</a>
+                        <a class="costume-chip" href="https://www.google.com/search?tbm=isch&q=Renton+Trainspotting+costume" target="_blank">Renton (Trainspotting)</a>
+                        <a class="costume-chip" href="https://www.google.com/search?tbm=isch&q=Braveheart+costume" target="_blank">Braveheart</a>
+                        <a class="costume-chip" href="https://www.google.com/search?tbm=isch&q=Ali+G+costume" target="_blank">Ali G</a>
+                        <a class="costume-chip" href="https://www.google.com/search?tbm=isch&q=Foxy+Cleopatra+Austin+Powers+costume" target="_blank">Foxy Cleopatra</a>
+                        <a class="costume-chip" href="https://www.google.com/search?tbm=isch&q=Wayne+and+Garth+Waynes+World+costume" target="_blank">Wayne &amp; Garth</a>
+                        <a class="costume-chip" href="https://www.google.com/search?tbm=isch&q=Scary+Movie+Ghostface+costume" target="_blank">Scary Movie</a>
+                        <a class="costume-chip" href="https://www.google.com/search?tbm=isch&q=Mr+Blobby+costume" target="_blank">Mr Blobby</a>
+                        <a class="costume-chip" href="https://www.google.com/search?tbm=isch&q=Steve+Irwin+costume" target="_blank">Steve Irwin</a>
+                        <a class="costume-chip" href="https://www.google.com/search?tbm=isch&q=Woody+Buzz+Toy+Story+costume+duo" target="_blank">Toy Story duo</a>
+                        <a class="costume-chip" href="https://www.google.com/search?tbm=isch&q=Neo+Matrix+costume" target="_blank">Neo (The Matrix)</a>
+                        <a class="costume-chip" href="https://www.google.com/search?tbm=isch&q=David+Beckham+1998+costume" target="_blank">David Beckham '98</a>
                     </div>
                 </div>
             </div>
@@ -183,14 +254,34 @@
             <!-- Chateau Gallery -->
             <div class="chateau-gallery">
                 <h3>🏰 The Chateau</h3>
-                <div class="chateau-gallery-grid">
-                    <img src="images/chateau_4.jpeg" alt="Chateau Roussignol - Pool terrace" loading="lazy">
-                    <img src="images/chateau_5.jpeg" alt="Chateau Roussignol - Main building" loading="lazy">
-                    <img src="images/chateau_6.jpeg" alt="Chateau Roussignol - Pool area" loading="lazy">
-                    <img src="images/chateau_7.jpeg" alt="Chateau Roussignol - Cottage with blue shutters" loading="lazy">
-                    <img src="images/chateau_8.jpeg" alt="Chateau Roussignol - Aerial view" loading="lazy">
+                <div class="gallery-carousel" id="gallery-carousel">
+                    <div class="gallery-track" id="gallery-track">
+                        <img src="images/ot_gallery_1.jpg" alt="Chateau Roussignol - Exterior with ivy" loading="lazy">
+                        <img src="images/chateau_5.jpeg" alt="Chateau Roussignol - Pool &amp; grounds" loading="lazy">
+                        <img src="images/chateau_8.jpeg" alt="Chateau Roussignol - Aerial view" loading="lazy">
+                        <img src="images/ot_gallery_2.jpg" alt="Chateau Roussignol - Living room &amp; fireplace" loading="lazy">
+                        <img src="images/ot_gallery_3.jpg" alt="Chateau Roussignol - Grand staircase" loading="lazy">
+                        <img src="images/ot_gallery_4.jpg" alt="Chateau Roussignol - Bedroom" loading="lazy">
+                        <img src="images/chateau_4.jpeg" alt="Chateau Roussignol - Pool terrace" loading="lazy">
+                        <img src="images/chateau_7.jpeg" alt="Chateau Roussignol - Cottage" loading="lazy">
+                        <img src="images/ot_gallery_5.jpg" alt="Chateau Roussignol - Bathroom" loading="lazy">
+                        <img src="images/chateau_6.jpeg" alt="Chateau Roussignol - Pool with cover" loading="lazy">
+                    </div>
+                    <button class="gallery-prev" id="gallery-prev" aria-label="Previous photo">&#8249;</button>
+                    <button class="gallery-next" id="gallery-next" aria-label="Next photo">&#8250;</button>
+                    <span class="gallery-counter" id="gallery-counter">1 / 10</span>
+                    <div class="gallery-dots" id="gallery-dots"></div>
                 </div>
+                <p class="gallery-hint">Tap photo to enlarge</p>
                 <p class="gallery-credit">Photos via <a href="https://www.oliverstravels.com/france/loire-valley/chateau-roussignol/" target="_blank">Oliver's Travels</a> &bull; <a href="https://www.oliverstravels.com/france/loire-valley/chateau-roussignol/" target="_blank">See all rooms &amp; photos &rarr;</a></p>
+
+            <!-- Lightbox -->
+            <div class="gallery-lightbox" id="gallery-lightbox">
+                <button class="gallery-lightbox-close" id="gallery-lightbox-close">&times;</button>
+                <button class="gallery-lightbox-prev" id="gallery-lightbox-prev">&#8249;</button>
+                <img id="gallery-lightbox-img" src="" alt="Chateau photo">
+                <button class="gallery-lightbox-next" id="gallery-lightbox-next">&#8250;</button>
+            </div>
             </div>
 
             <!-- Chateau Video -->
@@ -232,18 +323,51 @@
                 <p class="checklist-intro">Quick checklist so nothing gets forgotten</p>
                 <div class="checklist-progress-wrap">
                     <div class="checklist-progress-track"><div class="checklist-progress-fill" id="checklist-progress-fill"></div></div>
-                    <span class="checklist-progress-text" id="checklist-progress-text">0 / 8 done</span>
+                    <span class="checklist-progress-text" id="checklist-progress-text">0 / 7 done</span>
                 </div>
                 <ul class="checklist" id="prettrip-checklist">
                     <li><label><input type="checkbox" data-check="flights"><span class="check-icon">✈️</span> Book your flights (Ryanair, Stansted &rarr; Poitiers)</label></li>
                     <li><label><input type="checkbox" data-check="travel-status"><span class="check-icon">📍</span> <a href="#travel" onclick="event.stopPropagation()">Confirm your travel status</a> on this page</label></li>
                     <li><label><input type="checkbox" data-check="activities"><span class="check-icon">🎯</span> <a href="schedule.html#activity-signups" onclick="event.stopPropagation()">Sign up for activities</a> by 1st April</label></li>
-                    <li><label><input type="checkbox" data-check="whatsapp"><span class="check-icon">💬</span> Join the <a href="https://chat.whatsapp.com/DcrbNPUiLq62lavkRYcQiv" target="_blank" onclick="event.stopPropagation()">WhatsApp group</a></label></li>
                     <li><label><input type="checkbox" data-check="costume"><span class="check-icon">🎭</span> Sort your 90s Icons fancy dress costume</label></li>
                     <li><label><input type="checkbox" data-check="playlist"><span class="check-icon">🎵</span> Add a song to the <a href="https://open.spotify.com/playlist/2wg5wjy3Yn4vzxXm6dMK96?si=57fecfe75b124f56" target="_blank" onclick="event.stopPropagation()">trip playlist</a></label></li>
                     <li><label><input type="checkbox" data-check="dietary"><span class="check-icon">🍽️</span> Let Joe know about any dietary needs</label></li>
                     <li><label><input type="checkbox" data-check="packing"><span class="check-icon">🎒</span> Pack swimwear, sunscreen &amp; your best dance moves</label></li>
                 </ul>
+            </div>
+            <!-- FAQ -->
+            <div class="faq-section" id="faq">
+                <h3>❓ FAQ</h3>
+                <div class="faq-list">
+                    <details class="faq-item">
+                        <summary>What if I'm arriving late or leaving early?</summary>
+                        <p>No problem — let Joe know via WhatsApp so we can sort transport. The key day is Saturday 2nd May (Joe's birthday) — try to be there for that!</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Is there WiFi at the chateau?</summary>
+                        <p>Yes, there's WiFi. But it's rural France — don't expect fibre speeds. Perfect excuse to unplug for a few days.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Do I need travel insurance / GHIC card?</summary>
+                        <p>Yes! Get travel insurance and make sure your GHIC card (replaced EHIC) is valid. Apply free at <a href="https://www.nhs.uk/using-the-nhs/healthcare-abroad/apply-for-a-free-uk-global-health-insurance-card-ghic/" target="_blank">nhs.uk</a> if you don't have one.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>How do the teams and games work?</summary>
+                        <p>26 players split into 4 teams — revealed on arrival night. Every game, challenge, and cooking duty earns points. The winning team gets trophies at Sunday's closing ceremony. Full details on the <a href="games.html">Games page</a>.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>What should I budget beyond the group expenses?</summary>
+                        <p>Budget for meals out, personal drinks, and activity costs. France uses Euros — most places take card but bring some cash for markets and smaller spots.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>What if I can't handle my drink?</summary>
+                        <p>You're in a chateau in rural France with 25 of your mates. Nobody's judging. Pace yourself, hydrate, and remember — there's a pool to fall into.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Can I skip the games?</summary>
+                        <p>Technically yes. But your team needs you, and the losing team faces a forfeit. So no, not really.</p>
+                    </details>
+                </div>
             </div>
         </div>
     </section>
@@ -273,7 +397,7 @@
             <!-- Car Hire from Poitiers -->
             <div class="info-card car-hire-card">
                 <h3>Car Hire from Poitiers Airport</h3>
-                <p>Based on <strong>16 people</strong> arriving on the Wednesday morning flight, we'll need around <strong>3 cars</strong> from Poitiers-Biard airport.</p>
+                <p>Based on <strong>15 people</strong> arriving on the Wednesday morning flight, we'll need around <strong>3 cars</strong> from Poitiers-Biard airport.</p>
                 <div class="car-hire-breakdown">
                     <div class="car-hire-stat">
                         <span class="car-hire-num">15</span>
@@ -288,7 +412,7 @@
                         <span class="car-hire-label">drive to the chateau</span>
                     </div>
                 </div>
-                <p class="car-hire-note">Joe is sorting the cars &mdash; watch WhatsApp for your car assignment before the trip.</p>
+                <p class="car-hire-note">Joe is sorting the cars &mdash; you'll get your car assignment before the trip.</p>
             </div>
 
             <!-- Arrival Tracker -->
@@ -369,6 +493,6 @@
 
     <script src="js/shared.js?v=17"></script>
     <script src="js/nav.js?v=1"></script>
-    <script src="js/practical.js?v=10"></script>
+    <script src="js/practical.js?v=11"></script>
 </body>
 </html>
