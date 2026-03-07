@@ -788,23 +788,23 @@
       .title { font-size: clamp(2.8rem, 12vw, 5rem); letter-spacing: 0.04em; }
       .subtitle { font-size: clamp(0.7rem, 3vw, 1rem); letter-spacing: 0.15em; }
 
-      /* Star Wars crawl — bigger text, less extreme perspective on mobile */
-      #crawl-intro { font-size: clamp(1rem, 4vw, 1.8rem); letter-spacing: 0.1em; }
-      #crawl-field { perspective: 520px; }
+      /* Star Wars crawl — mobile: bigger text, minimal perspective, trimmed content */
+      #crawl-intro { font-size: clamp(1.1rem, 4.5vw, 1.8rem); letter-spacing: 0.1em; }
+      #crawl-field { perspective: 800px; }
       #crawl {
-        width: 90%; left: 5%;
-        transform: rotateX(20deg);
+        width: 92%; left: 4%;
+        transform: rotateX(14deg);
         animation: crawl-scroll-mobile 50s 5s linear forwards;
       }
       @keyframes crawl-scroll-mobile {
-        from { top: 140%; }
-        to   { top: -580%; }
+        from { top: 120%; }
+        to   { top: -420%; }
       }
-      .crawl-ep { letter-spacing: 0.3em; }
-      .crawl-title { font-size: clamp(3.5rem, 14vw, 6rem); margin-bottom: 2rem; }
-      .crawl-body { font-size: clamp(2.4rem, 7vw, 3.4rem); line-height: 1.65; }
-      .crawl-body p { margin-bottom: 1.8rem; }
-      .crawl-ep { font-size: clamp(1.6rem, 6vw, 2.5rem); }
+      .crawl-trim { display: none; }
+      .crawl-ep { font-size: clamp(1.8rem, 6vw, 2.8rem); letter-spacing: 0.3em; }
+      .crawl-title { font-size: clamp(4rem, 16vw, 7rem); margin-bottom: 2rem; }
+      .crawl-body { font-size: clamp(2.8rem, 8vw, 4rem); line-height: 1.7; }
+      .crawl-body p { margin-bottom: 2rem; }
 
       /* Browser mockup */
       .browser { width: 90vw; }
@@ -893,6 +893,22 @@
       .crew-count { font-size: clamp(4rem, 14vw, 7rem); }
       #qrcode canvas, #qrcode img { max-width: 100px; }
       .cta-url { font-size: clamp(1.5rem, 5vw, 2.5rem); }
+
+      /* Crawl in landscape — trim content, reduce perspective */
+      .crawl-trim { display: none; }
+      #crawl-field { perspective: 600px; }
+      #crawl {
+        transform: rotateX(16deg);
+        animation: crawl-scroll-land 50s 5s linear forwards;
+      }
+      @keyframes crawl-scroll-land {
+        from { top: 130%; }
+        to   { top: -450%; }
+      }
+      .crawl-title { font-size: clamp(3rem, 8vw, 5rem); margin-bottom: 1.5rem; }
+      .crawl-body { font-size: clamp(1.8rem, 4.5vw, 2.8rem); line-height: 1.6; }
+      .crawl-body p { margin-bottom: 1.4rem; }
+      .crawl-ep { font-size: clamp(1.2rem, 3vw, 2rem); }
     }
   </style>
 </head>
@@ -941,12 +957,12 @@
           <div class="crawl-body">
             <p>The time has finally come. After thirty years of growing up, getting into mischief, and dragging his closest friends along for every wild ride... Joe O'Brien is turning 30.</p>
             <p>Twenty-six of his most beloved accomplices have answered the call. Together, they will descend on Chateau Roussignol in the Loire Valley, France, for six extraordinary days and five unforgettable nights.</p>
-            <p>Four teams will be forged. A leaderboard will track every triumph and every humiliation. Group games. Individual challenges. Cooking duties. Cleaning rotas. Everything counts. The full list of games will be revealed closer to the time.</p>
-            <p>A custom-built command centre at joes30.com holds the keys to everything: the full agenda, team assignments, cooking duties, FAQs, packing lists, expense tracking, and secrets yet to be revealed.</p>
-            <p>Every guest has their own personal login. Sign in. Study the plan. Prepare yourself.</p>
+            <p class="crawl-trim">Four teams will be forged. A leaderboard will track every triumph and every humiliation. Group games. Individual challenges. Cooking duties. Cleaning rotas. Everything counts. The full list of games will be revealed closer to the time.</p>
+            <p class="crawl-trim">A custom-built command centre at joes30.com holds the keys to everything: the full agenda, team assignments, cooking duties, FAQs, packing lists, expense tracking, and secrets yet to be revealed.</p>
+            <p class="crawl-trim">Every guest has their own personal login. Sign in. Study the plan. Prepare yourself.</p>
             <p>There will be games. There will be chaos. There will be moments nobody will ever forget... and a few they will desperately try to.</p>
             <p>Saturday night belongs to the 90s. Costumes are mandatory. Dignity is optional.</p>
-            <p>Some will return as legends. Others will return with regrets and a Ryanair hangover.</p>
+            <p class="crawl-trim">Some will return as legends. Others will return with regrets and a Ryanair hangover.</p>
             <p>The adventure begins 29th April 2026.</p>
             <p>May the birthday be with you.</p>
           </div>
