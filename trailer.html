@@ -759,6 +759,12 @@
     #ov:hover .ov-btn { border-color: var(--gold); transform: scale(1.06); }
     .ov-label { font-family: 'Montserrat', sans-serif; font-size: 0.75rem; letter-spacing: 0.4em; text-transform: uppercase; color: #555; }
     .ov-note { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; color: #333; font-style: italic; }
+    .ov-orient { display: none; font-family: 'Montserrat', sans-serif; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: #666; margin-top: 0.5rem; }
+    .ov-orient span { display: inline-block; animation: ov-rotate 2s ease-in-out infinite; }
+    @keyframes ov-rotate { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(90deg); } }
+    @media (max-width: 768px) and (orientation: portrait) {
+      .ov-orient { display: block; }
+    }
 
     /* ── Mobile portrait ── */
     @media (max-width: 768px) and (orientation: portrait) {
@@ -896,6 +902,7 @@
     <div class="ov-btn">▶</div>
     <div class="ov-label">Play Trailer</div>
     <div class="ov-note">Best with sound on</div>
+    <div class="ov-orient"><span>📱</span> Best in landscape</div>
   </div>
 
   <div id="skip-btn" style="
