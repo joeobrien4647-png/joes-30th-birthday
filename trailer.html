@@ -782,12 +782,22 @@
       .title { font-size: clamp(2.8rem, 12vw, 5rem); letter-spacing: 0.04em; }
       .subtitle { font-size: clamp(0.7rem, 3vw, 1rem); letter-spacing: 0.15em; }
 
-      /* Star Wars crawl */
+      /* Star Wars crawl — bigger text, less extreme perspective on mobile */
       #crawl-intro { font-size: clamp(1rem, 4vw, 1.8rem); letter-spacing: 0.1em; }
+      #crawl-field { perspective: 520px; }
+      #crawl {
+        width: 90%; left: 5%;
+        transform: rotateX(20deg);
+        animation: crawl-scroll-mobile 42s 5s linear forwards;
+      }
+      @keyframes crawl-scroll-mobile {
+        from { top: 140%; }
+        to   { top: -520%; }
+      }
       .crawl-ep { letter-spacing: 0.3em; }
-      #crawl { width: 90%; left: 5%; }
-      .crawl-title { font-size: clamp(3.5rem, 14vw, 6rem); }
-      .crawl-body { font-size: clamp(2rem, 6vw, 3rem); line-height: 1.7; }
+      .crawl-title { font-size: clamp(3.5rem, 14vw, 6rem); margin-bottom: 2rem; }
+      .crawl-body { font-size: clamp(2.4rem, 7vw, 3.4rem); line-height: 1.65; }
+      .crawl-body p { margin-bottom: 1.8rem; }
       .crawl-ep { font-size: clamp(1.6rem, 6vw, 2.5rem); }
 
       /* Browser mockup */
