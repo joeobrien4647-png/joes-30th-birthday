@@ -1353,13 +1353,7 @@
       /* Flash transition on entry */
       if (s.flash) flash();
 
-      /* Combined audio: Star Wars crossfades into trailer score in one track */
-      if (s.id === 's-crawl') {
-        audio.currentTime = 0; audio.volume = 0.9;
-        /* Wait for audio to actually start before running timers */
-        const playPromise = audio.play();
-        if (playPromise) playPromise.catch(() => {});
-      }
+      /* Audio already started on play button click */
 
       /* Staggered plan day cards */
       if (s.id === 's-plan') {
@@ -1667,8 +1661,10 @@
       o.classList.add('gone');
       setTimeout(() => o.remove(), 700);
 
-      /* Preload audio so it's ready on mobile */
-      audio.load();
+      /* Start music immediately on play button tap */
+      audio.currentTime = 0;
+      audio.volume = 0.9;
+      audio.play().catch(() => {});
 
       /* Request fullscreen on mobile */
       const el = document.documentElement;
