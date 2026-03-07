@@ -1399,7 +1399,7 @@ function initLeaderboard() {
     }
 
     /* ---- Auto-refresh Feed ---- */
-    setInterval(() => {
+    function refreshFromStore() {
         const freshLog = Store.get('lb_pointsLog', []);
         if (freshLog.length !== pointsLog.length) {
             pointsLog = freshLog;
@@ -1408,7 +1408,10 @@ function initLeaderboard() {
             badges = Store.get('lb_badges', {});
             renderAll();
         }
-    }, 30000);
+    }
+    setInterval(refreshFromStore, 30000);
+    // Instant refresh when Firebase pushes an update
+    document.addEventListener('leaderboardUpdate', refreshFromStore);
 
     /* ---- Auto-set penalty category ---- */
     const amountInput = document.getElementById('award-amount');
@@ -3392,7 +3395,7 @@ function initMealRatings() {
     var MEALS = [
         { day: 2, label: 'Thu 30 Apr', title: 'Vikings\' Dinner', team: 'vikings', special: false },
         { day: 3, label: 'Fri 1 May',  title: 'Gladiators\' Dinner', team: 'gladiators', special: false },
-        { day: 4, label: 'Sat 2 May',  title: 'Titans\' Big Dinner', team: 'titans', special: true },
+        { day: 4, label: 'Sat 2 May',  title: 'Titans\' Dinner', team: 'titans', special: true },
         { day: 5, label: 'Sun 3 May',  title: 'Spartans\' Last Dinner', team: 'spartans', special: false }
     ];
 

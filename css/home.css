@@ -1124,7 +1124,9 @@ body.dark-mode .awake-avatar.awake-active .awake-letter {
     .countdown-item { padding: 15px 20px; min-width: 70px; }
     .countdown-number { font-size: 1.8rem; }
     .quick-links-grid { grid-template-columns: repeat(3, 1fr); }
-    .stats-grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .live-stats-card .stats-grid,
+    .trip-numbers-card .stats-grid { grid-template-columns: repeat(2, 1fr); }
     .dashboard-header { flex-direction: column; text-align: center; }
     .awake-grid { grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 10px; }
     .awake-letter { width: 42px; height: 42px; font-size: 1rem; }

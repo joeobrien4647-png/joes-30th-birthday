@@ -925,11 +925,16 @@ function showTeamWheel(guestCode) {
             var tHtml = '<p class="teammates-label">Your teammates:</p><div class="teammates-list">';
             teamMembers.forEach(function(name) {
                 // Check if this person has registered (spun the wheel)
-                var memberCode = null;
-                Object.keys(GUEST_DATA).forEach(function(code) {
-                    if (GUEST_DATA[code].name === name) memberCode = code;
-                });
-                var revealed = memberCode && localStorage.getItem('teamRevealed_' + memberCode) === 'true';
+                var revealed = false;
+                if (typeof TeamRegistrations !== 'undefined' && TeamRegistrations.isConfigured()) {
+                    revealed = TeamRegistrations.isRegistered(name);
+                } else {
+                    var memberCode = null;
+                    Object.keys(GUEST_DATA).forEach(function(code) {
+                        if (GUEST_DATA[code].name === name) memberCode = code;
+                    });
+                    revealed = memberCode && localStorage.getItem('teamRevealed_' + memberCode) === 'true';
+                }
                 if (revealed) {
                     tHtml += '<span class="teammate-chip confirmed">' + escapeHtml(name) + '</span>';
                 } else {
@@ -978,8 +983,12 @@ function showTeamWheel(guestCode) {
         // Firework particles
         launchFireworks(overlay, teamConfig.color);
 
-        // Store revealed flag
-        localStorage.setItem('teamRevealed_' + guestCode, 'true');
+        // Register to Firebase (also sets localStorage as fallback)
+        if (typeof TeamRegistrations !== 'undefined') {
+            TeamRegistrations.register(guestCode, guest.name, teamKey);
+        } else {
+            localStorage.setItem('teamRevealed_' + guestCode, 'true');
+        }
 
         // Continue button
         document.getElementById('wheel-continue-btn').addEventListener('click', function() {

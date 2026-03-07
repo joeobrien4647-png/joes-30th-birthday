@@ -109,11 +109,11 @@ function initProfiles() {
         roomEl.textContent = data.room || '';
         titleDiv.appendChild(nameEl);
         titleDiv.appendChild(roomEl);
-        if (data.knows) {
-            var knowsEl = document.createElement('p');
-            knowsEl.className = 'profile-knows';
-            knowsEl.textContent = data.knows;
-            titleDiv.appendChild(knowsEl);
+        if (data.tagline) {
+            var taglineEl = document.createElement('p');
+            taglineEl.className = 'profile-tagline';
+            taglineEl.textContent = data.tagline;
+            titleDiv.appendChild(taglineEl);
         }
 
         header.appendChild(avatar);
@@ -497,26 +497,18 @@ function initCrewTabs() {
     if (!tabs.length || !roomsView || !teamsView) return;
 
     function animateTeamsView() {
-        // Animate stat bars
-        if (!barsAnimated) {
-            barsAnimated = true;
-            requestAnimationFrame(function() {
-                requestAnimationFrame(function() {
-                    teamsView.querySelectorAll('.stat-fill').forEach(function(bar) {
-                        bar.style.width = (bar.dataset.pct || 0) + '%';
-                    });
-                });
-            });
-        }
-        // Stagger-pop the anonymous member circles
-        teamsView.querySelectorAll('.anon-member').forEach(function(m, i) {
-            m.style.transitionDelay = (i * 35) + 'ms';
-            m.classList.remove('anon-visible');
+        // Stagger team member rows
+        teamsView.querySelectorAll('.team-member').forEach(function(m, i) {
+            m.style.opacity = '0';
+            m.style.transform = 'translateX(-10px)';
+            m.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            m.style.transitionDelay = (i * 30) + 'ms';
         });
         requestAnimationFrame(function() {
             requestAnimationFrame(function() {
-                teamsView.querySelectorAll('.anon-member').forEach(function(m) {
-                    m.classList.add('anon-visible');
+                teamsView.querySelectorAll('.team-member').forEach(function(m) {
+                    m.style.opacity = '1';
+                    m.style.transform = 'translateX(0)';
                 });
             });
         });
@@ -689,7 +681,7 @@ function initGuestHighlight() {
         });
 
         // Highlight own profile card
-        document.querySelectorAll('.guest-card.guest[data-name]').forEach(function(card) {
+        document.querySelectorAll('.guest[data-name]').forEach(function(card) {
             if (card.dataset.name === d.fullName) {
                 card.classList.add('guest-self-highlight');
                 if (!card.querySelector('.guest-self-badge')) {
@@ -739,19 +731,73 @@ function updateCrewCardPhoto(name, dataUrl) {
     });
 }
 
-/* Teams Reveal — controlled by AdminState */
+/* Teams Reveal — members appear as they register via Firebase */
 function initTeamsReveal() {
-    function apply(revealed) {
-        var teaser = document.querySelector('.teams-locked-teaser');
-        var grid = document.querySelector('.teams-grid-4');
-        if (!teaser || !grid) return;
-        teaser.style.display = revealed ? 'none' : '';
-        grid.style.display = revealed ? '' : 'none';
+    var teamMembers = document.querySelectorAll('.team-member');
+    if (!teamMembers.length) return;
+
+    // Anonymize all team members initially
+    teamMembers.forEach(function(el) {
+        var nameEl = el.querySelector('.tm-name');
+        var badgeEl = el.querySelector('.tm-badge');
+        if (nameEl) {
+            nameEl.dataset.realName = nameEl.textContent;
+            nameEl.textContent = '???';
+        }
+        if (badgeEl) badgeEl.style.display = 'none';
+        el.classList.add('tm-locked');
+    });
+
+    // Update member counts to show "0/N joined"
+    function updateCounts(registeredNames) {
+        document.querySelectorAll('.team-card').forEach(function(card) {
+            var total = card.querySelectorAll('.team-member').length;
+            var revealed = 0;
+            card.querySelectorAll('.team-member .tm-name').forEach(function(n) {
+                if (n.dataset.realName && registeredNames[n.dataset.realName]) revealed++;
+            });
+            var meta = card.querySelector('.team-hero-meta');
+            if (meta) meta.textContent = revealed + '/' + total + ' joined';
+        });
     }
 
-    if (typeof AdminState !== 'undefined') {
-        AdminState.onChange(function(state) { apply(state.teamsRevealed); });
-        apply(AdminState.get().teamsRevealed);
+    // Reveal members from Firebase
+    function revealFromRegistrations(regs) {
+        var registeredNames = {};
+        Object.values(regs).forEach(function(r) {
+            if (r && r.name) registeredNames[r.name] = true;
+        });
+
+        teamMembers.forEach(function(el) {
+            var nameEl = el.querySelector('.tm-name');
+            var badgeEl = el.querySelector('.tm-badge');
+            if (!nameEl || !nameEl.dataset.realName) return;
+            var realName = nameEl.dataset.realName;
+
+            if (registeredNames[realName]) {
+                if (el.classList.contains('tm-locked')) {
+                    nameEl.textContent = realName;
+                    if (badgeEl) badgeEl.style.display = '';
+                    el.classList.remove('tm-locked');
+                    el.classList.add('tm-revealed');
+                }
+            }
+        });
+
+        updateCounts(registeredNames);
+    }
+
+    if (typeof TeamRegistrations !== 'undefined' && TeamRegistrations.isConfigured()) {
+        TeamRegistrations.onUpdate(revealFromRegistrations);
+    } else {
+        // Fallback: no Firebase, show all members
+        teamMembers.forEach(function(el) {
+            var nameEl = el.querySelector('.tm-name');
+            var badgeEl = el.querySelector('.tm-badge');
+            if (nameEl && nameEl.dataset.realName) nameEl.textContent = nameEl.dataset.realName;
+            if (badgeEl) badgeEl.style.display = '';
+            el.classList.remove('tm-locked');
+        });
     }
 }
 

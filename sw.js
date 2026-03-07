@@ -1,5 +1,5 @@
 /* Service Worker - Offline Cache for Joe's 30th Birthday Trip */
-var CACHE_NAME = 'joe30-v6';
+var CACHE_NAME = 'joe30-v10';
 var ASSETS = [
     './',
     'index.html',
@@ -16,6 +16,7 @@ var ASSETS = [
     'css/social.css',
     'css/practical.css',
     'js/shared.js',
+    'js/firebase-config.js',
     'js/nav.js',
     'js/home.js',
     'js/schedule.js',

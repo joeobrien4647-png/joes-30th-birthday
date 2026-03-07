@@ -1273,6 +1273,125 @@ function initScrollSpy() {
 }
 
 /* ============================================
+   Envelope Sound Effects (Web Audio API)
+   ============================================ */
+var envelopeAudioCtx = null;
+function getEnvelopeAudio() {
+    if (!envelopeAudioCtx) {
+        envelopeAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (envelopeAudioCtx.state === 'suspended') envelopeAudioCtx.resume();
+    return envelopeAudioCtx;
+}
+
+function playSwordSlash() {
+    try {
+        var ctx = getEnvelopeAudio();
+        var t = ctx.currentTime;
+        // White noise swoosh
+        var bufferLen = ctx.sampleRate * 0.35;
+        var buffer = ctx.createBuffer(1, bufferLen, ctx.sampleRate);
+        var data = buffer.getChannelData(0);
+        for (var i = 0; i < bufferLen; i++) data[i] = (Math.random() * 2 - 1);
+        var noise = ctx.createBufferSource();
+        noise.buffer = buffer;
+        // Bandpass sweep for metallic slash
+        var bp = ctx.createBiquadFilter();
+        bp.type = 'bandpass';
+        bp.frequency.setValueAtTime(800, t);
+        bp.frequency.exponentialRampToValueAtTime(4000, t + 0.08);
+        bp.frequency.exponentialRampToValueAtTime(1200, t + 0.3);
+        bp.Q.value = 3;
+        var gain = ctx.createGain();
+        gain.gain.setValueAtTime(0, t);
+        gain.gain.linearRampToValueAtTime(0.5, t + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
+        noise.connect(bp); bp.connect(gain); gain.connect(ctx.destination);
+        noise.start(t); noise.stop(t + 0.35);
+        // Metallic ring
+        var osc = ctx.createOscillator();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(2800, t);
+        osc.frequency.exponentialRampToValueAtTime(1400, t + 0.15);
+        var g2 = ctx.createGain();
+        g2.gain.setValueAtTime(0.12, t);
+        g2.gain.exponentialRampToValueAtTime(0.001, t + 0.2);
+        osc.connect(g2); g2.connect(ctx.destination);
+        osc.start(t); osc.stop(t + 0.25);
+    } catch(e) {}
+}
+
+function playFireworksPops() {
+    try {
+        var ctx = getEnvelopeAudio();
+        var t = ctx.currentTime;
+        // Multiple pops at staggered times
+        for (var i = 0; i < 12; i++) {
+            (function(idx) {
+                var delay = idx * 0.08 + Math.random() * 0.06;
+                var bufLen = Math.floor(ctx.sampleRate * 0.12);
+                var buf = ctx.createBuffer(1, bufLen, ctx.sampleRate);
+                var d = buf.getChannelData(0);
+                for (var j = 0; j < bufLen; j++) d[j] = (Math.random() * 2 - 1);
+                var src = ctx.createBufferSource();
+                src.buffer = buf;
+                var hp = ctx.createBiquadFilter();
+                hp.type = 'highpass';
+                hp.frequency.value = 1000 + Math.random() * 3000;
+                var g = ctx.createGain();
+                g.gain.setValueAtTime(0, t + delay);
+                g.gain.linearRampToValueAtTime(0.25 + Math.random() * 0.15, t + delay + 0.005);
+                g.gain.exponentialRampToValueAtTime(0.001, t + delay + 0.1);
+                src.connect(hp); hp.connect(g); g.connect(ctx.destination);
+                src.start(t + delay); src.stop(t + delay + 0.12);
+            })(i);
+        }
+        // Low boom
+        var boom = ctx.createOscillator();
+        boom.type = 'sine';
+        boom.frequency.setValueAtTime(120, t);
+        boom.frequency.exponentialRampToValueAtTime(40, t + 0.4);
+        var bg = ctx.createGain();
+        bg.gain.setValueAtTime(0.35, t);
+        bg.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
+        boom.connect(bg); bg.connect(ctx.destination);
+        boom.start(t); boom.stop(t + 0.5);
+    } catch(e) {}
+}
+
+function playCrowdCheer() {
+    try {
+        var ctx = getEnvelopeAudio();
+        var t = ctx.currentTime;
+        // Crowd cheer approximation: filtered noise swell
+        var dur = 2.0;
+        var bufLen = Math.floor(ctx.sampleRate * dur);
+        var buf = ctx.createBuffer(1, bufLen, ctx.sampleRate);
+        var d = buf.getChannelData(0);
+        for (var i = 0; i < bufLen; i++) d[i] = (Math.random() * 2 - 1);
+        var src = ctx.createBufferSource();
+        src.buffer = buf;
+        // Bandpass to shape crowd-like frequencies
+        var bp = ctx.createBiquadFilter();
+        bp.type = 'bandpass';
+        bp.frequency.value = 2000;
+        bp.Q.value = 0.8;
+        // Second filter for warmth
+        var lp = ctx.createBiquadFilter();
+        lp.type = 'lowpass';
+        lp.frequency.value = 4500;
+        var g = ctx.createGain();
+        g.gain.setValueAtTime(0, t);
+        g.gain.linearRampToValueAtTime(0.18, t + 0.15);
+        g.gain.setValueAtTime(0.18, t + 0.8);
+        g.gain.linearRampToValueAtTime(0.22, t + 1.0);
+        g.gain.exponentialRampToValueAtTime(0.01, t + dur);
+        src.connect(bp); bp.connect(lp); lp.connect(g); g.connect(ctx.destination);
+        src.start(t); src.stop(t + dur);
+    } catch(e) {}
+}
+
+/* ============================================
    Envelope Opening Animation
    ============================================ */
 function initEnvelopeAnimation() {
@@ -1325,6 +1444,7 @@ function initEnvelopeAnimation() {
         setTimeout(function() {
             envelope.classList.add('sword-slashing');
             spawnSwordSparks(envelope);
+            playSwordSlash();
             // Cut line follows slightly behind the sword
             setTimeout(function() {
                 envelope.classList.add('cut-opening');
@@ -1339,6 +1459,8 @@ function initEnvelopeAnimation() {
         // Phase 4: Fireworks burst (2000ms — just as letter clears the envelope)
         setTimeout(function() {
             spawnFireworks();
+            playFireworksPops();
+            playCrowdCheer();
         }, 2000);
 
         // Phase 5: Show fullscreen letter (2400ms)

@@ -141,7 +141,7 @@
                             <span class="letter-day-date">Sat 2 May</span>
                             <span class="letter-day-title">The Big Day &#127874;</span>
                         </div>
-                        <p class="letter-day-desc">Joe turns 30. Birthday Olympics, the big dinner, then 90s Icons party till sunrise.</p>
+                        <p class="letter-day-desc">Joe turns 30. Birthday Olympics, birthday celebrations, then 90s Icons party till sunrise.</p>
                     </li>
                     <li class="letter-day-item">
                         <div class="letter-day-meta">
@@ -1028,19 +1028,19 @@
                         <span class="rmt-date">Thu 30</span>
                         <span class="rmt-vibe">First Day</span>
                     </div>
-                    <div class="rmt-cell rmt-idle">-</div>
-                    <div class="rmt-cell rmt-idle">-</div>
                     <div class="rmt-cell rmt-cook">🍽️ Cooks dinner<span class="rmt-pts">+3pts</span></div>
                     <div class="rmt-cell rmt-clean">🧹 Cleans up<span class="rmt-pts">+2pts</span></div>
+                    <div class="rmt-cell rmt-idle">-</div>
+                    <div class="rmt-cell rmt-idle">-</div>
 
                     <!-- Fri 1 — Adventure Day -->
                     <div class="rmt-day">
                         <span class="rmt-date">Fri 1</span>
                         <span class="rmt-vibe">Adventure</span>
                     </div>
-                    <div class="rmt-cell rmt-clean">🧹 Cleans dinner<span class="rmt-pts">+2pts</span></div>
+                    <div class="rmt-cell rmt-clean">🧹 Cleans up<span class="rmt-pts">+2pts</span></div>
                     <div class="rmt-cell rmt-cook">🍳 Cooks breakfast<span class="rmt-pts">+3pts</span></div>
-                    <div class="rmt-cell rmt-clean">🧹 Cleans breakfast<span class="rmt-pts">+2pts</span></div>
+                    <div class="rmt-cell rmt-idle">-</div>
                     <div class="rmt-cell rmt-cook">🍽️ Cooks dinner<span class="rmt-pts">+3pts</span></div>
 
                     <!-- Sat 2 — The Big Day -->
@@ -1048,9 +1048,9 @@
                         <span class="rmt-date">Sat 2 🎂</span>
                         <span class="rmt-vibe">The Big Day</span>
                     </div>
-                    <div class="rmt-cell rmt-cook">🍽️ Cooks dinner<span class="rmt-pts">+3pts</span></div>
-                    <div class="rmt-cell rmt-clean">🧹 Cleans up<span class="rmt-pts">+2pts</span></div>
                     <div class="rmt-cell rmt-cook">🍳 Cooks breakfast<span class="rmt-pts">+3pts</span></div>
+                    <div class="rmt-cell rmt-idle">-</div>
+                    <div class="rmt-cell rmt-cook">🍽️ Cooks dinner + 🧹 Cleans up<span class="rmt-pts">+5pts</span></div>
                     <div class="rmt-cell rmt-clean">🧹 Cleans breakfast<span class="rmt-pts">+2pts</span></div>
 
                     <!-- Sun 3 — Last Full Day -->
@@ -1058,20 +1058,20 @@
                         <span class="rmt-date">Sun 3</span>
                         <span class="rmt-vibe">Last Day</span>
                     </div>
-                    <div class="rmt-cell rmt-clean">🧹 Cleans brunch<span class="rmt-pts">+2pts</span></div>
+                    <div class="rmt-cell rmt-idle">-</div>
                     <div class="rmt-cell rmt-cook">🍽️ Cooks dinner<span class="rmt-pts">+3pts</span></div>
-                    <div class="rmt-cell rmt-clean">🧹 Cleans dinner<span class="rmt-pts">+2pts</span></div>
                     <div class="rmt-cell rmt-cook">🍳 Cooks brunch<span class="rmt-pts">+3pts</span></div>
+                    <div class="rmt-cell rmt-clean">🧹 Cleans up<span class="rmt-pts">+2pts</span></div>
 
                     <!-- Mon 4 — Departure -->
                     <div class="rmt-day">
                         <span class="rmt-date">Mon 4</span>
                         <span class="rmt-vibe">Departure</span>
                     </div>
-                    <div class="rmt-cell rmt-cook">🍳 Last breakfast<span class="rmt-pts">+3pts</span></div>
+                    <div class="rmt-cell rmt-clean">🧹 Final clean-up<span class="rmt-pts">+2pts</span></div>
                     <div class="rmt-cell rmt-clean">🧹 Cleans up<span class="rmt-pts">+2pts</span></div>
-                    <div class="rmt-cell rmt-idle">-</div>
-                    <div class="rmt-cell rmt-idle">-</div>
+                    <div class="rmt-cell rmt-clean">🧹 Cleans up<span class="rmt-pts">+2pts</span></div>
+                    <div class="rmt-cell rmt-cook">🍳 Last breakfast<span class="rmt-pts">+3pts</span></div>
                 </div>
             </div>
 
@@ -1110,8 +1110,11 @@
         </div>
     </footer>
 
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script src="js/shared.js?v=18"></script>
+    <script src="js/firebase-config.js?v=1"></script>
     <script src="js/nav.js?v=1"></script>
-    <script src="js/schedule.js?v=29"></script>
+    <script src="js/schedule.js?v=30"></script>
 </body>
 </html>
