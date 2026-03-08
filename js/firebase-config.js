@@ -5,15 +5,13 @@
    ============================================ */
 (function() {
     var firebaseConfig = {
-        // TODO: Fill these in from Firebase Console
-        // Project Settings → Your apps → Web app → Config
-        apiKey: "",
-        authDomain: "",
-        databaseURL: "",
-        projectId: "",
-        storageBucket: "",
-        messagingSenderId: "",
-        appId: ""
+        apiKey: "AIzaSyAWBGZVcKvJQJs26kByApvcvo0jcOMdGmQ",
+        authDomain: "joes-30th.firebaseapp.com",
+        databaseURL: "https://joes-30th-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "joes-30th",
+        storageBucket: "joes-30th.firebasestorage.app",
+        messagingSenderId: "133286120720",
+        appId: "1:133286120720:web:7c08ab85a6c14d77e66995"
     };
 
     // Don't init if config is empty (dev/testing fallback)
