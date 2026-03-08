@@ -190,4 +190,267 @@
             return originalGet(key, fallback);
         };
     }
+    /* ============================================
+       BingoEngine — 4x4 shared bingo with claims,
+       line detection, rewards, and live feed
+       ============================================ */
+    var BINGO_ITEMS = [
+        'Photobomb someone\'s photo without them noticing',
+        'Wear someone else\'s outfit for an entire meal',
+        'Do a blind taste test and get it right',
+        'Give a completely improvised 60-second motivational speech',
+        'Convince a local you\'re French (1 min+)',
+        'Swap shoes with someone for a whole activity',
+        'Get a conga line going with at least 5 people',
+        'Start a chant that the whole group joins',
+        'Get a genuine standing ovation from the group',
+        'Make someone laugh so hard they cry',
+        'Jump in the pool fully clothed (or push someone in)',
+        'Be the first up AND last to bed on the same day',
+        'Eat the spiciest thing you can find — straight face',
+        'Down a drink with no hands',
+        'Do the washing up without being asked',
+        'Take a photo so good the group votes it photo of the trip'
+    ];
+
+    var BINGO_LINES = [
+        [0, 1, 2, 3],
+        [4, 5, 6, 7],
+        [8, 9, 10, 11],
+        [12, 13, 14, 15],
+        [0, 4, 8, 12],
+        [1, 5, 9, 13],
+        [2, 6, 10, 14],
+        [3, 7, 11, 15],
+        [0, 5, 10, 15],
+        [3, 6, 9, 12]
+    ];
+
+    var bingoClaims = {};
+    var bingoLines = {};
+    var bingoListeners = [];
+    var bingoLoaded = false;
+
+    if (db) {
+        db.ref('bingo/claims').on('value', function(snap) {
+            bingoClaims = snap.val() || {};
+            bingoLoaded = true;
+            bingoListeners.forEach(function(fn) { fn(); });
+        });
+        db.ref('bingo/lines').on('value', function(snap) {
+            bingoLines = snap.val() || {};
+        });
+    }
+
+    function bingoPostFeed(text, guestName, team) {
+        if (!db) return;
+        FirebaseSync.push('feed', {
+            type: 'bingo',
+            text: text,
+            author: guestName,
+            team: team || '',
+            timestamp: Date.now()
+        });
+    }
+
+    function bingoAwardPoints(guestName, team, amount, reason) {
+        // Use Store.set pattern to integrate with existing leaderboard sync
+        var teamScores = Store.get('lb_teamScores', { titans: 0, spartans: 0, vikings: 0, gladiators: 0 });
+        var individualScores = Store.get('lb_individualScores', {});
+        var pointsLog = Store.get('lb_pointsLog', []);
+
+        individualScores[guestName] = (individualScores[guestName] || 0) + amount;
+        if (team) {
+            teamScores[team] = (teamScores[team] || 0) + amount;
+        }
+
+        pointsLog.unshift({
+            type: 'individual',
+            target: guestName,
+            amount: amount,
+            reason: reason,
+            time: new Date().toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }),
+            timestamp: Date.now(),
+            category: 'challenges',
+            day: (function() {
+                var start = new Date('2026-04-29').getTime();
+                var d = Math.floor((Date.now() - start) / 86400000) + 1;
+                return Math.max(1, Math.min(6, d));
+            })(),
+            awardedBy: 'Bingo'
+        });
+
+        Store.set('lb_teamScores', teamScores);
+        Store.set('lb_individualScores', individualScores);
+        Store.set('lb_pointsLog', pointsLog);
+
+        document.dispatchEvent(new CustomEvent('leaderboardUpdate'));
+    }
+
+    window.BingoEngine = {
+        getItems: function() {
+            return BINGO_ITEMS;
+        },
+
+        claim: function(itemIndex, guestCode, guestName, team) {
+            if (!db) return;
+            if (bingoClaims[itemIndex]) return; // already claimed
+
+            var isFirstClaim = Object.keys(bingoClaims).length === 0;
+            var claimData = {
+                claimedBy: guestName,
+                claimedByCode: guestCode,
+                team: team,
+                timestamp: Date.now()
+            };
+
+            db.ref('bingo/claims/' + itemIndex).set(claimData);
+            bingoClaims[itemIndex] = claimData;
+
+            // Award points: +1 team, +2 bonus for first-ever claim
+            var pts = isFirstClaim ? 3 : 1;
+            var reason = isFirstClaim
+                ? 'Bingo: first claim! ' + BINGO_ITEMS[itemIndex]
+                : 'Bingo: ' + BINGO_ITEMS[itemIndex];
+            bingoAwardPoints(guestName, team, pts, reason);
+            bingoPostFeed(guestName + ' claimed: "' + BINGO_ITEMS[itemIndex] + '"', guestName, team);
+        },
+
+        getClaims: function() {
+            return bingoClaims;
+        },
+
+        onUpdate: function(fn) {
+            bingoListeners.push(fn);
+            if (bingoLoaded) fn();
+        },
+
+        checkLines: function(guestCode) {
+            var completed = [];
+            var existingLineKeys = {};
+            var keys = Object.keys(bingoLines);
+            for (var k = 0; k < keys.length; k++) {
+                var ln = bingoLines[keys[k]];
+                if (ln.guestCode === guestCode) {
+                    existingLineKeys[ln.lineType + '_' + ln.lineIndex] = true;
+                }
+            }
+
+            for (var i = 0; i < BINGO_LINES.length; i++) {
+                var line = BINGO_LINES[i];
+                var allClaimed = true;
+                for (var j = 0; j < line.length; j++) {
+                    var claim = bingoClaims[line[j]];
+                    if (!claim || claim.claimedByCode !== guestCode) {
+                        allClaimed = false;
+                        break;
+                    }
+                }
+                if (!allClaimed) continue;
+
+                var lineType = i < 4 ? 'row' : (i < 8 ? 'col' : 'diag');
+                var lineIndex = i < 4 ? i : (i < 8 ? i - 4 : i - 8);
+                var lineKey = lineType + '_' + lineIndex;
+
+                if (!existingLineKeys[lineKey]) {
+                    completed.push({
+                        lineType: lineType,
+                        lineIndex: lineIndex,
+                        cells: line
+                    });
+                }
+            }
+            return completed;
+        },
+
+        completeLine: function(lineData) {
+            if (!db) return;
+
+            // Count existing lines for this guest to determine line number
+            var lineCount = 0;
+            var keys = Object.keys(bingoLines);
+            for (var k = 0; k < keys.length; k++) {
+                if (bingoLines[keys[k]].guestCode === lineData.guestCode) lineCount++;
+            }
+            var lineNumber = lineCount + 1;
+
+            var record = {
+                guestCode: lineData.guestCode,
+                guestName: lineData.guestName,
+                lineNumber: lineNumber,
+                lineType: lineData.lineType,
+                lineIndex: lineData.lineIndex,
+                rewardChosen: lineData.rewardChosen || '',
+                punishmentTarget: lineData.punishmentTarget || '',
+                punishmentDesc: lineData.punishmentDesc || '',
+                timestamp: Date.now()
+            };
+
+            db.ref('bingo/lines').push(record);
+
+            // Points: +10/+15/+20 for line 1/2/3
+            var pts = lineNumber === 1 ? 10 : (lineNumber === 2 ? 15 : 20);
+            bingoAwardPoints(lineData.guestName, lineData.team, pts, 'Bingo line ' + lineNumber + '!');
+
+            var feedText = lineData.guestName + ' got bingo line ' + lineNumber + '!';
+            if (lineData.punishmentTarget && lineData.punishmentDesc) {
+                feedText += ' ' + lineData.punishmentTarget + ' must: ' + lineData.punishmentDesc;
+            }
+            bingoPostFeed(feedText, lineData.guestName, lineData.team);
+        },
+
+        completeFullHouse: function(guestCode, guestName, team) {
+            if (!db) return;
+            bingoAwardPoints(guestName, team, 50, 'BINGO FULL HOUSE!');
+            bingoPostFeed(guestName + ' got a FULL HOUSE! King/Queen of the Chateau!', guestName, team);
+        },
+
+        getGuestStats: function(guestCode) {
+            var claims = 0;
+            var lines = 0;
+            var cKeys = Object.keys(bingoClaims);
+            for (var i = 0; i < cKeys.length; i++) {
+                if (bingoClaims[cKeys[i]].claimedByCode === guestCode) claims++;
+            }
+            var lKeys = Object.keys(bingoLines);
+            for (var j = 0; j < lKeys.length; j++) {
+                if (bingoLines[lKeys[j]].guestCode === guestCode) lines++;
+            }
+            return { claims: claims, lines: lines, isFullHouse: claims === 16 };
+        },
+
+        getLeaderboard: function() {
+            var stats = {};
+            var cKeys = Object.keys(bingoClaims);
+            for (var i = 0; i < cKeys.length; i++) {
+                var c = bingoClaims[cKeys[i]];
+                if (!stats[c.claimedByCode]) {
+                    stats[c.claimedByCode] = { code: c.claimedByCode, name: c.claimedBy, claims: 0, lines: 0 };
+                }
+                stats[c.claimedByCode].claims++;
+            }
+            var lKeys = Object.keys(bingoLines);
+            for (var j = 0; j < lKeys.length; j++) {
+                var l = bingoLines[lKeys[j]];
+                if (!stats[l.guestCode]) {
+                    stats[l.guestCode] = { code: l.guestCode, name: l.guestName, claims: 0, lines: 0 };
+                }
+                stats[l.guestCode].lines++;
+            }
+            var arr = [];
+            var sKeys = Object.keys(stats);
+            for (var k = 0; k < sKeys.length; k++) {
+                arr.push(stats[sKeys[k]]);
+            }
+            arr.sort(function(a, b) {
+                if (b.claims !== a.claims) return b.claims - a.claims;
+                return b.lines - a.lines;
+            });
+            return arr;
+        },
+
+        getLines: function() {
+            return bingoLines;
+        }
+    };
 })();
