@@ -1,0 +1,539 @@
+/* ============================================
+   Live Feed Page Styles
+   ============================================ */
+
+/* ============================================
+   Compose Bar - Sticky below nav
+   ============================================ */
+.feed-compose {
+    position: sticky;
+    top: 60px;
+    z-index: 90;
+    display: flex;
+    gap: 8px;
+    padding: 12px 16px;
+    background: var(--bg-dark);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.feed-compose::-webkit-scrollbar {
+    display: none;
+}
+
+.feed-compose-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: var(--radius-pill);
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--text-white);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-family: var(--font-body);
+}
+
+.feed-compose-btn:hover {
+    background: rgba(255, 255, 255, 0.22);
+    transform: translateY(-2px);
+}
+
+.feed-compose-btn:active {
+    transform: scale(0.95);
+}
+
+.fc-icon {
+    font-size: 1.4rem;
+    line-height: 1;
+}
+
+.fc-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.9;
+}
+
+/* ============================================
+   Filter Tabs
+   ============================================ */
+.feed-filters {
+    display: flex;
+    gap: 8px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    background: var(--bg-white);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.feed-filters::-webkit-scrollbar {
+    display: none;
+}
+
+.feed-filter {
+    padding: 8px 18px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-pill);
+    background: var(--bg-white);
+    color: var(--text-light);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-family: var(--font-body);
+}
+
+.feed-filter:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.feed-filter.active {
+    background: var(--gradient-primary);
+    color: var(--text-white);
+    border-color: transparent;
+}
+
+/* ============================================
+   Feed List
+   ============================================ */
+.feed-list {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+.feed-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-light);
+    font-size: 1.1rem;
+}
+
+/* ============================================
+   Feed Item Card
+   ============================================ */
+.feed-item {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    margin-bottom: 14px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    transition: var(--transition-fast);
+}
+
+.feed-item:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.feed-item-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px 0;
+}
+
+.feed-type-badge {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.feed-item-meta {
+    flex: 1;
+    min-width: 0;
+}
+
+.feed-item-name {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+}
+
+.feed-item-time {
+    font-size: 0.75rem;
+    color: var(--text-light);
+}
+
+.feed-item-content {
+    padding: 10px 16px 14px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--text-dark);
+    word-wrap: break-word;
+}
+
+.feed-item-content img {
+    width: 100%;
+    border-radius: var(--radius-md);
+    margin-top: 8px;
+}
+
+/* Music item styling */
+.feed-music-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: var(--bg-light);
+    border-radius: var(--radius-md);
+}
+
+.feed-music-icon {
+    font-size: 1.6rem;
+}
+
+.feed-music-details {
+    flex: 1;
+}
+
+.feed-music-song {
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.feed-music-artist {
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+.feed-music-upvote {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-pill);
+    background: var(--bg-white);
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: var(--transition-fast);
+    font-family: var(--font-body);
+    color: var(--text-dark);
+}
+
+.feed-music-upvote:hover {
+    border-color: #2196F3;
+    color: #2196F3;
+}
+
+.feed-music-upvote.voted {
+    background: #2196F3;
+    color: white;
+    border-color: #2196F3;
+}
+
+/* Prediction styling */
+.feed-prediction-prefix {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    font-style: italic;
+    margin-bottom: 4px;
+}
+
+/* Reactions */
+.feed-reactions {
+    display: flex;
+    gap: 6px;
+    padding: 0 16px 14px;
+}
+
+.feed-reaction-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 10px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-pill);
+    background: var(--bg-white);
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: var(--transition-fast);
+    font-family: var(--font-body);
+    color: var(--text-dark);
+}
+
+.feed-reaction-btn:hover {
+    background: var(--bg-light);
+    transform: scale(1.05);
+}
+
+.feed-reaction-btn.reacted {
+    background: var(--bg-light);
+    border-color: var(--primary);
+}
+
+.feed-reaction-count {
+    font-weight: 600;
+    font-size: 0.75rem;
+    color: var(--text-light);
+}
+
+/* Type-specific badge colours */
+.feed-type-badge--message      { background: #4CAF50; }
+.feed-type-badge--confession   { background: #9C27B0; }
+.feed-type-badge--music        { background: #2196F3; }
+.feed-type-badge--photo        { background: #FF9800; }
+.feed-type-badge--prediction   { background: #E91E63; }
+.feed-type-badge--bingo_claim  { background: #00BCD4; }
+.feed-type-badge--bingo_line   { background: #FF5722; }
+.feed-type-badge--bingo_house  { background: #FFD700; }
+.feed-type-badge--points       { background: #FFC107; }
+.feed-type-badge--announcement { background: #F44336; }
+.feed-type-badge--signup       { background: #8BC34A; }
+.feed-type-badge--punishment   { background: #FF5722; }
+.feed-type-badge--reward       { background: #FFD700; }
+
+/* ============================================
+   Compose Modal
+   ============================================ */
+.feed-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.feed-modal-overlay.visible {
+    display: flex;
+}
+
+.feed-modal {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    width: 100%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 24px 20px;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
+}
+
+.feed-modal-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-dark);
+}
+
+.feed-modal-note {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-bottom: 12px;
+    font-style: italic;
+}
+
+.feed-modal label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text-dark);
+}
+
+.feed-modal input[type="text"],
+.feed-modal textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    font-family: var(--font-body);
+    background: var(--bg-light);
+    color: var(--text-dark);
+    margin-bottom: 14px;
+    transition: var(--transition-fast);
+    -webkit-appearance: none;
+}
+
+.feed-modal input[type="text"]:focus,
+.feed-modal textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.15);
+}
+
+.feed-modal textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.feed-modal-char-count {
+    text-align: right;
+    font-size: 0.75rem;
+    color: var(--text-light);
+    margin-top: -10px;
+    margin-bottom: 14px;
+}
+
+.feed-modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.feed-modal-submit {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: var(--radius-pill);
+    background: var(--gradient-primary);
+    color: var(--text-white);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    font-family: var(--font-body);
+}
+
+.feed-modal-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.feed-modal-submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.feed-modal-cancel {
+    padding: 12px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-pill);
+    background: var(--bg-white);
+    color: var(--text-light);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    font-family: var(--font-body);
+}
+
+.feed-modal-cancel:hover {
+    background: var(--bg-light);
+}
+
+/* Photo coming soon */
+.feed-modal-coming-soon {
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--text-light);
+}
+
+.feed-modal-coming-soon-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+/* ============================================
+   Dark Mode
+   ============================================ */
+body.dark-mode .feed-compose {
+    background: #0d1117;
+}
+
+body.dark-mode .feed-compose-btn {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .feed-compose-btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+}
+
+body.dark-mode .feed-item {
+    border-color: rgba(255, 255, 255, 0.06);
+}
+
+body.dark-mode .feed-filter {
+    border-color: rgba(255, 255, 255, 0.1);
+    background: var(--bg-white);
+    color: var(--text-light);
+}
+
+body.dark-mode .feed-filter:hover {
+    border-color: var(--primary);
+}
+
+body.dark-mode .feed-reaction-btn {
+    border-color: rgba(255, 255, 255, 0.1);
+    background: var(--bg-white);
+}
+
+body.dark-mode .feed-reaction-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .feed-music-upvote {
+    border-color: rgba(255, 255, 255, 0.1);
+    background: var(--bg-white);
+}
+
+body.dark-mode .feed-modal-cancel {
+    border-color: rgba(255, 255, 255, 0.1);
+    background: var(--bg-white);
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (min-width: 768px) {
+    .feed-compose {
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .feed-compose-btn {
+        flex-direction: row;
+        gap: 6px;
+        padding: 10px 20px;
+    }
+
+    .fc-icon {
+        font-size: 1.2rem;
+    }
+
+    .fc-label {
+        font-size: 0.8rem;
+    }
+
+    .feed-filters {
+        justify-content: center;
+    }
+
+    .feed-modal {
+        border-radius: var(--radius-lg);
+        margin-bottom: 40px;
+    }
+}

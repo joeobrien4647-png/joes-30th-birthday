@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Feed - Joe's 30th Birthday Trip</title>
+    <meta name="description" content="Chateau Roussignol, Loire Valley · 29 Apr - 4 May 2026">
+    <meta property="og:title" content="Joe's 30th Birthday Trip">
+    <meta property="og:description" content="Chateau Roussignol, Loire Valley · 29 Apr - 4 May 2026">
+    <meta property="og:image" content="https://joes30.com/images/og-preview.jpg">
+    <meta property="og:url" content="https://joes30.com/livefeed.html">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Joe's 30th Birthday Trip">
+    <meta name="twitter:description" content="Chateau Roussignol, Loire Valley · 29 Apr - 4 May 2026">
+    <meta name="twitter:image" content="https://joes30.com/images/og-preview.jpg">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#764ba2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="css/base.css?v=19">
+    <link rel="stylesheet" href="css/components.css?v=1">
+    <link rel="stylesheet" href="css/nav.css?v=1">
+    <link rel="stylesheet" href="css/livefeed.css?v=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">30th Bday</a>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html" data-page="index.html">Home</a></li>
+                <li><a href="schedule.html" data-page="schedule.html">Schedule</a></li>
+                <li><a href="games.html" data-page="games.html">Games</a></li>
+                <li><a href="livefeed.html" data-page="livefeed.html" class="active">Live Feed</a></li>
+                <li><a href="practical.html" data-page="practical.html">Info</a></li>
+                <li><span class="nav-guest-name" id="nav-guest-name" style="display:none;"></span></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <h1>Live Feed</h1>
+        <p>Everything happening at the chateau, as it happens.</p>
+    </header>
+
+    <!-- Compose bar (sticky at top, below nav) -->
+    <div class="feed-compose">
+        <button class="feed-compose-btn" data-type="message"><span class="fc-icon">💬</span><span class="fc-label">Message</span></button>
+        <button class="feed-compose-btn" data-type="photo"><span class="fc-icon">📸</span><span class="fc-label">Photo</span></button>
+        <button class="feed-compose-btn" data-type="confession"><span class="fc-icon">🤫</span><span class="fc-label">Confession</span></button>
+        <button class="feed-compose-btn" data-type="music"><span class="fc-icon">🎵</span><span class="fc-label">Song</span></button>
+        <button class="feed-compose-btn" data-type="prediction"><span class="fc-icon">🔮</span><span class="fc-label">Prediction</span></button>
+    </div>
+
+    <!-- Compose modal (hidden, shows form for selected type) -->
+    <div class="feed-modal-overlay" id="composeOverlay">
+        <div class="feed-modal" id="composeModal">
+            <!-- Dynamic form content based on type -->
+        </div>
+    </div>
+
+    <!-- Filter tabs -->
+    <div class="feed-filters">
+        <button class="feed-filter active" data-filter="all">All</button>
+        <button class="feed-filter" data-filter="bingo">Bingo</button>
+        <button class="feed-filter" data-filter="scores">Scores</button>
+        <button class="feed-filter" data-filter="photos">Photos</button>
+        <button class="feed-filter" data-filter="social">Social</button>
+    </div>
+
+    <!-- Feed list -->
+    <div class="feed-list" id="feedList">
+        <div class="feed-empty">No activity yet. Be the first!</div>
+    </div>
+
+    <!-- Theme Switcher -->
+    <div class="theme-switcher" id="theme-switcher">
+        <button class="theme-toggle-btn" id="theme-toggle-btn">🎨</button>
+        <div class="theme-options" id="theme-options">
+            <button class="theme-option" data-theme="default" title="Birthday Party">🎂</button>
+            <button class="theme-option" data-theme="france" title="French Vibes">🇫🇷</button>
+            <button class="theme-option" data-theme="wine" title="Wine O'Clock">🍷</button>
+            <button class="theme-option" data-theme="sunset" title="Golden Hour">🌅</button>
+            <button class="theme-option" data-theme="disco" title="Disco Night">🪩</button>
+        </div>
+    </div>
+
+    <!-- Confetti Cannon -->
+    <button class="confetti-cannon" id="confetti-cannon">🎉<span class="cannon-label">POP!</span></button>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Made with love for Joe's 30th Birthday 🎂 🇫🇷 🎉</p>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <script src="js/shared.js?v=18"></script>
+    <script src="js/firebase-config.js?v=1"></script>
+    <script src="js/nav.js?v=1"></script>
+    <script src="js/livefeed.js?v=1"></script>
+</body>
+</html>
