@@ -1342,107 +1342,623 @@ function initAdminPanel() {
         { date: '2026-05-02', label: 'Day 4: Birthday Olympics & Roast' }
     ];
 
-    function buildContent() {
-        var state = AdminState.get();
+    /* Scoring wizard state */
+    var scoreState = {
+        step: 1,
+        source: '',
+        mode: 'team',
+        target: '',
+        targetLabel: '',
+        points: 0,
+        customPoints: false,
+        reason: ''
+    };
+
+    var SOURCE_OPTIONS = [
+        { key: 'game', emoji: '\uD83C\uDFAE', label: 'Game' },
+        { key: 'bingo', emoji: '\u2705', label: 'Bingo' },
+        { key: 'duty', emoji: '\uD83C\uDF73', label: 'Duty' },
+        { key: 'bonus', emoji: '\u2B50', label: 'Bonus' },
+        { key: 'penalty', emoji: '\u274C', label: 'Penalty' }
+    ];
+
+    var POINT_OPTIONS = [
+        { val: 1, label: '+1' },
+        { val: 2, label: '+2' },
+        { val: 3, label: '+3' },
+        { val: 5, label: '+5' },
+        { val: 10, label: '+10' },
+        { val: -1, label: '-1' }
+    ];
+
+    var TEAMS_LIST = ['titans', 'spartans', 'vikings', 'gladiators'];
+
+    /* Build sorted guest list for scoring */
+    var allGuests = [];
+    var guestKeys = Object.keys(PLAYERS);
+    guestKeys.sort();
+    for (var gi = 0; gi < guestKeys.length; gi++) {
+        allGuests.push({ name: guestKeys[gi], fullName: FULL_NAMES[guestKeys[gi]] || guestKeys[gi], team: PLAYERS[guestKeys[gi]] });
+    }
+
+    /* Trip day helper (matches games.js) */
+    function getTripDay() {
+        var start = new Date('2026-04-29').getTime();
+        var day = Math.floor((Date.now() - start) / 86400000) + 1;
+        return Math.max(1, Math.min(6, day));
+    }
+
+    /* ---- Main menu content ---- */
+    function buildMainMenu() {
         drawer.innerHTML =
             '<div class="admin-drawer-header">' +
                 '<h3>Admin Panel</h3>' +
                 '<button class="admin-drawer-close">&times;</button>' +
             '</div>' +
-            '<div class="admin-drawer-body">' +
-                '<div class="admin-section">' +
-                    '<h4>Team Reveal</h4>' +
-                    '<label class="admin-toggle">' +
-                        '<input type="checkbox" id="admin-teams-toggle" ' + (state.teamsRevealed ? 'checked' : '') + '>' +
-                        '<span class="admin-toggle-slider"></span>' +
-                        '<span class="admin-toggle-label">' + (state.teamsRevealed ? 'Teams Visible' : 'Teams Hidden') + '</span>' +
-                    '</label>' +
-                '</div>' +
-                '<div class="admin-section">' +
-                    '<h4>Unlock Secrets</h4>' +
-                    '<p class="admin-hint">Override date locks to reveal content early.</p>' +
-                    '<div class="admin-secret-list">' +
-                        SECRETS.map(function(s) {
-                            var checked = (state.secretOverrides || []).indexOf(s.date) !== -1;
-                            return '<label class="admin-secret-item">' +
-                                '<input type="checkbox" data-date="' + s.date + '" ' + (checked ? 'checked' : '') + '>' +
-                                '<span>' + s.label + '</span></label>';
-                        }).join('') +
-                    '</div>' +
-                '</div>' +
-                '<div class="admin-section">' +
-                    '<h4>Announcement</h4>' +
-                    '<textarea id="admin-announce-text" placeholder="Type a message for all guests..." rows="3">' +
-                        escapeHtml(state.announcement ? state.announcement.text : '') +
-                    '</textarea>' +
-                    '<div class="admin-announce-types">' +
-                        '<button class="admin-announce-type' + (!state.announcement || state.announcement.type === 'info' ? ' active' : '') + '" data-type="info">Info</button>' +
-                        '<button class="admin-announce-type' + (state.announcement && state.announcement.type === 'warning' ? ' active' : '') + '" data-type="warning">Warning</button>' +
-                        '<button class="admin-announce-type' + (state.announcement && state.announcement.type === 'celebration' ? ' active' : '') + '" data-type="celebration">Party</button>' +
-                    '</div>' +
-                    '<div class="admin-announce-actions">' +
-                        '<button class="admin-btn admin-btn-primary" id="admin-announce-post">Post</button>' +
-                        '<button class="admin-btn admin-btn-secondary" id="admin-announce-clear">Clear</button>' +
-                    '</div>' +
-                '</div>' +
-                '<div class="admin-section admin-push">' +
-                    '<button class="admin-btn admin-btn-push" id="admin-push-live">Push Live to All Guests</button>' +
-                    '<p class="admin-hint" style="margin-top:8px">Copies config to clipboard &amp; opens GitHub editor. Paste, replace all, commit. Changes go live in ~1 min.</p>' +
-                '</div>' +
+            '<div class="admin-drawer-body admin-menu-body">' +
+                '<button class="admin-menu-btn admin-menu-score" data-action="score">' +
+                    '<span class="admin-menu-icon">\uD83C\uDFAF</span>' +
+                    '<span class="admin-menu-label">Score Points</span>' +
+                '</button>' +
+                '<button class="admin-menu-btn admin-menu-announce" data-action="announce">' +
+                    '<span class="admin-menu-icon">\uD83D\uDCE2</span>' +
+                    '<span class="admin-menu-label">Send Announcement</span>' +
+                '</button>' +
+                '<button class="admin-menu-btn admin-menu-settings" data-action="settings">' +
+                    '<span class="admin-menu-icon">\u2699\uFE0F</span>' +
+                    '<span class="admin-menu-label">Settings</span>' +
+                '</button>' +
             '</div>';
 
-        attachEvents(state);
+        drawer.querySelector('.admin-drawer-close').addEventListener('click', closeDrawer);
+        var menuBtns = drawer.querySelectorAll('.admin-menu-btn');
+        for (var i = 0; i < menuBtns.length; i++) {
+            (function(btn) {
+                btn.addEventListener('click', function() {
+                    var action = btn.getAttribute('data-action');
+                    if (action === 'score') { resetScoreState(); buildScoreStep1(); }
+                    else if (action === 'announce') { buildAnnouncementView(); }
+                    else if (action === 'settings') { buildSettingsView(); }
+                });
+            })(menuBtns[i]);
+        }
     }
 
-    function attachEvents(state) {
+    function resetScoreState() {
+        scoreState = { step: 1, source: '', mode: 'team', target: '', targetLabel: '', points: 0, customPoints: false, reason: '' };
+    }
+
+    /* ---- Step indicator ---- */
+    function stepIndicator(current) {
+        var dots = '';
+        for (var s = 1; s <= 4; s++) {
+            var cls = 'admin-step-dot';
+            if (s === current) cls += ' active';
+            else if (s < current) cls += ' done';
+            dots += '<span class="' + cls + '"></span>';
+        }
+        return '<div class="admin-step-indicator">' + dots + '</div>';
+    }
+
+    /* ---- Score Step 1: Source ---- */
+    function buildScoreStep1() {
+        scoreState.step = 1;
+        var html = '<div class="admin-drawer-header">' +
+            '<button class="admin-back-btn">\u2190</button>' +
+            '<h3>What\'s it for?</h3>' +
+            '<button class="admin-drawer-close">&times;</button>' +
+        '</div>' +
+        stepIndicator(1) +
+        '<div class="admin-drawer-body">' +
+            '<div class="admin-source-grid">';
+
+        for (var i = 0; i < SOURCE_OPTIONS.length; i++) {
+            var s = SOURCE_OPTIONS[i];
+            var sel = scoreState.source === s.key ? ' selected' : '';
+            html += '<button class="admin-source-btn' + sel + '" data-source="' + s.key + '">' +
+                '<span class="admin-source-emoji">' + s.emoji + '</span>' +
+                '<span class="admin-source-label">' + s.label + '</span>' +
+            '</button>';
+        }
+
+        html += '</div></div>';
+        drawer.innerHTML = html;
+
         drawer.querySelector('.admin-drawer-close').addEventListener('click', closeDrawer);
+        drawer.querySelector('.admin-back-btn').addEventListener('click', function() { buildMainMenu(); });
+
+        var sourceBtns = drawer.querySelectorAll('.admin-source-btn');
+        for (var j = 0; j < sourceBtns.length; j++) {
+            (function(btn) {
+                btn.addEventListener('click', function() {
+                    scoreState.source = btn.getAttribute('data-source');
+                    /* If penalty, pre-set negative points */
+                    if (scoreState.source === 'penalty' && scoreState.points >= 0) {
+                        scoreState.points = -1;
+                    }
+                    buildScoreStep2();
+                });
+            })(sourceBtns[j]);
+        }
+    }
+
+    /* ---- Score Step 2: Who ---- */
+    function buildScoreStep2() {
+        scoreState.step = 2;
+        var html = '<div class="admin-drawer-header">' +
+            '<button class="admin-back-btn">\u2190</button>' +
+            '<h3>Who gets the points?</h3>' +
+            '<button class="admin-drawer-close">&times;</button>' +
+        '</div>' +
+        stepIndicator(2) +
+        '<div class="admin-drawer-body">' +
+            '<div class="admin-mode-toggle">' +
+                '<button class="admin-mode-btn' + (scoreState.mode === 'team' ? ' active' : '') + '" data-mode="team">Team</button>' +
+                '<button class="admin-mode-btn' + (scoreState.mode === 'individual' ? ' active' : '') + '" data-mode="individual">Individual</button>' +
+            '</div>' +
+            '<div id="admin-target-area"></div>' +
+        '</div>';
+        drawer.innerHTML = html;
+
+        drawer.querySelector('.admin-drawer-close').addEventListener('click', closeDrawer);
+        drawer.querySelector('.admin-back-btn').addEventListener('click', function() { buildScoreStep1(); });
+
+        var modeBtns = drawer.querySelectorAll('.admin-mode-btn');
+        for (var i = 0; i < modeBtns.length; i++) {
+            (function(btn) {
+                btn.addEventListener('click', function() {
+                    scoreState.mode = btn.getAttribute('data-mode');
+                    scoreState.target = '';
+                    scoreState.targetLabel = '';
+                    for (var k = 0; k < modeBtns.length; k++) modeBtns[k].classList.remove('active');
+                    btn.classList.add('active');
+                    renderTargetArea();
+                });
+            })(modeBtns[i]);
+        }
+
+        renderTargetArea();
+    }
+
+    function renderTargetArea() {
+        var area = document.getElementById('admin-target-area');
+        if (!area) return;
+        var html = '';
+
+        if (scoreState.mode === 'team') {
+            html += '<div class="admin-team-grid">';
+            for (var t = 0; t < TEAMS_LIST.length; t++) {
+                var teamKey = TEAMS_LIST[t];
+                var tc = TEAM_CONFIG[teamKey];
+                var sel = scoreState.target === teamKey ? ' selected' : '';
+                html += '<button class="admin-team-btn' + sel + '" data-team="' + teamKey + '" style="--team-color:' + tc.color + '">' +
+                    '<span class="admin-team-logo">' + tc.logo + '</span>' +
+                    '<span class="admin-team-name">' + tc.name + '</span>' +
+                '</button>';
+            }
+            html += '</div>';
+        } else {
+            html += '<div class="admin-search-wrap">' +
+                '<input type="text" class="admin-guest-search" placeholder="Search guests..." id="admin-guest-filter">' +
+            '</div>';
+            html += '<div class="admin-guest-list" id="admin-guest-list">';
+            html += renderGuestList('');
+            html += '</div>';
+        }
+
+        area.innerHTML = html;
+
+        if (scoreState.mode === 'team') {
+            var teamBtns = area.querySelectorAll('.admin-team-btn');
+            for (var i = 0; i < teamBtns.length; i++) {
+                (function(btn) {
+                    btn.addEventListener('click', function() {
+                        var team = btn.getAttribute('data-team');
+                        scoreState.target = team;
+                        scoreState.targetLabel = TEAM_CONFIG[team].name;
+                        for (var j = 0; j < teamBtns.length; j++) teamBtns[j].classList.remove('selected');
+                        btn.classList.add('selected');
+                        setTimeout(function() { buildScoreStep3(); }, 200);
+                    });
+                })(teamBtns[i]);
+            }
+        } else {
+            var filterInput = document.getElementById('admin-guest-filter');
+            if (filterInput) {
+                filterInput.addEventListener('input', function() {
+                    var list = document.getElementById('admin-guest-list');
+                    if (list) list.innerHTML = renderGuestList(filterInput.value);
+                    attachGuestListEvents();
+                });
+            }
+            attachGuestListEvents();
+        }
+    }
+
+    function renderGuestList(filter) {
+        var html = '';
+        var f = (filter || '').toLowerCase();
+        for (var i = 0; i < allGuests.length; i++) {
+            var g = allGuests[i];
+            if (f && g.fullName.toLowerCase().indexOf(f) === -1 && g.name.toLowerCase().indexOf(f) === -1) continue;
+            var sel = scoreState.target === g.name ? ' selected' : '';
+            var teamColor = TEAM_CONFIG[g.team] ? TEAM_CONFIG[g.team].color : '#999';
+            html += '<button class="admin-guest-row' + sel + '" data-name="' + escapeHtml(g.name) + '">' +
+                '<span class="admin-guest-dot" style="background:' + teamColor + '"></span>' +
+                '<span class="admin-guest-name">' + escapeHtml(g.fullName) + '</span>' +
+                '<span class="admin-guest-team">' + escapeHtml(TEAM_CONFIG[g.team] ? TEAM_CONFIG[g.team].name : '') + '</span>' +
+            '</button>';
+        }
+        return html;
+    }
+
+    function attachGuestListEvents() {
+        var rows = drawer.querySelectorAll('.admin-guest-row');
+        for (var i = 0; i < rows.length; i++) {
+            (function(row) {
+                row.addEventListener('click', function() {
+                    var name = row.getAttribute('data-name');
+                    scoreState.target = name;
+                    scoreState.targetLabel = FULL_NAMES[name] || name;
+                    for (var j = 0; j < rows.length; j++) rows[j].classList.remove('selected');
+                    row.classList.add('selected');
+                    setTimeout(function() { buildScoreStep3(); }, 200);
+                });
+            })(rows[i]);
+        }
+    }
+
+    /* ---- Score Step 3: Points ---- */
+    function buildScoreStep3() {
+        scoreState.step = 3;
+        var isPenalty = scoreState.source === 'penalty';
+        var html = '<div class="admin-drawer-header">' +
+            '<button class="admin-back-btn">\u2190</button>' +
+            '<h3>How many?</h3>' +
+            '<button class="admin-drawer-close">&times;</button>' +
+        '</div>' +
+        stepIndicator(3) +
+        '<div class="admin-drawer-body">' +
+            '<div class="admin-points-grid">';
+
+        for (var i = 0; i < POINT_OPTIONS.length; i++) {
+            var p = POINT_OPTIONS[i];
+            var sel = scoreState.points === p.val ? ' selected' : '';
+            var neg = p.val < 0 ? ' negative' : '';
+            html += '<button class="admin-points-btn' + sel + neg + '" data-points="' + p.val + '">' + p.label + '</button>';
+        }
+
+        var customSel = scoreState.customPoints ? ' selected' : '';
+        html += '<button class="admin-points-btn admin-points-custom' + customSel + '" data-points="custom">Custom</button>';
+        html += '</div>';
+
+        if (scoreState.customPoints) {
+            html += '<div class="admin-custom-input">' +
+                '<input type="number" id="admin-custom-pts" placeholder="Enter points" value="' + (scoreState.points || '') + '">' +
+            '</div>';
+        }
+
+        html += '<div class="admin-reason-wrap">' +
+            '<input type="text" class="admin-reason-input" id="admin-reason" placeholder="Reason: e.g. Won petanque" value="' + escapeHtml(scoreState.reason) + '">' +
+        '</div>' +
+        '<div class="admin-step-actions">' +
+            '<button class="admin-btn admin-btn-primary admin-next-btn" id="admin-to-confirm"' + (scoreState.points === 0 && !scoreState.customPoints ? ' disabled' : '') + '>Next \u2192</button>' +
+        '</div>' +
+        '</div>';
+        drawer.innerHTML = html;
+
+        drawer.querySelector('.admin-drawer-close').addEventListener('click', closeDrawer);
+        drawer.querySelector('.admin-back-btn').addEventListener('click', function() { buildScoreStep2(); });
+
+        var ptsBtns = drawer.querySelectorAll('.admin-points-btn');
+        for (var j = 0; j < ptsBtns.length; j++) {
+            (function(btn) {
+                btn.addEventListener('click', function() {
+                    var val = btn.getAttribute('data-points');
+                    if (val === 'custom') {
+                        scoreState.customPoints = true;
+                        scoreState.points = 0;
+                        buildScoreStep3();
+                        return;
+                    }
+                    scoreState.customPoints = false;
+                    scoreState.points = parseInt(val);
+                    for (var k = 0; k < ptsBtns.length; k++) ptsBtns[k].classList.remove('selected');
+                    btn.classList.add('selected');
+                    var nextBtn = document.getElementById('admin-to-confirm');
+                    if (nextBtn) nextBtn.disabled = false;
+                });
+            })(ptsBtns[j]);
+        }
+
+        var customInput = document.getElementById('admin-custom-pts');
+        if (customInput) {
+            customInput.addEventListener('input', function() {
+                var v = parseInt(customInput.value);
+                scoreState.points = isNaN(v) ? 0 : v;
+                var nextBtn = document.getElementById('admin-to-confirm');
+                if (nextBtn) nextBtn.disabled = (scoreState.points === 0);
+            });
+            customInput.focus();
+        }
+
+        var reasonInput = document.getElementById('admin-reason');
+        if (reasonInput) {
+            reasonInput.addEventListener('input', function() {
+                scoreState.reason = reasonInput.value;
+            });
+        }
+
+        var confirmBtn = document.getElementById('admin-to-confirm');
+        if (confirmBtn) {
+            confirmBtn.addEventListener('click', function() {
+                if (scoreState.customPoints) {
+                    var ci = document.getElementById('admin-custom-pts');
+                    if (ci) scoreState.points = parseInt(ci.value) || 0;
+                }
+                if (scoreState.points === 0) return;
+                var ri = document.getElementById('admin-reason');
+                if (ri) scoreState.reason = ri.value;
+                buildScoreStep4();
+            });
+        }
+    }
+
+    /* ---- Score Step 4: Confirm ---- */
+    function buildScoreStep4() {
+        scoreState.step = 4;
+        var sign = scoreState.points > 0 ? '+' : '';
+        var targetDisplay = scoreState.targetLabel || scoreState.target;
+        var sourceLabel = '';
+        for (var i = 0; i < SOURCE_OPTIONS.length; i++) {
+            if (SOURCE_OPTIONS[i].key === scoreState.source) { sourceLabel = SOURCE_OPTIONS[i].label; break; }
+        }
+        var summary = sign + scoreState.points + ' to ' + escapeHtml(targetDisplay);
+        if (sourceLabel) summary += ' for ' + sourceLabel;
+        if (scoreState.reason) summary += ': ' + escapeHtml(scoreState.reason);
+
+        var html = '<div class="admin-drawer-header">' +
+            '<button class="admin-back-btn">\u2190</button>' +
+            '<h3>Confirm</h3>' +
+            '<button class="admin-drawer-close">&times;</button>' +
+        '</div>' +
+        stepIndicator(4) +
+        '<div class="admin-drawer-body admin-confirm-body">' +
+            '<div class="admin-confirm-summary">' +
+                '<div class="admin-confirm-points ' + (scoreState.points < 0 ? 'negative' : 'positive') + '">' + sign + scoreState.points + '</div>' +
+                '<div class="admin-confirm-target">' + escapeHtml(targetDisplay) + '</div>' +
+                '<div class="admin-confirm-detail">' +
+                    (sourceLabel ? '<span class="admin-confirm-source">' + sourceLabel + '</span>' : '') +
+                    (scoreState.reason ? '<span class="admin-confirm-reason">' + escapeHtml(scoreState.reason) + '</span>' : '') +
+                '</div>' +
+            '</div>' +
+            '<button class="admin-btn admin-btn-confirm" id="admin-award-btn">\uD83C\uDFC6 Award Points</button>' +
+            '<button class="admin-cancel-link" id="admin-cancel-award">Cancel</button>' +
+        '</div>';
+        drawer.innerHTML = html;
+
+        drawer.querySelector('.admin-drawer-close').addEventListener('click', closeDrawer);
+        drawer.querySelector('.admin-back-btn').addEventListener('click', function() { buildScoreStep3(); });
+
+        document.getElementById('admin-cancel-award').addEventListener('click', function() { closeDrawer(); });
+
+        document.getElementById('admin-award-btn').addEventListener('click', function() {
+            doAwardPoints();
+        });
+    }
+
+    /* ---- Actually award the points ---- */
+    function doAwardPoints() {
+        var teamScores = Store.get('lb_teamScores', { titans: 0, spartans: 0, vikings: 0, gladiators: 0 });
+        var individualScores = Store.get('lb_individualScores', {});
+        var pointsLog = Store.get('lb_pointsLog', []);
+
+        var type = scoreState.mode;
+        var target = scoreState.target;
+        var amount = scoreState.points;
+        var reason = scoreState.reason || scoreState.source;
+        var category = scoreState.source || 'bonus';
+
+        if (amount < 0) category = 'penalty';
+
+        var entry = {
+            type: type,
+            target: target,
+            amount: amount,
+            reason: reason,
+            time: new Date().toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }),
+            timestamp: Date.now(),
+            category: category,
+            day: getTripDay(),
+            awardedBy: Auth.getGuestName()
+        };
+
+        if (type === 'team') {
+            teamScores[target] = (teamScores[target] || 0) + amount;
+        } else {
+            individualScores[target] = (individualScores[target] || 0) + amount;
+            var team = PLAYERS[target];
+            if (team) {
+                teamScores[team] = (teamScores[team] || 0) + amount;
+            }
+        }
+
+        pointsLog.unshift(entry);
+
+        Store.set('lb_teamScores', teamScores);
+        Store.set('lb_individualScores', individualScores);
+        Store.set('lb_pointsLog', pointsLog);
+
+        /* Push to live feed */
+        if (typeof FirebaseSync !== 'undefined' && FirebaseSync.isConfigured()) {
+            var sign = amount > 0 ? '+' : '';
+            var feedText = sign + amount + ' pts to ' + (scoreState.targetLabel || target);
+            if (reason) feedText += ' (' + reason + ')';
+            FirebaseSync.push('feed', {
+                type: 'points',
+                text: feedText,
+                author: Auth.getGuestName(),
+                target: target,
+                amount: amount,
+                category: category,
+                timestamp: Date.now()
+            });
+        }
+
+        /* Dispatch event so leaderboard UI updates */
+        document.dispatchEvent(new CustomEvent('leaderboardUpdate'));
+
+        /* Show toast */
+        showAdminToast('Points awarded!');
+        closeDrawer();
+    }
+
+    /* ---- Announcement view ---- */
+    function buildAnnouncementView() {
+        var state = AdminState.get();
+        var announceType = (state.announcement && state.announcement.type) || 'info';
+
+        var html = '<div class="admin-drawer-header">' +
+            '<button class="admin-back-btn">\u2190</button>' +
+            '<h3>Send Announcement</h3>' +
+            '<button class="admin-drawer-close">&times;</button>' +
+        '</div>' +
+        '<div class="admin-drawer-body">' +
+            '<div class="admin-section">' +
+                '<textarea id="admin-announce-text" placeholder="Type a message for all guests..." rows="4">' +
+                    escapeHtml(state.announcement ? state.announcement.text : '') +
+                '</textarea>' +
+                '<div class="admin-announce-type-grid">' +
+                    '<button class="admin-atype-btn' + (announceType === 'info' ? ' active' : '') + '" data-type="info">' +
+                        '<span class="admin-atype-emoji">\uD83D\uDCE2</span><span>Info</span>' +
+                    '</button>' +
+                    '<button class="admin-atype-btn' + (announceType === 'celebration' ? ' active' : '') + '" data-type="celebration">' +
+                        '<span class="admin-atype-emoji">\uD83C\uDF89</span><span>Party</span>' +
+                    '</button>' +
+                    '<button class="admin-atype-btn' + (announceType === 'warning' ? ' active' : '') + '" data-type="warning">' +
+                        '<span class="admin-atype-emoji">\u26A0\uFE0F</span><span>Alert</span>' +
+                    '</button>' +
+                '</div>' +
+                '<button class="admin-btn admin-btn-confirm admin-announce-send" id="admin-announce-send">\uD83D\uDCE8 Send to Everyone</button>' +
+                (state.announcement && state.announcement.text ?
+                    '<button class="admin-cancel-link" id="admin-announce-clear-btn">Clear current announcement</button>' : '') +
+            '</div>' +
+        '</div>';
+        drawer.innerHTML = html;
+
+        drawer.querySelector('.admin-drawer-close').addEventListener('click', closeDrawer);
+        drawer.querySelector('.admin-back-btn').addEventListener('click', function() { buildMainMenu(); });
+
+        var typeBtns = drawer.querySelectorAll('.admin-atype-btn');
+        for (var i = 0; i < typeBtns.length; i++) {
+            (function(btn) {
+                btn.addEventListener('click', function() {
+                    for (var j = 0; j < typeBtns.length; j++) typeBtns[j].classList.remove('active');
+                    btn.classList.add('active');
+                    announceType = btn.getAttribute('data-type');
+                });
+            })(typeBtns[i]);
+        }
+
+        document.getElementById('admin-announce-send').addEventListener('click', function() {
+            var text = document.getElementById('admin-announce-text').value.trim();
+            if (!text) return;
+            state.announcement = { text: text, type: announceType, timestamp: Date.now() };
+            AdminState.save(state);
+
+            /* Push to feed and announcements collection */
+            if (typeof FirebaseSync !== 'undefined' && FirebaseSync.isConfigured()) {
+                var feedData = {
+                    type: 'announcement',
+                    text: text,
+                    announcementType: announceType,
+                    author: Auth.getGuestName(),
+                    timestamp: Date.now()
+                };
+                FirebaseSync.push('feed', feedData);
+                FirebaseSync.push('announcements', feedData);
+            }
+
+            showAdminToast('Announcement sent!');
+            closeDrawer();
+        });
+
+        var clearBtn = document.getElementById('admin-announce-clear-btn');
+        if (clearBtn) {
+            clearBtn.addEventListener('click', function() {
+                state.announcement = null;
+                AdminState.save(state);
+                document.getElementById('admin-announce-text').value = '';
+                showAdminToast('Announcement cleared');
+                buildAnnouncementView();
+            });
+        }
+    }
+
+    /* ---- Settings view ---- */
+    function buildSettingsView() {
+        var state = AdminState.get();
+        var html = '<div class="admin-drawer-header">' +
+            '<button class="admin-back-btn">\u2190</button>' +
+            '<h3>Settings</h3>' +
+            '<button class="admin-drawer-close">&times;</button>' +
+        '</div>' +
+        '<div class="admin-drawer-body">' +
+            '<div class="admin-section">' +
+                '<h4>Team Reveal</h4>' +
+                '<label class="admin-toggle">' +
+                    '<input type="checkbox" id="admin-teams-toggle" ' + (state.teamsRevealed ? 'checked' : '') + '>' +
+                    '<span class="admin-toggle-slider"></span>' +
+                    '<span class="admin-toggle-label">' + (state.teamsRevealed ? 'Teams Visible' : 'Teams Hidden') + '</span>' +
+                '</label>' +
+            '</div>' +
+            '<div class="admin-section">' +
+                '<h4>Unlock Secrets</h4>' +
+                '<p class="admin-hint">Override date locks to reveal content early.</p>' +
+                '<div class="admin-secret-list">' +
+                    SECRETS.map(function(s) {
+                        var checked = (state.secretOverrides || []).indexOf(s.date) !== -1;
+                        return '<label class="admin-secret-item">' +
+                            '<input type="checkbox" data-date="' + s.date + '" ' + (checked ? 'checked' : '') + '>' +
+                            '<span>' + s.label + '</span></label>';
+                    }).join('') +
+                '</div>' +
+            '</div>' +
+            '<div class="admin-section admin-push">' +
+                '<button class="admin-btn admin-btn-push" id="admin-push-live">Push Live to All Guests</button>' +
+                '<p class="admin-hint" style="margin-top:8px">Copies config to clipboard &amp; opens GitHub editor. Paste, replace all, commit. Changes go live in ~1 min.</p>' +
+            '</div>' +
+        '</div>';
+        drawer.innerHTML = html;
+
+        drawer.querySelector('.admin-drawer-close').addEventListener('click', closeDrawer);
+        drawer.querySelector('.admin-back-btn').addEventListener('click', function() { buildMainMenu(); });
 
         var teamsToggle = drawer.querySelector('#admin-teams-toggle');
         if (teamsToggle) {
             teamsToggle.addEventListener('change', function() {
                 state.teamsRevealed = this.checked;
                 this.nextElementSibling.nextElementSibling.textContent = this.checked ? 'Teams Visible' : 'Teams Hidden';
-                saveState(state);
+                AdminState.save(state);
             });
         }
 
-        drawer.querySelectorAll('.admin-secret-item input').forEach(function(cb) {
-            cb.addEventListener('change', function() {
-                var date = this.dataset.date;
-                var overrides = state.secretOverrides || [];
-                if (this.checked) { if (overrides.indexOf(date) === -1) overrides.push(date); }
-                else { overrides = overrides.filter(function(d) { return d !== date; }); }
-                state.secretOverrides = overrides;
-                saveState(state);
-            });
-        });
-
-        var announceType = (state.announcement && state.announcement.type) || 'info';
-        drawer.querySelectorAll('.admin-announce-type').forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                drawer.querySelectorAll('.admin-announce-type').forEach(function(b) { b.classList.remove('active'); });
-                this.classList.add('active');
-                announceType = this.dataset.type;
-            });
-        });
-
-        var postBtn = drawer.querySelector('#admin-announce-post');
-        if (postBtn) {
-            postBtn.addEventListener('click', function() {
-                var text = drawer.querySelector('#admin-announce-text').value.trim();
-                if (!text) return;
-                state.announcement = { text: text, type: announceType, timestamp: Date.now() };
-                saveState(state);
-            });
-        }
-
-        var clearBtn = drawer.querySelector('#admin-announce-clear');
-        if (clearBtn) {
-            clearBtn.addEventListener('click', function() {
-                state.announcement = null;
-                drawer.querySelector('#admin-announce-text').value = '';
-                saveState(state);
-            });
+        var secretCbs = drawer.querySelectorAll('.admin-secret-item input');
+        for (var i = 0; i < secretCbs.length; i++) {
+            (function(cb) {
+                cb.addEventListener('change', function() {
+                    var date = cb.getAttribute('data-date');
+                    var overrides = state.secretOverrides || [];
+                    if (cb.checked) { if (overrides.indexOf(date) === -1) overrides.push(date); }
+                    else {
+                        var filtered = [];
+                        for (var x = 0; x < overrides.length; x++) { if (overrides[x] !== date) filtered.push(overrides[x]); }
+                        overrides = filtered;
+                    }
+                    state.secretOverrides = overrides;
+                    AdminState.save(state);
+                });
+            })(secretCbs[i]);
         }
 
         var pushBtn = drawer.querySelector('#admin-push-live');
@@ -1456,12 +1972,25 @@ function initAdminPanel() {
         }
     }
 
-    function saveState(state) {
-        AdminState.save(state);
+    /* ---- Toast ---- */
+    function showAdminToast(msg) {
+        var existing = document.getElementById('admin-toast');
+        if (existing) existing.remove();
+        var toast = document.createElement('div');
+        toast.id = 'admin-toast';
+        toast.className = 'admin-toast';
+        toast.textContent = msg;
+        document.body.appendChild(toast);
+        setTimeout(function() { toast.classList.add('show'); }, 10);
+        setTimeout(function() {
+            toast.classList.remove('show');
+            setTimeout(function() { toast.remove(); }, 300);
+        }, 2500);
     }
 
+    /* ---- Open / Close ---- */
     function openDrawer() {
-        buildContent();
+        buildMainMenu();
         drawer.classList.add('open');
         backdrop.classList.add('open');
         document.body.style.overflow = 'hidden';
