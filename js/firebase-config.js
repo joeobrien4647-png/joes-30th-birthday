@@ -2,6 +2,7 @@
    Firebase Integration
    - Team registrations (real-time reveal)
    - Leaderboard sync (live scores for all guests)
+   - Full sync for all shared features
    ============================================ */
 (function() {
     var firebaseConfig = {
@@ -22,6 +23,86 @@
     }
 
     var db = (configured && typeof firebase !== 'undefined') ? firebase.database() : null;
+
+    /* ============================================
+       FirebaseSync — generic helper for all
+       shared features (messages, confessions, etc.)
+       ============================================ */
+    window.FirebaseSync = {
+        push: function(path, data) {
+            if (!db) return null;
+            var ref = db.ref(path).push(data);
+            return ref.key;
+        },
+        set: function(path, data) {
+            if (!db) return;
+            db.ref(path).set(data);
+        },
+        update: function(path, data) {
+            if (!db) return;
+            db.ref(path).update(data);
+        },
+        remove: function(path, key) {
+            if (!db) return;
+            db.ref(path + '/' + key).remove();
+        },
+        onUpdate: function(path, callback) {
+            if (!db) return;
+            db.ref(path).on('value', function(snap) {
+                callback(snap.val());
+            });
+        },
+        isConfigured: function() {
+            return !!db;
+        }
+    };
+
+    /* ============================================
+       Shared Collection Listeners
+       Listen on each collection, cache locally,
+       and dispatch custom events for UI updates.
+       ============================================ */
+    var COLLECTIONS = [
+        'messages',
+        'confessions',
+        'music',
+        'photos',
+        'predictions',
+        'superlatives',
+        'highlights',
+        'toasts',
+        'signups',
+        'announcements',
+        'bingo',
+        'feed',
+        'admin'
+    ];
+
+    var collectionCache = {};
+
+    function setupCollectionListener(name) {
+        var eventName = name + 'Update';
+        collectionCache[name] = null;
+
+        if (!db) return;
+
+        db.ref(name).on('value', function(snap) {
+            var data = snap.val();
+            collectionCache[name] = data;
+
+            // Cache in localStorage as fallback
+            try {
+                localStorage.setItem('fb_' + name, JSON.stringify(data));
+            } catch(e) { /* quota exceeded — non-critical */ }
+
+            // Dispatch event so UI can react
+            document.dispatchEvent(new CustomEvent(eventName, { detail: data }));
+        });
+    }
+
+    COLLECTIONS.forEach(function(name) {
+        setupCollectionListener(name);
+    });
 
     /* ============================================
        Team Registrations
