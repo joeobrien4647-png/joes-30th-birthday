@@ -553,4 +553,59 @@
             return bingoLines;
         }
     };
+
+    /* ============================================
+       Push Notification Subscriptions
+       ============================================ */
+    var VAPID_PUBLIC = 'BF7CnYIwdBjsgGfpV57r8NbpM70eoQ1uW1EZjPpKX1RGuG626F8meosAeYC8oVmOJ1M_BWIzdXM1MGgAmdgD4W0';
+
+    function urlBase64ToUint8Array(base64String) {
+        var padding = '='.repeat((4 - base64String.length % 4) % 4);
+        var base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+        var rawData = atob(base64);
+        var outputArray = new Uint8Array(rawData.length);
+        for (var i = 0; i < rawData.length; i++) {
+            outputArray[i] = rawData.charCodeAt(i);
+        }
+        return outputArray;
+    }
+
+    window.PushManager = {
+        subscribe: function(guestCode) {
+            if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
+            if (!db || !guestCode) return;
+
+            navigator.serviceWorker.ready.then(function(reg) {
+                return reg.pushManager.getSubscription().then(function(sub) {
+                    if (sub) return sub;
+                    return reg.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC)
+                    });
+                });
+            }).then(function(sub) {
+                var subJson = sub.toJSON();
+                db.ref('subscriptions/' + guestCode).set({
+                    endpoint: subJson.endpoint,
+                    keys: subJson.keys
+                });
+            }).catch(function(err) {
+                console.warn('Push subscription failed:', err);
+            });
+        },
+
+        isSubscribed: function(callback) {
+            if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+                callback(false);
+                return;
+            }
+            navigator.serviceWorker.ready.then(function(reg) {
+                return reg.pushManager.getSubscription();
+            }).then(function(sub) {
+                callback(!!sub);
+            }).catch(function() {
+                callback(false);
+            });
+        }
+    };
 })();

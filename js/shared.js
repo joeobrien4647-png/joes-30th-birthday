@@ -2132,6 +2132,10 @@ function initGuestPicker() {
         if (typeof triggerConfetti === 'function') triggerConfetti();
         // Tell home.js to show dashboard
         document.dispatchEvent(new CustomEvent('guestLoggedIn', { detail: { code: code } }));
+        // Subscribe to push notifications
+        if (typeof PushManager !== 'undefined' && PushManager.subscribe) {
+            setTimeout(function() { PushManager.subscribe(code); }, 2000);
+        }
     });
 
     skipBtn.addEventListener('click', function() {
@@ -2151,6 +2155,11 @@ function initMyTripDrawer() {
     var guest = Auth.getGuestData();
     if (!guest) return;
     var guestCode = Auth.getGuestCode();
+
+    // Subscribe to push notifications if not already
+    if (typeof window.PushManager !== 'undefined' && window.PushManager.subscribe) {
+        window.PushManager.subscribe(guestCode);
+    }
 
     // FAB
     var fab = document.createElement('button');

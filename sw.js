@@ -1,5 +1,5 @@
 /* Service Worker - Offline Cache for Joe's 30th Birthday Trip */
-var CACHE_NAME = 'joe30-v13';
+var CACHE_NAME = 'joe30-v14';
 var ASSETS = [
     './',
     'index.html',
@@ -50,6 +50,35 @@ self.addEventListener('activate', function(e) {
         })
     );
     self.clients.claim();
+});
+
+// Push notifications
+self.addEventListener('push', function(e) {
+    var data = {};
+    try { data = e.data.json(); } catch(err) { data = { title: 'joes30.com', body: e.data ? e.data.text() : '' }; }
+    e.waitUntil(
+        self.registration.showNotification(data.title || 'joes30.com', {
+            body: data.body || '',
+            icon: 'images/icon-192.png',
+            badge: 'images/icon-192.png',
+            data: { url: data.url || '/' }
+        })
+    );
+});
+
+self.addEventListener('notificationclick', function(e) {
+    e.notification.close();
+    var url = e.notification.data && e.notification.data.url ? e.notification.data.url : '/';
+    e.waitUntil(
+        clients.matchAll({ type: 'window' }).then(function(list) {
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].url.indexOf(url) !== -1 && 'focus' in list[i]) {
+                    return list[i].focus();
+                }
+            }
+            return clients.openWindow(url);
+        })
+    );
 });
 
 // Fetch: network first, fallback to cache
