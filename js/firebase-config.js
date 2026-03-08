@@ -191,6 +191,106 @@
         };
     }
     /* ============================================
+       PhotoStorage — upload photos to Firebase Storage
+       and sync metadata via Realtime Database
+       ============================================ */
+    var storage = (configured && typeof firebase !== 'undefined' && firebase.storage) ? firebase.storage() : null;
+    var photosCache = {};
+    var photoListeners = [];
+    var photosLoaded = false;
+
+    if (db) {
+        db.ref('photos').on('value', function(snap) {
+            photosCache = snap.val() || {};
+            photosLoaded = true;
+            for (var i = 0; i < photoListeners.length; i++) {
+                photoListeners[i](photosCache);
+            }
+        });
+    }
+
+    function compressImage(file, maxWidth, quality, callback) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var img = new Image();
+            img.onload = function() {
+                var canvas = document.createElement('canvas');
+                var scale = Math.min(1, maxWidth / img.width);
+                canvas.width = img.width * scale;
+                canvas.height = img.height * scale;
+                var ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                canvas.toBlob(function(blob) {
+                    callback(blob);
+                }, 'image/jpeg', quality);
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    window.PhotoStorage = {
+        upload: function(file, guestCode, guestName, caption, onProgress, onComplete) {
+            if (!storage || !db) {
+                if (onComplete) onComplete(null, 'Firebase Storage not configured');
+                return;
+            }
+
+            compressImage(file, 1600, 0.8, function(blob) {
+                var filename = 'photos/' + Date.now() + '_' + guestCode.replace(/[^a-zA-Z0-9-_]/g, '') + '.jpg';
+                var ref = storage.ref(filename);
+                var uploadTask = ref.put(blob, { contentType: 'image/jpeg' });
+
+                uploadTask.on('state_changed',
+                    function(snapshot) {
+                        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        if (onProgress) onProgress(progress);
+                    },
+                    function(error) {
+                        if (onComplete) onComplete(null, error.message || 'Upload failed');
+                    },
+                    function() {
+                        uploadTask.snapshot.ref.getDownloadURL().then(function(url) {
+                            var photoData = {
+                                url: url,
+                                caption: caption || '',
+                                guestCode: guestCode,
+                                guestName: guestName,
+                                timestamp: Date.now()
+                            };
+
+                            /* Save to /photos collection */
+                            var photoKey = db.ref('photos').push(photoData).key;
+
+                            /* Post to /feed */
+                            FirebaseSync.push('feed', {
+                                type: 'photo',
+                                guestCode: guestCode,
+                                guestName: guestName,
+                                content: caption || '',
+                                photoUrl: url,
+                                timestamp: Date.now()
+                            });
+
+                            photoData._id = photoKey;
+                            if (onComplete) onComplete(photoData, null);
+                        });
+                    }
+                );
+            });
+        },
+
+        getAll: function() {
+            return photosCache;
+        },
+
+        onUpdate: function(fn) {
+            photoListeners.push(fn);
+            if (photosLoaded) fn(photosCache);
+        }
+    };
+
+    /* ============================================
        BingoEngine — 4x4 shared bingo with claims,
        line detection, rewards, and live feed
        ============================================ */

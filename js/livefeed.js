@@ -210,12 +210,14 @@ function renderFeedItem(item) {
         contentHtml += escapeHtml(item.text || '');
         contentHtml += '</div>';
     } else if (item.type === 'photo') {
+        var photoSrc = item.photoUrl || item.imageUrl || '';
+        var photoCaption = item.content || item.caption || '';
         contentHtml = '<div class="feed-item-content">';
-        if (item.imageUrl) {
-            contentHtml += '<img src="' + escapeHtml(item.imageUrl) + '" alt="Photo" loading="lazy">';
+        if (photoSrc) {
+            contentHtml += '<img src="' + escapeHtml(photoSrc) + '" alt="Photo" class="feed-photo" loading="lazy" onclick="openLightbox(\'' + escapeHtml(photoSrc).replace(/'/g, "\\'") + '\', \'' + escapeHtml(photoCaption).replace(/'/g, "\\'") + '\')">';
         }
-        if (item.caption) {
-            contentHtml += '<p>' + escapeHtml(item.caption) + '</p>';
+        if (photoCaption) {
+            contentHtml += '<p class="feed-photo-caption">' + escapeHtml(photoCaption) + '</p>';
         }
         contentHtml += '</div>';
     } else {
@@ -287,13 +289,25 @@ function openCompose(type) {
         html += '</div>';
     } else if (type === 'photo') {
         html = '<div class="feed-modal-title">' + typeConf.icon + ' Share a Photo</div>';
-        html += '<div class="feed-modal-coming-soon">';
-        html += '<div class="feed-modal-coming-soon-icon">📸</div>';
-        html += '<p>Photo uploads coming soon!</p>';
-        html += '<p style="font-size:0.8rem;margin-top:8px;">For now, share photos in the WhatsApp group.</p>';
+        html += '<div class="photo-upload-area" id="photoUploadArea">';
+        html += '<input type="file" id="photoFileInput" accept="image/*" capture="environment" style="display:none;">';
+        html += '<div class="photo-upload-placeholder" id="photoPlaceholder">';
+        html += '<div class="photo-upload-icon">📷</div>';
+        html += '<p>Tap to take or choose a photo</p>';
+        html += '</div>';
+        html += '<div class="photo-preview-container" id="photoPreviewContainer" style="display:none;">';
+        html += '<img id="photoPreview" class="feed-photo-preview" alt="Preview">';
+        html += '<button class="photo-change-btn" id="photoChangeBtn">Change</button>';
+        html += '</div>';
+        html += '</div>';
+        html += '<input type="text" id="photoCaption" placeholder="Add a caption (optional)" maxlength="200">';
+        html += '<div class="feed-modal-char-count"><span id="photoCaptionCount">0</span> / 200</div>';
+        html += '<div class="photo-progress-bar" id="photoProgressBar" style="display:none;">';
+        html += '<div class="photo-progress-fill" id="photoProgressFill"></div>';
         html += '</div>';
         html += '<div class="feed-modal-actions">';
-        html += '<button class="feed-modal-cancel" onclick="closeCompose()">Close</button>';
+        html += '<button class="feed-modal-cancel" onclick="closeCompose()">Cancel</button>';
+        html += '<button class="feed-modal-submit" id="composeSubmit" disabled>Upload</button>';
         html += '</div>';
     }
 
@@ -320,6 +334,47 @@ function openCompose(type) {
         submitBtn.addEventListener('click', function () {
             handleSubmit(type);
         });
+    }
+
+    /* Photo-specific bindings */
+    if (type === 'photo') {
+        var fileInput = document.getElementById('photoFileInput');
+        var placeholder = document.getElementById('photoPlaceholder');
+        var previewContainer = document.getElementById('photoPreviewContainer');
+        var preview = document.getElementById('photoPreview');
+        var changeBtn = document.getElementById('photoChangeBtn');
+        var captionInput = document.getElementById('photoCaption');
+        var captionCount = document.getElementById('photoCaptionCount');
+
+        if (placeholder) {
+            placeholder.addEventListener('click', function() {
+                if (fileInput) fileInput.click();
+            });
+        }
+        if (changeBtn) {
+            changeBtn.addEventListener('click', function() {
+                if (fileInput) fileInput.click();
+            });
+        }
+        if (fileInput) {
+            fileInput.addEventListener('change', function() {
+                var file = fileInput.files && fileInput.files[0];
+                if (!file) return;
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    if (preview) preview.src = e.target.result;
+                    if (placeholder) placeholder.style.display = 'none';
+                    if (previewContainer) previewContainer.style.display = 'block';
+                    if (submitBtn) submitBtn.disabled = false;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+        if (captionInput && captionCount) {
+            captionInput.addEventListener('input', function() {
+                captionCount.textContent = captionInput.value.length;
+            });
+        }
     }
 }
 
@@ -388,6 +443,42 @@ function handleSubmit(type) {
             text: predText,
             timestamp: Date.now()
         };
+    }
+
+    if (type === 'photo') {
+        var fileInput = document.getElementById('photoFileInput');
+        var captionInput = document.getElementById('photoCaption');
+        var file = fileInput && fileInput.files && fileInput.files[0];
+        if (!file) {
+            if (submitBtn) submitBtn.disabled = false;
+            return;
+        }
+        var caption = captionInput ? captionInput.value.trim() : '';
+        var progressBar = document.getElementById('photoProgressBar');
+        var progressFill = document.getElementById('photoProgressFill');
+        if (progressBar) progressBar.style.display = 'block';
+        if (submitBtn) submitBtn.textContent = 'Uploading...';
+
+        if (typeof PhotoStorage !== 'undefined') {
+            PhotoStorage.upload(file, guestCode, guestName, caption,
+                function(progress) {
+                    if (progressFill) progressFill.style.width = Math.round(progress) + '%';
+                },
+                function(photoData, error) {
+                    if (error) {
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'Upload';
+                        }
+                        if (progressBar) progressBar.style.display = 'none';
+                        alert('Upload failed: ' + error);
+                        return;
+                    }
+                    closeCompose();
+                }
+            );
+        }
+        return;
     }
 
     if (!data) return;
@@ -491,4 +582,48 @@ function formatTime(timestamp) {
     if (diff < 172800) return 'yesterday';
     if (diff < 604800) return Math.floor(diff / 86400) + ' days ago';
     return new Date(timestamp).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+}
+
+/* ============================================
+   Photo Lightbox
+   ============================================ */
+function openLightbox(src, caption) {
+    /* Remove existing lightbox if any */
+    var existing = document.getElementById('photoLightbox');
+    if (existing) existing.remove();
+
+    var overlay = document.createElement('div');
+    overlay.className = 'photo-lightbox';
+    overlay.id = 'photoLightbox';
+
+    var inner = '<button class="photo-lightbox-close" onclick="closeLightbox()">&times;</button>';
+    inner += '<img src="' + src + '" class="photo-lightbox-img" alt="Photo">';
+    if (caption) {
+        inner += '<div class="photo-lightbox-caption">' + escapeHtml(caption) + '</div>';
+    }
+
+    overlay.innerHTML = inner;
+    document.body.appendChild(overlay);
+
+    /* Close on overlay click (not on image) */
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) {
+            closeLightbox();
+        }
+    });
+
+    /* Close on Escape key */
+    document.addEventListener('keydown', lightboxKeyHandler);
+}
+
+function closeLightbox() {
+    var lb = document.getElementById('photoLightbox');
+    if (lb) lb.remove();
+    document.removeEventListener('keydown', lightboxKeyHandler);
+}
+
+function lightboxKeyHandler(e) {
+    if (e.key === 'Escape') {
+        closeLightbox();
+    }
 }
