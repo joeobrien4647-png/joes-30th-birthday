@@ -2462,3 +2462,143 @@ body.dark-mode .admin-atype-btn { border-color: rgba(255,255,255,0.1); color: rg
     a[href]::after { content: " (" attr(href) ")"; font-size: 0.7em; color: #666; }
     a[href^="#"]::after, a[href^="javascript"]::after { content: ""; }
 }
+
+/* ============================================
+   Install App Banner
+   ============================================ */
+.install-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.install-banner.visible {
+    transform: translateY(0);
+}
+.install-banner-inner {
+    margin: 0 auto;
+    max-width: 480px;
+    padding: 0 12px 12px;
+}
+.install-banner-card {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+.install-banner-gradient {
+    height: 4px;
+    background: var(--gradient-primary);
+}
+.install-banner-body {
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+.install-banner-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-sm);
+}
+.install-banner-text {
+    flex: 1;
+    min-width: 0;
+}
+.install-banner-title {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    margin-bottom: 2px;
+}
+.install-banner-desc {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    line-height: 1.3;
+}
+.install-banner-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+.install-banner-btn {
+    border: none;
+    border-radius: var(--radius-pill);
+    padding: 10px 18px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+.install-banner-btn-primary {
+    background: var(--gradient-hero);
+    color: white;
+}
+.install-banner-btn-primary:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-md);
+}
+.install-banner-btn-dismiss {
+    background: transparent;
+    color: var(--text-light);
+    padding: 10px 8px;
+    font-size: 1.1rem;
+    line-height: 1;
+}
+/* iOS instructions overlay */
+.install-ios-instructions {
+    padding: 0 18px 16px;
+    display: none;
+}
+.install-ios-instructions.show {
+    display: block;
+}
+.install-ios-step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.85rem;
+    color: var(--text-dark);
+}
+.install-ios-step:last-child {
+    border-bottom: none;
+}
+.install-ios-step-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--gradient-hero);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.install-ios-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+/* Dark mode */
+.dark-mode .install-banner-card {
+    background: #2a2a3e;
+}
+.dark-mode .install-banner-title {
+    color: var(--text-white);
+}
+.dark-mode .install-banner-desc {
+    color: #aaa;
+}
+.dark-mode .install-ios-step {
+    color: var(--text-white);
+    border-color: rgba(255, 255, 255, 0.1);
+}

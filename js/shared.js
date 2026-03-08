@@ -1011,6 +1011,131 @@ if ('serviceWorker' in navigator) {
 }
 
 /* ============================================
+   Install App Banner
+   Captures beforeinstallprompt (Android/Chrome)
+   and detects iOS for manual instructions.
+   ============================================ */
+(function() {
+    var deferredPrompt = null;
+    var bannerDismissed = localStorage.getItem('installBannerDismissed');
+    var isStandalone = window.matchMedia('(display-mode: standalone)').matches
+        || window.navigator.standalone === true;
+
+    // Already installed or dismissed recently
+    if (isStandalone) return;
+    if (bannerDismissed) {
+        var dismissedAt = parseInt(bannerDismissed, 10);
+        // Don't show again for 3 days after dismiss
+        if (Date.now() - dismissedAt < 3 * 24 * 60 * 60 * 1000) return;
+    }
+
+    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    var isAndroid = /Android/.test(navigator.userAgent);
+
+    // Capture the install prompt (Chrome/Edge/Samsung)
+    window.addEventListener('beforeinstallprompt', function(e) {
+        e.preventDefault();
+        deferredPrompt = e;
+        showBanner('android');
+    });
+
+    // On iOS, show after a delay since there's no beforeinstallprompt
+    if (isIOS) {
+        setTimeout(function() { showBanner('ios'); }, 3000);
+    }
+
+    function showBanner(platform) {
+        if (document.querySelector('.install-banner')) return;
+
+        var banner = document.createElement('div');
+        banner.className = 'install-banner';
+        var isIOSPlatform = platform === 'ios';
+
+        banner.innerHTML =
+            '<div class="install-banner-inner">' +
+                '<div class="install-banner-card">' +
+                    '<div class="install-banner-gradient"></div>' +
+                    '<div class="install-banner-body">' +
+                        '<img class="install-banner-icon" src="images/icon-192.png" alt="App icon">' +
+                        '<div class="install-banner-text">' +
+                            '<div class="install-banner-title">Get the Joe\'s 30th app</div>' +
+                            '<div class="install-banner-desc">' +
+                                (isIOSPlatform
+                                    ? 'Add to your home screen for the full experience'
+                                    : 'Install for push notifications & offline access') +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="install-banner-actions">' +
+                            '<button class="install-banner-btn install-banner-btn-primary" id="install-btn">' +
+                                (isIOSPlatform ? 'Show me' : 'Install') +
+                            '</button>' +
+                            '<button class="install-banner-btn install-banner-btn-dismiss" id="install-dismiss">&times;</button>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="install-ios-instructions" id="install-ios-steps">' +
+                        '<div class="install-ios-step">' +
+                            '<span class="install-ios-step-num">1</span>' +
+                            '<span>Tap the <strong>Share</strong> button</span>' +
+                            '<span class="install-ios-icon">\uD83D\uDCE4</span>' +
+                        '</div>' +
+                        '<div class="install-ios-step">' +
+                            '<span class="install-ios-step-num">2</span>' +
+                            '<span>Scroll down and tap <strong>Add to Home Screen</strong></span>' +
+                            '<span class="install-ios-icon">+</span>' +
+                        '</div>' +
+                        '<div class="install-ios-step">' +
+                            '<span class="install-ios-step-num">3</span>' +
+                            '<span>Tap <strong>Add</strong> — that\'s it!</span>' +
+                            '<span class="install-ios-icon">\u2705</span>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+            '</div>';
+
+        document.body.appendChild(banner);
+
+        // Slide in after a frame
+        requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+                banner.classList.add('visible');
+            });
+        });
+
+        // Install button
+        var installBtn = document.getElementById('install-btn');
+        installBtn.addEventListener('click', function() {
+            if (isIOSPlatform) {
+                // Toggle iOS instructions
+                var steps = document.getElementById('install-ios-steps');
+                steps.classList.toggle('show');
+                installBtn.textContent = steps.classList.contains('show') ? 'Got it' : 'Show me';
+                if (!steps.classList.contains('show')) {
+                    dismissBanner(banner);
+                }
+            } else if (deferredPrompt) {
+                // Trigger native Chrome install
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(function(result) {
+                    deferredPrompt = null;
+                    dismissBanner(banner);
+                });
+            }
+        });
+
+        // Dismiss button
+        document.getElementById('install-dismiss').addEventListener('click', function() {
+            dismissBanner(banner);
+        });
+    }
+
+    function dismissBanner(banner) {
+        localStorage.setItem('installBannerDismissed', String(Date.now()));
+        banner.classList.remove('visible');
+        setTimeout(function() { banner.remove(); }, 500);
+    }
+})();
+
+/* ============================================
    Trip Progress Bar (under nav, all pages)
    ============================================ */
 function initTripProgress() {
