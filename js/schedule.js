@@ -698,246 +698,313 @@ function initActivityVoting() {
 }
 
 /* ============================================
-   Activity Sign-up Board
+   Activity Sign-up Board (Firebase-powered)
    ============================================ */
+
+var SIGNUP_ACTIVITIES = [
+    { id: 'golf', name: 'Golf', day: 'Thu 30 Apr \u2014 Morning', desc: '9 holes at Golf du Val de l\'Indre. Relaxed round, all levels welcome.', cost: '~\u20AC65/person', icon: '\u26F3' },
+    { id: 'canoe', name: 'Canoeing', day: 'Fri 1 May \u2014 Morning', desc: 'Paddle down the Creuse river from Ciron. Beautiful scenery, easy going.', cost: '~\u20AC15\u201318/person', icon: '\uD83D\uDEF6' },
+    { id: 'wine', name: 'Wine Tasting', day: 'Fri 1 May \u2014 Evening', desc: 'Private sommelier session at the chateau. Loire Valley wines.', cost: 'TBC', icon: '\uD83C\uDF77' },
+    { id: 'bellebouche', name: 'Bellebouche', day: 'Sun 3 May \u2014 Afternoon', desc: 'Accrobranche (tree-top adventure) + lake activities.', cost: '~\u20AC20/person', icon: '\uD83C\uDF32' }
+];
+
+var TOTAL_GUESTS = 26;
+var SIGNUP_DEADLINE = new Date('2026-04-01');
+
+function isSignupsClosed() {
+    return new Date() > SIGNUP_DEADLINE;
+}
 
 function initActivitySignups() {
     var container = document.getElementById('activity-signups-container');
     if (!container) return;
 
-    var guestCode = Auth.getGuestCode();
-    var guestName = Auth.isLoggedIn() ? Auth.getGuestName() : null;
+    var signupsData = {};
 
-    // Replace with Joe's WhatsApp number in international format (no + or spaces)
-    var JOE_WA_NUMBER = '447501395277';
+    function getGuestCode() {
+        return (typeof Auth !== 'undefined' && Auth.isLoggedIn()) ? Auth.getGuestCode() : null;
+    }
 
-    var SIGNUP_ACTIVITIES = [
-        {
-            id: 'golf',
-            name: 'Golf du Val de l\'Indre (9 holes)',
-            day: 'Day 2 (Thu 30 Apr)',
-            cost: '~\u20AC70\u201376/pp',
-            max: 12,
-            emoji: '\u26F3',
-            description: '9-hole parkland course. Beginner-friendly \u2014 no handicap needed. Green fee \u20AC49 + club hire \u20AC20 + trolley \u20AC7.'
-        },
-        {
-            id: 'canoe',
-            name: 'Canoeing on the Creuse',
-            day: 'Day 3 (Fri 1 May)',
-            cost: '~\u20AC15\u201318/pp',
-            max: 26,
-            emoji: '\uD83D\uDEF6',
-            description: 'Paddle downstream past castles and through the Creuse valley. All equipment included.'
-        },
-        {
-            id: 'bellebouche',
-            name: 'Bellebouche Accrobranche',
-            day: 'Day 5 (Sun 3 May)',
-            cost: '~\u20AC20\u201328/pp',
-            max: 26,
-            emoji: '\uD83C\uDF33',
-            description: 'Treetop adventure courses (zip lines, Tarzan swings!). Accrobranche \u20AC20/pp. Lake activities (p\u00E9dalos, paddle boards, kayaks) extra at \u20AC8/30min.'
+    function getGuestName() {
+        if (typeof Auth === 'undefined' || !Auth.isLoggedIn()) return null;
+        var gd = Auth.getGuestData();
+        return gd ? gd.fullName || gd.name : null;
+    }
+
+    function getSignupList(actId) {
+        var actData = signupsData[actId];
+        if (!actData) return [];
+        var entries = [];
+        var keys = Object.keys(actData);
+        for (var i = 0; i < keys.length; i++) {
+            var entry = actData[keys[i]];
+            if (entry && entry.name) {
+                entries.push({ code: keys[i], name: entry.name, timestamp: entry.timestamp || 0 });
+            }
         }
-    ];
+        entries.sort(function(a, b) { return a.timestamp - b.timestamp; });
+        return entries;
+    }
 
-    var defaultSignups = { golf: [], canoe: [], bellebouche: [] };
-    var signups = Store.get('activitySignups', defaultSignups);
+    function handleSignup(actId) {
+        var guestCode = getGuestCode();
+        var guestName = getGuestName();
+        if (!guestCode || !guestName) return;
+        if (isSignupsClosed()) return;
+
+        var list = getSignupList(actId);
+        var isSignedUp = false;
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].code === guestCode) { isSignedUp = true; break; }
+        }
+
+        if (isSignedUp) {
+            // Withdraw — remove from Firebase, no feed post
+            if (typeof FirebaseSync !== 'undefined' && FirebaseSync.isConfigured()) {
+                FirebaseSync.remove('signups/' + actId, guestCode);
+            }
+        } else {
+            // Sign up — write to Firebase + post to feed
+            if (typeof FirebaseSync !== 'undefined' && FirebaseSync.isConfigured()) {
+                FirebaseSync.set('signups/' + actId + '/' + guestCode, { name: guestName, timestamp: Date.now() });
+                var actObj = null;
+                for (var j = 0; j < SIGNUP_ACTIVITIES.length; j++) {
+                    if (SIGNUP_ACTIVITIES[j].id === actId) { actObj = SIGNUP_ACTIVITIES[j]; break; }
+                }
+                FirebaseSync.push('feed', {
+                    type: 'signup',
+                    guestCode: guestCode,
+                    guestName: guestName,
+                    content: 'signed up for ' + (actObj ? actObj.name : actId),
+                    timestamp: Date.now()
+                });
+            }
+            if (typeof triggerMiniConfetti === 'function') triggerMiniConfetti();
+        }
+    }
+
+    function handleAdminToggle(actId, code, name) {
+        if (isSignupsClosed()) return;
+        if (typeof FirebaseSync === 'undefined' || !FirebaseSync.isConfigured()) return;
+
+        var list = getSignupList(actId);
+        var found = false;
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].code === code) { found = true; break; }
+        }
+
+        if (found) {
+            FirebaseSync.remove('signups/' + actId, code);
+        } else {
+            FirebaseSync.set('signups/' + actId + '/' + code, { name: name, timestamp: Date.now() });
+        }
+    }
 
     function render() {
+        var guestCode = getGuestCode();
+        var guestName = getGuestName();
+        var closed = isSignupsClosed();
+        var isAdmin = typeof Auth !== 'undefined' && Auth.isAdmin();
+
         var html = '<div class="signup-grid">';
 
-        SIGNUP_ACTIVITIES.forEach(function(act) {
-            var list = signups[act.id] || [];
+        for (var a = 0; a < SIGNUP_ACTIVITIES.length; a++) {
+            var act = SIGNUP_ACTIVITIES[a];
+            var list = getSignupList(act.id);
             var count = list.length;
-            var isFull = count >= act.max;
-            var isSignedUp = guestName && list.includes(guestName);
-            var waitlistPos = 0;
-            if (isFull && !isSignedUp && guestName) {
-                // Not signed up and full means they'd be on waitlist
-            }
-            if (isSignedUp && list.indexOf(guestName) >= act.max) {
-                waitlistPos = list.indexOf(guestName) - act.max + 1;
+            var isSignedUp = false;
+            for (var s = 0; s < list.length; s++) {
+                if (list[s].code === guestCode) { isSignedUp = true; break; }
             }
 
-            html += '<div class="signup-card' + (isFull && !isSignedUp ? ' signup-full' : '') + '">';
+            html += '<div class="signup-card' + (closed ? ' signup-closed' : '') + '">';
+
+            // Header
             html += '<div class="signup-card-header">' +
-                '<span class="signup-emoji">' + act.emoji + '</span>' +
+                '<span class="signup-emoji">' + act.icon + '</span>' +
                 '<div class="signup-card-info">' +
                     '<h3>' + escapeHtml(act.name) + '</h3>' +
                     '<span class="signup-day">' + escapeHtml(act.day) + '</span>' +
                 '</div>' +
-                '<span class="signup-cost">' + act.cost + '</span>' +
+                '<span class="signup-cost">' + escapeHtml(act.cost) + '</span>' +
             '</div>';
 
-            html += '<p class="signup-desc">' + escapeHtml(act.description) + '</p>';
+            // Description
+            html += '<p class="signup-desc">' + escapeHtml(act.desc) + '</p>';
 
-            // Capacity indicator
+            // Headcount
             html += '<div class="signup-capacity">' +
                 '<span class="signup-capacity-label">' +
-                    (count === 0 ? 'No sign-ups yet' : count + ' interested') +
-                    (isFull && !isSignedUp ? ' \u2014 <span class="signup-full-badge">FULL</span>' : '') +
+                    '<strong>' + count + '</strong>/' + TOTAL_GUESTS + ' going' +
                 '</span>' +
+                '<div class="signup-capacity-bar">' +
+                    '<div class="signup-capacity-fill" style="width:' + Math.round((count / TOTAL_GUESTS) * 100) + '%"></div>' +
+                '</div>' +
             '</div>';
 
             // Action button
-            if (guestName) {
+            if (closed) {
+                html += '<button class="btn signup-btn signup-btn-closed" disabled>Sign-ups closed</button>';
+            } else if (guestCode) {
                 if (isSignedUp) {
-                    if (waitlistPos > 0) {
-                        html += '<button class="btn signup-btn signed-up waitlisted" data-id="' + act.id + '">' +
-                            'On Waitlist (#' + waitlistPos + ') \u2014 Tap to leave</button>';
-                    } else {
-                        html += '<button class="btn signup-btn signed-up" data-id="' + act.id + '">' +
-                            '\u2705 You\'re In! Tap to cancel</button>';
-                    }
-                } else if (isFull) {
-                    html += '<button class="btn signup-btn join-waitlist" data-id="' + act.id + '">' +
-                        'Join Waitlist</button>';
+                    html += '<button class="btn signup-btn signed-up" data-id="' + act.id + '">' +
+                        "\u2705 I'm In! \u2014 Tap to withdraw</button>";
                 } else {
                     html += '<button class="btn signup-btn" data-id="' + act.id + '">' +
-                        'Sign Me Up!</button>';
+                        "I'm In!</button>";
                 }
             } else {
                 html += '<p class="signup-login-note">Log in to sign up</p>';
             }
 
-            // Who's signed up
-            if (list.length > 0) {
-                html += '<div class="signup-people">';
-                var mainList = list.slice(0, act.max);
+            // Expandable guest list
+            html += '<div class="signup-people-toggle" data-act="' + act.id + '">';
+            if (count > 0) {
+                html += '<button class="signup-people-expand-btn" data-act="' + act.id + '">' +
+                    '<span class="signup-people-expand-label">Who\'s going (' + count + ')</span>' +
+                    '<span class="signup-people-expand-arrow">\u25BE</span>' +
+                '</button>';
+                html += '<div class="signup-people-list" id="signup-people-list-' + act.id + '">';
                 html += '<div class="signup-people-tags">';
-                mainList.forEach(function(name) {
-                    html += '<span class="signup-person-tag' + (name === guestName ? ' you' : '') + '">' + escapeHtml(name) + '</span>';
-                });
-                html += '</div>';
-                if (list.length > act.max) {
-                    html += '<div class="signup-waitlist-section">';
-                    html += '<strong>Waitlist:</strong> ';
-                    var waitlist = list.slice(act.max);
-                    waitlist.forEach(function(name, idx) {
-                        html += '<span class="signup-person-tag waitlist' + (name === guestName ? ' you' : '') + '">#' + (idx + 1) + ' ' + escapeHtml(name) + '</span>';
-                    });
-                    html += '</div>';
+                for (var p = 0; p < list.length; p++) {
+                    var isSelf = list[p].code === guestCode;
+                    html += '<span class="signup-person-tag' + (isSelf ? ' you' : '') + '">' + escapeHtml(list[p].name) + '</span>';
                 }
-                html += '</div>';
+                html += '</div></div>';
             } else {
                 html += '<div class="empty-state"><span class="empty-state-emoji">\uD83C\uDFAF</span><p>No sign-ups yet \u2014 be the first!</p></div>';
             }
-
-            html += '<div class="wa-nudge" id="wa-nudge-' + act.id + '" style="display:none"></div>';
             html += '</div>';
-        });
 
-        html += '</div>';
+            html += '</div>'; // end signup-card
+        }
+
+        html += '</div>'; // end signup-grid
+
+        // Admin manage section
+        if (isAdmin && !closed) {
+            html += renderAdminManageHTML();
+        }
+
         container.innerHTML = html;
+        bindEvents();
+    }
 
-        // Bind buttons
-        container.querySelectorAll('.signup-btn').forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                var actId = this.dataset.id;
-                if (!signups[actId]) signups[actId] = [];
-                var idx = signups[actId].indexOf(guestName);
-                var signingUp = idx === -1;
-                if (idx > -1) {
-                    signups[actId].splice(idx, 1);
-                } else {
-                    signups[actId].push(guestName);
-                    if (typeof triggerMiniConfetti === 'function') triggerMiniConfetti();
-                }
-                Store.set('activitySignups', signups);
-                render();
-                if (signingUp) {
-                    var actName = SIGNUP_ACTIVITIES.find(function(a) { return a.id === actId; });
-                    var msg = encodeURIComponent('Hi Joe! I\'m in for ' + (actName ? actName.name : actId) + ' \uD83C\uDF89');
-                    var nudge = document.getElementById('wa-nudge-' + actId);
-                    if (nudge) {
-                        nudge.innerHTML = '\uD83D\uDCAC <a href="https://wa.me/' + JOE_WA_NUMBER + '?text=' + msg + '" target="_blank" rel="noopener">Let Joe know on WhatsApp \u2192</a>';
-                        nudge.style.display = 'block';
+    function renderAdminManageHTML() {
+        var allGuests = [];
+        var codes = Object.keys(GUEST_DATA);
+        for (var i = 0; i < codes.length; i++) {
+            allGuests.push({ code: codes[i], name: GUEST_DATA[codes[i]].fullName || GUEST_DATA[codes[i]].name });
+        }
+        allGuests.sort(function(a, b) { return a.name.localeCompare(b.name); });
+
+        var html = '<div class="admin-activity-panel">' +
+            '<div class="admin-panel-toggle" id="admin-panel-toggle">' +
+                '<span>\uD83D\uDD11 Admin: Manage Sign-ups</span>' +
+                '<span class="admin-toggle-arrow">\u25BE</span>' +
+            '</div>' +
+            '<div class="admin-panel-body" id="admin-panel-body">';
+
+        html += '<p class="admin-panel-note">Add or remove guests from activities. Changes sync to all devices in real time.</p>';
+
+        for (var a = 0; a < SIGNUP_ACTIVITIES.length; a++) {
+            var act = SIGNUP_ACTIVITIES[a];
+            var list = getSignupList(act.id);
+            var signedCodes = {};
+            for (var s = 0; s < list.length; s++) { signedCodes[list[s].code] = true; }
+
+            html += '<div class="admin-act-section">' +
+                '<div class="admin-act-header">' +
+                    '<span>' + act.icon + ' ' + escapeHtml(act.name) + ' (' + escapeHtml(act.day) + ')</span>' +
+                    '<span class="admin-act-count">' + list.length + ' signed up</span>' +
+                '</div>' +
+                '<div class="admin-guest-grid">';
+
+            for (var g = 0; g < allGuests.length; g++) {
+                var checked = !!signedCodes[allGuests[g].code];
+                html += '<label class="admin-guest-check' + (checked ? ' checked' : '') + '">' +
+                    '<input type="checkbox" data-act="' + act.id + '" data-code="' + allGuests[g].code + '" data-gname="' + escapeHtml(allGuests[g].name) + '"' + (checked ? ' checked' : '') + '> ' +
+                    escapeHtml(allGuests[g].name) + '</label>';
+            }
+
+            html += '</div></div>';
+        }
+
+        html += '</div></div>';
+        return html;
+    }
+
+    function bindEvents() {
+        // Sign-up / withdraw buttons
+        var btns = container.querySelectorAll('.signup-btn[data-id]');
+        for (var i = 0; i < btns.length; i++) {
+            btns[i].addEventListener('click', function() {
+                handleSignup(this.getAttribute('data-id'));
+            });
+        }
+
+        // Expandable guest lists
+        var expandBtns = container.querySelectorAll('.signup-people-expand-btn');
+        for (var j = 0; j < expandBtns.length; j++) {
+            expandBtns[j].addEventListener('click', function() {
+                var actId = this.getAttribute('data-act');
+                var listEl = document.getElementById('signup-people-list-' + actId);
+                var arrow = this.querySelector('.signup-people-expand-arrow');
+                if (listEl) {
+                    var isOpen = listEl.classList.contains('open');
+                    if (isOpen) {
+                        listEl.classList.remove('open');
+                        if (arrow) arrow.textContent = '\u25BE';
+                    } else {
+                        listEl.classList.add('open');
+                        if (arrow) arrow.textContent = '\u25B4';
                     }
                 }
             });
+        }
+
+        // Admin panel toggle
+        var adminToggle = document.getElementById('admin-panel-toggle');
+        if (adminToggle) {
+            adminToggle.addEventListener('click', function() {
+                var body = document.getElementById('admin-panel-body');
+                var arrow = this.querySelector('.admin-toggle-arrow');
+                if (body) {
+                    var open = body.style.display !== 'none';
+                    body.style.display = open ? 'none' : 'block';
+                    if (arrow) arrow.textContent = open ? '\u25BE' : '\u25B4';
+                }
+            });
+        }
+
+        // Admin checkboxes
+        var adminCbs = container.querySelectorAll('.admin-guest-check input[type=checkbox]');
+        for (var k = 0; k < adminCbs.length; k++) {
+            adminCbs[k].addEventListener('change', function() {
+                var actId = this.getAttribute('data-act');
+                var code = this.getAttribute('data-code');
+                var gname = this.getAttribute('data-gname');
+                handleAdminToggle(actId, code, gname);
+            });
+        }
+    }
+
+    // Listen for real-time updates from Firebase
+    if (typeof FirebaseSync !== 'undefined' && FirebaseSync.isConfigured()) {
+        FirebaseSync.onUpdate('signups', function(data) {
+            signupsData = data || {};
+            render();
         });
     }
 
+    // Also listen for the custom event from firebase-config.js collection listener
+    document.addEventListener('signupsUpdate', function(e) {
+        signupsData = e.detail || {};
+        render();
+    });
+
+    // Initial render (will show empty until Firebase data arrives)
     render();
-    if (Auth.isAdmin()) renderAdminPanel();
-}
-
-function renderAdminPanel() {
-    var container = document.getElementById('activity-signups-container');
-    if (!container) return;
-
-    var existing = document.getElementById('admin-activity-panel');
-    if (existing) existing.remove();
-
-    var JOE_WA_NUMBER = '447501395277';
-
-    var ACTIVITIES = [
-        { id: 'golf', name: 'Golf (Thu 30 Apr)', emoji: '\u26F3' },
-        { id: 'canoe', name: 'Canoeing (Fri 1 May)', emoji: '\uD83D\uDEF6' },
-        { id: 'bellebouche', name: 'Bellebouche (Sun 3 May)', emoji: '\uD83C\uDF33' }
-    ];
-
-    var confirmed = Store.get('adminActivityConfirmed', { golf: [], wine: [], canoe: [], bellebouche: [] });
-    var allGuests = Object.values(GUEST_DATA).map(function(g) { return g.name; }).sort();
-
-    var panel = document.createElement('div');
-    panel.id = 'admin-activity-panel';
-    panel.className = 'admin-activity-panel';
-
-    var html = '<div class="admin-panel-toggle" id="admin-panel-toggle">' +
-        '<span>\uD83D\uDD11 Admin: Confirmation Tracker</span>' +
-        '<span class="admin-toggle-arrow">\u25BE</span></div>' +
-        '<div class="admin-panel-body" id="admin-panel-body">';
-
-    html += '<p class="admin-panel-note">Tick guests off as they confirm via WhatsApp. Stored on your device only.</p>';
-
-    ACTIVITIES.forEach(function(act) {
-        var conf = confirmed[act.id] || [];
-        html += '<div class="admin-act-section">' +
-            '<div class="admin-act-header">' +
-                '<span>' + act.emoji + ' ' + act.name + '</span>' +
-                '<span class="admin-act-count">' + conf.length + ' confirmed</span>' +
-            '</div>' +
-            '<div class="admin-guest-grid">';
-
-        allGuests.forEach(function(name) {
-            var checked = conf.includes(name);
-            html += '<label class="admin-guest-check' + (checked ? ' checked' : '') + '">' +
-                '<input type="checkbox" data-act="' + act.id + '" data-name="' + escapeHtml(name) + '"' + (checked ? ' checked' : '') + '> ' +
-                escapeHtml(name) + '</label>';
-        });
-
-        html += '</div></div>';
-    });
-
-    html += '</div>';
-    panel.innerHTML = html;
-    container.after(panel);
-
-    // Toggle open/close
-    document.getElementById('admin-panel-toggle').addEventListener('click', function() {
-        var body = document.getElementById('admin-panel-body');
-        var open = body.style.display !== 'none';
-        body.style.display = open ? 'none' : 'block';
-        this.querySelector('.admin-toggle-arrow').textContent = open ? '\u25BE' : '\u25B4';
-    });
-
-    // Checkboxes
-    panel.querySelectorAll('input[type=checkbox]').forEach(function(cb) {
-        cb.addEventListener('change', function() {
-            var actId = this.dataset.act;
-            var name = this.dataset.name;
-            if (!confirmed[actId]) confirmed[actId] = [];
-            if (this.checked) {
-                if (!confirmed[actId].includes(name)) confirmed[actId].push(name);
-            } else {
-                confirmed[actId] = confirmed[actId].filter(function(n) { return n !== name; });
-            }
-            Store.set('adminActivityConfirmed', confirmed);
-            renderAdminPanel();
-        });
-    });
 }
 
 /* ============================================

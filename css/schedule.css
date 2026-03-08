@@ -2720,6 +2720,30 @@ body.dark-mode .rrs-item { background: rgba(255,255,255,0.06); border-color: rgb
     color: white;
 }
 
+/* Closed state */
+.signup-card.signup-closed {
+    opacity: 0.6;
+    pointer-events: none;
+    filter: grayscale(0.3);
+}
+
+.signup-btn-closed {
+    background: var(--bg-light) !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+    color: var(--text-light) !important;
+    cursor: not-allowed !important;
+    font-style: italic;
+}
+
+.signup-card.signup-closed .signup-people-expand-btn {
+    pointer-events: auto;
+}
+
+.signup-card.signup-closed .signup-people-toggle {
+    pointer-events: auto;
+    opacity: 1;
+}
+
 .signup-login-note {
     text-align: center;
     color: var(--text-light);
@@ -2776,6 +2800,48 @@ body.dark-mode .rrs-item { background: rgba(255,255,255,0.06); border-color: rgb
     color: var(--text-light);
     display: inline-block;
     margin-bottom: 4px;
+}
+
+/* Expandable guest list */
+.signup-people-toggle {
+    margin-top: 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    padding-top: 8px;
+}
+
+.signup-people-expand-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 8px 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-light);
+    transition: color 0.2s ease;
+}
+
+.signup-people-expand-btn:hover {
+    color: var(--primary);
+}
+
+.signup-people-expand-arrow {
+    font-size: 0.75rem;
+    transition: transform 0.3s ease;
+}
+
+.signup-people-list {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+}
+
+.signup-people-list.open {
+    max-height: 400px;
 }
 
 /* ============================================
