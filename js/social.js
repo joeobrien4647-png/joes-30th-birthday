@@ -340,150 +340,7 @@ function initProfiles() {
     });
 }
 
-/* ============================================
-   WhatsApp Share Helper
-   ============================================ */
-function createWhatsAppBtn(text) {
-    const btn = document.createElement('button');
-    btn.className = 'wa-share-btn';
-    btn.title = 'Share on WhatsApp';
-    btn.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.611.611l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.387 0-4.588-.832-6.32-2.222l-.44-.362-2.81.942.942-2.81-.362-.44A9.956 9.956 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>';
-    btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        const url = 'https://wa.me/?text=' + encodeURIComponent(text);
-        window.open(url, '_blank');
-    });
-    return btn;
-}
-
-/* ============================================
-   Birthday Messages (with Emoji Reactions)
-   ============================================ */
-function initBirthdayMessages() {
-    const form = document.getElementById('message-form');
-    const wall = document.getElementById('messages-wall');
-
-    if (!form || !wall) return;
-
-    const savedMessages = Store.get('birthdayMessages', []);
-    let reactions = Store.get('messageReactions', {});
-    let userReactions = Store.get('messageUserReactions', {});
-    const guestCode = Auth.getGuestCode() || 'anon';
-
-    const EMOJIS = [
-        { key: 'heart', emoji: '\u2764\uFE0F' },
-        { key: 'laugh', emoji: '\uD83D\uDE02' },
-        { key: 'fire', emoji: '\uD83D\uDD25' },
-        { key: 'skull', emoji: '\uD83D\uDC80' },
-        { key: 'hundred', emoji: '\uD83D\uDCAF' }
-    ];
-
-    savedMessages.forEach(msg => addMessageToWall(msg, false));
-
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        var submitBtn = form.querySelector('button[type="submit"]');
-        if (submitBtn && submitBtn.disabled) return;
-        if (submitBtn) submitBtn.disabled = true;
-
-        const nameInput = document.getElementById('message-name');
-        const textInput = document.getElementById('message-text');
-
-        const message = {
-            id: Date.now().toString(),
-            name: nameInput.value.trim(),
-            text: textInput.value.trim(),
-            timestamp: Date.now()
-        };
-
-        if (message.name && message.text) {
-            addMessageToWall(message, true);
-            savedMessages.push(message);
-            Store.set('birthdayMessages', savedMessages);
-
-            nameInput.value = '';
-            textInput.value = '';
-
-            triggerMiniConfetti();
-        }
-        setTimeout(function() { if (submitBtn) submitBtn.disabled = false; }, 1000);
-    });
-
-    // Character counter
-    var textInput = document.getElementById('message-text');
-    var charCount = document.getElementById('message-char-count');
-    if (textInput && charCount) {
-        textInput.addEventListener('input', function() {
-            var len = this.value.length;
-            var max = this.maxLength || 500;
-            charCount.textContent = len + ' / ' + max;
-            charCount.classList.toggle('char-count-caution', len >= max * 0.8 && len < max * 0.9);
-            charCount.classList.toggle('char-count-warn', len >= max * 0.9);
-        });
-    }
-
-    function getMessageId(message) {
-        return message.id || ('msg_' + message.timestamp);
-    }
-
-    function addMessageToWall(message, isNew) {
-        const msgId = getMessageId(message);
-        if (!reactions[msgId]) {
-            reactions[msgId] = { heart: 0, laugh: 0, fire: 0, skull: 0, hundred: 0 };
-        }
-
-        const card = document.createElement('div');
-        card.className = 'message-card' + (isNew ? ' new' : '');
-
-        const reactionsHtml = EMOJIS.map(e => {
-            const userKey = msgId + '_' + e.key;
-            const reacted = userReactions[userKey] === guestCode;
-            return `<button class="emoji-react-btn${reacted ? ' reacted' : ''}" data-msg="${msgId}" data-emoji="${e.key}">${e.emoji} <span>${reactions[msgId][e.key] || 0}</span></button>`;
-        }).join('');
-
-        card.innerHTML = `
-            <div class="message-author">${escapeHtml(message.name)}<span class="timestamp">${timeAgo(message.timestamp)}</span></div>
-            <p>${escapeHtml(message.text)}</p>
-            <div class="emoji-reactions">${reactionsHtml}</div>
-        `;
-
-        // WhatsApp share button
-        const shareText = 'From Joe\'s 30th Birthday: "' + message.text + '" - ' + message.name;
-        card.appendChild(createWhatsAppBtn(shareText));
-
-        card.querySelectorAll('.emoji-react-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const emojiKey = this.dataset.emoji;
-                const mid = this.dataset.msg;
-                const userKey = mid + '_' + emojiKey;
-
-                if (userReactions[userKey] === guestCode) return;
-
-                userReactions[userKey] = guestCode;
-                if (!reactions[mid]) reactions[mid] = { heart: 0, laugh: 0, fire: 0, skull: 0, hundred: 0 };
-                reactions[mid][emojiKey] = (reactions[mid][emojiKey] || 0) + 1;
-
-                Store.set('messageReactions', reactions);
-                Store.set('messageUserReactions', userReactions);
-
-                this.classList.add('reacted');
-                this.classList.remove('just-reacted');
-                void this.offsetWidth;
-                this.classList.add('just-reacted');
-                this.querySelector('span').textContent = reactions[mid][emojiKey];
-            });
-        });
-
-        const example = wall.querySelector('.example');
-        if (example) {
-            wall.insertBefore(card, example);
-        } else if (wall.firstChild) {
-            wall.insertBefore(card, wall.firstChild);
-        } else {
-            wall.appendChild(card);
-        }
-    }
-}
+/* (Birthday Messages and WhatsApp share moved to Live Feed) */
 
 /* ============================================
    Crew Tabs (Rooms / Teams)
@@ -554,82 +411,9 @@ function initCrewSkeletons() {
     });
 }
 
-/* ============================================
-   Skeleton Loaders for Message Wall
-   ============================================ */
-function initMessageSkeletons() {
-    var wall = document.getElementById('messages-wall');
-    if (!wall) return;
-    // Show skeletons briefly while messages load
-    var count = 3;
-    for (var i = 0; i < count; i++) {
-        var skel = document.createElement('div');
-        skel.className = 'skel-card msg-skeleton';
-        skel.innerHTML = '<div class="skel-circle"></div><div class="skel-line"></div><div class="skel-line"></div><div class="skel-line"></div>';
-        wall.appendChild(skel);
-    }
-    // Remove after real content renders
-    setTimeout(function () {
-        wall.querySelectorAll('.msg-skeleton').forEach(function (s) {
-            s.style.opacity = '0';
-            s.style.transition = 'opacity 0.3s ease';
-            setTimeout(function () { s.remove(); }, 300);
-        });
-    }, 600);
-}
+/* (Message skeletons and gesture hints moved to Live Feed) */
 
-/* ============================================
-   Gesture Hint (mobile swipe hints)
-   ============================================ */
-function initGestureHints() {
-    if (window.innerWidth > 768) return;
-    if (Store.get('gestureHintSeen', false)) return;
-
-    var scrollable = document.querySelector('.messages-wall, .photo-grid, .crew-grid');
-    if (!scrollable) return;
-
-    var hint = document.createElement('div');
-    hint.className = 'gesture-hint';
-    hint.textContent = '\u2194\uFE0F Swipe to explore';
-    document.body.appendChild(hint);
-
-    setTimeout(function () { hint.classList.add('visible'); }, 1200);
-    setTimeout(function () {
-        hint.classList.remove('visible');
-        setTimeout(function () { hint.remove(); }, 300);
-    }, 4000);
-
-    Store.set('gestureHintSeen', true);
-}
-
-/* Social page scroll-spy for sub-nav */
-function initSocialScrollSpy() {
-    var links = document.querySelectorAll('.sub-nav-links a');
-    if (!links.length) return;
-
-    var sections = [];
-    links.forEach(function(link) {
-        var id = link.getAttribute('href');
-        if (id && id.startsWith('#')) {
-            var el = document.querySelector(id);
-            if (el) sections.push({ el: el, link: link });
-        }
-    });
-
-    if (!sections.length) return;
-
-    var observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-            if (entry.isIntersecting) {
-                links.forEach(function(l) { l.classList.remove('active'); });
-                var match = sections.find(function(s) { return s.el === entry.target; });
-                if (match) match.link.classList.add('active');
-            }
-        });
-    }, { rootMargin: '-30% 0px -60% 0px' });
-
-    sections.forEach(function(s) { observer.observe(s.el); });
-}
+/* (Scroll-spy removed — only crew section remains) */
 
 /* Room card flip reveal on scroll */
 function initRoomFlip() {
@@ -804,11 +588,7 @@ function initTeamsReveal() {
 document.addEventListener('DOMContentLoaded', function() {
     initCrewTabs();
     initProfiles();
-    initMessageSkeletons();
-    initBirthdayMessages();
     initCrewSkeletons();
-    initGestureHints();
-    initSocialScrollSpy();
     initRoomFlip();
     initAnonTraitTap();
     initGuestHighlight();
