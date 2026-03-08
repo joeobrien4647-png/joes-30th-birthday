@@ -1,5 +1,5 @@
 /* Service Worker - Offline Cache for Joe's 30th Birthday Trip */
-var CACHE_NAME = 'joe30-v14';
+var CACHE_NAME = 'joe30-v15';
 var ASSETS = [
     './',
     'index.html',

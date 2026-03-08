@@ -570,7 +570,7 @@
         return outputArray;
     }
 
-    window.PushManager = {
+    window.PushNotifications = {
         subscribe: function(guestCode) {
             if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
             if (!db || !guestCode) return;

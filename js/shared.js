@@ -2133,8 +2133,8 @@ function initGuestPicker() {
         // Tell home.js to show dashboard
         document.dispatchEvent(new CustomEvent('guestLoggedIn', { detail: { code: code } }));
         // Subscribe to push notifications
-        if (typeof PushManager !== 'undefined' && PushManager.subscribe) {
-            setTimeout(function() { PushManager.subscribe(code); }, 2000);
+        if (typeof window.PushNotifications !== 'undefined' && window.PushNotifications.subscribe) {
+            setTimeout(function() { window.PushNotifications.subscribe(code); }, 2000);
         }
     });
 
@@ -2157,8 +2157,8 @@ function initMyTripDrawer() {
     var guestCode = Auth.getGuestCode();
 
     // Subscribe to push notifications if not already
-    if (typeof window.PushManager !== 'undefined' && window.PushManager.subscribe) {
-        window.PushManager.subscribe(guestCode);
+    if (typeof window.PushNotifications !== 'undefined' && window.PushNotifications.subscribe) {
+        window.PushNotifications.subscribe(guestCode);
     }
 
     // FAB

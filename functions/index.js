@@ -13,6 +13,8 @@ webpush.setVapidDetails(
     VAPID_PRIVATE
 );
 
+var DB_INSTANCE = "joes-30th-default-rtdb";
+
 // Send push to all subscriptions
 function sendToAll(title, body, url) {
     return admin.database().ref("subscriptions").once("value")
@@ -32,7 +34,6 @@ function sendToAll(title, body, url) {
                 });
 
                 var p = webpush.sendNotification(sub, payload).catch(function(err) {
-                    // Remove invalid subscriptions (410 Gone, 404 Not Found)
                     if (err.statusCode === 410 || err.statusCode === 404) {
                         return admin.database().ref("subscriptions/" + code).remove();
                     }
@@ -47,6 +48,7 @@ function sendToAll(title, body, url) {
 
 // Trigger on new announcements
 exports.onAnnouncement = functions.database
+    .instance(DB_INSTANCE)
     .ref("/announcements/{id}")
     .onCreate(function(snapshot) {
         var data = snapshot.val();
@@ -62,6 +64,7 @@ exports.onAnnouncement = functions.database
 
 // Trigger on bingo line completions
 exports.onBingoLine = functions.database
+    .instance(DB_INSTANCE)
     .ref("/bingo/lines/{id}")
     .onCreate(function(snapshot) {
         var data = snapshot.val();
@@ -77,12 +80,12 @@ exports.onBingoLine = functions.database
 
 // Trigger on points awarded (notify individual)
 exports.onPointsAwarded = functions.database
+    .instance(DB_INSTANCE)
     .ref("/feed/{id}")
     .onCreate(function(snapshot) {
         var data = snapshot.val();
         if (!data || data.type !== "points") return null;
 
-        // Only send individual notifications, not team-wide
         if (!data.guestCode) return null;
 
         return admin.database().ref("subscriptions/" + data.guestCode).once("value")
@@ -103,3 +106,39 @@ exports.onPointsAwarded = functions.database
                 });
             });
     });
+
+// HTTP endpoint to test push — call from browser/admin
+exports.testPush = functions.https.onRequest(function(req, res) {
+    // CORS
+    res.set("Access-Control-Allow-Origin", "*");
+    if (req.method === "OPTIONS") { res.status(204).send(""); return; }
+
+    var guestCode = req.query.code || "";
+    var message = req.query.msg || "Test notification from joes30.com!";
+
+    if (guestCode) {
+        // Send to specific guest
+        admin.database().ref("subscriptions/" + guestCode).once("value")
+            .then(function(snap) {
+                var sub = snap.val();
+                if (!sub || !sub.endpoint) {
+                    res.json({ ok: false, error: "No subscription for " + guestCode });
+                    return;
+                }
+                var payload = JSON.stringify({ title: "🧪 Test", body: message, url: "/" });
+                return webpush.sendNotification(sub, payload).then(function() {
+                    res.json({ ok: true, sentTo: guestCode });
+                });
+            })
+            .catch(function(err) {
+                res.json({ ok: false, error: err.message });
+            });
+    } else {
+        // Send to all
+        sendToAll("🧪 Test", message, "/").then(function() {
+            res.json({ ok: true, sentTo: "all" });
+        }).catch(function(err) {
+            res.json({ ok: false, error: err.message });
+        });
+    }
+});
