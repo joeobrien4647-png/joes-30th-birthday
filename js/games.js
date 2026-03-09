@@ -3335,10 +3335,10 @@ function initMealRatings() {
     if (!wrap) return;
 
     var MEALS = [
-        { day: 2, label: 'Thu 30 Apr', title: 'Vikings\' Dinner', team: 'vikings', special: false },
+        { day: 2, label: 'Thu 30 Apr', title: 'Titans\' Dinner', team: 'titans', special: false },
         { day: 3, label: 'Fri 1 May',  title: 'Gladiators\' Dinner', team: 'gladiators', special: false },
-        { day: 4, label: 'Sat 2 May',  title: 'Titans\' Dinner', team: 'titans', special: true },
-        { day: 5, label: 'Sun 3 May',  title: 'Spartans\' Last Dinner', team: 'spartans', special: false }
+        { day: 4, label: 'Sat 2 May',  title: 'Spartans\' Dinner', team: 'spartans', special: false },
+        { day: 5, label: 'Sun 3 May',  title: 'Spartans\' Last Supper', team: 'spartans', special: false }
     ];
 
     var CATEGORIES = [
