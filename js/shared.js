@@ -37,13 +37,19 @@ function compressProfilePhoto(file, callback) {
     reader.readAsDataURL(file);
 }
 
-/* Utility: Get/set guest profile photo from localStorage */
+/* Utility: Get/set guest profile photo (Firebase-backed with localStorage fallback) */
 function getGuestPhoto(name) {
+    // Prefer Firebase-synced URL
+    if (typeof ProfileSync !== 'undefined' && ProfileSync.isConfigured()) {
+        var fbPhoto = ProfileSync.getPhoto(name);
+        if (fbPhoto) return fbPhoto;
+    }
     return Store.getRaw('guestPhoto_' + slugify(name));
 }
 function setGuestPhoto(name, dataUrl) {
+    // Always keep localStorage copy as fallback
     try { Store.setRaw('guestPhoto_' + slugify(name), dataUrl); }
-    catch(e) { console.warn('Could not save profile photo — localStorage may be full'); }
+    catch(e) { /* quota exceeded */ }
 }
 
 /* Utility: Debounce */
@@ -103,278 +109,71 @@ async function hashPassword(password) {
 }
 
 async function verifyPassword(password) {
-  const stored = localStorage.getItem(AUTH_KEYS.pwHash);
+  var stored = localStorage.getItem(AUTH_KEYS.pwHash);
+  // If no local hash, try Firebase
+  if (!stored && typeof ProfileSync !== 'undefined' && ProfileSync.isConfigured()) {
+    var code = localStorage.getItem(AUTH_KEYS.guestCode);
+    if (code && typeof GUEST_DATA !== 'undefined' && GUEST_DATA[code]) {
+      var slug = GUEST_DATA[code].fullName.toLowerCase().replace(/['']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      var profile = ProfileSync.getAll()[slug];
+      if (profile && profile.pwHash) {
+        stored = profile.pwHash;
+        // Cache locally for next time
+        localStorage.setItem(AUTH_KEYS.pwHash, stored);
+        localStorage.setItem(AUTH_KEYS.registered, 'true');
+      }
+    }
+  }
   if (!stored) return false;
   const hash = await hashPassword(password);
   return hash === stored;
 }
 
 function isFirstTimeVisitor() {
-  return !localStorage.getItem(AUTH_KEYS.registered);
+  var localReg = localStorage.getItem(AUTH_KEYS.registered);
+  if (localReg) return false;
+  // Check Firebase for existing registration
+  var code = localStorage.getItem(AUTH_KEYS.guestCode);
+  if (code && typeof ProfileSync !== 'undefined' && ProfileSync.isConfigured() && typeof GUEST_DATA !== 'undefined' && GUEST_DATA[code]) {
+    var slug = GUEST_DATA[code].fullName.toLowerCase().replace(/['']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    var profile = ProfileSync.getAll()[slug];
+    if (profile && profile.registered) {
+      localStorage.setItem(AUTH_KEYS.registered, 'true');
+      if (profile.pwHash) localStorage.setItem(AUTH_KEYS.pwHash, profile.pwHash);
+      return false;
+    }
+  }
+  return true;
 }
 
 /* Guest Data - All 26 guests (invite codes are random, not guessable) */
 const GUEST_DATA = {
-    'JOE-7K9X': {
-        name: 'Joe', fullName: 'Joe O\'Brien', room: 'Master Suite',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Accept at least 3 birthday toasts gracefully', completed: false },
-            { id: 'm2', text: 'Dance to Mr. Brightside at your party', completed: false },
-            { id: 'm3', text: 'Thank everyone individually by end of trip', completed: false }
-        ],
-        personalNotes: 'You\'re the star of the show! Just enjoy yourself and let everyone spoil you.'
-    },
-    'SOPHIE-M3P2': {
-        name: 'Sophie', fullName: 'Sophie Geen', room: 'Master Suite',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Make sure Joe doesn\'t find out about the surprise activity', completed: false },
-            { id: 'm2', text: 'Get a candid photo of Joe laughing', completed: false },
-            { id: 'm3', text: 'Lead the birthday toast at dinner', completed: false }
-        ],
-        personalNotes: 'You\'re on secret keeper duty! The surprise activity on Day 4 must stay hidden.'
-    },
-    'LUKE-4WN8': {
-        name: 'Luke', fullName: 'Luke Recchia', room: 'Room 2',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Get everyone dancing at least once', completed: false },
-            { id: 'm2', text: 'Challenge Joe to a game and let him win', completed: false },
-            { id: 'm3', text: 'Start a spontaneous sing-along', completed: false }
-        ],
-        personalNotes: 'You\'re in charge of party vibes! Make sure the music is always on point.'
-    },
-    'SAM-R6DQ': {
-        name: 'Samantha', fullName: 'Samantha Recchia', room: 'Room 2',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Take at least 50 group photos', completed: false },
-            { id: 'm2', text: 'Create a mini photo montage by end of trip', completed: false },
-            { id: 'm3', text: 'Capture Joe\'s reaction to his birthday surprise', completed: false }
-        ],
-        personalNotes: 'You\'re the unofficial photographer - capture all the memories!'
-    },
-    'HANNAH-8FJ3': {
-        name: 'Hannah', fullName: 'Hannah O\'Brien', room: 'Room 3',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Share an embarrassing childhood story about Joe', completed: false },
-            { id: 'm2', text: 'Make sure Joe\'s birthday cake is perfect', completed: false },
-            { id: 'm3', text: 'Get a sibling photo with Joe', completed: false }
-        ],
-        personalNotes: 'Sibling duty: bring the embarrassing stories and the love!'
-    },
-    'ROBIN-2VL5': {
-        name: 'Robin', fullName: 'Robin Hughes', room: 'Room 3',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Suggest a spontaneous adventure', completed: false },
-            { id: 'm2', text: 'Be first in the pool at least once', completed: false },
-            { id: 'm3', text: 'Teach someone a new skill', completed: false }
-        ],
-        personalNotes: 'Bring the adventure energy! Suggest something fun and spontaneous.'
-    },
-    'JOHNNY-9XT4': {
-        name: 'Johnny', fullName: 'Johnny Gates O\'Brien', room: 'Room 4',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Tell at least 5 jokes (good or bad)', completed: false },
-            { id: 'm2', text: 'Do an impression of Joe', completed: false },
-            { id: 'm3', text: 'Win one game/competition', completed: false }
-        ],
-        personalNotes: 'You\'re the entertainment - keep the laughs coming!'
-    },
-    'FLORRIE-5HK7': {
-        name: 'Florrie', fullName: 'Florrie Gates O\'Brien', room: 'Room 4',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Lead a group cheer for Joe', completed: false },
-            { id: 'm2', text: 'Help decorate for the birthday dinner', completed: false },
-            { id: 'm3', text: 'Make everyone feel included', completed: false }
-        ],
-        personalNotes: 'Spread the good vibes and make sure everyone feels part of the celebration!'
-    },
-    'RAZON-3BM6': {
-        name: 'Razon', fullName: 'Razon Mahebub', room: 'Room 5',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Win a strategy game', completed: false },
-            { id: 'm2', text: 'Help plan a surprise moment', completed: false },
-            { id: 'm3', text: 'Share a heartfelt toast', completed: false }
-        ],
-        personalNotes: 'Put those strategic skills to use - help make the surprises work!'
-    },
-    'NEEVE-6PW2': {
-        name: 'Neeve', fullName: 'Neeve Fletcher', room: 'Room 5',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Find the best local cheese', completed: false },
-            { id: 'm2', text: 'Help with one group meal', completed: false },
-            { id: 'm3', text: 'Create a signature cocktail for the trip', completed: false }
-        ],
-        personalNotes: 'You\'re the culinary guide - find us the best food and drinks!'
-    },
-    'GEORGE-1CY9': {
-        name: 'George', fullName: 'George Heyworth', room: 'Room 6',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Start a chant at the birthday dinner', completed: false },
-            { id: 'm2', text: 'Be the last one standing at the party', completed: false },
-            { id: 'm3', text: 'Give a speech (even a short one)', completed: false }
-        ],
-        personalNotes: 'Bring the ENERGY! Get everyone hyped for Joe\'s big day.'
-    },
-    'EMMAW-8RJ4': {
-        name: 'Emma W', fullName: 'Emma Winup', room: 'Room 6',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Make sure activities run on time', completed: false },
-            { id: 'm2', text: 'Help coordinate the group photo', completed: false },
-            { id: 'm3', text: 'Create a mini itinerary for one activity', completed: false }
-        ],
-        personalNotes: 'Your organisational skills are needed - help keep things running smoothly!'
-    },
-    'TOM-5QL7': {
-        name: 'Tom', fullName: 'Tom Heyworth', room: 'Room 7',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Tell a "remember when" story about Joe', completed: false },
-            { id: 'm2', text: 'Document at least one funny moment', completed: false },
-            { id: 'm3', text: 'Participate in the roast (lovingly!)', completed: false }
-        ],
-        personalNotes: 'Bring the stories! Joe\'s 30th needs some legendary tales.'
-    },
-    'ROBERT-2NG8': {
-        name: 'Robert', fullName: 'Robert Winup', room: 'Room 7',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Recommend the best wine at tasting', completed: false },
-            { id: 'm2', text: 'Teach someone something about wine', completed: false },
-            { id: 'm3', text: 'Toast to Joe with a great wine pick', completed: false }
-        ],
-        personalNotes: 'Share your wine wisdom! Help everyone appreciate the Loire Valley.'
-    },
-    'SARAH-4KV3': {
-        name: 'Sarah', fullName: 'Sarah Shamia', room: 'Room 8',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Introduce two people who haven\'t met', completed: false },
-            { id: 'm2', text: 'Start a conversation game', completed: false },
-            { id: 'm3', text: 'Make someone new feel welcome', completed: false }
-        ],
-        personalNotes: 'Help everyone mingle and connect - be the social glue!'
-    },
-    'KIRAN-7DX1': {
-        name: 'Kiran', fullName: 'Kiran Ruparelia', room: 'Room 9',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Be part of a late-night chat', completed: false },
-            { id: 'm2', text: 'Suggest a midnight activity', completed: false },
-            { id: 'm3', text: 'Keep the party going when others flag', completed: false }
-        ],
-        personalNotes: 'You\'re the after-hours entertainment - keep the night alive!'
-    },
-    'SHANE-9FH6': {
-        name: 'Shane', fullName: 'Shane Pallian', room: 'Room 12',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Win at least one game/challenge', completed: false },
-            { id: 'm2', text: 'Challenge Joe to something competitive', completed: false },
-            { id: 'm3', text: 'Be a gracious winner OR loser', completed: false }
-        ],
-        personalNotes: 'Bring the competitive spirit! Make the games exciting.'
-    },
-    'OLI-3WT5': {
-        name: 'Oli', fullName: 'Oli Moran', room: 'Room 10',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Keep everyone calm if things get hectic', completed: false },
-            { id: 'm2', text: 'Suggest a relaxing activity', completed: false },
-            { id: 'm3', text: 'Give Joe some genuine birthday wisdom', completed: false }
-        ],
-        personalNotes: 'Balance out the chaos with some chill vibes when needed.'
-    },
-    'PETER-6BN2': {
-        name: 'Peter', fullName: 'Peter London', room: 'Room 10',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Do something unexpected', completed: false },
-            { id: 'm2', text: 'Suggest a bold activity', completed: false },
-            { id: 'm3', text: 'Make Joe laugh really hard', completed: false }
-        ],
-        personalNotes: 'Be unpredictable! Bring the surprises.'
-    },
-    'EMMAL-1RK8': {
-        name: 'Emma L', fullName: 'Emma Levett', room: 'Room 11',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Help with decorations or presentation', completed: false },
-            { id: 'm2', text: 'Create a small handmade gift/card', completed: false },
-            { id: 'm3', text: 'Document the trip artistically', completed: false }
-        ],
-        personalNotes: 'Bring your creative touch to make things special!'
-    },
-    'JONNYL-4VP9': {
-        name: 'Jonny L', fullName: 'Jonny Levett', room: 'Room 11',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Pull a harmless prank', completed: false },
-            { id: 'm2', text: 'Keep the jokes coming all week', completed: false },
-            { id: 'm3', text: 'Make Joe genuinely crack up', completed: false }
-        ],
-        personalNotes: 'Comedy is your mission - bring the laughs!'
-    },
-    'JONNYW-8HQ3': {
-        name: 'Jonny W', fullName: 'Jonny Williams', room: 'Room 12',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Share a classic Joe story', completed: false },
-            { id: 'm2', text: 'Help with the birthday toast', completed: false },
-            { id: 'm3', text: 'Create a memorable moment', completed: false }
-        ],
-        personalNotes: 'Bring the legendary energy!'
-    },
-    'CHRIS-2FM7': {
-        name: 'Chris', fullName: 'Chris Coggin', room: 'Room 9',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Be dependable when things are needed', completed: false },
-            { id: 'm2', text: 'Help with setup/cleanup', completed: false },
-            { id: 'm3', text: 'Support someone who needs it', completed: false }
-        ],
-        personalNotes: 'You\'re the reliable one - help keep things running!'
-    },
-    'OSCAR-5DL4': {
-        name: 'Oscar', fullName: 'Oscar Walters', room: 'Room 12',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Get the party started at least once', completed: false },
-            { id: 'm2', text: 'Lead a drinking game', completed: false },
-            { id: 'm3', text: 'Be on the dance floor first', completed: false }
-        ],
-        personalNotes: 'When energy is needed, you\'re the spark!'
-    },
-    'PRANAY-9WX6': {
-        name: 'Pranay', fullName: 'Pranay Dube', room: 'Room 12',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Be enthusiastic about every activity', completed: false },
-            { id: 'm2', text: 'Encourage others to join in', completed: false },
-            { id: 'm3', text: 'Give Joe an enthusiastic birthday hug', completed: false }
-        ],
-        personalNotes: 'Bring the enthusiasm - your energy is contagious!'
-    },
-    'MATT-3B7K': {
-        name: 'Matt', fullName: 'Matt Hill', room: 'Room 12',
-        team: 'TBA', nickname: 'TBA',
-        missions: [
-            { id: 'm1', text: 'Make the most of arriving late — dive straight in', completed: false },
-            { id: 'm2', text: 'Win a game within 24 hours of arriving', completed: false },
-            { id: 'm3', text: 'Give Joe a big birthday surprise', completed: false }
-        ],
-        personalNotes: 'Late arrival, but showing up is half the battle. Make it count!'
-    }
+    'JOE-7K9X': { name: 'Joe', fullName: 'Joe O\'Brien', room: 'Master Suite', team: 'TBA', nickname: 'TBA' },
+    'SOPHIE-M3P2': { name: 'Sophie', fullName: 'Sophie Geen', room: 'Master Suite', team: 'TBA', nickname: 'TBA' },
+    'LUKE-4WN8': { name: 'Luke', fullName: 'Luke Recchia', room: 'Room 2', team: 'TBA', nickname: 'TBA' },
+    'SAM-R6DQ': { name: 'Samantha', fullName: 'Samantha Recchia', room: 'Room 2', team: 'TBA', nickname: 'TBA' },
+    'HANNAH-8FJ3': { name: 'Hannah', fullName: 'Hannah O\'Brien', room: 'Room 3', team: 'TBA', nickname: 'TBA' },
+    'ROBIN-2VL5': { name: 'Robin', fullName: 'Robin Hughes', room: 'Room 3', team: 'TBA', nickname: 'TBA' },
+    'JOHNNY-9XT4': { name: 'Johnny', fullName: 'Johnny Gates O\'Brien', room: 'Room 4', team: 'TBA', nickname: 'TBA' },
+    'FLORRIE-5HK7': { name: 'Florrie', fullName: 'Florrie Gates O\'Brien', room: 'Room 4', team: 'TBA', nickname: 'TBA' },
+    'RAZON-3BM6': { name: 'Razon', fullName: 'Razon Mahebub', room: 'Room 5', team: 'TBA', nickname: 'TBA' },
+    'NEEVE-6PW2': { name: 'Neeve', fullName: 'Neeve Fletcher', room: 'Room 5', team: 'TBA', nickname: 'TBA' },
+    'GEORGE-1CY9': { name: 'George', fullName: 'George Heyworth', room: 'Room 6', team: 'TBA', nickname: 'TBA' },
+    'EMMAW-8RJ4': { name: 'Emma W', fullName: 'Emma Winup', room: 'Room 6', team: 'TBA', nickname: 'TBA' },
+    'TOM-5QL7': { name: 'Tom', fullName: 'Tom Heyworth', room: 'Room 7', team: 'TBA', nickname: 'TBA' },
+    'ROBERT-2NG8': { name: 'Robert', fullName: 'Robert Winup', room: 'Room 7', team: 'TBA', nickname: 'TBA' },
+    'SARAH-4KV3': { name: 'Sarah', fullName: 'Sarah Shamia', room: 'Room 8', team: 'TBA', nickname: 'TBA' },
+    'KIRAN-7DX1': { name: 'Kiran', fullName: 'Kiran Ruparelia', room: 'Room 9', team: 'TBA', nickname: 'TBA' },
+    'SHANE-9FH6': { name: 'Shane', fullName: 'Shane Pallian', room: 'Room 12', team: 'TBA', nickname: 'TBA' },
+    'OLI-3WT5': { name: 'Oli', fullName: 'Oli Moran', room: 'Room 10', team: 'TBA', nickname: 'TBA' },
+    'PETER-6BN2': { name: 'Peter', fullName: 'Peter London', room: 'Room 10', team: 'TBA', nickname: 'TBA' },
+    'EMMAL-1RK8': { name: 'Emma L', fullName: 'Emma Levett', room: 'Room 11', team: 'TBA', nickname: 'TBA' },
+    'JONNYL-4VP9': { name: 'Jonny L', fullName: 'Jonny Levett', room: 'Room 11', team: 'TBA', nickname: 'TBA' },
+    'JONNYW-8HQ3': { name: 'Jonny W', fullName: 'Jonny Williams', room: 'Room 12', team: 'TBA', nickname: 'TBA' },
+    'CHRIS-2FM7': { name: 'Chris', fullName: 'Chris Coggin', room: 'Room 9', team: 'TBA', nickname: 'TBA' },
+    'OSCAR-5DL4': { name: 'Oscar', fullName: 'Oscar Walters', room: 'Room 12', team: 'TBA', nickname: 'TBA' },
+    'PRANAY-9WX6': { name: 'Pranay', fullName: 'Pranay Dube', room: 'Room 12', team: 'TBA', nickname: 'TBA' },
+    'MATT-3B7K': { name: 'Matt', fullName: 'Matt Hill', room: 'Room 12', team: 'TBA', nickname: 'TBA' }
 };
 
 /* Players mapped to teams (for leaderboard) */
@@ -427,7 +226,7 @@ const TEAM_CAPTAINS = {
 /* Captain Responsibilities */
 const CAPTAIN_DUTIES = [
     'Rally your team for games and challenges',
-    'Organise cooking rota shifts — make sure your team shows up',
+    'Organise cooking rota shifts and make sure your team shows up',
     'Settle disputes and pick team order for games',
     'Apply face paint and hand out headbands on Day 1',
     'Represent the team in captain-only challenges',
@@ -738,7 +537,7 @@ function initGuestPreview() {
     if (isPreview) {
         const banner = document.createElement('div');
         banner.className = 'guest-preview-banner';
-        banner.innerHTML = '&#128065; GUEST PREVIEW MODE &mdash; You are seeing what guests see. ';
+        banner.innerHTML = '&#128065; GUEST PREVIEW MODE - You are seeing what guests see. ';
         const exitBtn = document.createElement('button');
         exitBtn.type = 'button';
         exitBtn.textContent = 'Exit';
@@ -2306,9 +2105,6 @@ function initMyTripDrawer() {
     var isOpen = false;
 
     function buildContent() {
-        var progress = Store.get('missionProgress', {});
-        var gp = progress[guestCode] || {};
-        var done = guest.missions.filter(function(m) { return gp[m.id]; }).length;
         var _spun = localStorage.getItem('teamRevealed_' + guestCode) === 'true';
         var teamDisplay = _spun ? escapeHtml(guest.team) : '??? (Revealed on arrival)';
         var scores = Store.get('lb_individualScores', {});
@@ -2326,22 +2122,6 @@ function initMyTripDrawer() {
                     '<div class="my-trip-name">' + escapeHtml(guest.fullName) + '</div>' +
                     '<div class="my-trip-meta">' + escapeHtml(guest.room) + ' \u00B7 ' + teamDisplay + '</div>' +
                 '</div>' +
-                '<div class="my-trip-section">' +
-                    '<h4>Secret Missions <span class="my-trip-count">' + done + '/' + guest.missions.length + '</span></h4>' +
-                    '<div class="my-trip-missions">' +
-                        guest.missions.map(function(m) {
-                            var c = gp[m.id] || false;
-                            return '<label class="my-trip-mission' + (c ? ' done' : '') + '">' +
-                                '<input type="checkbox"' + (c ? ' checked' : '') + ' data-mid="' + m.id + '">' +
-                                '<span>' + escapeHtml(m.text) + '</span>' +
-                            '</label>';
-                        }).join('') +
-                    '</div>' +
-                '</div>' +
-                '<div class="my-trip-section">' +
-                    '<h4>Personal Note</h4>' +
-                    '<p class="my-trip-notes">' + escapeHtml(guest.personalNotes) + '</p>' +
-                '</div>' +
                 (_spun ?
                     '<div class="my-trip-section">' +
                         '<h4>Stats</h4>' +
@@ -2354,22 +2134,6 @@ function initMyTripDrawer() {
                     '<button class="my-trip-switch-btn" id="my-trip-switch">Switch Guest</button>' +
                 '</div>' +
             '</div>';
-
-        // Mission checkboxes
-        drawer.querySelectorAll('input[data-mid]').forEach(function(cb) {
-            cb.addEventListener('change', function() {
-                var mid = this.dataset.mid;
-                var p = Store.get('missionProgress', {});
-                if (!p[guestCode]) p[guestCode] = {};
-                p[guestCode][mid] = this.checked;
-                Store.set('missionProgress', p);
-                this.closest('.my-trip-mission').classList.toggle('done', this.checked);
-                var cnt = guest.missions.filter(function(m) { return p[guestCode][m.id]; }).length;
-                var cntEl = drawer.querySelector('.my-trip-count');
-                if (cntEl) cntEl.textContent = cnt + '/' + guest.missions.length;
-                if (this.checked && typeof triggerMiniConfetti === 'function') triggerMiniConfetti();
-            });
-        });
 
         document.getElementById('my-trip-close').addEventListener('click', closeDrawer);
 

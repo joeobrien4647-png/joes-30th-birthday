@@ -1971,44 +1971,6 @@ body.modal-open {
     letter-spacing: 0.5px;
 }
 
-.my-trip-count {
-    font-size: 0.78rem;
-    color: var(--text-light);
-    font-weight: 600;
-}
-
-.my-trip-mission {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-    cursor: pointer;
-    font-size: 0.88rem;
-    color: var(--text-dark);
-    line-height: 1.5;
-    transition: opacity 0.2s ease;
-}
-
-.my-trip-mission.done { opacity: 0.5; text-decoration: line-through; }
-
-.my-trip-mission input[type="checkbox"] {
-    margin-top: 2px;
-    accent-color: var(--primary);
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-}
-
-.my-trip-notes {
-    font-size: 0.88rem;
-    color: var(--text-light);
-    line-height: 1.6;
-    padding: 14px;
-    background: var(--bg-light);
-    border-radius: 12px;
-}
-
 .my-trip-stats-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;

@@ -24,10 +24,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/base.css?v=19">
+    <link rel="stylesheet" href="css/base.css?v=20">
     <link rel="stylesheet" href="css/components.css?v=3">
     <link rel="stylesheet" href="css/nav.css?v=1">
-    <link rel="stylesheet" href="css/games.css?v=31">
+    <link rel="stylesheet" href="css/games.css?v=34">
 </head>
 <body>
     <!-- Confetti Canvas -->
@@ -57,7 +57,7 @@
     <!-- Page Header -->
     <header class="page-header">
         <h1>Games & Challenges</h1>
-        <p>Four teams. Six days. One winner. May the best team win.</p>
+        <p>Four teams. Four days. One winner. May the best team win.</p>
     </header>
 
     <!-- Big Icon Nav -->
@@ -72,7 +72,7 @@
                 <button class="games-nav-tile games-nav-tile--challenges" data-panel="challenges">
                     <span class="games-nav-icon">&#9876;&#65039;</span>
                     <span class="games-nav-label">Daily Games</span>
-                    <span class="games-nav-sub">6 days of challenges</span>
+                    <span class="games-nav-sub">Thu to Sun</span>
                 </button>
                 <button class="games-nav-tile games-nav-tile--leaderboard" data-panel="leaderboard">
                     <span class="games-nav-icon">&#127942;</span>
@@ -80,7 +80,7 @@
                     <span class="games-nav-sub">Teams &amp; individuals</span>
                 </button>
                 <button class="games-nav-tile games-nav-tile--teams" data-panel="teams-roster">
-                    <span class="games-nav-icon">&#9876;&#65039;</span>
+                    <span class="games-nav-icon">&#128101;</span>
                     <span class="games-nav-label">The Teams</span>
                     <span class="games-nav-sub">4 teams, 26 players</span>
                 </button>
@@ -93,33 +93,93 @@
 
             <!-- How It Works (collapsed by default, toggled by tile) -->
             <div class="how-it-works game-panel" id="hiw-panel" style="display: none;">
-                <div class="hiw-rules">
-                    <div class="hiw-rule">
-                        <div class="hiw-rule-num">1</div>
-                        <div class="hiw-rule-body">
-                            <h4>&#9889; 4 Teams, 4 Captains</h4>
-                            <p>Titans, Spartans, Vikings, Gladiators. Sign up on the site and spin the wheel to find out which team you're on. Each team has a captain who rallies the troops.</p>
+                <div class="hiw-intro">
+                    <p>Four teams. Four days. Everything you do earns points for your team and yourself. The winning team and top individual both get rewarded on the last night.</p>
+                </div>
+
+                <div class="hiw-info-row">
+                    <!-- The Rules -->
+                    <div class="hiw-info-card">
+                        <h3>&#9889; The Setup</h3>
+                        <div class="hiw-card-item">
+                            <span class="hiw-card-icon">&#9876;&#65039;</span>
+                            <div>
+                                <strong>4 Teams, 4 Captains</strong>
+                                <p>Titans, Spartans, Vikings, Gladiators. Spin the wheel on arrival to find your team.</p>
+                            </div>
+                        </div>
+                        <div class="hiw-card-item">
+                            <span class="hiw-card-icon">&#128104;&#8205;&#127859;</span>
+                            <div>
+                                <strong>Cooking Rota</strong>
+                                <p>Each team cooks breakfast and dinner once. The rota is already set. Full details on the <a href="schedule.html#rotas">Schedule page</a>.</p>
+                            </div>
+                        </div>
+                        <div class="hiw-card-item">
+                            <span class="hiw-card-icon">&#127918;</span>
+                            <div>
+                                <strong>Daily Games</strong>
+                                <p>New team games every day. Some physical, some mental, all competitive. Revealed each morning.</p>
+                            </div>
+                        </div>
+                        <div class="hiw-card-item">
+                            <span class="hiw-card-icon">&#127919;</span>
+                            <div>
+                                <strong>Trip Bingo</strong>
+                                <p>16 challenges running all week. Complete them for points and the power to dish out punishments. <a href="bingo.html">Play Bingo</a></p>
+                            </div>
                         </div>
                     </div>
-                    <div class="hiw-rule">
-                        <div class="hiw-rule-num">2</div>
-                        <div class="hiw-rule-body">
-                            <h4>&#127942; Everything earns points</h4>
-                            <p>Daily games, all-week challenges, cooking duties. It all counts for your team and for you individually. Joe awards points throughout the trip.</p>
+
+                    <!-- Points Breakdown -->
+                    <div class="hiw-info-card">
+                        <h3>&#127942; Earning Points</h3>
+                        <div class="hiw-pts-group">
+                            <h4 class="hiw-pts-group-label">&#127918; Games</h4>
+                            <div class="hiw-pts-row">
+                                <span>Game win</span>
+                                <span class="hiw-pts-pill hiw-pts-pill--gold">+5</span>
+                            </div>
+                            <div class="hiw-pts-row">
+                                <span>Runner up</span>
+                                <span class="hiw-pts-pill">+3</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="hiw-rule">
-                        <div class="hiw-rule-num">3</div>
-                        <div class="hiw-rule-body">
-                            <h4>&#128104;&#8205;&#127859; Cooking rota</h4>
-                            <p>Each team cooks twice and cleans twice across the trip. Your captain organises the shifts. Full rota on the <a href="schedule.html#rotas">Schedule page</a>.</p>
+                        <div class="hiw-pts-group">
+                            <h4 class="hiw-pts-group-label">&#128104;&#8205;&#127859; Cooking</h4>
+                            <div class="hiw-pts-row">
+                                <span>Cook duty (per shift)</span>
+                                <span class="hiw-pts-pill">+3</span>
+                            </div>
+                            <div class="hiw-pts-row">
+                                <span>Dinner rating bonus</span>
+                                <span class="hiw-pts-pill">+2 to +6</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="hiw-rule">
-                        <div class="hiw-rule-num">4</div>
-                        <div class="hiw-rule-body">
-                            <h4>&#127881; Winner takes glory</h4>
-                            <p>The winning team earns bragging rights for life and a prize revealed on the last night. The individual leaderboard champion gets their own award too.</p>
+                        <div class="hiw-pts-group">
+                            <h4 class="hiw-pts-group-label">&#127919; Bingo</h4>
+                            <div class="hiw-pts-row">
+                                <span>Each square</span>
+                                <span class="hiw-pts-pill">+1</span>
+                            </div>
+                            <div class="hiw-pts-row">
+                                <span>Line bonus</span>
+                                <span class="hiw-pts-pill">+2</span>
+                            </div>
+                            <div class="hiw-pts-row">
+                                <span>Full house bonus</span>
+                                <span class="hiw-pts-pill hiw-pts-pill--gold">+5</span>
+                            </div>
+                        </div>
+                        <div class="hiw-pts-group hiw-pts-group--misc">
+                            <div class="hiw-pts-row">
+                                <span>&#11088; Bonus</span>
+                                <span class="hiw-pts-pill hiw-pts-pill--green">+1</span>
+                            </div>
+                            <div class="hiw-pts-row">
+                                <span>&#128997; Penalty</span>
+                                <span class="hiw-pts-pill hiw-pts-pill--red">-1</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -127,54 +187,21 @@
                 <div class="hiw-pf-section">
                     <div class="hiw-pf-teaser-row">
                         <div class="hiw-pf-teaser hiw-pf-teaser--prizes">
-                            <span class="hiw-pf-teaser-icon">🏆</span>
+                            <span class="hiw-pf-teaser-icon">&#127942;</span>
                             <div>
                                 <strong>Prizes await the winners</strong>
                                 <p>Glory, bragging rights &amp; something special. Revealed on arrival night.</p>
                             </div>
-                            <span class="hiw-pf-teaser-lock">🔒</span>
+                            <span class="hiw-pf-teaser-lock">&#128274;</span>
                         </div>
                         <div class="hiw-pf-teaser hiw-pf-teaser--forfeits">
-                            <span class="hiw-pf-teaser-icon">😬</span>
+                            <span class="hiw-pf-teaser-icon">&#128556;</span>
                             <div>
                                 <strong>Forfeits for the losers</strong>
                                 <p>Let's just say the losing team won't forget it. Revealed on Day 1.</p>
                             </div>
-                            <span class="hiw-pf-teaser-lock">🔒</span>
+                            <span class="hiw-pf-teaser-lock">&#128274;</span>
                         </div>
-                    </div>
-                </div>
-
-                <div class="hiw-points-grid">
-                    <div class="hiw-points-card">
-                        <span class="hiw-pts-emoji">&#127918;</span>
-                        <span class="hiw-pts-label">Game win</span>
-                        <span class="hiw-pts-value">+5 pts</span>
-                    </div>
-                    <div class="hiw-points-card">
-                        <span class="hiw-pts-emoji">&#129352;</span>
-                        <span class="hiw-pts-label">Runner up</span>
-                        <span class="hiw-pts-value">+3 pts</span>
-                    </div>
-                    <div class="hiw-points-card">
-                        <span class="hiw-pts-emoji">&#128104;&#8205;&#127859;</span>
-                        <span class="hiw-pts-label">Cook duty</span>
-                        <span class="hiw-pts-value">+3 pts</span>
-                    </div>
-                    <div class="hiw-points-card">
-                        <span class="hiw-pts-emoji">&#127919;</span>
-                        <span class="hiw-pts-label">Challenge win</span>
-                        <span class="hiw-pts-value">+10 pts</span>
-                    </div>
-                    <div class="hiw-points-card hiw-pts-penalty">
-                        <span class="hiw-pts-emoji">&#128997;</span>
-                        <span class="hiw-pts-label">Penalty</span>
-                        <span class="hiw-pts-value">-1 pt</span>
-                    </div>
-                    <div class="hiw-points-card hiw-pts-bonus">
-                        <span class="hiw-pts-emoji">&#11088;</span>
-                        <span class="hiw-pts-label">Bonus</span>
-                        <span class="hiw-pts-value">+1 pt</span>
                     </div>
                 </div>
             </div>
@@ -199,7 +226,7 @@
                     <div class="ch-locked-icon">&#128274;</div>
                     <div class="ch-locked-info">
                         <h4>Daily Games</h4>
-                        <p>6 days of team games, challenges and competitions. New games revealed each morning at the ch&acirc;teau.</p>
+                        <p>4 days of team games, challenges and competitions. New games revealed each morning at the ch&acirc;teau.</p>
                     </div>
                     <span class="ch-locked-badge">&#128197; Revealed on arrival</span>
                 </div>
@@ -227,10 +254,7 @@
 
             <div class="lb-toggle">
                 <button class="lb-tab active" data-lb="teams">Teams</button>
-                <button class="lb-tab" data-lb="feed">Live</button>
                 <button class="lb-tab" data-lb="individuals">Individuals</button>
-                <button class="lb-tab" data-lb="log">Log</button>
-                <button class="lb-tab" data-lb="recap">Daily Recap</button>
             </div>
 
             <!-- Team Leaderboard -->
@@ -243,47 +267,40 @@
                         <div class="teams-locked-hint">
                             <span>&#128064;</span> 4 teams. 26 players. Who's on your side? Find out Wed 29th April.
                         </div>
-                        <div class="teams-locked-suits">
-                            <span class="tls-suit" style="color:#4fc3f7">♠</span>
-                            <span class="tls-suit" style="color:#f48fb1">♥</span>
-                            <span class="tls-suit" style="color:#81c784">♦</span>
-                            <span class="tls-suit" style="color:#f9d423">♣</span>
+                        <div class="teams-locked-shields">
+                            <span class="tls-shield" style="color:#f9a825">&#9733;</span>
+                            <span class="tls-shield" style="color:#c62828">&#9733;</span>
+                            <span class="tls-shield" style="color:#1565c0">&#9733;</span>
+                            <span class="tls-shield" style="color:#424242">&#9733;</span>
                         </div>
                         <div class="teams-unlock-date" data-unlock="2026-04-29T22:00:00+02:00">&#128197; Unlocks Wed 29 Apr</div>
                         <div class="lb-teaser-preview" aria-hidden="true">
                             <div class="lb-teaser-row">
                                 <span class="lb-tr-pos">1st &#129351;</span>
-                                <span class="lb-tr-suit" style="color:#4fc3f7">&#9824;</span>
+                                <span class="lb-tr-dot" style="background:#f9a825"></span>
                                 <span class="lb-tr-name">???</span>
                                 <span class="lb-tr-pts">&#8212; pts</span>
                             </div>
                             <div class="lb-teaser-row">
                                 <span class="lb-tr-pos">2nd &#129352;</span>
-                                <span class="lb-tr-suit" style="color:#f48fb1">&#9829;</span>
+                                <span class="lb-tr-dot" style="background:#c62828"></span>
                                 <span class="lb-tr-name">???</span>
                                 <span class="lb-tr-pts">&#8212; pts</span>
                             </div>
                             <div class="lb-teaser-row">
                                 <span class="lb-tr-pos">3rd &#129353;</span>
-                                <span class="lb-tr-suit" style="color:#81c784">&#9830;</span>
+                                <span class="lb-tr-dot" style="background:#1565c0"></span>
                                 <span class="lb-tr-name">???</span>
                                 <span class="lb-tr-pts">&#8212; pts</span>
                             </div>
                             <div class="lb-teaser-row">
                                 <span class="lb-tr-pos">4th</span>
-                                <span class="lb-tr-suit" style="color:#f9d423">&#9827;</span>
+                                <span class="lb-tr-dot" style="background:#424242"></span>
                                 <span class="lb-tr-name">???</span>
                                 <span class="lb-tr-pts">&#8212; pts</span>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- Live Activity Feed -->
-            <div class="lb-content" data-lb="feed">
-                <div class="activity-feed" id="activity-feed">
-                    <p class="feed-empty">No activity yet - let the games begin!</p>
                 </div>
             </div>
 
@@ -291,34 +308,6 @@
             <div class="lb-content" data-lb="individuals">
                 <div class="individual-board" id="individual-board">
                     <!-- Populated by JS -->
-                </div>
-            </div>
-
-            <!-- Points Log -->
-            <div class="lb-content" data-lb="log">
-                <div class="points-log" id="points-log">
-                    <p class="log-empty">No points awarded yet - let the games begin!</p>
-                </div>
-            </div>
-
-            <!-- Daily Recap -->
-            <div class="lb-content" data-lb="recap">
-                <div class="daily-recap" id="daily-recap">
-                    <div class="recap-day-select">
-                        <button class="recap-day-btn" data-day="1">Day 1</button>
-                        <button class="recap-day-btn" data-day="2">Day 2</button>
-                        <button class="recap-day-btn" data-day="3">Day 3</button>
-                        <button class="recap-day-btn" data-day="4">Day 4</button>
-                        <button class="recap-day-btn" data-day="5">Day 5</button>
-                        <button class="recap-day-btn" data-day="6">Day 6</button>
-                    </div>
-                    <div class="recap-content">
-                        <div id="recap-mvp"></div>
-                        <div id="recap-teams" class="recap-teams"></div>
-                        <div id="recap-top" class="recap-top"></div>
-                        <div id="recap-badges" class="recap-badges"></div>
-                        <div id="recap-highlights" class="recap-highlights"></div>
-                    </div>
                 </div>
             </div>
 
@@ -356,7 +345,6 @@
                         <button class="quick-award" data-points="3" data-reason="Runner Up">&#129352; Runner Up (+3)</button>
                         <button class="quick-award" data-points="2" data-reason="Participation">&#128079; Participation (+2)</button>
                         <button class="quick-award" data-points="1" data-reason="Bonus Point">&#11088; Bonus (+1)</button>
-                        <button class="quick-award" data-points="10" data-reason="Challenge Champion">&#127919; Challenge Champ (+10)</button>
                         <button class="quick-award" data-points="-1" data-reason="Penalty">&#128997; Penalty (-1)</button>
                     </div>
                 </div>
@@ -372,6 +360,12 @@
                         <option value="5">Day 5</option>
                         <option value="6">Day 6</option>
                     </select>
+                </div>
+                <div class="admin-log-section">
+                    <h5>Points Log</h5>
+                    <div class="points-log" id="points-log">
+                        <p class="log-empty">No points awarded yet</p>
+                    </div>
                 </div>
             </div>
 
@@ -428,9 +422,9 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
-    <script src="js/shared.js?v=19"></script>
-    <script src="js/firebase-config.js?v=4"></script>
+    <script src="js/shared.js?v=20"></script>
+    <script src="js/firebase-config.js?v=5"></script>
     <script src="js/nav.js?v=1"></script>
-    <script src="js/games.js?v=31"></script>
+    <script src="js/games.js?v=34"></script>
 </body>
 </html>

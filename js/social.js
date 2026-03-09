@@ -86,7 +86,8 @@ function initProfiles() {
             uploadBtn.addEventListener('click', function(e) { e.stopPropagation(); uploadInput.click(); });
             uploadInput.addEventListener('change', function() {
                 if (!this.files || !this.files[0]) return;
-                compressProfilePhoto(this.files[0], function(dataUrl) {
+                var rawFile = this.files[0];
+                compressProfilePhoto(rawFile, function(dataUrl) {
                     setGuestPhoto(data.name, dataUrl);
                     avatarImg.dataset.triedLocal = '';
                     avatarImg.src = dataUrl;
@@ -95,6 +96,15 @@ function initProfiles() {
                     avatar.classList.add('has-photo');
                     updateCrewCardPhoto(data.name, dataUrl);
                 });
+                // Upload to Firebase for cross-device sync
+                if (typeof ProfileSync !== 'undefined' && ProfileSync.isConfigured()) {
+                    ProfileSync.upload(data.name, rawFile, function(url) {
+                        if (url) {
+                            avatarImg.src = url;
+                            updateCrewCardPhoto(data.name, url);
+                        }
+                    });
+                }
             });
             avatar.appendChild(uploadBtn);
             avatar.appendChild(uploadInput);
@@ -121,11 +131,22 @@ function initProfiles() {
         header.appendChild(infoDiv);
         card.appendChild(header);
 
-        // Tagline as styled quote
-        if (data.tagline) {
+        // Tagline — prefer guest's own bio from Firebase, fall back to hardcoded HTML tagline
+        var displayTagline = data.tagline || '';
+        if (typeof ProfileSync !== 'undefined' && ProfileSync.isConfigured()) {
+            var fbBio = ProfileSync.getTagline(data.name);
+            if (!fbBio) {
+                // Check the bio field too (set during registration)
+                var fbSlug = data.name.toLowerCase().replace(/['']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                var fbProfile = ProfileSync.getAll()[fbSlug];
+                if (fbProfile && fbProfile.bio) fbBio = fbProfile.bio;
+            }
+            if (fbBio) displayTagline = fbBio;
+        }
+        if (displayTagline) {
             var taglineEl = document.createElement('p');
             taglineEl.className = 'profile-tagline';
-            taglineEl.textContent = data.tagline;
+            taglineEl.textContent = displayTagline;
             card.appendChild(taglineEl);
         }
 
@@ -641,4 +662,17 @@ document.addEventListener('DOMContentLoaded', function() {
     initRoomFlip();
     initGuestHighlight();
     initTeamsReveal();
+
+    // When Firebase profile photos update, refresh all crew avatars
+    if (typeof ProfileSync !== 'undefined' && ProfileSync.isConfigured()) {
+        ProfileSync.onUpdate(function(profiles) {
+            if (!profiles) return;
+            Object.keys(profiles).forEach(function(slug) {
+                var p = profiles[slug];
+                if (p && p.photoUrl && p.name) {
+                    updateCrewCardPhoto(p.name, p.photoUrl);
+                }
+            });
+        });
+    }
 });

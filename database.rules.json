@@ -1,0 +1,32 @@
+{
+  "rules": {
+    "registrations": {
+      ".read": true,
+      ".write": true,
+      "$code": {
+        ".validate": "newData.hasChildren(['name', 'team', 'code'])"
+      }
+    },
+    "leaderboard": { ".read": true, ".write": true },
+    "messages": { ".read": true, ".write": true },
+    "confessions": { ".read": true, ".write": true },
+    "music": { ".read": true, ".write": true },
+    "photos": { ".read": true, ".write": true },
+    "predictions": { ".read": true, ".write": true },
+    "superlatives": { ".read": true, ".write": true },
+    "highlights": { ".read": true, ".write": true },
+    "toasts": { ".read": true, ".write": true },
+    "signups": { ".read": true, ".write": true },
+    "announcements": { ".read": true, ".write": true },
+    "admin": { ".read": true, ".write": true },
+    "bingo": { ".read": true, ".write": true },
+    "feed": { ".read": true, ".write": true },
+    "subscriptions": { ".read": true, ".write": true },
+    "activityVotes": { ".read": true, ".write": true },
+    "profiles": { ".read": true, ".write": true },
+    "$other": {
+      ".read": false,
+      ".write": false
+    }
+  }
+}

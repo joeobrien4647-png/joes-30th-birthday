@@ -198,7 +198,7 @@ function initCountdown() {
     // Rotating countdown tips
     var tips = [
         'Start practising your French!',
-        'Pack your swimwear — there\'s a pool!',
+        'Pack your swimwear, there\'s a pool!',
         'Check your packing list on the Info page!',
         'Add a song to the trip playlist!',
         'Check out the crew on the Crew page!',
@@ -273,10 +273,20 @@ function prefillProfileStep(code) {
   const ni = document.getElementById('auth-nickname');
   const bi = document.getElementById('auth-bio');
   const av = document.getElementById('auth-avatar-preview');
-  if (ni) ni.value = (guest.nickname && guest.nickname !== 'TBA') ? guest.nickname : '';
-  if (bi) bi.value = guest.bio || '';
-  const slug = code.toLowerCase();
-  const savedPhoto = localStorage.getItem('guestPhoto_' + slug);
+  // Check Firebase profile for existing nickname/bio
+  var fbNickname = '';
+  var fbBio = '';
+  if (typeof ProfileSync !== 'undefined' && ProfileSync.isConfigured()) {
+    var slug = guest.fullName.toLowerCase().replace(/['']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    var profile = ProfileSync.getAll()[slug];
+    if (profile) {
+      fbNickname = profile.nickname || '';
+      fbBio = profile.bio || profile.tagline || '';
+    }
+  }
+  if (ni) ni.value = fbNickname || ((guest.nickname && guest.nickname !== 'TBA') ? guest.nickname : '');
+  if (bi) bi.value = fbBio || '';
+  var savedPhoto = getGuestPhoto(guest.fullName);
   if (av && savedPhoto) {
     const img = document.createElement('img');
     img.src = savedPhoto;
@@ -306,6 +316,21 @@ function initRegistration() {
       const guest = GUEST_DATA[selectedCode];
       const nameEl = document.getElementById('auth-welcome-name');
       if (nameEl) nameEl.textContent = 'Hey ' + guest.name + '! 👋';
+      // Check if this guest already registered (e.g. on another device)
+      if (typeof ProfileSync !== 'undefined' && ProfileSync.isConfigured()) {
+        var slug = guest.fullName.toLowerCase().replace(/['']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        var profile = ProfileSync.getAll()[slug];
+        if (profile && profile.pwHash && profile.registered) {
+          // Already registered on another device, show login instead
+          localStorage.setItem(AUTH_KEYS.guestCode, selectedCode);
+          localStorage.setItem(AUTH_KEYS.pwHash, profile.pwHash);
+          localStorage.setItem(AUTH_KEYS.registered, 'true');
+          showAuthStep('auth-step-login');
+          var returnNameEl = document.getElementById('auth-return-name');
+          if (returnNameEl) returnNameEl.textContent = 'Welcome back, ' + guest.name + '! 👋';
+          return;
+        }
+      }
       showAuthStep('auth-step-2');
     });
   }
@@ -332,6 +357,12 @@ function initRegistration() {
       }
       const hash = await hashPassword(pw.value);
       localStorage.setItem(AUTH_KEYS.pwHash, hash);
+      // Sync password hash to Firebase for cross-device login
+      var _code = isResettingPassword ? localStorage.getItem(AUTH_KEYS.guestCode) : selectedCode;
+      if (_code && GUEST_DATA[_code] && typeof FirebaseSync !== 'undefined' && FirebaseSync.isConfigured()) {
+        var _slug = GUEST_DATA[_code].fullName.toLowerCase().replace(/['']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        FirebaseSync.update('profiles/' + _slug, { pwHash: hash, guestCode: _code, registered: true });
+      }
       if (!isResettingPassword) {
         localStorage.setItem(AUTH_KEYS.guestCode, selectedCode);
         prefillProfileStep(selectedCode);
@@ -360,13 +391,17 @@ function initRegistration() {
         img.src = ev.target.result;
         avatarPreview.innerHTML = '';
         avatarPreview.appendChild(img);
-        const slug = selectedCode ? selectedCode.toLowerCase() : 'guest';
-        if (typeof compressProfilePhoto === 'function') {
+        var guestName = (selectedCode && GUEST_DATA[selectedCode]) ? GUEST_DATA[selectedCode].fullName : '';
+        if (typeof compressProfilePhoto === 'function' && guestName) {
           compressProfilePhoto(file, (compressed) => {
-            localStorage.setItem('guestPhoto_' + slug, compressed);
+            setGuestPhoto(guestName, compressed);
           });
-        } else {
-          localStorage.setItem('guestPhoto_' + slug, ev.target.result);
+        } else if (guestName) {
+          setGuestPhoto(guestName, ev.target.result);
+        }
+        // Sync to Firebase
+        if (selectedCode && GUEST_DATA[selectedCode] && typeof ProfileSync !== 'undefined' && ProfileSync.isConfigured()) {
+          ProfileSync.upload(GUEST_DATA[selectedCode].fullName, file);
         }
       };
       reader.readAsDataURL(file);
@@ -384,6 +419,15 @@ function initRegistration() {
         existing.nickname = nicknameInput.value.trim() || existing.nickname;
         existing.bio = bioInput.value.trim() || existing.bio;
         localStorage.setItem(profileKey, JSON.stringify(existing));
+        // Sync nickname and bio to Firebase
+        if (GUEST_DATA[selectedCode] && typeof ProfileSync !== 'undefined' && ProfileSync.isConfigured()) {
+          var fullName = GUEST_DATA[selectedCode].fullName;
+          var slug = fullName.toLowerCase().replace(/['']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+          var updates = { name: fullName, updatedAt: Date.now() };
+          if (existing.nickname) updates.nickname = existing.nickname;
+          if (existing.bio) updates.bio = existing.bio;
+          FirebaseSync.update('profiles/' + slug, updates);
+        }
       }
       localStorage.setItem(AUTH_KEYS.registered, 'true');
       document.getElementById('auth-modal').style.display = 'none';
@@ -642,8 +686,6 @@ function initLiveStats() {
         const guestName = GUEST_DATA[guestCode].name;
         const individualScores = Store.get('lb_individualScores', {});
         const teamScores = Store.get('lb_teamScores', { titans: 0, spartans: 0, vikings: 0, gladiators: 0 });
-        const badges = Store.get('lb_badges', {});
-
         // Update strip stats (points + rank refresh)
         const myPts = individualScores[guestName] || 0;
         const ptsEl = document.getElementById('stat-points');
@@ -669,27 +711,6 @@ function initLiveStats() {
             const teamRank = teamSorted.indexOf(myTeam) + 1;
             const teamRankEl = document.getElementById('stat-team-rank');
             if (teamRankEl) teamRankEl.textContent = '#' + teamRank + ' ' + TEAM_NAMES_MAP[myTeam];
-        }
-
-        // Badges
-        const myBadges = badges[guestName] || [];
-        const badgeCountEl = document.getElementById('stat-badges');
-        if (badgeCountEl) animateCount(badgeCountEl, myBadges.length);
-
-        const badgeRowEl = document.getElementById('stat-badges-row');
-        if (badgeRowEl && myBadges.length > 0) {
-            const BADGE_ICONS = {
-                first_blood: '\u2694\uFE0F', iron_chef: '\uD83D\uDC68\u200D\uD83C\uDF73',
-                hat_trick: '\uD83C\uDFA9', night_owl: '\uD83E\uDD89', centurion: '\uD83D\uDCAF',
-                team_player: '\uD83E\uDD1D', rule_breaker: '\uD83D\uDE08', mvp: '\uD83C\uDFC5',
-                on_fire: '\uD83D\uDD25', all_rounder: '\uD83C\uDFAF', silent_killer: '\uD83D\uDDE1\uFE0F',
-                taskmaster: '\uD83D\uDCCB', standup_star: '\uD83C\uDFA4', olympian: '\uD83E\uDD47',
-                le_francais: '\uD83C\uDDEB\uD83C\uDDF7', social_butterfly: '\uD83E\uDD8B',
-                comeback_kid: '\uD83D\uDD04', triple_threat: '\u26A1'
-            };
-            badgeRowEl.innerHTML = myBadges.map(function(b) {
-                return '<span class="dash-badge" title="' + b + '">' + (BADGE_ICONS[b] || '\u2B50') + '</span>';
-            }).join('');
         }
 
         // Bingo progress refresh

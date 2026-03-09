@@ -146,13 +146,21 @@
        Intercepts Store.get/set for lb_* keys so
        all existing code syncs via Firebase automatically.
        ============================================ */
-    var LB_KEYS = ['lb_teamScores', 'lb_individualScores', 'lb_pointsLog', 'lb_badges'];
+    var LB_KEYS = ['lb_teamScores', 'lb_individualScores', 'lb_pointsLog'];
     var lbCache = {};
     var lbLoaded = false;
 
     function fbKey(storeKey) {
         return storeKey.replace('lb_', '');
     }
+
+    /* ============================================
+       Activity Votes Sync
+       Same interceptor pattern for av_* keys.
+       ============================================ */
+    var AV_KEYS = ['av_votes', 'av_userVotes', 'av_statuses'];
+    var avCache = {};
+    var avLoaded = false;
 
     if (db && typeof Store !== 'undefined') {
         // Listen for leaderboard changes from Firebase
@@ -162,16 +170,28 @@
                 var k = fbKey(key);
                 if (data[k] !== undefined) {
                     lbCache[key] = data[k];
-                    // Keep localStorage in sync as fallback
                     try { localStorage.setItem(key, JSON.stringify(data[k])); } catch(e) {}
                 }
             });
             lbLoaded = true;
-            // Notify any listeners (e.g. leaderboard UI)
             document.dispatchEvent(new CustomEvent('leaderboardUpdate'));
         });
 
-        // Intercept Store.set — also push lb_* writes to Firebase
+        // Listen for activity vote changes from Firebase
+        db.ref('activityVotes').on('value', function(snap) {
+            var data = snap.val() || {};
+            AV_KEYS.forEach(function(key) {
+                var k = key.replace('av_', '');
+                if (data[k] !== undefined) {
+                    avCache[key] = data[k];
+                    try { localStorage.setItem(key, JSON.stringify(data[k])); } catch(e) {}
+                }
+            });
+            avLoaded = true;
+            document.dispatchEvent(new CustomEvent('activityVotesUpdate'));
+        });
+
+        // Intercept Store.set — push lb_* and av_* writes to Firebase
         var originalSet = Store.set.bind(Store);
         Store.set = function(key, value) {
             originalSet(key, value);
@@ -179,13 +199,20 @@
                 lbCache[key] = value;
                 db.ref('leaderboard/' + fbKey(key)).set(value);
             }
+            if (AV_KEYS.indexOf(key) !== -1) {
+                avCache[key] = value;
+                db.ref('activityVotes/' + key.replace('av_', '')).set(value);
+            }
         };
 
-        // Intercept Store.get — prefer Firebase cache for lb_* keys
+        // Intercept Store.get — prefer Firebase cache for lb_* and av_* keys
         var originalGet = Store.get.bind(Store);
         Store.get = function(key, fallback) {
             if (LB_KEYS.indexOf(key) !== -1 && lbLoaded && lbCache[key] !== undefined) {
                 return lbCache[key];
+            }
+            if (AV_KEYS.indexOf(key) !== -1 && avLoaded && avCache[key] !== undefined) {
+                return avCache[key];
             }
             return originalGet(key, fallback);
         };
@@ -307,7 +334,7 @@
         'Make someone laugh so hard they cry',
         'Jump in the pool fully clothed (or push someone in)',
         'Be the first up AND last to bed on the same day',
-        'Eat the spiciest thing you can find — straight face',
+        'Eat the spiciest thing you can find. Straight face',
         'Down a drink with no hands',
         'Do the washing up without being asked',
         'Take a photo so good the group votes it photo of the trip'
@@ -612,6 +639,100 @@
             punishmentListeners.push(fn);
             if (punishmentsLoaded) fn(bingoPunishments);
         }
+    };
+
+    /* ============================================
+       ProfileSync — sync guest profile photos
+       and taglines via Firebase Storage + RTDB
+       ============================================ */
+    var profilesCache = {};
+    var profileListeners = [];
+    var profilesLoaded = false;
+
+    if (db) {
+        db.ref('profiles').on('value', function(snap) {
+            profilesCache = snap.val() || {};
+            profilesLoaded = true;
+            for (var i = 0; i < profileListeners.length; i++) {
+                profileListeners[i](profilesCache);
+            }
+        });
+    }
+
+    window.ProfileSync = {
+        upload: function(name, file, onComplete) {
+            if (!storage || !db) {
+                if (onComplete) onComplete(null, 'Firebase not configured');
+                return;
+            }
+            var slug = name.toLowerCase().replace(/['']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+            // Compress to 200x200 square JPEG
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var img = new Image();
+                img.onload = function() {
+                    var canvas = document.createElement('canvas');
+                    var size = 200;
+                    canvas.width = size;
+                    canvas.height = size;
+                    var ctx = canvas.getContext('2d');
+                    var crop = Math.min(img.width, img.height);
+                    var sx = (img.width - crop) / 2;
+                    var sy = (img.height - crop) / 2;
+                    ctx.drawImage(img, sx, sy, crop, crop, 0, 0, size, size);
+                    canvas.toBlob(function(blob) {
+                        var filename = 'profiles/' + slug + '.jpg';
+                        var ref = storage.ref(filename);
+                        ref.put(blob, { contentType: 'image/jpeg' }).then(function(snapshot) {
+                            return snapshot.ref.getDownloadURL();
+                        }).then(function(url) {
+                            db.ref('profiles/' + slug).update({
+                                name: name,
+                                photoUrl: url,
+                                updatedAt: Date.now()
+                            });
+                            if (onComplete) onComplete(url, null);
+                        }).catch(function(err) {
+                            if (onComplete) onComplete(null, err.message || 'Upload failed');
+                        });
+                    }, 'image/jpeg', 0.7);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        },
+
+        setTagline: function(name, tagline) {
+            if (!db) return;
+            var slug = name.toLowerCase().replace(/['']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+            db.ref('profiles/' + slug).update({
+                name: name,
+                tagline: tagline,
+                updatedAt: Date.now()
+            });
+        },
+
+        getPhoto: function(name) {
+            var slug = name.toLowerCase().replace(/['']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+            var profile = profilesCache[slug];
+            return profile ? profile.photoUrl || null : null;
+        },
+
+        getTagline: function(name) {
+            var slug = name.toLowerCase().replace(/['']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+            var profile = profilesCache[slug];
+            return profile ? profile.tagline || null : null;
+        },
+
+        getAll: function() { return profilesCache; },
+
+        onUpdate: function(fn) {
+            profileListeners.push(fn);
+            if (profilesLoaded) fn(profilesCache);
+        },
+
+        isConfigured: function() { return !!db && !!storage; }
     };
 
     /* ============================================

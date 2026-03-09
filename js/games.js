@@ -146,100 +146,83 @@ function initTeamsRoster() {
     if (!grid) return;
     if (typeof PLAYERS === 'undefined' || typeof TEAM_CONFIG === 'undefined') return;
 
-    if (!hasFullReveal()) {
-        grid.innerHTML =
-            '<div class="teams-hidden">' +
-                '<span class="teams-hidden-icon">&#128274;</span>' +
-                '<h3>Teams Under Wraps</h3>' +
-                '<p>Sign up and spin the wheel on arrival night to find out which team you\'re on.</p>' +
-                '<div class="teams-hidden-preview">' +
-                    '<span class="thp-card" style="border-color:#f9a825">&#9733; ???</span>' +
-                    '<span class="thp-card" style="border-color:#c62828">&#9733; ???</span>' +
-                    '<span class="thp-card" style="border-color:#1565c0">&#9733; ???</span>' +
-                    '<span class="thp-card" style="border-color:#424242">&#9733; ???</span>' +
-                '</div>' +
-            '</div>';
-        return;
+    // Progressive reveal — show names as people spin the wheel
+    function isPlayerRevealed(name) {
+        if (typeof TeamRegistrations !== 'undefined' && TeamRegistrations.isConfigured()) {
+            return TeamRegistrations.isRegistered(name);
+        }
+        var memberCode = null;
+        Object.keys(GUEST_DATA).forEach(function(code) {
+            if (GUEST_DATA[code].name === name) memberCode = code;
+        });
+        return memberCode && localStorage.getItem('teamRevealed_' + memberCode) === 'true';
     }
 
-    // Build team -> members map
-    var teams = {};
-    Object.keys(TEAM_CONFIG).forEach(function(key) { teams[key] = []; });
-    Object.keys(PLAYERS).forEach(function(name) {
-        var team = PLAYERS[name];
-        if (teams[team]) teams[team].push(name);
-    });
+    function renderRoster() {
+        var allTeams = {};
+        Object.keys(TEAM_CONFIG).forEach(function(key) { allTeams[key] = []; });
+        Object.keys(PLAYERS).forEach(function(name) {
+            var team = PLAYERS[name];
+            if (allTeams[team]) allTeams[team].push(name);
+        });
 
-    // Shield SVG paths per team
-    var SHIELDS = {
-        // Titans: pointed kite shield
-        titans: '<svg viewBox="0 0 100 120" class="tr-shield-svg"><path d="M50 2 L95 25 L95 70 L50 118 L5 70 L5 25 Z" fill="FILL" stroke="STROKE" stroke-width="3"/><path d="M50 8 L88 28 L88 68 L50 112 L12 68 L12 28 Z" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/></svg>',
-        // Spartans: round aspis shield
-        spartans: '<svg viewBox="0 0 100 100" class="tr-shield-svg"><circle cx="50" cy="50" r="47" fill="FILL" stroke="STROKE" stroke-width="3"/><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/><circle cx="50" cy="50" r="33" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/></svg>',
-        // Vikings: rounded top shield
-        vikings: '<svg viewBox="0 0 100 120" class="tr-shield-svg"><path d="M5 15 Q5 2 50 2 Q95 2 95 15 L95 75 Q95 105 50 118 Q5 105 5 75 Z" fill="FILL" stroke="STROKE" stroke-width="3"/><path d="M12 18 Q12 8 50 8 Q88 8 88 18 L88 73 Q88 100 50 112 Q12 100 12 73 Z" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/></svg>',
-        // Gladiators: square Roman scutum
-        gladiators: '<svg viewBox="0 0 90 110" class="tr-shield-svg"><rect x="3" y="3" width="84" height="104" rx="12" fill="FILL" stroke="STROKE" stroke-width="3"/><rect x="10" y="10" width="70" height="90" rx="8" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/><line x1="45" y1="10" x2="45" y2="100" stroke="rgba(255,255,255,0.08)" stroke-width="1.5"/><line x1="10" y1="55" x2="80" y2="55" stroke="rgba(255,255,255,0.08)" stroke-width="1.5"/></svg>'
-    };
+        var totalRevealed = 0;
+        Object.keys(allTeams).forEach(function(key) {
+            allTeams[key].forEach(function(name) {
+                if (isPlayerRevealed(name)) totalRevealed++;
+            });
+        });
 
-    // Formation layouts: how to split members into rows (captain separate)
-    // Titans 7: captain + [3, 3]   Spartans 7: captain + [3, 3]
-    // Vikings 6: captain + [3, 2]  Gladiators 6: captain + [3, 2]
-    var FORMATIONS = {
-        titans:     [3, 3],
-        spartans:   [3, 3],
-        vikings:    [3, 2],
-        gladiators: [3, 2]
-    };
+        var html = '<div class="teams-hidden-header">' +
+            '<h3>The Teams</h3>' +
+            '<p class="teams-counter"><span class="teams-counter-num">' + totalRevealed + '</span> of 26 registered</p>' +
+        '</div>' +
+        '<div class="teams-hidden-grid">';
 
-    var html = '';
-    Object.keys(TEAM_CONFIG).forEach(function(key) {
-        var cfg = TEAM_CONFIG[key];
-        var members = teams[key] || [];
-        var captain = TEAM_CAPTAINS ? TEAM_CAPTAINS[key] : '';
-        var soldiers = members.filter(function(n) { return n !== captain; });
-        var formation = FORMATIONS[key] || [3, 3];
+        Object.keys(TEAM_CONFIG).forEach(function(key) {
+            var cfg = TEAM_CONFIG[key];
+            var members = allTeams[key] || [];
+            var captain = TEAM_CAPTAINS ? TEAM_CAPTAINS[key] : '';
+            var revealedCount = members.filter(isPlayerRevealed).length;
 
-        // Build shield SVG
-        var shieldSvg = (SHIELDS[key] || SHIELDS.titans)
-            .replace(/FILL/g, cfg.color)
-            .replace(/STROKE/g, cfg.darkColor || cfg.color);
+            html += '<div class="thp-team-card" style="--tc:' + cfg.color + '">' +
+                '<div class="thp-team-bar" style="background:' + cfg.color + '"></div>' +
+                '<div class="thp-team-body">' +
+                    '<h4 style="color:' + cfg.color + '">' + escapeHtml(cfg.name) + '</h4>' +
+                    '<span class="thp-team-count">' + revealedCount + ' / ' + members.length + '</span>' +
+                    '<div class="thp-members">';
 
-        html += '<div class="tr-card tr-card--' + key + '">';
-
-        // Shield + team name header
-        html += '<div class="tr-shield-wrap">';
-        html += '<div class="tr-shield" style="--team-color:' + cfg.color + '">';
-        html += shieldSvg;
-        html += '<div class="tr-shield-inner">' + cfg.logo + '</div>';
-        html += '</div>';
-        html += '<h3 class="tr-team-name" style="color:' + cfg.color + '">' + escapeHtml(cfg.name) + '</h3>';
-        html += '</div>';
-
-        // Captain
-        html += '<div class="tr-captain-row">';
-        html += '<div class="tr-person tr-person--captain" style="--team-color:' + cfg.color + '">';
-        html += '<span class="tr-person-badge">Captain</span>';
-        html += '<span class="tr-person-name">' + escapeHtml(captain) + '</span>';
-        html += '</div>';
-        html += '</div>';
-
-        // Formation rows
-        var idx = 0;
-        formation.forEach(function(count) {
-            html += '<div class="tr-formation-row">';
-            for (var i = 0; i < count && idx < soldiers.length; i++, idx++) {
-                html += '<div class="tr-person" style="--team-color:' + cfg.color + '">';
-                html += '<span class="tr-person-name">' + escapeHtml(soldiers[idx]) + '</span>';
-                html += '</div>';
+            // Captain first
+            if (captain) {
+                var capRevealed = isPlayerRevealed(captain);
+                html += '<div class="thp-member' + (capRevealed ? ' thp-revealed' : '') + '" style="--tc:' + cfg.color + '">' +
+                    (capRevealed ? '<span class="thp-captain-badge" style="background:' + cfg.color + '">C</span>' : '') +
+                    '<span>' + (capRevealed ? escapeHtml(captain) : '???') + '</span>' +
+                '</div>';
             }
-            html += '</div>';
+
+            // Other members
+            members.filter(function(n) { return n !== captain; }).forEach(function(name) {
+                var revealed = isPlayerRevealed(name);
+                html += '<div class="thp-member' + (revealed ? ' thp-revealed' : '') + '">' +
+                    '<span>' + (revealed ? escapeHtml(name) : '???') + '</span>' +
+                '</div>';
+            });
+
+            html += '</div></div></div>';
         });
 
         html += '</div>';
-    });
+        grid.innerHTML = html;
+    }
 
-    grid.innerHTML = html;
+    renderRoster();
+
+    // Re-render when new registrations come in from Firebase
+    if (typeof TeamRegistrations !== 'undefined' && TeamRegistrations.isConfigured()) {
+        TeamRegistrations.onUpdate(function() { renderRoster(); });
+    }
+
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -398,69 +381,14 @@ function initLeaderboard() {
         return TEAM_NAMES[team] || team;
     }
 
-    /* ---- Badge Definitions ---- */
-    const BADGES = [
-        { id: 'first_blood', name: 'First Blood', icon: '\u2694\uFE0F', desc: 'First to earn points' },
-        { id: 'iron_chef', name: 'Iron Chef', icon: '\uD83D\uDC68\u200D\uD83C\uDF73', desc: '3+ duty awards' },
-        { id: 'hat_trick', name: 'Hat Trick', icon: '\uD83C\uDFA9', desc: 'Points on 3 consecutive days' },
-        { id: 'night_owl', name: 'Night Owl', icon: '\uD83E\uDD89', desc: 'Points awarded after 11pm' },
-        { id: 'centurion', name: 'Centurion', icon: '\uD83D\uDCAF', desc: '100+ total points' },
-        { id: 'team_player', name: 'Team Player', icon: '\uD83E\uDD1D', desc: '5+ duty awards' },
-        { id: 'rule_breaker', name: 'Rule Breaker', icon: '\uD83D\uDE08', desc: 'Received a penalty' },
-        { id: 'mvp', name: 'MVP', icon: '\uD83C\uDFC5', desc: 'Highest scorer on a day' },
-        { id: 'on_fire', name: 'On Fire', icon: '\uD83D\uDD25', desc: '3+ awards in one day' },
-        { id: 'all_rounder', name: 'All-Rounder', icon: '\uD83C\uDFAF', desc: 'Points in 3+ categories' },
-        { id: 'silent_killer', name: 'Silent Killer', icon: '\uD83D\uDDE1\uFE0F', desc: '3+ assassin kills' },
-        { id: 'taskmaster', name: 'Taskmaster', icon: '\uD83D\uDCCB', desc: 'Won a Taskmaster task' },
-        { id: 'standup_star', name: 'Stand-Up Star', icon: '\uD83C\uDFA4', desc: 'Won Try Not to Laugh or Best Roast' },
-        { id: 'olympian', name: 'Olympian', icon: '\uD83E\uDD47', desc: 'Won a Birthday Olympics event' },
-        { id: 'le_francais', name: 'Le Fran\u00E7ais', icon: '\uD83C\uDDEB\uD83C\uDDF7', desc: '5+ French speaking points' },
-        { id: 'social_butterfly', name: 'Social Butterfly', icon: '\uD83E\uDD8B', desc: 'Points in 4+ categories' },
-        { id: 'comeback_kid', name: 'Comeback Kid', icon: '\uD83D\uDD04', desc: 'Gained 10+ pts in one day' },
-        { id: 'triple_threat', name: 'Triple Threat', icon: '\u26A1', desc: '5+ awards in a single day' }
-    ];
-
     /* ---- Quick Award -> Category Mapping ---- */
     const QUICK_CATEGORY = {
         'Game Winner': 'games', 'Runner Up': 'games', 'Participation': 'bonus',
         'Bonus Point': 'bonus', 'Challenge Champion': 'challenges', 'Penalty': 'penalty'
     };
 
-    /* ---- Day-Specific Quick Awards ---- */
-    const DAY_QUICK_AWARDS = {
-        1: [
-            { label: '\uD83D\uDE90 Travel Bingo Winner', pts: 3, cat: 'games' },
-            { label: '\uD83D\uDD0A Whisper Challenge', pts: 3, cat: 'games' }
-        ],
-        2: [
-            { label: '\uD83E\uDD9B Hungry Hippos 1st', pts: 5, cat: 'games' },
-            { label: '\uD83C\uDFB2 Dice Jackpot', pts: 2, cat: 'games' },
-            { label: '\uD83D\uDE02 Last to Laugh', pts: 3, cat: 'games' },
-            { label: '\uD83C\uDFB1 Pool Tournament', pts: 5, cat: 'games' }
-        ],
-        3: [
-            { label: '\uD83D\uDEF6 Canoe Race 1st', pts: 5, cat: 'games' },
-            { label: '\uD83C\uDDEB\uD83C\uDDF7 French Phrase', pts: 2, cat: 'challenges' },
-            { label: '\uD83C\uDF77 Wine Tasting', pts: 3, cat: 'games' },
-            { label: '\uD83C\uDFAD Charades Relay', pts: 5, cat: 'games' }
-        ],
-        4: [
-            { label: '\uD83C\uDFC6 Olympics Event Win', pts: 5, cat: 'games' },
-            { label: '\uD83D\uDC91 Mr & Mrs Winner', pts: 5, cat: 'games' },
-            { label: '\uD83C\uDFB5 Name That Tune', pts: 1, cat: 'games' },
-            { label: '\uD83C\uDFA4 Best Roast', pts: 5, cat: 'games' }
-        ],
-        5: [
-            { label: '\uD83C\uDF33 Accrobranche 1st', pts: 5, cat: 'games' },
-            { label: '\uD83D\uDEB4 P\u00E9dalo Race', pts: 3, cat: 'games' },
-            { label: '\uD83C\uDFA4 Lip Sync Winner', pts: 5, cat: 'games' },
-            { label: '\uD83D\uDCCB Taskmaster Win', pts: 5, cat: 'challenges' }
-        ],
-        6: [
-            { label: '\uD83E\uDDF9 Cleanup Champ', pts: 2, cat: 'duties' },
-            { label: '\uD83D\uDDE1\uFE0F Last Assassin', pts: 5, cat: 'challenges' }
-        ]
-    };
+    /* ---- Day-Specific Quick Awards (populated on arrival) ---- */
+    const DAY_QUICK_AWARDS = {};
 
     /* ---- Animated Score Counter ---- */
     function animateScore(el, from, to, duration) {
@@ -541,7 +469,6 @@ function initLeaderboard() {
     let teamScores = Store.get('lb_teamScores', { titans: 0, spartans: 0, vikings: 0, gladiators: 0 });
     let individualScores = Store.get('lb_individualScores', {});
     let pointsLog = Store.get('lb_pointsLog', []);
-    let badges = Store.get('lb_badges', {});
     let dayOverride = null; // session-only admin override
 
     Object.keys(PLAYERS).forEach(name => {
@@ -826,9 +753,17 @@ function initLeaderboard() {
         Store.set('lb_individualScores', individualScores);
         Store.set('lb_pointsLog', pointsLog);
 
-        // Check badges
-        if (type === 'individual') {
-            checkBadges(target);
+        // Push to live feed
+        if (typeof FirebaseSync !== 'undefined' && FirebaseSync.isConfigured()) {
+            var displayTarget = type === 'team' ? teamDisplayName(target) : (FULL_NAMES[target] || target);
+            FirebaseSync.push('feed', {
+                type: 'points',
+                guestCode: '',
+                guestName: entry.awardedBy || 'Admin',
+                text: (amount > 0 ? '+' : '') + amount + ' pts to ' + displayTarget + ': ' + reason,
+                team: type === 'team' ? target : (PLAYERS[target] || ''),
+                timestamp: Date.now()
+            });
         }
 
         // Sound effect
@@ -864,148 +799,6 @@ function initLeaderboard() {
             toast.classList.remove('visible');
             setTimeout(() => toast.remove(), 300);
         }, 3000);
-    }
-
-    /* ---- Badge Toast ---- */
-    function showBadgeToast(name, badge) {
-        const existing = document.querySelector('.badge-toast');
-        if (existing) existing.remove();
-
-        const toast = document.createElement('div');
-        toast.className = 'badge-toast';
-        toast.innerHTML = `${badge.icon} <strong>${escapeHtml(name)}</strong> unlocked <strong>${badge.name}</strong>!`;
-        document.body.appendChild(toast);
-
-        setTimeout(() => toast.classList.add('visible'), 10);
-        setTimeout(() => {
-            toast.classList.remove('visible');
-            setTimeout(() => toast.remove(), 300);
-        }, 4000);
-    }
-
-    /* ---- Badge Checking ---- */
-    function checkBadges(playerName) {
-        if (!badges[playerName]) badges[playerName] = [];
-        const playerBadges = badges[playerName];
-        let newBadge = null;
-
-        const playerEntries = pointsLog.filter(e => e.type === 'individual' && e.target === playerName);
-
-        BADGES.forEach(badge => {
-            if (playerBadges.includes(badge.id)) return;
-
-            let earned = false;
-            switch (badge.id) {
-                case 'first_blood': {
-                    const allIndividualEntries = pointsLog.filter(e => e.type === 'individual' && e.amount > 0);
-                    if (allIndividualEntries.length > 0) {
-                        const first = allIndividualEntries[allIndividualEntries.length - 1];
-                        earned = first.target === playerName;
-                    }
-                    break;
-                }
-                case 'iron_chef':
-                    earned = playerEntries.filter(e => getCategoryForEntry(e) === 'duties').length >= 3;
-                    break;
-                case 'hat_trick': {
-                    const days = new Set(playerEntries.map(e => e.day || 1));
-                    for (let d = 1; d <= 4; d++) {
-                        if (days.has(d) && days.has(d + 1) && days.has(d + 2)) { earned = true; break; }
-                    }
-                    break;
-                }
-                case 'night_owl':
-                    earned = playerEntries.some(e => {
-                        if (!e.timestamp) return false;
-                        return new Date(e.timestamp).getHours() >= 23;
-                    });
-                    break;
-                case 'centurion':
-                    earned = (individualScores[playerName] || 0) >= 100;
-                    break;
-                case 'team_player':
-                    earned = playerEntries.filter(e => getCategoryForEntry(e) === 'duties').length >= 5;
-                    break;
-                case 'rule_breaker':
-                    earned = playerEntries.some(e => e.amount < 0);
-                    break;
-                case 'mvp': {
-                    for (let d = 1; d <= 6; d++) {
-                        const dayEntries = pointsLog.filter(e => e.type === 'individual' && (e.day || 1) === d && e.amount > 0);
-                        if (dayEntries.length === 0) continue;
-                        const totals = {};
-                        dayEntries.forEach(e => { totals[e.target] = (totals[e.target] || 0) + e.amount; });
-                        const maxPts = Math.max(...Object.values(totals));
-                        if (totals[playerName] === maxPts && maxPts > 0) { earned = true; break; }
-                    }
-                    break;
-                }
-                case 'on_fire': {
-                    for (let d = 1; d <= 6; d++) {
-                        const count = playerEntries.filter(e => (e.day || 1) === d && e.amount > 0).length;
-                        if (count >= 3) { earned = true; break; }
-                    }
-                    break;
-                }
-                case 'all_rounder': {
-                    const cats = new Set(playerEntries.filter(e => e.amount > 0).map(e => getCategoryForEntry(e)));
-                    earned = cats.size >= 3;
-                    break;
-                }
-                case 'silent_killer': {
-                    const assassinKills = Store.get('assassin_kills', []);
-                    earned = assassinKills.filter(k => k.killer === playerName).length >= 3;
-                    break;
-                }
-                case 'taskmaster':
-                    earned = playerEntries.some(e => e.reason && e.reason.toLowerCase().includes('taskmaster'));
-                    break;
-                case 'standup_star':
-                    earned = playerEntries.some(e => e.reason && (e.reason.toLowerCase().includes('laugh') || e.reason.toLowerCase().includes('roast')));
-                    break;
-                case 'olympian':
-                    earned = playerEntries.some(e => e.reason && e.reason.toLowerCase().includes('olympics'));
-                    break;
-                case 'le_francais': {
-                    const frenchPts = playerEntries
-                        .filter(e => e.reason && e.reason.toLowerCase().includes('french') && e.amount > 0)
-                        .reduce((sum, e) => sum + e.amount, 0);
-                    earned = frenchPts >= 5;
-                    break;
-                }
-                case 'social_butterfly': {
-                    const catSet = new Set(playerEntries.filter(e => e.amount > 0).map(e => getCategoryForEntry(e)));
-                    earned = catSet.size >= 4;
-                    break;
-                }
-                case 'comeback_kid': {
-                    for (let d = 1; d <= 6; d++) {
-                        const dayPts = playerEntries.filter(e => (e.day || 1) === d && e.amount > 0).reduce((s, e) => s + e.amount, 0);
-                        if (dayPts >= 10) { earned = true; break; }
-                    }
-                    break;
-                }
-                case 'triple_threat': {
-                    for (let d = 1; d <= 6; d++) {
-                        const count = playerEntries.filter(e => (e.day || 1) === d && e.amount > 0).length;
-                        if (count >= 5) { earned = true; break; }
-                    }
-                    break;
-                }
-            }
-
-            if (earned) {
-                playerBadges.push(badge.id);
-                newBadge = badge;
-            }
-        });
-
-        if (newBadge) {
-            badges[playerName] = playerBadges;
-            Store.set('lb_badges', badges);
-            triggerMiniConfetti();
-            showBadgeToast(playerName, newBadge);
-        }
     }
 
     /* ---- Render All ---- */
@@ -1127,7 +920,7 @@ function initLeaderboard() {
 
         board.innerHTML = '';
         if (sorted.every(p => p.points === 0)) {
-            board.innerHTML = '<p class="board-empty">No individual scores yet — let the games begin!</p>';
+            board.innerHTML = '<p class="board-empty">No individual scores yet. Let the games begin!</p>';
             return;
         }
         sorted.forEach((player, i) => {
@@ -1154,13 +947,6 @@ function initLeaderboard() {
                 posArrow = '<span class="pos-change pos-new">NEW</span>';
             }
 
-            // Badge icons
-            const playerBadges = badges[player.name] || [];
-            const badgeIcons = playerBadges.map(bid => {
-                const b = BADGES.find(x => x.id === bid);
-                return b ? `<span class="ind-badge" title="${b.name}: ${b.desc}">${b.icon}</span>` : '';
-            }).join('');
-
             // Category breakdown dots
             const catBreakdown = getIndividualCategoryBreakdown(player.name);
             const catDots = Object.entries(catBreakdown)
@@ -1171,7 +957,7 @@ function initLeaderboard() {
             row.innerHTML = `
                 <span class="ind-rank">${rankDisplay}${posArrow}</span>
                 <span class="ind-team-dot ${hasFullReveal() ? (player.team || '') : ''}"></span>
-                <span class="ind-name">${escapeHtml(FULL_NAMES[player.name] || player.name)}${badgeIcons ? '<span class="ind-badges">' + badgeIcons + '</span>' : ''}</span>
+                <span class="ind-name">${escapeHtml(FULL_NAMES[player.name] || player.name)}</span>
                 <span class="ind-cats">${catDots}</span>
                 <span class="ind-points">${player.points} pts</span>
             `;
@@ -1187,7 +973,7 @@ function initLeaderboard() {
         if (!log) return;
 
         if (pointsLog.length === 0) {
-            log.innerHTML = '<p class="log-empty">No points awarded yet - let the games begin!</p>';
+            log.innerHTML = '<p class="log-empty">No points awarded yet</p>';
             return;
         }
 
@@ -1224,8 +1010,6 @@ function initLeaderboard() {
             const mvpSection = document.getElementById('recap-mvp');
             const topSection = document.getElementById('recap-top');
             const teamBars = document.getElementById('recap-teams');
-            const badgesSection = document.getElementById('recap-badges');
-
             // MVP of the day
             const indEntries = dayEntries.filter(e => e.type === 'individual' && e.amount > 0);
             const dayTotals = {};
@@ -1287,28 +1071,6 @@ function initLeaderboard() {
                 }).join('');
             }
 
-            // Badges earned that day
-            if (badgesSection) {
-                const dayBadges = [];
-                Object.entries(badges).forEach(([name, bids]) => {
-                    bids.forEach(bid => {
-                        // Check if any entry for this player on this day could have triggered this badge
-                        const hasEntryThisDay = pointsLog.some(e => e.type === 'individual' && e.target === name && (e.day || 1) === day);
-                        if (hasEntryThisDay) {
-                            const b = BADGES.find(x => x.id === bid);
-                            if (b) dayBadges.push({ name, badge: b });
-                        }
-                    });
-                });
-                if (dayBadges.length > 0) {
-                    badgesSection.innerHTML = '<h5>Badges Earned</h5>' + dayBadges.map(({ name, badge }) =>
-                        `<span class="recap-badge">${badge.icon} ${escapeHtml(FULL_NAMES[name] || name)}</span>`
-                    ).join('');
-                } else {
-                    badgesSection.innerHTML = '';
-                }
-            }
-
             // Auto-generated highlights
             const highlightsEl = document.getElementById('recap-highlights');
             if (highlightsEl) {
@@ -1347,7 +1109,6 @@ function initLeaderboard() {
             pointsLog = freshLog;
             teamScores = Store.get('lb_teamScores', { titans: 0, spartans: 0, vikings: 0, gladiators: 0 });
             individualScores = Store.get('lb_individualScores', {});
-            badges = Store.get('lb_badges', {});
             renderAll();
         }
     }
@@ -3073,23 +2834,39 @@ function initMealRatings() {
         { day: 2, label: 'Thu 30 Apr', title: 'Titans\' Dinner', team: 'titans', special: false },
         { day: 3, label: 'Fri 1 May',  title: 'Gladiators\' Dinner', team: 'gladiators', special: false },
         { day: 4, label: 'Sat 2 May',  title: 'Spartans\' Dinner', team: 'spartans', special: false },
-        { day: 5, label: 'Sun 3 May',  title: 'Spartans\' Last Supper', team: 'spartans', special: false }
+        { day: 5, label: 'Sun 3 May',  title: 'Vikings\' Last Supper', team: 'vikings', special: false }
     ];
 
     var CATEGORIES = [
         { id: 'taste',        label: 'Taste',        emoji: '😋' },
         { id: 'teamwork',     label: 'Teamwork',     emoji: '🤝' },
         { id: 'creativity',   label: 'Creativity',   emoji: '🎨' },
-        { id: 'presentation', label: 'Presentation', emoji: '🍽️' },
-        { id: 'speed',        label: 'Speed',        emoji: '⚡' }
+        { id: 'effort',       label: 'Effort',       emoji: '💪' }
     ];
 
     var currentDay = MEALS[0].day;
     var guestCode = localStorage.getItem('guestCode') || '';
 
+    var TEAM_COLOURS = { titans: '#f9a825', spartans: '#c62828', vikings: '#1565c0', gladiators: '#424242' };
+
     // Pre-trip lock
     if (!hasFullReveal()) {
-        wrap.innerHTML = '<div class="meal-lock"><span class="meal-lock-icon">🔒</span><h3>Ratings unlock on arrival</h3><p>Come back once you\'re at the chateau and the first dinner is done!</p></div>';
+        var lockHtml = '<div class="meal-lock">' +
+            '<span class="meal-lock-icon">&#11088;</span>' +
+            '<h3>Rate the Chefs</h3>' +
+            '<p>After each team dinner, you\'ll score the cooks across 5 categories. Best dinner wins bonus points.</p>' +
+            '<div class="meal-lock-preview">';
+        MEALS.forEach(function(m) {
+            var col = TEAM_COLOURS[m.team] || '#764ba2';
+            lockHtml += '<div class="meal-lock-card" style="border-left: 4px solid ' + col + '">' +
+                '<span class="meal-lock-card-day">' + m.label + '</span>' +
+                '<span class="meal-lock-card-team">' + m.title + '</span>' +
+            '</div>';
+        });
+        lockHtml += '</div>' +
+            '<div class="meal-lock-badge">&#128274; Unlocks at the ch&acirc;teau</div>' +
+        '</div>';
+        wrap.innerHTML = lockHtml;
         return;
     }
 
@@ -3108,17 +2885,36 @@ function initMealRatings() {
         all[day][guestCode] = scores;
         saveRatings(all);
 
-        // Award +2 leaderboard points for rating (only on first submission per day)
-        if (!alreadyRated && guestCode && GUEST_DATA[guestCode]) {
-            var name = GUEST_DATA[guestCode].name;
-            var ind = Store.get('lb_individualScores', {});
-            var team = typeof PLAYERS !== 'undefined' ? PLAYERS[name] : null;
+        // Award cooking team bonus based on average rating
+        awardCookingBonus(day);
+    }
+
+    function awardCookingBonus(day) {
+        var meal = MEALS.find(function(m) { return m.day === day; });
+        if (!meal) return;
+        var avgs = getAverages(day);
+        if (!avgs || avgs._count < 3) return; // Need at least 3 ratings
+
+        var bonus = 0;
+        if (avgs._overall >= 4.5) bonus = 6;
+        else if (avgs._overall >= 4.0) bonus = 4;
+        else if (avgs._overall >= 3.0) bonus = 2;
+
+        // Check if we already awarded a cooking bonus for this day
+        var log = Store.get('lb_pointsLog', []);
+        var alreadyAwarded = log.find(function(e) { return e.reason === 'Cooking bonus Day ' + day; });
+        var prevBonus = alreadyAwarded ? alreadyAwarded.amount : 0;
+
+        if (bonus !== prevBonus) {
             var ts = Store.get('lb_teamScores', { titans: 0, spartans: 0, vikings: 0, gladiators: 0 });
-            var log = Store.get('lb_pointsLog', []);
-            ind[name] = (ind[name] || 0) + 2;
-            if (team) ts[team] = (ts[team] || 0) + 2;
-            log.push({ name: name, team: team, amount: 2, reason: 'Rated Day ' + day + ' dinner', day: day, ts: Date.now() });
-            Store.set('lb_individualScores', ind);
+            // Remove old bonus, apply new
+            ts[meal.team] = (ts[meal.team] || 0) - prevBonus + bonus;
+            if (alreadyAwarded) {
+                alreadyAwarded.amount = bonus;
+                alreadyAwarded.reason = 'Cooking bonus Day ' + day;
+            } else {
+                log.push({ name: meal.title, team: meal.team, amount: bonus, reason: 'Cooking bonus Day ' + day, day: day, ts: Date.now() });
+            }
             Store.set('lb_teamScores', ts);
             Store.set('lb_pointsLog', log);
         }
@@ -3220,7 +3016,7 @@ function initMealRatings() {
         res.className = 'meal-results';
 
         if (!avgs) {
-            res.innerHTML = '<p class="meal-no-ratings">No ratings yet — be the first!</p>';
+            res.innerHTML = '<p class="meal-no-ratings">No ratings yet. Be the first!</p>';
             return res;
         }
 
@@ -3256,20 +3052,24 @@ function initMealRatings() {
         tabs.className = 'meal-day-tabs';
         MEALS.forEach(function(meal) {
             var btn = document.createElement('button');
-            btn.className = 'meal-day-tab' + (meal.day === currentDay ? ' active' : '') + (meal.special ? ' special' : '');
-            btn.innerHTML = '<span class="meal-tab-day">' + meal.label + '</span><span class="meal-tab-title">' + meal.title + '</span>';
+            var col = TEAM_COLOURS[meal.team] || '#764ba2';
+            btn.className = 'meal-day-tab' + (meal.day === currentDay ? ' active' : '');
+            btn.style.setProperty('--team-color', col);
+            btn.innerHTML = '<span class="meal-tab-dot" style="background:' + col + '"></span><span class="meal-tab-day">' + meal.label + '</span><span class="meal-tab-title">' + meal.title + '</span>';
             btn.addEventListener('click', function() { currentDay = meal.day; render(); });
             tabs.appendChild(btn);
         });
         wrap.appendChild(tabs);
 
         var meal = MEALS.find(function(m) { return m.day === currentDay; });
+        var col = TEAM_COLOURS[meal.team] || '#764ba2';
         var card = document.createElement('div');
-        card.className = 'meal-card' + (meal.special ? ' meal-card-special' : '');
+        card.className = 'meal-card';
+        card.style.setProperty('--meal-team-color', col);
 
         var header = document.createElement('div');
         header.className = 'meal-card-header';
-        header.innerHTML = '<h3>' + (meal.special ? '⭐ ' : '') + meal.title + '</h3><span class="meal-card-day">' + meal.label + '</span>';
+        header.innerHTML = '<div class="meal-card-title-row"><span class="meal-team-dot" style="background:' + col + '"></span><h3>' + meal.title + '</h3></div><span class="meal-card-day">' + meal.label + '</span>';
         card.appendChild(header);
 
         var myRating = guestCode ? getMyRating(currentDay) : null;
@@ -3305,6 +3105,40 @@ function initMealRatings() {
         card.appendChild(renderResults(meal));
 
         wrap.appendChild(card);
+
+        // Dinner comparison — show all dinners ranked
+        var anyRated = MEALS.some(function(m) { return getAverages(m.day) !== null; });
+        if (anyRated) {
+            var comp = document.createElement('div');
+            comp.className = 'meal-comparison';
+            comp.innerHTML = '<h4 class="meal-comp-title">&#127942; Dinner Rankings</h4>';
+            var ranked = MEALS.map(function(m) {
+                var avg = getAverages(m.day);
+                return { meal: m, score: avg ? avg._overall : null, count: avg ? avg._count : 0 };
+            }).sort(function(a, b) {
+                if (a.score === null) return 1;
+                if (b.score === null) return -1;
+                return b.score - a.score;
+            });
+            ranked.forEach(function(r, i) {
+                var c = TEAM_COLOURS[r.meal.team] || '#764ba2';
+                var bar = document.createElement('div');
+                bar.className = 'meal-comp-row' + (r.score === null ? ' meal-comp-pending' : '');
+                var pct = r.score ? (r.score / 5 * 100) : 0;
+                var medal = i === 0 && r.score ? '&#129351; ' : i === 1 && r.score ? '&#129352; ' : i === 2 && r.score ? '&#129353; ' : '';
+                bar.innerHTML =
+                    '<div class="meal-comp-label">' +
+                        '<span class="meal-team-dot" style="background:' + c + '"></span>' +
+                        '<span>' + medal + r.meal.title + '</span>' +
+                    '</div>' +
+                    '<div class="meal-comp-bar-wrap">' +
+                        '<div class="meal-comp-bar" style="width:' + pct + '%;background:' + c + '"></div>' +
+                    '</div>' +
+                    '<span class="meal-comp-score">' + (r.score ? r.score.toFixed(1) : 'TBD') + '</span>';
+                comp.appendChild(bar);
+            });
+            wrap.appendChild(comp);
+        }
     }
 
     render();

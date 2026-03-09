@@ -897,7 +897,7 @@ function initBingo() {
                 + '<div class="bingo-punishment-info">'
                 + '<strong>' + escapeHtml(pun.victim) + '</strong> must: '
                 + '<em>' + escapeHtml(pun.description) + '</em>'
-                + '<span class="bingo-punishment-by"> &mdash; assigned by ' + escapeHtml(pun.assignedBy) + '</span>'
+                + '<span class="bingo-punishment-by"> - assigned by ' + escapeHtml(pun.assignedBy) + '</span>'
                 + '</div>';
 
             if (canMarkDone) {

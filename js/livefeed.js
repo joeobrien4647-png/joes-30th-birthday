@@ -20,6 +20,7 @@ var FEED_TYPES = {
 /* Filter groups */
 var FILTER_MAP = {
     all:    null,
+    games:  ['points', 'announcement'],
     bingo:  ['bingo', 'bingo_claim', 'bingo_line', 'bingo_house', 'punishment'],
     photos: ['photo'],
     social: ['message', 'confession']
