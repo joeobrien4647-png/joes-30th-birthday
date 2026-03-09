@@ -371,21 +371,49 @@ function initCrewTabs() {
         });
     }
 
-    tabs.forEach(function(tab) {
-        tab.addEventListener('click', function() {
-            tabs.forEach(function(t) { t.classList.remove('active'); });
-            this.classList.add('active');
-
-            if (this.dataset.tab === 'teams') {
-                roomsView.style.display = 'none';
-                teamsView.style.display = '';
-                animateTeamsView();
-            } else {
-                teamsView.style.display = 'none';
-                roomsView.style.display = '';
+    function switchToTab(tabName) {
+        tabs.forEach(function(t) { t.classList.remove('active'); });
+        // Activate the matching tab button
+        tabs.forEach(function(t) {
+            if (t.dataset.tab === tabName) t.classList.add('active');
+        });
+        // Update sub-nav active states
+        document.querySelectorAll('.sub-nav-links a').forEach(function(link) {
+            link.classList.remove('active');
+            if ((tabName === 'rooms' && link.getAttribute('href') === '#crew') ||
+                (tabName === 'teams' && link.getAttribute('href') === '#crew-view-teams')) {
+                link.classList.add('active');
             }
         });
+
+        if (tabName === 'teams') {
+            roomsView.style.display = 'none';
+            teamsView.style.display = '';
+            animateTeamsView();
+        } else {
+            teamsView.style.display = 'none';
+            roomsView.style.display = '';
+        }
+    }
+
+    tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+            switchToTab(this.dataset.tab);
+        });
     });
+
+    // Sub-nav links hook into the same tab switching
+    document.querySelectorAll('.sub-nav-links a').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            var href = this.getAttribute('href');
+            switchToTab(href === '#crew-view-teams' ? 'teams' : 'rooms');
+        });
+    });
+
+    // Set initial active state on sub-nav
+    var firstSubNavLink = document.querySelector('.sub-nav-links a[href="#crew"]');
+    if (firstSubNavLink) firstSubNavLink.classList.add('active');
 }
 
 /* ============================================
@@ -445,14 +473,11 @@ function initGuestHighlight() {
     function applyHighlights(d) {
         if (!d || !d.fullName) return;
 
-        // Room matching: GUEST_DATA "Master Suite" = social.html "Room 1"
-        var ROOM_MAP = { 'Master Suite': 'Room 1' };
-        var roomLabel = ROOM_MAP[d.room] || d.room;
-
-        // Highlight own room card
+        // Highlight own room card — find the room card that contains this guest's element
+        var escapedName = d.fullName.replace(/'/g, "\\'");
         document.querySelectorAll('.room-card').forEach(function(card) {
-            var roomNum = card.querySelector('.room-number');
-            if (roomNum && roomNum.textContent.trim() === roomLabel) {
+            var guestInRoom = card.querySelector('.guest[data-name="' + escapedName + '"]');
+            if (guestInRoom) {
                 card.classList.add('guest-room-highlight');
                 var header = card.querySelector('.room-header');
                 if (header && !header.querySelector('.guest-room-badge')) {
@@ -486,17 +511,6 @@ function initGuestHighlight() {
         var guest = Auth.getGuestData();
         if (guest) applyHighlights({ name: guest.name, fullName: guest.fullName, room: guest.room, code: Auth.getGuestCode() });
     }
-}
-
-/* Tap-to-toggle scouting report on mobile */
-function initAnonTraitTap() {
-    document.addEventListener('click', function(e) {
-        var member = e.target.closest('.anon-member');
-        document.querySelectorAll('.anon-member.anon-trait-open').forEach(function(m) {
-            if (m !== member) m.classList.remove('anon-trait-open');
-        });
-        if (member) member.classList.toggle('anon-trait-open');
-    });
 }
 
 /* Update crew grid card photo after upload (no reload needed) */
@@ -590,7 +604,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initProfiles();
     initCrewSkeletons();
     initRoomFlip();
-    initAnonTraitTap();
     initGuestHighlight();
     initTeamsReveal();
 });

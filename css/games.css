@@ -703,6 +703,117 @@ body.dark-mode .bt-fullhouse {
     background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(253, 230, 138, 0.15)) !important;
 }
 
+/* ---- Bingo Admin Panel ---- */
+.bingo-admin {
+    margin-top: 24px;
+    background: #fff8f0;
+    border: 2px solid #f59e0b;
+    border-radius: var(--radius-md, 16px);
+    padding: 18px;
+}
+.bingo-admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+.bingo-admin-header h3 {
+    font-size: 1rem;
+    color: #92400e;
+    margin: 0;
+}
+.bingo-admin-count {
+    font-size: 0.8rem;
+    background: #f59e0b;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+.bingo-admin-claims {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.bingo-admin-empty {
+    color: #92400e;
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 12px;
+}
+.bingo-admin-claim {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 12px;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.06);
+}
+.bingo-admin-claim.revoked {
+    opacity: 0.5;
+    text-decoration: line-through;
+    background: #fef2f2;
+}
+.bingo-admin-claim-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+}
+.bingo-admin-claim-item {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #1e293b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.bingo-admin-claim-meta {
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+.bingo-admin-btn {
+    flex-shrink: 0;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+.bingo-admin-btn-revoke {
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+}
+.bingo-admin-btn-revoke:hover {
+    background: #dc2626;
+    color: white;
+}
+.bingo-admin-btn-restore {
+    background: #f0fdf4;
+    color: #16a34a;
+    border: 1px solid #bbf7d0;
+}
+.bingo-admin-btn-restore:hover {
+    background: #16a34a;
+    color: white;
+}
+body.dark-mode .bingo-admin {
+    background: #1c1917;
+    border-color: #92400e;
+}
+body.dark-mode .bingo-admin-claim {
+    background: #292524;
+    border-color: #44403c;
+}
+body.dark-mode .bingo-admin-claim-item { color: #e7e5e4; }
+body.dark-mode .bingo-admin-claim.revoked { background: #1c1917; }
+
 /* Mobile responsive */
 @media (max-width: 480px) {
     .bingo-grid {
@@ -4971,100 +5082,6 @@ body.dark-mode .bt-fullhouse {
 }
 
 /* ============================================
-   Personal Bingo Lock
-   ============================================ */
-.bingo-lock {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 280px;
-    padding: 2rem;
-}
-.bingo-lock-inner {
-    text-align: center;
-    max-width: 380px;
-    background: var(--bg-card, #fff);
-    border: 2px dashed var(--border, #ddd);
-    border-radius: 16px;
-    padding: 2.5rem 2rem;
-}
-.bingo-lock-icon {
-    font-size: 3rem;
-    display: block;
-    margin-bottom: 1rem;
-}
-.bingo-lock-inner h3 {
-    font-size: 1.3rem;
-    font-weight: 700;
-    margin: 0 0 0.75rem;
-    color: var(--text-primary);
-}
-.bingo-lock-inner p {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    margin: 0 0 0.5rem;
-    line-height: 1.5;
-}
-.bingo-lock-hint {
-    font-size: 0.8rem !important;
-    font-style: italic;
-    opacity: 0.7;
-}
-.bingo-no-card {
-    text-align: center;
-    padding: 2rem;
-    color: var(--text-secondary);
-    font-style: italic;
-}
-
-/* Bingo locked state — blank grid with padlock overlay */
-.bingo-preview-wrap {
-    position: relative;
-    max-width: 600px;
-    margin: 0 auto;
-}
-.bingo-preview-wrap .bingo-lock {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(2px);
-    border-radius: 20px;
-}
-.bingo-lock-icon {
-    font-size: 4.5rem;
-    display: block;
-    margin-bottom: 0.75rem;
-    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
-}
-.bingo-lock-inner h3 {
-    font-size: 1.3rem;
-    font-weight: 700;
-    margin: 0 0 0.5rem;
-    color: #fff;
-}
-.bingo-lock-inner p {
-    font-size: 0.85rem;
-    color: rgba(255,255,255,0.8);
-    margin: 0 0 0.75rem;
-    line-height: 1.5;
-    max-width: 300px;
-    text-align: center;
-}
-.bingo-lock-inner {
-    text-align: center;
-    padding: 1.5rem;
-}
-.locked-cell {
-    background: rgba(255,255,255,0.08) !important;
-    border: 1px solid rgba(255,255,255,0.06) !important;
-}
-
-/* ============================================
    Locked Game Cards
    ============================================ */
 .ch-locked-card {
@@ -5538,21 +5555,6 @@ body.dark-mode .timer-overlay-inner {
     letter-spacing: 0.3px;
 }
 
-/* Bingo unlock pill */
-.bingo-unlock-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 14px;
-    padding: 6px 14px;
-    background: rgba(124, 58, 237, 0.08);
-    border: 1px dashed rgba(124, 58, 237, 0.3);
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--primary);
-}
-
 /* ============================================
    Guest Highlighting
    ============================================ */
@@ -5564,25 +5566,6 @@ body.dark-mode .timer-overlay-inner {
 body.dark-mode .guest-lb-highlight {
     background: linear-gradient(90deg, rgba(124, 58, 237, 0.15), rgba(124, 58, 237, 0.04));
 }
-.bingo-your-card-label {
-    text-align: center;
-    margin-bottom: 10px;
-    padding: 6px 16px;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: #fff;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    display: inline-block;
-}
-
-.bingo-cell.locked-cell {
-    background: #f5f5f5;
-    border: 2px dashed #ddd;
-    cursor: default;
-    min-height: 48px;
-}
-
 /* ============================================
    Games Intro Section
    ============================================ */

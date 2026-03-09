@@ -3836,123 +3836,6 @@ body.dark-mode .team-member:hover {
     text-align: center;
 }
 
-.anon-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-}
-
-.anon-member {
-    text-align: center;
-    width: 68px;
-    opacity: 0;
-    transform: scale(0.6);
-    transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.anon-member.anon-visible {
-    opacity: 1;
-    transform: scale(1);
-}
-
-.anon-circle {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    margin: 0 auto 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.4rem;
-    font-weight: 900;
-    color: rgba(255,255,255,0.5);
-    border: 2px dashed rgba(255,255,255,0.3);
-}
-
-.anon-circle--t1 { background: linear-gradient(135deg, #0D1B2A, #1B3A5C); }
-.anon-circle--t2 { background: linear-gradient(135deg, #2D0000, #6B1414); }
-.anon-circle--t3 { background: linear-gradient(135deg, #0A2614, #1A5E30); }
-.anon-circle--t4 { background: linear-gradient(135deg, #1A0A2E, #4A1472); }
-
-.anon-superlative {
-    display: none;
-}
-
-/* Scouting report tooltip (hover / tap) */
-.anon-member {
-    position: relative;
-    cursor: pointer;
-}
-.anon-traits {
-    display: none;
-    position: absolute;
-    bottom: calc(100% + 10px);
-    left: 50%;
-    transform: translateX(-50%);
-    width: 220px;
-    background: var(--bg-white);
-    border: 1px solid rgba(0,0,0,0.1);
-    border-radius: 12px;
-    padding: 10px 12px;
-    box-shadow: 0 8px 28px rgba(0,0,0,0.15);
-    z-index: 50;
-    text-align: left;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-}
-.anon-traits::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border: 6px solid transparent;
-    border-top-color: var(--bg-white);
-}
-.anon-member:hover .anon-traits,
-.anon-member.anon-trait-open .anon-traits {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    opacity: 1;
-    pointer-events: auto;
-}
-.anon-traits span {
-    font-size: 0.68rem;
-    line-height: 1.35;
-    padding: 3px 0;
-    display: block;
-}
-.anon-traits span::before {
-    font-weight: 700;
-    display: block;
-    font-size: 0.6rem;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    margin-bottom: 1px;
-}
-.trait-str::before { content: '\1F4AA Strength'; color: #16a34a; }
-.trait-weak::before { content: '\1F62C Weakness'; color: #dc2626; }
-.trait-warn::before { content: '\26A0\FE0F Watch out'; color: #d97706; }
-.trait-str { color: #15803d; }
-.trait-weak { color: #b91c1c; }
-.trait-warn { color: #b45309; }
-
-/* Dark mode traits */
-body.dark-mode .anon-traits {
-    background: var(--bg-dark, #1a1a2e);
-    border-color: rgba(255,255,255,0.1);
-    box-shadow: 0 8px 28px rgba(0,0,0,0.4);
-}
-body.dark-mode .anon-traits::after {
-    border-top-color: var(--bg-dark, #1a1a2e);
-}
-body.dark-mode .trait-str { color: #4ade80; }
-body.dark-mode .trait-weak { color: #f87171; }
-body.dark-mode .trait-warn { color: #fbbf24; }
-
 /* Teams locked teaser */
 .teams-locked-teaser {
     text-align: center;
@@ -4002,9 +3885,6 @@ body.dark-mode .crew-tab-btn.active { background: var(--primary); }
     .team-hero-icon { font-size: 3.4rem; }
     .team-hero-name { font-size: 1.4rem; }
     .stat-label { min-width: 84px; }
-    .anon-member { width: 60px; }
-    .anon-traits { width: 180px; padding: 8px 10px; }
-    .anon-traits span { font-size: 0.62rem; }
 }
 
 /* ============================================

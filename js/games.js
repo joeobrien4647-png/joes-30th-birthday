@@ -100,15 +100,6 @@ function initGamesHighlight() {
                 row.classList.add('guest-lb-highlight');
             }
         });
-
-        // Add "Your Personal Card" label above bingo
-        var bingoCard = document.getElementById('bingo-card');
-        if (bingoCard && !document.querySelector('.bingo-your-card-label')) {
-            var label = document.createElement('div');
-            label.className = 'bingo-your-card-label';
-            label.textContent = '\uD83C\uDFB2 Your Personal Bingo Card';
-            bingoCard.parentNode.insertBefore(label, bingoCard);
-        }
     }
 
     // Listen for future events
@@ -240,8 +231,9 @@ function initBingo() {
                 var cell = document.createElement('div');
                 cell.className = 'bingo-cell-new';
                 var claim = claims[idx];
+                var isRevoked = claim && claim.revoked;
 
-                if (claim) {
+                if (claim && !isRevoked) {
                     cell.classList.add('claimed');
                     if (claim.claimedByCode === guestCode) {
                         cell.classList.add('claimed-self');
@@ -526,6 +518,108 @@ function initBingo() {
         if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
         return Math.floor(diff / 86400) + 'd ago';
     }
+
+    /* ---- Bingo Admin Panel (joe30 only) ---- */
+    function initBingoAdmin() {
+        if (!Auth.isAdmin()) return;
+        var adminEl = document.getElementById('bingoAdmin');
+        if (!adminEl) return;
+        adminEl.style.display = 'block';
+        renderBingoAdmin();
+
+        BingoEngine.onUpdate(function() {
+            renderBingoAdmin();
+        });
+    }
+
+    function renderBingoAdmin() {
+        var claimsEl = document.getElementById('bingoAdminClaims');
+        var countEl = document.getElementById('bingoAdminCount');
+        if (!claimsEl) return;
+
+        var claims = BingoEngine.getClaims();
+        var claimKeys = Object.keys(claims);
+
+        if (countEl) countEl.textContent = claimKeys.length + ' claim' + (claimKeys.length !== 1 ? 's' : '');
+
+        if (claimKeys.length === 0) {
+            claimsEl.innerHTML = '<p class="bingo-admin-empty">No claims yet.</p>';
+            return;
+        }
+
+        // Sort by timestamp (newest first)
+        claimKeys.sort(function(a, b) {
+            return (claims[b].timestamp || 0) - (claims[a].timestamp || 0);
+        });
+
+        var html = '';
+        for (var i = 0; i < claimKeys.length; i++) {
+            var idx = claimKeys[i];
+            var claim = claims[idx];
+            var itemText = items[idx] || 'Unknown item';
+            var ago = relativeTimeBingo(claim.timestamp);
+            var revoked = claim.revoked;
+
+            html += '<div class="bingo-admin-claim' + (revoked ? ' revoked' : '') + '" data-idx="' + idx + '">'
+                + '<div class="bingo-admin-claim-info">'
+                + '<span class="bingo-admin-claim-item">' + escapeHtml(itemText) + '</span>'
+                + '<span class="bingo-admin-claim-meta">'
+                + escapeHtml(claim.claimedBy) + ' (' + escapeHtml(claim.team || '?') + ') &middot; ' + ago
+                + '</span>'
+                + '</div>'
+                + '<button class="bingo-admin-btn ' + (revoked ? 'bingo-admin-btn-restore' : 'bingo-admin-btn-revoke') + '" data-idx="' + idx + '">'
+                + (revoked ? 'Restore' : 'Revoke')
+                + '</button>'
+                + '</div>';
+        }
+        claimsEl.innerHTML = html;
+
+        // Bind revoke/restore buttons
+        var btns = claimsEl.querySelectorAll('.bingo-admin-btn');
+        for (var b = 0; b < btns.length; b++) {
+            btns[b].addEventListener('click', function() {
+                var claimIdx = this.getAttribute('data-idx');
+                var claim = BingoEngine.getClaims()[claimIdx];
+                if (!claim) return;
+
+                if (claim.revoked) {
+                    // Restore: remove the revoked flag
+                    FirebaseSync.update('bingo/claims/' + claimIdx, { revoked: null });
+                } else {
+                    // Revoke: mark as revoked, deduct points
+                    FirebaseSync.update('bingo/claims/' + claimIdx, { revoked: true, revokedBy: 'admin', revokedAt: Date.now() });
+
+                    // Deduct points
+                    var teamScores = Store.get('lb_teamScores', { titans: 0, spartans: 0, vikings: 0, gladiators: 0 });
+                    var individualScores = Store.get('lb_individualScores', {});
+                    var pointsLog = Store.get('lb_pointsLog', []);
+
+                    individualScores[claim.claimedBy] = (individualScores[claim.claimedBy] || 0) - 1;
+                    if (claim.team) {
+                        teamScores[claim.team] = (teamScores[claim.team] || 0) - 1;
+                    }
+
+                    pointsLog.unshift({
+                        type: 'individual',
+                        target: claim.claimedBy,
+                        amount: -1,
+                        reason: 'Bingo claim revoked: ' + (items[claimIdx] || ''),
+                        time: new Date().toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }),
+                        timestamp: Date.now(),
+                        category: 'challenges',
+                        awardedBy: 'Admin'
+                    });
+
+                    Store.set('lb_teamScores', teamScores);
+                    Store.set('lb_individualScores', individualScores);
+                    Store.set('lb_pointsLog', pointsLog);
+                    document.dispatchEvent(new CustomEvent('leaderboardUpdate'));
+                }
+            });
+        }
+    }
+
+    initBingoAdmin();
 }
 
 /* ============================================
