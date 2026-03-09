@@ -1202,7 +1202,12 @@ function injectDayHeroes() {
 
 /* ---- Day summary: group timeline items by Morning / Afternoon / Evening ---- */
 function getPeriodLabel(timeRangeText) {
-    var match = timeRangeText.match(/^~?(\d+)(?::\d+)?\s*(AM|PM)/i);
+    var t = timeRangeText.trim().toLowerCase();
+    if (t === 'afternoon') return 'Afternoon';
+    if (t === 'evening') return 'Evening';
+    if (t === 'morning') return 'Morning';
+    // Fallback: parse numeric times like "9:00 AM"
+    var match = t.match(/^~?(\d+)(?::\d+)?\s*(am|pm)/i);
     if (!match) return 'Morning';
     var hour = parseInt(match[1]);
     var ampm = match[2].toUpperCase();
