@@ -643,24 +643,6 @@ function initScrollReveal() {
     }, 2000);
 }
 
-/* Dark Mode */
-function initDarkMode() {
-    const toggle = document.getElementById('dark-mode-toggle');
-    if (!toggle) return;
-
-    const darkMode = localStorage.getItem('darkMode') === 'true';
-    if (darkMode) {
-        document.body.classList.add('dark-mode');
-        toggle.textContent = '\u2600\uFE0F';
-    }
-
-    toggle.addEventListener('click', function () {
-        document.body.classList.toggle('dark-mode');
-        const isDark = document.body.classList.contains('dark-mode');
-        localStorage.setItem('darkMode', isDark);
-        this.textContent = isDark ? '\u2600\uFE0F' : '\uD83C\uDF19';
-    });
-}
 
 /* Theme Switcher */
 function initThemeSwitcher() {
@@ -800,20 +782,6 @@ function initLeaderboardBanner() {
     render();
     document.body.appendChild(bar);
     setInterval(render, 15000);
-}
-
-/* Dark Mode Auto-Switch (9pm-7am) */
-function autoDarkMode() {
-    const hour = new Date().getHours();
-    const manualSet = localStorage.getItem('darkMode');
-    // Only auto-switch if user hasn't manually toggled
-    if (manualSet === null) {
-        if (hour >= 21 || hour < 7) {
-            document.body.classList.add('dark-mode');
-            const toggle = document.getElementById('dark-mode-toggle');
-            if (toggle) toggle.textContent = '\u2600\uFE0F';
-        }
-    }
 }
 
 /* Background Ambiance Toggle */
@@ -2176,9 +2144,6 @@ function initBingoNotifDot() {
 document.addEventListener('DOMContentLoaded', function () {
     // Page transition
     initPageTransition();
-    // Dark mode removed — light mode only
-    document.body.classList.remove('dark-mode');
-    localStorage.removeItem('darkMode');
     // Apply saved theme (or auto-theme for trip days)
     initThemeSwitcher();
     autoDayTheme();

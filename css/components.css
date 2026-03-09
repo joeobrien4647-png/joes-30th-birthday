@@ -391,12 +391,6 @@
     margin-bottom: 1.5rem;
 }
 
-body.dark-mode .day-note {
-    background: rgba(52, 152, 219, 0.1);
-    border-left-color: #2980b9;
-    color: var(--text-dark);
-}
-
 /* Poll Component */
 .poll-option {
     display: flex;
@@ -544,10 +538,6 @@ body.dark-mode .day-note {
     line-height: 1.5;
     margin: 0;
 }
-
-body.dark-mode .house-rules-section { background: rgba(255,255,255,0.06); }
-body.dark-mode .rule-card { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.08); }
-body.dark-mode .rule-card h4 { color: rgba(255,255,255,0.9); }
 
 /* Responsive Components */
 @media (max-width: 768px) {

@@ -617,20 +617,6 @@
     line-height: 1.5;
 }
 
-body.dark-mode .travel-overview-row {
-    border-bottom-color: rgba(255, 255, 255, 0.06);
-}
-
-body.dark-mode .info-card li {
-    border-bottom-color: rgba(255, 255, 255, 0.06);
-}
-body.dark-mode .info-card.emergency {
-    background: linear-gradient(150deg, rgba(220, 38, 38, 0.12) 0%, var(--bg-white) 70%);
-}
-body.dark-mode .info-card.emergency h3 {
-    color: #f87171;
-}
-
 /* ============================================
    Chateau Gallery Carousel
    ============================================ */
@@ -1183,15 +1169,6 @@ body.dark-mode .info-card.emergency h3 {
     .arrival-tracker { padding: 14px 16px; }
     .arrival-group { padding: 10px 12px; }
 }
-body.dark-mode .arrival-tracker {
-    background: var(--bg-light);
-    border-color: rgba(255, 217, 61, 0.15);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-}
-body.dark-mode .arrival-group {
-    background: var(--bg-white);
-}
-
 /* ============================================
    Guest Highlighting — travel chip
    ============================================ */

@@ -298,12 +298,6 @@
     margin-top: 6px;
     border: 1px solid #f59e0b;
 }
-body.dark-mode .feed-capped-badge {
-    background: #451a03;
-    color: #fbbf24;
-    border-color: #92400e;
-}
-
 /* Type-specific badge colours */
 .feed-type-badge--message      { background: #4CAF50; }
 .feed-type-badge--confession   { background: #9C27B0; }
@@ -678,64 +672,6 @@ body.dark-mode .feed-capped-badge {
 /* ============================================
    Dark Mode
    ============================================ */
-body.dark-mode .feed-compose {
-    background: #0d1117;
-}
-
-body.dark-mode .feed-compose-btn {
-    background: rgba(255, 255, 255, 0.08);
-}
-
-body.dark-mode .feed-compose-btn:hover {
-    background: rgba(255, 255, 255, 0.16);
-}
-
-body.dark-mode .feed-item {
-    border-color: rgba(255, 255, 255, 0.06);
-}
-
-body.dark-mode .feed-filter {
-    border-color: rgba(255, 255, 255, 0.1);
-    background: var(--bg-white);
-    color: var(--text-light);
-}
-
-body.dark-mode .feed-filter:hover {
-    border-color: var(--primary);
-}
-
-body.dark-mode .feed-reaction-btn {
-    border-color: rgba(255, 255, 255, 0.1);
-    background: var(--bg-white);
-}
-
-body.dark-mode .feed-reaction-btn:hover {
-    background: rgba(255, 255, 255, 0.08);
-}
-
-body.dark-mode .feed-music-upvote {
-    border-color: rgba(255, 255, 255, 0.1);
-    background: var(--bg-white);
-}
-
-body.dark-mode .feed-modal-cancel {
-    border-color: rgba(255, 255, 255, 0.1);
-    background: var(--bg-white);
-}
-
-body.dark-mode .feed-bingo-card {
-    background: #1e293b;
-}
-body.dark-mode .feed-bingo-caption {
-    color: #e2e8f0;
-}
-body.dark-mode .feed-bingo-line-card {
-    background: linear-gradient(135deg, #451a03, #1c1917);
-    border-color: #92400e;
-}
-body.dark-mode .feed-bingo-line-title { color: #fbbf24; }
-body.dark-mode .feed-bingo-line-text { color: #fcd34d; }
-
 /* ============================================
    Responsive
    ============================================ */

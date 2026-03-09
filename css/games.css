@@ -4456,122 +4456,13 @@
     50% { opacity: 0.85; transform: scale(1.15); }
 }
 
-/* Dark mode overrides for locked cards */
-.dark-mode .ch-locked-card {
-    background: linear-gradient(135deg, rgba(124, 58, 237, 0.08), rgba(99, 102, 241, 0.1));
-    border-color: rgba(124, 58, 237, 0.25);
-}
-
-.dark-mode .ch-locked-info h4 {
-    color: var(--dm-text);
-}
-
-.dark-mode .ch-locked-info p {
-    color: var(--dm-text-secondary);
-}
-
-.dark-mode .ch-locked-birthday {
-    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 107, 157, 0.1));
-    border-color: rgba(255, 215, 0, 0.3);
-}
-
 /* ============================================
    Dark Mode Section Overrides
    ============================================ */
 
 /* ---- Bright gradient sections ---- */
-body.dark-mode .wheel {
-    background: linear-gradient(135deg, #2a1528 0%, #2a1518 100%);
-}
-
-body.dark-mode .rollcall-section {
-    background: linear-gradient(135deg, #2a2218 0%, #2a1a1a 100%);
-}
-
-body.dark-mode .nhie-section {
-    background: linear-gradient(135deg, #2a1528 0%, #2a1518 100%);
-}
-
-body.dark-mode .truth-or-dare-section {
-    background: linear-gradient(135deg, #151830 0%, #1a1230 100%);
-}
-
-body.dark-mode .mvp-day-section {
-    background: linear-gradient(135deg, #2a2518 0%, #2a1a10 50%, #2a1510 100%);
-}
-
-body.dark-mode .mvp-day-section .section-title,
-body.dark-mode .mvp-day-section .section-subtitle {
-    color: var(--text-dark);
-}
-
 /* ---- Already-dark sections: add subtle border so they don't vanish ---- */
-body.dark-mode .leaderboard {
-    background: linear-gradient(135deg, #1a1a2e 0%, #1a2040 50%, #142850 100%);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-body.dark-mode .assassin-tracker {
-    background: linear-gradient(135deg, #1a1a30 0%, #1a2540 100%);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-body.dark-mode .drink-tracker-section {
-    background: linear-gradient(135deg, #1a1a30 0%, #1a2540 100%);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-body.dark-mode .awards-section {
-    background: linear-gradient(135deg, #12102a 0%, #25204a 50%, #1e1e38 100%);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-body.dark-mode .soundboard {
-    background: linear-gradient(135deg, #12102a 0%, #25204a 50%, #1e1e38 100%);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-body.dark-mode .bracket-section {
-    background: linear-gradient(135deg, #12102a 0%, #25204a 50%, #1e1e38 100%);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-body.dark-mode .badge-toast {
-    background: linear-gradient(135deg, #1a1a30 0%, #1a2540 100%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* ---- Team colors (muted for dark mode) ---- */
-body.dark-mode .team1-bg { background: linear-gradient(135deg, #6b5a10, #4a3f00); }
-body.dark-mode .team2-bg { background: linear-gradient(135deg, #1a5070, #0a3050); }
-body.dark-mode .team3-bg { background: linear-gradient(135deg, #2a5030, #1a3a20); }
-body.dark-mode .team4-bg { background: linear-gradient(135deg, #5a2040, #3a1028); }
-
 /* ---- Component fixes ---- */
-body.dark-mode .rc-open {
-    background: rgba(39, 174, 96, 0.15);
-    color: #6BCB77;
-}
-
-body.dark-mode .ch-type.team-game {
-    background: rgba(39, 174, 96, 0.15);
-    color: #6BCB77;
-}
-
-body.dark-mode .ch-type.individual {
-    background: rgba(245, 158, 11, 0.15);
-    color: #fbbf24;
-}
-
-body.dark-mode .ch-status.done {
-    background: rgba(39, 174, 96, 0.15);
-    color: #6BCB77;
-}
-
-body.dark-mode .timer-overlay-inner {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
 /* ============================================
    Leaderboard Teaser Preview
    ============================================ */
@@ -4645,9 +4536,6 @@ body.dark-mode .timer-overlay-inner {
     background: linear-gradient(90deg, rgba(124, 58, 237, 0.08), rgba(124, 58, 237, 0.02));
     box-shadow: inset 3px 0 0 var(--primary);
     border-radius: 8px;
-}
-body.dark-mode .guest-lb-highlight {
-    background: linear-gradient(90deg, rgba(124, 58, 237, 0.15), rgba(124, 58, 237, 0.04));
 }
 /* ============================================
    Games Intro Section
@@ -4992,10 +4880,3 @@ body.dark-mode .guest-lb-highlight {
     }
 }
 
-/* Dark mode */
-body.dark-mode .tr-card { background: var(--bg-light); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3); }
-body.dark-mode .tr-person { background: rgba(255, 255, 255, 0.06); }
-body.dark-mode .tr-person:hover { box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); }
-body.dark-mode .tr-person--captain { background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 180, 0, 0.06)); }
-body.dark-mode .tr-person-name { color: var(--text-light, #e0e0e0); }
-body.dark-mode .thp-card { background: rgba(255, 255, 255, 0.05); color: var(--text-light); }

@@ -83,10 +83,6 @@ body {
     opacity: 0.7;
 }
 
-body.dark-mode ::placeholder {
-    opacity: 0.5;
-}
-
 /* Focus-Visible: Keyboard accessibility */
 :focus-visible {
     outline: 3px solid var(--primary);
@@ -404,290 +400,6 @@ a:focus-visible {
     box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.3);
 }
 
-/* Dark Mode Toggle */
-.dark-mode-toggle {
-    background: none;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    padding: 5px 10px;
-    border-radius: 50%;
-    transition: var(--transition-fast);
-}
-
-.dark-mode-toggle:hover {
-    background: var(--bg-light);
-}
-
-/* Dark Mode Overrides */
-body.dark-mode {
-    --bg-light: #1a1a2e;
-    --bg-white: #16213e;
-    --bg-dark: #0f0f23;
-    --text-dark: #eaeaea;
-    --text-light: #b0b0b0;
-}
-
-body.dark-mode .main-nav {
-    background: rgba(22, 33, 62, 0.95);
-}
-
-body.dark-mode .nav-links a {
-    color: var(--text-dark);
-}
-
-body.dark-mode .card,
-body.dark-mode .info-card,
-body.dark-mode .vote-card,
-body.dark-mode .rota-card,
-body.dark-mode .room-card,
-body.dark-mode .faq-item {
-    background: var(--bg-white);
-}
-
-body.dark-mode .sub-nav {
-    background: var(--bg-white);
-    border-bottom-color: rgba(255, 255, 255, 0.08);
-}
-
-/* Theme Overrides */
-[data-theme="france"] {
-    --primary: #002654;
-    --primary-dark: #001a3a;
-    --secondary: #ED2939;
-    --accent: #D4AF37;
-    --gradient-primary: linear-gradient(135deg, #002654 0%, #ED2939 100%);
-    --gradient-hero: linear-gradient(135deg, #002654 0%, #ED2939 100%);
-    --gradient-festive: linear-gradient(135deg, #002654 0%, #ED2939 50%, #D4AF37 100%);
-    --shadow-glow: 0 0 30px rgba(237, 41, 57, 0.3);
-}
-
-/* France theme — lighten primary in dark mode for contrast */
-[data-theme="france"] body.dark-mode {
-    --primary: #4d7cc7;
-    --primary-dark: #3a64a8;
-    --gradient-primary: linear-gradient(135deg, #4d7cc7 0%, #ED2939 100%);
-    --gradient-hero: linear-gradient(135deg, #4d7cc7 0%, #ED2939 100%);
-}
-
-[data-theme="wine"] {
-    --primary: #722F37;
-    --primary-dark: #4a1f24;
-    --secondary: #C7A17A;
-    --accent: #E8D5B7;
-    --gradient-primary: linear-gradient(135deg, #722F37 0%, #9B4D56 100%);
-    --gradient-hero: linear-gradient(135deg, #722F37 0%, #9B4D56 100%);
-    --gradient-festive: linear-gradient(135deg, #722F37 0%, #C7A17A 50%, #E8D5B7 100%);
-    --shadow-glow: 0 0 30px rgba(199, 161, 122, 0.3);
-}
-
-[data-theme="sunset"] {
-    --primary: #FF6B35;
-    --primary-dark: #e65a2c;
-    --secondary: #F7C59F;
-    --accent: #EFEFD0;
-    --gradient-primary: linear-gradient(135deg, #FF6B35 0%, #F7C59F 100%);
-    --gradient-hero: linear-gradient(135deg, #FF6B35 0%, #F7C59F 100%);
-    --gradient-festive: linear-gradient(135deg, #FF6B35 0%, #F7C59F 50%, #EFEFD0 100%);
-    --shadow-glow: 0 0 30px rgba(255, 107, 53, 0.3);
-}
-
-[data-theme="disco"] {
-    --primary: #9B59B6;
-    --primary-dark: #7d3e98;
-    --secondary: #3498DB;
-    --accent: #F39C12;
-    --gradient-primary: linear-gradient(135deg, #9B59B6 0%, #3498DB 50%, #F39C12 100%);
-    --gradient-hero: linear-gradient(135deg, #9B59B6 0%, #3498DB 100%);
-    --gradient-festive: linear-gradient(135deg, #9B59B6 0%, #3498DB 50%, #F39C12 100%);
-    --shadow-glow: 0 0 30px rgba(155, 89, 182, 0.3);
-}
-
-/* Keyframes */
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-}
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-    40% { transform: translateX(-50%) translateY(-10px); }
-    60% { transform: translateX(-50%) translateY(-5px); }
-}
-
-@keyframes floatUp {
-    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.6; }
-    90% { opacity: 0.6; }
-    100% { transform: translateY(-120vh) rotate(20deg); opacity: 0; }
-}
-
-@keyframes cannonPulse {
-    0%, 100% { box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4); }
-    50% { box-shadow: 0 4px 30px rgba(255, 107, 107, 0.7); }
-}
-
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* ============================================
-   Trip Progress Bar
-   ============================================ */
-.trip-progress {
-    position: sticky;
-    top: 65px;
-    z-index: 89;
-    height: 6px;
-    background: var(--bg-light);
-    overflow: hidden;
-}
-.trip-progress-fill {
-    height: 100%;
-    background: var(--gradient-festive);
-    border-radius: 0 3px 3px 0;
-    transition: width 1s ease;
-}
-.trip-progress-label {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 0.6rem;
-    font-weight: 700;
-    color: var(--text-light);
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    opacity: 0.7;
-}
-
-/* ============================================
-   Scroll-Triggered Stagger Animations
-   ============================================ */
-.stagger-item {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.34, 1.2, 0.64, 1);
-}
-.stagger-item.stagger-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* ============================================
-   Sticky Scroll Spy Pill
-   ============================================ */
-.scroll-spy-pill {
-    position: fixed;
-    top: 80px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-8px);
-    padding: 6px 18px;
-    background: var(--bg-white);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--text-light);
-    box-shadow: var(--shadow-sm);
-    opacity: 0;
-    pointer-events: none;
-    z-index: 88;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    white-space: nowrap;
-    max-width: 80vw;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.scroll-spy-pill.visible {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
-body.dark-mode .scroll-spy-pill {
-    background: var(--bg-white);
-    border-color: rgba(255, 255, 255, 0.1);
-}
-
-/* ============================================
-   Themed Empty States (shared)
-   ============================================ */
-.empty-state-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 14px;
-    padding: 8px 20px;
-    background: var(--gradient-primary);
-    color: var(--text-white);
-    border: none;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.empty-state-cta:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-}
-
-/* ============================================
-   Section Title Gradient Sweep on Scroll
-   ============================================ */
-.section-title {
-    background-size: 200% 100%;
-    background-position: 100% 0;
-}
-.section.visible .section-title {
-    background-position: 0 0;
-    transition: background-position 1.2s ease;
-}
-
-/* ============================================
-   Empty State Icon Float
-   ============================================ */
-@keyframes emptyFloat {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-}
-.feed-empty::before,
-.assassin-empty::before,
-.log-empty::before,
-.rc-empty::before,
-.recap-empty::before,
-.gazette-empty::before,
-.scav-gallery-empty::before,
-.mvp-empty-icon,
-.messages-empty-icon,
-.bracket-empty::before {
-    animation: emptyFloat 2.5s ease-in-out infinite;
-    display: inline-block;
-}
-
-/* ============================================
-   Modal Content Stagger
-   ============================================ */
-@keyframes modalChildIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-.profile-card > *,
-.modal-content > *,
-.confirm-card > * {
-    animation: modalChildIn 0.35s ease both;
-}
-.profile-card > *:nth-child(1) { animation-delay: 0s; }
 .profile-card > *:nth-child(2) { animation-delay: 0.06s; }
 .profile-card > *:nth-child(3) { animation-delay: 0.12s; }
 .profile-card > *:nth-child(4) { animation-delay: 0.18s; }
@@ -1004,10 +716,6 @@ body.dark-mode .scroll-spy-pill {
     transform: translateY(-2px);
 }
 
-body.dark-mode .back-to-top {
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
-}
-
 /* ---- Floating Emergency Contacts ---- */
 .emergency-fab {
     position: fixed;
@@ -1081,18 +789,6 @@ body.dark-mode .back-to-top {
     cursor: pointer;
     color: var(--text-light);
     line-height: 1;
-}
-
-body.dark-mode .emergency-card {
-    background: var(--bg-light);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-    border-color: #c0392b;
-}
-body.dark-mode .emergency-card li {
-    border-bottom-color: rgba(255, 255, 255, 0.06);
-}
-body.dark-mode .emergency-card-close {
-    color: var(--text-light);
 }
 
 @media (max-width: 480px) {
@@ -1211,10 +907,6 @@ footer {
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-body.dark-mode .confirm-card {
-    background: var(--bg-white);
-}
-
 /* ============================================
    Notification Toasts
    ============================================ */
@@ -1300,11 +992,6 @@ body.dark-mode .confirm-card {
 .toast-message {
     flex-grow: 1;
     line-height: 1.4;
-}
-
-body.dark-mode .toast {
-    background: var(--bg-white);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
 }
 
 /* ============================================
@@ -1708,10 +1395,6 @@ body.modal-open {
 .admin-announcement--info { background: #e3f2fd; color: #1565c0; }
 .admin-announcement--warning { background: #fff3e0; color: #e65100; }
 .admin-announcement--celebration { background: linear-gradient(135deg, #ffecd2, #fcb69f); color: #6d4c41; }
-body.dark-mode .admin-announcement--info { background: #1a237e; color: #90caf9; }
-body.dark-mode .admin-announcement--warning { background: #3e2723; color: #ffab91; }
-body.dark-mode .admin-announcement--celebration { background: linear-gradient(135deg, #4a3728, #5d3a2a); color: #ffcc80; }
-
 .announcement-dismiss {
     position: absolute;
     right: 12px;
@@ -1798,15 +1481,6 @@ body.dark-mode .admin-announcement--celebration { background: linear-gradient(13
 .admin-menu-settings { border-color: rgba(156, 39, 176, 0.3); }
 .admin-menu-settings:hover { border-color: #9c27b0; background: rgba(156, 39, 176, 0.04); }
 
-body.dark-mode .admin-menu-btn {
-    border-color: rgba(255,255,255,0.12);
-    background: rgba(255,255,255,0.04);
-}
-body.dark-mode .admin-menu-btn:hover {
-    border-color: rgba(255,255,255,0.25);
-    background: rgba(255,255,255,0.08);
-}
-
 /* Step indicator dots */
 .admin-step-indicator {
     display: flex;
@@ -1828,8 +1502,6 @@ body.dark-mode .admin-menu-btn:hover {
 .admin-step-dot.done {
     background: #4caf50;
 }
-body.dark-mode .admin-step-dot { background: rgba(255,255,255,0.15); }
-
 /* Source grid (Step 1) */
 .admin-source-grid {
     display: grid;
@@ -1864,8 +1536,6 @@ body.dark-mode .admin-step-dot { background: rgba(255,255,255,0.15); }
 }
 .admin-source-emoji { font-size: 2rem; }
 .admin-source-label { font-size: 0.9rem; font-weight: 700; color: var(--text-dark); }
-body.dark-mode .admin-source-btn { border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); }
-
 /* Mode toggle (Team / Individual) */
 .admin-mode-toggle {
     display: flex;
@@ -1890,8 +1560,6 @@ body.dark-mode .admin-source-btn { border-color: rgba(255,255,255,0.1); backgrou
     background: var(--primary, #667eea);
     color: white;
 }
-body.dark-mode .admin-mode-toggle { border-color: rgba(255,255,255,0.15); }
-
 /* Team grid (Step 2) */
 .admin-team-grid {
     display: grid;
@@ -1926,9 +1594,6 @@ body.dark-mode .admin-mode-toggle { border-color: rgba(255,255,255,0.15); }
 .admin-team-btn.selected .admin-team-name { color: white; }
 .admin-team-logo { width: 36px; height: 36px; }
 .admin-team-name { font-size: 0.95rem; font-weight: 800; color: var(--text-dark); }
-body.dark-mode .admin-team-btn { background: rgba(255,255,255,0.06); }
-body.dark-mode .admin-team-name { color: rgba(255,255,255,0.9); }
-
 /* Guest list (Step 2 Individual) */
 .admin-search-wrap { margin-bottom: 12px; }
 .admin-guest-search {
@@ -1943,8 +1608,6 @@ body.dark-mode .admin-team-name { color: rgba(255,255,255,0.9); }
     box-sizing: border-box;
 }
 .admin-guest-search:focus { outline: none; border-color: var(--primary, #667eea); }
-body.dark-mode .admin-guest-search { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.15); color: white; }
-
 .admin-guest-list {
     max-height: 50vh;
     overflow-y: auto;
@@ -1978,10 +1641,6 @@ body.dark-mode .admin-guest-search { background: rgba(255,255,255,0.06); border-
 }
 .admin-guest-name { flex: 1; font-weight: 600; font-size: 0.95rem; color: var(--text-dark); }
 .admin-guest-team { font-size: 0.8rem; color: var(--text-light); }
-body.dark-mode .admin-guest-row { border-color: rgba(255,255,255,0.06); }
-body.dark-mode .admin-guest-row:hover { background: rgba(255,255,255,0.06); }
-body.dark-mode .admin-guest-name { color: rgba(255,255,255,0.9); }
-
 /* Points grid (Step 3) */
 .admin-points-grid {
     display: grid;
@@ -2013,8 +1672,6 @@ body.dark-mode .admin-guest-name { color: rgba(255,255,255,0.9); }
 .admin-points-btn.negative:hover { border-color: #e53935; }
 .admin-points-btn.negative.selected { background: #e53935; color: white; border-color: #e53935; box-shadow: 0 2px 12px rgba(229, 57, 53, 0.3); }
 .admin-points-custom { font-size: 0.9rem; color: var(--text-light); }
-body.dark-mode .admin-points-btn { border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); }
-
 .admin-custom-input { margin-bottom: 12px; }
 .admin-custom-input input {
     width: 100%;
@@ -2030,8 +1687,6 @@ body.dark-mode .admin-points-btn { border-color: rgba(255,255,255,0.1); backgrou
     box-sizing: border-box;
 }
 .admin-custom-input input:focus { outline: none; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2); }
-body.dark-mode .admin-custom-input input { background: rgba(255,255,255,0.06); color: white; }
-
 .admin-reason-wrap { margin-bottom: 20px; }
 .admin-reason-input {
     width: 100%;
@@ -2045,8 +1700,6 @@ body.dark-mode .admin-custom-input input { background: rgba(255,255,255,0.06); c
     box-sizing: border-box;
 }
 .admin-reason-input:focus { outline: none; border-color: var(--primary, #667eea); }
-body.dark-mode .admin-reason-input { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.15); color: white; }
-
 .admin-step-actions { text-align: center; }
 .admin-next-btn {
     width: 100%;
@@ -2064,7 +1717,6 @@ body.dark-mode .admin-reason-input { background: rgba(255,255,255,0.06); border-
     padding: 28px 20px;
     margin-bottom: 24px;
 }
-body.dark-mode .admin-confirm-summary { background: rgba(255,255,255,0.06); }
 .admin-confirm-points {
     font-size: 3rem;
     font-weight: 900;
@@ -2089,8 +1741,6 @@ body.dark-mode .admin-confirm-summary { background: rgba(255,255,255,0.06); }
 }
 .admin-confirm-source { background: rgba(102, 126, 234, 0.12); color: #667eea; }
 .admin-confirm-reason { background: rgba(0,0,0,0.06); color: var(--text-light); }
-body.dark-mode .admin-confirm-reason { background: rgba(255,255,255,0.1); }
-
 .admin-btn-confirm {
     width: 100%;
     padding: 16px !important;
@@ -2154,8 +1804,6 @@ body.dark-mode .admin-confirm-reason { background: rgba(255,255,255,0.1); }
     background: rgba(102, 126, 234, 0.06);
 }
 .admin-atype-emoji { font-size: 1.4rem; }
-body.dark-mode .admin-atype-btn { border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.9); }
-
 .admin-announce-send { margin-top: 4px; }
 
 /* Toast notification */
@@ -2424,10 +2072,6 @@ body.dark-mode .admin-atype-btn { border-color: rgba(255,255,255,0.1); color: rg
     border-radius: 50%;
     border: 2px solid white;
 }
-body.dark-mode .nav-links a.has-notif::after {
-    border-color: var(--bg-dark);
-}
-
 /* ============================================
    Print Stylesheet
    ============================================ */
@@ -2442,33 +2086,6 @@ body.dark-mode .nav-links a.has-notif::after {
     .emergency-card,
     .envelope-overlay,
     #confetti-canvas,
-    .dark-mode-toggle,
-    .leaderboard-banner,
-    .ambiance-toggle,
-    footer {
-        display: none !important;
-    }
-
-    /* Reset backgrounds and shadows for ink savings */
-    body, .section, .page-header {
-        background: white !important;
-        color: black !important;
-        box-shadow: none !important;
-    }
-
-    * {
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-    }
-
-    .section {
-        opacity: 1 !important;
-        transform: none !important;
-        page-break-inside: avoid;
-        padding: 12px 0 !important;
-    }
-
-    .container { max-width: 100% !important; padding: 0 15px !important; }
     .page-header { padding: 15px 0 10px !important; }
     .page-header h1 { font-size: 1.5rem !important; }
 
@@ -2604,18 +2221,4 @@ body.dark-mode .nav-links a.has-notif::after {
 .install-ios-icon {
     font-size: 1.1rem;
     flex-shrink: 0;
-}
-/* Dark mode */
-.dark-mode .install-banner-card {
-    background: #2a2a3e;
-}
-.dark-mode .install-banner-title {
-    color: var(--text-white);
-}
-.dark-mode .install-banner-desc {
-    color: #aaa;
-}
-.dark-mode .install-ios-step {
-    color: var(--text-white);
-    border-color: rgba(255, 255, 255, 0.1);
 }
