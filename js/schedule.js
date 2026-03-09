@@ -235,22 +235,6 @@ const ACTIVITIES = [
         pairedWith: null
     },
     {
-        id: 'private-chef-dinner',
-        name: 'Private Chef Dinner',
-        category: 'food',
-        emoji: '\uD83C\uDF7D\uFE0F',
-        tagline: 'Professional chef cooks a multi-course feast at the château',
-        description: 'Hire a private chef to cook a stunning multi-course dinner right at the ch\u00e2teau. Local options include Ryan Matthee (25min away), Unarome2chefs (2 chefs, great for large groups), and Alexandre Timar (Tours). No washing up!',
-        tip: 'The premium option \u2014 worth it for one special night. Best for PopWorld Saturday or the last dinner on Sunday.',
-        cost: { min: 80, max: 150 },
-        duration: 'Evening',
-        driveTime: 'None \u2014 they come to us',
-        groupFit: 'All 26 together',
-        mood: ['social', 'party'],
-        highlight: true,
-        pairedWith: null
-    },
-    {
         id: 'battlekart',
         name: 'BattleKart (AR Go-Karts)',
         category: 'fun',
