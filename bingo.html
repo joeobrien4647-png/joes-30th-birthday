@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="css/base.css?v=19">
     <link rel="stylesheet" href="css/components.css?v=3">
     <link rel="stylesheet" href="css/nav.css?v=1">
-    <link rel="stylesheet" href="css/bingo.css?v=6">
+    <link rel="stylesheet" href="css/bingo.css?v=7">
 </head>
 <body>
     <!-- Confetti Canvas -->
@@ -112,47 +112,70 @@
                 <div class="bingo-grid" id="bingoGrid">
                     <!-- 16 cells rendered by JS -->
                 </div>
-                <aside class="bingo-rules">
-                    <h3>&#128214; How to Play</h3>
-                    <ol class="bingo-rules-list">
-                        <li><strong>Tap a challenge</strong> to see what you need to do</li>
-                        <li><strong>Do it</strong> &mdash; with witnesses or photo proof</li>
-                        <li><strong>Claim it</strong> &mdash; snap a photo and hit the button</li>
-                        <li><strong>Each square</strong> = punish someone + 1 pt for your team</li>
-                        <li><strong>Get a line</strong> (4 in a row) = punish an entire team + 2 bonus pts</li>
-                        <li><strong>Full house?</strong> Something special awaits... + 5 bonus pts</li>
-                    </ol>
-                    <div class="bingo-rules-extras">
-                        <div class="bingo-rule-card">
-                            <span class="bingo-rule-icon">&#128247;</span>
-                            <div>
-                                <strong>Photo Proof</strong>
-                                <p>Every claim needs a photo. No proof, no points.</p>
+                <!-- Rules + Points side by side below grid -->
+                <div class="bingo-info-row">
+                    <div class="bingo-info-card">
+                        <h3>&#128214; How to Play</h3>
+                        <ol class="bingo-rules-list">
+                            <li><strong>Tap a challenge</strong> to see what you need to do</li>
+                            <li><strong>Do it</strong> &mdash; with witnesses or photo proof</li>
+                            <li><strong>Claim it</strong> &mdash; snap a photo and hit the button</li>
+                        </ol>
+                        <div class="bingo-rules-extras">
+                            <div class="bingo-rule-card">
+                                <span class="bingo-rule-icon">&#128247;</span>
+                                <div>
+                                    <strong>Photo Proof</strong>
+                                    <p>No proof, no points.</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="bingo-rule-card">
-                            <span class="bingo-rule-icon">&#9989;</span>
-                            <div>
-                                <strong>Everyone Can Play</strong>
-                                <p>Every challenge is available to everyone. You can only claim each one once.</p>
-                            </div>
-                        </div>
-                        <div class="bingo-rule-card">
-                            <span class="bingo-rule-icon">&#128101;</span>
-                            <div>
-                                <strong>Team Points</strong>
-                                <p>Every claim earns points for your team on the leaderboard.</p>
-                            </div>
-                        </div>
-                        <div class="bingo-rule-card">
-                            <span class="bingo-rule-icon">&#128520;</span>
-                            <div>
-                                <strong>Punishments</strong>
-                                <p>Each square: punish one person. Get a line: punish a whole team.</p>
+                            <div class="bingo-rule-card">
+                                <span class="bingo-rule-icon">&#9989;</span>
+                                <div>
+                                    <strong>Everyone Can Play</strong>
+                                    <p>Every challenge is open to all. Claim each one once.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </aside>
+                    <div class="bingo-info-card">
+                        <h3>&#127942; Points &amp; Rewards</h3>
+                        <div class="bingo-points-tiers">
+                            <div class="bingo-tier">
+                                <div class="bingo-tier-icon">&#127922;</div>
+                                <div class="bingo-tier-body">
+                                    <div class="bingo-tier-header">
+                                        <span class="bingo-tier-label">Each Square</span>
+                                        <span class="bingo-tier-pts">+1 pt</span>
+                                    </div>
+                                    <p class="bingo-tier-reward">&#128520; Punish one person</p>
+                                </div>
+                            </div>
+                            <div class="bingo-tier-arrow">&#8595;</div>
+                            <div class="bingo-tier bingo-tier-line">
+                                <div class="bingo-tier-icon">&#128293;</div>
+                                <div class="bingo-tier-body">
+                                    <div class="bingo-tier-header">
+                                        <span class="bingo-tier-label">Line (4 in a row)</span>
+                                        <span class="bingo-tier-pts">+2 pts bonus</span>
+                                    </div>
+                                    <p class="bingo-tier-reward">&#9876;&#65039; Punish an entire team</p>
+                                </div>
+                            </div>
+                            <div class="bingo-tier-arrow">&#8595;</div>
+                            <div class="bingo-tier bingo-tier-full">
+                                <div class="bingo-tier-icon">&#128081;</div>
+                                <div class="bingo-tier-body">
+                                    <div class="bingo-tier-header">
+                                        <span class="bingo-tier-label">Full House</span>
+                                        <span class="bingo-tier-pts">+5 pts bonus</span>
+                                    </div>
+                                    <p class="bingo-tier-reward">&#10067; Something special awaits...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

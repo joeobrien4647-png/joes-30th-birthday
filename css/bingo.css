@@ -180,9 +180,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 32px;
-    max-width: 600px;
+    gap: 28px;
+    max-width: 700px;
     margin: 0 auto;
+}
+
+.bingo-layout .bingo-grid {
+    max-width: 520px;
 }
 
 .bingo-grid {
@@ -192,25 +196,38 @@
     width: 100%;
 }
 
-/* ---- Rules Panel ---- */
-.bingo-rules {
-    background: var(--bg-white);
-    border-radius: 16px;
-    padding: 24px;
-    border: 2px solid var(--border-color);
-    box-shadow: var(--shadow-sm);
+/* ---- Info Row (Rules + Points side by side) ---- */
+.bingo-info-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
     width: 100%;
 }
 
-.bingo-rules h3 {
+@media (max-width: 640px) {
+    .bingo-info-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+.bingo-info-card {
+    background: var(--bg-white);
+    border-radius: 16px;
+    padding: 22px 20px;
+    border: 2px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.bingo-info-card h3 {
     font-family: var(--font-display);
-    font-size: 1.3rem;
-    margin: 0 0 16px;
+    font-size: 1.2rem;
+    margin: 0 0 14px;
     color: var(--text-dark);
 }
 
+/* Rules list */
 .bingo-rules-list {
-    margin: 0 0 20px;
+    margin: 0 0 16px;
     padding-left: 20px;
     list-style: none;
     counter-reset: bingo-step;
@@ -219,8 +236,8 @@
 .bingo-rules-list li {
     counter-increment: bingo-step;
     position: relative;
-    padding: 6px 0 6px 28px;
-    font-size: 0.88rem;
+    padding: 5px 0 5px 28px;
+    font-size: 0.85rem;
     color: var(--text-dark);
     line-height: 1.5;
 }
@@ -229,13 +246,13 @@
     content: counter(bingo-step);
     position: absolute;
     left: 0;
-    top: 6px;
-    width: 22px;
-    height: 22px;
+    top: 5px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     background: var(--gradient-primary);
     color: white;
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 800;
     display: flex;
     align-items: center;
@@ -245,7 +262,7 @@
 .bingo-rules-extras {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
 }
 
 .bingo-rule-card {
@@ -259,23 +276,109 @@
 }
 
 .bingo-rule-icon {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     flex-shrink: 0;
     margin-top: 2px;
 }
 
 .bingo-rule-card strong {
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     color: var(--text-dark);
     display: block;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
 }
 
 .bingo-rule-card p {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Points tiers */
+.bingo-points-tiers {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.bingo-tier {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: rgba(118, 75, 162, 0.04);
+    border: 1px solid rgba(118, 75, 162, 0.08);
+}
+
+.bingo-tier-line {
+    background: rgba(255, 152, 0, 0.06);
+    border-color: rgba(255, 152, 0, 0.15);
+}
+
+.bingo-tier-full {
+    background: linear-gradient(135deg, rgba(249, 168, 37, 0.08), rgba(255, 215, 0, 0.12));
+    border-color: rgba(249, 168, 37, 0.25);
+}
+
+.bingo-tier-icon {
+    font-size: 1.8rem;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.bingo-tier-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.bingo-tier-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 2px;
+}
+
+.bingo-tier-label {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--text-dark);
+}
+
+.bingo-tier-pts {
+    font-weight: 800;
+    font-size: 0.8rem;
+    color: white;
+    background: var(--gradient-primary);
+    padding: 2px 8px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.bingo-tier-line .bingo-tier-pts {
+    background: linear-gradient(135deg, #ff9800, #f57c00);
+}
+
+.bingo-tier-full .bingo-tier-pts {
+    background: linear-gradient(135deg, #f9a825, #ff8f00);
+}
+
+.bingo-tier-reward {
     font-size: 0.78rem;
     color: var(--text-light);
     margin: 0;
     line-height: 1.4;
+}
+
+.bingo-tier-arrow {
+    text-align: center;
+    font-size: 1rem;
+    color: var(--text-light);
+    opacity: 0.4;
+    line-height: 1;
+    padding: 2px 0;
 }
 
 /* Base cell */
