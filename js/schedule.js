@@ -53,7 +53,7 @@ const ACTIVITIES = [
         cost: { min: 19, max: 24 },
         duration: '2\u20133 hours',
         driveTime: '1h 15m',
-        groupFit: 'All 27 \u2014 no group limit',
+        groupFit: 'All 26 \u2014 no group limit',
         mood: ['cultural'],
         highlight: true,
         pairedWith: 'kayak-chenonceau'
@@ -68,7 +68,7 @@ const ACTIVITIES = [
         cost: { min: 16, max: 16 },
         duration: '2\u20134 hours',
         driveTime: '1h 45m',
-        groupFit: 'All 27 \u2014 e-bikes available on grounds',
+        groupFit: 'All 26 \u2014 e-bikes available on grounds',
         mood: ['cultural', 'adventure'],
         highlight: false,
         pairedWith: null
@@ -83,7 +83,7 @@ const ACTIVITIES = [
         cost: { min: 7, max: 12 },
         duration: '2\u20133 hours',
         driveTime: '1h 10m',
-        groupFit: 'All 27 \u2014 guided tours for groups of 15+',
+        groupFit: 'All 26 \u2014 guided tours for groups of 15+',
         mood: ['cultural', 'chill'],
         highlight: false,
         pairedWith: null
@@ -98,7 +98,7 @@ const ACTIVITIES = [
         cost: { min: 9, max: 11 },
         duration: '1.5\u20132 hours',
         driveTime: '1h',
-        groupFit: 'All 27 \u2014 group rate applies!',
+        groupFit: 'All 26 \u2014 group rate applies!',
         mood: ['cultural', 'chill'],
         highlight: false,
         pairedWith: null
@@ -128,7 +128,7 @@ const ACTIVITIES = [
         cost: { min: 15, max: 25 },
         duration: '2 hours \u2014 full day',
         driveTime: '15 min',
-        groupFit: 'All 27 \u2014 large group bookings welcome',
+        groupFit: 'All 26 \u2014 large group bookings welcome',
         mood: ['adventure', 'chill'],
         highlight: true,
         pairedWith: null,
@@ -144,7 +144,7 @@ const ACTIVITIES = [
         cost: { min: 15, max: 40 },
         duration: '1.5\u20133 hours',
         driveTime: '1h 15m',
-        groupFit: 'All 27 \u2014 2\u20133 seater kayaks available',
+        groupFit: 'All 26 \u2014 2\u20133 seater kayaks available',
         mood: ['adventure'],
         highlight: false,
         pairedWith: 'chenonceau'
@@ -159,7 +159,7 @@ const ACTIVITIES = [
         cost: { min: 15, max: 45 },
         duration: 'Half to full day',
         driveTime: '1h to route',
-        groupFit: 'All 27 \u2014 bikes delivered to meeting point',
+        groupFit: 'All 26 \u2014 bikes delivered to meeting point',
         mood: ['adventure', 'chill'],
         highlight: false,
         pairedWith: null
@@ -189,7 +189,7 @@ const ACTIVITIES = [
         cost: { min: 0, max: 50 },
         duration: '2\u20133 hours',
         driveTime: '1h 15m',
-        groupFit: 'All 27 \u2014 free-roam the market',
+        groupFit: 'All 26 \u2014 free-roam the market',
         mood: ['cultural', 'chill'],
         highlight: false,
         pairedWith: null
@@ -219,7 +219,7 @@ const ACTIVITIES = [
         cost: { min: 80, max: 150 },
         duration: 'Evening',
         driveTime: 'None \u2014 they come to us',
-        groupFit: 'All 27 together',
+        groupFit: 'All 26 together',
         mood: ['social', 'party'],
         highlight: true,
         pairedWith: null
@@ -249,7 +249,7 @@ const ACTIVITIES = [
         cost: { min: 55, max: 70 },
         duration: '2\u20134 hours',
         driveTime: '1h 15m',
-        groupFit: 'All 27 \u2014 ideal for team battles',
+        groupFit: 'All 26 \u2014 ideal for team battles',
         mood: ['adventure', 'party'],
         highlight: false,
         pairedWith: null
@@ -264,7 +264,7 @@ const ACTIVITIES = [
         cost: { min: 9, max: 14 },
         duration: '45 min show',
         driveTime: '1h 30m',
-        groupFit: 'All 27 \u2014 large courtyard',
+        groupFit: 'All 26 \u2014 large courtyard',
         mood: ['cultural'],
         highlight: false,
         pairedWith: null
@@ -279,7 +279,7 @@ const ACTIVITIES = [
         cost: { min: 5, max: 8 },
         duration: '1\u20131.5 hours',
         driveTime: '1h 15m',
-        groupFit: 'All 27 \u2014 group rates for 15+',
+        groupFit: 'All 26 \u2014 group rates for 15+',
         mood: ['cultural'],
         highlight: false,
         pairedWith: null
@@ -294,7 +294,7 @@ const ACTIVITIES = [
         cost: { min: 10, max: 25 },
         duration: 'Half to full day',
         driveTime: '15 min',
-        groupFit: 'All 27 \u2014 multiple activities simultaneously',
+        groupFit: 'All 26 \u2014 multiple activities simultaneously',
         mood: ['adventure', 'party'],
         highlight: false,
         pairedWith: null
@@ -325,7 +325,7 @@ const ACTIVITIES = [
         cost: { min: 20, max: 20 },
         duration: 'Half day',
         driveTime: '25 min',
-        groupFit: 'All 27 \u2014 group booking for 10+',
+        groupFit: 'All 26 \u2014 group booking for 10+',
         mood: ['adventure', 'chill'],
         highlight: true,
         pairedWith: null,
