@@ -80,11 +80,10 @@ Each guest has a unique code (format: `firstname30` or `firstnamelastinit30`). L
 - Couples deliberately split across teams
 
 ## Travel Arrangements
-**Main convoy from Sevenoaks (15 people, 2x 9-seater vans):**
-Joe, Sophie, Hannah, Robin (maybe), Razon, Neeve, Tom, Robert, Sarah, Kiran, Shane, Oli, Pete, Jonny Williams, Chris Coggin, Oscar
-
-**Making their own way:**
-Luke & Sam, Johnny & Florrie, George & Emma W, Emma L & Jonny L, Pranay
+**Flying from London Stansted to Poitiers:**
+- Outbound: Wed 29 Apr, depart 5:55 AM, arrive 8:25 AM
+- Return: Mon 4 May, depart ~4:15 PM, arrive ~5:40 PM
+- Some guests making their own way (driving): Luke & Sam, Johnny & Florrie, George & Emma W, Emma L & Jonny L, Pranay
 
 ## Payment Status (from spreadsheet)
 - **Confirmed & Paid**: Rooms 1-12 + Chris Coggin (24 people)
@@ -103,7 +102,7 @@ Luke & Sam, Johnny & Florrie, George & Emma W, Emma L & Jonny L, Pranay
 7. **Floating Balloons** - Decorative animated balloons
 
 ### Planning
-8. **Agenda** - 6-day tabbed schedule (Day 1 updated with real Sevenoaks travel plan)
+8. **Agenda** - 6-day tabbed schedule (Day 1: Stansted flight to Poitiers)
 9. **Games & Challenges** - Daily games, chateau duties (with points), all-week challenges
 10. **Leaderboard** - Team scores, individual rankings, points log, admin panel (joe30 only)
 11. **Itinerary Comparison** - 3 options (Chill/Adventure/Balanced) with voting
@@ -179,24 +178,48 @@ Admin override: Click a secret item 5 times to reveal (for testing).
 - French speaking: +1/-1, Pool Dip Streak: +5 bonus
 - Good Sport Award: +5, Funniest Moment: +1/day
 
-## Agenda (Current - Day 1 finalized)
-### Day 1 - Wed 29 Apr: Travel Day
-- 7:00 AM: Meet at Joe's, Sevenoaks
-- 7:30 AM: Depart (2x 9-seater vans)
-- ~9:30 AM: Channel crossing (tunnel/ferry TBC)
-- ~12:30 PM: Lunch stop in France
-- ~3:30 PM: Arrive at Chateau Roussignol
-- 5:00 PM: Unpack & explore
-- 7:00 PM: Welcome drinks
-- 8:30 PM: First night dinner
+## Agenda (Finalized)
+### Day 1 - Wed 29 Apr: Travel Day (Flights)
+- 2:00 AM: Leave for Stansted
+- 5:55 AM: Depart London Stansted
+- 8:25 AM: Land at Poitiers Airport
+- ~10:30 AM: Arrive at Château Roussignol (check-in 10:30am)
+- Afternoon: Shops run, explore, first pool dip
+- 7:00 PM: Party & drinking games
+- 8:30 PM: Welcome BBQ
 - 10:00 PM: TOP SECRET (Team Reveal)
 
-### Days 2-6: Still being planned
-- Day 2 (Thu): Chateau chill day discussed (pool, petanque, cocktail comp, BBQ)
-- Day 3 (Fri): Wine day / culture (Chenonceau, Vouvray)
-- Day 4 (Sat): JOE'S BIRTHDAY - Olympics, Roast, Party
-- Day 5 (Sun): Recovery / last activities
-- Day 6 (Mon): Departure
+### Day 2 - Thu 30 Apr: First Full Day
+- Morning: Golf (optional) / Yoga / Sleep in
+- Afternoon: Pool & chill
+- 7:30 PM: Team dinner + evening games
+
+### Day 3 - Fri 1 May: Adventure Day
+- 10:00 AM: Canoe team race on the Creuse
+- 1:00 PM: Lunch & explore Angles-sur-l'Anglin
+- 4:00 PM: Pool & chill
+- 8:00 PM: Team dinner + pre-birthday eve
+
+### Day 4 - Sat 2 May: THE BIG DAY
+- 9:00 AM: Birthday breakfast
+- 10:30 AM: Birthday Olympics (TOP SECRET)
+- 1:00 PM: Birthday BBQ + pool party
+- 5:00 PM: 90s Icons costumes on
+- 7:00 PM: Birthday dinner
+- 9:00 PM: Toasts, cake, awards (TOP SECRET)
+- 10:15 PM: 90s ICONS PARTY!
+
+### Day 5 - Sun 3 May: Last Full Day
+- 10:00 AM: Lazy brunch
+- 1:00 PM: Bellebouche (accrobranche, mini golf, pédalos)
+- 7:30 PM: Last dinner together
+- 11:00 PM: Outdoor cinema
+
+### Day 6 - Mon 4 May: Au Revoir
+- 8:00 AM: Last breakfast
+- 9:00 AM: Pack up & big clean
+- 10:30 AM: Group photo, depart
+- 4:15 PM: Fly Poitiers → Stansted (~5:40 PM)
 
 ## Key localStorage Keys
 | Key | Purpose |

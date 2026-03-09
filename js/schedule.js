@@ -1450,14 +1450,14 @@ function initEnvelopeAnimation() {
 
     // Only play once per session
     var SEEN_KEY = 'envelope_seen';
-    if (sessionStorage.getItem(SEEN_KEY)) {
+    if (localStorage.getItem(SEEN_KEY)) {
         overlay.classList.add('envelope-hidden');
         return;
     }
 
     // Reduced motion: skip entirely
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        sessionStorage.setItem(SEEN_KEY, 'true');
+        localStorage.setItem(SEEN_KEY, 'true');
         overlay.classList.add('envelope-hidden');
         return;
     }
@@ -1555,7 +1555,7 @@ function initEnvelopeAnimation() {
     }
 
     function revealPage() {
-        sessionStorage.setItem(SEEN_KEY, 'true');
+        localStorage.setItem(SEEN_KEY, 'true');
 
         // Hide letter fullscreen if showing
         var lfs = document.getElementById('letter-fullscreen');
@@ -1718,7 +1718,7 @@ function initEnvelopeAnimation() {
     var btn = document.getElementById('envelope-replay');
     if (!btn) return;
     btn.addEventListener('click', function() {
-        sessionStorage.removeItem('envelope_seen');
+        localStorage.removeItem('envelope_seen');
         location.reload();
     });
 })();
