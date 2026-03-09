@@ -1157,7 +1157,7 @@ var DAY_HERO_DATA = {
     '1': { emoji: '✈️', gradient: 'linear-gradient(135deg, #f97316, #fbbf24)', subtitle: 'France, Here We Come' },
     '2': { emoji: '🏰', gradient: 'linear-gradient(135deg, #059669, #34d399)', subtitle: 'Château Life Begins' },
     '3': { emoji: '🛶', gradient: 'linear-gradient(135deg, #0ea5e9, #6366f1)', subtitle: 'Paddles & a Beautiful Village' },
-    '4': { emoji: '🎂', gradient: 'linear-gradient(135deg, #f59e0b, #ec4899, #a855f7)', subtitle: "The Birthday That Can\u2019t Be Topped" },
+    '4': { emoji: '🪩', gradient: 'linear-gradient(135deg, #f59e0b, #ec4899, #a855f7)', subtitle: "PopWorld: 90s Icons Party Night" },
     '5': { emoji: '🌲', gradient: 'linear-gradient(135deg, #06b6d4, #3b82f6)', subtitle: 'Treetops, Lakes & Last Night' },
     '6': { emoji: '🏠', gradient: 'linear-gradient(135deg, #ec4899, #8b5cf6)', subtitle: 'Au Revoir, Roussignol' }
 };
