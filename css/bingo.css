@@ -305,25 +305,30 @@
 .bingo-tier {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 12px 14px;
-    border-radius: 12px;
-    background: rgba(118, 75, 162, 0.04);
-    border: 1px solid rgba(118, 75, 162, 0.08);
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: rgba(118, 75, 162, 0.05);
+    border: 2px solid rgba(118, 75, 162, 0.1);
+    transition: transform 0.15s ease;
+}
+
+.bingo-tier:hover {
+    transform: scale(1.02);
 }
 
 .bingo-tier-line {
     background: rgba(255, 152, 0, 0.06);
-    border-color: rgba(255, 152, 0, 0.15);
+    border-color: rgba(255, 152, 0, 0.18);
 }
 
 .bingo-tier-full {
-    background: linear-gradient(135deg, rgba(249, 168, 37, 0.08), rgba(255, 215, 0, 0.12));
-    border-color: rgba(249, 168, 37, 0.25);
+    background: linear-gradient(135deg, rgba(249, 168, 37, 0.1), rgba(255, 215, 0, 0.14));
+    border-color: rgba(249, 168, 37, 0.3);
 }
 
 .bingo-tier-icon {
-    font-size: 1.8rem;
+    font-size: 2rem;
     flex-shrink: 0;
     line-height: 1;
 }
@@ -338,23 +343,30 @@
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    margin-bottom: 2px;
+    margin-bottom: 3px;
 }
 
 .bingo-tier-label {
-    font-weight: 700;
-    font-size: 0.85rem;
+    font-weight: 800;
+    font-size: 0.88rem;
     color: var(--text-dark);
+}
+
+.bingo-tier-label small {
+    font-weight: 600;
+    font-size: 0.72rem;
+    opacity: 0.7;
 }
 
 .bingo-tier-pts {
     font-weight: 800;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: white;
     background: var(--gradient-primary);
-    padding: 2px 8px;
+    padding: 3px 10px;
     border-radius: 20px;
     white-space: nowrap;
+    letter-spacing: 0.02em;
 }
 
 .bingo-tier-line .bingo-tier-pts {
@@ -366,19 +378,32 @@
 }
 
 .bingo-tier-reward {
-    font-size: 0.78rem;
+    font-size: 0.8rem;
     color: var(--text-light);
     margin: 0;
     line-height: 1.4;
+    font-style: italic;
 }
 
-.bingo-tier-arrow {
-    text-align: center;
-    font-size: 1rem;
-    color: var(--text-light);
-    opacity: 0.4;
-    line-height: 1;
-    padding: 2px 0;
+.bingo-tier-full .bingo-tier-reward {
+    color: #b8860b;
+    font-weight: 600;
+}
+
+/* Connector line between tiers */
+.bingo-tier-connector {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    height: 18px;
+}
+
+.bingo-tier-connector span {
+    display: block;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(118, 75, 162, 0.15), rgba(118, 75, 162, 0.3));
+    border-radius: 2px;
 }
 
 /* Base cell */
