@@ -172,7 +172,7 @@ function renderFeedItem(item) {
     var reactions = item.reactions || {};
     var reactedBy = item.reactedBy || {};
     var myReactions = reactedBy[guestCode] || {};
-    var emojis = ['❤️', '😂', '🔥'];
+    var emojis = ['❤️', '😂', '🔥', '🧢'];
 
     var reactionsHtml = '<div class="feed-reactions">';
     for (var e = 0; e < emojis.length; e++) {
@@ -187,6 +187,12 @@ function renderFeedItem(item) {
         reactionsHtml += '</button>';
     }
     reactionsHtml += '</div>';
+
+    /* CAPPED badge: if bingo-type item has 5+ cap reactions */
+    var capCount = reactions['🧢'] || 0;
+    if (item.type && item.type.indexOf('bingo') !== -1 && capCount >= 5) {
+        reactionsHtml += '<div class="feed-capped-badge">🧢 CAPPED</div>';
+    }
 
     /* Content */
     var contentHtml = '';
@@ -219,6 +225,31 @@ function renderFeedItem(item) {
         if (photoCaption) {
             contentHtml += '<p class="feed-photo-caption">' + escapeHtml(photoCaption) + '</p>';
         }
+        contentHtml += '</div>';
+    } else if (item.type === 'bingo_line' || item.type === 'bingo_house' || ((item.text || item.content || '').toLowerCase().indexOf('bingo line') !== -1)) {
+        /* Bingo line / full house — gold celebration card */
+        contentHtml = '<div class="feed-item-content">';
+        contentHtml += '<div class="feed-bingo-line-card">';
+        contentHtml += '<div class="feed-bingo-line-title">' + (item.type === 'bingo_house' ? '👑 FULL HOUSE!' : '🎯 BINGO LINE!') + '</div>';
+        contentHtml += '<div class="feed-bingo-line-text">' + escapeHtml(item.text || item.content || '') + '</div>';
+        contentHtml += '</div>';
+        contentHtml += '</div>';
+    } else if (item.type === 'bingo_claim' && item.photoUrl) {
+        /* Bingo claim with photo proof */
+        contentHtml = '<div class="feed-item-content">';
+        contentHtml += '<div class="feed-bingo-card">';
+        contentHtml += '<img class="feed-bingo-photo" src="' + escapeHtml(item.photoUrl) + '" alt="Proof" loading="lazy">';
+        contentHtml += '<div class="feed-bingo-caption">' + escapeHtml(item.text || item.content || '') + '</div>';
+        contentHtml += '</div>';
+        contentHtml += '</div>';
+    } else if (item.type === 'bingo_claim') {
+        /* Bingo claim without photo — team-colour left border */
+        var teamColours = { titans: '#f9a825', spartans: '#c62828', vikings: '#1565c0', gladiators: '#424242' };
+        var tc = teamColours[item.team] || '#7C3AED';
+        contentHtml = '<div class="feed-item-content">';
+        contentHtml += '<div class="feed-bingo-card feed-bingo-text" style="border-left-color:' + tc + '">';
+        contentHtml += '<div class="feed-bingo-caption">' + escapeHtml(item.text || item.content || '') + '</div>';
+        contentHtml += '</div>';
         contentHtml += '</div>';
     } else {
         contentHtml = '<div class="feed-item-content">' + escapeHtml(item.text || item.content || '') + '</div>';

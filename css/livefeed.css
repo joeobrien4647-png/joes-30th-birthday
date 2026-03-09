@@ -286,6 +286,24 @@
     color: var(--text-light);
 }
 
+/* CAPPED badge for disputed bingo claims */
+.feed-capped-badge {
+    display: inline-block;
+    background: #fef3c7;
+    color: #92400e;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-top: 6px;
+    border: 1px solid #f59e0b;
+}
+body.dark-mode .feed-capped-badge {
+    background: #451a03;
+    color: #fbbf24;
+    border-color: #92400e;
+}
+
 /* Type-specific badge colours */
 .feed-type-badge--message      { background: #4CAF50; }
 .feed-type-badge--confession   { background: #9C27B0; }
@@ -613,6 +631,51 @@
 }
 
 /* ============================================
+   Rich Bingo Feed Cards
+   ============================================ */
+.feed-bingo-card {
+    border-radius: 12px;
+    overflow: hidden;
+    border-left: 4px solid #7C3AED;
+    margin: 8px 0;
+    background: #fafafa;
+}
+.feed-bingo-photo {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    display: block;
+    cursor: pointer;
+}
+.feed-bingo-caption {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    color: #1e293b;
+}
+.feed-bingo-text {
+    border-left-width: 4px;
+    border-left-style: solid;
+}
+.feed-bingo-line-card {
+    background: linear-gradient(135deg, #fef3c7, #fff7ed);
+    border: 2px solid #f59e0b;
+    border-radius: 12px;
+    padding: 16px;
+    margin: 8px 0;
+    text-align: center;
+}
+.feed-bingo-line-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #92400e;
+    margin-bottom: 6px;
+}
+.feed-bingo-line-text {
+    font-size: 0.9rem;
+    color: #78350f;
+}
+
+/* ============================================
    Dark Mode
    ============================================ */
 body.dark-mode .feed-compose {
@@ -659,6 +722,19 @@ body.dark-mode .feed-modal-cancel {
     border-color: rgba(255, 255, 255, 0.1);
     background: var(--bg-white);
 }
+
+body.dark-mode .feed-bingo-card {
+    background: #1e293b;
+}
+body.dark-mode .feed-bingo-caption {
+    color: #e2e8f0;
+}
+body.dark-mode .feed-bingo-line-card {
+    background: linear-gradient(135deg, #451a03, #1c1917);
+    border-color: #92400e;
+}
+body.dark-mode .feed-bingo-line-title { color: #fbbf24; }
+body.dark-mode .feed-bingo-line-text { color: #fcd34d; }
 
 /* ============================================
    Responsive
