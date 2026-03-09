@@ -169,11 +169,11 @@ function initArrivalCountdown() {
         var hrs = Math.floor((diff % 86400000) / 3600000);
         var mins = Math.floor((diff % 3600000) / 60000);
         if (days > 0) {
-            el.textContent = days + 'd ' + hrs + 'h until chateau arrival';
+            el.textContent = days + 'd ' + hrs + 'h until château arrival';
         } else if (hrs > 0) {
-            el.textContent = hrs + 'h ' + mins + 'm until chateau arrival';
+            el.textContent = hrs + 'h ' + mins + 'm until château arrival';
         } else {
-            el.textContent = mins + 'm until chateau arrival!';
+            el.textContent = mins + 'm until château arrival!';
         }
     }
     update();

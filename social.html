@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Crew - Joe's 30th Birthday Trip</title>
-    <meta name="description" content="Château Roussignol, Loire Valley · 29 Apr – 4 May 2026">
+    <meta name="description" content="Château Roussignol, Loire Valley - 29 Apr - 4 May 2026">
     <meta property="og:title" content="Joe's 30th Birthday Trip">
-    <meta property="og:description" content="Château Roussignol, Loire Valley · 29 Apr – 4 May 2026">
+    <meta property="og:description" content="Château Roussignol, Loire Valley - 29 Apr - 4 May 2026">
     <meta property="og:image" content="https://joes30.com/images/og-preview.jpg">
     <meta property="og:url" content="https://joes30.com/social.html">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Joe's 30th Birthday Trip">
-    <meta name="twitter:description" content="Château Roussignol, Loire Valley · 29 Apr – 4 May 2026">
+    <meta name="twitter:description" content="Château Roussignol, Loire Valley - 29 Apr - 4 May 2026">
     <meta name="twitter:image" content="https://joes30.com/images/og-preview.jpg">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127874;</text></svg>">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#764ba2">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -22,9 +22,9 @@
     <meta name="apple-mobile-web-app-title" content="Joe's 30th">
     <link rel="apple-touch-icon" href="images/icon-192.png">
     <link rel="stylesheet" href="css/base.css?v=19">
-    <link rel="stylesheet" href="css/components.css?v=1">
+    <link rel="stylesheet" href="css/components.css?v=3">
     <link rel="stylesheet" href="css/nav.css?v=1">
-    <link rel="stylesheet" href="css/social.css?v=35">
+    <link rel="stylesheet" href="css/social.css?v=38">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -55,526 +55,242 @@
     <!-- Page Header -->
     <header class="page-header">
         <h1>The Crew</h1>
-        <p>26 legends. 4 teams. 12 rooms.</p>
+        <p>26 legends. 12 rooms. 1 château.</p>
     </header>
 
-    <!-- Sub Navigation -->
-    <nav class="sub-nav">
-        <ul class="sub-nav-links">
-            <li><a href="#crew">Rooms</a></li>
-            <li><a href="#crew-view-teams">Teams</a></li>
-        </ul>
-    </nav>
-
-    <!-- ============================================
-         Crew Profiles Section
-         ============================================ -->
+    <!-- Chateau Floor Plan -->
     <section id="crew" class="section crew">
         <div class="container">
-            <h2 class="section-title">The Crew</h2>
-            <p class="section-subtitle">26 legends. 4 teams. 12 rooms.</p>
 
-            <div class="crew-tab-bar">
-                <button class="crew-tab-btn active" data-tab="rooms">🏠 Rooms</button>
-                <button class="crew-tab-btn" data-tab="teams">🏆 Teams</button>
-            </div>
-
-            <div class="crew-view" id="crew-view-rooms">
-            <div class="rooms-grid stagger-grid">
-                <!-- Room 1 - Birthday Suite -->
-                <div class="room-card birthday-room">
-                    <div class="room-header">
-                        <span class="room-number">Room 1</span>
-                        <span class="room-tag">👑 Birthday Suite</span>
+            <!-- Chateau Building -->
+            <div class="chateau">
+                <!-- Roof -->
+                <div class="chateau-roof">
+                    <div class="roof-turret roof-turret--left"></div>
+                    <div class="roof-main">
+                        <span class="roof-label">Château Roussignol</span>
                     </div>
-                    <div class="room-beds">
-                        <div class="bed bed--double">
-                            <div class="bed-headboard"></div>
-                            <div class="bed-pillows"><div class="bed-pillow"></div><div class="bed-pillow"></div></div>
-                            <div class="bed-occupants">
-                                <div class="bed-person guest" data-name="Joe O'Brien" data-initials="JO" data-room="Room 1 - Birthday Suite" data-tagline="The reason we're all here" data-birthday="true">
-                                    <div class="guest-avatar birthday">
-                                        <img loading="lazy" src="images/guests/joe-obrien.jpg" alt="Joe O'Brien">
-                                        <span class="guest-initials">JO</span>
-                                    </div>
-                                    <div class="bed-label">Joe</div>
-                                </div>
-                                <div class="bed-person guest" data-name="Sophie Geen" data-initials="SG" data-room="Room 1 - Birthday Suite" data-tagline="The real brains behind this operation">
-                                    <div class="guest-avatar">
-                                        <img loading="lazy" src="images/guests/sophie-geen.jpg" alt="Sophie Geen">
-                                        <span class="guest-initials">SG</span>
-                                    </div>
-                                    <div class="bed-label">Sophie</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="roof-turret roof-turret--right"></div>
                 </div>
 
-                <!-- Room 2 -->
-                <div class="room-card">
-                    <div class="room-header"><span class="room-number">Room 2</span></div>
-                    <div class="room-beds">
-                        <div class="bed bed--double">
-                            <div class="bed-headboard"></div>
-                            <div class="bed-pillows"><div class="bed-pillow"></div><div class="bed-pillow"></div></div>
-                            <div class="bed-occupants">
-                                <div class="bed-person guest" data-name="Luke Recchia" data-initials="LR" data-room="Room 2" data-tagline="Self-appointed DJ">
-                                    <div class="guest-avatar">
-                                        <img loading="lazy" src="images/guests/luke-recchia.jpg" alt="Luke Recchia">
-                                        <span class="guest-initials">LR</span>
+                <!-- Floor Plan Grid -->
+                <div class="chateau-body">
+
+                    <!-- Master Suite -->
+                    <div class="floor-row floor-row--master">
+                        <div class="floor-room floor-room--master">
+                            <span class="floor-room-tag">&#128081; Master Suite</span>
+                            <div class="floor-occupants">
+                                <div class="floor-person guest" data-name="Joe O'Brien" data-initials="JO" data-room="Master Suite" data-tagline="30 years in and still winging it" data-birthday="true" data-shares="Sophie Geen">
+                                    <div class="floor-avatar birthday">
+                                        <img loading="lazy" src="images/guests/joe-obrien.jpg" alt="Joe">
+                                        <span class="floor-initials">JO</span>
                                     </div>
-                                    <div class="bed-label">Luke</div>
+                                    <span class="floor-name">Joe</span>
                                 </div>
-                                <div class="bed-person guest" data-name="Samantha Recchia" data-initials="SR" data-room="Room 2" data-tagline="Your candid is already on her phone">
-                                    <div class="guest-avatar">
-                                        <img loading="lazy" src="images/guests/samantha-recchia.jpg" alt="Samantha Recchia">
-                                        <span class="guest-initials">SR</span>
+                                <div class="floor-person guest" data-name="Sophie Geen" data-initials="SG" data-room="Master Suite" data-tagline="Thinks croissants count as a personality" data-shares="Joe O'Brien">
+                                    <div class="floor-avatar">
+                                        <img loading="lazy" src="images/guests/sophie-geen.jpg" alt="Sophie">
+                                        <span class="floor-initials">SG</span>
                                     </div>
-                                    <div class="bed-label">Sam</div>
+                                    <span class="floor-name">Sophie</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Room 3 -->
-                <div class="room-card">
-                    <div class="room-header"><span class="room-number">Room 3</span></div>
-                    <div class="room-beds">
-                        <div class="bed bed--double">
-                            <div class="bed-headboard"></div>
-                            <div class="bed-pillows"><div class="bed-pillow"></div><div class="bed-pillow"></div></div>
-                            <div class="bed-occupants">
-                                <div class="bed-person guest" data-name="Hannah O'Brien" data-initials="HO" data-room="Room 3" data-tagline="Joe's worst nightmare">
-                                    <div class="guest-avatar">
-                                        <img loading="lazy" src="images/guests/hannah-obrien.jpg" alt="Hannah O'Brien">
-                                        <span class="guest-initials">HO</span>
-                                    </div>
-                                    <div class="bed-label">Hannah</div>
+                    <!-- Rooms 2-5 -->
+                    <div class="floor-row floor-row--4">
+                        <div class="floor-room">
+                            <span class="floor-room-num">2</span>
+                            <div class="floor-occupants">
+                                <div class="floor-person guest" data-name="Luke Recchia" data-initials="LR" data-room="Room 2" data-tagline="Once ate a baguette like a corn on the cob" data-shares="Samantha Recchia">
+                                    <div class="floor-avatar"><img loading="lazy" src="images/guests/luke-recchia.jpg" alt="Luke"><span class="floor-initials">LR</span></div>
+                                    <span class="floor-name">Luke</span>
                                 </div>
-                                <div class="bed-person guest" data-name="Robin Hughes" data-initials="RH" data-room="Room 3" data-tagline="Unpredictable in every direction">
-                                    <div class="guest-avatar">
-                                        <img loading="lazy" src="images/guests/robin-hughes.jpg" alt="Robin Hughes">
-                                        <span class="guest-initials">RH</span>
-                                    </div>
-                                    <div class="bed-label">Robin</div>
+                                <div class="floor-person guest" data-name="Samantha Recchia" data-initials="SR" data-room="Room 2" data-tagline="Has strong opinions about cheese boards" data-shares="Luke Recchia">
+                                    <div class="floor-avatar"><img loading="lazy" src="images/guests/samantha-recchia.jpg" alt="Sam"><span class="floor-initials">SR</span></div>
+                                    <span class="floor-name">Sam</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="floor-room">
+                            <span class="floor-room-num">3</span>
+                            <div class="floor-occupants">
+                                <div class="floor-person guest" data-name="Hannah O'Brien" data-initials="HO" data-room="Room 3" data-tagline="Would absolutely lose a fight with a swan" data-shares="Robin Hughes">
+                                    <div class="floor-avatar"><img loading="lazy" src="images/guests/hannah-obrien.jpg" alt="Hannah"><span class="floor-initials">HO</span></div>
+                                    <span class="floor-name">Hannah</span>
+                                </div>
+                                <div class="floor-person guest" data-name="Robin Hughes" data-initials="RH" data-room="Room 3" data-tagline="Could not point to the Loire Valley on a map" data-shares="Hannah O'Brien">
+                                    <div class="floor-avatar"><img loading="lazy" src="images/guests/robin-hughes.jpg" alt="Robin"><span class="floor-initials">RH</span></div>
+                                    <span class="floor-name">Robin</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="floor-room">
+                            <span class="floor-room-num">4</span>
+                            <div class="floor-occupants">
+                                <div class="floor-person guest" data-name="Johnny Gates O'Brien" data-initials="JG" data-room="Room 4" data-tagline="Genuinely believes they'd survive a zombie apocalypse" data-shares="Florrie Gates O'Brien">
+                                    <div class="floor-avatar"><img loading="lazy" src="images/guests/johnny-gates-obrien.jpg" alt="Johnny"><span class="floor-initials">JG</span></div>
+                                    <span class="floor-name">Johnny</span>
+                                </div>
+                                <div class="floor-person guest" data-name="Florrie Gates O'Brien" data-initials="FG" data-room="Room 4" data-tagline="Once cried at a dog advert. Twice" data-shares="Johnny Gates O'Brien">
+                                    <div class="floor-avatar"><img loading="lazy" src="images/guests/florrie-gates-obrien.jpg" alt="Florrie"><span class="floor-initials">FG</span></div>
+                                    <span class="floor-name">Florrie</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="floor-room">
+                            <span class="floor-room-num">5</span>
+                            <div class="floor-occupants">
+                                <div class="floor-person guest" data-name="Razon Mahebub" data-initials="RM" data-room="Room 5" data-tagline="Thinks they could outrun a horse" data-shares="Neeve Fletcher">
+                                    <div class="floor-avatar"><img loading="lazy" src="images/guests/razon-mahebub.jpg" alt="Razon"><span class="floor-initials">RM</span></div>
+                                    <span class="floor-name">Razon</span>
+                                </div>
+                                <div class="floor-person guest" data-name="Neeve Fletcher" data-initials="NF" data-room="Room 5" data-tagline="Has definitely googled 'how to look French'" data-shares="Razon Mahebub">
+                                    <div class="floor-avatar"><img loading="lazy" src="images/guests/neeve-fletcher.jpg" alt="Neeve"><span class="floor-initials">NF</span></div>
+                                    <span class="floor-name">Neeve</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Room 4 -->
-                <div class="room-card">
-                    <div class="room-header"><span class="room-number">Room 4</span></div>
-                    <div class="room-beds">
-                        <div class="bed bed--double">
-                            <div class="bed-headboard"></div>
-                            <div class="bed-pillows"><div class="bed-pillow"></div><div class="bed-pillow"></div></div>
-                            <div class="bed-occupants">
-                                <div class="bed-person guest" data-name="Johnny Gates O'Brien" data-initials="JG" data-room="Room 4" data-tagline="Laughs at his own jokes before the punchline">
-                                    <div class="guest-avatar">
-                                        <img loading="lazy" src="images/guests/johnny-gates-obrien.jpg" alt="Johnny Gates O'Brien">
-                                        <span class="guest-initials">JG</span>
-                                    </div>
-                                    <div class="bed-label">Johnny</div>
+                    <!-- Rooms 6-9 -->
+                    <div class="floor-row floor-row--4">
+                        <div class="floor-room">
+                            <span class="floor-room-num">6</span>
+                            <div class="floor-occupants">
+                                <div class="floor-person guest" data-name="George Heyworth" data-initials="GH" data-room="Room 6" data-tagline="Would eat cereal for every meal if allowed" data-shares="Emma Winup">
+                                    <div class="floor-avatar"><img loading="lazy" src="images/guests/george-heyworth.jpg" alt="George"><span class="floor-initials">GH</span></div>
+                                    <span class="floor-name">George</span>
                                 </div>
-                                <div class="bed-person guest" data-name="Florrie Gates O'Brien" data-initials="FG" data-room="Room 4" data-tagline="Audible from three postcodes away">
-                                    <div class="guest-avatar">
-                                        <img loading="lazy" src="images/guests/florrie-gates-obrien.jpg" alt="Florrie Gates O'Brien">
-                                        <span class="guest-initials">FG</span>
-                                    </div>
-                                    <div class="bed-label">Florrie</div>
+                                <div class="floor-person guest" data-name="Emma Winup" data-initials="EW" data-room="Room 6" data-tagline="Afraid of at least one farmyard animal" data-shares="George Heyworth">
+                                    <div class="floor-avatar"><img loading="lazy" src="images/guests/emma-winup.jpg" alt="Emma W"><span class="floor-initials">EW</span></div>
+                                    <span class="floor-name">Emma W</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="floor-room">
+                            <span class="floor-room-num">7</span>
+                            <div class="floor-occupants">
+                                <div class="floor-person guest" data-name="Tom Heyworth" data-initials="TH" data-room="Room 7" data-tagline="Still thinks about something embarrassing from 2014" data-shares="Robert Winup">
+                                    <div class="floor-avatar"><img loading="lazy" src="images/guests/tom-heyworth.jpg" alt="Tom"><span class="floor-initials">TH</span></div>
+                                    <span class="floor-name">Tom</span>
+                                </div>
+                                <div class="floor-person guest" data-name="Robert Winup" data-initials="RW" data-room="Room 7" data-tagline="Has never won an argument with a sat nav" data-shares="Tom Heyworth">
+                                    <div class="floor-avatar"><img loading="lazy" src="images/guests/robert-winup.jpg" alt="Robert"><span class="floor-initials">RW</span></div>
+                                    <span class="floor-name">Robert</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="floor-room floor-room--solo">
+                            <span class="floor-room-num">8</span>
+                            <div class="floor-occupants">
+                                <div class="floor-person guest" data-name="Sarah Shamia" data-initials="SS" data-room="Room 8" data-tagline="Pronounces 'croissant' differently every time">
+                                    <div class="floor-avatar"><img loading="lazy" src="images/guests/sarah-shamia.jpg" alt="Sarah"><span class="floor-initials">SS</span></div>
+                                    <span class="floor-name">Sarah</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="floor-room">
+                            <span class="floor-room-num">9</span>
+                            <div class="floor-occupants">
+                                <div class="floor-person guest" data-name="Kiran Ruparelia" data-initials="KR" data-room="Room 9" data-tagline="Could start an argument in an empty room" data-shares="Chris Coggin">
+                                    <div class="floor-avatar"><img loading="lazy" src="images/guests/kiran-ruparelia.jpg" alt="Kiran"><span class="floor-initials">KR</span></div>
+                                    <span class="floor-name">Kiran</span>
+                                </div>
+                                <div class="floor-person guest" data-name="Chris Coggin" data-initials="CC" data-room="Room 9" data-tagline="Believes pigeons are watching us" data-shares="Kiran Ruparelia">
+                                    <div class="floor-avatar"><img loading="lazy" src="images/guests/chris-coggin.jpg" alt="Chris"><span class="floor-initials">CC</span></div>
+                                    <span class="floor-name">Chris</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Room 5 -->
-                <div class="room-card">
-                    <div class="room-header"><span class="room-number">Room 5</span></div>
-                    <div class="room-beds">
-                        <div class="bed bed--double">
-                            <div class="bed-headboard"></div>
-                            <div class="bed-pillows"><div class="bed-pillow"></div><div class="bed-pillow"></div></div>
-                            <div class="bed-occupants">
-                                <div class="bed-person guest" data-name="Razon Mahebub" data-initials="RM" data-room="Room 5" data-tagline="Politely destroying you since day one">
-                                    <div class="guest-avatar">
-                                        <img loading="lazy" src="images/guests/razon-mahebub.jpg" alt="Razon Mahebub">
-                                        <span class="guest-initials">RM</span>
-                                    </div>
-                                    <div class="bed-label">Razon</div>
+                    <!-- Rooms 10-11 -->
+                    <div class="floor-row floor-row--2">
+                        <div class="floor-room">
+                            <span class="floor-room-num">10</span>
+                            <div class="floor-occupants">
+                                <div class="floor-person guest" data-name="Oli Moran" data-initials="OM" data-room="Room 10" data-tagline="Has been in a staring contest with a cat and lost" data-shares="Peter London">
+                                    <div class="floor-avatar"><img loading="lazy" src="images/guests/oli-moran.jpg" alt="Oli"><span class="floor-initials">OM</span></div>
+                                    <span class="floor-name">Oli</span>
                                 </div>
-                                <div class="bed-person guest" data-name="Neeve Fletcher" data-initials="NF" data-room="Room 5" data-tagline="Will judge your cooking to your face">
-                                    <div class="guest-avatar">
-                                        <img loading="lazy" src="images/guests/neeve-fletcher.jpg" alt="Neeve Fletcher">
-                                        <span class="guest-initials">NF</span>
-                                    </div>
-                                    <div class="bed-label">Neeve</div>
+                                <div class="floor-person guest" data-name="Peter London" data-initials="PL" data-room="Room 10" data-tagline="Would back themselves in a pub quiz about nothing" data-shares="Oli Moran">
+                                    <div class="floor-avatar"><img loading="lazy" src="images/guests/peter-london.jpg" alt="Peter"><span class="floor-initials">PL</span></div>
+                                    <span class="floor-name">Peter</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="floor-room">
+                            <span class="floor-room-num">11</span>
+                            <div class="floor-occupants">
+                                <div class="floor-person guest" data-name="Emma Levett" data-initials="EL" data-room="Room 11" data-tagline="Has a suspicious amount of tote bags" data-shares="Jonny Levett">
+                                    <div class="floor-avatar"><img loading="lazy" src="images/guests/emma-levett.jpg" alt="Emma L"><span class="floor-initials">EL</span></div>
+                                    <span class="floor-name">Emma L</span>
+                                </div>
+                                <div class="floor-person guest" data-name="Jonny Levett" data-initials="JL" data-room="Room 11" data-tagline="Once got spooked by their own reflection" data-shares="Emma Levett">
+                                    <div class="floor-avatar"><img loading="lazy" src="images/guests/jonny-levett.jpg" alt="Jonny L"><span class="floor-initials">JL</span></div>
+                                    <span class="floor-name">Jonny L</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Room 6 -->
-                <div class="room-card">
-                    <div class="room-header"><span class="room-number">Room 6</span></div>
-                    <div class="room-beds">
-                        <div class="bed bed--double">
-                            <div class="bed-headboard"></div>
-                            <div class="bed-pillows"><div class="bed-pillow"></div><div class="bed-pillow"></div></div>
-                            <div class="bed-occupants">
-                                <div class="bed-person guest" data-name="George Heyworth" data-initials="GH" data-room="Room 6" data-tagline="Volume: 11. Always">
-                                    <div class="guest-avatar">
-                                        <img loading="lazy" src="images/guests/george-heyworth.jpg" alt="George Heyworth">
-                                        <span class="guest-initials">GH</span>
-                                    </div>
-                                    <div class="bed-label">George</div>
+                    <!-- Room 12 - The Lads Dorm -->
+                    <div class="floor-row floor-row--dorm">
+                        <div class="floor-room floor-room--dorm">
+                            <span class="floor-room-tag floor-room-tag--party">&#127881; Room 12 &mdash; The Lads</span>
+                            <div class="floor-occupants floor-occupants--dorm">
+                                <div class="floor-person guest" data-name="Jonny Williams" data-initials="JW" data-room="Room 12 - The Lads" data-tagline="Thinks they'd be fine in a sword fight">
+                                    <div class="floor-avatar"><img loading="lazy" src="images/guests/jonny-williams.jpg" alt="Jonny W"><span class="floor-initials">JW</span></div>
+                                    <span class="floor-name">Jonny W</span>
                                 </div>
-                                <div class="bed-person guest" data-name="Emma Winup" data-initials="EW" data-room="Room 6" data-tagline="Has a spreadsheet you don't know about">
-                                    <div class="guest-avatar">
-                                        <img loading="lazy" src="images/guests/emma-winup.jpg" alt="Emma Winup">
-                                        <span class="guest-initials">EW</span>
-                                    </div>
-                                    <div class="bed-label">Emma W</div>
+                                <div class="floor-person guest" data-name="Shane Pallian" data-initials="SP" data-room="Room 12 - The Lads" data-tagline="Fully committed to a bit. Any bit">
+                                    <div class="floor-avatar"><img loading="lazy" src="images/guests/shane-pallian.jpg" alt="Shane"><span class="floor-initials">SP</span></div>
+                                    <span class="floor-name">Shane</span>
+                                </div>
+                                <div class="floor-person guest" data-name="Oscar Walters" data-initials="OW" data-room="Room 12 - The Lads" data-tagline="Has confidently given wrong directions before">
+                                    <div class="floor-avatar"><img loading="lazy" src="images/guests/oscar-walters.jpg" alt="Oscar"><span class="floor-initials">OW</span></div>
+                                    <span class="floor-name">Oscar</span>
+                                </div>
+                                <div class="floor-person guest" data-name="Pranay Dube" data-initials="PD" data-room="Room 12 - The Lads" data-tagline="Thinks about the Roman Empire more than they'd admit">
+                                    <div class="floor-avatar"><img loading="lazy" src="images/guests/pranay-dube.jpg" alt="Pranay"><span class="floor-initials">PD</span></div>
+                                    <span class="floor-name">Pranay</span>
+                                </div>
+                                <div class="floor-person guest" data-name="Matt Hill" data-initials="MH" data-room="Room 12 - The Lads" data-tagline="Would absolutely fight a goose for a laugh">
+                                    <div class="floor-avatar"><img loading="lazy" src="images/guests/matt-hill.jpg" alt="Matt"><span class="floor-initials">MH</span></div>
+                                    <span class="floor-name">Matt</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Room 7 -->
-                <div class="room-card">
-                    <div class="room-header"><span class="room-number">Room 7</span></div>
-                    <div class="room-beds">
-                        <div class="bed bed--double">
-                            <div class="bed-headboard"></div>
-                            <div class="bed-pillows"><div class="bed-pillow"></div><div class="bed-pillow"></div></div>
-                            <div class="bed-occupants">
-                                <div class="bed-person guest" data-name="Tom Heyworth" data-initials="TH" data-room="Room 7" data-tagline="Every story is 'the best one ever'. It isn't">
-                                    <div class="guest-avatar">
-                                        <img loading="lazy" src="images/guests/tom-heyworth.jpg" alt="Tom Heyworth">
-                                        <span class="guest-initials">TH</span>
-                                    </div>
-                                    <div class="bed-label">Tom</div>
-                                </div>
-                                <div class="bed-person guest" data-name="Robert Winup" data-initials="RW" data-room="Room 7" data-tagline="Judging your glass choice since forever">
-                                    <div class="guest-avatar">
-                                        <img loading="lazy" src="images/guests/robert-winup.jpg" alt="Robert Winup">
-                                        <span class="guest-initials">RW</span>
-                                    </div>
-                                    <div class="bed-label">Robert</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </div><!-- /.chateau-body -->
 
-                <!-- Room 8 - Solo -->
-                <div class="room-card solo-room">
-                    <div class="room-header">
-                        <span class="room-number">Room 8</span>
-                        <span class="room-tag solo">Solo</span>
-                    </div>
-                    <div class="room-beds">
-                        <div class="bed bed--single">
-                            <div class="bed-headboard"></div>
-                            <div class="bed-pillows"><div class="bed-pillow"></div></div>
-                            <div class="bed-occupants">
-                                <div class="bed-person guest" data-name="Sarah Shamia" data-initials="SS" data-room="Room 8 - Solo" data-tagline="Knows more than she should">
-                                    <div class="guest-avatar">
-                                        <img loading="lazy" src="images/guests/sarah-shamia.jpg" alt="Sarah Shamia">
-                                        <span class="guest-initials">SS</span>
-                                    </div>
-                                    <div class="bed-label">Sarah</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Room 9 -->
-                <div class="room-card">
-                    <div class="room-header"><span class="room-number">Room 9</span></div>
-                    <div class="room-beds">
-                        <div class="bed bed--double">
-                            <div class="bed-headboard"></div>
-                            <div class="bed-pillows"><div class="bed-pillow"></div><div class="bed-pillow"></div></div>
-                            <div class="bed-occupants">
-                                <div class="bed-person guest" data-name="Kiran Ruparelia" data-initials="KR" data-room="Room 9" data-tagline="4am? That's early">
-                                    <div class="guest-avatar">
-                                        <img loading="lazy" src="images/guests/kiran-ruparelia.jpg" alt="Kiran Ruparelia">
-                                        <span class="guest-initials">KR</span>
-                                    </div>
-                                    <div class="bed-label">Kiran</div>
-                                </div>
-                                <div class="bed-person guest" data-name="Chris Coggin" data-initials="CC" data-room="Room 9" data-tagline="Does everything. Says nothing">
-                                    <div class="guest-avatar">
-                                        <img loading="lazy" src="images/guests/chris-coggin.jpg" alt="Chris Coggin">
-                                        <span class="guest-initials">CC</span>
-                                    </div>
-                                    <div class="bed-label">Chris</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Room 10 -->
-                <div class="room-card">
-                    <div class="room-header"><span class="room-number">Room 10</span></div>
-                    <div class="room-beds">
-                        <div class="bed bed--double">
-                            <div class="bed-headboard"></div>
-                            <div class="bed-pillows"><div class="bed-pillow"></div><div class="bed-pillow"></div></div>
-                            <div class="bed-occupants">
-                                <div class="bed-person guest" data-name="Oli Moran" data-initials="OM" data-room="Room 10" data-tagline="Will find a sun lounger and become one with it">
-                                    <div class="guest-avatar">
-                                        <img loading="lazy" src="images/guests/oli-moran.jpg" alt="Oli Moran">
-                                        <span class="guest-initials">OM</span>
-                                    </div>
-                                    <div class="bed-label">Oli</div>
-                                </div>
-                                <div class="bed-person guest" data-name="Peter London" data-initials="PL" data-room="Room 10" data-tagline="Nobody knows what he'll do next. Including him">
-                                    <div class="guest-avatar">
-                                        <img loading="lazy" src="images/guests/peter-london.jpg" alt="Peter London">
-                                        <span class="guest-initials">PL</span>
-                                    </div>
-                                    <div class="bed-label">Peter</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Room 11 -->
-                <div class="room-card">
-                    <div class="room-header"><span class="room-number">Room 11</span></div>
-                    <div class="room-beds">
-                        <div class="bed bed--double">
-                            <div class="bed-headboard"></div>
-                            <div class="bed-pillows"><div class="bed-pillow"></div><div class="bed-pillow"></div></div>
-                            <div class="bed-occupants">
-                                <div class="bed-person guest" data-name="Emma Levett" data-initials="EL" data-room="Room 11" data-tagline="If it's not on brand, it didn't happen">
-                                    <div class="guest-avatar">
-                                        <img loading="lazy" src="images/guests/emma-levett.jpg" alt="Emma Levett">
-                                        <span class="guest-initials">EL</span>
-                                    </div>
-                                    <div class="bed-label">Emma L</div>
-                                </div>
-                                <div class="bed-person guest" data-name="Jonny Levett" data-initials="JL" data-room="Room 11" data-tagline="Deny everything. Admit nothing">
-                                    <div class="guest-avatar">
-                                        <img loading="lazy" src="images/guests/jonny-levett.jpg" alt="Jonny Levett">
-                                        <span class="guest-initials">JL</span>
-                                    </div>
-                                    <div class="bed-label">Jonny L</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Room 12 - The Lads -->
-                <div class="room-card party-room">
-                    <div class="room-header">
-                        <span class="room-number">Room 12</span>
-                        <span class="room-tag party">The Lads</span>
-                    </div>
-                    <div class="room-beds room-beds--dorm">
-                        <div class="bed bed--single">
-                            <div class="bed-headboard"></div>
-                            <div class="bed-pillows"><div class="bed-pillow"></div></div>
-                            <div class="bed-occupants">
-                                <div class="bed-person guest" data-name="Jonny Williams" data-initials="JW" data-room="Room 12 - The Lads" data-tagline="The hero of his own story (and yours, apparently)">
-                                    <div class="guest-avatar">
-                                        <img loading="lazy" src="images/guests/jonny-williams.jpg" alt="Jonny Williams">
-                                        <span class="guest-initials">JW</span>
-                                    </div>
-                                    <div class="bed-label">Jonny W</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bed bed--single">
-                            <div class="bed-headboard"></div>
-                            <div class="bed-pillows"><div class="bed-pillow"></div></div>
-                            <div class="bed-occupants">
-                                <div class="bed-person guest" data-name="Shane Pallian" data-initials="SP" data-room="Room 12 - The Lads" data-tagline="Winning isn't everything. It's the only thing">
-                                    <div class="guest-avatar">
-                                        <img loading="lazy" src="images/guests/shane-pallian.jpg" alt="Shane Pallian">
-                                        <span class="guest-initials">SP</span>
-                                    </div>
-                                    <div class="bed-label">Shane</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bed bed--single">
-                            <div class="bed-headboard"></div>
-                            <div class="bed-pillows"><div class="bed-pillow"></div></div>
-                            <div class="bed-occupants">
-                                <div class="bed-person guest" data-name="Oscar Walters" data-initials="OW" data-room="Room 12 - The Lads" data-tagline="Your bad decisions are his suggestions">
-                                    <div class="guest-avatar">
-                                        <img loading="lazy" src="images/guests/oscar-walters.jpg" alt="Oscar Walters">
-                                        <span class="guest-initials">OW</span>
-                                    </div>
-                                    <div class="bed-label">Oscar</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bed bed--single">
-                            <div class="bed-headboard"></div>
-                            <div class="bed-pillows"><div class="bed-pillow"></div></div>
-                            <div class="bed-occupants">
-                                <div class="bed-person guest" data-name="Pranay Dube" data-initials="PD" data-room="Room 12 - The Lads" data-tagline="The human golden retriever">
-                                    <div class="guest-avatar">
-                                        <img loading="lazy" src="images/guests/pranay-dube.jpg" alt="Pranay Dube">
-                                        <span class="guest-initials">PD</span>
-                                    </div>
-                                    <div class="bed-label">Pranay</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bed bed--single">
-                            <div class="bed-headboard"></div>
-                            <div class="bed-pillows"><div class="bed-pillow"></div></div>
-                            <div class="bed-occupants">
-                                <div class="bed-person guest" data-name="Matt Hill" data-initials="MH" data-room="Room 12 - The Lads" data-tagline="Late to the party but worth the wait">
-                                    <div class="guest-avatar">
-                                        <img loading="lazy" src="images/guests/matt-hill.jpg" alt="Matt Hill">
-                                        <span class="guest-initials">MH</span>
-                                    </div>
-                                    <div class="bed-label">Matt</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bed bed--single bed--empty">
-                            <div class="bed-headboard"></div>
-                            <div class="bed-pillows"><div class="bed-pillow"></div></div>
-                            <div class="bed-occupants">
-                                <div class="bed-person bed-person--empty">
-                                    <div class="guest-avatar empty-avatar">
-                                        <span class="guest-initials">?</span>
-                                    </div>
-                                    <div class="bed-label empty-label">Empty</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </div><!-- /#crew-view-rooms -->
-
-            <!-- Teams View -->
-            <div class="crew-view" id="crew-view-teams" style="display:none">
-                <div class="teams-grid-4">
-
-                    <!-- Titans -->
-                    <div class="team-card team-card--t1">
-                        <div class="team-card-hero">
-                            <span class="team-hero-icon">⚡</span>
-                            <h3 class="team-hero-name">Titans</h3>
-                            <div class="team-hero-meta">7 members &middot; Captain: Joe</div>
-                        </div>
-                        <div class="team-roster-list">
-                            <div class="team-member captain"><span class="tm-name">Joe O'Brien</span><span class="tm-badge">Captain</span></div>
-                            <div class="team-member"><span class="tm-name">Sam Recchia</span></div>
-                            <div class="team-member"><span class="tm-name">Robin Hughes</span></div>
-                            <div class="team-member"><span class="tm-name">Emma Levett</span></div>
-                            <div class="team-member"><span class="tm-name">Kiran Ruparelia</span></div>
-                            <div class="team-member"><span class="tm-name">Oscar Walters</span></div>
-                            <div class="team-member"><span class="tm-name">Chris Coggin</span></div>
-                        </div>
-                    </div>
-
-                    <!-- Spartans -->
-                    <div class="team-card team-card--t2">
-                        <div class="team-card-hero">
-                            <span class="team-hero-icon">🛡️</span>
-                            <h3 class="team-hero-name">Spartans</h3>
-                            <div class="team-hero-meta">7 members &middot; Captain: Razon</div>
-                        </div>
-                        <div class="team-roster-list">
-                            <div class="team-member captain"><span class="tm-name">Razon Mahebub</span><span class="tm-badge">Captain</span></div>
-                            <div class="team-member"><span class="tm-name">Sophie Geen</span></div>
-                            <div class="team-member"><span class="tm-name">Robert Winup</span></div>
-                            <div class="team-member"><span class="tm-name">Florrie G O'Brien</span></div>
-                            <div class="team-member"><span class="tm-name">Shane Pallian</span></div>
-                            <div class="team-member"><span class="tm-name">Jonny Williams</span></div>
-                            <div class="team-member"><span class="tm-name">Matt Hill</span></div>
-                        </div>
-                    </div>
-
-                    <!-- Vikings -->
-                    <div class="team-card team-card--t3">
-                        <div class="team-card-hero">
-                            <span class="team-hero-icon">⚔️</span>
-                            <h3 class="team-hero-name">Vikings</h3>
-                            <div class="team-hero-meta">6 members &middot; Captain: Hannah</div>
-                        </div>
-                        <div class="team-roster-list">
-                            <div class="team-member captain"><span class="tm-name">Hannah O'Brien</span><span class="tm-badge">Captain</span></div>
-                            <div class="team-member"><span class="tm-name">Luke Recchia</span></div>
-                            <div class="team-member"><span class="tm-name">George Heyworth</span></div>
-                            <div class="team-member"><span class="tm-name">Neeve Fletcher</span></div>
-                            <div class="team-member"><span class="tm-name">Oli Moran</span></div>
-                            <div class="team-member"><span class="tm-name">Jonny Levett</span></div>
-                        </div>
-                    </div>
-
-                    <!-- Gladiators -->
-                    <div class="team-card team-card--t4">
-                        <div class="team-card-hero">
-                            <span class="team-hero-icon">🗡️</span>
-                            <h3 class="team-hero-name">Gladiators</h3>
-                            <div class="team-hero-meta">6 members &middot; Captain: Peter</div>
-                        </div>
-                        <div class="team-roster-list">
-                            <div class="team-member captain"><span class="tm-name">Peter London</span><span class="tm-badge">Captain</span></div>
-                            <div class="team-member"><span class="tm-name">Johnny G O'Brien</span></div>
-                            <div class="team-member"><span class="tm-name">Tom Heyworth</span></div>
-                            <div class="team-member"><span class="tm-name">Sarah Shamia</span></div>
-                            <div class="team-member"><span class="tm-name">Emma Winup</span></div>
-                            <div class="team-member"><span class="tm-name">Pranay Dube</span></div>
-                        </div>
-                    </div>
-
-                </div><!-- /.teams-grid-4 -->
-            </div><!-- /#crew-view-teams -->
+                <!-- Foundation -->
+                <div class="chateau-foundation"></div>
+            </div><!-- /.chateau -->
 
         </div>
     </section>
 
-
-    <!-- Theme Switcher -->
-    <div class="theme-switcher" id="theme-switcher">
-        <button class="theme-toggle-btn" id="theme-toggle-btn">🎨</button>
-        <div class="theme-options" id="theme-options">
-            <button class="theme-option" data-theme="default" title="Birthday Party">🎂</button>
-            <button class="theme-option" data-theme="france" title="French Vibes">🇫🇷</button>
-            <button class="theme-option" data-theme="wine" title="Wine O'Clock">🍷</button>
-            <button class="theme-option" data-theme="sunset" title="Golden Hour">🌅</button>
-            <button class="theme-option" data-theme="disco" title="Disco Night">🪩</button>
-        </div>
-    </div>
-
     <!-- Confetti Cannon -->
-    <button class="confetti-cannon" id="confetti-cannon">🎉<span class="cannon-label">POP!</span></button>
+    <button class="confetti-cannon" id="confetti-cannon">&#127881;<span class="cannon-label">POP!</span></button>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>Made with love for Joe's 30th Birthday 🎂 🇫🇷 🎉</p>
+            <p>Made with love for Joe's 30th Birthday &#127874; &#127467;&#127479; &#127881;</p>
         </div>
     </footer>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
-    <script src="js/shared.js?v=18"></script>
-    <script src="js/firebase-config.js?v=1"></script>
+    <script src="js/shared.js?v=19"></script>
+    <script src="js/firebase-config.js?v=2"></script>
     <script src="js/nav.js?v=1"></script>
-    <script src="js/social.js?v=28"></script>
+    <script src="js/social.js?v=30"></script>
 </body>
 </html>

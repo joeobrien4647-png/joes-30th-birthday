@@ -516,7 +516,7 @@
         completeFullHouse: function(guestCode, guestName, team) {
             if (!db) return;
             bingoAwardPoints(guestName, team, 50, 'BINGO FULL HOUSE!');
-            bingoPostFeed(guestName + ' got a FULL HOUSE! King/Queen of the Chateau!', guestName, team);
+            bingoPostFeed(guestName + ' got a FULL HOUSE! King/Queen of the Château!', guestName, team);
         },
 
         getGuestStats: function(guestCode) {

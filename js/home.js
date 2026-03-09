@@ -199,17 +199,15 @@ function initCountdown() {
     var tips = [
         'Start practising your French!',
         'Pack your swimwear — there\'s a pool!',
-        'Got your fancy dress sorted?',
-        'Book those flights if you haven\'t!',
+        'Check your packing list on the Info page!',
         'Add a song to the trip playlist!',
-        'Leave Joe a message on the Social wall!',
+        'Check out the crew on the Crew page!',
         'Sign up for activities on the Schedule page!'
     ];
     var tipEl = document.createElement('p');
     tipEl.className = 'countdown-tip';
-    var heroButtons = document.querySelector('.hero-buttons');
-    if (heroButtons && countdownEl) {
-        countdownEl.parentNode.insertBefore(tipEl, heroButtons);
+    if (countdownEl) {
+        countdownEl.parentNode.appendChild(tipEl);
         var tipIdx = Math.floor(Math.random() * tips.length);
         tipEl.textContent = tips[tipIdx];
         setInterval(function () {
@@ -475,10 +473,6 @@ function initGuestLogin() {
     const dashboardSection = document.getElementById('my-dashboard');
     const logoutBtn = document.getElementById('dashboard-logout');
 
-    // Hide old modal if still in DOM
-    var oldModal = document.getElementById('guest-login-modal');
-    if (oldModal) oldModal.style.display = 'none';
-
     // Check if already logged in
     const savedGuest = localStorage.getItem('guestCode');
     if (savedGuest && GUEST_DATA[savedGuest]) {
@@ -520,74 +514,87 @@ function initGuestLogin() {
 
         dashboardSection.style.display = 'block';
 
+        // Hide scroll indicator once logged in
+        var scrollInd = document.querySelector('.scroll-indicator');
+        if (scrollInd) scrollInd.style.display = 'none';
+
         document.getElementById('dashboard-name').textContent = guest.name;
-        document.getElementById('stat-room').textContent = guest.room;
         var teamKey = PLAYERS[guest.name];
         var hasRevealed = localStorage.getItem('teamRevealed_' + code) === 'true';
         var teamConfig = teamKey && TEAM_CONFIG ? TEAM_CONFIG[teamKey] : null;
+
+        // Pre-trip vs during-trip dashboard
+        var tripStart = new Date('2026-04-29T00:00:00+02:00').getTime();
+        var isPreTrip = Date.now() < tripStart;
+
         if (hasRevealed && teamConfig) {
             document.getElementById('stat-team').innerHTML = '<span style="color:' + teamConfig.color + '">' + teamConfig.name + '</span>';
         } else {
-            document.getElementById('stat-team').textContent = '🔒 Spin to find out!';
+            document.getElementById('stat-team').textContent = '\uD83D\uDD12 Spin to find out!';
         }
 
         var teamExplainer = document.getElementById('team-explainer');
-        if (teamExplainer) teamExplainer.style.display = hasRevealed ? 'none' : 'block';
 
-        // Points — always show (0 pre-trip, live during trip)
-        const individualScores = Store.get('lb_individualScores', {});
-        const myPts = individualScores[guest.name] || 0;
-        const ptsEl = document.getElementById('stat-points');
-        if (ptsEl) animateCount(ptsEl, myPts);
+        if (isPreTrip) {
+            // Pre-trip: hide points/rank/bingo, show hype message
+            var statsStrip = document.getElementById('stats-strip');
+            if (statsStrip) {
+                // Hide points, rank, bingo items — keep only team
+                var items = statsStrip.querySelectorAll('.stats-strip-item');
+                var dividers = statsStrip.querySelectorAll('.stats-strip-divider');
+                // items[0]=Team, items[1]=Points, items[2]=Rank, items[3]=Bingo
+                if (items[1]) items[1].style.display = 'none';
+                if (items[2]) items[2].style.display = 'none';
+                if (items[3]) items[3].style.display = 'none';
+                dividers.forEach(function(d) { d.style.display = 'none'; });
+            }
+            if (teamExplainer) {
+                teamExplainer.style.display = 'block';
+                if (hasRevealed) {
+                    teamExplainer.textContent = 'Points, ranks & bingo go live on arrival day. Get ready!';
+                } else {
+                    teamExplainer.textContent = 'Teams revealed on arrival night. Then it\'s game on!';
+                }
+            }
+        } else {
+            // During trip: show all stats
+            if (teamExplainer) teamExplainer.style.display = hasRevealed ? 'none' : 'block';
 
-        const personalAgenda = document.getElementById('personal-agenda');
-        if (personalAgenda) personalAgenda.innerHTML = '<p>' + escapeHtml(guest.personalNotes) + '</p>';
+            // Points
+            const individualScores = Store.get('lb_individualScores', {});
+            const myPts = individualScores[guest.name] || 0;
+            const ptsEl = document.getElementById('stat-points');
+            if (ptsEl) animateCount(ptsEl, myPts);
+
+            // Rank
+            const sorted = Object.entries(individualScores)
+                .filter(function(e) { return e[1] > 0; })
+                .sort(function(a, b) { return b[1] - a[1]; });
+            var rankEl = document.getElementById('stat-rank');
+            if (rankEl) {
+                if (myPts > 0) {
+                    var myRank = sorted.findIndex(function(e) { return e[0] === guest.name; }) + 1;
+                    rankEl.textContent = '#' + myRank;
+                } else {
+                    rankEl.textContent = '-';
+                }
+            }
+
+            // Bingo progress
+            var bingoEl = document.getElementById('stat-bingo');
+            if (bingoEl) {
+                var bingoClaims = Store.get('bingoClaims_' + code, {});
+                var bingoCount = 0;
+                if (bingoClaims && typeof bingoClaims === 'object') {
+                    Object.keys(bingoClaims).forEach(function(k) {
+                        if (bingoClaims[k] && bingoClaims[k].status === 'approved') bingoCount++;
+                    });
+                }
+                bingoEl.textContent = bingoCount + '/16';
+            }
+        }
     }
 
-    function renderMissions(code, missions) {
-        const list = document.getElementById('missions-list');
-        const completedEl = document.getElementById('missions-completed');
-        const totalEl = document.getElementById('missions-total');
-        if (!list) return;
-
-        const savedProgress = Store.get('missionProgress', {});
-        const guestProgress = savedProgress[code] || {};
-
-        let completedCount = 0;
-        list.innerHTML = '';
-
-        missions.forEach(mission => {
-            const isCompleted = guestProgress[mission.id] || false;
-            if (isCompleted) completedCount++;
-
-            const item = document.createElement('div');
-            item.className = 'mission-item' + (isCompleted ? ' completed' : '');
-            item.innerHTML = `
-                <label class="mission-checkbox">
-                    <input type="checkbox" ${isCompleted ? 'checked' : ''} data-mission="${mission.id}">
-                    <span class="checkmark"></span>
-                </label>
-                <span class="mission-text">${escapeHtml(mission.text)}</span>
-                ${isCompleted ? '<span class="mission-done">\u2713 Done!</span>' : ''}
-            `;
-
-            const checkbox = item.querySelector('input');
-            checkbox.addEventListener('change', function () {
-                guestProgress[mission.id] = this.checked;
-                savedProgress[code] = guestProgress;
-                Store.set('missionProgress', savedProgress);
-                renderMissions(code, missions);
-                if (this.checked) triggerMiniConfetti();
-            });
-
-            list.appendChild(item);
-        });
-
-        if (completedEl) completedEl.textContent = completedCount;
-        if (totalEl) totalEl.textContent = missions.length;
-        var barFill = document.getElementById('missions-bar-fill');
-        if (barFill) barFill.style.width = (missions.length ? Math.round(completedCount / missions.length * 100) : 0) + '%';
-    }
 }
 
 /* Animate a numeric element from its current displayed value to a new value */
@@ -617,44 +624,51 @@ function initLiveStats() {
     const TEAMS_LIST = ['titans', 'spartans', 'vikings', 'gladiators'];
     const TEAM_NAMES_MAP = { titans: 'Titans', spartans: 'Spartans', vikings: 'Vikings', gladiators: 'Gladiators' };
 
-    // During trip: show live stats + trip numbers cards
+    // During trip: show expanded stats card
     var liveCard = document.getElementById('live-stats-card');
-    var numbersCard = document.getElementById('trip-numbers-card');
-    if (isRevealed()) {
-        if (liveCard) liveCard.style.display = '';
-        if (numbersCard) numbersCard.style.display = '';
+    var _lc = localStorage.getItem('guestCode') || '';
+    var _lsSpun = _lc && localStorage.getItem('teamRevealed_' + _lc) === 'true';
+    var _lsFullReveal = _lsSpun && (typeof isRevealed === 'function' ? isRevealed() : false);
+    if (_lsFullReveal && liveCard) {
+        liveCard.style.display = '';
     }
 
     function render() {
         const guestCode = localStorage.getItem('guestCode');
         if (!guestCode || !GUEST_DATA[guestCode]) return;
-        if (!isRevealed()) return;
+        var _fr = localStorage.getItem('teamRevealed_' + guestCode) && (typeof isRevealed === 'function' ? isRevealed() : false);
+        if (!_fr) return;
 
         const guestName = GUEST_DATA[guestCode].name;
         const individualScores = Store.get('lb_individualScores', {});
         const teamScores = Store.get('lb_teamScores', { titans: 0, spartans: 0, vikings: 0, gladiators: 0 });
         const badges = Store.get('lb_badges', {});
-        const pointsLog = Store.get('lb_pointsLog', []);
 
-        // Live points
-        const myLivePts = individualScores[guestName] || 0;
-        const livePtsEl = document.getElementById('stat-live-points');
-        if (livePtsEl) animateCount(livePtsEl, myLivePts);
+        // Update strip stats (points + rank refresh)
+        const myPts = individualScores[guestName] || 0;
+        const ptsEl = document.getElementById('stat-points');
+        if (ptsEl) animateCount(ptsEl, myPts);
 
-        // Personal rank
         const sorted = Object.entries(individualScores)
-            .sort((a, b) => b[1] - a[1]);
-        const myRank = sorted.findIndex(([n]) => n === guestName) + 1;
-        const rankEl = document.getElementById('stat-rank');
-        if (rankEl) rankEl.textContent = myRank > 0 ? ('#' + myRank + ' of ' + sorted.length) : '-';
+            .filter(function(e) { return e[1] > 0; })
+            .sort(function(a, b) { return b[1] - a[1]; });
+        var rankEl = document.getElementById('stat-rank');
+        if (rankEl) {
+            if (myPts > 0) {
+                var myRank = sorted.findIndex(function(e) { return e[0] === guestName; }) + 1;
+                rankEl.textContent = '#' + myRank;
+            } else {
+                rankEl.textContent = '-';
+            }
+        }
 
         // Team rank
         const myTeam = typeof PLAYERS !== 'undefined' ? PLAYERS[guestName] : null;
         if (myTeam) {
-            const teamSorted = TEAMS_LIST.slice().sort((a, b) => (teamScores[b] || 0) - (teamScores[a] || 0));
+            const teamSorted = TEAMS_LIST.slice().sort(function(a, b) { return (teamScores[b] || 0) - (teamScores[a] || 0); });
             const teamRank = teamSorted.indexOf(myTeam) + 1;
             const teamRankEl = document.getElementById('stat-team-rank');
-            if (teamRankEl) teamRankEl.textContent = '#' + teamRank + ' ' + (isRevealed() ? TEAM_NAMES_MAP[myTeam] : '');
+            if (teamRankEl) teamRankEl.textContent = '#' + teamRank + ' ' + TEAM_NAMES_MAP[myTeam];
         }
 
         // Badges
@@ -673,39 +687,26 @@ function initLiveStats() {
                 le_francais: '\uD83C\uDDEB\uD83C\uDDF7', social_butterfly: '\uD83E\uDD8B',
                 comeback_kid: '\uD83D\uDD04', triple_threat: '\u26A1'
             };
-            badgeRowEl.innerHTML = myBadges.map(b =>
-                '<span class="dash-badge" title="' + b + '">' + (BADGE_ICONS[b] || '\u2B50') + '</span>'
-            ).join('');
+            badgeRowEl.innerHTML = myBadges.map(function(b) {
+                return '<span class="dash-badge" title="' + b + '">' + (BADGE_ICONS[b] || '\u2B50') + '</span>';
+            }).join('');
         }
 
-        // Trip totals
-        const totalPtsEl = document.getElementById('stat-total-pts');
-        if (totalPtsEl) {
-            const total = pointsLog.filter(e => e.amount > 0).reduce((s, e) => s + e.amount, 0);
-            animateCount(totalPtsEl, total);
-        }
-
-        const totalMsgsEl = document.getElementById('stat-total-msgs');
-        if (totalMsgsEl) {
-            const msgs = Store.get('messages', []);
-            animateCount(totalMsgsEl, msgs.length);
-        }
-
-        const totalPhotosEl = document.getElementById('stat-total-photos');
-        if (totalPhotosEl) {
-            const photos = Store.get('photos', []);
-            animateCount(totalPhotosEl, photos.length);
-        }
-
-        const totalSongsEl = document.getElementById('stat-total-songs');
-        if (totalSongsEl) {
-            const songs = Store.get('musicRequests', []);
-            animateCount(totalSongsEl, songs.length);
+        // Bingo progress refresh
+        var bingoEl = document.getElementById('stat-bingo');
+        if (bingoEl) {
+            var bingoClaims = Store.get('bingoClaims_' + guestCode, {});
+            var bingoCount = 0;
+            if (bingoClaims && typeof bingoClaims === 'object') {
+                Object.keys(bingoClaims).forEach(function(k) {
+                    if (bingoClaims[k] && bingoClaims[k].status === 'approved') bingoCount++;
+                });
+            }
+            bingoEl.textContent = bingoCount + '/16';
         }
     }
 
     render();
-    // Refresh stats every 30 seconds
     setInterval(render, 30000);
 }
 
@@ -1031,3 +1032,31 @@ function showTeamWheel(guestCode) {
         burst(w * 0.8, h * 0.45, 1900);
     }
 }
+
+/* ============================================
+   Scene Animation Replay
+   Replays the château arrival animation each
+   time the hero section scrolls back into view.
+   ============================================ */
+(function initSceneReplay() {
+    var scene = document.querySelector('.scene');
+    if (!scene) return;
+
+    var hasLeft = false;
+
+    var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (!entry.isIntersecting) {
+                hasLeft = true;
+            } else if (entry.isIntersecting && hasLeft) {
+                hasLeft = false;
+                // Clone-replace restarts all CSS animations
+                var clone = scene.cloneNode(true);
+                scene.parentNode.replaceChild(clone, scene);
+                scene = clone;
+            }
+        });
+    }, { threshold: 0.1 });
+
+    observer.observe(scene);
+})();

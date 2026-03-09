@@ -7,26 +7,22 @@
 var FEED_TYPES = {
     message:      { icon: '💬', color: '#4CAF50',  label: 'Message' },
     confession:   { icon: '🤫', color: '#9C27B0',  label: 'Confession' },
-    music:        { icon: '🎵', color: '#2196F3',  label: 'Song' },
     photo:        { icon: '📸', color: '#FF9800',  label: 'Photo' },
-    prediction:   { icon: '🔮', color: '#E91E63',  label: 'Prediction' },
+    bingo:        { icon: '🎯', color: '#00BCD4',  label: 'Bingo' },
     bingo_claim:  { icon: '✅', color: '#00BCD4',  label: 'Bingo Claim' },
     bingo_line:   { icon: '🎯', color: '#FF5722',  label: 'Bingo Line' },
     bingo_house:  { icon: '👑', color: '#FFD700',  label: 'Full House' },
     points:       { icon: '🏆', color: '#FFC107',  label: 'Points' },
     announcement: { icon: '📢', color: '#F44336',  label: 'Announcement' },
-    signup:       { icon: '✋', color: '#8BC34A',  label: 'Sign-up' },
-    punishment:   { icon: '😈', color: '#FF5722',  label: 'Punishment' },
-    reward:       { icon: '🎁', color: '#FFD700',  label: 'Reward' }
+    punishment:   { icon: '😈', color: '#FF5722',  label: 'Punishment' }
 };
 
 /* Filter groups */
 var FILTER_MAP = {
     all:    null,
-    bingo:  ['bingo_claim', 'bingo_line', 'bingo_house', 'punishment', 'reward'],
-    scores: ['points'],
+    bingo:  ['bingo', 'bingo_claim', 'bingo_line', 'bingo_house', 'punishment'],
     photos: ['photo'],
-    social: ['message', 'confession', 'music', 'prediction']
+    social: ['message', 'confession']
 };
 
 var feedData = {};
@@ -146,16 +142,6 @@ function renderFeed(data) {
         })(reactionBtns[r]);
     }
 
-    /* Bind music upvote buttons */
-    var upvoteBtns = list.querySelectorAll('.feed-music-upvote');
-    for (var u = 0; u < upvoteBtns.length; u++) {
-        (function (btn) {
-            btn.addEventListener('click', function () {
-                var itemId = btn.getAttribute('data-item-id');
-                addUpvote(itemId);
-            });
-        })(upvoteBtns[u]);
-    }
 }
 
 /* ============================================
@@ -196,26 +182,7 @@ function renderFeedItem(item) {
 
     /* Content */
     var contentHtml = '';
-    if (item.type === 'music') {
-        var upvotes = item.upvotes || 0;
-        var upvotedBy = item.upvotedBy || {};
-        var hasVoted = upvotedBy[guestCode] ? ' voted' : '';
-        contentHtml = '<div class="feed-item-content">';
-        contentHtml += '<div class="feed-music-info">';
-        contentHtml += '<span class="feed-music-icon">🎵</span>';
-        contentHtml += '<div class="feed-music-details">';
-        contentHtml += '<div class="feed-music-song">' + escapeHtml(item.song || '') + '</div>';
-        contentHtml += '<div class="feed-music-artist">' + escapeHtml(item.artist || '') + '</div>';
-        contentHtml += '</div>';
-        contentHtml += '<button class="feed-music-upvote' + hasVoted + '" data-item-id="' + item._id + '">👍 ' + upvotes + '</button>';
-        contentHtml += '</div>';
-        contentHtml += '</div>';
-    } else if (item.type === 'prediction') {
-        contentHtml = '<div class="feed-item-content">';
-        contentHtml += '<div class="feed-prediction-prefix">By 40, Joe will...</div>';
-        contentHtml += escapeHtml(item.text || '');
-        contentHtml += '</div>';
-    } else if (item.type === 'photo') {
+    if (item.type === 'photo') {
         var photoSrc = item.photoUrl || item.imageUrl || '';
         var photoCaption = item.content || item.caption || '';
         contentHtml = '<div class="feed-item-content">';
@@ -299,25 +266,6 @@ function openCompose(type) {
         html += '<button class="feed-modal-cancel" onclick="closeCompose()">Cancel</button>';
         html += '<button class="feed-modal-submit" id="composeSubmit">Confess</button>';
         html += '</div>';
-    } else if (type === 'music') {
-        html = '<div class="feed-modal-title">' + typeConf.icon + ' Request a Song</div>';
-        html += '<label for="composeSong">Song name</label>';
-        html += '<input type="text" id="composeSong" placeholder="e.g. Mr. Brightside">';
-        html += '<label for="composeArtist">Artist</label>';
-        html += '<input type="text" id="composeArtist" placeholder="e.g. The Killers">';
-        html += '<div class="feed-modal-actions">';
-        html += '<button class="feed-modal-cancel" onclick="closeCompose()">Cancel</button>';
-        html += '<button class="feed-modal-submit" id="composeSubmit">Add Song</button>';
-        html += '</div>';
-    } else if (type === 'prediction') {
-        html = '<div class="feed-modal-title">' + typeConf.icon + ' Make a Prediction</div>';
-        html += '<div class="feed-modal-note">By 40, Joe will...</div>';
-        html += '<textarea id="composeText" placeholder="...have learnt how to cook more than pasta" maxlength="500" rows="3"></textarea>';
-        html += '<div class="feed-modal-char-count"><span id="composeCharCount">0</span> / 500</div>';
-        html += '<div class="feed-modal-actions">';
-        html += '<button class="feed-modal-cancel" onclick="closeCompose()">Cancel</button>';
-        html += '<button class="feed-modal-submit" id="composeSubmit">Predict</button>';
-        html += '</div>';
     } else if (type === 'photo') {
         html = '<div class="feed-modal-title">' + typeConf.icon + ' Share a Photo</div>';
         html += '<div class="photo-upload-area" id="photoUploadArea">';
@@ -354,10 +302,6 @@ function openCompose(type) {
         });
         textArea.focus();
     }
-
-    /* Song field focus */
-    var songInput = document.getElementById('composeSong');
-    if (songInput) songInput.focus();
 
     /* Submit handler */
     var submitBtn = document.getElementById('composeSubmit');
@@ -442,38 +386,6 @@ function handleSubmit(type) {
             text: text,
             timestamp: Date.now()
         };
-    } else if (type === 'music') {
-        var songEl = document.getElementById('composeSong');
-        var artistEl = document.getElementById('composeArtist');
-        var song = songEl ? songEl.value.trim() : '';
-        var artist = artistEl ? artistEl.value.trim() : '';
-        if (!song) {
-            if (submitBtn) submitBtn.disabled = false;
-            return;
-        }
-        data = {
-            type: 'music',
-            guestCode: guestCode,
-            guestName: guestName,
-            song: song,
-            artist: artist,
-            upvotes: 0,
-            timestamp: Date.now()
-        };
-    } else if (type === 'prediction') {
-        var predEl = document.getElementById('composeText');
-        var predText = predEl ? predEl.value.trim() : '';
-        if (!predText) {
-            if (submitBtn) submitBtn.disabled = false;
-            return;
-        }
-        data = {
-            type: 'prediction',
-            guestCode: guestCode,
-            guestName: guestName,
-            text: predText,
-            timestamp: Date.now()
-        };
     }
 
     if (type === 'photo') {
@@ -524,9 +436,7 @@ function submitPost(type, data) {
         /* Also push to the type-specific collection */
         var collectionMap = {
             message: 'messages',
-            confession: 'confessions',
-            music: 'musicRequests',
-            prediction: 'predictions'
+            confession: 'confessions'
         };
         var collection = collectionMap[type];
         if (collection) {
@@ -565,36 +475,6 @@ function addReaction(feedItemId, emoji) {
         var addUpdates = {};
         addUpdates['feed/' + feedItemId + '/reactions/' + emoji] = count + 1;
         addUpdates['feed/' + feedItemId + '/reactedBy/' + guestCode + '/' + emoji] = true;
-        FirebaseSync.update('', addUpdates);
-    }
-}
-
-/* ============================================
-   Music Upvote
-   ============================================ */
-function addUpvote(feedItemId) {
-    if (typeof Auth === 'undefined' || !Auth.isLoggedIn()) return;
-    if (typeof FirebaseSync === 'undefined' || !FirebaseSync.isConfigured()) return;
-
-    var guestCode = Auth.getGuestCode();
-    var item = feedData[feedItemId];
-    if (!item) return;
-
-    var upvotedBy = item.upvotedBy || {};
-
-    if (upvotedBy[guestCode]) {
-        /* Already voted — remove */
-        var currentVotes = item.upvotes || 0;
-        var removeUpdates = {};
-        removeUpdates['feed/' + feedItemId + '/upvotes'] = Math.max(0, currentVotes - 1);
-        removeUpdates['feed/' + feedItemId + '/upvotedBy/' + guestCode] = null;
-        FirebaseSync.update('', removeUpdates);
-    } else {
-        /* Add vote */
-        var votes = item.upvotes || 0;
-        var addUpdates = {};
-        addUpdates['feed/' + feedItemId + '/upvotes'] = votes + 1;
-        addUpdates['feed/' + feedItemId + '/upvotedBy/' + guestCode] = true;
         FirebaseSync.update('', addUpdates);
     }
 }

@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trip Bingo - Joe's 30th Birthday Trip</title>
-    <meta name="description" content="Château Roussignol, Loire Valley · 29 Apr – 4 May 2026">
+    <meta name="description" content="Château Roussignol, Loire Valley - 29 Apr - 4 May 2026">
     <meta property="og:title" content="Joe's 30th Birthday Trip">
-    <meta property="og:description" content="Château Roussignol, Loire Valley · 29 Apr – 4 May 2026">
+    <meta property="og:description" content="Château Roussignol, Loire Valley - 29 Apr - 4 May 2026">
     <meta property="og:image" content="https://joes30.com/images/og-preview.jpg">
     <meta property="og:url" content="https://joes30.com/bingo.html">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Joe's 30th Birthday Trip">
-    <meta name="twitter:description" content="Château Roussignol, Loire Valley · 29 Apr – 4 May 2026">
+    <meta name="twitter:description" content="Château Roussignol, Loire Valley - 29 Apr - 4 May 2026">
     <meta name="twitter:image" content="https://joes30.com/images/og-preview.jpg">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F3AF;</text></svg>">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#764ba2">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -25,9 +25,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/base.css?v=19">
-    <link rel="stylesheet" href="css/components.css?v=1">
+    <link rel="stylesheet" href="css/components.css?v=3">
     <link rel="stylesheet" href="css/nav.css?v=1">
-    <link rel="stylesheet" href="css/bingo.css?v=1">
+    <link rel="stylesheet" href="css/bingo.css?v=3">
 </head>
 <body>
     <!-- Confetti Canvas -->
@@ -54,37 +54,64 @@
         </div>
     </nav>
 
-    <!-- Page Header -->
-    <header class="page-header">
-        <h1>Trip Bingo &#127919;</h1>
-        <p>Claim challenges. Complete lines. Punish your mates.</p>
+    <!-- Hero Header -->
+    <header class="bingo-hero">
+        <div class="bingo-hero-inner">
+            <span class="bingo-hero-emoji">&#127919;</span>
+            <h1>Trip Bingo</h1>
+            <p>Tap a challenge. Do it. Claim it.</p>
+        </div>
+        <!-- Progress ring -->
+        <div class="bingo-progress" id="bingoProgress">
+            <svg class="bingo-ring" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="42" class="bingo-ring-bg"/>
+                <circle cx="50" cy="50" r="42" class="bingo-ring-fill" id="bingoRingFill"/>
+            </svg>
+            <div class="bingo-ring-text">
+                <span class="bingo-ring-num" id="bsYou">0</span>
+                <span class="bingo-ring-label">of 16</span>
+            </div>
+        </div>
     </header>
 
-    <!-- Stats Bar -->
-    <section class="section bingo-stats-bar">
+    <!-- Admin Preview Banner (admin only, hidden by default) -->
+    <div class="bingo-admin-bar" id="bingoAdminBar" style="display: none;">
+        <span>&#128272; Admin Mode</span>
+        <button class="bingo-preview-btn" id="bingoPreviewToggle">&#128065; See Guest View</button>
+    </div>
+
+    <!-- Prize Track -->
+    <section class="bingo-prizes">
         <div class="container">
-            <div class="bingo-stats" id="bingoStats">
-                <div class="bingo-stat">
-                    <span class="bs-val" id="bsYou">0/16</span>
-                    <span class="bs-label">Your Claims</span>
+            <div class="prize-track">
+                <div class="prize-node" data-milestone="1">
+                    <span class="prize-icon">&#127922;</span>
+                    <span class="prize-label">1st Line</span>
+                    <span class="prize-desc">Punish someone</span>
                 </div>
-                <div class="bingo-stat">
-                    <span class="bs-val" id="bsLines">0</span>
-                    <span class="bs-label">Your Lines</span>
+                <div class="prize-connector"></div>
+                <div class="prize-node" data-milestone="2">
+                    <span class="prize-icon">&#128293;</span>
+                    <span class="prize-label">2nd Line</span>
+                    <span class="prize-desc">Dish out a dare</span>
                 </div>
-                <div class="bingo-stat">
-                    <span class="bs-val" id="bsTeamRank">-</span>
-                    <span class="bs-label">Team Rank</span>
+                <div class="prize-connector"></div>
+                <div class="prize-node" data-milestone="3">
+                    <span class="prize-icon">&#128165;</span>
+                    <span class="prize-label">3rd Line</span>
+                    <span class="prize-desc">Group punishment</span>
                 </div>
-                <div class="bingo-stat">
-                    <span class="bs-val" id="bsTotalClaims">0/16</span>
-                    <span class="bs-label">Total Claims</span>
+                <div class="prize-connector"></div>
+                <div class="prize-node prize-node-gold" data-milestone="full">
+                    <span class="prize-icon">&#128081;</span>
+                    <span class="prize-label">Full House</span>
+                    <span class="prize-desc">King of the Château</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Bingo Grid -->
+    <!-- THE GRID -->
     <section class="section bingo-grid-section">
         <div class="container">
             <div class="bingo-grid" id="bingoGrid">
@@ -93,68 +120,27 @@
         </div>
     </section>
 
-    <!-- Points Guide -->
-    <section class="section bingo-points-section">
+    <!-- Punishment Board (hidden until populated) -->
+    <section class="section bingo-punishments-section" style="display: none;">
         <div class="container">
-            <details class="bingo-points-guide">
-                <summary>Points &amp; Rewards Guide</summary>
-                <div class="bingo-points-table">
-                    <div class="bingo-tier">
-                        <span class="bt-milestone">Each claim</span>
-                        <span class="bt-reward">+1 team point</span>
-                    </div>
-                    <div class="bingo-tier">
-                        <span class="bt-milestone">First to claim a challenge</span>
-                        <span class="bt-reward">+3 bonus points</span>
-                    </div>
-                    <div class="bingo-tier">
-                        <span class="bt-milestone">1st line</span>
-                        <span class="bt-reward">+10 pts &#8212; choose someone's punishment</span>
-                    </div>
-                    <div class="bingo-tier">
-                        <span class="bt-milestone">2nd line</span>
-                        <span class="bt-reward">+15 pts &#8212; dish out a dare</span>
-                    </div>
-                    <div class="bingo-tier">
-                        <span class="bt-milestone">3rd line</span>
-                        <span class="bt-reward">+20 pts &#8212; nominate a group punishment</span>
-                    </div>
-                    <div class="bingo-tier bt-fullhouse">
-                        <span class="bt-milestone">Full house</span>
-                        <span class="bt-reward">+50 pts &#8212; King/Queen of the Ch&#226;teau</span>
-                    </div>
-                </div>
-            </details>
+            <h2 class="section-title">&#128520; Punishment Board</h2>
+            <div id="bingoPunishments"></div>
         </div>
     </section>
 
-    <!-- Punishment Board -->
-    <section class="section bingo-punishments-section">
+    <!-- Leaderboard (hidden until populated) -->
+    <section class="section bingo-leaderboard-section" style="display: none;">
         <div class="container">
-            <h2 class="section-title">Punishment Board &#128520;</h2>
-            <div id="bingoPunishments">
-                <!-- Populated by JS -->
-            </div>
+            <h2 class="section-title">&#127942; Leaderboard</h2>
+            <div id="bingoLeaderboard"></div>
         </div>
     </section>
 
-    <!-- Bingo Leaderboard -->
-    <section class="section bingo-leaderboard-section">
-        <div class="container">
-            <h2 class="section-title">Bingo Leaderboard &#127942;</h2>
-            <div id="bingoLeaderboard">
-                <!-- Populated by JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Recent Activity -->
-    <section class="section bingo-activity-section">
+    <!-- Activity (hidden until populated) -->
+    <section class="section bingo-activity-section" style="display: none;">
         <div class="container">
             <h2 class="section-title">Recent Activity</h2>
-            <div class="bingo-feed" id="bingoFeed">
-                <p class="bingo-feed-empty">No bingo activity yet. Be the first to claim!</p>
-            </div>
+            <div class="bingo-feed" id="bingoFeed"></div>
         </div>
     </section>
 
@@ -165,9 +151,7 @@
                 <h3>&#128272; Bingo Admin</h3>
                 <span class="bingo-admin-count" id="bingoAdminCount">0 claims</span>
             </div>
-            <div class="bingo-admin-claims" id="bingoAdminClaims">
-                <!-- Populated by JS -->
-            </div>
+            <div class="bingo-admin-claims" id="bingoAdminClaims"></div>
         </div>
     </div>
 
@@ -176,16 +160,14 @@
     <div class="bingo-claim-drawer" id="bingoClaimDrawer" style="display: none;">
         <div class="bingo-drawer-handle"></div>
         <div class="bingo-drawer-content">
-            <h3>&#127922; Claim this challenge</h3>
-            <p class="bingo-drawer-challenge" id="bingoDrawerChallenge"></p>
+            <div class="bingo-drawer-emoji" id="bingoDrawerEmoji"></div>
+            <h3 id="bingoDrawerChallenge"></h3>
             <div class="bingo-drawer-photo">
-                <label for="bingoPhotoInput" class="bingo-photo-label">&#128247; Add photo proof (optional)</label>
+                <label for="bingoPhotoInput" class="bingo-photo-label">&#128247; Add photo proof</label>
                 <input type="file" id="bingoPhotoInput" accept="image/*" capture="environment">
             </div>
-            <div class="bingo-drawer-actions">
-                <button class="btn btn-primary" id="bingoDrawerClaim">Claim It!</button>
-                <button class="btn btn-secondary" id="bingoDrawerCancel">Cancel</button>
-            </div>
+            <button class="bingo-claim-btn" id="bingoDrawerClaim">&#10003; Claim It!</button>
+            <button class="bingo-cancel-btn" id="bingoDrawerCancel">Cancel</button>
         </div>
     </div>
 
@@ -207,24 +189,12 @@
             <div class="bingo-line-confirm" id="bingoLineConfirm" style="display: none;">
                 <h3>&#9989; Punishment assigned!</h3>
                 <p id="bingoLineConfirmText"></p>
-                <button class="btn btn-primary" id="bingoLineClose">Done</button>
+                <button class="bingo-claim-btn" id="bingoLineClose">Done</button>
             </div>
         </div>
     </div>
 
-    <!-- Claim Confirmation Modal -->
-    <div class="bingo-claim-modal" id="bingoClaimModal" style="display: none;">
-        <div class="bingo-claim-modal-inner">
-            <h3>&#9989; Challenge Claimed!</h3>
-            <p id="bingoClaimText"></p>
-            <p class="bingo-claim-sub">Your claim has been submitted for approval.</p>
-            <div class="bingo-claim-actions">
-                <button class="btn btn-primary" id="bingoClaimClose">Nice!</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Confetti Cannon (Fixed Button) -->
+    <!-- Confetti Cannon -->
     <button class="confetti-cannon" id="confetti-cannon" title="Party Time!">
         &#127881;
         <span class="cannon-label">POP!</span>
@@ -253,9 +223,9 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
-    <script src="js/shared.js?v=18"></script>
+    <script src="js/shared.js?v=19"></script>
     <script src="js/firebase-config.js?v=2"></script>
     <script src="js/nav.js?v=1"></script>
-    <script src="js/bingo.js?v=1"></script>
+    <script src="js/bingo.js?v=3"></script>
 </body>
 </html>

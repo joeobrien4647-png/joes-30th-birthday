@@ -286,7 +286,7 @@ const GUEST_DATA = {
         personalNotes: 'Bring the competitive spirit! Make the games exciting.'
     },
     'OLI-3WT5': {
-        name: 'Oli', fullName: 'Oli Moran', room: 'Room 11',
+        name: 'Oli', fullName: 'Oli Moran', room: 'Room 10',
         team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Keep everyone calm if things get hectic', completed: false },
@@ -296,7 +296,7 @@ const GUEST_DATA = {
         personalNotes: 'Balance out the chaos with some chill vibes when needed.'
     },
     'PETER-6BN2': {
-        name: 'Peter', fullName: 'Peter London', room: 'Room 11',
+        name: 'Peter', fullName: 'Peter London', room: 'Room 10',
         team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Do something unexpected', completed: false },
@@ -306,7 +306,7 @@ const GUEST_DATA = {
         personalNotes: 'Be unpredictable! Bring the surprises.'
     },
     'EMMAL-1RK8': {
-        name: 'Emma L', fullName: 'Emma Levett', room: 'Room 10',
+        name: 'Emma L', fullName: 'Emma Levett', room: 'Room 11',
         team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Help with decorations or presentation', completed: false },
@@ -316,7 +316,7 @@ const GUEST_DATA = {
         personalNotes: 'Bring your creative touch to make things special!'
     },
     'JONNYL-4VP9': {
-        name: 'Jonny L', fullName: 'Jonny Levett', room: 'Room 10',
+        name: 'Jonny L', fullName: 'Jonny Levett', room: 'Room 11',
         team: 'TBA', nickname: 'TBA',
         missions: [
             { id: 'm1', text: 'Pull a harmless prank', completed: false },
@@ -782,7 +782,9 @@ function initLeaderboardBanner() {
     function render() {
         const scores = Store.get('lb_teamScores', { titans: 0, spartans: 0, vikings: 0, gladiators: 0 });
         const sorted = TEAMS.slice().sort((a, b) => (scores[b] || 0) - (scores[a] || 0));
-        const revealed = typeof isRevealed === 'function' ? isRevealed() : true;
+        const _c = localStorage.getItem('guestCode') || '';
+        const _spunBanner = _c && localStorage.getItem('teamRevealed_' + _c) === 'true';
+        const revealed = _spunBanner && (typeof isRevealed === 'function' ? isRevealed() : false);
 
         bar.innerHTML = '<span class="lb-banner-label">\uD83C\uDFC6</span>' +
             sorted.map((t, i) => {
@@ -2174,10 +2176,9 @@ function initBingoNotifDot() {
 document.addEventListener('DOMContentLoaded', function () {
     // Page transition
     initPageTransition();
-    // Apply saved dark mode
-    initDarkMode();
-    // Auto dark mode (time-based)
-    autoDarkMode();
+    // Dark mode removed — light mode only
+    document.body.classList.remove('dark-mode');
+    localStorage.removeItem('darkMode');
     // Apply saved theme (or auto-theme for trip days)
     initThemeSwitcher();
     autoDayTheme();
@@ -2343,7 +2344,8 @@ function initMyTripDrawer() {
         var progress = Store.get('missionProgress', {});
         var gp = progress[guestCode] || {};
         var done = guest.missions.filter(function(m) { return gp[m.id]; }).length;
-        var teamDisplay = isRevealed() ? escapeHtml(guest.team) : '??? (Revealed 29 Apr)';
+        var _spun = localStorage.getItem('teamRevealed_' + guestCode) === 'true';
+        var teamDisplay = _spun ? escapeHtml(guest.team) : '??? (Revealed on arrival)';
         var scores = Store.get('lb_individualScores', {});
         var pts = scores[guest.name] || 0;
         var sorted = Object.entries(scores).sort(function(a, b) { return b[1] - a[1]; });
@@ -2375,7 +2377,7 @@ function initMyTripDrawer() {
                     '<h4>Personal Note</h4>' +
                     '<p class="my-trip-notes">' + escapeHtml(guest.personalNotes) + '</p>' +
                 '</div>' +
-                (isRevealed() ?
+                (_spun ?
                     '<div class="my-trip-section">' +
                         '<h4>Stats</h4>' +
                         '<div class="my-trip-stats-grid">' +

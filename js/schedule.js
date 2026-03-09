@@ -6,7 +6,7 @@
 const AV_CATEGORIES = [
     { id: 'all', label: 'All', emoji: '\u2728' },
     { id: 'wine', label: 'Wine & Tasting', emoji: '\uD83C\uDF77' },
-    { id: 'chateau', label: 'Chateaux', emoji: '\uD83C\uDFF0' },
+    { id: 'chateau', label: 'Châteaux', emoji: '\uD83C\uDFF0' },
     { id: 'adventure', label: 'Adventures', emoji: '\uD83C\uDFC4' },
     { id: 'food', label: 'Food & Culture', emoji: '\uD83E\uDDC0' },
     { id: 'fun', label: 'Fun & Unique', emoji: '\uD83C\uDFAE' }
@@ -44,27 +44,11 @@ const ACTIVITIES = [
         pairedWith: null
     },
     {
-        id: 'private-sommelier',
-        name: 'Private Sommelier at the Chateau',
-        category: 'wine',
-        emoji: '\uD83C\uDF7E',
-        tagline: 'Expert-led tasting without leaving home',
-        description: 'A professional sommelier comes directly to the chateau for a private tasting featuring the best Loire Valley wines \u2014 Vouvray, Sancerre, Chinon, and Cr\u00e9mant \u2014 paired with local cheeses and charcuterie. No driving needed, everyone can indulge. Educational yet fun.',
-        cost: { min: 15, max: 30 },
-        duration: '2\u20133 hours',
-        driveTime: 'None!',
-        groupFit: 'All 27 together',
-        mood: ['chill', 'social'],
-        highlight: true,
-        pairedWith: null,
-        status: 'booked'
-    },
-    {
         id: 'chenonceau',
         name: 'Ch\u00e2teau de Chenonceau',
         category: 'chateau',
         emoji: '\uD83C\uDFF0',
-        tagline: 'The most beautiful chateau, spanning the River Cher',
+        tagline: 'The most beautiful château, spanning the River Cher',
         description: 'Perhaps the most stunning Loire ch\u00e2teau \u2014 a Renaissance masterpiece built spanning the River Cher. Famous for its gallery bridge, formal gardens, and rich history connected to Diane de Poitiers and Catherine de Medici. The on-site L\'Orangerie restaurant serves excellent French cuisine.',
         cost: { min: 19, max: 24 },
         duration: '2\u20133 hours',
@@ -121,7 +105,7 @@ const ACTIVITIES = [
     },
     {
         id: 'hot-air-balloon',
-        name: 'Hot Air Balloon Over the Chateaux',
+        name: 'Hot Air Balloon Over the Châteaux',
         category: 'adventure',
         emoji: '\uD83C\uDF08',
         tagline: 'Float over the Loire Valley at sunrise or sunset',
@@ -155,7 +139,7 @@ const ACTIVITIES = [
         name: 'Kayak Under Ch\u00e2teau de Chenonceau',
         category: 'adventure',
         emoji: '\uD83C\uDFDE\uFE0F',
-        tagline: 'Paddle directly underneath a Renaissance chateau',
+        tagline: 'Paddle directly underneath a Renaissance château',
         description: 'A genuinely unique experience: kayak on the River Cher and pass directly underneath the arches of Ch\u00e2teau de Chenonceau. One of the most extraordinary perspectives of any ch\u00e2teau in France. Best combined with a Chenonceau visit for the ultimate combo day trip.',
         cost: { min: 15, max: 40 },
         duration: '1.5\u20133 hours',
@@ -186,10 +170,10 @@ const ACTIVITIES = [
         category: 'food',
         emoji: '\uD83E\uDDD1\u200D\uD83C\uDF73',
         tagline: 'Master croissants, tarte Tatin, or a 3-course meal',
-        description: 'Learn to prepare classic French dishes with a professional chef. Options range from a 2-hour pastry masterclass (croissants, tarte Tatin) to a full half-day 3-course meal experience. Some chefs come to the chateau; others run it from their own kitchens. You eat everything you make!',
+        description: 'Learn to prepare classic French dishes with a professional chef. Options range from a 2-hour pastry masterclass (croissants, tarte Tatin) to a full half-day 3-course meal experience. Some chefs come to the château; others run it from their own kitchens. You eat everything you make!',
         cost: { min: 60, max: 150 },
         duration: '2\u20136 hours',
-        driveTime: 'At chateau or 1h+',
+        driveTime: 'At château or 1h+',
         groupFit: 'Split into 2 groups of ~14',
         mood: ['social', 'cultural'],
         highlight: false,
@@ -230,8 +214,8 @@ const ACTIVITIES = [
         name: 'Private Chef Birthday Dinner',
         category: 'food',
         emoji: '\uD83C\uDF7D\uFE0F',
-        tagline: 'Professional chef cooks a multi-course feast at the chateau',
-        description: 'Hire a private chef to cook a stunning multi-course birthday dinner right at the chateau. Local options include Ryan Matthee (25min away), Unarome2chefs (2 chefs, great for large groups), and Alexandre Timar (Tours). The ultimate way to celebrate Joe\'s 30th \u2014 no washing up!',
+        tagline: 'Professional chef cooks a multi-course feast at the château',
+        description: 'Hire a private chef to cook a stunning multi-course birthday dinner right at the château. Local options include Ryan Matthee (25min away), Unarome2chefs (2 chefs, great for large groups), and Alexandre Timar (Tours). The ultimate way to celebrate Joe\'s 30th \u2014 no washing up!',
         cost: { min: 80, max: 150 },
         duration: 'Evening',
         driveTime: 'None \u2014 they come to us',
@@ -275,7 +259,7 @@ const ACTIVITIES = [
         name: 'Son et Lumi\u00e8re at Blois',
         category: 'fun',
         emoji: '\u2728',
-        tagline: 'Spectacular sound & light show on a royal chateau',
+        tagline: 'Spectacular sound & light show on a royal château',
         description: 'A legendary sound and light show projected onto the grand courtyard of the Royal Ch\u00e2teau of Blois. Music, narration, and dramatic lighting tell the castle\'s history. The original Loire Valley son et lumi\u00e8re, running since the 1950s. Show starts at 10pm \u2014 a magical late evening out.',
         cost: { min: 9, max: 14 },
         duration: '45 min show',
@@ -306,7 +290,7 @@ const ACTIVITIES = [
         category: 'fun',
         emoji: '\uD83C\uDFF9',
         tagline: 'Archery, climbing, kayak polo \u2014 right on our doorstep!',
-        description: 'The chateau sits within the Brenne Regional Natural Park. The Base de Plein Air in Le Blanc offers supervised archery, climbing, mountain biking, orienteering, kayak polo, and more. Qualified staff, all equipment provided. Perfect for team competitions without a long drive.',
+        description: 'The château sits within the Brenne Regional Natural Park. The Base de Plein Air in Le Blanc offers supervised archery, climbing, mountain biking, orienteering, kayak polo, and more. Qualified staff, all equipment provided. Perfect for team competitions without a long drive.',
         cost: { min: 10, max: 25 },
         duration: 'Half to full day',
         driveTime: '15 min',
@@ -704,7 +688,6 @@ function initActivityVoting() {
 var SIGNUP_ACTIVITIES = [
     { id: 'golf', name: 'Golf', day: 'Thu 30 Apr \u2014 Morning', desc: '9 holes at Golf du Val de l\'Indre. Relaxed round, all levels welcome.', cost: '~\u20AC65/person', icon: '\u26F3' },
     { id: 'canoe', name: 'Canoeing', day: 'Fri 1 May \u2014 Morning', desc: 'Paddle down the Creuse river from Ciron. Beautiful scenery, easy going.', cost: '~\u20AC15\u201318/person', icon: '\uD83D\uDEF6' },
-    { id: 'wine', name: 'Wine Tasting', day: 'Fri 1 May \u2014 Evening', desc: 'Private sommelier session at the chateau. Loire Valley wines.', cost: 'TBC', icon: '\uD83C\uDF77' },
     { id: 'bellebouche', name: 'Bellebouche', day: 'Sun 3 May \u2014 Afternoon', desc: 'Accrobranche (tree-top adventure) + lake activities.', cost: '~\u20AC20/person', icon: '\uD83C\uDF32' }
 ];
 
@@ -1172,7 +1155,7 @@ function initTimeBuckets() {
 /* ---- Day Hero Data ---- */
 var DAY_HERO_DATA = {
     '1': { emoji: '✈️', gradient: 'linear-gradient(135deg, #f97316, #fbbf24)', subtitle: 'France, Here We Come' },
-    '2': { emoji: '🏰', gradient: 'linear-gradient(135deg, #059669, #34d399)', subtitle: 'Chateau Life Begins' },
+    '2': { emoji: '🏰', gradient: 'linear-gradient(135deg, #059669, #34d399)', subtitle: 'Château Life Begins' },
     '3': { emoji: '🛶', gradient: 'linear-gradient(135deg, #0ea5e9, #6366f1)', subtitle: 'Paddles & a Beautiful Village' },
     '4': { emoji: '🎂', gradient: 'linear-gradient(135deg, #f59e0b, #ec4899, #a855f7)', subtitle: "The Birthday That Can\u2019t Be Topped" },
     '5': { emoji: '🌲', gradient: 'linear-gradient(135deg, #06b6d4, #3b82f6)', subtitle: 'Treetops, Lakes & Last Night' },

@@ -1,236 +1,440 @@
 /* ============================================
-   Bingo Page Styles — Standalone
+   Bingo Page — Visual-First Design
    ============================================ */
 
-/* ---- Page Header ---- */
-.page-header {
+/* ---- Hero Header ---- */
+.bingo-hero {
     background: var(--gradient-primary);
-    padding: 100px 20px 40px;
+    padding: 100px 20px 32px;
     text-align: center;
     color: var(--text-white);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
 }
 
-.page-header h1 {
+.bingo-hero-inner {
+    flex: 1;
+}
+
+.bingo-hero-emoji {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 4px;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+}
+
+.bingo-hero h1 {
     font-family: var(--font-display);
-    font-size: 2.4rem;
-    margin-bottom: 8px;
+    font-size: 2.2rem;
+    margin: 0;
+    line-height: 1.1;
 }
 
-.page-header p {
+.bingo-hero p {
     font-size: 1rem;
     opacity: 0.9;
+    margin-top: 6px;
 }
 
-/* ---- Stats Bar ---- */
-.bingo-stats-bar {
-    padding: 20px 0 0;
+/* Progress Ring */
+.bingo-progress {
+    position: relative;
+    width: 90px;
+    height: 90px;
+    flex-shrink: 0;
 }
 
-.bingo-stats {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;
+.bingo-ring {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
 }
 
-.bingo-stat {
+.bingo-ring-bg {
+    fill: none;
+    stroke: rgba(255,255,255,0.2);
+    stroke-width: 6;
+}
+
+.bingo-ring-fill {
+    fill: none;
+    stroke: #ffd93d;
+    stroke-width: 6;
+    stroke-linecap: round;
+    stroke-dasharray: 263.9;
+    stroke-dashoffset: 263.9;
+    transition: stroke-dashoffset 0.6s ease;
+}
+
+.bingo-ring-text {
+    position: absolute;
+    inset: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: var(--bg-white);
-    border-radius: var(--radius-sm);
-    padding: 14px 20px;
-    min-width: 80px;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border-color);
+    justify-content: center;
 }
 
-.bs-val {
+.bingo-ring-num {
     font-size: 1.6rem;
     font-weight: 800;
-    color: var(--secondary);
+    color: white;
     line-height: 1;
 }
 
-.bs-label {
-    font-size: 0.7rem;
-    color: var(--text-light);
-    margin-top: 4px;
+.bingo-ring-label {
+    font-size: 0.6rem;
+    color: rgba(255,255,255,0.8);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ---- Prize Track ---- */
+.bingo-prizes {
+    padding: 20px 0 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.prize-track {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    min-width: max-content;
+    padding: 0 16px;
+}
+
+.prize-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 12px 14px;
+    background: var(--bg-white);
+    border-radius: 16px;
+    border: 2px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    min-width: 90px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.prize-node.unlocked {
+    border-color: #10b981;
+    background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+    box-shadow: 0 0 12px rgba(16,185,129,0.25);
+}
+
+.prize-node-gold {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border-color: #f59e0b;
+}
+
+.prize-node-gold.unlocked {
+    border-color: #f59e0b;
+    background: linear-gradient(135deg, #fef3c7, #fbbf24);
+    box-shadow: 0 0 20px rgba(245,158,11,0.4);
+}
+
+.prize-icon {
+    font-size: 1.8rem;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.prize-label {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--text-dark);
     text-transform: uppercase;
     letter-spacing: 0.03em;
 }
 
-/* ---- 4x4 Grid ---- */
+.prize-desc {
+    font-size: 0.65rem;
+    color: var(--text-light);
+    margin-top: 2px;
+}
+
+.prize-connector {
+    width: 24px;
+    height: 3px;
+    background: var(--border-color);
+    flex-shrink: 0;
+    border-radius: 2px;
+}
+
+.prize-connector.active {
+    background: linear-gradient(90deg, #10b981, #34d399);
+}
+
+/* ---- Bingo Grid ---- */
 .bingo-grid-section {
-    padding: 24px 0;
+    padding: 20px 0 24px;
 }
 
 .bingo-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
-    max-width: 500px;
+    max-width: 520px;
     margin: 0 auto;
 }
 
-.bingo-cell-new {
+/* Base cell */
+.bingo-cell {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 14px 8px;
-    background: var(--bg-white);
-    border-radius: var(--radius-sm);
-    border: 2px solid var(--border-color);
-    min-height: 90px;
-    transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+    padding: 14px 8px 12px;
+    border-radius: 16px;
+    min-height: 110px;
     position: relative;
     cursor: default;
+    transition: transform 0.15s, box-shadow 0.15s;
+    overflow: hidden;
 }
 
-/* Unclaimed — gentle pulse */
-.bingo-cell-new.claimable {
+/* Unclaimed — inviting card */
+.bingo-cell.unclaimed {
     cursor: pointer;
-    animation: bingoPulse 3s ease-in-out infinite;
+    background: var(--bg-white);
+    border: 2px dashed #d1d5db;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
-.bingo-cell-new.claimable:hover {
-    transform: translateY(-3px);
+.bingo-cell.unclaimed:hover {
+    transform: translateY(-4px) scale(1.02);
     border-color: var(--primary);
-    box-shadow: 0 6px 20px rgba(255, 107, 157, 0.2);
-    animation: none;
+    border-style: solid;
+    box-shadow: 0 8px 24px rgba(255,107,157,0.2);
 }
 
-/* Claimed — team colour fills */
-.bingo-cell-new.claimed {
-    border-left: 4px solid var(--team-colour, #10b981);
-    background: color-mix(in srgb, var(--team-colour, #10b981) 12%, white);
+.bingo-cell.unclaimed:active {
+    transform: scale(0.96);
 }
 
-.bingo-cell-new.claimed-self {
-    border-color: var(--accent);
-    border-left: 4px solid var(--accent);
+/* Claimed — filled card with team colour */
+.bingo-cell.claimed {
+    background: color-mix(in srgb, var(--team-colour, #10b981) 15%, white);
+    border: 2px solid var(--team-colour, #10b981);
+    box-shadow: 0 2px 12px color-mix(in srgb, var(--team-colour, #10b981) 20%, transparent);
+}
+
+.bingo-cell.claimed-self {
     background: linear-gradient(135deg, #fef9c3, #fef3c7);
-    box-shadow: 0 0 0 2px rgba(255, 217, 61, 0.25);
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245,158,11,0.15), 0 2px 12px rgba(245,158,11,0.2);
 }
 
-/* In-line glow */
-.bingo-cell-new.in-line {
-    animation: lineGlow 1.5s ease-in-out infinite alternate;
-}
-
-/* Cell pop on claim */
-.bingo-cell-new.cell-pop {
-    animation: cellPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+/* Cell emoji */
+.bingo-cell-emoji {
+    font-size: 1.6rem;
+    line-height: 1;
+    margin-bottom: 4px;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
 }
 
 /* Cell text */
 .bingo-cell-text {
-    font-size: 0.8rem;
-    font-weight: 500;
-    line-height: 1.3;
+    font-size: 0.72rem;
+    font-weight: 600;
+    line-height: 1.25;
     color: var(--text-dark);
 }
 
-/* Claimer name */
+/* Claimer badge */
 .bingo-cell-claimant {
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     font-weight: 700;
-    color: #10b981;
-    margin-top: 6px;
+    color: var(--team-colour, #10b981);
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
 }
 
 .claimed-self .bingo-cell-claimant {
     color: #d97706;
 }
 
-/* Photo indicator */
-.bingo-cell-photo {
-    position: absolute;
-    top: 4px;
-    right: 6px;
-    font-size: 0.65rem;
-    opacity: 0.5;
-}
-
-/* Checkmark on claimed cells */
-.bingo-cell-new.claimed::after {
-    content: "\2713";
-    position: absolute;
-    top: 4px;
-    left: 8px;
-    font-size: 0.65rem;
-    color: var(--team-colour, #10b981);
+/* Tap hint */
+.bingo-cell-tap {
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--primary, #ff6b9d);
+    margin-top: 4px;
+    opacity: 0.6;
     font-weight: 700;
 }
 
-/* ---- Claim Drawer (Bottom Sheet) ---- */
+/* Photo badge */
+.bingo-cell.has-photo::before {
+    content: "\1F4F7";
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    font-size: 0.65rem;
+}
+
+/* Checkmark on claimed */
+.bingo-cell.claimed::after {
+    content: "\2713";
+    position: absolute;
+    top: 6px;
+    left: 8px;
+    font-size: 0.6rem;
+    color: var(--team-colour, #10b981);
+    font-weight: 800;
+}
+
+/* In-line glow */
+.bingo-cell.in-line {
+    animation: lineGlow 1.5s ease-in-out infinite alternate;
+}
+
+/* Cell pop on claim */
+.bingo-cell.cell-pop {
+    animation: cellPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ---- Locked Cells ---- */
+.bingo-cell-locked {
+    background: linear-gradient(135deg, #f3e8ff, #ede9fe);
+    border: 2px solid #c4b5fd;
+    cursor: default;
+    min-height: 120px;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.bingo-cell-locked:hover {
+    transform: translateY(-3px);
+    border-color: #a78bfa;
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3), 0 0 40px rgba(139, 92, 246, 0.15);
+}
+
+.bingo-cell-locked .bingo-cell-emoji {
+    font-size: 2rem;
+}
+
+.bingo-cell-locked .bingo-cell-text {
+    color: #7c3aed;
+    font-weight: 800;
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+}
+
+/* Locked banner shown above grid */
+.bingo-locked-banner {
+    max-width: 520px;
+    margin: 0 auto 16px;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    border-radius: 16px;
+    text-align: center;
+    color: white;
+}
+
+.bingo-locked-banner h3 {
+    font-size: 1.1rem;
+    margin: 0 0 4px;
+}
+
+.bingo-locked-banner p {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    margin: 0;
+}
+
+body.dark-mode .bingo-cell-locked {
+    background: linear-gradient(135deg, #1e1b4b, #312e81);
+    border-color: #6d28d9;
+}
+
+body.dark-mode .bingo-cell-locked:hover {
+    border-color: #8b5cf6;
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4), 0 0 40px rgba(139, 92, 246, 0.2);
+}
+
+body.dark-mode .bingo-cell-locked .bingo-cell-text {
+    color: #a78bfa;
+}
+
+/* ---- Claim Drawer (Centred Modal) ---- */
 .bingo-claim-backdrop {
     position: fixed;
     inset: 0;
     z-index: 9998;
-    background: rgba(0, 0, 0, 0.45);
-    transition: opacity var(--transition-normal);
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.bingo-claim-backdrop.visible {
+    opacity: 1;
 }
 
 .bingo-claim-drawer {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
     z-index: 9999;
     background: var(--bg-white);
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-    padding: 0 24px 32px;
-    transform: translateY(100%);
-    transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
-    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
-    max-width: 500px;
-    margin: 0 auto;
+    border-radius: 24px;
+    padding: 32px 24px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    max-width: 400px;
+    width: calc(100% - 40px);
+    text-align: center;
+    opacity: 0;
+    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.3s;
 }
 
 .bingo-claim-drawer.open {
-    transform: translateY(0);
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
 }
 
 .bingo-drawer-handle {
-    width: 40px;
-    height: 4px;
-    background: #d1d5db;
-    border-radius: 2px;
-    margin: 12px auto 20px;
+    display: none;
+}
+
+.bingo-drawer-emoji {
+    font-size: 3rem;
+    margin-bottom: 8px;
 }
 
 .bingo-drawer-content h3 {
-    font-size: 1.2rem;
-    margin-bottom: 8px;
-    color: var(--text-dark);
-}
-
-.bingo-drawer-challenge {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--secondary);
+    font-size: 1.15rem;
+    font-weight: 700;
     margin-bottom: 16px;
-    line-height: 1.4;
+    color: var(--text-dark);
+    line-height: 1.3;
 }
 
 .bingo-drawer-photo {
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .bingo-photo-label {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 10px 18px;
+    padding: 10px 20px;
     background: var(--bg-light);
-    border-radius: var(--radius-sm);
+    border-radius: 12px;
     cursor: pointer;
     font-size: 0.88rem;
     color: var(--text-dark);
-    transition: background var(--transition-fast);
+    transition: background 0.15s;
 }
 
 .bingo-photo-label:hover {
@@ -244,7 +448,7 @@
 .bingo-photo-preview {
     margin-top: 12px;
     max-height: 120px;
-    border-radius: var(--radius-sm);
+    border-radius: 12px;
     overflow: hidden;
 }
 
@@ -252,129 +456,48 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: var(--radius-sm);
+    border-radius: 12px;
 }
 
-.bingo-drawer-actions {
-    display: flex;
-    gap: 12px;
-}
-
-.bingo-drawer-actions .btn-primary {
-    flex: 1;
-    background: var(--gradient-primary);
-    color: var(--text-white);
+.bingo-photo-remove {
+    margin-top: 8px;
+    background: none;
     border: none;
-    border-radius: var(--radius-sm);
-    padding: 14px;
-    font-size: 1rem;
-    font-weight: 700;
+    color: #ef4444;
+    font-size: 0.8rem;
     cursor: pointer;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    font-weight: 600;
 }
 
-.bingo-drawer-actions .btn-primary:hover {
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
-}
-
-.bingo-drawer-actions .btn-secondary {
-    padding: 14px 20px;
-    background: var(--bg-light);
-    color: var(--text-light);
+.bingo-claim-btn {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background: var(--gradient-primary);
+    color: white;
     border: none;
-    border-radius: var(--radius-sm);
+    border-radius: 16px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    margin-bottom: 10px;
+}
+
+.bingo-claim-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255,107,157,0.3);
+}
+
+.bingo-cancel-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: none;
+    border: none;
+    color: var(--text-light);
     font-size: 0.9rem;
     cursor: pointer;
-    transition: background var(--transition-fast);
-}
-
-.bingo-drawer-actions .btn-secondary:hover {
-    background: #e5e7eb;
-}
-
-/* ---- Points Guide ---- */
-.bingo-points-section {
-    padding: 0 0 16px;
-}
-
-.bingo-points-guide {
-    max-width: 500px;
-    margin: 0 auto;
-    background: var(--bg-white);
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border-color);
-    overflow: hidden;
-}
-
-.bingo-points-guide summary {
-    padding: 14px 18px;
-    font-weight: 700;
-    font-size: 0.95rem;
-    cursor: pointer;
-    color: var(--text-dark);
-    list-style: none;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.bingo-points-guide summary::after {
-    content: "\25BC";
-    font-size: 0.7rem;
-    color: var(--text-light);
-    transition: transform var(--transition-fast);
-}
-
-.bingo-points-guide[open] summary::after {
-    transform: rotate(180deg);
-}
-
-.bingo-points-guide summary::-webkit-details-marker {
-    display: none;
-}
-
-.bingo-points-table {
-    padding: 4px 14px 14px;
-}
-
-.bingo-tier {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 14px;
-    border-radius: 8px;
-    margin-bottom: 4px;
-    font-size: 0.85rem;
-}
-
-.bingo-tier:nth-child(odd) {
-    background: var(--bg-light);
-}
-
-.bt-milestone {
-    font-weight: 700;
-    color: var(--text-dark);
-}
-
-.bt-reward {
-    color: var(--text-light);
-    text-align: right;
-}
-
-.bt-fullhouse {
-    background: linear-gradient(135deg, #fef3c7, #fde68a) !important;
-    border: 1px solid #f59e0b;
-    margin-top: 4px;
-}
-
-.bt-fullhouse .bt-milestone {
-    color: #92400e;
-}
-
-.bt-fullhouse .bt-reward {
-    color: #92400e;
-    font-weight: 600;
 }
 
 /* ---- Punishment Board ---- */
@@ -387,7 +510,7 @@
     margin: 0 auto 10px;
     padding: 14px 18px;
     background: var(--bg-white);
-    border-radius: var(--radius-sm);
+    border-radius: 12px;
     border: 1px solid var(--border-color);
     border-left: 4px solid var(--team-colour, var(--secondary));
     display: flex;
@@ -397,39 +520,44 @@
     box-shadow: var(--shadow-sm);
 }
 
-.bingo-punishment-text {
+.bingo-punishment-info {
     flex: 1;
     font-size: 0.88rem;
     color: var(--text-dark);
 }
 
-.bingo-punishment-target {
-    font-weight: 700;
+.bingo-punishment-by {
+    font-size: 0.75rem;
+    color: var(--text-light);
 }
 
-.bingo-punishment-done-btn {
+.bingo-punishment-done {
     background: #16a34a;
     color: white;
     border: none;
-    border-radius: 8px;
-    padding: 6px 16px;
+    border-radius: 10px;
+    padding: 8px 16px;
     font-size: 0.8rem;
     font-weight: 700;
     cursor: pointer;
-    transition: background var(--transition-fast);
+    transition: background 0.15s;
 }
 
-.bingo-punishment-done-btn:hover {
+.bingo-punishment-done:hover {
     background: #15803d;
 }
 
-.bingo-punishment-done-btn.done {
-    background: #d1d5db;
-    color: #6b7280;
-    cursor: default;
+.bingo-punishment-status {
+    font-size: 0.8rem;
+    color: #16a34a;
+    font-weight: 700;
 }
 
-/* ---- Bingo Leaderboard ---- */
+.bingo-punishment-item.completed {
+    opacity: 0.5;
+}
+
+/* ---- Leaderboard ---- */
 .bingo-leaderboard-section {
     padding-bottom: 16px;
 }
@@ -442,22 +570,27 @@
     gap: 6px;
 }
 
-.bingo-leaderboard-item {
+.bingo-lb-row {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     padding: 12px 16px;
     background: var(--bg-white);
-    border-radius: var(--radius-sm);
+    border-radius: 12px;
     border: 1px solid var(--border-color);
     box-shadow: var(--shadow-sm);
 }
 
+.bingo-lb-me {
+    border-color: #f59e0b;
+    background: linear-gradient(135deg, #fefce8, #fef9c3);
+}
+
 .bingo-lb-rank {
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 800;
-    color: var(--text-light);
-    min-width: 24px;
+    min-width: 28px;
+    text-align: center;
 }
 
 .bingo-lb-dot {
@@ -474,10 +607,19 @@
     color: var(--text-dark);
 }
 
-.bingo-lb-score {
-    font-size: 0.9rem;
-    font-weight: 800;
-    color: var(--secondary);
+.bingo-lb-claims {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+.bingo-lb-lines {
+    font-size: 0.75rem;
+    background: var(--gradient-primary);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 700;
 }
 
 /* ---- Activity Feed ---- */
@@ -488,16 +630,8 @@
 .bingo-feed {
     max-width: 500px;
     margin: 0 auto;
-    max-height: 300px;
+    max-height: 250px;
     overflow-y: auto;
-}
-
-.bingo-feed-empty {
-    text-align: center;
-    color: var(--text-light);
-    font-style: italic;
-    padding: 1rem;
-    font-size: 0.85rem;
 }
 
 .bingo-feed-item {
@@ -519,7 +653,43 @@
     flex-shrink: 0;
     color: var(--text-light);
     font-size: 0.75rem;
-    white-space: nowrap;
+}
+
+.bingo-feed-empty {
+    text-align: center;
+    color: var(--text-light);
+    font-style: italic;
+    padding: 1rem;
+    font-size: 0.85rem;
+}
+
+/* ---- Admin Bar (top of page) ---- */
+.bingo-admin-bar {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.bingo-preview-btn {
+    background: white;
+    color: #92400e;
+    border: none;
+    border-radius: 10px;
+    padding: 6px 16px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.bingo-preview-btn:hover {
+    background: #fef3c7;
 }
 
 /* ---- Admin Panel ---- */
@@ -528,7 +698,7 @@
     margin: 24px auto;
     background: #fff8f0;
     border: 2px solid #f59e0b;
-    border-radius: var(--radius-md);
+    border-radius: 16px;
     padding: 18px;
 }
 
@@ -537,6 +707,32 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 14px;
+}
+
+.bingo-admin-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.bingo-admin-preview-btn {
+    background: #7c3aed;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 6px 14px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.bingo-admin-preview-btn:hover {
+    background: #6d28d9;
+}
+
+.bingo-admin-preview-btn.active {
+    background: #16a34a;
 }
 
 .bingo-admin-header h3 {
@@ -550,7 +746,7 @@
     background: #f59e0b;
     color: white;
     padding: 3px 10px;
-    border-radius: var(--radius-pill);
+    border-radius: 20px;
     font-weight: 600;
 }
 
@@ -574,8 +770,8 @@
     gap: 10px;
     padding: 10px 12px;
     background: white;
-    border-radius: var(--radius-sm);
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.06);
 }
 
 .bingo-admin-claim.revoked {
@@ -614,7 +810,7 @@
     font-size: 0.78rem;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.15s ease;
+    transition: all 0.15s;
 }
 
 .bingo-admin-btn-revoke {
@@ -639,58 +835,6 @@
     color: white;
 }
 
-/* ---- Claim Confirmation Modal ---- */
-.bingo-claim-modal {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
-    padding: 20px;
-}
-
-.bingo-claim-modal-inner {
-    background: var(--bg-white);
-    border-radius: var(--radius-lg);
-    padding: 2rem;
-    max-width: 400px;
-    width: 100%;
-    text-align: center;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-}
-
-.bingo-claim-modal-inner h3 {
-    font-size: 1.3rem;
-    margin-bottom: 0.75rem;
-}
-
-#bingoClaimText {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--secondary);
-    margin-bottom: 0.5rem;
-}
-
-.bingo-claim-sub {
-    font-size: 0.82rem;
-    color: var(--text-light);
-    margin-bottom: 1.25rem;
-}
-
-.bingo-claim-actions {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-}
-
-.bingo-claim-actions .btn {
-    padding: 10px 24px;
-    font-size: 0.9rem;
-}
-
 /* ---- Line Celebration Modal ---- */
 .bingo-line-modal {
     position: fixed;
@@ -699,7 +843,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0,0,0,0.7);
     backdrop-filter: blur(6px);
     padding: 20px;
     overflow-y: auto;
@@ -712,14 +856,14 @@
     max-width: 480px;
     width: 100%;
     text-align: center;
-    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 24px 80px rgba(0,0,0,0.4);
     max-height: 90vh;
     overflow-y: auto;
 }
 
 .bingo-line-celebration h2 {
     font-size: 1.8rem;
-    background: var(--gradient-festive);
+    background: var(--gradient-festive, var(--gradient-primary));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -731,7 +875,6 @@
     color: var(--text-light);
 }
 
-/* Punishment picker */
 .bingo-punishment-picker h3,
 .bingo-guest-picker h3,
 .bingo-line-confirm h3 {
@@ -750,12 +893,12 @@
 .bingo-punishment-card {
     background: var(--bg-light);
     border: 2px solid var(--border-color);
-    border-radius: var(--radius-sm);
+    border-radius: 14px;
     padding: 14px 16px;
     cursor: pointer;
     font-size: 0.88rem;
     text-align: left;
-    transition: border-color var(--transition-fast), transform 0.15s;
+    transition: border-color 0.15s, transform 0.15s;
     font-family: inherit;
     color: var(--text-dark);
 }
@@ -763,10 +906,9 @@
 .bingo-punishment-card:hover {
     border-color: var(--primary);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 107, 157, 0.15);
+    box-shadow: 0 4px 12px rgba(255,107,157,0.15);
 }
 
-/* Guest picker */
 .bingo-guest-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -777,13 +919,13 @@
 .bingo-guest-btn {
     background: var(--bg-light);
     border: 2px solid var(--border-color);
-    border-radius: var(--radius-sm);
+    border-radius: 14px;
     padding: 10px 8px;
     cursor: pointer;
     font-size: 0.8rem;
     font-weight: 600;
     text-align: center;
-    transition: border-color var(--transition-fast), transform 0.15s;
+    transition: border-color 0.15s, transform 0.15s;
     font-family: inherit;
     color: var(--text-dark);
 }
@@ -793,7 +935,6 @@
     transform: scale(1.05);
 }
 
-/* Confirmation */
 .bingo-line-confirm p {
     font-size: 1rem;
     font-weight: 600;
@@ -801,7 +942,7 @@
     margin: 0.5rem 0 1rem;
 }
 
-/* ---- Toast Notification ---- */
+/* ---- Toast ---- */
 .bingo-toast {
     position: fixed;
     top: -60px;
@@ -811,7 +952,7 @@
     background: var(--text-dark);
     color: var(--text-white);
     padding: 12px 24px;
-    border-radius: var(--radius-pill);
+    border-radius: 50px;
     font-size: 0.88rem;
     font-weight: 600;
     box-shadow: var(--shadow-md);
@@ -824,11 +965,6 @@
 }
 
 /* ---- Animations ---- */
-@keyframes bingoPulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.85; }
-}
-
 @keyframes cellPop {
     0% { transform: scale(1); }
     50% { transform: scale(1.15); }
@@ -836,70 +972,80 @@
 }
 
 @keyframes lineGlow {
-    0%, 100% { box-shadow: 0 0 8px var(--team-colour, rgba(124, 58, 237, 0.4)); }
-    50% { box-shadow: 0 0 20px var(--team-colour, rgba(124, 58, 237, 0.6)); }
+    0%, 100% { box-shadow: 0 0 8px var(--team-colour, rgba(124,58,237,0.4)); }
+    50% { box-shadow: 0 0 20px var(--team-colour, rgba(124,58,237,0.6)); }
+}
+
+@keyframes confettiFall {
+    0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+.bingo-confetti-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 10002;
+    overflow: hidden;
+}
+
+.bingo-confetti-piece {
+    position: absolute;
+    top: -10px;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    animation: confettiFall 2.5s ease-in forwards;
 }
 
 /* ---- Dark Mode ---- */
-body.dark-mode .page-header {
-    background: linear-gradient(135deg, rgba(255, 107, 157, 0.3) 0%, rgba(124, 58, 237, 0.4) 100%);
+body.dark-mode .bingo-hero {
+    background: linear-gradient(135deg, rgba(255,107,157,0.3), rgba(124,58,237,0.4));
 }
 
-body.dark-mode .bingo-stat {
-    background: var(--bg-dark);
-    border-color: rgba(255, 255, 255, 0.08);
+body.dark-mode .prize-node {
+    background: #1e293b;
+    border-color: #334155;
 }
 
-body.dark-mode .bs-val {
-    color: var(--accent);
+body.dark-mode .prize-label {
+    color: #e2e8f0;
 }
 
-body.dark-mode .bs-label {
+body.dark-mode .prize-desc {
     color: #9ca3af;
 }
 
-body.dark-mode .bingo-cell-new {
+body.dark-mode .prize-connector {
+    background: #334155;
+}
+
+body.dark-mode .bingo-cell.unclaimed {
     background: #1e293b;
-    border-color: #334155;
+    border-color: #475569;
 }
 
 body.dark-mode .bingo-cell-text {
     color: #e2e8f0;
 }
 
-body.dark-mode .bingo-cell-new.claimed {
-    background: rgba(16, 185, 129, 0.15);
+body.dark-mode .bingo-cell.claimed {
+    background: rgba(16,185,129,0.15);
     border-color: #10b981;
 }
 
-body.dark-mode .bingo-cell-new.claimed-self {
-    background: rgba(245, 158, 11, 0.15);
+body.dark-mode .bingo-cell.claimed-self {
+    background: rgba(245,158,11,0.15);
     border-color: #f59e0b;
 }
 
-body.dark-mode .bingo-points-guide {
+body.dark-mode .bingo-lb-row {
     background: #1e293b;
     border-color: #334155;
 }
 
-body.dark-mode .bingo-points-guide summary {
+body.dark-mode .bingo-lb-name {
     color: #e2e8f0;
-}
-
-body.dark-mode .bingo-tier:nth-child(odd) {
-    background: rgba(255, 255, 255, 0.04);
-}
-
-body.dark-mode .bt-milestone {
-    color: #e2e8f0;
-}
-
-body.dark-mode .bt-reward {
-    color: #9ca3af;
-}
-
-body.dark-mode .bt-fullhouse {
-    background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(253, 230, 138, 0.15)) !important;
 }
 
 body.dark-mode .bingo-punishment-item {
@@ -907,16 +1053,7 @@ body.dark-mode .bingo-punishment-item {
     border-color: #334155;
 }
 
-body.dark-mode .bingo-punishment-text {
-    color: #e2e8f0;
-}
-
-body.dark-mode .bingo-leaderboard-item {
-    background: #1e293b;
-    border-color: #334155;
-}
-
-body.dark-mode .bingo-lb-name {
+body.dark-mode .bingo-punishment-info {
     color: #e2e8f0;
 }
 
@@ -928,14 +1065,8 @@ body.dark-mode .bingo-feed-text {
     color: #e2e8f0;
 }
 
-body.dark-mode .bingo-claim-modal-inner,
 body.dark-mode .bingo-line-modal-inner {
     background: #1e293b;
-}
-
-body.dark-mode .bingo-claim-modal-inner h3,
-body.dark-mode .bingo-line-modal-inner h2 {
-    color: #e2e8f0;
 }
 
 body.dark-mode .bingo-punishment-card,
@@ -946,7 +1077,7 @@ body.dark-mode .bingo-guest-btn {
 }
 
 body.dark-mode .bingo-claim-backdrop {
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0,0,0,0.6);
 }
 
 body.dark-mode .bingo-claim-drawer {
@@ -957,17 +1088,12 @@ body.dark-mode .bingo-drawer-content h3 {
     color: #e2e8f0;
 }
 
-body.dark-mode .bingo-drawer-challenge {
-    color: var(--accent);
-}
-
 body.dark-mode .bingo-photo-label {
     background: #0f172a;
     color: #e2e8f0;
 }
 
-body.dark-mode .bingo-drawer-actions .btn-secondary {
-    background: #334155;
+body.dark-mode .bingo-cancel-btn {
     color: #9ca3af;
 }
 
@@ -985,54 +1111,93 @@ body.dark-mode .bingo-admin-claim-item {
     color: #e7e5e4;
 }
 
-body.dark-mode .bingo-admin-claim.revoked {
-    background: #1c1917;
-}
-
 body.dark-mode .bingo-toast {
     background: #e2e8f0;
     color: #1e293b;
 }
 
-/* ---- Mobile Responsive ---- */
+/* ---- Mobile ---- */
 @media (max-width: 480px) {
-    .page-header h1 {
+    .bingo-hero {
+        padding: 90px 16px 24px;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .bingo-hero h1 {
         font-size: 1.8rem;
     }
 
-    .bingo-stats {
-        gap: 8px;
+    .bingo-hero-emoji {
+        font-size: 2.4rem;
     }
 
-    .bingo-stat {
-        padding: 10px 14px;
-        min-width: 70px;
+    .bingo-progress {
+        width: 70px;
+        height: 70px;
     }
 
-    .bs-val {
+    .bingo-ring-num {
         font-size: 1.3rem;
     }
 
-    .bingo-grid {
-        gap: 6px;
+    .prize-track {
+        justify-content: flex-start;
     }
 
-    .bingo-cell-new {
-        padding: 10px 6px;
-        min-height: 75px;
+    .prize-node {
+        padding: 10px 10px;
+        min-width: 76px;
     }
 
-    .bingo-cell-text {
+    .prize-icon {
+        font-size: 1.4rem;
+    }
+
+    .prize-label {
         font-size: 0.65rem;
     }
 
+    .prize-connector {
+        width: 16px;
+    }
+
+    .bingo-grid {
+        gap: 8px;
+    }
+
+    .bingo-cell {
+        padding: 10px 6px 8px;
+        min-height: 95px;
+        border-radius: 14px;
+    }
+
+    .bingo-cell-emoji {
+        font-size: 1.3rem;
+    }
+
+    .bingo-cell-locked .bingo-cell-emoji {
+        font-size: 1.6rem;
+    }
+
+    .bingo-cell-locked {
+        min-height: 100px;
+    }
+
+    .bingo-cell-text {
+        font-size: 0.62rem;
+    }
+
     .bingo-cell-claimant {
-        font-size: 0.58rem;
+        font-size: 0.55rem;
+    }
+
+    .bingo-cell-tap {
+        font-size: 0.5rem;
     }
 
     .bingo-claim-drawer {
-        max-width: 100%;
-        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        width: calc(100% - 32px);
     }
 
     .bingo-guest-grid {
@@ -1045,21 +1210,16 @@ body.dark-mode .bingo-toast {
 }
 
 @media (max-width: 360px) {
-    .bingo-stats {
-        flex-wrap: wrap;
-        gap: 6px;
+    .bingo-cell {
+        min-height: 80px;
+        padding: 8px 4px 6px;
     }
 
-    .bingo-stat {
-        flex: 1 1 calc(50% - 6px);
-    }
-
-    .bingo-cell-new {
-        min-height: 65px;
-        padding: 8px 4px;
+    .bingo-cell-emoji {
+        font-size: 1.1rem;
     }
 
     .bingo-cell-text {
-        font-size: 0.6rem;
+        font-size: 0.58rem;
     }
 }

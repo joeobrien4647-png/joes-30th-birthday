@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live Feed - Joe's 30th Birthday Trip</title>
-    <meta name="description" content="Chateau Roussignol, Loire Valley · 29 Apr - 4 May 2026">
+    <meta name="description" content="Château Roussignol, Loire Valley · 29 Apr - 4 May 2026">
     <meta property="og:title" content="Joe's 30th Birthday Trip">
-    <meta property="og:description" content="Chateau Roussignol, Loire Valley · 29 Apr - 4 May 2026">
+    <meta property="og:description" content="Château Roussignol, Loire Valley · 29 Apr - 4 May 2026">
     <meta property="og:image" content="https://joes30.com/images/og-preview.jpg">
     <meta property="og:url" content="https://joes30.com/livefeed.html">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Joe's 30th Birthday Trip">
-    <meta name="twitter:description" content="Chateau Roussignol, Loire Valley · 29 Apr - 4 May 2026">
+    <meta name="twitter:description" content="Château Roussignol, Loire Valley · 29 Apr - 4 May 2026">
     <meta name="twitter:image" content="https://joes30.com/images/og-preview.jpg">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>">
     <link rel="manifest" href="manifest.json">
@@ -22,7 +22,7 @@
     <meta name="apple-mobile-web-app-title" content="Joe's 30th">
     <link rel="apple-touch-icon" href="images/icon-192.png">
     <link rel="stylesheet" href="css/base.css?v=19">
-    <link rel="stylesheet" href="css/components.css?v=1">
+    <link rel="stylesheet" href="css/components.css?v=3">
     <link rel="stylesheet" href="css/nav.css?v=1">
     <link rel="stylesheet" href="css/livefeed.css?v=1">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -55,7 +55,7 @@
     <!-- Page Header -->
     <header class="page-header">
         <h1>Live Feed</h1>
-        <p>Everything happening at the chateau, as it happens.</p>
+        <p>Everything happening at the château, as it happens.</p>
     </header>
 
     <!-- Compose bar (sticky at top, below nav) -->
@@ -63,8 +63,6 @@
         <button class="feed-compose-btn" data-type="message"><span class="fc-icon">💬</span><span class="fc-label">Message</span></button>
         <button class="feed-compose-btn" data-type="photo"><span class="fc-icon">📸</span><span class="fc-label">Photo</span></button>
         <button class="feed-compose-btn" data-type="confession"><span class="fc-icon">🤫</span><span class="fc-label">Confession</span></button>
-        <button class="feed-compose-btn" data-type="music"><span class="fc-icon">🎵</span><span class="fc-label">Song</span></button>
-        <button class="feed-compose-btn" data-type="prediction"><span class="fc-icon">🔮</span><span class="fc-label">Prediction</span></button>
     </div>
 
     <!-- Compose modal (hidden, shows form for selected type) -->
@@ -77,10 +75,9 @@
     <!-- Filter tabs -->
     <div class="feed-filters">
         <button class="feed-filter active" data-filter="all">All</button>
-        <button class="feed-filter" data-filter="bingo">Bingo</button>
-        <button class="feed-filter" data-filter="scores">Scores</button>
         <button class="feed-filter" data-filter="photos">Photos</button>
-        <button class="feed-filter" data-filter="social">Social</button>
+        <button class="feed-filter" data-filter="bingo">Bingo</button>
+        <button class="feed-filter" data-filter="social">Chat</button>
     </div>
 
     <!-- Feed list -->
@@ -113,8 +110,8 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
-    <script src="js/shared.js?v=18"></script>
-    <script src="js/firebase-config.js?v=1"></script>
+    <script src="js/shared.js?v=19"></script>
+    <script src="js/firebase-config.js?v=2"></script>
     <script src="js/nav.js?v=1"></script>
     <script src="js/livefeed.js?v=1"></script>
 </body>

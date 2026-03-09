@@ -117,84 +117,521 @@
 .password-hint { font-size: 0.9rem; color: var(--text-light); font-style: italic; }
 .password-error { color: #ff6b6b; font-weight: 600; margin-top: 10px; }
 
-/* Guest Login Modal */
-.guest-login-modal {
-    position: fixed;
-    top: 0; left: 0;
+/* ============================================
+   Château Arrival Scene Animation
+   ============================================ */
+.scene {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 280px;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.9;
+    mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.5) 10%, rgba(0,0,0,1) 25%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.5) 10%, rgba(0,0,0,1) 25%);
+}
+
+/* Sun */
+.scene-sun {
+    position: absolute;
+    top: 12px;
+    right: 12%;
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle, #ffd93d 30%, rgba(255,217,61,0.3) 60%, transparent 70%);
+    border-radius: 50%;
+    animation: sunPulse 4s ease-in-out infinite;
+}
+
+@keyframes sunPulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.15); opacity: 1; }
+}
+
+/* Clouds */
+.scene-cloud {
+    position: absolute;
+    width: 90px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 20px;
+    animation: cloudDrift linear infinite;
+}
+
+.scene-cloud::before {
+    content: '';
+    position: absolute;
+    width: 45px;
+    height: 22px;
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 20px;
+    top: -12px;
+    left: 22px;
+}
+
+.scene-cloud--1 { top: 15px; left: -90px; animation-duration: 50s; }
+.scene-cloud--2 { top: 45px; left: -90px; animation-duration: 65s; animation-delay: -25s; width: 65px; height: 24px; }
+.scene-cloud--3 { top: 28px; left: -90px; animation-duration: 42s; animation-delay: -12s; width: 75px; }
+
+@keyframes cloudDrift {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(100vw + 180px)); }
+}
+
+/* Ground */
+.scene-ground {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 220px;
+    background: linear-gradient(170deg, #7bc462 0%, #5aad45 30%, #3d8a2e 100%);
+}
+
+/* Vineyard rows */
+.scene-vines {
+    position: absolute;
+    bottom: 50px;
+    width: 80px;
+    height: 60px;
+}
+
+.scene-vines--l {
+    left: 8%;
+    background: repeating-linear-gradient(0deg, transparent 0px, transparent 8px, #2d7a1e 8px, #2d7a1e 10px);
+    opacity: 0.5;
+    transform: perspective(100px) rotateX(10deg);
+}
+
+.scene-vines--r {
+    right: 8%;
+    background: repeating-linear-gradient(0deg, transparent 0px, transparent 8px, #2d7a1e 8px, #2d7a1e 10px);
+    opacity: 0.5;
+    transform: perspective(100px) rotateX(10deg);
+}
+
+/* Road — grey tarmac strip across the bottom */
+.scene-road {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 28px;
+    background: #555;
+    border-top: 2px solid #666;
+    border-bottom: 2px solid #444;
+    z-index: 1;
+}
+
+/* White dashed centre line */
+.scene-road-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 3px;
+    transform: translateY(-50%);
+    background: repeating-linear-gradient(90deg,
+        #fff 0px, #fff 18px,
+        transparent 18px, transparent 30px
+    );
+    opacity: 0.85;
+}
+
+/* Dirt driveway — leads from road up to château entrance */
+.scene-driveway {
+    position: absolute;
+    bottom: 26px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 20px;
+    background: linear-gradient(to top, #8b7355 0%, #a08868 40%, #b09878 100%);
+    clip-path: polygon(25% 0%, 75% 0%, 100% 100%, 0% 100%);
+    z-index: 1;
+}
+
+/* Gravel texture on driveway */
+.scene-driveway::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 40%, rgba(0,0,0,0.1) 1px, transparent 1px),
+        radial-gradient(circle at 50% 60%, rgba(0,0,0,0.08) 1px, transparent 1px),
+        radial-gradient(circle at 70% 30%, rgba(0,0,0,0.1) 1px, transparent 1px),
+        radial-gradient(circle at 35% 75%, rgba(0,0,0,0.08) 1px, transparent 1px),
+        radial-gradient(circle at 80% 70%, rgba(0,0,0,0.1) 1px, transparent 1px);
+    background-size: 12px 10px;
+}
+
+/* Château */
+.scene-chateau {
+    position: absolute;
+    bottom: 38px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 230px;
+    height: auto;
+    opacity: 0;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
+    animation: chateauAppear 1.2s ease forwards;
+    animation-delay: 0.3s;
+}
+
+@keyframes chateauAppear {
+    from { opacity: 0; transform: translateX(-50%) scale(0.85) translateY(10px); }
+    to { opacity: 1; transform: translateX(-50%) scale(1) translateY(0); }
+}
+
+/* Glowing windows */
+.scene-window-glow {
+    animation: windowFlicker 3s ease-in-out infinite;
+}
+
+.scene-window-glow:nth-child(odd) { animation-delay: -1s; }
+
+@keyframes windowFlicker {
+    0%, 100% { fill: #f5d98e; }
+    50% { fill: #ffe4a0; }
+}
+
+/* Cars */
+.scene-car {
+    position: absolute;
+    bottom: 12px;
+    width: 55px;
+    height: 26px;
+    z-index: 2;
+}
+
+.scene-car svg {
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+}
+
+.scene-car--1 {
+    left: -70px;
+    animation: carDrive1 3.5s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    animation-delay: 1.2s;
+}
+
+.scene-car--2 {
+    right: -70px;
+    animation: carDrive2 4s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    animation-delay: 2s;
+    transform: scaleX(-1);
+}
+
+@keyframes carDrive1 {
+    0% { left: -70px; }
+    60% { left: calc(50% - 100px); }
+    75% { left: calc(50% - 95px); }
+    100% { left: calc(50% - 95px); }
+}
+
+@keyframes carDrive2 {
+    0% { right: -70px; }
+    60% { right: calc(50% - 100px); }
+    75% { right: calc(50% - 95px); }
+    100% { right: calc(50% - 95px); }
+}
+
+/* People — walkers from cars */
+.scene-person {
+    position: absolute;
+    bottom: 48px;
+    font-size: 1.4rem;
+    opacity: 0;
+}
+
+/* Left car group — appear then walk right toward château */
+.scene-person-l {
+    left: calc(50% - 95px);
+}
+
+.scene-person-l--1 {
+    animation: personAppear 0.4s ease forwards 5s, walkRight 2s ease-in-out forwards 5.4s;
+}
+.scene-person-l--2 {
+    animation: personAppear 0.4s ease forwards 5.3s, walkRight 2s ease-in-out forwards 5.7s;
+}
+.scene-person-l--3 {
+    animation: personAppear 0.4s ease forwards 5.6s, walkRight 1.8s ease-in-out forwards 6s;
+}
+
+/* Right car group — appear then walk left toward château */
+.scene-person-r {
+    right: calc(50% - 95px);
+}
+
+.scene-person-r--1 {
+    animation: personAppear 0.4s ease forwards 6.2s, walkLeft 2s ease-in-out forwards 6.6s;
+    transform: scaleX(-1);
+}
+.scene-person-r--2 {
+    animation: personAppear 0.4s ease forwards 6.5s, walkLeft 2s ease-in-out forwards 6.9s;
+    transform: scaleX(-1);
+}
+.scene-person-r--3 {
+    animation: personAppear 0.4s ease forwards 6.8s, walkLeft 1.8s ease-in-out forwards 7.2s;
+    transform: scaleX(-1);
+}
+
+@keyframes personAppear {
+    0% { opacity: 0; transform: scale(0); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+/* Stagger vertical positions so they don't overlap */
+.scene-person-l--1, .scene-person-r--1 { bottom: 50px; }
+.scene-person-l--2, .scene-person-r--2 { bottom: 54px; font-size: 1.25rem; }
+.scene-person-l--3, .scene-person-r--3 { bottom: 46px; font-size: 1.15rem; }
+
+@keyframes walkRight {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(15px) translateY(-3px); }
+    50% { transform: translateX(30px); }
+    75% { transform: translateX(42px) translateY(-2px); }
+    100% { transform: translateX(55px); opacity: 0; }
+}
+
+@keyframes walkLeft {
+    0% { transform: scaleX(-1) translateX(0); }
+    25% { transform: scaleX(-1) translateX(15px) translateY(-3px); }
+    50% { transform: scaleX(-1) translateX(30px); }
+    75% { transform: scaleX(-1) translateX(42px) translateY(-2px); }
+    100% { transform: scaleX(-1) translateX(55px); opacity: 0; }
+}
+
+/* Celebration — appears after walkers reach the château */
+.scene-celebrate {
+    position: absolute;
+    bottom: 55px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
-    align-items: center;
+    gap: 12px;
     justify-content: center;
-    z-index: 10000;
 }
 
-.guest-login-content {
-    background: var(--bg-white);
-    padding: 3rem;
-    border-radius: 20px;
-    text-align: center;
-    max-width: 420px;
-    width: 90%;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    animation: slideUp 0.5s ease;
+.scene-celeb {
+    font-size: 1.5rem;
+    opacity: 0;
 }
 
-.guest-login-content h2 {
-    font-size: 1.8rem;
-    margin-bottom: 0.5rem;
-    color: var(--primary);
+.scene-celeb--1 {
+    animation: celebPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 8s, celebDance 1.5s ease-in-out 8.6s infinite;
+}
+.scene-celeb--2 {
+    animation: celebPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 8.3s, celebDance 1.2s ease-in-out 8.9s infinite;
+}
+.scene-celeb--3 {
+    animation: celebPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 8.6s, celebDance 1.4s ease-in-out 9.2s infinite;
+}
+.scene-celeb--4 {
+    animation: celebPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 8.9s, celebDance 1.6s ease-in-out 9.5s infinite;
 }
 
-.guest-login-content p {
-    color: var(--text-light);
-    margin-bottom: 1.5rem;
+@keyframes celebPop {
+    0% { opacity: 0; transform: scale(0) translateY(15px); }
+    60% { opacity: 1; transform: scale(1.3) translateY(-8px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-#guest-login-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+@keyframes celebDance {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-6px) rotate(-8deg); }
+    75% { transform: translateY(-6px) rotate(8deg); }
 }
 
-#guest-code {
-    padding: 1rem 1.5rem;
-    border: 2px solid var(--bg-light);
-    border-radius: 10px;
+/* Pool — separate element, well spaced from château */
+.scene-pool {
+    position: absolute;
+    bottom: 28px;
+    right: calc(50% - 290px);
+    width: 100px;
+    height: auto;
+    opacity: 0;
+    animation: poolAppear 0.8s ease forwards 2s;
+}
+
+@keyframes poolAppear {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Pool person containers — hold runner + swimmer, swap visibility */
+.scene-pool-person {
+    position: absolute;
+    font-size: 1.3rem;
+    left: calc(50% + 15px);
+    bottom: 58px;
+    opacity: 0;
+}
+
+.scene-pool-person .scene-pool-swimmer { display: none; }
+.scene-pool-person .scene-pool-runner { display: inline; }
+
+/* Person 1: run then jump */
+.scene-pool-person--1 {
+    animation: poolRun1 2s ease-in-out forwards 9.5s,
+               poolJumpArc1 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 11.5s,
+               poolSwim1 2s ease-in-out 12.4s infinite;
+}
+
+/* Person 2: run then jump (staggered) */
+.scene-pool-person--2 {
+    animation: poolRun2 2s ease-in-out forwards 10.8s,
+               poolJumpArc2 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 12.8s,
+               poolSwim2 2.3s ease-in-out 13.7s infinite;
+}
+
+/* Run phase: appear at château, run across grass to pool edge */
+@keyframes poolRun1 {
+    0%   { opacity: 1; transform: translateX(0) translateY(0); }
+    25%  { opacity: 1; transform: translateX(30px) translateY(-3px); }
+    50%  { opacity: 1; transform: translateX(65px) translateY(0); }
+    75%  { opacity: 1; transform: translateX(100px) translateY(-2px); }
+    100% { opacity: 1; transform: translateX(130px) translateY(0); }
+}
+
+@keyframes poolRun2 {
+    0%   { opacity: 1; transform: translateX(0) translateY(0); }
+    25%  { opacity: 1; transform: translateX(28px) translateY(-2px); }
+    50%  { opacity: 1; transform: translateX(60px) translateY(0); }
+    75%  { opacity: 1; transform: translateX(95px) translateY(-3px); }
+    100% { opacity: 1; transform: translateX(125px) translateY(0); }
+}
+
+/* Jump arc: leap up and splash down into pool */
+@keyframes poolJumpArc1 {
+    0%   { opacity: 1; transform: translateX(130px) translateY(0) scale(1); }
+    35%  { opacity: 1; transform: translateX(140px) translateY(-40px) scale(1.1) rotate(-20deg); }
+    70%  { opacity: 1; transform: translateX(148px) translateY(-8px) scale(0.85) rotate(8deg); }
+    100% { opacity: 0.8; transform: translateX(148px) translateY(10px) scale(0.7); }
+}
+
+@keyframes poolJumpArc2 {
+    0%   { opacity: 1; transform: translateX(125px) translateY(0) scale(1); }
+    35%  { opacity: 1; transform: translateX(135px) translateY(-45px) scale(1.1) rotate(15deg); }
+    70%  { opacity: 1; transform: translateX(143px) translateY(-6px) scale(0.85) rotate(-8deg); }
+    100% { opacity: 0.8; transform: translateX(143px) translateY(12px) scale(0.7); }
+}
+
+/* Gentle idle swim */
+@keyframes poolSwim1 {
+    0%, 100% { opacity: 0.8; transform: translateX(148px) translateY(10px) scale(0.7); }
+    50%      { opacity: 0.8; transform: translateX(153px) translateY(8px) scale(0.7); }
+}
+
+@keyframes poolSwim2 {
+    0%, 100% { opacity: 0.8; transform: translateX(143px) translateY(12px) scale(0.7); }
+    50%      { opacity: 0.8; transform: translateX(148px) translateY(10px) scale(0.7); }
+}
+
+/* Pool splashes — at the pool */
+.scene-pool-splash {
+    position: absolute;
     font-size: 1.1rem;
-    text-align: center;
-    transition: all 0.3s ease;
-    background: var(--bg-white);
-    color: var(--text-dark);
+    opacity: 0;
+    right: calc(50% - 270px);
+    bottom: 64px;
 }
 
-#guest-code:focus {
-    border-color: var(--primary);
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+.scene-pool-splash--1 {
+    animation: splashPop 0.7s ease forwards 12.0s;
 }
 
-.guest-login-hint { font-size: 0.9rem; color: var(--text-light); margin-top: 1rem; }
-.guest-login-error { color: #e74c3c; font-weight: 600; margin-top: 0.5rem; }
-
-.skip-login-btn {
-    background: none;
-    border: none;
-    color: var(--text-light);
-    cursor: pointer;
-    margin-top: 1.5rem;
-    font-size: 0.9rem;
-    text-decoration: underline;
-    transition: color 0.3s ease;
+.scene-pool-splash--2 {
+    animation: splashPop 0.7s ease forwards 13.3s;
+    right: calc(50% - 262px);
 }
 
-.skip-login-btn:hover { color: var(--primary); }
+@keyframes splashPop {
+    0% { opacity: 0; transform: scale(0) translateY(0); }
+    40% { opacity: 1; transform: scale(1.5) translateY(-18px); }
+    100% { opacity: 0; transform: scale(0.5) translateY(-30px); }
+}
+
+/* Bienvenue banner — fades in above château entrance */
+.scene-banner {
+    position: absolute;
+    bottom: 105px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Pacifico', cursive;
+    font-size: 0.85rem;
+    color: #fff;
+    background: rgba(118, 75, 162, 0.85);
+    padding: 3px 14px;
+    border-radius: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    z-index: 2;
+    animation: bannerAppear 1s ease forwards 1.5s;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+@keyframes bannerAppear {
+    from { opacity: 0; transform: translateX(-50%) translateY(8px) scale(0.9); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+}
+
+/* Responsive — Tablet */
+@media (max-width: 768px) {
+    .scene { height: 220px; }
+    .scene-chateau { width: 180px; bottom: 32px; }
+    .scene-car { width: 42px; height: 20px; bottom: 8px; }
+    .scene-road { height: 22px; }
+    .scene-road-line { height: 2px; }
+    .scene-driveway { bottom: 20px; width: 55px; height: 16px; }
+    .scene-person { font-size: 1rem; }
+    .scene-person-l--1, .scene-person-r--1 { bottom: 40px; }
+    .scene-person-l--2, .scene-person-r--2 { bottom: 44px; font-size: 0.95rem; }
+    .scene-person-l--3, .scene-person-r--3 { bottom: 38px; font-size: 0.9rem; }
+    .scene-celeb { font-size: 1.1rem; }
+    .scene-celebrate { bottom: 46px; gap: 8px; }
+    .scene-vines { display: none; }
+    .scene-pool { width: 70px; right: calc(50% - 220px); bottom: 22px; }
+    .scene-pool-person { font-size: 1rem; bottom: 48px; }
+    .scene-banner { font-size: 0.7rem; padding: 2px 10px; bottom: 85px; }
+}
+
+/* Responsive — Mobile */
+@media (max-width: 480px) {
+    .scene { height: 170px; }
+    .scene-chateau { width: 130px; bottom: 28px; }
+    .scene-car { width: 32px; height: 16px; bottom: 6px; }
+    .scene-road { height: 18px; }
+    .scene-road-line { height: 2px; }
+    .scene-road-line { background: repeating-linear-gradient(90deg, #fff 0px, #fff 10px, transparent 10px, transparent 18px); }
+    .scene-driveway { bottom: 16px; width: 40px; height: 14px; }
+    .scene-person { font-size: 0.85rem; }
+    .scene-person-l--1, .scene-person-r--1 { bottom: 34px; }
+    .scene-person-l--2, .scene-person-r--2 { bottom: 38px; font-size: 0.8rem; }
+    .scene-person-l--3, .scene-person-r--3 { bottom: 32px; font-size: 0.75rem; }
+    .scene-celeb { font-size: 0.9rem; }
+    .scene-celebrate { bottom: 38px; gap: 6px; }
+    .scene-sun { width: 25px; height: 25px; }
+    .scene-ground { height: 160px; }
+    .scene-pool,
+    .scene-pool-person,
+    .scene-pool-splash { display: none; }
+    .scene-banner { font-size: 0.6rem; bottom: 70px; padding: 2px 8px; }
+}
 
 /* Hero Section */
 .hero {
-    min-height: 100vh;
+    min-height: 80vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -203,7 +640,7 @@
     background: var(--gradient-hero);
     position: relative;
     overflow: hidden;
-    padding: 100px 20px;
+    padding: 80px 20px 60px;
 }
 
 .hero::before {
@@ -304,43 +741,6 @@
     font-style: italic;
 }
 
-/* Hero Buttons */
-.hero-buttons {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 16px;
-}
-
-.hero-spotify-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.88rem;
-    font-weight: 600;
-    text-decoration: none;
-    margin-bottom: 30px;
-    padding: 6px 16px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-}
-
-.hero-spotify-link:hover {
-    color: #1DB954;
-    border-color: #1DB954;
-    background: rgba(29, 185, 84, 0.08);
-}
-
-.hero-spotify-link .spotify-icon {
-    width: 16px;
-    height: 16px;
-    fill: currentColor;
-    flex-shrink: 0;
-}
-
 /* Hero bottom fade into next section */
 .hero-bottom-fade {
     position: absolute;
@@ -382,15 +782,15 @@
 
 /* Quick Links Grid */
 .quick-links {
-    padding: 80px 0;
+    padding: 50px 0 60px;
     background: var(--bg-white);
 }
 
 .quick-links-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-    max-width: 1060px;
+    max-width: 780px;
     margin: 0 auto;
 }
 
@@ -419,8 +819,10 @@
 .quick-link--schedule { background: linear-gradient(135deg, #5b21b6 0%, #7c3aed 50%, #4f46e5 100%); box-shadow: 0 8px 28px rgba(91,33,182,0.35); }
 .quick-link--games    { background: linear-gradient(135deg, #b45309 0%, #d97706 50%, #f59e0b 100%); box-shadow: 0 8px 28px rgba(180,83,9,0.35); }
 .quick-link--social   { background: linear-gradient(135deg, #be185d 0%, #e91e8c 50%, #f43f5e 100%); box-shadow: 0 8px 28px rgba(190,24,93,0.35); }
+.quick-link--bingo    { background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%); box-shadow: 0 8px 28px rgba(124,58,237,0.35); }
+.quick-link--livefeed { background: linear-gradient(135deg, #be185d 0%, #e91e8c 50%, #f43f5e 100%); box-shadow: 0 8px 28px rgba(190,24,93,0.35); }
+.quick-link--crew     { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); box-shadow: 0 8px 28px rgba(15,52,96,0.45); }
 .quick-link--info     { background: linear-gradient(135deg, #0d6f63 0%, #0891b2 50%, #06b6d4 100%); box-shadow: 0 8px 28px rgba(13,111,99,0.35); }
-.quick-link--trailer  { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); box-shadow: 0 8px 28px rgba(15,52,96,0.45); }
 
 .quick-link:hover {
     transform: translateY(-8px) scale(1.02);
@@ -508,10 +910,7 @@
 }
 
 /* Card left border accents */
-.missions-card  { border-left: 4px solid var(--accent); }
-.agenda-card    { border-left: 4px solid var(--primary); }
 .live-stats-card { border-left: 4px solid #4ade80; }
-.trip-numbers-card { border-left: 4px solid #a78bfa; }
 
 /* Stats Strip — compact inline row */
 .stats-strip {
@@ -575,112 +974,6 @@
     font-size: 1.2rem;
 }
 
-.missions-progress {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-}
-
-.missions-intro {
-    opacity: 0.9;
-    margin-bottom: 15px;
-    font-size: 0.95rem;
-}
-
-/* Missions progress bar */
-.missions-bar-wrap {
-    height: 5px;
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 3px;
-    margin: 0 0 14px;
-    overflow: hidden;
-}
-
-.missions-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent), #ff9f43);
-    border-radius: 3px;
-    width: 0%;
-    transition: width 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.mission-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 14px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    background: rgba(255, 255, 255, 0.08);
-    border-left: 3px solid rgba(255, 255, 255, 0.12);
-    transition: background 0.25s ease, border-color 0.25s ease;
-}
-
-.mission-item.completed {
-    background: rgba(255, 217, 61, 0.1);
-    border-left-color: var(--accent);
-    opacity: 0.85;
-}
-
-.mission-checkbox {
-    position: relative;
-    display: inline-flex;
-    cursor: pointer;
-    flex-shrink: 0;
-}
-
-.mission-checkbox input {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.checkmark {
-    width: 22px;
-    height: 22px;
-    border-radius: 7px;
-    background: rgba(255, 255, 255, 0.12);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
-}
-
-.mission-checkbox input:checked + .checkmark {
-    background: var(--accent);
-    border-color: var(--accent);
-}
-
-.mission-checkbox input:checked + .checkmark::after {
-    content: '✓';
-    color: #1a1a2e;
-    font-size: 13px;
-    font-weight: 800;
-    line-height: 1;
-}
-
-.mission-text {
-    flex-grow: 1;
-    font-size: 0.93rem;
-    line-height: 1.4;
-}
-
-.mission-item.completed .mission-text {
-    text-decoration: line-through;
-    opacity: 0.7;
-}
-
-.mission-done {
-    color: var(--accent);
-    font-weight: 700;
-    font-size: 0.8rem;
-    white-space: nowrap;
-}
-
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -717,40 +1010,9 @@
     opacity: 0.8;
 }
 
-/* Facts Ticker */
-.facts-ticker {
-    background: var(--primary);
-    color: var(--text-white);
-    padding: 15px 0;
-    overflow: hidden;
-    position: relative;
-}
-
-.ticker-content {
-    display: flex;
-    animation: scroll-ticker 30s linear infinite;
-    white-space: nowrap;
-}
-
-.ticker-item {
-    padding: 0 50px;
-    font-size: 1rem;
-    font-weight: 500;
-}
-
-@keyframes scroll-ticker {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
-
-.facts-ticker:hover .ticker-content {
-    animation-play-state: paused;
-}
-
 /* Live Stats Dashboard Cards */
-.live-stats-card .stats-grid,
-.trip-numbers-card .stats-grid {
-    grid-template-columns: repeat(4, 1fr);
+.live-stats-card .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
 }
 
 .stat-big {
@@ -780,65 +1042,14 @@
     transform: scale(1.3);
 }
 
-.trip-numbers-card {
-    background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(255, 107, 157, 0.15)) !important;
-}
-
-.stats-teaser-card {
-    text-align: center;
-    border: 2px dashed rgba(124, 58, 237, 0.2);
-}
-
-.stats-teaser-text {
-    color: var(--text-light);
-    font-size: 0.9rem;
-    line-height: 1.6;
-    margin: 0 0 16px;
-}
-
-.stats-teaser-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-top: 4px;
-}
-
-@media (max-width: 560px) {
-    .stats-teaser-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-.teaser-feature {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    padding: 12px 8px;
-    background: rgba(124, 58, 237, 0.05);
-    border: 1px solid rgba(124, 58, 237, 0.12);
-    border-radius: 12px;
-}
-
-.teaser-feature-icon {
-    font-size: 1.5rem;
-    line-height: 1;
-}
-
-.teaser-feature-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--text-light);
-    text-align: center;
-    line-height: 1.3;
-}
-
 .team-explainer {
-    color: var(--text-light);
+    color: rgba(255, 255, 255, 0.8);
     font-size: 0.85rem;
     font-style: italic;
     text-align: center;
     margin: 12px 0 0;
     padding-top: 10px;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 /* ============================================
@@ -981,161 +1192,18 @@
     transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
 }
 
-/* ============================================
-   Who's Awake?
-   ============================================ */
-.whos-awake-section {
-    background: var(--bg-white);
-    padding: 60px 0;
-}
-
-.awake-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
-    gap: 12px;
-}
-
-.awake-header h2 {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 4vw, 3rem);
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.awake-count {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--text-light);
-    background: var(--bg-light);
-    padding: 6px 16px;
-    border-radius: 20px;
-}
-
-.awake-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-    gap: 14px;
-    margin-bottom: 24px;
-}
-
-.awake-avatar {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.3s ease;
-}
-
-.awake-letter {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    font-weight: 700;
-    background: var(--bg-light);
-    color: var(--text-light);
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
-}
-
-.awake-name {
-    font-size: 0.7rem;
-    color: var(--text-light);
-    text-align: center;
-    max-width: 70px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.awake-avatar.awake-active .awake-letter {
-    background: var(--gradient-primary);
-    color: white;
-    border-color: rgba(255, 107, 157, 0.4);
-    box-shadow: 0 0 16px rgba(255, 107, 157, 0.35);
-    animation: awakeGlow 2s ease-in-out infinite;
-}
-
-.awake-avatar.awake-active .awake-name {
-    color: var(--text-dark);
-    font-weight: 600;
-}
-
-@keyframes awakeGlow {
-    0%, 100% { box-shadow: 0 0 12px rgba(255, 107, 157, 0.3); }
-    50% { box-shadow: 0 0 22px rgba(255, 107, 157, 0.5); }
-}
-
-.awake-checkin-btn {
-    display: block;
-    margin: 0 auto;
-    padding: 12px 36px;
-    border-radius: 30px;
-    border: none;
-    background: var(--gradient-primary);
-    color: white;
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: var(--font-body);
-}
-
-.awake-checkin-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-}
-
-.awake-checkin-btn.awake-checked {
-    background: #6BCB77;
-    cursor: default;
-}
-
-.awake-checkin-btn.awake-checked:hover {
-    transform: none;
-    box-shadow: none;
-}
-
-body.dark-mode .my-dashboard {
-    background: linear-gradient(135deg, #151830 0%, #1a1230 100%);
-}
-
-body.dark-mode .awake-letter {
-    background: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.3);
-}
-
-body.dark-mode .awake-avatar.awake-active .awake-letter {
-    background: var(--gradient-primary);
-    color: white;
-}
-
 /* Responsive */
 @media (max-width: 768px) {
     .countdown { gap: 10px; }
     .countdown-item { padding: 15px 20px; min-width: 70px; }
     .countdown-number { font-size: 1.8rem; }
-    .quick-links-grid { grid-template-columns: repeat(3, 1fr); }
+    .quick-links-grid { grid-template-columns: repeat(2, 1fr); }
     .stats-grid { grid-template-columns: repeat(2, 1fr); }
-    .live-stats-card .stats-grid,
-    .trip-numbers-card .stats-grid { grid-template-columns: repeat(2, 1fr); }
     .dashboard-header { flex-direction: column; text-align: center; }
-    .awake-grid { grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 10px; }
-    .awake-letter { width: 42px; height: 42px; font-size: 1rem; }
 }
 
 @media (max-width: 480px) {
     .hero-title { font-size: 2.5rem; }
-    .hero-buttons { flex-direction: column; align-items: center; }
-    .hero-buttons .btn { width: 100%; max-width: 280px; }
     .quick-links-grid { grid-template-columns: repeat(2, 1fr); }
 }
 

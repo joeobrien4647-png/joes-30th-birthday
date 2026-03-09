@@ -53,22 +53,31 @@ Each guest has a unique code (format: `firstname30` or `firstnamelastinit30`). L
 | emmaw30 | Emma Winup | Room 6 | Champagne |
 | tom30 | Tom Heyworth | Room 7 | Bordeaux |
 | robert30 | Robert Winup | Room 7 | Rose |
-| sarah30 | Sarah Shamia | Room 8 | Champagne |
-| kiran30 | Kiran Ruparelia | Room 8 | Bordeaux |
+| sarah30 | Sarah Shamia | Room 8 (solo) | Champagne |
+| kiran30 | Kiran Ruparelia | Room 9 | Bordeaux |
 | shane30 | Shane Pallian | Room 12 | Rose |
-| oli30 | Oli Moran | Room 9 | Champagne |
+| oli30 | Oli Moran | Room 10 | Champagne |
 | peter30 | Peter London | Room 10 | Bordeaux |
-| emmal30 | Emma Levett | Room 10 | Rose |
-| jonnyl30 | Jonny Levett | Room 11 | Champagne |
-| jonnyw30 | Jonny Williams | Room 11 | Bordeaux |
-| chris30 | Chris Coggin | Room 9 | Champagne |
-| oscar30 | Oscar Walters | Room 13 | Bordeaux |
-| pranay30 | Pranay Dube | Room 14 | Champagne |
+| emmal30 | Emma Levett | Room 11 | Rose |
+| JONNYL-4VP9 | Jonny Levett | Room 11 | Vikings |
+| JONNYW-8HQ3 | Jonny Williams | Room 12 | Spartans |
+| CHRIS-2FM7 | Chris Coggin | Room 9 | Titans |
+| OSCAR-5DL4 | Oscar Walters | Room 12 | Titans |
+| PRANAY-9WX6 | Pranay Dube | Room 12 | Gladiators |
+| MATT-3B7K | Matt Hill | Room 12 | Spartans |
 
-## Four Teams (3 × 6 members + 1 × 7 members = 25 total)
-- Team names and assignments are NOT decided yet — reveal on arrival night (Day 1)
-- Site shows Team 1 / Team 2 / Team 3 / Team 4 as placeholders
-- Do NOT invent or hardcode team names without confirming with Joe first
+## Four Teams (2 × 7 + 2 × 6 = 26 total)
+| Team | Colour | Captain | Members |
+|------|--------|---------|---------|
+| **Titans** | Gold `#f9a825` | Joe | Sam, Robin, Emma L, Kiran, Oscar, Chris |
+| **Spartans** | Red `#c62828` | Razon | Sophie, Robert, Florrie, Shane, Jonny W, Matt Hill |
+| **Vikings** | Blue `#1565c0` | Hannah | Luke, George, Neeve, Oli, Jonny L |
+| **Gladiators** | Black `#424242` | Peter | Johnny, Tom, Sarah, Emma W, Pranay |
+
+- Teams revealed via rigged spin-the-wheel on first registration (not date-locked)
+- Team data in `PLAYERS` and `TEAM_CONFIG` objects in `js/shared.js`
+- `localStorage.teamRevealed_[code]` tracks whether guest has spun
+- Couples deliberately split across teams
 
 ## Travel Arrangements
 **Main convoy from Sevenoaks (15 people, 2x 9-seater vans):**

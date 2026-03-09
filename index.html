@@ -22,9 +22,9 @@
     <meta name="apple-mobile-web-app-title" content="Joe's 30th">
     <link rel="apple-touch-icon" href="images/icon-192.png">
     <link rel="stylesheet" href="css/base.css?v=19">
-    <link rel="stylesheet" href="css/components.css?v=1">
+    <link rel="stylesheet" href="css/components.css?v=3">
     <link rel="stylesheet" href="css/nav.css?v=1">
-    <link rel="stylesheet" href="css/home.css?v=15">
+    <link rel="stylesheet" href="css/home.css?v=24">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;700&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
@@ -37,7 +37,7 @@
       <div id="co-stage">
         <div class="co-line" id="co-l1">Your invitation has arrived</div>
         <div class="co-line" id="co-l2">Joe's 30th</div>
-        <div class="co-line co-sub" id="co-l3">Chateau Roussignol &bull; Loire Valley &bull; 29 Apr &ndash; 4 May 2026</div>
+        <div class="co-line co-sub" id="co-l3">Château Roussignol &bull; Loire Valley &bull; 29 Apr &ndash; 4 May 2026</div>
       </div>
     </div>
 
@@ -139,12 +139,9 @@
 
     <!-- Floating Balloons -->
     <div class="floating-balloons">
-        <div class="balloon" style="--delay: 0s; --x: 10%;">🎈</div>
-        <div class="balloon" style="--delay: 2s; --x: 25%;">🎈</div>
-        <div class="balloon" style="--delay: 4s; --x: 45%;">🎉</div>
-        <div class="balloon" style="--delay: 1s; --x: 65%;">🎈</div>
-        <div class="balloon" style="--delay: 3s; --x: 80%;">🎂</div>
-        <div class="balloon" style="--delay: 5s; --x: 90%;">🎈</div>
+        <div class="balloon" style="--delay: 0s; --x: 15%;">🎈</div>
+        <div class="balloon" style="--delay: 3s; --x: 50%;">🎉</div>
+        <div class="balloon" style="--delay: 5s; --x: 85%;">🎈</div>
     </div>
 
     <!-- Navigation -->
@@ -168,6 +165,223 @@
 
     <!-- Hero Section -->
     <section id="hero" class="hero">
+        <!-- Animated château arrival scene -->
+        <div class="scene" aria-hidden="true">
+            <!-- Clouds -->
+            <div class="scene-cloud scene-cloud--1"></div>
+            <div class="scene-cloud scene-cloud--2"></div>
+            <div class="scene-cloud scene-cloud--3"></div>
+
+            <!-- Sun -->
+            <div class="scene-sun"></div>
+
+            <!-- Ground + landscape -->
+            <div class="scene-ground">
+                <!-- Vineyard rows -->
+                <div class="scene-vines scene-vines--l"></div>
+                <div class="scene-vines scene-vines--r"></div>
+
+                <!-- Road across bottom -->
+                <div class="scene-road">
+                    <div class="scene-road-line"></div>
+                </div>
+                <!-- Dirt driveway leading up to château -->
+                <div class="scene-driveway"></div>
+
+                <!-- Château SVG -->
+                <svg class="scene-chateau" viewBox="0 0 360 240" fill="none">
+                    <!-- Shadow beneath -->
+                    <ellipse cx="180" cy="232" rx="160" ry="8" fill="rgba(0,0,0,0.1)"/>
+
+                    <!-- Main building -->
+                    <rect x="80" y="70" width="200" height="160" fill="#f0e6d3" stroke="#c9b99a" stroke-width="1"/>
+                    <!-- Stone texture lines -->
+                    <line x1="80" y1="110" x2="280" y2="110" stroke="#ddd2be" stroke-width="0.5"/>
+                    <line x1="80" y1="150" x2="280" y2="150" stroke="#ddd2be" stroke-width="0.5"/>
+                    <line x1="80" y1="190" x2="280" y2="190" stroke="#ddd2be" stroke-width="0.5"/>
+
+                    <!-- Main roof -->
+                    <polygon points="65,70 180,12 295,70" fill="#6b4c3b"/>
+                    <polygon points="65,70 180,12 295,70" fill="url(#roofShine)" opacity="0.3"/>
+                    <!-- Dormer windows -->
+                    <rect x="140" y="38" width="22" height="20" rx="2" fill="#f0e6d3"/>
+                    <rect x="198" y="38" width="22" height="20" rx="2" fill="#f0e6d3"/>
+                    <polygon points="137,38 151,26 165,38" fill="#6b4c3b"/>
+                    <polygon points="195,38 209,26 223,38" fill="#6b4c3b"/>
+                    <rect x="143" y="42" width="7" height="14" rx="1" fill="#7eafc9"/>
+                    <rect x="152" y="42" width="7" height="14" rx="1" fill="#7eafc9"/>
+                    <rect x="201" y="42" width="7" height="14" rx="1" fill="#7eafc9"/>
+                    <rect x="210" y="42" width="7" height="14" rx="1" fill="#7eafc9"/>
+
+                    <!-- Left tower -->
+                    <rect x="40" y="45" width="50" height="185" fill="#ece0cc" stroke="#c9b99a" stroke-width="1"/>
+                    <polygon points="33,45 65,0 97,45" fill="#6b4c3b"/>
+                    <!-- Tower turret -->
+                    <circle cx="65" cy="0" r="4" fill="#8b6f5c"/>
+                    <line x1="65" y1="-4" x2="65" y2="-22" stroke="#888" stroke-width="1.5"/>
+                    <rect x="65" y="-22" width="5" height="3.5" fill="#002395"/>
+                    <rect x="70" y="-22" width="5" height="3.5" fill="#fff"/>
+                    <rect x="75" y="-22" width="5" height="3.5" fill="#ed2939"/>
+
+                    <!-- Right tower -->
+                    <rect x="270" y="45" width="50" height="185" fill="#ece0cc" stroke="#c9b99a" stroke-width="1"/>
+                    <polygon points="263,45 295,0 327,45" fill="#6b4c3b"/>
+                    <circle cx="295" cy="0" r="4" fill="#8b6f5c"/>
+                    <line x1="295" y1="-4" x2="295" y2="-22" stroke="#888" stroke-width="1.5"/>
+                    <rect x="295" y="-22" width="5" height="3.5" fill="#002395"/>
+                    <rect x="300" y="-22" width="5" height="3.5" fill="#fff"/>
+                    <rect x="305" y="-22" width="5" height="3.5" fill="#ed2939"/>
+
+                    <!-- Grand entrance -->
+                    <rect x="155" y="160" width="50" height="70" rx="25" fill="#3d2b1f"/>
+                    <rect x="157" y="162" width="46" height="68" rx="23" fill="#2d1f15"/>
+                    <!-- Door knocker -->
+                    <circle cx="173" cy="195" r="2.5" fill="#d4a853" stroke="#b8922e" stroke-width="0.5"/>
+                    <circle cx="187" cy="195" r="2.5" fill="#d4a853" stroke="#b8922e" stroke-width="0.5"/>
+                    <!-- Steps -->
+                    <rect x="148" y="225" width="64" height="5" rx="1" fill="#d6cbb9"/>
+                    <rect x="143" y="228" width="74" height="5" rx="1" fill="#c9b99a"/>
+
+                    <!-- Windows — glowing warm -->
+                    <rect x="100" y="85" width="26" height="32" rx="3" fill="#7eafc9" stroke="#c9b99a" stroke-width="1"/>
+                    <rect x="234" y="85" width="26" height="32" rx="3" fill="#7eafc9" stroke="#c9b99a" stroke-width="1"/>
+                    <rect x="100" y="135" width="26" height="32" rx="3" fill="#f5d98e" stroke="#c9b99a" stroke-width="1" class="scene-window-glow"/>
+                    <rect x="234" y="135" width="26" height="32" rx="3" fill="#f5d98e" stroke="#c9b99a" stroke-width="1" class="scene-window-glow"/>
+                    <rect x="100" y="185" width="26" height="32" rx="3" fill="#f5d98e" stroke="#c9b99a" stroke-width="1" class="scene-window-glow"/>
+                    <rect x="234" y="185" width="26" height="32" rx="3" fill="#f5d98e" stroke="#c9b99a" stroke-width="1" class="scene-window-glow"/>
+                    <!-- Window crosses -->
+                    <line x1="113" y1="85" x2="113" y2="117" stroke="#c9b99a" stroke-width="0.8"/>
+                    <line x1="100" y1="101" x2="126" y2="101" stroke="#c9b99a" stroke-width="0.8"/>
+                    <line x1="247" y1="85" x2="247" y2="117" stroke="#c9b99a" stroke-width="0.8"/>
+                    <line x1="234" y1="101" x2="260" y2="101" stroke="#c9b99a" stroke-width="0.8"/>
+
+                    <!-- Tower windows -->
+                    <rect x="53" y="65" width="22" height="28" rx="11" fill="#7eafc9" stroke="#c9b99a" stroke-width="1"/>
+                    <rect x="53" y="110" width="22" height="28" rx="3" fill="#f5d98e" stroke="#c9b99a" stroke-width="1" class="scene-window-glow"/>
+                    <rect x="53" y="155" width="22" height="28" rx="3" fill="#f5d98e" stroke="#c9b99a" stroke-width="1" class="scene-window-glow"/>
+                    <rect x="285" y="65" width="22" height="28" rx="11" fill="#7eafc9" stroke="#c9b99a" stroke-width="1"/>
+                    <rect x="285" y="110" width="22" height="28" rx="3" fill="#f5d98e" stroke="#c9b99a" stroke-width="1" class="scene-window-glow"/>
+                    <rect x="285" y="155" width="22" height="28" rx="3" fill="#f5d98e" stroke="#c9b99a" stroke-width="1" class="scene-window-glow"/>
+
+                    <!-- Bunting between towers -->
+                    <path d="M65,50 Q110,65 140,48 Q170,62 200,48 Q230,65 260,48 Q280,58 295,50" stroke="#c62828" stroke-width="1" fill="none"/>
+                    <polygon points="100,52 108,66 92,66" fill="#f9a825" opacity="0.9"/>
+                    <polygon points="140,48 148,62 132,62" fill="#c62828" opacity="0.9"/>
+                    <polygon points="180,55 188,69 172,69" fill="#1565c0" opacity="0.9"/>
+                    <polygon points="220,48 228,62 212,62" fill="#f9a825" opacity="0.9"/>
+                    <polygon points="260,52 268,66 252,66" fill="#c62828" opacity="0.9"/>
+
+                    <!-- Trees -->
+                    <circle cx="18" cy="170" r="26" fill="#3d6b4a"/>
+                    <circle cx="8" cy="155" r="20" fill="#4a8059"/>
+                    <circle cx="28" cy="158" r="18" fill="#5a9068"/>
+                    <rect x="15" y="192" width="7" height="38" fill="#6b4226"/>
+
+                    <circle cx="342" cy="170" r="26" fill="#3d6b4a"/>
+                    <circle cx="352" cy="155" r="20" fill="#4a8059"/>
+                    <circle cx="332" cy="158" r="18" fill="#5a9068"/>
+                    <rect x="338" y="192" width="7" height="38" fill="#6b4226"/>
+
+                    <!-- Flower bushes -->
+                    <circle cx="132" cy="222" r="8" fill="#4a7c59"/>
+                    <circle cx="126" cy="218" r="5" fill="#5a8f6a"/>
+                    <circle cx="128" cy="215" r="3" fill="#ff6b9d"/>
+                    <circle cx="135" cy="217" r="2.5" fill="#ffd93d"/>
+
+                    <circle cx="228" cy="222" r="8" fill="#4a7c59"/>
+                    <circle cx="234" cy="218" r="5" fill="#5a8f6a"/>
+                    <circle cx="232" cy="215" r="3" fill="#ff6b9d"/>
+                    <circle cx="225" cy="217" r="2.5" fill="#ffd93d"/>
+
+
+                    <defs>
+                        <linearGradient id="roofShine" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#fff"/>
+                            <stop offset="100%" stop-color="transparent"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+
+                <!-- Cars -->
+                <div class="scene-car scene-car--1">
+                    <svg viewBox="0 0 70 32" fill="none">
+                        <rect x="3" y="14" width="64" height="14" rx="4" fill="#c62828"/>
+                        <rect x="3" y="14" width="64" height="7" rx="3" fill="#d43535" opacity="0.5"/>
+                        <path d="M18,14 L22,4 L48,4 L52,14" fill="#b71c1c"/>
+                        <rect x="24" y="5" width="10" height="8" rx="2" fill="#b3d9f2" opacity="0.9"/>
+                        <rect x="36" y="5" width="10" height="8" rx="2" fill="#b3d9f2" opacity="0.9"/>
+                        <rect x="5" y="17" width="8" height="3" rx="1" fill="#ffd93d"/>
+                        <rect x="57" y="17" width="6" height="2" rx="1" fill="#ff4444"/>
+                        <circle cx="17" cy="29" r="5.5" fill="#222"/>
+                        <circle cx="17" cy="29" r="3" fill="#666"/>
+                        <circle cx="53" cy="29" r="5.5" fill="#222"/>
+                        <circle cx="53" cy="29" r="3" fill="#666"/>
+                    </svg>
+                </div>
+                <div class="scene-car scene-car--2">
+                    <svg viewBox="0 0 70 32" fill="none">
+                        <rect x="3" y="14" width="64" height="14" rx="4" fill="#1565c0"/>
+                        <rect x="3" y="14" width="64" height="7" rx="3" fill="#1e88e5" opacity="0.5"/>
+                        <path d="M18,14 L22,4 L48,4 L52,14" fill="#0d47a1"/>
+                        <rect x="24" y="5" width="10" height="8" rx="2" fill="#b3d9f2" opacity="0.9"/>
+                        <rect x="36" y="5" width="10" height="8" rx="2" fill="#b3d9f2" opacity="0.9"/>
+                        <rect x="5" y="17" width="8" height="3" rx="1" fill="#ffd93d"/>
+                        <rect x="57" y="17" width="6" height="2" rx="1" fill="#ff4444"/>
+                        <circle cx="17" cy="29" r="5.5" fill="#222"/>
+                        <circle cx="17" cy="29" r="3" fill="#666"/>
+                        <circle cx="53" cy="29" r="5.5" fill="#222"/>
+                        <circle cx="53" cy="29" r="3" fill="#666"/>
+                    </svg>
+                </div>
+
+                <!-- People from car 1 (left) -->
+                <div class="scene-person scene-person-l scene-person-l--1">🚶‍♂️</div>
+                <div class="scene-person scene-person-l scene-person-l--2">🚶‍♀️</div>
+                <div class="scene-person scene-person-l scene-person-l--3">🚶</div>
+
+                <!-- People from car 2 (right) -->
+                <div class="scene-person scene-person-r scene-person-r--1">🚶‍♀️</div>
+                <div class="scene-person scene-person-r scene-person-r--2">🚶‍♂️</div>
+                <div class="scene-person scene-person-r scene-person-r--3">🚶</div>
+
+                <!-- Celebration (replaces walkers once gathered) -->
+                <div class="scene-celebrate">
+                    <div class="scene-celeb scene-celeb--1">🥂</div>
+                    <div class="scene-celeb scene-celeb--2">💃</div>
+                    <div class="scene-celeb scene-celeb--3">🕺</div>
+                    <div class="scene-celeb scene-celeb--4">🎉</div>
+                </div>
+
+                <!-- Pool (separate, further right of château) -->
+                <svg class="scene-pool" viewBox="0 0 80 45" fill="none">
+                    <rect x="5" y="8" width="70" height="32" rx="8" fill="#4fc3f7" stroke="#29b6f6" stroke-width="1.5"/>
+                    <rect x="9" y="12" width="62" height="24" rx="6" fill="#81d4fa"/>
+                    <line x1="15" y1="20" x2="30" y2="20" stroke="rgba(255,255,255,0.5)" stroke-width="1" stroke-linecap="round"/>
+                    <line x1="40" y1="28" x2="60" y2="28" stroke="rgba(255,255,255,0.4)" stroke-width="1" stroke-linecap="round"/>
+                    <line x1="20" y1="30" x2="45" y2="30" stroke="rgba(255,255,255,0.3)" stroke-width="1" stroke-linecap="round"/>
+                    <!-- Deck surround -->
+                    <rect x="0" y="4" width="80" height="6" rx="2" fill="#d6cbb9"/>
+                    <rect x="0" y="38" width="80" height="4" rx="2" fill="#c4b9a5"/>
+                </svg>
+
+                <!-- Pool person 1: runner visible during run, swimmer visible after jump -->
+                <div class="scene-pool-person scene-pool-person--1">
+                    <span class="scene-pool-runner">🏃‍♂️</span>
+                    <span class="scene-pool-swimmer">🏊</span>
+                </div>
+                <!-- Pool person 2 -->
+                <div class="scene-pool-person scene-pool-person--2">
+                    <span class="scene-pool-runner">🏃‍♀️</span>
+                    <span class="scene-pool-swimmer">🏊‍♀️</span>
+                </div>
+                <div class="scene-pool-splash scene-pool-splash--1">💦</div>
+                <div class="scene-pool-splash scene-pool-splash--2">💦</div>
+
+                <!-- Bienvenue banner -->
+                <div class="scene-banner">Bienvenue!</div>
+            </div>
+        </div>
+
         <div class="hero-content">
             <p class="hero-subtitle">You're invited to</p>
             <h1 class="hero-title">Joe's 30th Birthday!</h1>
@@ -193,16 +407,6 @@
                 </div>
             </div>
 
-            <div class="hero-buttons">
-                <a href="trailer.html" class="btn btn-primary">&#127916; Watch the Trailer</a>
-                <a href="schedule.html" class="btn btn-ghost">&#128197; View the Schedule</a>
-                <a href="practical.html#travel" class="btn btn-ghost">&#9992;&#65039; Confirm Your Travel</a>
-                <a href="schedule.html#activity-signups" class="btn btn-ghost">&#127919; Sign Up for Activities</a>
-            </div>
-            <a href="https://open.spotify.com/playlist/2wg5wjy3Yn4vzxXm6dMK96?si=57fecfe75b124f56" target="_blank" class="hero-spotify-link">
-                <svg class="spotify-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
-                Add a song to the trip playlist
-            </a>
         </div>
         <div class="scroll-indicator">
             <span>Scroll to explore</span>
@@ -211,52 +415,86 @@
         <div class="hero-bottom-fade" aria-hidden="true"></div>
     </section>
 
+    <!-- Quick Links to Pages -->
+    <section class="quick-links section visible">
+        <div class="container">
+            <h2 class="section-title">Explore</h2>
+            <p class="section-subtitle">Everything you need, all in one place.</p>
+            <div class="quick-links-grid stagger-grid">
+                <a href="schedule.html" class="quick-link quick-link--schedule">
+                    <span class="emoji" aria-hidden="true">📅</span>
+                    <h3>Schedule</h3>
+                    <p>Daily agenda &amp; activities</p>
+                </a>
+                <a href="bingo.html" class="quick-link quick-link--bingo">
+                    <span class="emoji" aria-hidden="true">🎯</span>
+                    <h3>Bingo</h3>
+                    <p>Complete challenges, earn rewards</p>
+                </a>
+                <a href="games.html" class="quick-link quick-link--games">
+                    <span class="emoji" aria-hidden="true">🏆</span>
+                    <h3>Games</h3>
+                    <p>Competitions &amp; leaderboard</p>
+                </a>
+                <a href="livefeed.html" class="quick-link quick-link--livefeed">
+                    <span class="emoji" aria-hidden="true">📸</span>
+                    <h3>Live Feed</h3>
+                    <p>Photos, chat &amp; confessions</p>
+                </a>
+                <a href="social.html" class="quick-link quick-link--crew">
+                    <span class="emoji" aria-hidden="true">👥</span>
+                    <h3>Crew</h3>
+                    <p>Rooms, teams &amp; profiles</p>
+                </a>
+                <a href="practical.html" class="quick-link quick-link--info">
+                    <span class="emoji" aria-hidden="true">🧳</span>
+                    <h3>Info</h3>
+                    <p>Travel, packing &amp; FAQs</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Personal Dashboard (shown after login) -->
     <section id="my-dashboard" class="section my-dashboard" style="display: none;">
         <div class="container">
             <div class="dashboard-header">
                 <div class="dashboard-welcome">
                     <h2>Welcome, <span id="dashboard-name">Guest</span>! 🎊</h2>
-                    <p class="dashboard-subtitle">Your personal mission control for Joe's 30th</p>
                 </div>
                 <button class="dashboard-logout" id="dashboard-logout">Switch Guest</button>
             </div>
 
-
             <div class="stats-strip" id="stats-strip">
                 <div class="stats-strip-item">
-                    <span class="stats-strip-icon">🛏️</span>
-                    <span class="stats-strip-label">Room</span>
-                    <span class="stats-strip-value" id="stat-room">-</span>
-                </div>
-                <div class="stats-strip-divider"></div>
-                <div class="stats-strip-item">
-                    <span class="stats-strip-icon">⚔️</span>
+                    <span class="stats-strip-icon">&#9876;&#65039;</span>
                     <span class="stats-strip-label">Team</span>
                     <span class="stats-strip-value" id="stat-team">-</span>
                 </div>
                 <div class="stats-strip-divider"></div>
                 <div class="stats-strip-item">
-                    <span class="stats-strip-icon">⭐</span>
+                    <span class="stats-strip-icon">&#11088;</span>
                     <span class="stats-strip-label">Points</span>
                     <span class="stats-strip-value" id="stat-points">0</span>
+                </div>
+                <div class="stats-strip-divider"></div>
+                <div class="stats-strip-item">
+                    <span class="stats-strip-icon">&#127941;</span>
+                    <span class="stats-strip-label">Rank</span>
+                    <span class="stats-strip-value" id="stat-rank">-</span>
+                </div>
+                <div class="stats-strip-divider"></div>
+                <div class="stats-strip-item">
+                    <span class="stats-strip-icon">&#127919;</span>
+                    <span class="stats-strip-label">Bingo</span>
+                    <span class="stats-strip-value" id="stat-bingo">0/16</span>
                 </div>
             </div>
             <p class="team-explainer" id="team-explainer" style="display:none;">Teams revealed on arrival night. Then it's game on!</p>
 
+            <!-- During trip: expanded stats -->
             <div class="dashboard-card live-stats-card" id="live-stats-card" style="display:none;">
-                <div class="card-header">
-                    <h3>&#127942; Your Live Stats</h3>
-                </div>
                 <div class="stats-grid">
-                    <div class="stat-item">
-                        <span class="stat-value stat-big" id="stat-live-points">0</span>
-                        <span class="stat-label">Points</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-value" id="stat-rank">-</span>
-                        <span class="stat-label">Rank</span>
-                    </div>
                     <div class="stat-item">
                         <span class="stat-value" id="stat-team-rank">-</span>
                         <span class="stat-label">Team Rank</span>
@@ -268,80 +506,8 @@
                 </div>
                 <div class="stat-badges-row" id="stat-badges-row"></div>
             </div>
-
-            <div class="dashboard-card trip-numbers-card" id="trip-numbers-card" style="display:none;">
-                <div class="card-header">
-                    <h3>&#128200; The Trip in Numbers</h3>
-                </div>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <span class="stat-value stat-big" id="stat-total-pts">0</span>
-                        <span class="stat-label">Total Points Awarded</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-value" id="stat-total-msgs">0</span>
-                        <span class="stat-label">Messages</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-value" id="stat-total-photos">0</span>
-                        <span class="stat-label">Photos</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-value" id="stat-total-songs">0</span>
-                        <span class="stat-label">Song Requests</span>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
-
-
-    <!-- Quick Links to Pages -->
-    <section class="quick-links section visible">
-        <div class="container">
-            <h2 class="section-title">Explore</h2>
-            <p class="section-subtitle">Everything you need, all in one place.</p>
-            <div class="quick-links-grid stagger-grid">
-                <a href="schedule.html" class="quick-link quick-link--schedule">
-                    <span class="emoji" aria-hidden="true">📅</span>
-                    <h3>Schedule</h3>
-                    <p>Daily agenda &amp; itineraries</p>
-                </a>
-                <a href="games.html" class="quick-link quick-link--games">
-                    <span class="emoji" aria-hidden="true">🏆</span>
-                    <h3>Games</h3>
-                    <p>Challenges, quiz &amp; leaderboard</p>
-                </a>
-                <a href="social.html" class="quick-link quick-link--social">
-                    <span class="emoji" aria-hidden="true">💬</span>
-                    <h3>Social</h3>
-                    <p>Messages, photos &amp; memories</p>
-                </a>
-                <a href="practical.html" class="quick-link quick-link--info">
-                    <span class="emoji" aria-hidden="true">🧳</span>
-                    <h3>Info</h3>
-                    <p>Travel, packing &amp; payments</p>
-                </a>
-                <a href="trailer.html" class="quick-link quick-link--trailer">
-                    <span class="emoji" aria-hidden="true">🎬</span>
-                    <h3>Trailer</h3>
-                    <p>The cinematic teaser</p>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Theme Switcher -->
-    <div class="theme-switcher" id="theme-switcher">
-        <button class="theme-toggle-btn" id="theme-toggle-btn">🎨</button>
-        <div class="theme-options" id="theme-options">
-            <button class="theme-option" data-theme="default" title="Birthday Party">🎂</button>
-            <button class="theme-option" data-theme="france" title="French Vibes">🇫🇷</button>
-            <button class="theme-option" data-theme="wine" title="Wine O'Clock">🍷</button>
-            <button class="theme-option" data-theme="sunset" title="Golden Hour">🌅</button>
-            <button class="theme-option" data-theme="disco" title="Disco Night">🪩</button>
-        </div>
-    </div>
 
     <!-- Confetti Cannon -->
     <button class="confetti-cannon" id="confetti-cannon">🎉<span class="cannon-label">POP!</span></button>
@@ -356,9 +522,9 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
-    <script src="js/shared.js?v=18"></script>
-    <script src="js/firebase-config.js?v=1"></script>
+    <script src="js/shared.js?v=19"></script>
+    <script src="js/firebase-config.js?v=2"></script>
     <script src="js/nav.js?v=1"></script>
-    <script src="js/home.js?v=8"></script>
+    <script src="js/home.js?v=12"></script>
 </body>
 </html>

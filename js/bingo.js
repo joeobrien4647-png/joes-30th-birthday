@@ -41,7 +41,7 @@ var BINGO_PUNISHMENTS = {
 };
 
 var BINGO_FULLHOUSE_REWARDS = [
-    'King/Queen of the Chateau crown for the day',
+    'King/Queen of the Château crown for the day',
     'Pick the music, pick who does washing up, sit at head of table',
     'Choose the group activity for the afternoon',
     'Immunity from the next punishment',
@@ -56,6 +56,34 @@ var TEAM_COLOURS = {
     gladiators: '#424242'
 };
 
+/* ---- Emoji per challenge (matches BINGO_ITEMS order) ---- */
+var BINGO_EMOJIS = [
+    '\uD83D\uDCF8', // Photobomb
+    '\uD83D\uDC57', // Wear someone's outfit
+    '\uD83C\uDF77', // Blind taste test
+    '\uD83C\uDFA4', // Motivational speech
+    '\uD83C\uDDEB\uD83C\uDDF7', // Convince a local you're French
+    '\uD83D\uDC5F', // Swap shoes
+    '\uD83D\uDC83', // Conga line
+    '\uD83D\uDCE3', // Start a chant
+    '\uD83D\uDC4F', // Standing ovation
+    '\uD83D\uDE02', // Make someone cry laughing
+    '\uD83C\uDFCA', // Pool fully clothed
+    '\u2600\uFE0F',  // First up last to bed
+    '\uD83C\uDF36\uFE0F', // Spiciest thing
+    '\uD83C\uDF7A', // Down a drink no hands
+    '\uD83E\uDDFD', // Washing up
+    '\uD83D\uDCF7'  // Photo of the trip
+];
+
+/* ---- Bingo lock: locked for everyone until manually unlocked ---- */
+/* Set to true when ready to reveal challenges (e.g. during the trip) */
+var BINGO_FORCE_LOCKED = true;
+
+function isBingoUnlocked() {
+    return !BINGO_FORCE_LOCKED;
+}
+
 /* ============================================
    Main entry
    ============================================ */
@@ -69,6 +97,7 @@ function initBingo() {
     var guestName = guestData ? guestData.name : 'Guest';
     var guestTeam = guestData ? (PLAYERS[guestName] || '') : '';
     var items = BingoEngine.getItems();
+    var unlocked = isBingoUnlocked();
 
     // State for line-modal flow
     var pendingLineData = null;
@@ -77,30 +106,67 @@ function initBingo() {
 
     // Initial render
     renderGrid();
-    updateStats();
-    renderLeaderboard();
-    renderActivity();
-    renderPunishments();
-    initBingoAdmin();
-
-    // Live updates
-    BingoEngine.onUpdate(function() {
-        renderGrid();
+    if (unlocked) {
         updateStats();
         renderLeaderboard();
         renderActivity();
         renderPunishments();
-    });
+        updateSectionVisibility();
+        initBingoAdmin();
+    } else {
+        var progressEl = document.getElementById('bingoProgress');
+        if (progressEl) progressEl.style.display = 'none';
+    }
 
-    document.addEventListener('feedUpdate', function() {
-        renderActivity();
-    });
-
-    // Listen for punishment updates if available
-    if (typeof FirebaseSync !== 'undefined' && FirebaseSync.isConfigured()) {
-        FirebaseSync.onUpdate('bingo/punishments', function() {
+    // Live updates (only when unlocked)
+    if (unlocked) {
+        BingoEngine.onUpdate(function() {
+            renderGrid();
+            updateStats();
+            renderLeaderboard();
+            renderActivity();
             renderPunishments();
+            updateSectionVisibility();
         });
+
+        document.addEventListener('feedUpdate', function() {
+            renderActivity();
+        });
+
+        if (typeof FirebaseSync !== 'undefined' && FirebaseSync.isConfigured()) {
+            FirebaseSync.onUpdate('bingo/punishments', function() {
+                renderPunishments();
+            });
+        }
+    }
+
+    /* ============================================
+       Section Visibility — hide empty sections
+       ============================================ */
+    function updateSectionVisibility() {
+        // Hide punishment section if empty
+        var punSection = document.querySelector('.bingo-punishments-section');
+        var punContent = document.getElementById('bingoPunishments');
+        if (punSection && punContent) {
+            var hasPunishments = punContent.querySelector('.bingo-punishment-item');
+            punSection.style.display = hasPunishments ? '' : 'none';
+        }
+
+        // Hide leaderboard section if empty
+        var lbSection = document.querySelector('.bingo-leaderboard-section');
+        var lbContent = document.getElementById('bingoLeaderboard');
+        if (lbSection && lbContent) {
+            var hasLeaderboard = lbContent.querySelector('.bingo-leaderboard-list');
+            lbSection.style.display = hasLeaderboard ? '' : 'none';
+        }
+
+        // Hide activity section if empty
+        var actSection = document.querySelector('.bingo-activity-section');
+        var actContent = document.getElementById('bingoFeed');
+        if (actSection && actContent) {
+            var hasActivity = actContent.querySelector('.bingo-feed-item');
+            actSection.style.display = hasActivity ? '' : 'none';
+        }
     }
 
     /* ============================================
@@ -110,12 +176,25 @@ function initBingo() {
         grid.innerHTML = '';
         var claims = BingoEngine.getClaims();
 
+        // If locked, show teaser grid
+        if (!unlocked) {
+            renderLockedGrid();
+            return;
+        }
+
         for (var i = 0; i < items.length; i++) {
             (function(idx) {
                 var cell = document.createElement('div');
                 cell.className = 'bingo-cell';
                 var claim = claims[idx];
                 var isRevoked = claim && claim.revoked;
+                var emoji = BINGO_EMOJIS[idx] || '\uD83C\uDFAF';
+
+                // Emoji always shown
+                var emojiEl = document.createElement('span');
+                emojiEl.className = 'bingo-cell-emoji';
+                emojiEl.textContent = emoji;
+                cell.appendChild(emojiEl);
 
                 if (claim && !isRevoked) {
                     cell.classList.add('claimed');
@@ -123,33 +202,29 @@ function initBingo() {
                         cell.classList.add('claimed-self');
                     }
 
-                    // Team colour
                     var teamColour = TEAM_COLOURS[claim.team] || '#888';
                     cell.style.setProperty('--team-colour', teamColour);
-                    cell.style.setProperty('--team-colour-bg', teamColour + '1F'); // ~12% opacity hex
 
-                    // Photo indicator
                     if (claim.photoUrl) {
                         cell.classList.add('has-photo');
                     }
 
+                    // Short label instead of full text
                     var textEl = document.createElement('span');
                     textEl.className = 'bingo-cell-text';
-                    textEl.textContent = items[idx];
+                    textEl.textContent = shortenChallenge(items[idx]);
                     cell.appendChild(textEl);
 
                     var claimantEl = document.createElement('span');
                     claimantEl.className = 'bingo-cell-claimant';
-                    claimantEl.innerHTML = '&#10003; ' + escapeHtml(claim.claimedBy);
-                    if (claim.photoUrl) {
-                        claimantEl.innerHTML += ' &#128247;';
-                    }
+                    claimantEl.innerHTML = escapeHtml(claim.claimedBy);
                     cell.appendChild(claimantEl);
                 } else {
                     cell.classList.add('unclaimed');
+
                     var textEl2 = document.createElement('span');
                     textEl2.className = 'bingo-cell-text';
-                    textEl2.textContent = items[idx];
+                    textEl2.textContent = shortenChallenge(items[idx]);
                     cell.appendChild(textEl2);
 
                     if (guestCode) {
@@ -164,6 +239,51 @@ function initBingo() {
         }
     }
 
+    /* Shorten challenge text for grid cells */
+    function shortenChallenge(text) {
+        if (text.length <= 30) return text;
+        var cut = text.substring(0, 28);
+        var lastSpace = cut.lastIndexOf(' ');
+        if (lastSpace > 15) cut = cut.substring(0, lastSpace);
+        return cut + '...';
+    }
+
+    /* Locked grid — mystery cards + banner */
+    function renderLockedGrid() {
+        // Add locked banner above grid if not already there
+        var container = grid.parentNode;
+        var existingBanner = container.querySelector('.bingo-locked-banner');
+        if (!existingBanner) {
+            var banner = document.createElement('div');
+            banner.className = 'bingo-locked-banner';
+            banner.innerHTML = '<h3>\uD83D\uDD12 Challenges Locked</h3>'
+                + '<p>16 challenges will be revealed when the trip begins!</p>';
+            container.insertBefore(banner, grid);
+        }
+
+        grid.innerHTML = '';
+        for (var i = 0; i < 16; i++) {
+            var cell = document.createElement('div');
+            cell.className = 'bingo-cell bingo-cell-locked';
+
+            var emojiEl = document.createElement('span');
+            emojiEl.className = 'bingo-cell-emoji';
+            emojiEl.textContent = '\uD83D\uDD12';
+            cell.appendChild(emojiEl);
+
+            var lockText = document.createElement('span');
+            lockText.className = 'bingo-cell-text';
+            lockText.textContent = '???';
+            cell.appendChild(lockText);
+
+            grid.appendChild(cell);
+        }
+
+        // Hide prize track and progress when locked
+        var prizes = document.querySelector('.bingo-prizes');
+        if (prizes) prizes.style.display = 'none';
+    }
+
     /* ============================================
        Claim Drawer (bottom sheet)
        ============================================ */
@@ -172,10 +292,12 @@ function initBingo() {
         var backdrop = document.getElementById('bingoClaimBackdrop');
         var drawer  = document.getElementById('bingoClaimDrawer');
         var challengeEl = document.getElementById('bingoDrawerChallenge');
+        var emojiEl = document.getElementById('bingoDrawerEmoji');
         var photoInput = document.getElementById('bingoPhotoInput');
 
         if (!drawer) return;
 
+        if (emojiEl) emojiEl.textContent = BINGO_EMOJIS[idx] || '\uD83C\uDFAF';
         if (challengeEl) challengeEl.textContent = items[idx];
 
         // Reset photo state
@@ -661,7 +783,7 @@ function initBingo() {
         }
 
         if (allPunishments.length === 0) {
-            el.innerHTML = '<p class="bingo-feed-empty">No punishments yet. Complete a line to dish one out!</p>';
+            el.innerHTML = '';
             return;
         }
 
@@ -736,7 +858,7 @@ function initBingo() {
 
         var lb = BingoEngine.getLeaderboard();
         if (!lb || lb.length === 0) {
-            el.innerHTML = '<p class="bingo-feed-empty">No claims yet. Be the first!</p>';
+            el.innerHTML = '';
             return;
         }
 
@@ -771,7 +893,7 @@ function initBingo() {
         var feedData = null;
         try { feedData = JSON.parse(localStorage.getItem('fb_feed')); } catch(e) {}
         if (!feedData) {
-            feedEl.innerHTML = '<p class="bingo-feed-empty">No bingo activity yet. Be the first to claim!</p>';
+            feedEl.innerHTML = '';
             return;
         }
 
@@ -788,7 +910,7 @@ function initBingo() {
         bingoItems = bingoItems.slice(0, 10);
 
         if (bingoItems.length === 0) {
-            feedEl.innerHTML = '<p class="bingo-feed-empty">No bingo activity yet. Be the first to claim!</p>';
+            feedEl.innerHTML = '';
             return;
         }
 
@@ -818,38 +940,48 @@ function initBingo() {
        ============================================ */
     function updateStats() {
         var youEl = document.getElementById('bsYou');
-        var linesEl = document.getElementById('bsLines');
-        var teamRankEl = document.getElementById('bsTeamRank');
-        var totalEl = document.getElementById('bsTotalClaims');
+        var ringFill = document.getElementById('bingoRingFill');
+        var myClaims = 0;
+        var myLines = 0;
 
         if (guestCode) {
             var stats = BingoEngine.getGuestStats(guestCode);
-            if (youEl) youEl.textContent = stats.claims + '/16';
-            if (linesEl) linesEl.textContent = stats.lines;
+            myClaims = stats.claims;
+            myLines = stats.lines;
         }
 
-        var claims = BingoEngine.getClaims();
-        var totalClaims = 0;
-        var teamClaims = {};
-        var claimKeys = Object.keys(claims);
-        for (var i = 0; i < claimKeys.length; i++) {
-            var c = claims[claimKeys[i]];
-            if (c && !c.revoked) {
-                totalClaims++;
-                if (c.team) {
-                    teamClaims[c.team] = (teamClaims[c.team] || 0) + 1;
-                }
+        // Update progress ring
+        if (youEl) youEl.textContent = myClaims;
+        if (ringFill) {
+            var circumference = 2 * Math.PI * 42; // r=42
+            var progress = myClaims / 16;
+            ringFill.style.strokeDashoffset = circumference * (1 - progress);
+        }
+
+        // Update prize track nodes
+        var nodes = document.querySelectorAll('.prize-node');
+        var connectors = document.querySelectorAll('.prize-connector');
+        for (var n = 0; n < nodes.length; n++) {
+            var milestone = nodes[n].getAttribute('data-milestone');
+            var unlocked = false;
+            if (milestone === 'full') {
+                unlocked = myClaims >= 16;
+            } else {
+                unlocked = myLines >= parseInt(milestone, 10);
+            }
+            if (unlocked) {
+                nodes[n].classList.add('unlocked');
+            } else {
+                nodes[n].classList.remove('unlocked');
             }
         }
-        if (totalEl) totalEl.textContent = totalClaims + '/16';
-
-        if (teamRankEl && guestTeam) {
-            var teams = Object.keys(teamClaims).sort(function(a, b) {
-                return (teamClaims[b] || 0) - (teamClaims[a] || 0);
-            });
-            var rank = teams.indexOf(guestTeam) + 1;
-            if (rank === 0) rank = Object.keys(TEAM_COLOURS).length;
-            teamRankEl.textContent = '#' + rank;
+        for (var c = 0; c < connectors.length; c++) {
+            // Connector c is active if line c+1 is unlocked
+            if (myLines > c) {
+                connectors[c].classList.add('active');
+            } else {
+                connectors[c].classList.remove('active');
+            }
         }
     }
 
@@ -858,14 +990,55 @@ function initBingo() {
        ============================================ */
     function initBingoAdmin() {
         if (!Auth.isAdmin()) return;
+
+        // Show admin bar at top
+        var adminBar = document.getElementById('bingoAdminBar');
+        if (adminBar) adminBar.style.display = '';
+
+        // Show admin claims panel
         var adminEl = document.getElementById('bingoAdmin');
-        if (!adminEl) return;
-        adminEl.style.display = 'block';
+        if (adminEl) adminEl.style.display = 'block';
         renderBingoAdmin();
 
         BingoEngine.onUpdate(function() {
             renderBingoAdmin();
         });
+
+        // Preview toggle
+        var previewBtn = document.getElementById('bingoPreviewToggle');
+        if (previewBtn) {
+            previewBtn.addEventListener('click', function() {
+                unlocked = !unlocked;
+                previewBtn.innerHTML = unlocked ? '&#128065; See Guest View' : '&#128065; See Admin View';
+
+                // Remove locked banner if switching back to unlocked
+                var banner = document.querySelector('.bingo-locked-banner');
+                if (banner && unlocked) banner.parentNode.removeChild(banner);
+
+                // Show/hide prize track
+                var prizes = document.querySelector('.bingo-prizes');
+                if (prizes) prizes.style.display = unlocked ? '' : 'none';
+
+                // Show/hide progress ring
+                var progressEl = document.getElementById('bingoProgress');
+                if (progressEl) progressEl.style.display = unlocked ? '' : 'none';
+
+                renderGrid();
+                if (unlocked) {
+                    updateStats();
+                    renderLeaderboard();
+                    renderActivity();
+                    renderPunishments();
+                    updateSectionVisibility();
+                } else {
+                    var sections = ['.bingo-punishments-section', '.bingo-leaderboard-section', '.bingo-activity-section'];
+                    for (var s = 0; s < sections.length; s++) {
+                        var sec = document.querySelector(sections[s]);
+                        if (sec) sec.style.display = 'none';
+                    }
+                }
+            });
+        }
     }
 
     function renderBingoAdmin() {
@@ -921,6 +1094,15 @@ function initBingo() {
                 } else {
                     FirebaseSync.update('bingo/claims/' + claimIdx, { revoked: true, revokedBy: 'admin', revokedAt: Date.now() });
 
+                    // Post revoke to live feed
+                    FirebaseSync.push('feed', {
+                        type: 'bingo',
+                        text: escapeHtml(claim.claimedBy) + '\'s claim was disputed: "' + (items[claimIdx] || '') + '" \uD83E\uDDD0',
+                        author: 'Admin',
+                        team: claim.team || '',
+                        timestamp: Date.now()
+                    });
+
                     var teamScores = Store.get('lb_teamScores', { titans: 0, spartans: 0, vikings: 0, gladiators: 0 });
                     var individualScores = Store.get('lb_individualScores', {});
                     var pointsLog = Store.get('lb_pointsLog', []);
@@ -955,5 +1137,10 @@ function initBingo() {
    Boot
    ============================================ */
 document.addEventListener('DOMContentLoaded', function() {
+    initBingo();
+});
+
+/* Re-init after guest login so name/team are correct */
+document.addEventListener('guestLoggedIn', function() {
     initBingo();
 });

@@ -10,6 +10,16 @@
      - triggerConfetti()
    ============================================ */
 
+/* Has the current guest spun the wheel? (knows their own team) */
+function hasSpun() {
+    var code = localStorage.getItem('guestCode') || '';
+    return code && localStorage.getItem('teamRevealed_' + code) === 'true';
+}
+
+/* Full team reveal: spun + past arrival night (all teams visible) */
+function hasFullReveal() {
+    return hasSpun() && (typeof isRevealed === 'function' ? isRevealed() : false);
+}
 
 /* ---- Games Nav Tile Tabs ---- */
 function initGamesTabs() {
@@ -127,6 +137,111 @@ function initGamesHighlight() {
     if (board) lbObserver.observe(board, { childList: true });
 }
 
+/* ============================================
+   Teams Roster — built from PLAYERS + TEAM_CONFIG
+   Respects hasFullReveal() for pre-trip secrecy
+   ============================================ */
+function initTeamsRoster() {
+    var grid = document.getElementById('teams-grid');
+    if (!grid) return;
+    if (typeof PLAYERS === 'undefined' || typeof TEAM_CONFIG === 'undefined') return;
+
+    if (!hasFullReveal()) {
+        grid.innerHTML =
+            '<div class="teams-hidden">' +
+                '<span class="teams-hidden-icon">&#128274;</span>' +
+                '<h3>Teams Under Wraps</h3>' +
+                '<p>Sign up and spin the wheel on arrival night to find out which team you\'re on.</p>' +
+                '<div class="teams-hidden-preview">' +
+                    '<span class="thp-card" style="border-color:#f9a825">&#9733; ???</span>' +
+                    '<span class="thp-card" style="border-color:#c62828">&#9733; ???</span>' +
+                    '<span class="thp-card" style="border-color:#1565c0">&#9733; ???</span>' +
+                    '<span class="thp-card" style="border-color:#424242">&#9733; ???</span>' +
+                '</div>' +
+            '</div>';
+        return;
+    }
+
+    // Build team -> members map
+    var teams = {};
+    Object.keys(TEAM_CONFIG).forEach(function(key) { teams[key] = []; });
+    Object.keys(PLAYERS).forEach(function(name) {
+        var team = PLAYERS[name];
+        if (teams[team]) teams[team].push(name);
+    });
+
+    // Shield SVG paths per team
+    var SHIELDS = {
+        // Titans: pointed kite shield
+        titans: '<svg viewBox="0 0 100 120" class="tr-shield-svg"><path d="M50 2 L95 25 L95 70 L50 118 L5 70 L5 25 Z" fill="FILL" stroke="STROKE" stroke-width="3"/><path d="M50 8 L88 28 L88 68 L50 112 L12 68 L12 28 Z" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/></svg>',
+        // Spartans: round aspis shield
+        spartans: '<svg viewBox="0 0 100 100" class="tr-shield-svg"><circle cx="50" cy="50" r="47" fill="FILL" stroke="STROKE" stroke-width="3"/><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/><circle cx="50" cy="50" r="33" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/></svg>',
+        // Vikings: rounded top shield
+        vikings: '<svg viewBox="0 0 100 120" class="tr-shield-svg"><path d="M5 15 Q5 2 50 2 Q95 2 95 15 L95 75 Q95 105 50 118 Q5 105 5 75 Z" fill="FILL" stroke="STROKE" stroke-width="3"/><path d="M12 18 Q12 8 50 8 Q88 8 88 18 L88 73 Q88 100 50 112 Q12 100 12 73 Z" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/></svg>',
+        // Gladiators: square Roman scutum
+        gladiators: '<svg viewBox="0 0 90 110" class="tr-shield-svg"><rect x="3" y="3" width="84" height="104" rx="12" fill="FILL" stroke="STROKE" stroke-width="3"/><rect x="10" y="10" width="70" height="90" rx="8" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/><line x1="45" y1="10" x2="45" y2="100" stroke="rgba(255,255,255,0.08)" stroke-width="1.5"/><line x1="10" y1="55" x2="80" y2="55" stroke="rgba(255,255,255,0.08)" stroke-width="1.5"/></svg>'
+    };
+
+    // Formation layouts: how to split members into rows (captain separate)
+    // Titans 7: captain + [3, 3]   Spartans 7: captain + [3, 3]
+    // Vikings 6: captain + [3, 2]  Gladiators 6: captain + [3, 2]
+    var FORMATIONS = {
+        titans:     [3, 3],
+        spartans:   [3, 3],
+        vikings:    [3, 2],
+        gladiators: [3, 2]
+    };
+
+    var html = '';
+    Object.keys(TEAM_CONFIG).forEach(function(key) {
+        var cfg = TEAM_CONFIG[key];
+        var members = teams[key] || [];
+        var captain = TEAM_CAPTAINS ? TEAM_CAPTAINS[key] : '';
+        var soldiers = members.filter(function(n) { return n !== captain; });
+        var formation = FORMATIONS[key] || [3, 3];
+
+        // Build shield SVG
+        var shieldSvg = (SHIELDS[key] || SHIELDS.titans)
+            .replace(/FILL/g, cfg.color)
+            .replace(/STROKE/g, cfg.darkColor || cfg.color);
+
+        html += '<div class="tr-card tr-card--' + key + '">';
+
+        // Shield + team name header
+        html += '<div class="tr-shield-wrap">';
+        html += '<div class="tr-shield" style="--team-color:' + cfg.color + '">';
+        html += shieldSvg;
+        html += '<div class="tr-shield-inner">' + cfg.logo + '</div>';
+        html += '</div>';
+        html += '<h3 class="tr-team-name" style="color:' + cfg.color + '">' + escapeHtml(cfg.name) + '</h3>';
+        html += '</div>';
+
+        // Captain
+        html += '<div class="tr-captain-row">';
+        html += '<div class="tr-person tr-person--captain" style="--team-color:' + cfg.color + '">';
+        html += '<span class="tr-person-badge">Captain</span>';
+        html += '<span class="tr-person-name">' + escapeHtml(captain) + '</span>';
+        html += '</div>';
+        html += '</div>';
+
+        // Formation rows
+        var idx = 0;
+        formation.forEach(function(count) {
+            html += '<div class="tr-formation-row">';
+            for (var i = 0; i < count && idx < soldiers.length; i++, idx++) {
+                html += '<div class="tr-person" style="--team-color:' + cfg.color + '">';
+                html += '<span class="tr-person-name">' + escapeHtml(soldiers[idx]) + '</span>';
+                html += '</div>';
+            }
+            html += '</div>';
+        });
+
+        html += '</div>';
+    });
+
+    grid.innerHTML = html;
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     initGamesTabs();
     initChallenges();
@@ -135,6 +250,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initDailyRecapGenerator();
     initHowItWorks();
     initMealRatings();
+    initTeamsRoster();
     initLockedCountdowns();
     initGamesHighlight();
 });
@@ -910,8 +1026,8 @@ function initLeaderboard() {
                 if (h3) h3.textContent = teamDisplayName(team);
                 const badge = card.querySelector('.team-badge');
                 if (badge) {
-                    badge.textContent = isRevealed() ? (TEAM_EMOJI[team] || '?') : '?';
-                    if (!isRevealed()) {
+                    badge.textContent = hasFullReveal() ? (TEAM_EMOJI[team] || '?') : '?';
+                    if (!hasFullReveal()) {
                         badge.className = 'team-badge';
                     } else {
                         badge.className = 'team-badge ' + team + '-bg';
@@ -932,7 +1048,7 @@ function initLeaderboard() {
 
             const membersEl = document.getElementById(`members-${team}`);
             if (membersEl) {
-                if (isRevealed()) {
+                if (hasFullReveal()) {
                     const members = Object.keys(PLAYERS).filter(n => PLAYERS[n] === team);
                     membersEl.textContent = members.map(n => FULL_NAMES[n] || n).join(', ');
                 } else {
@@ -1054,7 +1170,7 @@ function initLeaderboard() {
 
             row.innerHTML = `
                 <span class="ind-rank">${rankDisplay}${posArrow}</span>
-                <span class="ind-team-dot ${isRevealed() ? (player.team || '') : ''}"></span>
+                <span class="ind-team-dot ${hasFullReveal() ? (player.team || '') : ''}"></span>
                 <span class="ind-name">${escapeHtml(FULL_NAMES[player.name] || player.name)}${badgeIcons ? '<span class="ind-badges">' + badgeIcons + '</span>' : ''}</span>
                 <span class="ind-cats">${catDots}</span>
                 <span class="ind-points">${player.points} pts</span>
@@ -1164,7 +1280,7 @@ function initLeaderboard() {
                     return `
                         <div class="recap-team-bar">
                             <span class="recap-team-name">${teamDisplayName(team)}</span>
-                            <div class="recap-bar-track"><div class="recap-bar-fill ${isRevealed() ? team + '-bar' : ''}" style="width: ${pct}%; ${!isRevealed() ? 'background: rgba(255,255,255,0.3)' : ''}"></div></div>
+                            <div class="recap-bar-track"><div class="recap-bar-fill ${hasFullReveal() ? team + '-bar' : ''}" style="width: ${pct}%; ${!hasFullReveal() ? 'background: rgba(255,255,255,0.3)' : ''}"></div></div>
                             <span class="recap-team-pts">${pts}</span>
                         </div>
                     `;
@@ -3237,7 +3353,7 @@ function initMealRatings() {
     var guestCode = localStorage.getItem('guestCode') || '';
 
     // Pre-trip lock
-    if (!isRevealed()) {
+    if (!hasFullReveal()) {
         wrap.innerHTML = '<div class="meal-lock"><span class="meal-lock-icon">🔒</span><h3>Ratings unlock on arrival</h3><p>Come back once you\'re at the chateau and the first dinner is done!</p></div>';
         return;
     }

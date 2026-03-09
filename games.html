@@ -25,9 +25,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/base.css?v=19">
-    <link rel="stylesheet" href="css/components.css?v=1">
+    <link rel="stylesheet" href="css/components.css?v=3">
     <link rel="stylesheet" href="css/nav.css?v=1">
-    <link rel="stylesheet" href="css/games.css?v=28">
+    <link rel="stylesheet" href="css/games.css?v=30">
 </head>
 <body>
     <!-- Confetti Canvas -->
@@ -78,6 +78,11 @@
                     <span class="games-nav-icon">&#127942;</span>
                     <span class="games-nav-label">Leaderboard</span>
                     <span class="games-nav-sub">Teams &amp; individuals</span>
+                </button>
+                <button class="games-nav-tile games-nav-tile--teams" data-panel="teams-roster">
+                    <span class="games-nav-icon">&#9876;&#65039;</span>
+                    <span class="games-nav-label">The Teams</span>
+                    <span class="games-nav-sub">4 teams, 26 players</span>
                 </button>
                 <button class="games-nav-tile games-nav-tile--chefs" data-panel="meal-ratings">
                     <span class="games-nav-icon">&#11088;</span>
@@ -306,7 +311,7 @@
                     <div class="teams-locked-content">
                         <span class="teams-locked-icon">&#128274;</span>
                         <h3>Teams Are Top Secret</h3>
-                        <p>Teams will be revealed on arrival night at the chateau. Until then, it's all under wraps.</p>
+                        <p>Teams will be revealed on arrival night at the château. Until then, it's all under wraps.</p>
                         <div class="teams-locked-hint">
                             <span>&#128064;</span> 4 teams. 26 players. Who's on your side? Find out Wed 29th April.
                         </div>
@@ -446,6 +451,17 @@
         </div>
     </section>
 
+    <!-- Teams Roster Section -->
+    <section id="teams-roster" class="section teams-roster game-panel" style="display: none;">
+        <div class="container">
+            <h2 class="section-title">The Teams</h2>
+            <p class="section-subtitle">Four teams. Four captains. One championship.</p>
+            <div class="teams-grid" id="teams-grid">
+                <!-- Populated by JS based on isRevealed() -->
+            </div>
+        </div>
+    </section>
+
     <!-- Rate the Chefs Section -->
     <section id="meal-ratings" class="section meal-ratings game-panel" style="display: none;">
         <div class="container">
@@ -484,9 +500,9 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
-    <script src="js/shared.js?v=18"></script>
+    <script src="js/shared.js?v=19"></script>
     <script src="js/firebase-config.js?v=2"></script>
     <script src="js/nav.js?v=1"></script>
-    <script src="js/games.js?v=27"></script>
+    <script src="js/games.js?v=29"></script>
 </body>
 </html>

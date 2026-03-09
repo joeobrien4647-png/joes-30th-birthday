@@ -100,30 +100,71 @@ function initProfiles() {
             avatar.appendChild(uploadInput);
         }
 
-        var titleDiv = document.createElement('div');
+        header.appendChild(avatar);
+
+        // Name + room info
+        var infoDiv = document.createElement('div');
+        infoDiv.className = 'profile-info';
         var nameEl = document.createElement('h2');
         nameEl.className = 'profile-name';
         nameEl.textContent = data.name || '';
-        var roomEl = document.createElement('p');
-        roomEl.className = 'profile-room';
-        roomEl.textContent = data.room || '';
-        titleDiv.appendChild(nameEl);
-        titleDiv.appendChild(roomEl);
+        infoDiv.appendChild(nameEl);
+
+        // Room as a badge
+        if (data.room) {
+            var roomBadge = document.createElement('span');
+            roomBadge.className = 'profile-room-badge';
+            roomBadge.innerHTML = (data.room === 'Master Suite' ? '&#128081; ' : '&#127968; ') + escapeHtml(data.room);
+            infoDiv.appendChild(roomBadge);
+        }
+
+        header.appendChild(infoDiv);
+        card.appendChild(header);
+
+        // Tagline as styled quote
         if (data.tagline) {
             var taglineEl = document.createElement('p');
             taglineEl.className = 'profile-tagline';
             taglineEl.textContent = data.tagline;
-            titleDiv.appendChild(taglineEl);
+            card.appendChild(taglineEl);
         }
 
-        header.appendChild(avatar);
-        header.appendChild(titleDiv);
-        card.appendChild(header);
+        // Sharing with roommate
+        if (data.shares) {
+            var sharesDiv = document.createElement('div');
+            sharesDiv.className = 'profile-shares';
 
+            var sharesLabel = document.createElement('span');
+            sharesLabel.className = 'profile-shares-label';
+            sharesLabel.textContent = 'Sharing with';
+            sharesDiv.appendChild(sharesLabel);
+
+            var sharesAvatar = document.createElement('div');
+            sharesAvatar.className = 'profile-shares-avatar';
+            var sharesImg = document.createElement('img');
+            sharesImg.src = 'images/guests/' + slugify(data.shares) + '.jpg';
+            sharesImg.addEventListener('error', function() {
+                this.style.display = 'none';
+                var initials = data.shares.split(' ').map(function(w) { return w[0]; }).join('');
+                var fallback = document.createElement('span');
+                fallback.textContent = initials;
+                sharesAvatar.appendChild(fallback);
+            });
+            sharesAvatar.appendChild(sharesImg);
+            sharesDiv.appendChild(sharesAvatar);
+
+            var sharesName = document.createElement('span');
+            sharesName.className = 'profile-shares-name';
+            sharesName.textContent = data.shares.split(' ')[0];
+            sharesDiv.appendChild(sharesName);
+
+            card.appendChild(sharesDiv);
+        }
+
+        // Video
         var videoWrap = document.createElement('div');
         videoWrap.className = 'profile-video-wrap';
 
-        // Only load video if guest has a data-video attribute
         if (data.video) {
             var videoEl = document.createElement('video');
             videoEl.className = 'profile-video';
@@ -159,13 +200,15 @@ function initProfiles() {
             var fullName = data.name || '';
             var firstName = fullName.split(' ')[0];
             var lastInitial = fullName.split(' ').length > 1 ? fullName.split(' ')[1][0] : '';
-            // Try: exact full name, "First L" short form, first name only
             var candidates = [fullName, firstName + ' ' + lastInitial, firstName];
             candidates.forEach(function(c) {
                 if (!teamName && PLAYERS[c]) teamName = PLAYERS[c];
             });
         }
-        if (teamName && TEAM_CONFIG[teamName]) {
+        var _code = localStorage.getItem('guestCode') || '';
+        var _hasSpun = _code && localStorage.getItem('teamRevealed_' + _code) === 'true';
+        var _fullReveal = _hasSpun && (typeof isRevealed === 'function' ? isRevealed() : false);
+        if (teamName && TEAM_CONFIG[teamName] && _fullReveal) {
             var teamInfo = document.createElement('div');
             teamInfo.className = 'profile-team';
             teamInfo.style.color = TEAM_CONFIG[teamName].color;
@@ -227,9 +270,9 @@ function initProfiles() {
         for (var i = 0; i < str.length; i++) h = ((h << 5) - h) + str.charCodeAt(i);
         return Math.abs(h);
     }
-    document.querySelectorAll('.guest-avatar').forEach(function(avatar) {
+    document.querySelectorAll('.floor-avatar, .guest-avatar').forEach(function(avatar) {
         if (avatar.classList.contains('birthday')) return;
-        var initialsEl = avatar.querySelector('.guest-initials');
+        var initialsEl = avatar.querySelector('.floor-initials, .guest-initials');
         var name = initialsEl ? initialsEl.textContent.trim() : '';
         if (!name) return;
         var idx = hashName(name) % AVATAR_PALETTES.length;
@@ -238,7 +281,7 @@ function initProfiles() {
     });
 
     // Handle guest avatar images — hide broken, show on load, fallback to localStorage
-    document.querySelectorAll('.guest-avatar img').forEach(function (img) {
+    document.querySelectorAll('.floor-avatar img, .guest-avatar img').forEach(function (img) {
         img.style.display = 'none';
         img.addEventListener('load', function () {
             this.style.display = 'block';
@@ -246,7 +289,7 @@ function initProfiles() {
             if (initials) initials.style.display = 'none';
         });
         img.addEventListener('error', function () {
-            var card = this.closest('.guest[data-name]');
+            var card = this.closest('.guest[data-name]') || this.closest('[data-name]');
             if (card && !this.dataset.triedLocal) {
                 var localPhoto = getGuestPhoto(card.dataset.name);
                 if (localPhoto) {
@@ -421,8 +464,8 @@ function initCrewTabs() {
    ============================================ */
 /* Crew Avatar Skeleton Loaders */
 function initCrewSkeletons() {
-    document.querySelectorAll('.guest-avatar img').forEach(function (img) {
-        var avatar = img.closest('.guest-avatar');
+    document.querySelectorAll('.floor-avatar img, .guest-avatar img').forEach(function (img) {
+        var avatar = img.closest('.floor-avatar') || img.closest('.guest-avatar');
         function onLoad() {
             avatar.classList.add('img-loaded');
         }
@@ -473,21 +516,13 @@ function initGuestHighlight() {
     function applyHighlights(d) {
         if (!d || !d.fullName) return;
 
-        // Highlight own room card — find the room card that contains this guest's element
+        // Highlight own room — find the floor-room containing this guest
         var escapedName = d.fullName.replace(/'/g, "\\'");
-        document.querySelectorAll('.room-card').forEach(function(card) {
-            var guestInRoom = card.querySelector('.guest[data-name="' + escapedName + '"]');
-            if (guestInRoom) {
-                card.classList.add('guest-room-highlight');
-                var header = card.querySelector('.room-header');
-                if (header && !header.querySelector('.guest-room-badge')) {
-                    var badge = document.createElement('span');
-                    badge.className = 'guest-room-badge';
-                    badge.textContent = 'Your Room';
-                    header.appendChild(badge);
-                }
-            }
-        });
+        var ownGuest = document.querySelector('.floor-person.guest[data-name="' + escapedName + '"]');
+        if (ownGuest) {
+            var ownRoom = ownGuest.closest('.floor-room');
+            if (ownRoom) ownRoom.classList.add('guest-room-highlight');
+        }
 
         // Highlight own profile card
         document.querySelectorAll('.guest[data-name]').forEach(function(card) {
@@ -516,14 +551,14 @@ function initGuestHighlight() {
 /* Update crew grid card photo after upload (no reload needed) */
 function updateCrewCardPhoto(name, dataUrl) {
     document.querySelectorAll('.guest[data-name="' + name + '"]').forEach(function(card) {
-        var img = card.querySelector('.guest-avatar img');
+        var img = card.querySelector('.floor-avatar img, .guest-avatar img');
         if (img) {
             img.dataset.triedLocal = '';
             img.src = dataUrl;
             img.style.display = 'block';
-            var initials = card.querySelector('.guest-initials');
+            var initials = card.querySelector('.floor-initials, .guest-initials');
             if (initials) initials.style.display = 'none';
-            var av = card.querySelector('.guest-avatar');
+            var av = card.querySelector('.floor-avatar, .guest-avatar');
             if (av) av.classList.add('img-loaded');
         }
     });
