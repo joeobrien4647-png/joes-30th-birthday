@@ -15,37 +15,28 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-/* ---- Punishment tiers (line 1 / 2 / 3) ---- */
-var BINGO_PUNISHMENTS = {
-    1: [
-        'Down your drink',
-        'Speak in a French accent for 30 minutes',
-        'Wear your clothes inside out until someone notices',
-        'Give 5 genuine compliments to 5 different people in a row',
-        'Do 20 press-ups right now'
-    ],
-    2: [
-        'Swap an item of clothing with someone of your choice for the rest of the day',
-        'Do a 60-second serenade to someone at dinner',
-        'Wear a sign saying whatever you write for 1 hour',
-        'Only speak in song lyrics for 30 minutes',
-        'Do an impression of someone in the group (group votes who)'
-    ],
-    3: [
-        'Let the group give you a makeover and stay like it for an hour',
-        'Do the washing up for the whole group after dinner',
-        'Stand on a chair and do a 2-minute stand-up comedy set about yourself',
-        'Drink a mystery cocktail made by the group',
-        'Announce everything you do out loud for an hour'
-    ]
-};
+/* ---- Individual punishments (per square claimed) ---- */
+var BINGO_SQUARE_PUNISHMENTS = [
+    'Down your drink',
+    'Speak in a French accent for 30 minutes',
+    'Wear your clothes inside out until someone notices',
+    'Give 5 genuine compliments to 5 different people in a row',
+    'Do 20 press-ups right now',
+    'Swap an item of clothing with someone of your choice for the rest of the day',
+    'Do a 60-second serenade to someone at dinner',
+    'Only speak in song lyrics for 30 minutes',
+    'Do an impression of someone in the group (group votes who)',
+    'Announce everything you do out loud for an hour'
+];
 
-var BINGO_FULLHOUSE_REWARDS = [
-    'King/Queen of the Château crown for the day',
-    'Pick the music, pick who does washing up, sit at head of table',
-    'Choose the group activity for the afternoon',
-    'Immunity from the next punishment',
-    'Everyone calls you by a title of your choosing for 24 hours'
+/* ---- Team punishments (per line completed) ---- */
+var BINGO_LINE_PUNISHMENTS = [
+    'Whole team downs their drink',
+    'Whole team does 20 press-ups',
+    'Whole team speaks in French accents for 30 minutes',
+    'Whole team wears their clothes inside out until dinner',
+    'Whole team has to serenade the group',
+    'Whole team does the washing up after dinner'
 ];
 
 /* ---- Team colour map ---- */
@@ -444,10 +435,77 @@ function initBingo() {
             cells[idx].classList.add('cell-pop');
         }
 
-        // Check for new lines after sync
+        // Show square punishment picker (pick a person to punish)
         setTimeout(function() {
-            checkForNewLines();
+            showSquarePunishment();
         }, 500);
+    }
+
+    /* ============================================
+       Square Punishment — pick a person to punish
+       ============================================ */
+    function showSquarePunishment() {
+        var modal = document.getElementById('bingoLineModal');
+        var celebration = document.getElementById('bingoLineCelebration');
+        var punishmentPicker = document.getElementById('bingoPunishmentPicker');
+        var guestPicker = document.getElementById('bingoGuestPicker');
+        var confirmPanel = document.getElementById('bingoLineConfirm');
+        var descEl = document.getElementById('bingoLineDesc');
+
+        if (!modal) { checkForNewLines(); return; }
+
+        // Pick a random punishment
+        var shuffled = BINGO_SQUARE_PUNISHMENTS.slice().sort(function() { return Math.random() - 0.5; });
+        var punishment = shuffled[0];
+        pendingPunishment = punishment;
+
+        if (celebration) {
+            celebration.style.display = '';
+            celebration.querySelector('h2').innerHTML = '&#128170; SQUARE CLAIMED!';
+        }
+        if (descEl) descEl.textContent = 'Pick someone to punish: "' + punishment + '"';
+        if (punishmentPicker) punishmentPicker.style.display = 'none';
+        if (guestPicker) guestPicker.style.display = 'none';
+        if (confirmPanel) confirmPanel.style.display = 'none';
+        modal.style.display = 'flex';
+        modal.classList.remove('fullhouse');
+
+        // Go straight to person picker after a beat
+        setTimeout(function() {
+            showVictimPicker(function(targetName) {
+                // Save punishment
+                var punishmentData = {
+                    assignedBy: guestName,
+                    assignedByCode: guestCode,
+                    victim: targetName,
+                    description: pendingPunishment,
+                    completed: false,
+                    timestamp: Date.now()
+                };
+                if (typeof BingoEngine.addPunishment === 'function') {
+                    BingoEngine.addPunishment(punishmentData);
+                } else {
+                    FirebaseSync.push('bingo/punishments', punishmentData);
+                }
+
+                // Show confirm
+                var cp = document.getElementById('bingoLineConfirm');
+                var ct = document.getElementById('bingoLineConfirmText');
+                var cb = document.getElementById('bingoLineClose');
+                var gp = document.getElementById('bingoGuestPicker');
+                if (gp) gp.style.display = 'none';
+                if (ct) ct.textContent = targetName + ' must: ' + pendingPunishment;
+                if (cp) cp.style.display = '';
+                if (cb) {
+                    var handler = function() {
+                        modal.style.display = 'none';
+                        cb.removeEventListener('click', handler);
+                        setTimeout(function() { checkForNewLines(); }, 300);
+                    };
+                    cb.addEventListener('click', handler);
+                }
+            });
+        }, 1000);
     }
 
     /* ============================================
@@ -502,68 +560,84 @@ function initBingo() {
 
         var stats = BingoEngine.getGuestStats(guestCode);
         var lineNumber = stats.lines + 1;
-        var lineLabel = lineNumber === 1 ? '1st' : (lineNumber === 2 ? '2nd' : '3rd');
-        var pts = lineNumber === 1 ? 10 : (lineNumber === 2 ? 15 : 20);
 
-        if (descEl) descEl.textContent = 'Your ' + lineLabel + ' line! +' + pts + ' points!';
+        if (celebration) {
+            celebration.style.display = '';
+            celebration.querySelector('h2').innerHTML = '&#127881; YOU GOT A LINE! &#127881;';
+        }
+        if (descEl) descEl.textContent = 'Line ' + lineNumber + '! +3 bonus points! Pick a team to punish!';
 
-        if (celebration) celebration.style.display = '';
         if (punishmentPicker) punishmentPicker.style.display = 'none';
         if (guestPicker) guestPicker.style.display = 'none';
         if (confirmPanel) confirmPanel.style.display = 'none';
         modal.style.display = 'flex';
+        modal.classList.remove('fullhouse');
 
         spawnConfetti();
         if (typeof triggerConfetti === 'function') triggerConfetti();
 
+        // Pick a random team punishment
+        var shuffled = BINGO_LINE_PUNISHMENTS.slice().sort(function() { return Math.random() - 0.5; });
+        pendingPunishment = shuffled[0];
+
         setTimeout(function() {
-            showPunishmentPicker(lineNumber);
+            showTeamPicker();
         }, 1500);
     }
 
-    function showPunishmentPicker(lineNumber) {
+    function showTeamPicker() {
         var celebration = document.getElementById('bingoLineCelebration');
-        var punishmentPicker = document.getElementById('bingoPunishmentPicker');
-        var cardsContainer = document.getElementById('bingoPunishmentCards');
-        if (!punishmentPicker || !cardsContainer) return;
-
-        if (celebration) celebration.style.display = 'none';
-
-        var punishments = BINGO_PUNISHMENTS[Math.min(lineNumber, 3)] || BINGO_PUNISHMENTS[1];
-        var shuffled = punishments.slice().sort(function() { return Math.random() - 0.5; });
-        var picked = shuffled.slice(0, 3);
-
-        cardsContainer.innerHTML = '';
-
-        for (var i = 0; i < picked.length; i++) {
-            (function(punishment) {
-                var card = document.createElement('div');
-                card.className = 'bingo-punishment-card face-down';
-                card.innerHTML = '<span class="card-back">?</span><span class="card-front">' + escapeHtml(punishment) + '</span>';
-                card.addEventListener('click', function() {
-                    if (card.classList.contains('face-down')) {
-                        card.classList.remove('face-down');
-                        card.classList.add('flipped');
-                        pendingPunishment = punishment;
-                        setTimeout(function() {
-                            showVictimPicker();
-                        }, 800);
-                    }
-                });
-                cardsContainer.appendChild(card);
-            })(picked[i]);
-        }
-
-        punishmentPicker.style.display = '';
-    }
-
-    function showVictimPicker() {
-        var punishmentPicker = document.getElementById('bingoPunishmentPicker');
         var guestPicker = document.getElementById('bingoGuestPicker');
         var guestGrid = document.getElementById('bingoGuestGrid');
         if (!guestPicker || !guestGrid) return;
 
-        if (punishmentPicker) punishmentPicker.style.display = 'none';
+        if (celebration) celebration.style.display = 'none';
+
+        // Update heading
+        var heading = guestPicker.querySelector('h3');
+        if (heading) heading.textContent = 'Which team gets punished?';
+
+        guestGrid.innerHTML = '';
+
+        var teamKeys = Object.keys(TEAM_CONFIG);
+        for (var i = 0; i < teamKeys.length; i++) {
+            (function(teamKey) {
+                // Don't show your own team
+                if (teamKey === guestTeam) return;
+                var teamInfo = TEAM_CONFIG[teamKey];
+                if (!teamInfo) return;
+
+                var btn = document.createElement('button');
+                btn.className = 'bingo-guest-btn';
+                var colour = TEAM_COLOURS[teamKey] || '#888';
+                var teamName = teamInfo.name || teamKey;
+
+                btn.innerHTML = '<span class="bingo-guest-avatar" style="background:' + colour + '">' + teamName.charAt(0) + '</span>'
+                    + '<span class="bingo-guest-name">' + escapeHtml(teamName) + '</span>';
+
+                btn.addEventListener('click', function() {
+                    finishLine(teamName);
+                });
+                guestGrid.appendChild(btn);
+            })(teamKeys[i]);
+        }
+
+        guestPicker.style.display = '';
+    }
+
+    /* Show person picker — used by square punishment flow */
+    function showVictimPicker(callback) {
+        var celebration = document.getElementById('bingoLineCelebration');
+        var guestPicker = document.getElementById('bingoGuestPicker');
+        var guestGrid = document.getElementById('bingoGuestGrid');
+        if (!guestPicker || !guestGrid) return;
+
+        if (celebration) celebration.style.display = 'none';
+
+        // Update heading
+        var heading = guestPicker.querySelector('h3');
+        if (heading) heading.textContent = 'Who gets punished?';
+
         guestGrid.innerHTML = '';
 
         var allGuests = Object.keys(GUEST_DATA);
@@ -584,7 +658,9 @@ function initBingo() {
                     + '<span class="bingo-guest-name">' + escapeHtml(guest.name) + '</span>';
 
                 btn.addEventListener('click', function() {
-                    finishLine(guest.name);
+                    if (callback) {
+                        callback(guest.name);
+                    }
                 });
                 guestGrid.appendChild(btn);
             })(allGuests[i]);
@@ -662,7 +738,7 @@ function initBingo() {
             celebration.style.display = '';
             celebration.querySelector('h2').innerHTML = '&#128081; KING/QUEEN OF THE CH&#194;TEAU! &#128081;';
         }
-        if (descEl) descEl.textContent = 'FULL HOUSE! +50 points! You absolute legend!';
+        if (descEl) descEl.textContent = 'FULL HOUSE! +5 bonus points! You absolute legend!';
         if (punishmentPicker) punishmentPicker.style.display = 'none';
         if (guestPicker) guestPicker.style.display = 'none';
         if (confirmPanel) confirmPanel.style.display = 'none';

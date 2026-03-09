@@ -421,11 +421,9 @@
             db.ref('bingo/claims/' + itemIndex).set(claimData);
             bingoClaims[itemIndex] = claimData;
 
-            // Award points: +1 team, +2 bonus for first-ever claim
-            var pts = isFirstClaim ? 3 : 1;
-            var reason = isFirstClaim
-                ? 'Bingo: first claim! ' + BINGO_ITEMS[itemIndex]
-                : 'Bingo: ' + BINGO_ITEMS[itemIndex];
+            // Award points: +1 per square
+            var pts = 1;
+            var reason = 'Bingo: ' + BINGO_ITEMS[itemIndex];
             bingoAwardPoints(guestName, team, pts, reason);
             bingoPostFeed(guestName + ' claimed: "' + BINGO_ITEMS[itemIndex] + '"', guestName, team);
         },
@@ -502,8 +500,8 @@
 
             db.ref('bingo/lines').push(record);
 
-            // Points: +10/+15/+20 for line 1/2/3
-            var pts = lineNumber === 1 ? 10 : (lineNumber === 2 ? 15 : 20);
+            // Points: +3 bonus per line
+            var pts = 3;
             bingoAwardPoints(lineData.guestName, lineData.team, pts, 'Bingo line ' + lineNumber + '!');
 
             var feedText = lineData.guestName + ' got bingo line ' + lineNumber + '!';
@@ -515,7 +513,7 @@
 
         completeFullHouse: function(guestCode, guestName, team) {
             if (!db) return;
-            bingoAwardPoints(guestName, team, 50, 'BINGO FULL HOUSE!');
+            bingoAwardPoints(guestName, team, 5, 'BINGO FULL HOUSE!');
             bingoPostFeed(guestName + ' got a FULL HOUSE! King/Queen of the Château!', guestName, team);
         },
 
