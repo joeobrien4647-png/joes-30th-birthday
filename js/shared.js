@@ -2140,6 +2140,36 @@ function initAdminPanel() {
     document.body.appendChild(drawer);
 }
 
+/* Bingo notification dot on nav when new claims since last visit */
+function initBingoNotifDot() {
+    var bingoLink = document.getElementById('nav-bingo');
+    if (!bingoLink) return;
+    // On bingo page, update lastSeen and don't show dot
+    if (window.location.pathname.indexOf('bingo.html') !== -1) {
+        localStorage.setItem('bingoLastSeen', String(Date.now()));
+        return;
+    }
+    document.addEventListener('feedUpdate', function(e) {
+        var feed = e.detail;
+        if (!feed) return;
+        var lastSeen = parseInt(localStorage.getItem('bingoLastSeen') || '0', 10);
+        var hasNew = false;
+        var keys = Object.keys(feed);
+        for (var i = 0; i < keys.length; i++) {
+            var item = feed[keys[i]];
+            if (item && item.type === 'bingo' && item.timestamp > lastSeen) {
+                hasNew = true;
+                break;
+            }
+        }
+        if (hasNew) {
+            bingoLink.classList.add('has-notif');
+        } else {
+            bingoLink.classList.remove('has-notif');
+        }
+    });
+}
+
 /* Initialize shared components on every page */
 document.addEventListener('DOMContentLoaded', function () {
     // Page transition
@@ -2199,6 +2229,8 @@ document.addEventListener('DOMContentLoaded', function () {
     initAdminState();
     // Admin panel (admin users only)
     initAdminPanel();
+    // Bingo notification dot
+    initBingoNotifDot();
 });
 
 /* Update nav to show guest name */
