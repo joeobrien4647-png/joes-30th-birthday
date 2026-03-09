@@ -342,6 +342,20 @@
         });
     }
 
+    var bingoPunishments = {};
+    var punishmentListeners = [];
+    var punishmentsLoaded = false;
+
+    if (db) {
+        db.ref('bingo/punishments').on('value', function(snap) {
+            bingoPunishments = snap.val() || {};
+            punishmentsLoaded = true;
+            for (var i = 0; i < punishmentListeners.length; i++) {
+                punishmentListeners[i](bingoPunishments);
+            }
+        });
+    }
+
     function bingoPostFeed(text, guestName, team) {
         if (!db) return;
         FirebaseSync.push('feed', {
@@ -551,6 +565,47 @@
 
         getLines: function() {
             return bingoLines;
+        },
+
+        addPunishment: function(data) {
+            if (!db) return;
+            db.ref('bingo/punishments').push({
+                guestCode: data.guestCode,
+                guestName: data.guestName,
+                team: data.team,
+                description: data.description,
+                assignedBy: data.assignedBy,
+                completed: false,
+                completedAt: null,
+                timestamp: Date.now()
+            });
+        },
+
+        completePunishment: function(id) {
+            if (!db) return;
+            db.ref('bingo/punishments/' + id).update({
+                completed: true,
+                completedAt: Date.now()
+            });
+            var p = bingoPunishments[id];
+            if (p) {
+                FirebaseSync.push('feed', {
+                    type: 'bingo',
+                    text: p.guestName + ' survived their punishment: ' + p.description,
+                    author: p.guestName,
+                    team: p.team || '',
+                    timestamp: Date.now()
+                });
+            }
+        },
+
+        getPunishments: function() {
+            return bingoPunishments;
+        },
+
+        onPunishmentsUpdate: function(fn) {
+            punishmentListeners.push(fn);
+            if (punishmentsLoaded) fn(bingoPunishments);
         }
     };
 
