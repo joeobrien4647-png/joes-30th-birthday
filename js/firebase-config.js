@@ -408,9 +408,9 @@
 
         claim: function(itemIndex, guestCode, guestName, team) {
             if (!db) return;
-            if (bingoClaims[itemIndex]) return; // already claimed
+            // Check if THIS person already claimed this square
+            if (bingoClaims[itemIndex] && bingoClaims[itemIndex][guestCode]) return;
 
-            var isFirstClaim = Object.keys(bingoClaims).length === 0;
             var claimData = {
                 claimedBy: guestName,
                 claimedByCode: guestCode,
@@ -418,8 +418,9 @@
                 timestamp: Date.now()
             };
 
-            db.ref('bingo/claims/' + itemIndex).set(claimData);
-            bingoClaims[itemIndex] = claimData;
+            db.ref('bingo/claims/' + itemIndex + '/' + guestCode).set(claimData);
+            if (!bingoClaims[itemIndex]) bingoClaims[itemIndex] = {};
+            bingoClaims[itemIndex][guestCode] = claimData;
 
             // Award points: +1 per square
             var pts = 1;
@@ -452,8 +453,8 @@
                 var line = BINGO_LINES[i];
                 var allClaimed = true;
                 for (var j = 0; j < line.length; j++) {
-                    var claim = bingoClaims[line[j]];
-                    if (!claim || claim.claimedByCode !== guestCode) {
+                    var cellClaims = bingoClaims[line[j]];
+                    if (!cellClaims || !cellClaims[guestCode]) {
                         allClaimed = false;
                         break;
                     }
@@ -522,7 +523,8 @@
             var lines = 0;
             var cKeys = Object.keys(bingoClaims);
             for (var i = 0; i < cKeys.length; i++) {
-                if (bingoClaims[cKeys[i]].claimedByCode === guestCode) claims++;
+                var cellClaims = bingoClaims[cKeys[i]];
+                if (cellClaims && cellClaims[guestCode]) claims++;
             }
             var lKeys = Object.keys(bingoLines);
             for (var j = 0; j < lKeys.length; j++) {
@@ -535,11 +537,16 @@
             var stats = {};
             var cKeys = Object.keys(bingoClaims);
             for (var i = 0; i < cKeys.length; i++) {
-                var c = bingoClaims[cKeys[i]];
-                if (!stats[c.claimedByCode]) {
-                    stats[c.claimedByCode] = { code: c.claimedByCode, name: c.claimedBy, claims: 0, lines: 0 };
+                var cellClaims = bingoClaims[cKeys[i]];
+                if (!cellClaims) continue;
+                var gcKeys = Object.keys(cellClaims);
+                for (var g = 0; g < gcKeys.length; g++) {
+                    var c = cellClaims[gcKeys[g]];
+                    if (!stats[c.claimedByCode]) {
+                        stats[c.claimedByCode] = { code: c.claimedByCode, name: c.claimedBy, claims: 0, lines: 0 };
+                    }
+                    stats[c.claimedByCode].claims++;
                 }
-                stats[c.claimedByCode].claims++;
             }
             var lKeys = Object.keys(bingoLines);
             for (var j = 0; j < lKeys.length; j++) {

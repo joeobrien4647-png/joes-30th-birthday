@@ -177,8 +177,9 @@ function initBingo() {
             (function(idx) {
                 var cell = document.createElement('div');
                 cell.className = 'bingo-cell';
-                var claim = claims[idx];
-                var isRevoked = claim && claim.revoked;
+                var cellClaims = claims[idx] || {};
+                var myClaim = guestCode ? cellClaims[guestCode] : null;
+                var claimCount = Object.keys(cellClaims).length;
                 var emoji = BINGO_EMOJIS[idx] || '\uD83C\uDFAF';
 
                 // Emoji always shown
@@ -187,36 +188,43 @@ function initBingo() {
                 emojiEl.textContent = emoji;
                 cell.appendChild(emojiEl);
 
-                if (claim && !isRevoked) {
+                if (myClaim) {
+                    // I've claimed this square
                     cell.classList.add('claimed');
-                    if (claim.claimedByCode === guestCode) {
-                        cell.classList.add('claimed-self');
-                    }
+                    cell.classList.add('claimed-self');
 
-                    var teamColour = TEAM_COLOURS[claim.team] || '#888';
+                    var teamColour = TEAM_COLOURS[myClaim.team] || '#888';
                     cell.style.setProperty('--team-colour', teamColour);
 
-                    if (claim.photoUrl) {
-                        cell.classList.add('has-photo');
-                    }
-
-                    // Short label instead of full text
+                    // Short label
                     var textEl = document.createElement('span');
                     textEl.className = 'bingo-cell-text';
                     textEl.textContent = shortenChallenge(items[idx]);
                     cell.appendChild(textEl);
 
-                    var claimantEl = document.createElement('span');
-                    claimantEl.className = 'bingo-cell-claimant';
-                    claimantEl.innerHTML = escapeHtml(claim.claimedBy);
-                    cell.appendChild(claimantEl);
+                    // Show how many people have claimed this
+                    if (claimCount > 1) {
+                        var countEl = document.createElement('span');
+                        countEl.className = 'bingo-cell-claimant';
+                        countEl.textContent = claimCount + ' claimed';
+                        cell.appendChild(countEl);
+                    }
                 } else {
+                    // I haven't claimed this yet
                     cell.classList.add('unclaimed');
 
                     var textEl2 = document.createElement('span');
                     textEl2.className = 'bingo-cell-text';
                     textEl2.textContent = shortenChallenge(items[idx]);
                     cell.appendChild(textEl2);
+
+                    // Show count if others have claimed
+                    if (claimCount > 0) {
+                        var countEl2 = document.createElement('span');
+                        countEl2.className = 'bingo-cell-claimant';
+                        countEl2.textContent = claimCount + ' claimed';
+                        cell.appendChild(countEl2);
+                    }
 
                     if (guestCode) {
                         cell.addEventListener('click', function() {
@@ -417,7 +425,7 @@ function initBingo() {
         if (photoFile && typeof PhotoStorage !== 'undefined') {
             PhotoStorage.upload(photoFile, guestCode, guestName, items[idx], null, function(photoData, err) {
                 if (photoData && photoData.url) {
-                    FirebaseSync.update('bingo/claims/' + idx, { photoUrl: photoData.url });
+                    FirebaseSync.update('bingo/claims/' + idx + '/' + guestCode, { photoUrl: photoData.url });
                 }
             });
         }
@@ -1039,24 +1047,25 @@ function initBingo() {
         var connectors = document.querySelectorAll('.prize-connector');
         for (var n = 0; n < nodes.length; n++) {
             var milestone = nodes[n].getAttribute('data-milestone');
-            var unlocked = false;
-            if (milestone === 'full') {
-                unlocked = myClaims >= 16;
-            } else {
-                unlocked = myLines >= parseInt(milestone, 10);
+            var isUnlocked = false;
+            if (milestone === 'square') {
+                isUnlocked = myClaims >= 1;
+            } else if (milestone === 'line') {
+                isUnlocked = myLines >= 1;
+            } else if (milestone === 'full') {
+                isUnlocked = myClaims >= 16;
             }
-            if (unlocked) {
+            if (isUnlocked) {
                 nodes[n].classList.add('unlocked');
             } else {
                 nodes[n].classList.remove('unlocked');
             }
         }
         for (var c = 0; c < connectors.length; c++) {
-            // Connector c is active if line c+1 is unlocked
-            if (myLines > c) {
-                connectors[c].classList.add('active');
+            if (c === 0) {
+                connectors[c].classList.toggle('active', myClaims >= 1);
             } else {
-                connectors[c].classList.remove('active');
+                connectors[c].classList.toggle('active', myLines >= 1);
             }
         }
     }
@@ -1123,35 +1132,47 @@ function initBingo() {
         if (!claimsEl) return;
 
         var claims = BingoEngine.getClaims();
-        var claimKeys = Object.keys(claims);
+        // Flatten nested claims into a list
+        var flatClaims = [];
+        var cellKeys = Object.keys(claims);
+        for (var ci = 0; ci < cellKeys.length; ci++) {
+            var cellIdx = cellKeys[ci];
+            var cellClaims = claims[cellIdx];
+            if (!cellClaims) continue;
+            var gKeys = Object.keys(cellClaims);
+            for (var gi = 0; gi < gKeys.length; gi++) {
+                var c = cellClaims[gKeys[gi]];
+                flatClaims.push({ idx: cellIdx, code: gKeys[gi], claim: c });
+            }
+        }
 
-        if (countEl) countEl.textContent = claimKeys.length + ' claim' + (claimKeys.length !== 1 ? 's' : '');
+        if (countEl) countEl.textContent = flatClaims.length + ' claim' + (flatClaims.length !== 1 ? 's' : '');
 
-        if (claimKeys.length === 0) {
+        if (flatClaims.length === 0) {
             claimsEl.innerHTML = '<p class="bingo-admin-empty">No claims yet.</p>';
             return;
         }
 
-        claimKeys.sort(function(a, b) {
-            return (claims[b].timestamp || 0) - (claims[a].timestamp || 0);
+        flatClaims.sort(function(a, b) {
+            return (b.claim.timestamp || 0) - (a.claim.timestamp || 0);
         });
 
         var html = '';
-        for (var i = 0; i < claimKeys.length; i++) {
-            var idx = claimKeys[i];
-            var claim = claims[idx];
-            var itemText = items[idx] || 'Unknown item';
-            var ago = relativeTimeBingo(claim.timestamp);
-            var revoked = claim.revoked;
+        for (var i = 0; i < flatClaims.length; i++) {
+            var fc = flatClaims[i];
+            var itemText = items[fc.idx] || 'Unknown item';
+            var ago = relativeTimeBingo(fc.claim.timestamp);
+            var revoked = fc.claim.revoked;
+            var dataKey = fc.idx + '/' + fc.code;
 
-            html += '<div class="bingo-admin-claim' + (revoked ? ' revoked' : '') + '" data-idx="' + idx + '">'
+            html += '<div class="bingo-admin-claim' + (revoked ? ' revoked' : '') + '" data-key="' + dataKey + '">'
                 + '<div class="bingo-admin-claim-info">'
                 + '<span class="bingo-admin-claim-item">' + escapeHtml(itemText) + '</span>'
                 + '<span class="bingo-admin-claim-meta">'
-                + escapeHtml(claim.claimedBy) + ' (' + escapeHtml(claim.team || '?') + ') &middot; ' + ago
+                + escapeHtml(fc.claim.claimedBy) + ' (' + escapeHtml(fc.claim.team || '?') + ') &middot; ' + ago
                 + '</span>'
                 + '</div>'
-                + '<button class="bingo-admin-btn ' + (revoked ? 'bingo-admin-btn-restore' : 'bingo-admin-btn-revoke') + '" data-idx="' + idx + '">'
+                + '<button class="bingo-admin-btn ' + (revoked ? 'bingo-admin-btn-restore' : 'bingo-admin-btn-revoke') + '" data-key="' + dataKey + '">'
                 + (revoked ? 'Restore' : 'Revoke')
                 + '</button>'
                 + '</div>';
@@ -1161,16 +1182,20 @@ function initBingo() {
         var btns = claimsEl.querySelectorAll('.bingo-admin-btn');
         for (var b = 0; b < btns.length; b++) {
             btns[b].addEventListener('click', function() {
-                var claimIdx = this.getAttribute('data-idx');
-                var claim = BingoEngine.getClaims()[claimIdx];
-                if (!claim) return;
+                var key = this.getAttribute('data-key');
+                var parts = key.split('/');
+                var claimIdx = parts[0];
+                var claimCode = parts[1];
+                var allClaims = BingoEngine.getClaims();
+                var cellClaims = allClaims[claimIdx];
+                if (!cellClaims || !cellClaims[claimCode]) return;
+                var claim = cellClaims[claimCode];
 
                 if (claim.revoked) {
-                    FirebaseSync.update('bingo/claims/' + claimIdx, { revoked: null });
+                    FirebaseSync.update('bingo/claims/' + claimIdx + '/' + claimCode, { revoked: null });
                 } else {
-                    FirebaseSync.update('bingo/claims/' + claimIdx, { revoked: true, revokedBy: 'admin', revokedAt: Date.now() });
+                    FirebaseSync.update('bingo/claims/' + claimIdx + '/' + claimCode, { revoked: true, revokedBy: 'admin', revokedAt: Date.now() });
 
-                    // Post revoke to live feed
                     FirebaseSync.push('feed', {
                         type: 'bingo',
                         text: escapeHtml(claim.claimedBy) + '\'s claim was disputed: "' + (items[claimIdx] || '') + '" \uD83E\uDDD0',
