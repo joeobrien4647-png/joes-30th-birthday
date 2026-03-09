@@ -501,8 +501,8 @@
 
             db.ref('bingo/lines').push(record);
 
-            // Points: +3 bonus per line
-            var pts = 3;
+            // Points: +2 bonus per line
+            var pts = 2;
             bingoAwardPoints(lineData.guestName, lineData.team, pts, 'Bingo line ' + lineNumber + '!');
 
             var feedText = lineData.guestName + ' got bingo line ' + lineNumber + '!';

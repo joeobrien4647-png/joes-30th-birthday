@@ -573,7 +573,7 @@ function initBingo() {
             celebration.style.display = '';
             celebration.querySelector('h2').innerHTML = '&#127881; YOU GOT A LINE! &#127881;';
         }
-        if (descEl) descEl.textContent = 'Line ' + lineNumber + '! +3 bonus points! Pick a team to punish!';
+        if (descEl) descEl.textContent = 'Line ' + lineNumber + '! +2 bonus points! Pick a team to punish!';
 
         if (punishmentPicker) punishmentPicker.style.display = 'none';
         if (guestPicker) guestPicker.style.display = 'none';
