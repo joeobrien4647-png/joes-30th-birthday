@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="css/base.css?v=19">
     <link rel="stylesheet" href="css/components.css?v=3">
     <link rel="stylesheet" href="css/nav.css?v=1">
-    <link rel="stylesheet" href="css/bingo.css?v=3">
+    <link rel="stylesheet" href="css/bingo.css?v=4">
 </head>
 <body>
     <!-- Confetti Canvas -->
@@ -111,11 +111,53 @@
         </div>
     </section>
 
-    <!-- THE GRID -->
+    <!-- THE GRID + RULES -->
     <section class="section bingo-grid-section">
         <div class="container">
-            <div class="bingo-grid" id="bingoGrid">
-                <!-- 16 cells rendered by JS -->
+            <div class="bingo-layout">
+                <div class="bingo-grid" id="bingoGrid">
+                    <!-- 16 cells rendered by JS -->
+                </div>
+                <aside class="bingo-rules">
+                    <h3>&#128214; How to Play</h3>
+                    <ol class="bingo-rules-list">
+                        <li><strong>Tap a challenge</strong> to see what you need to do</li>
+                        <li><strong>Do it</strong> &mdash; with witnesses or photo proof</li>
+                        <li><strong>Claim it</strong> &mdash; snap a photo and hit the button</li>
+                        <li><strong>Get a line</strong> (4 in a row) to unlock a punishment you dish out to someone else</li>
+                        <li><strong>Full house?</strong> You become King/Queen of the Ch&acirc;teau</li>
+                    </ol>
+                    <div class="bingo-rules-extras">
+                        <div class="bingo-rule-card">
+                            <span class="bingo-rule-icon">&#128247;</span>
+                            <div>
+                                <strong>Photo Proof</strong>
+                                <p>Every claim needs a photo. No proof, no points.</p>
+                            </div>
+                        </div>
+                        <div class="bingo-rule-card">
+                            <span class="bingo-rule-icon">&#9200;</span>
+                            <div>
+                                <strong>First Come, First Served</strong>
+                                <p>Each challenge can only be claimed once. Be quick.</p>
+                            </div>
+                        </div>
+                        <div class="bingo-rule-card">
+                            <span class="bingo-rule-icon">&#128101;</span>
+                            <div>
+                                <strong>Team Points</strong>
+                                <p>Every claim earns points for your team on the leaderboard.</p>
+                            </div>
+                        </div>
+                        <div class="bingo-rule-card">
+                            <span class="bingo-rule-icon">&#128520;</span>
+                            <div>
+                                <strong>Punishments</strong>
+                                <p>Get a line? Pick a punishment and pick who gets it. Get 3 lines? The whole group suffers.</p>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
             </div>
         </div>
     </section>
