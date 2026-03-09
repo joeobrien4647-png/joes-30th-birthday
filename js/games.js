@@ -436,7 +436,7 @@ function initLeaderboard() {
             { label: '\uD83E\uDD9B Hungry Hippos 1st', pts: 5, cat: 'games' },
             { label: '\uD83C\uDFB2 Dice Jackpot', pts: 2, cat: 'games' },
             { label: '\uD83D\uDE02 Last to Laugh', pts: 3, cat: 'games' },
-            { label: '\u26BD P\u00E9tanque Winner', pts: 5, cat: 'games' }
+            { label: '\uD83C\uDFB1 Pool Tournament', pts: 5, cat: 'games' }
         ],
         3: [
             { label: '\uD83D\uDEF6 Canoe Race 1st', pts: 5, cat: 'games' },
