@@ -2025,10 +2025,23 @@ function hide(id, hard) {
       /* No music on play — Claude terminal is first (typing sounds only) */
       trailerStartMs = performance.now();
 
-      /* Prime all audio so browsers allow playback (user gesture required) */
+      /* Unlock Web Audio context (required on iOS/mobile) */
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx) {
+        const actx = new AudioCtx();
+        actx.resume().then(() => {
+          const buf = actx.createBuffer(1, 1, 22050);
+          const src = actx.createBufferSource();
+          src.buffer = buf; src.connect(actx.destination); src.start();
+        }).catch(() => {});
+      }
+
+      /* Prime all audio — play briefly with real volume so mobile unlocks them */
       [typingAudio, audioSW, audioGA].forEach(a => {
-        const v = a.volume; a.volume = 0;
-        a.play().then(() => { a.pause(); a.currentTime = 0; a.volume = v; }).catch(() => {});
+        a.volume = 0.01;
+        a.play().then(() => {
+          setTimeout(() => { a.pause(); a.currentTime = 0; a.volume = 1; }, 50);
+        }).catch(() => {});
       });
       typingAudio.volume = 0.6;
 
