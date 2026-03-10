@@ -1100,13 +1100,8 @@
   <canvas id="grain"></canvas>
   <div id="flash"></div>
 
-  <audio id="audio-typing" preload="auto" playsinline src="typing.mp3"></audio>
-  <audio id="audio-sw" preload="auto" playsinline>
-    <source src="star-wars-theme.mp3" type="audio/mpeg">
-  </audio>
-  <audio id="audio-ga" preload="auto" playsinline>
-    <source src="grand-adventure.mp3" type="audio/mpeg">
-  </audio>
+  <!-- Single pre-mixed audio track with all timing baked in -->
+  <audio id="audio-mix" preload="auto" playsinline src="trailer-audio-mixed.mp3"></audio>
 
   <div id="stage">
     <!-- Claude Chat Intro -->
@@ -1566,47 +1561,16 @@
       { id: 's-end',      ms: null },
     ];
 
-    /* Audio tracks */
-    const audioSW = document.getElementById('audio-sw');  /* Star Wars */
-    const audioGA = document.getElementById('audio-ga');  /* Grand Adventure */
-    const typingAudio = document.getElementById('audio-typing');
-    typingAudio.loop = true;
-    let activeAudio = audioSW;  /* currently playing track */
+    /* Single pre-mixed audio track — all timing baked into the MP3 */
+    const audioMix = document.getElementById('audio-mix');
+    let activeAudio = audioMix;
 
-    /* When GA ends, loop back to 8s so the drop at 13s hits again */
-    audioGA.addEventListener('ended', () => {
-      audioGA.currentTime = 8;
-      audioGA.play().catch(() => {});
-    });
+    /* Typing sound functions are no-ops now (sound is in the mix) */
+    function startTypingSound() {}
+    function stopTypingSound() {}
 
-    function startTypingSound() {
-      typingAudio.currentTime = 3;
-      typingAudio.volume = 0.6;
-      typingAudio.play().catch(() => {});
-    }
-    function stopTypingSound() {
-      const fr = typingAudio.volume;
-      let n = 0;
-      const fade = setInterval(() => {
-        n++; typingAudio.volume = Math.max(0, fr * (1 - n / 15));
-        if (n >= 15) { clearInterval(fade); typingAudio.pause(); }
-      }, 30);
-    }
-
-    /* Volume schedule: scene → [target, fadeMs]
-       's6' (title) triggers crossfade from Star Wars → Grand Adventure.
-       GA plays straight through from 0s for the rest of the trailer. */
-    const VOL = {
-      's6':     [0.7, 2000],
-      's7':     [0.75, 1500],
-      's-plan': [0.8, 2000],
-      's-crew': [0.85, 1500],
-      's-site': [0.9, 1500],
-      's-rules':[0.95, 1500],
-      's-pw':   [1.0, 500],
-      's-cd':   [0.5, 3000],
-      's-inv':  [0, 3000],
-    };
+    /* No per-scene volume schedule needed — baked into mix */
+    const VOL = {};
 
     const timelineDebug = document.getElementById('timeline-debug');
     const tdScene = document.getElementById('td-scene');
@@ -1919,49 +1883,7 @@ function hide(id, hard) {
         document.getElementById('qr-w').classList.add('beating');
       }
 
-      /* Star Wars plays during crawl.
-         When scroll animation ends → wait 2s → crossfade to GA.
-         Scene continues for 13s more (GA buildup) → title flash on the drop. */
-      if (s.id === 's-crawl') {
-        audioSW.currentTime = 0;
-        audioSW.volume = 0.9;
-        activeAudio = audioSW;
-        audioSW.play().catch(() => {});
-
-        /* Text off screen ~42s. Crossfade at 40s.
-           GA from 0s = full 13s suspense buildup. Scene ends at 53s = drop. */
-        setTimeout(() => {
-          /* Fade Star Wars out over 3s */
-          const swFr = audioSW.volume, swSteps = 30, swDt = 100;
-          let swN = 0;
-          const swFade = setInterval(() => {
-            swN++; audioSW.volume = Math.max(0, swFr * (1 - swN / swSteps));
-            if (swN >= swSteps) { clearInterval(swFade); audioSW.pause(); }
-          }, swDt);
-
-          /* Grand Adventure from 0s — full buildup, drop at 13s = title flash */
-          audioGA.currentTime = 0;
-          audioGA.volume = 0;
-          audioGA.play().catch(() => {});
-          activeAudio = audioGA;
-          const gaSteps = 30, gaDt = 100, gaTarget = 0.65;
-          let gaN = 0;
-          const gaFade = setInterval(() => {
-            gaN++; audioGA.volume = Math.min(gaTarget, (gaN / gaSteps) * gaTarget);
-            if (gaN >= gaSteps) clearInterval(gaFade);
-          }, gaDt);
-        }, 40000);
-      }
-
-      /* Volume / audio switching */
-      const v = VOL[s.id];
-      if (s.id === 's6') {
-        /* Title card: GA already playing and hitting the drop at 13s — boost it */
-        activeAudio = audioGA;
-        vol(0.85, 500);
-      } else if (v) {
-        vol(v[0], v[1], s.id === 's-inv' ? () => activeAudio.pause() : null);
-      }
+      /* Audio is a single pre-mixed track — no crossfade logic needed */
 
       /* Compress exit for browser mockup */
       if (s.exit === 'compress') {
@@ -2010,10 +1932,7 @@ function hide(id, hard) {
     }
 
     /* ── Start ── */
-    audioSW.addEventListener('timeupdate', () => {
-      updateTimelineDebug(cur >= 0 ? SEQ[cur].id : '-');
-    });
-    audioGA.addEventListener('timeupdate', () => {
+    audioMix.addEventListener('timeupdate', () => {
       updateTimelineDebug(cur >= 0 ? SEQ[cur].id : '-');
     });
 
@@ -2024,42 +1943,11 @@ function hide(id, hard) {
 
       trailerStartMs = performance.now();
 
-      /* ── Mobile audio unlock ──
-         Mobile browsers only allow ONE audio element per gesture, and iOS
-         Safari is especially strict. Strategy:
-         1. Create a single shared AudioContext and resume it (unlocks Web Audio)
-         2. Play ONE silent helper audio element to unlock HTMLMediaElement playback
-         3. Chain-prime the real tracks AFTER the helper completes
-         This avoids competing play() calls that silently fail. */
-
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      const actx = AudioCtx ? new AudioCtx() : null;
-      if (actx) actx.resume().catch(() => {});
-
-      /* Use typing audio as the "unlock" element — it plays first in the trailer anyway */
-      typingAudio.volume = 0.01;
-      typingAudio.play().then(() => {
-        typingAudio.pause();
-        typingAudio.currentTime = 0;
-        typingAudio.volume = 0.6;
-
-        /* Now prime SW and GA — these succeed because audio is already unlocked */
-        [audioSW, audioGA].forEach(a => {
-          a.volume = 0.01;
-          a.play().then(() => {
-            a.pause(); a.currentTime = 0; a.volume = 1;
-          }).catch(() => {});
-        });
-      }).catch(() => {
-        /* Fallback: try all three anyway (desktop browsers are fine with this) */
-        [typingAudio, audioSW, audioGA].forEach(a => {
-          a.volume = 0.01;
-          a.play().then(() => {
-            a.pause(); a.currentTime = 0; a.volume = 1;
-          }).catch(() => {});
-        });
-        typingAudio.volume = 0.6;
-      });
+      /* Single audio element — simple play on user gesture.
+         This is the most reliable approach for mobile. */
+      audioMix.currentTime = 0;
+      audioMix.volume = 1;
+      audioMix.play().catch(() => {});
 
       initGrain();
       go(0);
