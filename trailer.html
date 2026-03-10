@@ -1100,11 +1100,11 @@
   <canvas id="grain"></canvas>
   <div id="flash"></div>
 
-  <audio id="audio-typing" preload="auto" src="typing.mp3"></audio>
-  <audio id="audio-sw" preload="auto">
+  <audio id="audio-typing" preload="auto" playsinline src="typing.mp3"></audio>
+  <audio id="audio-sw" preload="auto" playsinline>
     <source src="star-wars-theme.mp3" type="audio/mpeg">
   </audio>
-  <audio id="audio-ga" preload="auto">
+  <audio id="audio-ga" preload="auto" playsinline>
     <source src="grand-adventure.mp3" type="audio/mpeg">
   </audio>
 
@@ -2022,35 +2022,44 @@ function hide(id, hard) {
       o.classList.add('gone');
       setTimeout(() => o.remove(), 700);
 
-      /* No music on play — Claude terminal is first (typing sounds only) */
       trailerStartMs = performance.now();
 
-      /* Unlock Web Audio context (required on iOS/mobile) */
+      /* ── Mobile audio unlock ──
+         Mobile browsers only allow ONE audio element per gesture, and iOS
+         Safari is especially strict. Strategy:
+         1. Create a single shared AudioContext and resume it (unlocks Web Audio)
+         2. Play ONE silent helper audio element to unlock HTMLMediaElement playback
+         3. Chain-prime the real tracks AFTER the helper completes
+         This avoids competing play() calls that silently fail. */
+
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (AudioCtx) {
-        const actx = new AudioCtx();
-        actx.resume().then(() => {
-          const buf = actx.createBuffer(1, 1, 22050);
-          const src = actx.createBufferSource();
-          src.buffer = buf; src.connect(actx.destination); src.start();
-        }).catch(() => {});
-      }
+      const actx = AudioCtx ? new AudioCtx() : null;
+      if (actx) actx.resume().catch(() => {});
 
-      /* Prime all audio — play briefly with real volume so mobile unlocks them */
-      [typingAudio, audioSW, audioGA].forEach(a => {
-        a.volume = 0.01;
-        a.play().then(() => {
-          setTimeout(() => { a.pause(); a.currentTime = 0; a.volume = 1; }, 50);
-        }).catch(() => {});
+      /* Use typing audio as the "unlock" element — it plays first in the trailer anyway */
+      typingAudio.volume = 0.01;
+      typingAudio.play().then(() => {
+        typingAudio.pause();
+        typingAudio.currentTime = 0;
+        typingAudio.volume = 0.6;
+
+        /* Now prime SW and GA — these succeed because audio is already unlocked */
+        [audioSW, audioGA].forEach(a => {
+          a.volume = 0.01;
+          a.play().then(() => {
+            a.pause(); a.currentTime = 0; a.volume = 1;
+          }).catch(() => {});
+        });
+      }).catch(() => {
+        /* Fallback: try all three anyway (desktop browsers are fine with this) */
+        [typingAudio, audioSW, audioGA].forEach(a => {
+          a.volume = 0.01;
+          a.play().then(() => {
+            a.pause(); a.currentTime = 0; a.volume = 1;
+          }).catch(() => {});
+        });
+        typingAudio.volume = 0.6;
       });
-      typingAudio.volume = 0.6;
-
-      /* Request fullscreen on mobile */
-      const el = document.documentElement;
-      const rfs = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
-      if (rfs) {
-        rfs.call(el).catch(() => {});
-      }
 
       initGrain();
       go(0);
