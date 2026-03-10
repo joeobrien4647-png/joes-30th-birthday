@@ -54,12 +54,97 @@
     }
     .scene.on { opacity: 1; pointer-events: auto; }
 
+    /* ── Claude Chat Intro ── */
+    #s-claude {
+      background: #f5f0e8;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      justify-content: center; align-items: center;
+      padding: 0;
+    }
+    .claude-wrap {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      transition: transform 1.2s cubic-bezier(0.4, 0, 0, 1), opacity 0.8s ease;
+    }
+    .claude-wrap.zooming { transform: scale(15); opacity: 0; }
+    .claude-model {
+      opacity: 0; animation: claude-fade-in 0.5s 0.3s ease forwards;
+      margin-bottom: 2.5rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .claude-model-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: #d97757;
+    }
+    .claude-model-name {
+      font-size: clamp(0.85rem, 1.4vw, 1rem);
+      color: #8b7355; font-weight: 500;
+    }
+    .claude-chat-box {
+      width: min(92%, 680px);
+      background: #fff;
+      border: 1px solid #e0d5c7;
+      border-radius: 16px;
+      padding: 1.2rem 1.4rem;
+      min-height: 56px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      opacity: 0; animation: claude-fade-in 0.4s 0.6s ease forwards;
+      display: flex; align-items: flex-start;
+    }
+    .claude-typed {
+      font-size: clamp(1rem, 1.8vw, 1.15rem);
+      color: #1a1a1a; line-height: 1.6;
+      flex: 1;
+    }
+    .claude-cursor {
+      display: inline-block; width: 2px; height: 1.15em;
+      background: #d97757; margin-left: 1px;
+      vertical-align: text-bottom;
+      animation: cursor-blink 0.53s step-end infinite;
+    }
+    @keyframes cursor-blink { 50% { opacity: 0; } }
+    @keyframes claude-fade-in { to { opacity: 1; } }
+
+    /* Response area */
+    .claude-response {
+      width: min(92%, 680px);
+      margin-top: 1.2rem;
+      opacity: 0;
+      display: flex; align-items: flex-start; gap: 0.7rem;
+    }
+    .claude-response.on { animation: claude-fade-in 0.3s ease forwards; }
+    .claude-avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: linear-gradient(135deg, #d97757, #bf5a3a);
+      flex-shrink: 0; margin-top: 2px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .claude-avatar-inner {
+      width: 12px; height: 12px; border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+    }
+    .claude-thinking-text {
+      font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+      color: #8b7355; padding-top: 4px;
+    }
+    .claude-thinking-dots::after {
+      content: '';
+      animation: dots 1.5s step-end infinite;
+    }
+    @keyframes dots {
+      0%   { content: ''; }
+      25%  { content: '.'; }
+      50%  { content: '..'; }
+      75%  { content: '...'; }
+    }
+
     /* ── Star Wars crawl ── */
     #s-crawl { padding: 0; overflow: hidden; }
     #crawl-intro {
       position: absolute; top: 42%; left: 0; right: 0;
       font-family: 'Cormorant Garamond', serif; font-style: italic;
-      font-size: clamp(1.2rem, 4vw, 2.6rem); letter-spacing: 0.25em;
+      font-size: clamp(1.8rem, 5.5vw, 3.4rem); letter-spacing: 0.25em;
       color: var(--gold); text-align: center;
       padding: 0 1rem;
       opacity: 0;
@@ -69,7 +154,7 @@
     @keyframes crawl-intro-out { to { opacity: 0; } }
     #crawl-field {
       position: absolute; inset: 0; overflow: hidden;
-      perspective: 380px;
+      perspective: 500px;
       opacity: 0; animation: crawl-field-in 0.5s 5s ease forwards;
       -webkit-mask-image: linear-gradient(to bottom, white 0%, white 65%, transparent 92%);
       mask-image: linear-gradient(to bottom, white 0%, white 65%, transparent 92%);
@@ -77,24 +162,24 @@
     @keyframes crawl-field-in { to { opacity: 1; } }
     #crawl {
       position: absolute; top: 160%;
-      width: 76%; left: 12%;
+      width: 62%; left: 19%;
       transform-origin: 50% 100%;
-      transform: rotateX(26deg);
+      transform: rotateX(22deg);
       text-align: center;
       animation: crawl-scroll 50s 5s linear forwards;
     }
     @keyframes crawl-scroll {
       from { top: 160%; }
-      to   { top: -380%; }
+      to   { top: -500%; }
     }
     .crawl-ep {
       font-family: 'Pathway Gothic One', 'Montserrat', sans-serif; font-weight: 400;
-      font-size: clamp(2.2rem, 5vw, 3.2rem); letter-spacing: 0.55em;
+      font-size: clamp(2.5rem, 4vw, 3.5rem); letter-spacing: 0.55em;
       text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem;
     }
     .crawl-title {
       font-family: 'Pathway Gothic One', 'Montserrat', sans-serif; font-weight: 400;
-      font-size: clamp(5rem, 13vw, 10rem); letter-spacing: 0.06em;
+      font-size: clamp(6rem, 12vw, 10rem); letter-spacing: 0.06em;
       text-transform: uppercase; color: var(--gold); margin-bottom: 3rem;
     }
     .crawl-divider {
@@ -103,7 +188,7 @@
     }
     .crawl-body {
       font-family: 'Pathway Gothic One', 'Cormorant Garamond', serif; font-weight: 400;
-      font-size: clamp(2.8rem, 7vw, 4.4rem); line-height: 1.85;
+      font-size: clamp(3.2rem, 5.5vw, 4.5rem); line-height: 1.75;
       color: var(--gold);
     }
     .crawl-body p { margin-bottom: 2.4rem; }
@@ -465,7 +550,8 @@
       opacity: 0; animation: blur-in 0.6s 0.1s ease forwards;
     }
     .rules-list {
-      margin-top: 1.8rem; list-style: none; text-align: center;
+      margin-top: 1.8rem; list-style: none; text-align: left;
+      display: inline-block;
     }
     .rules-item {
       font-family: 'Cormorant Garamond', serif; font-weight: 300;
@@ -657,6 +743,31 @@
     }
 
     /* ── End card ── */
+    /* ── See you in France ── */
+    .france-text {
+      font-family: 'Montserrat', sans-serif; font-weight: 900;
+      font-size: clamp(2.2rem, 6vw, 5rem); text-transform: uppercase; letter-spacing: 0.12em;
+      background: linear-gradient(90deg, #002395 0%, #002395 33%, #fff 33%, #fff 66%, #ED2939 66%, #ED2939 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      text-align: center;
+      filter: drop-shadow(0 0 20px rgba(0,35,149,0.4)) drop-shadow(0 0 20px rgba(237,41,57,0.4));
+      opacity: 0; animation: france-in 1.2s 0.3s ease forwards;
+    }
+    @keyframes france-in {
+      0% { opacity: 0; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .france-flag {
+      display: flex; width: 120px; height: 80px;
+      border-radius: 4px; overflow: hidden;
+      box-shadow: 0 0 30px rgba(0,35,149,0.3), 0 0 30px rgba(237,41,57,0.3), 0 4px 15px rgba(0,0,0,0.3);
+      margin-bottom: 2rem;
+      opacity: 0; animation: france-in 1s 0.1s ease forwards;
+    }
+    .ff-blue { flex: 1; background: #002395; }
+    .ff-white { flex: 1; background: #fff; }
+    .ff-red { flex: 1; background: #ED2939; }
+
     .end-t {
       font-family: 'Montserrat', sans-serif; font-weight: 900;
       font-size: clamp(3rem, 9vw, 7rem); text-transform: uppercase; letter-spacing: 0.1em;
@@ -669,6 +780,28 @@
       font-size: clamp(0.7rem, 1.6vw, 1rem); letter-spacing: 0.35em;
       text-transform: uppercase; color: #555; text-align: center;
       margin-top: 0.8rem; opacity: 0; animation: blur-in 0.8s 0.6s ease forwards;
+    }
+    .enter-site-btn {
+      display: inline-block; margin-top: 2.5rem;
+      padding: 1rem 3rem;
+      font-family: 'Montserrat', sans-serif; font-weight: 700;
+      font-size: clamp(0.9rem, 2vw, 1.2rem); letter-spacing: 0.2em;
+      text-transform: uppercase; text-decoration: none;
+      color: #000; background: var(--gold);
+      border: none; border-radius: 50px;
+      box-shadow: 0 0 25px rgba(245,200,66,0.4), 0 0 60px rgba(245,200,66,0.15);
+      opacity: 0; transform: translateY(15px);
+      animation: enter-btn-in 0.8s 1.5s ease forwards;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      cursor: pointer; z-index: 10;
+    }
+    .enter-site-btn:hover {
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 0 35px rgba(245,200,66,0.6), 0 0 80px rgba(245,200,66,0.25);
+    }
+    @keyframes enter-btn-in {
+      0% { opacity: 0; transform: translateY(15px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
 
     /* ── Scan lines ── */
@@ -789,7 +922,7 @@
       .subtitle { font-size: clamp(0.7rem, 3vw, 1rem); letter-spacing: 0.15em; }
 
       /* Star Wars crawl — mobile portrait: bigger text, faster scroll, all content */
-      #crawl-intro { font-size: clamp(1.1rem, 4.5vw, 1.8rem); letter-spacing: 0.1em; }
+      #crawl-intro { font-size: clamp(1.6rem, 5.5vw, 2.6rem); letter-spacing: 0.1em; }
       #crawl-field { perspective: 800px; }
       #crawl {
         width: 92%; left: 4%;
@@ -800,9 +933,9 @@
         from { top: 120%; }
         to   { top: -900%; }
       }
-      .crawl-ep { font-size: clamp(1.8rem, 6vw, 2.8rem); letter-spacing: 0.3em; }
-      .crawl-title { font-size: clamp(4rem, 16vw, 7rem); margin-bottom: 2rem; }
-      .crawl-body { font-size: clamp(2.8rem, 8vw, 4rem); line-height: 1.7; }
+      .crawl-ep { font-size: clamp(1.8rem, 5vw, 3rem); letter-spacing: 0.3em; }
+      .crawl-title { font-size: clamp(4rem, 14vw, 8rem); margin-bottom: 2rem; }
+      .crawl-body { font-size: clamp(2.4rem, 6vw, 3.8rem); line-height: 1.65; }
       .crawl-body p { margin-bottom: 2rem; }
 
       /* Browser mockup */
@@ -903,11 +1036,37 @@
         from { top: 130%; }
         to   { top: -900%; }
       }
-      .crawl-title { font-size: clamp(3rem, 8vw, 5rem); margin-bottom: 1.5rem; }
-      .crawl-body { font-size: clamp(2.2rem, 5.5vw, 3.2rem); line-height: 1.6; }
+      .crawl-title { font-size: clamp(3.5rem, 8vw, 6rem); margin-bottom: 1.5rem; }
+      .crawl-body { font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.6; }
       .crawl-body p { margin-bottom: 1.4rem; }
-      .crawl-ep { font-size: clamp(1.4rem, 3.5vw, 2.2rem); }
+      .crawl-ep { font-size: clamp(1.4rem, 3.5vw, 2.5rem); }
     }
+
+    #timeline-debug {
+      position: fixed;
+      top: 0.9rem;
+      right: 0.9rem;
+      z-index: 500;
+      display: none;
+      min-width: 240px;
+      max-width: 320px;
+      padding: 0.65rem 0.75rem;
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 8px;
+      background: rgba(5, 7, 10, 0.78);
+      color: #f3f3f3;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1.6;
+      pointer-events: none;
+      backdrop-filter: blur(4px);
+    }
+    #timeline-debug.on { display: block; }
+    #timeline-debug .td-row { display: flex; justify-content: space-between; gap: 0.6rem; }
+    #timeline-debug .td-key { color: #a7a7a7; }
+    #timeline-debug .td-val { color: #ffffff; font-weight: 600; }
   </style>
 </head>
 <body>
@@ -932,6 +1091,13 @@
     ">Enter the site →</a>
   </div>
 
+  <div id="timeline-debug" aria-live="polite">
+    <div class="td-row"><span class="td-key">scene</span><span class="td-val" id="td-scene">-</span></div>
+    <div class="td-row"><span class="td-key">trailer</span><span class="td-val" id="td-trailer">0.0s</span></div>
+    <div class="td-row"><span class="td-key">audio</span><span class="td-val" id="td-audio">0.0s</span></div>
+    <div class="td-row"><span class="td-key">popworld cue</span><span class="td-val" id="td-cue">102.5s</span></div>
+    <div class="td-row"><span class="td-key">delta</span><span class="td-val" id="td-delta">0.0s</span></div>
+  </div>
   <div class="bar bar-top"></div>
   <div class="bar bar-bottom"></div>
   <div id="vig"></div>
@@ -939,11 +1105,32 @@
   <canvas id="grain"></canvas>
   <div id="flash"></div>
 
-  <audio id="audio">
-    <source src="trailer-music-full.mp3" type="audio/mpeg">
+  <audio id="audio-typing" preload="auto" src="typing.mp3"></audio>
+  <audio id="audio-sw" preload="auto">
+    <source src="star-wars-theme.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="audio-ga" preload="auto">
+    <source src="grand-adventure.mp3" type="audio/mpeg">
   </audio>
 
   <div id="stage">
+    <!-- Claude Chat Intro -->
+    <div class="scene" id="s-claude">
+      <div class="claude-wrap" id="claude-wrap">
+        <div class="claude-model">
+          <div class="claude-model-dot"></div>
+          <div class="claude-model-name">Claude</div>
+        </div>
+        <div class="claude-chat-box">
+          <div class="claude-typed" id="claude-typed"></div><span class="claude-cursor" id="claude-cursor"></span>
+        </div>
+        <div class="claude-response" id="claude-response">
+          <div class="claude-avatar"><div class="claude-avatar-inner"></div></div>
+          <div class="claude-thinking-text"><span class="claude-thinking-dots">Thinking</span></div>
+        </div>
+      </div>
+    </div>
+
     <!-- Star Wars crawl -->
     <div class="scene" id="s-crawl">
       <div id="crawl-intro">A long time ago, in a château far, far away&hellip;</div>
@@ -953,14 +1140,14 @@
           <div class="crawl-title">Joe's Thirtieth</div>
           <hr class="crawl-divider">
           <div class="crawl-body">
-            <p>The time has finally come. After thirty years of growing up, getting into mischief, and dragging his closest friends along for every wild ride... Joe O'Brien is turning 30.</p>
-            <p>Twenty-six of his most beloved accomplices have answered the call. Together, they will descend on Château Roussignol in the Loire Valley, France, for six extraordinary days and five unforgettable nights.</p>
-            <p class="crawl-trim">Four teams will be forged. A leaderboard will track every triumph and every humiliation. Group games. Individual challenges. Cooking duties. Cleaning rotas. Everything counts. The full list of games will be revealed closer to the time.</p>
-            <p class="crawl-trim">A custom-built command centre at joes30.com holds the keys to everything: the full agenda, team assignments, cooking duties, FAQs, packing lists, expense tracking, and secrets yet to be revealed.</p>
-            <p class="crawl-trim">Every guest has their own personal login. Sign in. Study the plan. Prepare yourself.</p>
-            <p>There will be games. There will be chaos. There will be moments nobody will ever forget... and a few they will desperately try to.</p>
+            <p>The time has finally come. After thirty years of questionable decisions and dragging his closest friends along for every wild ride... Joe O'Brien is turning 30.</p>
+            <p>Twenty-six of his most beloved accomplices have answered the call. Together they will descend on Ch&acirc;teau Roussignol in the Loire Valley for six days and five unforgettable nights.</p>
+            <p>Canoeing down the river. Golf with cold beers. Pool days in the French sun. BBQs, cooking feasts, and wine from the surrounding vineyards.</p>
+            <p>Four teams will be forged &mdash; Titans, Spartans, Vikings and Gladiators. A leaderboard will track every triumph and every humiliation. Games. Bingo. Cooking duties. Everything counts.</p>
+            <p>A custom-built command centre at joes30.com holds the keys to it all &mdash; the full agenda, team assignments, a live feed, expense tracking, packing lists, and secrets yet to be revealed.</p>
+            <p>Every guest has their own login. Sign in. Study the plan. Prepare yourself.</p>
             <p>Saturday night belongs to the 90s. Costumes are mandatory. Dignity is optional.</p>
-            <p class="crawl-trim">Some will return as legends. Others will return with regrets and a Ryanair hangover.</p>
+            <p>There will be chaos. There will be moments nobody will ever forget... and a few they will desperately try to.</p>
             <p>The adventure begins 29th April 2026.</p>
             <p>May the birthday be with you.</p>
           </div>
@@ -1134,13 +1321,17 @@
 
     <!-- See you in France -->
     <div class="scene" id="s-france">
-      <div class="end-t" style="font-size:clamp(2rem,6vw,4.5rem);">See you in France.</div>
+      <div class="france-flag">
+        <div class="ff-blue"></div><div class="ff-white"></div><div class="ff-red"></div>
+      </div>
+      <div class="france-text">See you in France.</div>
     </div>
 
     <!-- End -->
     <div class="scene" id="s-end">
       <div class="end-t">Joe's 30th</div>
       <div class="end-s">Château Roussignol &bull; Loire Valley &bull; 29 Apr - 4 May 2026</div>
+      <a href="index.html" class="enter-site-btn" id="enter-site-btn">Enter the Site</a>
     </div>
   </div>
 
@@ -1196,6 +1387,44 @@
       { bg: '#1e1e06', c: '#fff176', i: '🔒', t: 'TOP SECRET',    d: 'l', glitch: true },
     ];
     const GAPS = [420, 350, 300, 260, 220, 190, 160, 140, 120, 100];
+
+    /* ── Claude Chat Intro ── */
+    function claudeIntro(done) {
+      const msg = "Hey Claude, how can I make my 30th birthday trip to France the most epic week of all time?";
+      const typed = document.getElementById('claude-typed');
+      const cursor = document.getElementById('claude-cursor');
+      const response = document.getElementById('claude-response');
+      const wrap = document.getElementById('claude-wrap');
+
+      let ci = 0;
+      function typeNext() {
+        if (ci >= msg.length) {
+          /* Done typing — stop sound, brief pause, then show "Thinking..." */
+          stopTypingSound();
+          setTimeout(() => {
+            cursor.style.display = 'none';
+            response.classList.add('on');
+
+            /* Hold on thinking for 3s, then zoom into black */
+            setTimeout(() => {
+              wrap.classList.add('zooming');
+              setTimeout(() => done(), 1200);
+            }, 3000);
+          }, 600);
+          return;
+        }
+        if (ci === 0) startTypingSound();
+        const ch = msg[ci];
+        typed.textContent += ch;
+        ci++;
+        let delay = 40 + Math.random() * 35;
+        if (ch === ' ') delay = 70 + Math.random() * 40;
+        if (ch === ',' || ch === '?') delay = 250 + Math.random() * 100;
+        setTimeout(typeNext, delay);
+      }
+
+      setTimeout(typeNext, 1400);
+    }
 
     function montage(done) {
       const box = document.getElementById('s-montage');
@@ -1298,41 +1527,120 @@
        113.5s   QR + URL (9s)
        122.5s   End card
        ═══════════════════════════════════════════ */
+    const TIMELINE = {
+      sceneMs: {
+        claude: null,  /* driven by typing animation */
+        crawl: 53000,
+        title: 5000,
+        browser: 5000,
+        plan: 8000,
+        chateau: 4000,
+        games: 7000,
+        crew: 6000,
+        site: 8000,
+        rules: 5500,
+        popworld: 7500,
+        countdown: 5000,
+        invite: 3500,
+        qr: 9000,
+        france: 4000,
+      },
+      audioCues: {
+        popworldDropAtSec: 102.5,
+      },
+      showDebug: /[?&]debugTimeline=1/.test(window.location.search),
+    };
 
     const SEQ = [
-      { id: 's-crawl',    ms: 55000 },
-      { id: 's6',         ms: 5000, flash: true },
-      { id: 's7',         ms: 5000, exit: 'compress' },
-      { id: 's-plan',     ms: 8000 },
-      { id: 's-chateau',  ms: 4000 },
-      { id: 's-games',    ms: 7000, flash: true },
-      { id: 's-crew',     ms: 6000 },
-      { id: 's-site',     ms: 8000, flash: true },
+      { id: 's-claude',   ms: null, run: 'claude' },
+      { id: 's-crawl',    ms: TIMELINE.sceneMs.crawl },
+      { id: 's6',         ms: TIMELINE.sceneMs.title, flash: true },
+      { id: 's7',         ms: TIMELINE.sceneMs.browser, exit: 'compress' },
+      { id: 's-plan',     ms: TIMELINE.sceneMs.plan },
+      { id: 's-chateau',  ms: TIMELINE.sceneMs.chateau },
+      { id: 's-games',    ms: TIMELINE.sceneMs.games, flash: true },
+      { id: 's-crew',     ms: TIMELINE.sceneMs.crew },
+      { id: 's-site',     ms: TIMELINE.sceneMs.site, flash: true },
       { id: 's-montage',  ms: null, run: 'montage' },
-      { id: 's-rules',    ms: 5500 },
-      { id: 's-pw',       ms: 7500, cut: true },
-      { id: 's-cd',       ms: 5000 },
-      { id: 's-inv',      ms: 3500 },
-      { id: 's-qr',       ms: 9000 },
-      { id: 's-france',   ms: 4000 },
+      { id: 's-rules',    ms: TIMELINE.sceneMs.rules },
+      { id: 's-pw',       ms: TIMELINE.sceneMs.popworld, cut: true },
+      { id: 's-cd',       ms: TIMELINE.sceneMs.countdown },
+      { id: 's-inv',      ms: TIMELINE.sceneMs.invite },
+      { id: 's-qr',       ms: TIMELINE.sceneMs.qr },
+      { id: 's-france',   ms: TIMELINE.sceneMs.france },
       { id: 's-end',      ms: null },
     ];
 
-    /* Volume schedule: scene → [target, fadeMs, startTime?] */
+    /* Audio tracks */
+    const audioSW = document.getElementById('audio-sw');  /* Star Wars */
+    const audioGA = document.getElementById('audio-ga');  /* Grand Adventure */
+    const typingAudio = document.getElementById('audio-typing');
+    typingAudio.loop = true;
+    let activeAudio = audioSW;  /* currently playing track */
+
+    /* When GA ends, loop back to 8s so the drop at 13s hits again */
+    audioGA.addEventListener('ended', () => {
+      audioGA.currentTime = 8;
+      audioGA.play().catch(() => {});
+    });
+
+    function startTypingSound() {
+      typingAudio.currentTime = 3;
+      typingAudio.volume = 0.6;
+      typingAudio.play().catch(() => {});
+    }
+    function stopTypingSound() {
+      const fr = typingAudio.volume;
+      let n = 0;
+      const fade = setInterval(() => {
+        n++; typingAudio.volume = Math.max(0, fr * (1 - n / 15));
+        if (n >= 15) { clearInterval(fade); typingAudio.pause(); }
+      }, 30);
+    }
+
+    /* Volume schedule: scene → [target, fadeMs]
+       's6' (title) triggers crossfade from Star Wars → Grand Adventure.
+       GA plays straight through from 0s for the rest of the trailer. */
     const VOL = {
-      's6':     [0.78, 3500],
-      's7':     [0.88, 1500],
-      's-plan': [0.92, 2000],
-      's-crew': [0.96, 1500],
-      's-site': [1.0, 1500],
-      's-pw':   [1.2, 0, 101.5],
-      's-inv':  [0, 4500],
+      's6':     [0.7, 2000],
+      's7':     [0.75, 1500],
+      's-plan': [0.8, 2000],
+      's-crew': [0.85, 1500],
+      's-site': [0.9, 1500],
+      's-rules':[0.95, 1500],
+      's-pw':   [1.0, 500],
+      's-cd':   [0.5, 3000],
+      's-inv':  [0, 3000],
     };
 
-    const audio = document.getElementById('audio');
-    let cur = -1, vt = null;
+    const timelineDebug = document.getElementById('timeline-debug');
+    const tdScene = document.getElementById('td-scene');
+    const tdTrailer = document.getElementById('td-trailer');
+    const tdAudio = document.getElementById('td-audio');
+    const tdCue = document.getElementById('td-cue');
+    const tdDelta = document.getElementById('td-delta');
+    let cur = -1, vt = null, trailerStartMs = 0;
 
-    function hide(id, hard) {
+    if (TIMELINE.showDebug && timelineDebug) {
+      timelineDebug.classList.add('on');
+      if (tdCue) tdCue.textContent = TIMELINE.audioCues.popworldDropAtSec.toFixed(1) + 's';
+    }
+
+    function trailerSeconds() {
+      return trailerStartMs ? (performance.now() - trailerStartMs) / 1000 : 0;
+    }
+
+    function updateTimelineDebug(sceneId) {
+      if (!TIMELINE.showDebug || !timelineDebug) return;
+      const t = trailerSeconds();
+      const a = Number.isFinite(activeAudio.currentTime) ? activeAudio.currentTime : 0;
+      const delta = a - TIMELINE.audioCues.popworldDropAtSec;
+      if (tdScene) tdScene.textContent = sceneId || '-';
+      if (tdTrailer) tdTrailer.textContent = t.toFixed(1) + 's';
+      if (tdAudio) tdAudio.textContent = a.toFixed(1) + 's';
+      if (tdDelta) tdDelta.textContent = (delta >= 0 ? '+' : '') + delta.toFixed(1) + 's';
+    }
+function hide(id, hard) {
       const el = document.getElementById(id);
       if (!el) return;
       if (hard) {
@@ -1351,6 +1659,7 @@
       /* Hide previous */
       if (cur >= 0) hide(SEQ[cur].id, !!s.cut);
       cur = i;
+      updateTimelineDebug(s.id);
 
       /* Show */
       el.classList.add('on');
@@ -1615,15 +1924,48 @@
         document.getElementById('qr-w').classList.add('beating');
       }
 
-      /* Volume */
+      /* Star Wars plays during crawl.
+         When scroll animation ends → wait 2s → crossfade to GA.
+         Scene continues for 13s more (GA buildup) → title flash on the drop. */
+      if (s.id === 's-crawl') {
+        audioSW.currentTime = 0;
+        audioSW.volume = 0.9;
+        activeAudio = audioSW;
+        audioSW.play().catch(() => {});
+
+        /* Text off screen ~42s. Crossfade at 40s.
+           GA from 0s = full 13s suspense buildup. Scene ends at 53s = drop. */
+        setTimeout(() => {
+          /* Fade Star Wars out over 3s */
+          const swFr = audioSW.volume, swSteps = 30, swDt = 100;
+          let swN = 0;
+          const swFade = setInterval(() => {
+            swN++; audioSW.volume = Math.max(0, swFr * (1 - swN / swSteps));
+            if (swN >= swSteps) { clearInterval(swFade); audioSW.pause(); }
+          }, swDt);
+
+          /* Grand Adventure from 0s — full buildup, drop at 13s = title flash */
+          audioGA.currentTime = 0;
+          audioGA.volume = 0;
+          audioGA.play().catch(() => {});
+          activeAudio = audioGA;
+          const gaSteps = 30, gaDt = 100, gaTarget = 0.65;
+          let gaN = 0;
+          const gaFade = setInterval(() => {
+            gaN++; audioGA.volume = Math.min(gaTarget, (gaN / gaSteps) * gaTarget);
+            if (gaN >= gaSteps) clearInterval(gaFade);
+          }, gaDt);
+        }, 40000);
+      }
+
+      /* Volume / audio switching */
       const v = VOL[s.id];
-      if (v) {
-        if (v.length === 3) {
-          audio.currentTime = v[2]; audio.volume = v[0];
-          audio.play().catch(() => {});
-        } else {
-          vol(v[0], v[1], s.id === 's-inv' ? () => audio.pause() : null);
-        }
+      if (s.id === 's6') {
+        /* Title card: GA already playing and hitting the drop at 13s — boost it */
+        activeAudio = audioGA;
+        vol(0.85, 500);
+      } else if (v) {
+        vol(v[0], v[1], s.id === 's-inv' ? () => activeAudio.pause() : null);
       }
 
       /* Compress exit for browser mockup */
@@ -1640,16 +1982,16 @@
       }
 
       /* Montage */
+      /* Claude terminal intro */
+      if (s.run === 'claude') { claudeIntro(() => go(i + 1)); return; }
+
       if (s.run === 'montage') { montage(() => go(i + 1)); return; }
 
       /* Normal */
       if (s.ms !== null) {
         setTimeout(() => go(i + 1), s.ms);
       } else if (s.id === 's-end') {
-        setTimeout(() => {
-          const skip = document.getElementById('skip-btn');
-          if (skip) { skip.style.opacity = '1'; skip.style.pointerEvents = 'auto'; }
-        }, 2000);
+        /* Button is now inside the scene with CSS animation — no JS needed */
       }
     }
 
@@ -1660,26 +2002,40 @@
       });
     }
 
-    function vol(to, ms, done) {
+    function vol(to, ms, done, target) {
       if (vt) clearInterval(vt);
-      const fr = audio.volume, steps = 40, dt = ms / steps, ds = (to - fr) / steps;
+      const trk = target || activeAudio;
+      const fr = trk.volume, steps = 40, dt = ms / steps, ds = (to - fr) / steps;
       let n = 0;
+      if (ms === 0) { trk.volume = Math.max(0, Math.min(1, to)); if (done) done(); return; }
       vt = setInterval(() => {
-        n++; audio.volume = Math.max(0, Math.min(1, fr + ds * n));
+        n++; trk.volume = Math.max(0, Math.min(1, fr + ds * n));
         if (n >= steps) { clearInterval(vt); vt = null; if (done) done(); }
       }, dt);
     }
 
     /* ── Start ── */
+    audioSW.addEventListener('timeupdate', () => {
+      updateTimelineDebug(cur >= 0 ? SEQ[cur].id : '-');
+    });
+    audioGA.addEventListener('timeupdate', () => {
+      updateTimelineDebug(cur >= 0 ? SEQ[cur].id : '-');
+    });
+
     document.getElementById('ov').addEventListener('click', () => {
       const o = document.getElementById('ov');
       o.classList.add('gone');
       setTimeout(() => o.remove(), 700);
 
-      /* Start music immediately on play button tap */
-      audio.currentTime = 0;
-      audio.volume = 0.9;
-      audio.play().catch(() => {});
+      /* No music on play — Claude terminal is first (typing sounds only) */
+      trailerStartMs = performance.now();
+
+      /* Prime all audio so browsers allow playback (user gesture required) */
+      [typingAudio, audioSW, audioGA].forEach(a => {
+        const v = a.volume; a.volume = 0;
+        a.play().then(() => { a.pause(); a.currentTime = 0; a.volume = v; }).catch(() => {});
+      });
+      typingAudio.volume = 0.6;
 
       /* Request fullscreen on mobile */
       const el = document.documentElement;
@@ -1698,3 +2054,5 @@
   </script>
 </body>
 </html>
+
+
