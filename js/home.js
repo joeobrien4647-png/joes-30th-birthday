@@ -558,6 +558,10 @@ function initGuestLogin() {
 
         dashboardSection.style.display = 'block';
 
+        // Trigger château arrival animation (returning visitors)
+        var scene = document.querySelector('.scene');
+        if (scene && !scene.classList.contains('scene-go')) scene.classList.add('scene-go');
+
         // Hide scroll indicator once logged in
         var scrollInd = document.querySelector('.scroll-indicator');
         if (scrollInd) scrollInd.style.display = 'none';
@@ -1017,6 +1021,9 @@ function showTeamWheel(guestCode) {
             overlay.classList.add('wheel-fade-out');
             setTimeout(function() {
                 overlay.remove();
+                // Trigger château arrival animation now that guest is on the homepage
+                var scene = document.querySelector('.scene');
+                if (scene) scene.classList.add('scene-go');
                 document.dispatchEvent(new CustomEvent('guestLoggedIn', { detail: { code: guestCode } }));
             }, 500);
         });
