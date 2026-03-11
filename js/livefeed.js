@@ -462,21 +462,22 @@ function addReaction(feedItemId, emoji) {
     var reactedBy = item.reactedBy || {};
     var myReactions = reactedBy[guestCode] || {};
 
+    var basePath = 'feed/' + feedItemId;
     if (myReactions[emoji]) {
         /* Already reacted — remove */
         var currentCount = (item.reactions && item.reactions[emoji]) || 0;
         var newCount = Math.max(0, currentCount - 1);
         var updates = {};
-        updates['feed/' + feedItemId + '/reactions/' + emoji] = newCount || null;
-        updates['feed/' + feedItemId + '/reactedBy/' + guestCode + '/' + emoji] = null;
-        FirebaseSync.update('', updates);
+        updates['reactions/' + emoji] = newCount || null;
+        updates['reactedBy/' + guestCode + '/' + emoji] = null;
+        FirebaseSync.update(basePath, updates);
     } else {
         /* Add reaction */
         var count = (item.reactions && item.reactions[emoji]) || 0;
         var addUpdates = {};
-        addUpdates['feed/' + feedItemId + '/reactions/' + emoji] = count + 1;
-        addUpdates['feed/' + feedItemId + '/reactedBy/' + guestCode + '/' + emoji] = true;
-        FirebaseSync.update('', addUpdates);
+        addUpdates['reactions/' + emoji] = count + 1;
+        addUpdates['reactedBy/' + guestCode + '/' + emoji] = true;
+        FirebaseSync.update(basePath, addUpdates);
     }
 }
 
