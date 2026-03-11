@@ -2112,6 +2112,11 @@ function initMyTripDrawer() {
         var sorted = Object.entries(scores).sort(function(a, b) { return b[1] - a[1]; });
         var rank = sorted.findIndex(function(e) { return e[0] === guest.name; }) + 1;
 
+        // Load existing profile data
+        var profileKey = 'guestProfile_' + guestCode;
+        var profile = JSON.parse(localStorage.getItem(profileKey) || '{}');
+        var currentPhoto = getGuestPhoto(guest.fullName);
+
         drawer.innerHTML =
             '<div class="my-trip-header">' +
                 '<h3>My Trip</h3>' +
@@ -2130,12 +2135,96 @@ function initMyTripDrawer() {
                             '<div class="my-trip-stat"><span class="my-trip-stat-val">' + (rank > 0 ? '#' + rank : '-') + '</span><span class="my-trip-stat-lbl">Rank</span></div>' +
                         '</div>' +
                     '</div>' : '') +
+                '<div class="my-trip-section">' +
+                    '<button class="my-trip-edit-btn" id="my-trip-edit-btn">Edit Profile</button>' +
+                    '<div class="my-trip-edit-form" id="my-trip-edit-form">' +
+                        '<label>Photo</label>' +
+                        '<div class="my-trip-edit-photo">' +
+                            '<div class="my-trip-edit-avatar" id="my-trip-edit-avatar">' +
+                                (currentPhoto ? '<img src="' + currentPhoto + '">' : guest.name.charAt(0)) +
+                            '</div>' +
+                            '<button type="button" class="my-trip-edit-photo-btn" id="my-trip-edit-photo-btn">Change Photo</button>' +
+                            '<input type="file" accept="image/*" id="my-trip-edit-photo-input" style="display:none">' +
+                        '</div>' +
+                        '<label>Nickname</label>' +
+                        '<input type="text" id="my-trip-edit-nickname" placeholder="e.g. Big Joe, The Legend" value="' + escapeHtml(profile.nickname || '') + '" maxlength="30">' +
+                        '<label>Bio</label>' +
+                        '<textarea id="my-trip-edit-bio" rows="3" placeholder="A few words about yourself..." maxlength="120">' + escapeHtml(profile.bio || '') + '</textarea>' +
+                        '<button class="my-trip-edit-save" id="my-trip-edit-save">Save Changes</button>' +
+                        '<div class="my-trip-edit-saved" id="my-trip-edit-saved">Saved!</div>' +
+                    '</div>' +
+                '</div>' +
                 '<div class="my-trip-switch">' +
                     '<button class="my-trip-switch-btn" id="my-trip-switch">Switch Guest</button>' +
                 '</div>' +
             '</div>';
 
         document.getElementById('my-trip-close').addEventListener('click', closeDrawer);
+
+        // Edit Profile toggle
+        document.getElementById('my-trip-edit-btn').addEventListener('click', function() {
+            var form = document.getElementById('my-trip-edit-form');
+            var isOpen = form.classList.contains('open');
+            form.classList.toggle('open');
+            this.textContent = isOpen ? 'Edit Profile' : 'Cancel';
+            if (isOpen) {
+                this.classList.remove('cancel');
+                this.style.background = '';
+                this.style.color = '';
+            } else {
+                this.style.background = 'none';
+                this.style.border = '1px solid rgba(0,0,0,0.1)';
+                this.style.color = 'var(--text-light)';
+            }
+        });
+
+        // Photo upload
+        document.getElementById('my-trip-edit-photo-btn').addEventListener('click', function() {
+            document.getElementById('my-trip-edit-photo-input').click();
+        });
+        document.getElementById('my-trip-edit-photo-input').addEventListener('change', function(e) {
+            var file = e.target.files[0];
+            if (!file) return;
+            var avatarEl = document.getElementById('my-trip-edit-avatar');
+            if (typeof compressProfilePhoto === 'function') {
+                compressProfilePhoto(file, function(dataUrl) {
+                    setGuestPhoto(guest.fullName, dataUrl);
+                    avatarEl.innerHTML = '<img src="' + dataUrl + '">';
+                });
+            } else {
+                var reader = new FileReader();
+                reader.onload = function(ev) {
+                    setGuestPhoto(guest.fullName, ev.target.result);
+                    avatarEl.innerHTML = '<img src="' + ev.target.result + '">';
+                };
+                reader.readAsDataURL(file);
+            }
+            // Sync to Firebase
+            if (typeof ProfileSync !== 'undefined' && ProfileSync.isConfigured()) {
+                ProfileSync.upload(guest.fullName, file);
+            }
+        });
+
+        // Save
+        document.getElementById('my-trip-edit-save').addEventListener('click', function() {
+            var nickname = document.getElementById('my-trip-edit-nickname').value.trim();
+            var bio = document.getElementById('my-trip-edit-bio').value.trim();
+            var existing = JSON.parse(localStorage.getItem(profileKey) || '{}');
+            existing.nickname = nickname;
+            existing.bio = bio;
+            localStorage.setItem(profileKey, JSON.stringify(existing));
+            // Sync to Firebase
+            if (typeof ProfileSync !== 'undefined' && ProfileSync.isConfigured()) {
+                var slug = guest.fullName.toLowerCase().replace(/['']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                var updates = { name: guest.fullName, updatedAt: Date.now() };
+                if (nickname) updates.nickname = nickname;
+                if (bio) updates.bio = bio;
+                FirebaseSync.update('profiles/' + slug, updates);
+            }
+            var saved = document.getElementById('my-trip-edit-saved');
+            saved.classList.add('show');
+            setTimeout(function() { saved.classList.remove('show'); }, 2000);
+        });
 
         document.getElementById('my-trip-switch').addEventListener('click', function() {
             closeDrawer();
