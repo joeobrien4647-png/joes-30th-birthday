@@ -5030,6 +5030,40 @@
     font-size: 0.65rem;
     font-weight: 800;
     flex-shrink: 0;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+.thp-captain-badge:hover { transform: scale(1.15); }
+
+.thp-captain-duties {
+    display: none;
+    padding: 8px 10px;
+    margin-top: 4px;
+    background: rgba(0,0,0,0.03);
+    border-radius: 8px;
+    text-align: left;
+    font-size: 0.72rem;
+    line-height: 1.5;
+    color: var(--text-dark);
+}
+.thp-captain-duties.open { display: block; }
+.thp-captain-duties-title {
+    font-weight: 800;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+    color: var(--tc, var(--primary));
+}
+.thp-captain-duties ul {
+    margin: 0;
+    padding-left: 16px;
+    list-style: disc;
+}
+.thp-captain-duties li {
+    margin-bottom: 2px;
+    color: var(--text-dark);
+    font-weight: 500;
 }
 
 .teams-counter {

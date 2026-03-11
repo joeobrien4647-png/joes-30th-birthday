@@ -196,9 +196,15 @@ function initTeamsRoster() {
             if (captain) {
                 var capRevealed = isPlayerRevealed(captain);
                 html += '<div class="thp-member' + (capRevealed ? ' thp-revealed' : '') + '" style="--tc:' + cfg.color + '">' +
-                    (capRevealed ? '<span class="thp-captain-badge" style="background:' + cfg.color + '">C</span>' : '') +
+                    (capRevealed ? '<span class="thp-captain-badge" style="background:' + cfg.color + '" data-team="' + key + '" title="Captain — tap for duties">C</span>' : '') +
                     '<span>' + (capRevealed ? escapeHtml(captain) : '???') + '</span>' +
                 '</div>';
+                if (capRevealed && typeof CAPTAIN_DUTIES !== 'undefined') {
+                    html += '<div class="thp-captain-duties" id="thp-duties-' + key + '" style="--tc:' + cfg.color + '">' +
+                        '<div class="thp-captain-duties-title">Captain Duties</div>' +
+                        '<ul>' + CAPTAIN_DUTIES.map(function(d) { return '<li>' + escapeHtml(d) + '</li>'; }).join('') + '</ul>' +
+                    '</div>';
+                }
             }
 
             // Other members
@@ -214,6 +220,16 @@ function initTeamsRoster() {
 
         html += '</div>';
         grid.innerHTML = html;
+
+        // Captain badge click — toggle duties dropdown
+        grid.querySelectorAll('.thp-captain-badge').forEach(function(badge) {
+            badge.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var team = badge.getAttribute('data-team');
+                var duties = document.getElementById('thp-duties-' + team);
+                if (duties) duties.classList.toggle('open');
+            });
+        });
     }
 
     renderRoster();
