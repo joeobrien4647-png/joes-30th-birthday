@@ -139,6 +139,21 @@
       75%  { content: '...'; }
     }
 
+    /* ── Starfield (visible during crawl + title) ── */
+    #starfield {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      opacity: 0; transition: opacity 1.5s ease;
+    }
+    #starfield.on { opacity: 1; }
+    .sf-star {
+      position: absolute; border-radius: 50%; background: #fff;
+    }
+    .sf-twinkle { animation: sfTwinkle ease-in-out infinite; }
+    @keyframes sfTwinkle {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
     /* ── Star Wars crawl ── */
     #s-crawl { padding: 0; overflow: hidden; }
     #crawl-intro {
@@ -1099,6 +1114,7 @@
   <div id="particles"></div>
   <canvas id="grain"></canvas>
   <div id="flash"></div>
+  <div id="starfield"></div>
 
   <!-- Single pre-mixed audio track with all timing baked in -->
   <audio id="audio-mix" preload="auto" playsinline src="trailer-audio-mixed.mp3"></audio>
@@ -1344,6 +1360,26 @@
         p.style.animationDelay = -(Math.random() * 12) + 's';
         p.style.opacity = 0.1 + Math.random() * 0.18;
         c.appendChild(p);
+      }
+    })();
+
+    /* ── Starfield ── */
+    (function() {
+      const sf = document.getElementById('starfield');
+      for (let i = 0; i < 120; i++) {
+        const s = document.createElement('div');
+        s.className = 'sf-star' + (Math.random() < 0.35 ? ' sf-twinkle' : '');
+        const size = 1 + Math.random() * 2.5;
+        s.style.width = size + 'px';
+        s.style.height = size + 'px';
+        s.style.left = Math.random() * 100 + '%';
+        s.style.top = Math.random() * 100 + '%';
+        s.style.opacity = 0.2 + Math.random() * 0.8;
+        if (s.classList.contains('sf-twinkle')) {
+          s.style.animationDuration = (2 + Math.random() * 4) + 's';
+          s.style.animationDelay = -(Math.random() * 4) + 's';
+        }
+        sf.appendChild(s);
       }
     })();
 
@@ -1619,6 +1655,11 @@ function hide(id, hard) {
       if (cur >= 0) hide(SEQ[cur].id, !!s.cut);
       cur = i;
       updateTimelineDebug(s.id);
+
+      /* Starfield — visible during crawl and title */
+      const sf = document.getElementById('starfield');
+      if (s.id === 's-crawl' || s.id === 's6') sf.classList.add('on');
+      else sf.classList.remove('on');
 
       /* Show */
       el.classList.add('on');
