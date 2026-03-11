@@ -1988,6 +1988,16 @@ document.addEventListener('DOMContentLoaded', function () {
     initGuestPicker();
     // My Trip floating drawer
     initMyTripDrawer();
+    // Auto-sync local profile photo to Firebase (if not already there)
+    if (Auth.isLoggedIn() && typeof ProfileSync !== 'undefined' && ProfileSync.isConfigured()) {
+        var _guest = Auth.getGuestData();
+        if (_guest) {
+            // Wait for profiles to load from Firebase, then sync
+            ProfileSync.onUpdate(function() {
+                ProfileSync.syncLocal(_guest.fullName);
+            });
+        }
+    }
     // Contextual guest highlighting
     applyGuestHighlighting();
     // Admin shared state sync

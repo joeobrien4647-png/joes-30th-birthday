@@ -661,13 +661,13 @@
 
     window.ProfileSync = {
         upload: function(name, file, onComplete) {
-            if (!storage || !db) {
+            if (!db) {
                 if (onComplete) onComplete(null, 'Firebase not configured');
                 return;
             }
             var slug = name.toLowerCase().replace(/['']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
-            // Compress to 200x200 square JPEG
+            // Compress to 200x200 square JPEG, store as base64 in RTDB
             var reader = new FileReader();
             reader.onload = function(e) {
                 var img = new Image();
@@ -681,26 +681,32 @@
                     var sx = (img.width - crop) / 2;
                     var sy = (img.height - crop) / 2;
                     ctx.drawImage(img, sx, sy, crop, crop, 0, 0, size, size);
-                    canvas.toBlob(function(blob) {
-                        var filename = 'profiles/' + slug + '.jpg';
-                        var ref = storage.ref(filename);
-                        ref.put(blob, { contentType: 'image/jpeg' }).then(function(snapshot) {
-                            return snapshot.ref.getDownloadURL();
-                        }).then(function(url) {
-                            db.ref('profiles/' + slug).update({
-                                name: name,
-                                photoUrl: url,
-                                updatedAt: Date.now()
-                            });
-                            if (onComplete) onComplete(url, null);
-                        }).catch(function(err) {
-                            if (onComplete) onComplete(null, err.message || 'Upload failed');
-                        });
-                    }, 'image/jpeg', 0.7);
+                    var dataUrl = canvas.toDataURL('image/jpeg', 0.6);
+                    db.ref('profiles/' + slug).update({
+                        name: name,
+                        photoUrl: dataUrl,
+                        updatedAt: Date.now()
+                    });
+                    if (onComplete) onComplete(dataUrl, null);
                 };
                 img.src = e.target.result;
             };
             reader.readAsDataURL(file);
+        },
+
+        /* Auto-sync: push local photo to RTDB if missing */
+        syncLocal: function(name) {
+            if (!db) return;
+            var slug = name.toLowerCase().replace(/['']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+            var profile = profilesCache[slug];
+            if (profile && profile.photoUrl) return; // already has one
+            var localPhoto = Store.getRaw('guestPhoto_' + slugify(name));
+            if (!localPhoto) return;
+            db.ref('profiles/' + slug).update({
+                name: name,
+                photoUrl: localPhoto,
+                updatedAt: Date.now()
+            });
         },
 
         setTagline: function(name, tagline) {
@@ -732,7 +738,7 @@
             if (profilesLoaded) fn(profilesCache);
         },
 
-        isConfigured: function() { return !!db && !!storage; }
+        isConfigured: function() { return !!db; }
     };
 
     /* ============================================
