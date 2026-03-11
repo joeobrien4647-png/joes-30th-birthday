@@ -795,4 +795,88 @@
             });
         }
     };
+
+    /* ============================================
+       Live In-App Notifications
+       Toast popups for all real-time activity
+       ============================================ */
+    if (db) {
+        var _notifReady = false;
+        var _myCode = null;
+
+        // Wait for page load before firing toasts
+        setTimeout(function() {
+            _notifReady = true;
+            try { _myCode = localStorage.getItem('guestCode'); } catch(e) {}
+        }, 3000);
+
+        // New registrations
+        db.ref('registrations').on('child_added', function(snap) {
+            if (!_notifReady) return;
+            var r = snap.val();
+            if (!r || snap.key === _myCode) return;
+            if (typeof showToast === 'function') {
+                showToast(r.name + ' just joined the trip! 🎉', 'success');
+            }
+        });
+
+        // New feed posts (messages, confessions, photos)
+        db.ref('feed').on('child_added', function(snap) {
+            if (!_notifReady) return;
+            var item = snap.val();
+            if (!item || item.guestCode === _myCode) return;
+            var name = item.guestName || 'Someone';
+            if (typeof showToast === 'function') {
+                if (item.type === 'confession') {
+                    showToast('New anonymous confession 🤫', 'info');
+                } else if (item.type === 'photo') {
+                    showToast(name + ' shared a photo 📸', 'info');
+                } else {
+                    showToast(name + ' posted on the live feed 💬', 'info');
+                }
+            }
+        });
+
+        // New photos in gallery
+        db.ref('photos').on('child_added', function(snap) {
+            if (!_notifReady) return;
+            var p = snap.val();
+            if (!p || p.guestCode === _myCode) return;
+            // Skip if feed already notified (avoid double toast)
+        });
+
+        // Leaderboard changes
+        var _prevTeamScores = null;
+        db.ref('leaderboard').on('value', function(snap) {
+            if (!_notifReady) return;
+            var data = snap.val();
+            if (!data) return;
+            var teamScores = data.teamScores;
+            if (!teamScores || !_prevTeamScores) {
+                _prevTeamScores = teamScores ? JSON.parse(JSON.stringify(teamScores)) : null;
+                return;
+            }
+            // Check for score changes
+            Object.keys(teamScores).forEach(function(team) {
+                var prev = _prevTeamScores[team] || 0;
+                var curr = teamScores[team] || 0;
+                if (curr > prev && typeof TEAM_CONFIG !== 'undefined' && TEAM_CONFIG[team]) {
+                    if (typeof showToast === 'function') {
+                        showToast(TEAM_CONFIG[team].name + ' scored! (' + prev + ' → ' + curr + ') ⚡', 'success');
+                    }
+                }
+            });
+            _prevTeamScores = JSON.parse(JSON.stringify(teamScores));
+        });
+
+        // Bingo claims
+        db.ref('bingo/claims').on('child_added', function(snap) {
+            if (!_notifReady) return;
+            var c = snap.val();
+            if (!c || c.guestCode === _myCode) return;
+            if (typeof showToast === 'function') {
+                showToast((c.guestName || 'Someone') + ' claimed a bingo square! 🎯', 'info');
+            }
+        });
+    }
 })();
