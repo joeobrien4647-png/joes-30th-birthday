@@ -786,6 +786,39 @@
 }
 
 /* Quick Links Grid */
+/* Trip Playlist */
+.playlist-section {
+    padding: 50px 0 40px;
+    background: var(--bg-white);
+    text-align: center;
+}
+
+.playlist-embed {
+    max-width: 600px;
+    margin: 0 auto 20px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.playlist-open-btn {
+    display: inline-block;
+    padding: 10px 28px;
+    background: #1DB954;
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 700;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+.playlist-open-btn:hover {
+    background: #1ed760;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(29,185,84,0.35);
+}
+
 .quick-links {
     padding: 50px 0 60px;
     background: var(--bg-white);
