@@ -136,17 +136,17 @@ const ACTIVITIES = [
         pairedWith: null
     },
     {
-        id: 'canoeing-creuse',
-        name: 'Canoeing on the Creuse River',
+        id: 'canoeing-gartempe',
+        name: 'Canoeing on the Gartempe River',
         category: 'adventure',
         emoji: '\uD83D\uDEF6',
-        tagline: 'Our closest adventure \u2014 just 15 minutes away!',
-        description: 'Paddle down the Creuse or Anglin rivers through the beautiful Brenne Regional Natural Park. The Creuse features stunning cliff passages and peaceful stretches. Canoe D\u00e9couverte in Le Blanc provides all equipment, shuttle service, and guided options. This is right on our doorstep!',
-        tip: 'Already on the schedule for Friday morning. No experience needed \u2014 they give you everything. Expect to get wet.',
-        cost: { min: 15, max: 25 },
-        duration: '2 hours \u2014 full day',
-        driveTime: '15 min',
-        groupFit: 'All 26 \u2014 large group bookings welcome',
+        tagline: 'Half-day scenic paddle on the Gartempe',
+        description: 'Half-day canoe trip with La Fourmy from Nalliers to Saint-Pierre-de-Maill\u00e9. Paddle past ch\u00e2teaux and countryside in the Vienne valley. All equipment included \u2014 canoes, paddles, life jackets, dry bags \u2014 plus bus transport to the start and shuttle back to base. Booked for Fri 1 May at 11:30 AM.',
+        tip: 'Already booked for Friday 1 May at 11:30 AM. No experience needed \u2014 they give you everything. Expect to get wet.',
+        cost: { min: 17, max: 17 },
+        duration: '3 hours on water',
+        driveTime: '45 min',
+        groupFit: '18 booked \u2014 canoes shared 2-3 per boat',
         mood: ['adventure', 'chill'],
         highlight: true,
         pairedWith: null,
@@ -317,32 +317,32 @@ const ACTIVITIES = [
         pairedWith: null
     },
     {
-        id: 'golf-val-indre',
-        name: 'Golf at Val de l\'Indre',
+        id: 'golf-sarrays',
+        name: 'Golf at Golf des Sarrays',
         category: 'adventure',
         emoji: '\u26F3',
-        tagline: '9 holes on a beautiful parkland course',
-        description: 'Golf du Val de l\'Indre \u2014 a par-72 parkland course set in the grounds of a ch\u00e2teau with century-old cedars and oaks. 9 holes takes about 2 hours. Full club hire and buggies available. Optional \u2014 for those who fancy a morning round while others chill by the pool.',
-        tip: 'Thursday morning slot. Not everyone\'s thing \u2014 sign up if you\'re keen, no pressure if not.',
-        cost: { min: 65, max: 65 },
-        duration: '2 hours (9 holes)',
+        tagline: '9 holes at a casual parkland course',
+        description: 'Golf des Sarrays in Sainte-Fauste, near Ch\u00e2teauroux. Dedicated 9-hole parkland course \u2014 relaxed, beginner-friendly, very French countryside. Full club hire included (8 sets confirmed). Booked for Thu 30 Apr with split tee times at 9:00 AM and 9:30 AM.',
+        tip: 'Booked for Thursday morning. Tee times 9:00 and 9:30. Clubs hired on site \u2014 just turn up and play.',
+        cost: { min: 46, max: 46 },
+        duration: '3 hours (incl. travel)',
         driveTime: '50 min',
-        groupFit: 'Groups of 4\u201312 \u2014 optional activity',
+        groupFit: '7 booked \u2014 4-ball + 3-ball split',
         mood: ['chill', 'adventure'],
         highlight: false,
         pairedWith: null,
         status: 'booked'
     },
     {
-        id: 'bellebouche',
-        name: 'Bellebouche Accrobranche & Lake',
+        id: 'laleuf-accrobranche',
+        name: 'Accrobranche at Laleuf Loisirs',
         category: 'adventure',
         emoji: '\uD83C\uDF33',
-        tagline: 'Treetop adventure + lake activities in one spot',
-        description: 'Bellebouche outdoor leisure base in the Brenne nature park. 7 accrobranche courses from easy to extreme (zip lines, Tarzan swings, 15m jump!), plus paddle boards, kayaks on the lake, and mini-golf. The keen ones hit the trees, the hungover ones float on the lake. Everyone wins.',
-        tip: 'Already on the schedule for Sunday afternoon. Something for everyone \u2014 the treetops are class, the lake is chill.',
+        tagline: 'Treetop adventure across 8 courses, 6 difficulty levels',
+        description: 'Laleuf Loisirs outdoor leisure park in Saint-Maur. 8 progressive accrobranche courses across 6 difficulty levels \u2014 from gentle to full-on zip lines and Tarzan swings. All safety gear and continuous safety-line system included. 2-hour course, trainers + long sleeves recommended. Booked for Sun 3 May at 2:00 PM.',
+        tip: 'Booked for Sunday afternoon, 2:00 PM arrival. 16 of us signed up. Wear trainers and long sleeves.',
         cost: { min: 20, max: 20 },
-        duration: 'Half day',
+        duration: '2 hours',
         driveTime: '25 min',
         groupFit: 'All 26 \u2014 group booking for 10+',
         mood: ['adventure', 'chill'],
@@ -707,9 +707,9 @@ function initActivityVoting() {
    ============================================ */
 
 var SIGNUP_ACTIVITIES = [
-    { id: 'golf', name: 'Golf', day: 'Thu 30 Apr \u2014 Morning', desc: '9 holes at Golf du Val de l\'Indre. Relaxed round, all levels welcome.', cost: '~\u20AC65/person', icon: '\u26F3' },
-    { id: 'canoe', name: 'Canoeing', day: 'Fri 1 May \u2014 Morning', desc: 'Paddle down the Creuse river from Ciron. Beautiful scenery, easy going.', cost: '~\u20AC15\u201318/person', icon: '\uD83D\uDEF6' },
-    { id: 'bellebouche', name: 'Bellebouche', day: 'Sun 3 May \u2014 Afternoon', desc: 'Accrobranche (tree-top adventure) + lake activities.', cost: '~\u20AC20/person', icon: '\uD83C\uDF32' }
+    { id: 'golf', name: 'Golf at Sarrays', day: 'Thu 30 Apr \u2014 9:00 / 9:30 AM', desc: '9 holes at Golf des Sarrays. Tee times 9:00 AM and 9:30 AM. Clubs included.', cost: '\u20AC46/person', icon: '\u26F3', status: 'BOOKED' },
+    { id: 'canoe', name: 'Canoeing on the Gartempe', day: 'Fri 1 May \u2014 11:30 AM', desc: 'Half-day canoe trip on the Gartempe with La Fourmy. Scenic, easy going.', cost: '\u20AC17/person', icon: '\uD83D\uDEF6', status: 'BOOKED' },
+    { id: 'bellebouche', name: 'Accrobranche at Laleuf Loisirs', day: 'Sun 3 May \u2014 2:00 PM', desc: 'Treetop rope course at Laleuf Loisirs near Ch\u00e2teauroux. 2-hour course.', cost: '\u20AC20/person', icon: '\uD83C\uDF32', status: 'BOOKED' }
 ];
 
 var TOTAL_GUESTS = 26;
