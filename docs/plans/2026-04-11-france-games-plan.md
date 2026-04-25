@@ -168,29 +168,57 @@ This gives us roughly 150-point swing across the week, enough that a blowout on 
 
 ## Full Props Shopping List
 
-### Already on Joe's TODO.md shopping list
-- [x] Giant foam dice ×2 — `(not used in current plan, can drop)`
-- [x] Plastic balls 50+ — Hungry Hippos
-- [x] Noise-cancelling headphones ×2 — Whisper Challenge
-- [x] Petanque set — Day 2
-- [x] Mr & Mrs face paddles — Day 2
-- [x] Blindfolds ×10 — Wine Tasting Day 2
-- [x] Sealed envelopes — Taskmaster
-- [x] Name slips — Secret Assassin
-- [x] French phrase cards — Accent Hour + French Phrase of the Day
+### Amazon.fr — Deliver to Chateau (order by 26 Apr for 28 Apr delivery)
 
-### New additions from this plan
-- [ ] Plastic cups + cheap beer for Flip Cup (buy on arrival)
-- [ ] 4× cheap lilos + 4× pool noodles (Intermarché Day 1)
-- [ ] Wooden spoons ×6 (buy locally)
-- [ ] Water balloons multi-pack
-- [ ] Giant Jenga (bring or buy)
-- [ ] Tug of war rope (buy locally — ~€15)
-- [ ] Spotify Premium playlist for "Name That French Tune" (no props, just prep)
-- [ ] Medals or trophy for final ceremony (Amazon £10-20) — **pending open question 5**
+**Games Props**
+| Item | For | Est. Cost |
+|---|---|---|
+| Giant Jenga | Olympics Day 4 | ~€25-30 |
+| Petanque set | Day 2 tournament | ~€20-25 |
+| Tug of war rope | Olympics Day 4 finale | ~€12-15 |
+| Plastic balls ×50 | Human Hungry Hippos (Olympics) | ~€10 |
+| Water balloons (multi-pack) | Water Balloon Toss (Olympics) | ~€8 |
 
-### Can drop from shopping list
-- Giant foam dice ×2 — no game uses them in this plan. Drop unless Joe has a Dice Challenge in mind.
+**PopWorld Party Night**
+| Item | For | Est. Cost |
+|---|---|---|
+| 2× SEBRUANC LED disco lights (ASIN: B099YQ7MZN) | Rotating RGB party lights | €26.09 |
+| 1× Hanging mirror disco ball (~20-30cm) | Catches light from the LEDs | ~€8-12 |
+| Glow sticks (bulk 100-pack) | Hand out when party kicks off | ~€10 |
+
+**Pool Stuff**
+| Item | For | Est. Cost |
+|---|---|---|
+| Inflatable lilos ×4-6 | Pool jousting game + lounging | ~€20-30 |
+| Pool noodles ×6 | Jousting weapons + messing about | ~€10-12 |
+| Inflatable beer pong table | Floating beer pong | ~€15-20 |
+| Inflatable ball (beach ball/football) | Pool volleyball/catch | ~€5-8 |
+| Giant inflatable (flamingo/unicorn) | Photo ops, pool fun | ~€15-20 |
+| Waterproof playing cards | Pool-side card games | ~€8 |
+
+**Amazon.fr total: ~€195-230**
+
+### Bring from UK in suitcase (small/light/already own)
+- [ ] Bluetooth speaker (Joe's own)
+- [ ] Small whiteboard + coloured markers (gold/red/blue/black for team colours) — WHSmith/Wilko ~£3-5
+- [ ] Blindfolds ×10 — Amazon UK ~£8
+- [ ] Printed Mr & Mrs face paddles (Joe + Sophie) — print at home
+- [ ] Sealed envelopes — Taskmaster tasks
+- [ ] Folded name slips — Secret Assassin
+- [ ] French phrase cards — printed at home
+- [ ] Medals / mini trophy for ceremony — Amazon UK ~£10-15
+- [ ] Waterproof playing cards (if cheaper in UK)
+
+### Buy locally in France (Intermarché/Géant Casino, Day 1)
+- [ ] Plastic cups + cheap beer/wine — Flip Cup
+- [ ] Wooden spoons ×6 + eggs — Egg & Spoon Relay
+- [ ] Ping pong balls — Beer pong
+- [ ] Any last-minute bits
+
+### Dropped
+- Giant foam dice ×2 — no game uses them
+- Noise-cancelling headphones — Whisper Challenge swapped out for a better group game
+- Phone Detox / Left Hand Drink — cut from challenges
 
 ---
 
