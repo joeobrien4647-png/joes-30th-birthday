@@ -326,7 +326,7 @@
         '\uD83E\uDD2F Do something that visibly shocks at least 5 people',
         '\uD83D\uDCE3 Start a chant the whole group joins',
         '\uD83C\uDF7A Win a 1v1 downing competition (any drink — one attempt only, lose and you\'re out. Each person can only be challenged once across both 1v1 squares)',
-        '\uD83E\uDD33 Get all 4 team captains in a single photo with you',
+        '\uD83E\uDD4E Score a run in the rounders match (run all 4 posts safely)',
         '\uD83E\uDD42 Toast someone in front of 10+ people (target must be untoasted by anyone all trip)',
         '\uD83C\uDDEB\uD83C\uDDF7 Order a round of drinks in confident French at the bar',
         '\uD83C\uDFA4 Pick a song that gets 5+ people singing along to the chorus',
