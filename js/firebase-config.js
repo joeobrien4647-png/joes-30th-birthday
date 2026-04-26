@@ -329,7 +329,7 @@
         '\uD83E\uDD33 Get all 4 team captains in a single photo with you',
         '\uD83E\uDD42 Toast someone in front of 10+ people (target must be untoasted by anyone all trip)',
         '\uD83C\uDDEB\uD83C\uDDF7 Order a round of drinks in confident French at the bar',
-        '\uD83C\uDFB6 Sing a full James Blunt song',
+        '\uD83C\uDFA4 Pick a song that gets 5+ people singing along to the chorus',
         '\uD83D\uDCAA Win a 1v1 arm wrestle (one attempt only, lose and you\'re out. Each person can only be challenged once across both 1v1 squares)',
         '\uD83E\uDD43 Convince Joe to do an unscheduled shot or drink with you',
         '\uD83D\uDC83 Organise a proper dance-off (5+ people)',
