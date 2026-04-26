@@ -302,10 +302,11 @@ const GUEST_NIGHTS = (function() {
     return out;
 })();
 
-/* Per-guest line items (true = owes that line). Joe excluded as host.
+/* Per-guest line items (true = owes that line).
    `paid: { line: true }` marks a specific line as already settled
-   (e.g. Sophie & Kiran paid car hire upfront). */
+   (e.g. host Joe paid everything upfront, Sophie & Kiran paid car hire). */
 const PAYMENTS = {
+    'JOE-7K9X':     { golf: true,  canoe: true,  accro: true,  car: true,  paid: { golf: true, canoe: true, accro: true, car: true } },
     'SOPHIE-M3P2':  { golf: false, canoe: true,  accro: true,  car: true,  paid: { car: true } },
     'HANNAH-8FJ3':  { golf: false, canoe: true,  accro: false, car: true  },
     'ROBIN-2VL5':   { golf: true,  canoe: true,  accro: false, car: true  },
