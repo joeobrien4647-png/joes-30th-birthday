@@ -335,9 +335,9 @@
         '\uD83D\uDC83 Organise a proper dance-off (5+ people)',
         '\uD83D\uDD7A Slut drop on the 90s night dancefloor',
         '\uD83E\uDD38 Handstand in the pool, held 5 sec (witness or photo)',
-        '\uD83C\uDF36\uFE0F Eat a raw chilli or spoonful of hot sauce, straight face',
+        '\uD83C\uDF36\uFE0F Eat a raw chilli, spoonful of hot sauce, or a whole raw lemon, straight face (variants need 4 captains to approve)',
         '\uD83D\uDCA6 Jump in the pool fully clothed',
-        '\uD83E\uDD43 Three shots of three different spirits in a row (or three non-alc shots: ginger, espresso, fruit cordial)'
+        '\uD83E\uDD43 Three shots of three different spirits in a row (or three non-alc shots: ginger, espresso, fruit cordial — variants need 4 captains to approve)'
     ];
 
     var BINGO_LINES = [
