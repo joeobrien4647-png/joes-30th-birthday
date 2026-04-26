@@ -482,7 +482,7 @@ function initMoneySection() {
             entry.days.forEach(function(val, i) {
                 dailyTotals[i] += val;
                 var cls = val === 1 ? 'full' : (val === 0.5 ? 'half' : 'none');
-                rowsHtml += '<td class="stay-cell ' + cls + '" title="' + escapeHtml(TRIP_DAYS[i].full) + ': ' + (val === 1 ? 'Full day' : val === 0.5 ? 'Half day' : 'Travelling') + '"><span class="dot"></span></td>';
+                rowsHtml += '<td class="stay-cell ' + cls + '" title="' + escapeHtml(TRIP_DAYS[i].full) + ': ' + (val === 1 ? 'Full day' : val === 0.5 ? 'Half day' : 'Not there') + '"><span class="dot"></span></td>';
             });
             rowsHtml += '<td class="nights-col">' + entry.nights + '</td>';
             rowsHtml += '</tr>';
