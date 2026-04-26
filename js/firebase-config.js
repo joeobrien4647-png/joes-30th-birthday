@@ -322,22 +322,22 @@
        line detection, rewards, and live feed
        ============================================ */
     var BINGO_ITEMS = [
-        'Photobomb someone\'s photo without them noticing',
-        'Wear someone else\'s outfit for an entire meal',
-        'Do a blind taste test and get it right',
-        'Give a completely improvised 60-second motivational speech',
-        'Convince a local you\'re French (1 min+)',
-        'Swap shoes with someone for a whole activity',
-        'Get a conga line going with at least 5 people',
-        'Start a chant that the whole group joins',
-        'Get a genuine standing ovation from the group',
-        'Make someone laugh so hard they cry',
-        'Jump in the pool fully clothed (or push someone in)',
-        'Be the first up AND last to bed on the same day',
-        'Eat the spiciest thing you can find. Straight face',
-        'Down a drink with no hands',
-        'Do the washing up without being asked',
-        'Take a photo so good the group votes it photo of the trip'
+        '\uD83D\uDCF8 Photobomb someone\'s photo without them noticing',
+        '\uD83D\uDE02 Make someone laugh so hard they cry',
+        '\uD83D\uDCE3 Start a chant the whole group joins',
+        '\uD83C\uDF05 Be first up AND last to bed on the same day',
+        '\u26BE Score a point in any organised team game',
+        '\uD83E\uDD42 Toast someone in front of 10+ people (target must be untoasted by anyone all trip)',
+        '\uD83C\uDDE6\uD83C\uDDFA Speak with a clear non-British accent for an entire meal',
+        '\uD83C\uDFB6 Sing a full James Blunt song',
+        '\uD83D\uDE34 Dramatically fall asleep mid-conversation as a prank',
+        '\uD83C\uDF82 Trick Joe into saying he\'s 40 (3+ witnesses)',
+        '\uD83D\uDC83 Organise a proper dance-off (5+ people)',
+        '\uD83D\uDD7A Slut drop on the 90s night dancefloor',
+        '\uD83E\uDD38 Handstand in the pool, held 5 sec (witness or photo)',
+        '\uD83C\uDF36\uFE0F Eat a raw chilli or spoonful of hot sauce, straight face',
+        '\uD83D\uDCA6 Jump in the pool fully clothed',
+        '\uD83E\uDD43 Three shots of three different spirits in a row'
     ];
 
     var BINGO_LINES = [
