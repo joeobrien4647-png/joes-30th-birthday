@@ -2276,3 +2276,37 @@
     .msb-banner::before, .msb-banner::after { display: none; }
     .msb-banner h3 { font-size: 1.25rem; }
 }
+
+/* Part 1 banner — green variant for "Settle Up Now" */
+.money-section-break--p1 {
+    margin: 16px auto 24px;
+}
+
+.msb-divider--green {
+    background: linear-gradient(90deg, transparent 0%, rgba(46,125,50,0.4) 20%, rgba(46,125,50,0.7) 50%, rgba(46,125,50,0.4) 80%, transparent 100%);
+}
+
+.msb-banner--green {
+    background: linear-gradient(135deg, #f1f8e9 0%, #c8e6c9 50%, #a5d6a7 100%);
+    border-left-color: #2e7d32;
+    border-right-color: #2e7d32;
+    box-shadow: 0 6px 24px rgba(46, 125, 50, 0.15);
+}
+
+.msb-banner--green::before,
+.msb-banner--green::after {
+    content: '🎯';
+}
+
+.msb-eyebrow--green {
+    background: rgba(46, 125, 50, 0.15);
+    color: #1b5e20;
+}
+
+.msb-banner--green h3 {
+    color: #1b5e20;
+}
+
+.msb-banner--green p {
+    color: #2e5c30;
+}

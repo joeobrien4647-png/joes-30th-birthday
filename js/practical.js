@@ -352,9 +352,11 @@ function initMoneySection() {
     }
 
     var isAdmin = Auth.isAdmin();
+    var p1Break = document.getElementById('money-personal-break');
+    if (p1Break) p1Break.style.display = 'flex';
     personalEl.style.display = 'block';
-    var breakEl = document.getElementById('money-public-break');
-    if (breakEl) breakEl.style.display = 'flex';
+    var p2Break = document.getElementById('money-public-break');
+    if (p2Break) p2Break.style.display = 'flex';
     if (publicEl) publicEl.style.display = 'flex';
     if (isAdmin) adminEl.style.display = 'block';
 
