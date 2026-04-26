@@ -2132,3 +2132,69 @@
     color: rgba(46,125,50,0.6);
     font-weight: 500;
 }
+
+/* Admin table — group headers & column shading */
+.money-admin-groups th {
+    background: var(--bg-light);
+    text-align: center;
+    padding: 10px 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    border-bottom: 2px solid rgba(0,0,0,0.08);
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.money-admin-groups th span {
+    display: block;
+    font-weight: 400;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.money-admin-groups th.grp-activities {
+    background: rgba(46, 125, 50, 0.08);
+    color: #1b5e20;
+    border-right: 3px solid #fff;
+}
+
+.money-admin-groups th.grp-kitty {
+    background: rgba(237, 108, 2, 0.08);
+    color: #b25400;
+    border-left: 3px solid #fff;
+    border-right: 3px solid #fff;
+}
+
+.money-admin-headers th.col-act,
+.money-admin-table tbody td.col-act {
+    background: rgba(46, 125, 50, 0.03);
+}
+
+.money-admin-headers th.col-owed,
+.money-admin-table tbody td.col-owed {
+    background: rgba(46, 125, 50, 0.07);
+    border-right: 3px solid #fff;
+    font-weight: 800 !important;
+}
+
+.money-admin-headers th.col-kitty,
+.money-admin-table tbody td.col-kitty {
+    background: rgba(237, 108, 2, 0.05);
+}
+
+.money-admin-table tbody td.col-kitty:last-of-type {
+    border-right: 3px solid #fff;
+}
+
+.money-admin-note strong {
+    color: var(--text-dark);
+    font-weight: 700;
+}
+
+.money-admin-note {
+    line-height: 1.55;
+}

@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="css/base.css?v=20">
     <link rel="stylesheet" href="css/components.css?v=3">
     <link rel="stylesheet" href="css/nav.css?v=1">
-    <link rel="stylesheet" href="css/practical.css?v=32">
+    <link rel="stylesheet" href="css/practical.css?v=33">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -522,16 +522,21 @@
                 <div class="money-admin-table-wrap">
                     <table class="money-admin-table" id="money-admin-table">
                         <thead>
-                            <tr>
+                            <tr class="money-admin-groups">
+                                <th></th>
+                                <th colspan="5" class="grp-activities">🎯 Activities &amp; Car Hire <span>(owed now)</span></th>
+                                <th colspan="2" class="grp-kitty">🍷 Château Group Spend <span>(estimate, settled after trip)</span></th>
+                                <th></th>
+                            </tr>
+                            <tr class="money-admin-headers">
                                 <th>Guest</th>
-                                <th>Golf</th>
-                                <th>Canoe</th>
-                                <th>Accro</th>
-                                <th>Car</th>
-                                <th>Activities</th>
-                                <th>Nights</th>
-                                <th>Kitty (range)</th>
-                                <th>Owed Now</th>
+                                <th class="col-act">Golf</th>
+                                <th class="col-act">Canoe</th>
+                                <th class="col-act">Accro</th>
+                                <th class="col-act">Car</th>
+                                <th class="col-act col-owed">Owed Now</th>
+                                <th class="col-kitty">Nights</th>
+                                <th class="col-kitty">Food &amp; Drink Est.</th>
                                 <th>Paid?</th>
                             </tr>
                         </thead>
@@ -540,7 +545,10 @@
                         </tbody>
                     </table>
                 </div>
-                <p class="money-admin-note">Activities + Car Hire are confirmed amounts. Group Spend is an estimate until final reconciliation post-trip.</p>
+                <p class="money-admin-note">
+                    <strong>Activities &amp; Car Hire</strong> = confirmed costs Joe paid upfront, settle now.
+                    <strong>Group Spend</strong> = estimated share of food/drink at the château (£15-20/night × nights), reconciled from real receipts after the trip.
+                </p>
             </div>
         </div>
     </section>
@@ -624,6 +632,6 @@
     <script src="js/shared.js?v=27"></script>
     <script src="js/firebase-config.js?v=6"></script>
     <script src="js/nav.js?v=1"></script>
-    <script src="js/practical.js?v=17"></script>
+    <script src="js/practical.js?v=18"></script>
 </body>
 </html>

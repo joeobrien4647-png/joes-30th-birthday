@@ -562,10 +562,9 @@ function initMoneySection() {
                     cell(record.canoe, 'canoe') +
                     cell(record.accro, 'accro') +
                     cell(record.car, 'car') +
-                    '<td class="money-cell-total">' + (activitiesTotal > 0 ? '£' + activitiesTotal : '—') + '</td>' +
-                    '<td>' + (nights > 0 ? nights : '—') + '</td>' +
-                    '<td class="money-cell-kitty">' + (kittyRange.low > 0 ? '£' + kittyRange.low + '–' + kittyRange.high : '—') + '</td>' +
-                    '<td class="money-cell-grand">' + (activitiesTotal > 0 ? '£' + activitiesTotal : '—') + '</td>' +
+                    '<td class="money-cell-total col-owed">' + (activitiesTotal > 0 ? '£' + activitiesTotal : '—') + '</td>' +
+                    '<td class="col-kitty">' + (nights > 0 ? nights : '—') + '</td>' +
+                    '<td class="money-cell-kitty col-kitty">' + (kittyRange.low > 0 ? '£' + kittyRange.low + '–£' + kittyRange.high : '—') + '</td>' +
                     '<td>' + (activitiesTotal > 0
                         ? '<input type="checkbox" class="money-admin-paid-toggle" data-code="' + escapeHtml(code) + '"' + (paid ? ' checked' : '') + '>'
                         : '<span class="money-cell-dash">—</span>'
