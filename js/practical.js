@@ -330,6 +330,176 @@ function initGalleryCarousel() {
     });
 }
 
+/* ============================================
+   Money Owed Section
+   - Personal breakdown for logged-in guest
+   - Admin tracker (Joe / Sophie / Hannah)
+   - Firebase sync via PaymentSync (paid/unpaid status)
+   ============================================ */
+function initMoneySection() {
+    var loginNote = document.getElementById('money-login-note');
+    var personalEl = document.getElementById('money-personal');
+    var adminEl = document.getElementById('money-admin');
+    if (!personalEl || !adminEl || !loginNote) return;
+
+    var guestCode = (typeof Auth !== 'undefined' && Auth.isLoggedIn()) ? Auth.getGuestCode() : null;
+
+    // Not logged in → prompt
+    if (!guestCode) {
+        loginNote.style.display = 'block';
+        return;
+    }
+
+    var isAdmin = Auth.isAdmin();
+    personalEl.style.display = 'block';
+    if (isAdmin) adminEl.style.display = 'block';
+
+    // ---- Personal panel ----
+    function renderPersonal() {
+        if (typeof PAYMENT_RATES === 'undefined' || typeof PAYMENT_BANK === 'undefined') return;
+
+        var guest = Auth.getGuestData();
+        var firstName = guest ? guest.name : 'there';
+        document.getElementById('money-greeting').textContent = 'Hi ' + firstName + ' 👋';
+
+        var lines = (typeof getPaymentLines === 'function') ? getPaymentLines(guestCode) : [];
+        var total = (typeof getPaymentTotal === 'function') ? getPaymentTotal(guestCode) : 0;
+        var paid = (typeof PaymentSync !== 'undefined' && PaymentSync.isPaid(guestCode));
+
+        // Lines
+        var linesEl = document.getElementById('money-lines');
+        if (lines.length === 0) {
+            linesEl.innerHTML = '<div class="money-empty">Nothing owed for activities or car hire — you\'re all good ✅</div>';
+        } else {
+            linesEl.innerHTML = lines.map(function(l) {
+                return '<div class="money-line">' +
+                    '<div>' +
+                        '<span class="money-line-label">' + escapeHtml(l.label) + '</span>' +
+                        '<span class="money-line-note">' + escapeHtml(l.note) + '</span>' +
+                    '</div>' +
+                    '<span class="money-line-amount">£' + l.amount + '</span>' +
+                '</div>';
+            }).join('');
+        }
+
+        // Total + status
+        document.getElementById('money-total-amount').textContent = '£' + total;
+        var badge = document.getElementById('money-status-badge');
+        if (total === 0) {
+            badge.textContent = '✅ All clear';
+            badge.classList.add('paid');
+        } else if (paid) {
+            badge.textContent = '✅ Paid — thanks!';
+            badge.classList.add('paid');
+        } else {
+            badge.textContent = '⏳ Outstanding';
+            badge.classList.remove('paid');
+        }
+
+        // Bank
+        document.getElementById('money-bank-sort').textContent = PAYMENT_BANK.sortCode;
+        document.getElementById('money-bank-acct').textContent = PAYMENT_BANK.accountNumber;
+        document.getElementById('money-bank-name').textContent = PAYMENT_BANK.accountName;
+        document.getElementById('money-bank-ref').textContent = firstName;
+    }
+
+    // Copy bank details
+    var copyBtn = document.getElementById('money-copy-btn');
+    if (copyBtn) {
+        copyBtn.addEventListener('click', function() {
+            var text = PAYMENT_BANK.accountName + '\n' +
+                'Sort code: ' + PAYMENT_BANK.sortCode + '\n' +
+                'Account: ' + PAYMENT_BANK.accountNumber + '\n' +
+                'Reference: ' + Auth.getGuestName();
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(function() {
+                    copyBtn.textContent = '✅ Copied!';
+                    copyBtn.classList.add('copied');
+                    setTimeout(function() {
+                        copyBtn.textContent = '📋 Copy bank details';
+                        copyBtn.classList.remove('copied');
+                    }, 1800);
+                });
+            }
+        });
+    }
+
+    // ---- Admin panel ----
+    function renderAdmin() {
+        if (!isAdmin) return;
+        if (typeof PAYMENTS === 'undefined' || typeof GUEST_DATA === 'undefined') return;
+
+        var totalOwed = 0;
+        var totalPaid = 0;
+        var rows = [];
+
+        // Build rows in sorted name order
+        var entries = Object.keys(PAYMENTS).map(function(code) {
+            var guest = GUEST_DATA[code];
+            return { code: code, name: guest ? guest.fullName : code };
+        }).sort(function(a, b) { return a.name.localeCompare(b.name); });
+
+        entries.forEach(function(entry) {
+            var code = entry.code;
+            var record = PAYMENTS[code];
+            var lineTotal = getPaymentTotal(code);
+            var paid = (typeof PaymentSync !== 'undefined' && PaymentSync.isPaid(code));
+
+            totalOwed += lineTotal;
+            if (paid) totalPaid += lineTotal;
+
+            function cell(flag, key) {
+                if (!flag) return '<td class="money-cell-dash">—</td>';
+                return '<td class="money-cell-tick">£' + PAYMENT_RATES[key].amount + '</td>';
+            }
+
+            rows.push(
+                '<tr class="' + (paid ? 'paid' : '') + '" data-code="' + escapeHtml(code) + '">' +
+                    '<td>' + escapeHtml(entry.name) + '</td>' +
+                    cell(record.golf, 'golf') +
+                    cell(record.canoe, 'canoe') +
+                    cell(record.accro, 'accro') +
+                    cell(record.car, 'car') +
+                    '<td class="money-cell-total">' + (lineTotal > 0 ? '£' + lineTotal : '—') + '</td>' +
+                    '<td>' + (lineTotal > 0
+                        ? '<input type="checkbox" class="money-admin-paid-toggle" data-code="' + escapeHtml(code) + '"' + (paid ? ' checked' : '') + '>'
+                        : '<span class="money-cell-dash">—</span>'
+                    ) + '</td>' +
+                '</tr>'
+            );
+        });
+
+        document.getElementById('money-admin-tbody').innerHTML = rows.join('');
+        document.getElementById('money-stat-total').textContent = '£' + totalOwed;
+        document.getElementById('money-stat-paid').textContent = '£' + totalPaid;
+        document.getElementById('money-stat-outstanding').textContent = '£' + (totalOwed - totalPaid);
+
+        // Wire up toggles
+        var toggles = document.querySelectorAll('.money-admin-paid-toggle');
+        toggles.forEach(function(t) {
+            t.addEventListener('change', function() {
+                var code = this.dataset.code;
+                if (this.checked) {
+                    PaymentSync.markPaid(code, Auth.getGuestName());
+                } else {
+                    PaymentSync.markUnpaid(code);
+                }
+            });
+        });
+    }
+
+    renderPersonal();
+    renderAdmin();
+
+    // Re-render on Firebase updates
+    if (typeof PaymentSync !== 'undefined' && PaymentSync.isConfigured()) {
+        PaymentSync.onUpdate(function() {
+            renderPersonal();
+            renderAdmin();
+        });
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     initSubNavHighlight();
     initTravelPlans();
@@ -337,4 +507,5 @@ document.addEventListener('DOMContentLoaded', function() {
     initPretripChecklist();
     initPracticalHighlight();
     initGalleryCarousel();
+    initMoneySection();
 });

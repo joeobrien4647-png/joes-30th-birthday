@@ -742,6 +742,50 @@
     };
 
     /* ============================================
+       PaymentSync — track who has paid for activities
+       Stored at /payments/{guestCode}: { paid, paidAt, markedBy }
+       ============================================ */
+    var paymentsCache = {};
+    var paymentListeners = [];
+    var paymentsLoaded = false;
+
+    if (db) {
+        db.ref('payments').on('value', function(snap) {
+            paymentsCache = snap.val() || {};
+            paymentsLoaded = true;
+            for (var i = 0; i < paymentListeners.length; i++) {
+                paymentListeners[i](paymentsCache);
+            }
+            document.dispatchEvent(new CustomEvent('paymentsUpdate', { detail: paymentsCache }));
+        });
+    }
+
+    window.PaymentSync = {
+        markPaid: function(guestCode, markedBy) {
+            if (!db) return;
+            db.ref('payments/' + guestCode).set({
+                paid: true,
+                paidAt: Date.now(),
+                markedBy: markedBy || 'admin'
+            });
+        },
+        markUnpaid: function(guestCode) {
+            if (!db) return;
+            db.ref('payments/' + guestCode).remove();
+        },
+        isPaid: function(guestCode) {
+            var record = paymentsCache[guestCode];
+            return !!(record && record.paid);
+        },
+        getAll: function() { return paymentsCache; },
+        onUpdate: function(fn) {
+            paymentListeners.push(fn);
+            if (paymentsLoaded) fn(paymentsCache);
+        },
+        isConfigured: function() { return !!db; }
+    };
+
+    /* ============================================
        Push Notification Subscriptions
        ============================================ */
     var VAPID_PUBLIC = 'BF7CnYIwdBjsgGfpV57r8NbpM70eoQ1uW1EZjPpKX1RGuG626F8meosAeYC8oVmOJ1M_BWIzdXM1MGgAmdgD4W0';

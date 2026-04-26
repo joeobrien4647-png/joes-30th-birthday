@@ -15,6 +15,34 @@ document.addEventListener('DOMContentLoaded', function () {
     initLiveStats();
 });
 
+/* Money Owed Banner — shows on dashboard if guest has outstanding payments */
+function updateMoneyBanner(code) {
+    var banner = document.getElementById('dashboard-money-banner');
+    if (!banner) return;
+    if (typeof getPaymentTotal !== 'function') return;
+
+    var total = getPaymentTotal(code);
+    if (total === 0) {
+        banner.style.display = 'none';
+        return;
+    }
+
+    var paid = (typeof PaymentSync !== 'undefined' && PaymentSync.isPaid(code));
+    var amountEl = document.getElementById('dmb-amount');
+    var subEl = document.getElementById('dmb-sub');
+
+    banner.style.display = 'flex';
+    if (paid) {
+        banner.classList.add('paid');
+        if (amountEl) amountEl.textContent = '✅ £' + total + ' marked as paid';
+        if (subEl) subEl.textContent = 'Thanks legend — tap to view receipt';
+    } else {
+        banner.classList.remove('paid');
+        if (amountEl) amountEl.textContent = '💷 £' + total + ' to send Joe';
+        if (subEl) subEl.textContent = 'Tap for breakdown & bank details';
+    }
+}
+
 /* Cinematic Overlay — first-time visitor welcome sequence */
 function initCinematicOverlay() {
     // Only show on first-time visitors
@@ -567,6 +595,13 @@ function initGuestLogin() {
         if (scrollInd) scrollInd.style.display = 'none';
 
         document.getElementById('dashboard-name').textContent = guest.name;
+
+        // Money owed banner
+        updateMoneyBanner(code);
+        if (typeof PaymentSync !== 'undefined' && PaymentSync.isConfigured()) {
+            PaymentSync.onUpdate(function() { updateMoneyBanner(code); });
+        }
+
         var teamKey = PLAYERS[guest.name];
         var hasRevealed = localStorage.getItem('teamRevealed_' + code) === 'true';
         var teamConfig = teamKey && TEAM_CONFIG ? TEAM_CONFIG[teamKey] : null;

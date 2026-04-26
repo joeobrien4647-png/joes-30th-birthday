@@ -223,6 +223,75 @@ const TEAM_CAPTAINS = {
     gladiators: 'Peter'
 };
 
+/* ============================================
+   Payments — activity + car hire (per guest)
+   All values in £. Joe is host (excluded).
+   Stansted parking handled separately.
+   Source of truth: France-Expense-Tracker-v5.xlsx
+   ============================================ */
+const PAYMENT_RATES = {
+    golf:  { label: 'Golf (Sarrays)',         amount: 42, note: 'Thu 30 Apr · €46 → £42' },
+    canoe: { label: 'Canoe (La Fourmy)',      amount: 16, note: 'Fri 1 May · €17 → £16' },
+    accro: { label: 'Accrobranche (Laleuf)',  amount: 18, note: 'Sun 3 May · €20 → £18' },
+    car:   { label: 'Car Hire (France)',      amount: 60, note: 'Shared across 14 drivers' }
+};
+
+const PAYMENT_BANK = {
+    sortCode: '60-84-07',
+    accountNumber: '41194141',
+    accountName: 'Joseph J Z O\'Brien',
+    refHint: 'Use your first name as the reference'
+};
+
+/* Per-guest line items (true = owes that line). Joe excluded as host. */
+const PAYMENTS = {
+    'SOPHIE-M3P2':  { golf: false, canoe: true,  accro: true,  car: true  },
+    'HANNAH-8FJ3':  { golf: false, canoe: true,  accro: false, car: true  },
+    'ROBIN-2VL5':   { golf: true,  canoe: true,  accro: false, car: true  },
+    'RAZON-3BM6':   { golf: false, canoe: true,  accro: true,  car: true  },
+    'NEEVE-6PW2':   { golf: false, canoe: true,  accro: true,  car: true  },
+    'ROBERT-2NG8':  { golf: false, canoe: true,  accro: true,  car: false },
+    'SARAH-4KV3':   { golf: false, canoe: true,  accro: true,  car: true  },
+    'KIRAN-7DX1':   { golf: false, canoe: true,  accro: true,  car: true  },
+    'CHRIS-2FM7':   { golf: true,  canoe: true,  accro: true,  car: true  },
+    'OLI-3WT5':     { golf: true,  canoe: true,  accro: true,  car: true  },
+    'PETER-6BN2':   { golf: true,  canoe: true,  accro: true,  car: true  },
+    'TOM-5QL7':     { golf: true,  canoe: true,  accro: false, car: false },
+    'GEORGE-1CY9':  { golf: false, canoe: true,  accro: true,  car: false },
+    'EMMAW-8RJ4':   { golf: false, canoe: true,  accro: true,  car: false },
+    'JONNYW-8HQ3':  { golf: false, canoe: true,  accro: true,  car: true  },
+    'OSCAR-5DL4':   { golf: false, canoe: false, accro: false, car: true  },
+    'LUKE-4WN8':    { golf: false, canoe: true,  accro: false, car: false },
+    'SAM-R6DQ':     { golf: false, canoe: true,  accro: false, car: false },
+    'JOHNNY-9XT4':  { golf: true,  canoe: false, accro: false, car: false },
+    'FLORRIE-5HK7': { golf: false, canoe: false, accro: false, car: false },
+    'MATT-3B7K':    { golf: false, canoe: false, accro: true,  car: true  },
+    'EMMAL-1RK8':   { golf: false, canoe: false, accro: true,  car: false },
+    'JONNYL-4VP9':  { golf: false, canoe: false, accro: true,  car: false },
+    'SHANE-9FH6':   { golf: false, canoe: false, accro: false, car: false },
+    'PRANAY-9WX6':  { golf: false, canoe: false, accro: false, car: false }
+};
+
+/* Helpers */
+function getPaymentLines(guestCode) {
+    var record = PAYMENTS[guestCode];
+    if (!record) return [];
+    var lines = [];
+    Object.keys(PAYMENT_RATES).forEach(function(k) {
+        if (record[k]) lines.push({
+            key: k,
+            label: PAYMENT_RATES[k].label,
+            amount: PAYMENT_RATES[k].amount,
+            note: PAYMENT_RATES[k].note
+        });
+    });
+    return lines;
+}
+
+function getPaymentTotal(guestCode) {
+    return getPaymentLines(guestCode).reduce(function(sum, l) { return sum + l.amount; }, 0);
+}
+
 /* Captain Responsibilities */
 const CAPTAIN_DUTIES = [
     'Rally your team for games and challenges',

@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="css/base.css?v=20">
     <link rel="stylesheet" href="css/components.css?v=3">
     <link rel="stylesheet" href="css/nav.css?v=1">
-    <link rel="stylesheet" href="css/practical.css?v=27">
+    <link rel="stylesheet" href="css/practical.css?v=28">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -62,6 +62,7 @@
     <nav class="sub-nav">
         <ul class="sub-nav-links">
             <li><a href="#info" class="active">Info</a></li>
+            <li><a href="#money">Money</a></li>
             <li><a href="#travel">Travel</a></li>
         </ul>
     </nav>
@@ -359,6 +360,91 @@
         </div>
     </section>
 
+    <!-- Money Owed Section -->
+    <section id="money" class="section money">
+        <div class="container">
+            <h2 class="section-title">💷 Money</h2>
+            <p class="section-subtitle">Activities &amp; car hire — paid upfront by Joe, settle when you can</p>
+
+            <!-- Login required state -->
+            <div class="money-login-note" id="money-login-note" style="display:none;">
+                <p>Log in with your name to see your personal breakdown.</p>
+                <a href="index.html" class="money-cta-btn">Go to login &rarr;</a>
+            </div>
+
+            <!-- Personal breakdown (per logged-in guest) -->
+            <div class="money-personal" id="money-personal" style="display:none;">
+                <div class="money-card">
+                    <div class="money-card-header">
+                        <span class="money-greeting" id="money-greeting">Hi 👋</span>
+                        <span class="money-status-badge" id="money-status-badge">⏳ Outstanding</span>
+                    </div>
+
+                    <div class="money-lines" id="money-lines">
+                        <!-- populated by JS -->
+                    </div>
+
+                    <div class="money-total-row">
+                        <span class="money-total-label">Total to send:</span>
+                        <span class="money-total-amount" id="money-total-amount">£0</span>
+                    </div>
+
+                    <div class="money-bank">
+                        <h4>Bank details</h4>
+                        <ul class="money-bank-list">
+                            <li><span>Sort code</span><strong id="money-bank-sort">—</strong></li>
+                            <li><span>Account no.</span><strong id="money-bank-acct">—</strong></li>
+                            <li><span>Name</span><strong id="money-bank-name">—</strong></li>
+                            <li><span>Reference</span><strong id="money-bank-ref">Your first name</strong></li>
+                        </ul>
+                        <button class="money-copy-btn" id="money-copy-btn" type="button">📋 Copy bank details</button>
+                    </div>
+
+                    <p class="money-note">No rush — send whenever you can. Stansted parking is handled separately.</p>
+                </div>
+            </div>
+
+            <!-- Admin panel (Joe / Sophie / Hannah only) -->
+            <div class="money-admin" id="money-admin" style="display:none;">
+                <h3 class="money-admin-title">🔐 Admin — Payment Tracker</h3>
+
+                <div class="money-admin-summary" id="money-admin-summary">
+                    <div class="money-stat">
+                        <span class="money-stat-num" id="money-stat-total">£0</span>
+                        <span class="money-stat-label">Total Owed</span>
+                    </div>
+                    <div class="money-stat">
+                        <span class="money-stat-num" id="money-stat-paid">£0</span>
+                        <span class="money-stat-label">Paid</span>
+                    </div>
+                    <div class="money-stat">
+                        <span class="money-stat-num" id="money-stat-outstanding">£0</span>
+                        <span class="money-stat-label">Outstanding</span>
+                    </div>
+                </div>
+
+                <div class="money-admin-table-wrap">
+                    <table class="money-admin-table" id="money-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Guest</th>
+                                <th>Golf</th>
+                                <th>Canoe</th>
+                                <th>Accro</th>
+                                <th>Car</th>
+                                <th>Total</th>
+                                <th>Paid?</th>
+                            </tr>
+                        </thead>
+                        <tbody id="money-admin-tbody">
+                            <!-- populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Travel Confirmation -->
     <section id="travel" class="section travel">
         <div class="container">
@@ -435,9 +521,9 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
-    <script src="js/shared.js?v=20"></script>
-    <script src="js/firebase-config.js?v=5"></script>
+    <script src="js/shared.js?v=21"></script>
+    <script src="js/firebase-config.js?v=6"></script>
     <script src="js/nav.js?v=1"></script>
-    <script src="js/practical.js?v=11"></script>
+    <script src="js/practical.js?v=12"></script>
 </body>
 </html>
