@@ -15,32 +15,41 @@ document.addEventListener('DOMContentLoaded', function () {
     initLiveStats();
 });
 
-/* Money Owed Banner — shows on dashboard if guest has outstanding payments */
+/* Money Banner — always visible on dashboard, state-aware */
 function updateMoneyBanner(code) {
     var banner = document.getElementById('dashboard-money-banner');
     if (!banner) return;
     if (typeof getPaymentTotal !== 'function') return;
 
     var activities = getPaymentTotal(code);
-
-    if (activities === 0) {
-        banner.style.display = 'none';
-        return;
-    }
-
+    var nights = (typeof getNights === 'function') ? getNights(code) : 0;
     var paid = (typeof PaymentSync !== 'undefined' && PaymentSync.isPaid(code));
+
     var amountEl = document.getElementById('dmb-amount');
     var subEl = document.getElementById('dmb-sub');
 
     banner.style.display = 'flex';
-    if (paid) {
-        banner.classList.add('paid');
-        if (amountEl) amountEl.textContent = '✅ £' + activities + ' activities paid';
-        if (subEl) subEl.textContent = 'Thanks legend — group spend settled after trip';
-    } else {
-        banner.classList.remove('paid');
+    banner.classList.remove('paid', 'info');
+
+    if (activities > 0 && !paid) {
+        // Outstanding — yellow alert
         if (amountEl) amountEl.textContent = '💷 £' + activities + ' to send Joe';
-        if (subEl) subEl.textContent = 'Activities + car hire — bank details inside';
+        if (subEl) subEl.textContent = 'Activities + car hire — tap for bank details';
+    } else if (activities > 0 && paid) {
+        // Settled
+        banner.classList.add('paid');
+        if (amountEl) amountEl.textContent = '✅ £' + activities + ' activities settled';
+        if (subEl) subEl.textContent = 'Tap to see group spend info (Part 2)';
+    } else if (nights > 0) {
+        // Nothing owed but staying — show info
+        banner.classList.add('info');
+        if (amountEl) amountEl.textContent = '💷 Money & costs';
+        if (subEl) subEl.textContent = 'See your stay & how the group spend works';
+    } else {
+        // Not staying at all
+        banner.classList.add('info');
+        if (amountEl) amountEl.textContent = '💷 Money & costs info';
+        if (subEl) subEl.textContent = 'Activity costs + how group spend works';
     }
 }
 

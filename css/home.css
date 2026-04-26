@@ -1794,3 +1794,14 @@
     color: rgba(0, 0, 0, 0.3);
     flex-shrink: 0;
 }
+
+/* Info state — always-visible money banner when nothing outstanding */
+.dashboard-money-banner.info {
+    background: linear-gradient(135deg, #ede7f6, #e8eaf6);
+    border-color: #b39ddb;
+    box-shadow: 0 3px 12px rgba(118, 75, 162, 0.1);
+}
+
+.dashboard-money-banner.info .dmb-text strong {
+    color: #4527a0;
+}
