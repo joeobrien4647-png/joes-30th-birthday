@@ -302,16 +302,18 @@ const GUEST_NIGHTS = (function() {
     return out;
 })();
 
-/* Per-guest line items (true = owes that line). Joe excluded as host. */
+/* Per-guest line items (true = owes that line). Joe excluded as host.
+   `paid: { line: true }` marks a specific line as already settled
+   (e.g. Sophie & Kiran paid car hire upfront). */
 const PAYMENTS = {
-    'SOPHIE-M3P2':  { golf: false, canoe: true,  accro: true,  car: true  },
+    'SOPHIE-M3P2':  { golf: false, canoe: true,  accro: true,  car: true,  paid: { car: true } },
     'HANNAH-8FJ3':  { golf: false, canoe: true,  accro: false, car: true  },
     'ROBIN-2VL5':   { golf: true,  canoe: true,  accro: false, car: true  },
     'RAZON-3BM6':   { golf: false, canoe: true,  accro: true,  car: true  },
     'NEEVE-6PW2':   { golf: false, canoe: true,  accro: true,  car: true  },
     'ROBERT-2NG8':  { golf: false, canoe: true,  accro: true,  car: false },
     'SARAH-4KV3':   { golf: false, canoe: true,  accro: true,  car: true  },
-    'KIRAN-7DX1':   { golf: false, canoe: true,  accro: true,  car: true  },
+    'KIRAN-7DX1':   { golf: false, canoe: true,  accro: true,  car: true,  paid: { car: true } },
     'CHRIS-2FM7':   { golf: true,  canoe: true,  accro: true,  car: true  },
     'OLI-3WT5':     { golf: true,  canoe: true,  accro: true,  car: true  },
     'PETER-6BN2':   { golf: true,  canoe: true,  accro: true,  car: true  },
@@ -335,19 +337,29 @@ const PAYMENTS = {
 function getPaymentLines(guestCode) {
     var record = PAYMENTS[guestCode];
     if (!record) return [];
+    var paid = record.paid || {};
     var lines = [];
     Object.keys(PAYMENT_RATES).forEach(function(k) {
         if (record[k]) lines.push({
             key: k,
             label: PAYMENT_RATES[k].label,
             amount: PAYMENT_RATES[k].amount,
-            note: PAYMENT_RATES[k].note
+            note: PAYMENT_RATES[k].note,
+            paid: !!paid[k]
         });
     });
     return lines;
 }
 
 function getPaymentTotal(guestCode) {
+    /* Outstanding only — excludes already-paid lines */
+    return getPaymentLines(guestCode).reduce(function(sum, l) {
+        return sum + (l.paid ? 0 : l.amount);
+    }, 0);
+}
+
+function getPaymentTotalGross(guestCode) {
+    /* Full charge, ignoring paid status */
     return getPaymentLines(guestCode).reduce(function(sum, l) { return sum + l.amount; }, 0);
 }
 

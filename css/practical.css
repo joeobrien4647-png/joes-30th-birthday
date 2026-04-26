@@ -2110,3 +2110,25 @@
     font-style: italic;
     line-height: 1.4;
 }
+
+/* Paid line styling */
+.money-line.is-paid {
+    background: rgba(46, 125, 50, 0.04);
+    border: 1px solid rgba(46, 125, 50, 0.18);
+    opacity: 0.78;
+}
+.money-line.is-paid .money-line-label,
+.money-line.is-paid .money-line-amount {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+.money-line.is-paid .money-line-note {
+    color: #2e7d32;
+    font-weight: 600;
+}
+
+.money-admin-table .money-cell-tick.is-paid {
+    text-decoration: line-through;
+    color: rgba(46,125,50,0.6);
+    font-weight: 500;
+}

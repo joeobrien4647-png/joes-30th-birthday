@@ -383,10 +383,11 @@ function initMoneySection() {
             linesEl.innerHTML = '<div class="money-empty">Nothing owed here — you\'re all good ✅</div>';
         } else {
             linesEl.innerHTML = lines.map(function(l) {
-                return '<div class="money-line">' +
+                var noteText = l.paid ? l.note + ' · ✓ Already paid' : l.note;
+                return '<div class="money-line' + (l.paid ? ' is-paid' : '') + '">' +
                     '<div>' +
                         '<span class="money-line-label">' + escapeHtml(l.label) + '</span>' +
-                        '<span class="money-line-note">' + escapeHtml(l.note) + '</span>' +
+                        '<span class="money-line-note">' + escapeHtml(noteText) + '</span>' +
                     '</div>' +
                     '<span class="money-line-amount">£' + l.amount + '</span>' +
                 '</div>';
@@ -546,9 +547,12 @@ function initMoneySection() {
             totalOwed += activitiesTotal;
             if (paid) totalPaid += activitiesTotal;
 
+            var paidLines = record.paid || {};
             function cell(flag, key) {
                 if (!flag) return '<td class="money-cell-dash">—</td>';
-                return '<td class="money-cell-tick">£' + PAYMENT_RATES[key].amount + '</td>';
+                var paidClass = paidLines[key] ? ' is-paid' : '';
+                var prefix = paidLines[key] ? '✓ ' : '';
+                return '<td class="money-cell-tick' + paidClass + '" title="' + (paidLines[key] ? 'Already paid' : 'Outstanding') + '">' + prefix + '£' + PAYMENT_RATES[key].amount + '</td>';
             }
 
             rows.push(
