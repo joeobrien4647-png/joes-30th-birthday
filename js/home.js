@@ -21,7 +21,8 @@ function updateMoneyBanner(code) {
     if (!banner) return;
     if (typeof getPaymentTotal !== 'function') return;
 
-    var activities = getPaymentTotal(code);
+    var activities = getPaymentTotal(code);                    // outstanding
+    var gross = (typeof getPaymentTotalGross === 'function') ? getPaymentTotalGross(code) : activities;
     var nights = (typeof getNights === 'function') ? getNights(code) : 0;
     var paid = (typeof PaymentSync !== 'undefined' && PaymentSync.isPaid(code));
 
@@ -32,24 +33,26 @@ function updateMoneyBanner(code) {
     banner.classList.remove('paid', 'info');
 
     if (activities > 0 && !paid) {
-        // Outstanding — yellow alert
-        if (amountEl) amountEl.textContent = '💷 £' + activities + ' to send Joe';
-        if (subEl) subEl.textContent = 'Activities + car hire — tap for bank details';
+        // Outstanding — lead with what's been spent for them
+        if (amountEl) amountEl.textContent = '💷 £' + gross + ' booked for your trip';
+        if (subEl) subEl.textContent = '£' + activities + ' to settle with Joe — tap for bank details';
     } else if (activities > 0 && paid) {
-        // Settled
         banner.classList.add('paid');
-        if (amountEl) amountEl.textContent = '✅ £' + activities + ' activities settled';
-        if (subEl) subEl.textContent = 'Tap to see group spend info (Part 2)';
+        if (amountEl) amountEl.textContent = '✅ £' + gross + ' booked & settled';
+        if (subEl) subEl.textContent = 'Tap to see how the group kitty works (Part 2)';
+    } else if (gross > 0 && nights > 0) {
+        // Activities all pre-paid (Joe / Sophie + Kiran fully settled etc)
+        banner.classList.add('info');
+        if (amountEl) amountEl.textContent = '💸 £' + gross + ' booked for your trip';
+        if (subEl) subEl.textContent = 'See your costs + how the group kitty works';
     } else if (nights > 0) {
-        // Nothing owed but staying — show info
         banner.classList.add('info');
-        if (amountEl) amountEl.textContent = '💷 Money & costs';
-        if (subEl) subEl.textContent = 'See your stay & how the group spend works';
+        if (amountEl) amountEl.textContent = '💸 Your trip costs & stay';
+        if (subEl) subEl.textContent = 'See your nights + how the group kitty works';
     } else {
-        // Not staying at all
         banner.classList.add('info');
-        if (amountEl) amountEl.textContent = '💷 Money & costs info';
-        if (subEl) subEl.textContent = 'Activity costs + how group spend works';
+        if (amountEl) amountEl.textContent = '💸 Trip cost breakdown';
+        if (subEl) subEl.textContent = 'See the activity costs + group kitty info';
     }
 }
 
