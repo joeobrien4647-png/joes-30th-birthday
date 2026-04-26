@@ -339,6 +339,7 @@ function initGalleryCarousel() {
 function initMoneySection() {
     var loginNote = document.getElementById('money-login-note');
     var personalEl = document.getElementById('money-personal');
+    var publicEl = document.getElementById('money-public');
     var adminEl = document.getElementById('money-admin');
     if (!personalEl || !adminEl || !loginNote) return;
 
@@ -352,7 +353,14 @@ function initMoneySection() {
 
     var isAdmin = Auth.isAdmin();
     personalEl.style.display = 'block';
+    if (publicEl) publicEl.style.display = 'flex';
     if (isAdmin) adminEl.style.display = 'block';
+
+    // Show kitty rate amount on public panel
+    var kittyRateEl = document.getElementById('kitty-rate-amount');
+    if (kittyRateEl && typeof FOOD_KITTY !== 'undefined') {
+        kittyRateEl.textContent = '£' + FOOD_KITTY.perNightGBP;
+    }
 
     // ---- Personal panel ----
     function renderPersonal() {
@@ -386,22 +394,18 @@ function initMoneySection() {
         }
         document.getElementById('money-activities-total').textContent = '£' + activitiesTotal;
 
-        // Food kitty
-        var kittyEl = document.getElementById('money-kitty-block');
-        if (nights === 0) {
-            kittyEl.innerHTML = '<div class="money-empty">Not staying at the chateau — no group spend</div>';
-        } else {
-            kittyEl.innerHTML =
-                '<div class="money-kitty-formula">' +
-                    '<div class="money-kitty-row"><span>Nights at chateau</span><strong>' + nights + '</strong></div>' +
-                    '<div class="money-kitty-row"><span>Estimated rate</span><strong>£' + FOOD_KITTY.perNightGBP + '/night</strong></div>' +
-                    '<div class="money-kitty-row"><span>Your share</span><strong>£' + kittyEstimate + '</strong></div>' +
-                '</div>' +
-                '<div class="money-kitty-includes">' +
-                    '<strong>Covers:</strong> ' + escapeHtml(FOOD_KITTY.description) +
-                '</div>';
+        // My stay summary
+        var nightsEl = document.getElementById('money-mystay-nights');
+        var amountEl = document.getElementById('money-mystay-amount');
+        if (nightsEl) {
+            if (nights === 0) {
+                nightsEl.textContent = 'Not staying at the chateau';
+                if (amountEl) amountEl.textContent = 'No group spend share';
+            } else {
+                nightsEl.textContent = nights + (nights === 1 ? ' night' : ' nights') + ' at the chateau';
+                if (amountEl) amountEl.textContent = '~£' + kittyEstimate + ' group spend share (estimated)';
+            }
         }
-        document.getElementById('money-kitty-total').textContent = '£' + kittyEstimate;
 
         // Grand total + status
         document.getElementById('money-grand-total').textContent = '£' + grandTotal;
@@ -422,6 +426,71 @@ function initMoneySection() {
         document.getElementById('money-bank-acct').textContent = PAYMENT_BANK.accountNumber;
         document.getElementById('money-bank-name').textContent = PAYMENT_BANK.accountName;
         document.getElementById('money-bank-ref').textContent = firstName;
+    }
+
+    // ---- Stay Calendar (public to all guests) ----
+    function renderStayCalendar() {
+        if (typeof TRIP_DAYS === 'undefined' || typeof GUEST_ATTENDANCE === 'undefined') return;
+        if (typeof GUEST_DATA === 'undefined') return;
+
+        var headEl = document.getElementById('stay-calendar-head');
+        var bodyEl = document.getElementById('stay-calendar-body');
+        var totalsEl = document.getElementById('stay-calendar-totals');
+        if (!headEl || !bodyEl || !totalsEl) return;
+
+        // Header row
+        var headHtml = '<th>Guest</th>';
+        TRIP_DAYS.forEach(function(d) {
+            headHtml += '<th>' + escapeHtml(d.label) + '<span class="day-date">' + escapeHtml(d.date) + '</span></th>';
+        });
+        headHtml += '<th class="nights-col">Nights</th>';
+        headEl.innerHTML = headHtml;
+
+        // Body rows — sorted by nights desc, then name
+        var entries = Object.keys(GUEST_ATTENDANCE)
+            .filter(function(code) {
+                var sum = GUEST_ATTENDANCE[code].reduce(function(a, b) { return a + b; }, 0);
+                return sum > 0; // hide guests not coming
+            })
+            .map(function(code) {
+                var g = GUEST_DATA[code];
+                return {
+                    code: code,
+                    name: g ? g.name : code,
+                    fullName: g ? g.fullName : code,
+                    days: GUEST_ATTENDANCE[code],
+                    nights: GUEST_ATTENDANCE[code].reduce(function(a, b) { return a + b; }, 0)
+                };
+            })
+            .sort(function(a, b) {
+                if (b.nights !== a.nights) return b.nights - a.nights;
+                return a.fullName.localeCompare(b.fullName);
+            });
+
+        var dailyTotals = TRIP_DAYS.map(function() { return 0; });
+        var rowsHtml = '';
+        entries.forEach(function(entry) {
+            var isMe = entry.code === guestCode;
+            rowsHtml += '<tr class="' + (isMe ? 'is-self' : '') + '">';
+            rowsHtml += '<td class="' + (isMe ? 'is-self' : '') + '">' + escapeHtml(entry.fullName) + '</td>';
+            entry.days.forEach(function(val, i) {
+                dailyTotals[i] += val;
+                var cls = val === 1 ? 'full' : (val === 0.5 ? 'half' : 'none');
+                rowsHtml += '<td class="stay-cell ' + cls + '" title="' + escapeHtml(TRIP_DAYS[i].full) + ': ' + (val === 1 ? 'Full day' : val === 0.5 ? 'Half day' : 'Travelling') + '"><span class="dot"></span></td>';
+            });
+            rowsHtml += '<td class="nights-col">' + entry.nights + '</td>';
+            rowsHtml += '</tr>';
+        });
+        bodyEl.innerHTML = rowsHtml;
+
+        // Totals row
+        var totalsHtml = '<td>Total bodies</td>';
+        dailyTotals.forEach(function(t) {
+            totalsHtml += '<td>' + t + '</td>';
+        });
+        var grandNights = dailyTotals.reduce(function(a, b) { return a + b; }, 0);
+        totalsHtml += '<td class="nights-col">' + grandNights + '</td>';
+        totalsEl.innerHTML = totalsHtml;
     }
 
     // Copy bank details
@@ -516,6 +585,7 @@ function initMoneySection() {
     }
 
     renderPersonal();
+    renderStayCalendar();
     renderAdmin();
 
     // Re-render on Firebase updates

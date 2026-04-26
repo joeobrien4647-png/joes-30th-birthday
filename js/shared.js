@@ -251,34 +251,54 @@ const FOOD_KITTY = {
     description: 'Groceries, wine, BBQ supplies, shared drinks'
 };
 
-const GUEST_NIGHTS = {
-    'JOE-7K9X':     5.5,
-    'SOPHIE-M3P2':  5.5,
-    'HANNAH-8FJ3':  4.5,
-    'ROBIN-2VL5':   4.5,
-    'RAZON-3BM6':   5.5,
-    'NEEVE-6PW2':   5.5,
-    'ROBERT-2NG8':  5.5,
-    'SARAH-4KV3':   5.5,
-    'KIRAN-7DX1':   5.5,
-    'CHRIS-2FM7':   5.5,
-    'OLI-3WT5':     5.5,
-    'PETER-6BN2':   5.5,
-    'TOM-5QL7':     5.5,
-    'GEORGE-1CY9':  5.5,
-    'EMMAW-8RJ4':   5.5,
-    'JONNYW-8HQ3':  5.5,
-    'OSCAR-5DL4':   5.5,
-    'LUKE-4WN8':    3.5,
-    'SAM-R6DQ':     3.5,
-    'JOHNNY-9XT4':  3,
-    'FLORRIE-5HK7': 3,
-    'MATT-3B7K':    3,
-    'EMMAL-1RK8':   2.5,
-    'JONNYL-4VP9':  2.5,
-    'SHANE-9FH6':   0,
-    'PRANAY-9WX6':  0
+/* Daily attendance: [Wed 29, Thu 30, Fri 1, Sat 2, Sun 3, Mon 4]
+   Values: 1 = full day, 0.5 = half day, 0 = absent */
+const TRIP_DAYS = [
+    { date: 'Wed 29', label: 'W', full: 'Wed 29 Apr' },
+    { date: 'Thu 30', label: 'T', full: 'Thu 30 Apr' },
+    { date: 'Fri 1',  label: 'F', full: 'Fri 1 May' },
+    { date: 'Sat 2',  label: 'S', full: 'Sat 2 May' },
+    { date: 'Sun 3',  label: 'S', full: 'Sun 3 May' },
+    { date: 'Mon 4',  label: 'M', full: 'Mon 4 May' }
+];
+
+const GUEST_ATTENDANCE = {
+    'JOE-7K9X':     [1, 1, 1, 1, 1, 0.5],
+    'SOPHIE-M3P2':  [1, 1, 1, 1, 1, 0.5],
+    'HANNAH-8FJ3':  [1, 1, 1, 1, 0.5, 0],
+    'ROBIN-2VL5':   [1, 1, 1, 1, 0.5, 0],
+    'RAZON-3BM6':   [1, 1, 1, 1, 1, 0.5],
+    'NEEVE-6PW2':   [1, 1, 1, 1, 1, 0.5],
+    'ROBERT-2NG8':  [1, 1, 1, 1, 1, 0.5],
+    'SARAH-4KV3':   [1, 1, 1, 1, 1, 0.5],
+    'KIRAN-7DX1':   [1, 1, 1, 1, 1, 0.5],
+    'CHRIS-2FM7':   [1, 1, 1, 1, 1, 0.5],
+    'OLI-3WT5':     [1, 1, 1, 1, 1, 0.5],
+    'PETER-6BN2':   [1, 1, 1, 1, 1, 0.5],
+    'TOM-5QL7':     [1, 1, 1, 1, 1, 0.5],
+    'GEORGE-1CY9':  [1, 1, 1, 1, 1, 0.5],
+    'EMMAW-8RJ4':   [1, 1, 1, 1, 1, 0.5],
+    'JONNYW-8HQ3':  [1, 1, 1, 1, 1, 0.5],
+    'OSCAR-5DL4':   [1, 1, 1, 1, 1, 0.5],
+    'LUKE-4WN8':    [0, 1, 1, 1, 0.5, 0],
+    'SAM-R6DQ':     [0, 1, 1, 1, 0.5, 0],
+    'JOHNNY-9XT4':  [0, 0.5, 1, 1, 0.5, 0],
+    'FLORRIE-5HK7': [0, 0.5, 1, 1, 0.5, 0],
+    'MATT-3B7K':    [0, 0, 0.5, 1, 1, 0.5],
+    'EMMAL-1RK8':   [0, 0, 0, 1, 1, 0.5],
+    'JONNYL-4VP9':  [0, 0, 0, 1, 1, 0.5],
+    'SHANE-9FH6':   [0, 0, 0, 0, 0, 0],
+    'PRANAY-9WX6':  [0, 0, 0, 0, 0, 0]
 };
+
+/* Pre-computed per-guest nights (sum of attendance) */
+const GUEST_NIGHTS = (function() {
+    var out = {};
+    Object.keys(GUEST_ATTENDANCE).forEach(function(code) {
+        out[code] = GUEST_ATTENDANCE[code].reduce(function(a, b) { return a + b; }, 0);
+    });
+    return out;
+})();
 
 /* Per-guest line items (true = owes that line). Joe excluded as host. */
 const PAYMENTS = {

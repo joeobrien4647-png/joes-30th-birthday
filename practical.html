@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="css/base.css?v=20">
     <link rel="stylesheet" href="css/components.css?v=3">
     <link rel="stylesheet" href="css/nav.css?v=1">
-    <link rel="stylesheet" href="css/practical.css?v=29">
+    <link rel="stylesheet" href="css/practical.css?v=30">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -375,10 +375,10 @@
             <!-- Personal breakdown (per logged-in guest) -->
             <div class="money-personal" id="money-personal" style="display:none;">
 
-                <!-- Hero summary card -->
+                <!-- Hero summary card (mine only) -->
                 <div class="money-hero">
                     <div class="money-hero-greeting">
-                        <span class="money-hero-eyebrow">Your total estimate</span>
+                        <span class="money-hero-eyebrow">Your estimated total</span>
                         <h3 class="money-hero-name" id="money-greeting">Hi 👋</h3>
                     </div>
                     <div class="money-hero-amount-wrap">
@@ -387,46 +387,34 @@
                     </div>
                 </div>
 
-                <!-- Two cards side by side: Activities + Food Kitty -->
-                <div class="money-cards-grid">
-
-                    <!-- Card 1: Activities + Car Hire (CONFIRMED) -->
+                <!-- My Activities card -->
+                <div class="money-myblock">
                     <div class="money-subcard money-subcard--confirmed">
                         <div class="money-subcard-header">
                             <span class="money-subcard-icon">✅</span>
                             <div>
-                                <h4>Activities &amp; Car Hire</h4>
-                                <p>Already paid by Joe — settle now</p>
+                                <h4>Your Activities &amp; Car Hire</h4>
+                                <p>Joe paid these upfront — settle now</p>
                             </div>
                         </div>
                         <div class="money-lines" id="money-lines">
                             <!-- populated by JS -->
                         </div>
                         <div class="money-subcard-total">
-                            <span>Subtotal</span>
+                            <span>Your subtotal</span>
                             <strong id="money-activities-total">£0</strong>
                         </div>
                     </div>
 
-                    <!-- Card 2: France Group Spend (ESTIMATE) -->
-                    <div class="money-subcard money-subcard--estimate">
-                        <div class="money-subcard-header">
-                            <span class="money-subcard-icon">🍷</span>
-                            <div>
-                                <h4>France Group Spend</h4>
-                                <p>Food, drinks &amp; BBQ supplies</p>
-                            </div>
+                    <!-- My Stay summary -->
+                    <div class="money-mystay">
+                        <div class="money-mystay-icon">🏰</div>
+                        <div class="money-mystay-text">
+                            <span class="money-mystay-label">Your stay</span>
+                            <strong id="money-mystay-nights">0 nights</strong>
+                            <span class="money-mystay-amount" id="money-mystay-amount">~£0 group spend</span>
                         </div>
-                        <div class="money-kitty-block" id="money-kitty-block">
-                            <!-- populated by JS -->
-                        </div>
-                        <div class="money-subcard-total">
-                            <span>Estimate</span>
-                            <strong id="money-kitty-total">£0</strong>
-                        </div>
-                        <p class="money-kitty-note">💡 Final amount confirmed after the trip from actual receipts</p>
                     </div>
-
                 </div>
 
                 <!-- Bank details -->
@@ -441,7 +429,72 @@
                     <button class="money-copy-btn" id="money-copy-btn" type="button">📋 Copy bank details</button>
                 </div>
 
-                <p class="money-note">No rush — send whenever you can.</p>
+                <p class="money-note">No rush — send whenever you can</p>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════
+                 GROUP SPEND (visible to all logged-in guests)
+                 ═══════════════════════════════════════════════ -->
+            <div class="money-public" id="money-public" style="display:none;">
+
+                <!-- Big rate panel -->
+                <div class="kitty-rate-panel">
+                    <div class="kitty-rate-eyebrow">Château Group Kitty</div>
+                    <div class="kitty-rate-wrap">
+                        <span class="kitty-rate-amount" id="kitty-rate-amount">£19</span>
+                        <span class="kitty-rate-unit">per person<br>per night</span>
+                    </div>
+                    <p class="kitty-rate-strap">Estimated rate. Final amount reconciled after the trip from actual receipts.</p>
+                </div>
+
+                <!-- What it covers -->
+                <div class="kitty-includes-grid">
+                    <div class="kitty-includes-card kitty-includes-card--in">
+                        <h4>✓ What this covers</h4>
+                        <ul>
+                            <li>🛒 Big group shop on arrival</li>
+                            <li>🥖 Daily bread &amp; breakfast supplies</li>
+                            <li>🍷 Communal wine &amp; beer</li>
+                            <li>🥩 BBQ supplies &amp; group dinners</li>
+                            <li>🥂 Welcome drinks &amp; party fizz</li>
+                        </ul>
+                    </div>
+                    <div class="kitty-includes-card kitty-includes-card--out">
+                        <h4>✗ Not included</h4>
+                        <ul>
+                            <li>🍴 Meals out / restaurants</li>
+                            <li>🍹 Personal bar tabs</li>
+                            <li>🎯 Activity costs (separate above)</li>
+                            <li>🚌 Smaller group spends</li>
+                            <li>💃 Saturday night cocktails (TBC)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Stay calendar -->
+                <div class="stay-calendar">
+                    <div class="stay-calendar-header">
+                        <h3>🏰 Who's there when</h3>
+                        <div class="stay-calendar-legend">
+                            <span><span class="dot dot-full"></span> Full day</span>
+                            <span><span class="dot dot-half"></span> Half day</span>
+                            <span><span class="dot dot-none"></span> Travelling</span>
+                        </div>
+                    </div>
+                    <div class="stay-calendar-wrap">
+                        <table class="stay-calendar-table" id="stay-calendar-table">
+                            <thead>
+                                <tr id="stay-calendar-head"></tr>
+                            </thead>
+                            <tbody id="stay-calendar-body"></tbody>
+                            <tfoot>
+                                <tr id="stay-calendar-totals"></tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <p class="stay-calendar-note">Drop your half-day arrows if you're arriving late or leaving early — message Joe</p>
+                </div>
+
             </div>
 
             <!-- Admin panel (Joe / Sophie / Hannah only) -->
@@ -565,9 +618,9 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
-    <script src="js/shared.js?v=22"></script>
+    <script src="js/shared.js?v=23"></script>
     <script src="js/firebase-config.js?v=6"></script>
     <script src="js/nav.js?v=1"></script>
-    <script src="js/practical.js?v=13"></script>
+    <script src="js/practical.js?v=14"></script>
 </body>
 </html>

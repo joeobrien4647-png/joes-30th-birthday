@@ -1749,3 +1749,356 @@
     .money-admin-summary { grid-template-columns: 1fr; }
     .money-hero-amount-wrap { align-items: flex-start; }
 }
+
+
+/* ============================================
+   Money — v2 redesign (public-friendly)
+   Personal hero/cards stay, but group spend
+   replaced with: rate panel + includes + calendar
+   ============================================ */
+
+/* My block (Activities + my stay summary) */
+.money-myblock {
+    background: #fff;
+    padding: 18px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.money-mystay {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: linear-gradient(135deg, rgba(237, 108, 2, 0.08), rgba(255, 152, 0, 0.05));
+    border: 1px solid rgba(237, 108, 2, 0.2);
+    border-radius: 14px;
+    padding: 14px 18px;
+}
+
+.money-mystay-icon {
+    font-size: 1.8rem;
+    flex-shrink: 0;
+}
+
+.money-mystay-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+}
+
+.money-mystay-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.money-mystay-text strong {
+    font-size: 1.15rem;
+    color: var(--text-dark);
+    font-weight: 700;
+}
+
+.money-mystay-amount {
+    font-size: 0.88rem;
+    color: #b25400;
+    font-weight: 600;
+}
+
+/* Public group spend section */
+.money-public {
+    max-width: 760px;
+    margin: 32px auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+/* Rate panel — the headline number */
+.kitty-rate-panel {
+    background: linear-gradient(135deg, #fff8e1 0%, #fff3e0 100%);
+    border: 2px solid #ffb74d;
+    border-radius: 22px;
+    padding: 28px 26px;
+    text-align: center;
+    box-shadow: 0 8px 28px rgba(255, 167, 38, 0.18);
+    position: relative;
+    overflow: hidden;
+}
+
+.kitty-rate-panel::before {
+    content: '🍷';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 6rem;
+    opacity: 0.08;
+    transform: rotate(15deg);
+}
+
+.kitty-rate-eyebrow {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #b25400;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+.kitty-rate-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.kitty-rate-amount {
+    font-size: 4.5rem;
+    font-weight: 800;
+    color: #c2410c;
+    letter-spacing: -0.04em;
+    line-height: 1;
+}
+
+.kitty-rate-unit {
+    font-size: 0.95rem;
+    text-align: left;
+    color: var(--text-dark);
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.kitty-rate-strap {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-style: italic;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+/* Includes / Excludes grid */
+.kitty-includes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.kitty-includes-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px 18px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+}
+
+.kitty-includes-card--in { border-top: 4px solid #2e7d32; }
+.kitty-includes-card--out { border-top: 4px solid #c62828; }
+
+.kitty-includes-card h4 {
+    margin: 0 0 14px;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    font-weight: 700;
+}
+
+.kitty-includes-card--in h4 { color: #1b5e20; }
+.kitty-includes-card--out h4 { color: #8e0000; }
+
+.kitty-includes-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.kitty-includes-card li {
+    font-size: 0.88rem;
+    color: var(--text-dark);
+    line-height: 1.45;
+    padding-left: 4px;
+}
+
+/* Stay Calendar */
+.stay-calendar {
+    background: #fff;
+    border-radius: 18px;
+    padding: 22px 18px;
+    box-shadow: 0 6px 22px rgba(0,0,0,0.06);
+}
+
+.stay-calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.stay-calendar-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    font-weight: 700;
+}
+
+.stay-calendar-legend {
+    display: flex;
+    gap: 14px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+}
+
+.stay-calendar-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.stay-calendar-legend .dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.dot-full { background: #2e7d32; }
+.dot-half { background: #ed6c02; }
+.dot-none { background: #cfd8dc; }
+
+.stay-calendar-wrap {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid rgba(0,0,0,0.06);
+}
+
+.stay-calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    min-width: 540px;
+}
+
+.stay-calendar-table th, .stay-calendar-table td {
+    padding: 8px 6px;
+    text-align: center;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+
+.stay-calendar-table thead th {
+    background: var(--bg-light);
+    font-weight: 700;
+    color: var(--text-dark);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 11px 6px;
+}
+
+.stay-calendar-table thead th:first-child {
+    text-align: left;
+    padding-left: 14px;
+}
+
+.stay-calendar-table thead th .day-date {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-top: 2px;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.stay-calendar-table tbody td:first-child {
+    text-align: left;
+    padding-left: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+    white-space: nowrap;
+}
+
+.stay-calendar-table tbody td.is-self {
+    color: #764ba2;
+    font-weight: 800;
+}
+
+.stay-calendar-table tbody tr.is-self {
+    background: rgba(118, 75, 162, 0.04);
+}
+
+.stay-calendar-table tbody tr.is-self td:first-child::before {
+    content: '👉 ';
+}
+
+.stay-calendar-table .stay-cell {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    position: relative;
+}
+
+.stay-calendar-table .stay-cell .dot {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+.stay-calendar-table .stay-cell.full .dot { background: #2e7d32; }
+.stay-calendar-table .stay-cell.half .dot { background: linear-gradient(90deg, #ed6c02 50%, #fff3e0 50%); }
+.stay-calendar-table .stay-cell.none .dot { background: #cfd8dc; opacity: 0.5; }
+
+.stay-calendar-table .nights-col {
+    text-align: center;
+    font-weight: 700;
+    color: var(--primary);
+    background: rgba(118, 75, 162, 0.04);
+    border-left: 1px solid rgba(0,0,0,0.06);
+}
+
+.stay-calendar-table tfoot td {
+    background: var(--bg-light);
+    font-weight: 700;
+    color: var(--text-dark);
+    font-size: 0.8rem;
+    padding: 10px 6px;
+}
+
+.stay-calendar-table tfoot td:first-child {
+    text-align: left;
+    padding-left: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+.stay-calendar-note {
+    margin: 14px 0 0;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-style: italic;
+}
+
+@media (max-width: 600px) {
+    .kitty-rate-amount { font-size: 3.6rem; }
+    .kitty-rate-wrap { gap: 10px; }
+    .kitty-includes-grid { grid-template-columns: 1fr; }
+    .stay-calendar-header { flex-direction: column; align-items: stretch; }
+    .stay-calendar-table .stay-cell { width: 28px; height: 28px; }
+    .stay-calendar-table .stay-cell .dot { width: 14px; height: 14px; }
+}
+
+/* Hide old broken refs — money-cards-grid was the old container */
+.money-cards-grid { display: none; }
