@@ -2102,3 +2102,11 @@
 
 /* Hide old broken refs — money-cards-grid was the old container */
 .money-cards-grid { display: none; }
+
+.kitty-includes-strap {
+    margin: 0 0 12px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-style: italic;
+    line-height: 1.4;
+}
