@@ -363,13 +363,16 @@ function initMoneySection() {
         document.getElementById('money-greeting').textContent = 'Hi ' + firstName + ' 👋';
 
         var lines = (typeof getPaymentLines === 'function') ? getPaymentLines(guestCode) : [];
-        var total = (typeof getPaymentTotal === 'function') ? getPaymentTotal(guestCode) : 0;
+        var activitiesTotal = (typeof getPaymentTotal === 'function') ? getPaymentTotal(guestCode) : 0;
+        var nights = (typeof getNights === 'function') ? getNights(guestCode) : 0;
+        var kittyEstimate = (typeof getFoodKittyEstimate === 'function') ? getFoodKittyEstimate(guestCode) : 0;
+        var grandTotal = activitiesTotal + kittyEstimate;
         var paid = (typeof PaymentSync !== 'undefined' && PaymentSync.isPaid(guestCode));
 
-        // Lines
+        // Activities lines
         var linesEl = document.getElementById('money-lines');
         if (lines.length === 0) {
-            linesEl.innerHTML = '<div class="money-empty">Nothing owed for activities or car hire — you\'re all good ✅</div>';
+            linesEl.innerHTML = '<div class="money-empty">Nothing owed here — you\'re all good ✅</div>';
         } else {
             linesEl.innerHTML = lines.map(function(l) {
                 return '<div class="money-line">' +
@@ -381,15 +384,33 @@ function initMoneySection() {
                 '</div>';
             }).join('');
         }
+        document.getElementById('money-activities-total').textContent = '£' + activitiesTotal;
 
-        // Total + status
-        document.getElementById('money-total-amount').textContent = '£' + total;
+        // Food kitty
+        var kittyEl = document.getElementById('money-kitty-block');
+        if (nights === 0) {
+            kittyEl.innerHTML = '<div class="money-empty">Not staying at the chateau — no group spend</div>';
+        } else {
+            kittyEl.innerHTML =
+                '<div class="money-kitty-formula">' +
+                    '<div class="money-kitty-row"><span>Nights at chateau</span><strong>' + nights + '</strong></div>' +
+                    '<div class="money-kitty-row"><span>Estimated rate</span><strong>£' + FOOD_KITTY.perNightGBP + '/night</strong></div>' +
+                    '<div class="money-kitty-row"><span>Your share</span><strong>£' + kittyEstimate + '</strong></div>' +
+                '</div>' +
+                '<div class="money-kitty-includes">' +
+                    '<strong>Covers:</strong> ' + escapeHtml(FOOD_KITTY.description) +
+                '</div>';
+        }
+        document.getElementById('money-kitty-total').textContent = '£' + kittyEstimate;
+
+        // Grand total + status
+        document.getElementById('money-grand-total').textContent = '£' + grandTotal;
         var badge = document.getElementById('money-status-badge');
-        if (total === 0) {
+        if (grandTotal === 0) {
             badge.textContent = '✅ All clear';
             badge.classList.add('paid');
         } else if (paid) {
-            badge.textContent = '✅ Paid — thanks!';
+            badge.textContent = '✅ Activities paid';
             badge.classList.add('paid');
         } else {
             badge.textContent = '⏳ Outstanding';
@@ -442,11 +463,14 @@ function initMoneySection() {
         entries.forEach(function(entry) {
             var code = entry.code;
             var record = PAYMENTS[code];
-            var lineTotal = getPaymentTotal(code);
+            var activitiesTotal = getPaymentTotal(code);
+            var nights = getNights(code);
+            var kitty = getFoodKittyEstimate(code);
+            var grand = activitiesTotal + kitty;
             var paid = (typeof PaymentSync !== 'undefined' && PaymentSync.isPaid(code));
 
-            totalOwed += lineTotal;
-            if (paid) totalPaid += lineTotal;
+            totalOwed += grand;
+            if (paid) totalPaid += grand;
 
             function cell(flag, key) {
                 if (!flag) return '<td class="money-cell-dash">—</td>';
@@ -460,8 +484,11 @@ function initMoneySection() {
                     cell(record.canoe, 'canoe') +
                     cell(record.accro, 'accro') +
                     cell(record.car, 'car') +
-                    '<td class="money-cell-total">' + (lineTotal > 0 ? '£' + lineTotal : '—') + '</td>' +
-                    '<td>' + (lineTotal > 0
+                    '<td class="money-cell-total">' + (activitiesTotal > 0 ? '£' + activitiesTotal : '—') + '</td>' +
+                    '<td>' + (nights > 0 ? nights : '—') + '</td>' +
+                    '<td class="money-cell-kitty">' + (kitty > 0 ? '£' + kitty : '—') + '</td>' +
+                    '<td class="money-cell-grand">' + (grand > 0 ? '£' + grand : '—') + '</td>' +
+                    '<td>' + (activitiesTotal > 0
                         ? '<input type="checkbox" class="money-admin-paid-toggle" data-code="' + escapeHtml(code) + '"' + (paid ? ' checked' : '') + '>'
                         : '<span class="money-cell-dash">—</span>'
                     ) + '</td>' +

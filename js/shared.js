@@ -243,6 +243,43 @@ const PAYMENT_BANK = {
     refHint: 'Use your first name as the reference'
 };
 
+/* Group food/drink/BBQ kitty — pro-rated by nights at the chateau.
+   Source: France-Expense-Tracker-v5.xlsx (Attendance sheet).
+   Final amount reconciled after trip from actual receipts. */
+const FOOD_KITTY = {
+    perNightGBP: 19,          // £/night/person · €125÷6 nights × FX buffer
+    description: 'Groceries, wine, BBQ supplies, shared drinks'
+};
+
+const GUEST_NIGHTS = {
+    'JOE-7K9X':     5.5,
+    'SOPHIE-M3P2':  5.5,
+    'HANNAH-8FJ3':  4.5,
+    'ROBIN-2VL5':   4.5,
+    'RAZON-3BM6':   5.5,
+    'NEEVE-6PW2':   5.5,
+    'ROBERT-2NG8':  5.5,
+    'SARAH-4KV3':   5.5,
+    'KIRAN-7DX1':   5.5,
+    'CHRIS-2FM7':   5.5,
+    'OLI-3WT5':     5.5,
+    'PETER-6BN2':   5.5,
+    'TOM-5QL7':     5.5,
+    'GEORGE-1CY9':  5.5,
+    'EMMAW-8RJ4':   5.5,
+    'JONNYW-8HQ3':  5.5,
+    'OSCAR-5DL4':   5.5,
+    'LUKE-4WN8':    3.5,
+    'SAM-R6DQ':     3.5,
+    'JOHNNY-9XT4':  3,
+    'FLORRIE-5HK7': 3,
+    'MATT-3B7K':    3,
+    'EMMAL-1RK8':   2.5,
+    'JONNYL-4VP9':  2.5,
+    'SHANE-9FH6':   0,
+    'PRANAY-9WX6':  0
+};
+
 /* Per-guest line items (true = owes that line). Joe excluded as host. */
 const PAYMENTS = {
     'SOPHIE-M3P2':  { golf: false, canoe: true,  accro: true,  car: true  },
@@ -290,6 +327,20 @@ function getPaymentLines(guestCode) {
 
 function getPaymentTotal(guestCode) {
     return getPaymentLines(guestCode).reduce(function(sum, l) { return sum + l.amount; }, 0);
+}
+
+function getNights(guestCode) {
+    return (typeof GUEST_NIGHTS !== 'undefined' && GUEST_NIGHTS[guestCode]) || 0;
+}
+
+function getFoodKittyEstimate(guestCode) {
+    var nights = getNights(guestCode);
+    if (!nights) return 0;
+    return Math.round(nights * FOOD_KITTY.perNightGBP);
+}
+
+function getGrandTotalEstimate(guestCode) {
+    return getPaymentTotal(guestCode) + getFoodKittyEstimate(guestCode);
 }
 
 /* Captain Responsibilities */
