@@ -353,6 +353,8 @@ function initMoneySection() {
 
     var isAdmin = Auth.isAdmin();
     personalEl.style.display = 'block';
+    var breakEl = document.getElementById('money-public-break');
+    if (breakEl) breakEl.style.display = 'flex';
     if (publicEl) publicEl.style.display = 'flex';
     if (isAdmin) adminEl.style.display = 'block';
 

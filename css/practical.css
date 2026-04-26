@@ -2198,3 +2198,81 @@
 .money-admin-note {
     line-height: 1.55;
 }
+
+/* Section break — distinctive divide between personal "owed now"
+   and the public chateau group spend section */
+.money-section-break {
+    max-width: 760px;
+    margin: 56px auto 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    position: relative;
+}
+
+.msb-divider {
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, rgba(237,108,2,0.4) 20%, rgba(237,108,2,0.7) 50%, rgba(237,108,2,0.4) 80%, transparent 100%);
+    border: none;
+    margin: 0;
+}
+
+.msb-banner {
+    background: linear-gradient(135deg, #fff8e1 0%, #ffe0b2 50%, #ffccbc 100%);
+    border-left: 6px solid #ed6c02;
+    border-right: 6px solid #ed6c02;
+    padding: 28px 28px;
+    text-align: center;
+    box-shadow: 0 6px 24px rgba(237, 108, 2, 0.15);
+    position: relative;
+}
+
+.msb-banner::before,
+.msb-banner::after {
+    content: '🍷';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2.5rem;
+    opacity: 0.18;
+}
+
+.msb-banner::before { left: 18px; }
+.msb-banner::after  { right: 18px; }
+
+.msb-eyebrow {
+    display: inline-block;
+    background: rgba(237, 108, 2, 0.15);
+    color: #b25400;
+    padding: 4px 14px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 10px;
+}
+
+.msb-banner h3 {
+    margin: 0 0 8px;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #8e3a00;
+    letter-spacing: -0.01em;
+}
+
+.msb-banner p {
+    margin: 0;
+    color: #6d2e00;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+@media (max-width: 600px) {
+    .msb-banner { padding: 22px 18px; }
+    .msb-banner::before, .msb-banner::after { display: none; }
+    .msb-banner h3 { font-size: 1.25rem; }
+}
