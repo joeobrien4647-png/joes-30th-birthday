@@ -326,7 +326,7 @@
         '\uD83D\uDE02 Make someone laugh so hard they cry',
         '\uD83D\uDCE3 Start a chant the whole group joins',
         '\uD83C\uDF7A Win a 1v1 downing competition (any drink — one attempt only, lose and you\'re out. Each person can only be challenged once across both 1v1 squares)',
-        '\u26BE Score a point in any organised team game',
+        '\uD83E\uDD33 Get all 4 team captains in a single photo with you',
         '\uD83E\uDD42 Toast someone in front of 10+ people (target must be untoasted by anyone all trip)',
         '\uD83C\uDDEB\uD83C\uDDF7 Order a round of drinks in confident French at the bar',
         '\uD83C\uDFB6 Sing a full James Blunt song',
