@@ -337,7 +337,7 @@
         '\uD83E\uDD38 Handstand in the pool, held 5 sec (witness or photo)',
         '\uD83C\uDF36\uFE0F Eat a raw chilli or spoonful of hot sauce, straight face',
         '\uD83D\uDCA6 Jump in the pool fully clothed',
-        '\uD83E\uDD43 Three shots of three different spirits in a row'
+        '\uD83E\uDD43 Three shots of three different spirits in a row (or three non-alc shots: ginger, espresso, fruit cordial)'
     ];
 
     var BINGO_LINES = [
