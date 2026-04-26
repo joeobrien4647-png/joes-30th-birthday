@@ -356,10 +356,10 @@ function initMoneySection() {
     if (publicEl) publicEl.style.display = 'flex';
     if (isAdmin) adminEl.style.display = 'block';
 
-    // Show kitty rate amount on public panel
+    // Show kitty rate range on public panel
     var kittyRateEl = document.getElementById('kitty-rate-amount');
     if (kittyRateEl && typeof FOOD_KITTY !== 'undefined') {
-        kittyRateEl.textContent = '£' + FOOD_KITTY.perNightGBP;
+        kittyRateEl.textContent = '£' + FOOD_KITTY.perNightLow + '–' + FOOD_KITTY.perNightHigh;
     }
 
     // ---- Personal panel ----
@@ -373,8 +373,8 @@ function initMoneySection() {
         var lines = (typeof getPaymentLines === 'function') ? getPaymentLines(guestCode) : [];
         var activitiesTotal = (typeof getPaymentTotal === 'function') ? getPaymentTotal(guestCode) : 0;
         var nights = (typeof getNights === 'function') ? getNights(guestCode) : 0;
-        var kittyEstimate = (typeof getFoodKittyEstimate === 'function') ? getFoodKittyEstimate(guestCode) : 0;
-        var grandTotal = activitiesTotal + kittyEstimate;
+        var kittyRange = (typeof getFoodKittyRange === 'function') ? getFoodKittyRange(guestCode) : { low: 0, high: 0 };
+        var grandTotal = activitiesTotal; // Kitty excluded from grand total — settled post-trip
         var paid = (typeof PaymentSync !== 'undefined' && PaymentSync.isPaid(guestCode));
 
         // Activities lines
@@ -403,7 +403,13 @@ function initMoneySection() {
                 if (amountEl) amountEl.textContent = 'No group spend share';
             } else {
                 nightsEl.textContent = nights + (nights === 1 ? ' night' : ' nights') + ' at the chateau';
-                if (amountEl) amountEl.textContent = '~£' + kittyEstimate + ' group spend share (estimated)';
+                if (amountEl) {
+                    if (kittyRange.low > 0) {
+                        amountEl.textContent = 'Group spend share roughly £' + kittyRange.low + '–£' + kittyRange.high + ' (settled after trip)';
+                    } else {
+                        amountEl.textContent = 'Group spend settled after trip';
+                    }
+                }
             }
         }
 
@@ -534,12 +540,11 @@ function initMoneySection() {
             var record = PAYMENTS[code];
             var activitiesTotal = getPaymentTotal(code);
             var nights = getNights(code);
-            var kitty = getFoodKittyEstimate(code);
-            var grand = activitiesTotal + kitty;
+            var kittyRange = getFoodKittyRange(code);
             var paid = (typeof PaymentSync !== 'undefined' && PaymentSync.isPaid(code));
 
-            totalOwed += grand;
-            if (paid) totalPaid += grand;
+            totalOwed += activitiesTotal;
+            if (paid) totalPaid += activitiesTotal;
 
             function cell(flag, key) {
                 if (!flag) return '<td class="money-cell-dash">—</td>';
@@ -555,8 +560,8 @@ function initMoneySection() {
                     cell(record.car, 'car') +
                     '<td class="money-cell-total">' + (activitiesTotal > 0 ? '£' + activitiesTotal : '—') + '</td>' +
                     '<td>' + (nights > 0 ? nights : '—') + '</td>' +
-                    '<td class="money-cell-kitty">' + (kitty > 0 ? '£' + kitty : '—') + '</td>' +
-                    '<td class="money-cell-grand">' + (grand > 0 ? '£' + grand : '—') + '</td>' +
+                    '<td class="money-cell-kitty">' + (kittyRange.low > 0 ? '£' + kittyRange.low + '–' + kittyRange.high : '—') + '</td>' +
+                    '<td class="money-cell-grand">' + (activitiesTotal > 0 ? '£' + activitiesTotal : '—') + '</td>' +
                     '<td>' + (activitiesTotal > 0
                         ? '<input type="checkbox" class="money-admin-paid-toggle" data-code="' + escapeHtml(code) + '"' + (paid ? ' checked' : '') + '>'
                         : '<span class="money-cell-dash">—</span>'

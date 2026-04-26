@@ -22,10 +22,8 @@ function updateMoneyBanner(code) {
     if (typeof getPaymentTotal !== 'function') return;
 
     var activities = getPaymentTotal(code);
-    var kitty = (typeof getFoodKittyEstimate === 'function') ? getFoodKittyEstimate(code) : 0;
-    var grand = activities + kitty;
 
-    if (grand === 0) {
+    if (activities === 0) {
         banner.style.display = 'none';
         return;
     }
@@ -35,22 +33,14 @@ function updateMoneyBanner(code) {
     var subEl = document.getElementById('dmb-sub');
 
     banner.style.display = 'flex';
-    if (paid && activities > 0) {
+    if (paid) {
         banner.classList.add('paid');
         if (amountEl) amountEl.textContent = '✅ £' + activities + ' activities paid';
-        if (subEl) subEl.textContent = (kitty > 0 ? 'Group spend ~£' + kitty + ' settled after trip' : 'Thanks legend');
+        if (subEl) subEl.textContent = 'Thanks legend — group spend settled after trip';
     } else {
         banner.classList.remove('paid');
-        if (amountEl) amountEl.textContent = '💷 £' + grand + ' total';
-        if (subEl) {
-            if (activities > 0 && kitty > 0) {
-                subEl.textContent = '£' + activities + ' now + £' + kitty + ' group spend (est.)';
-            } else if (activities > 0) {
-                subEl.textContent = 'Tap for breakdown & bank details';
-            } else {
-                subEl.textContent = '~£' + kitty + ' group spend, settled after trip';
-            }
-        }
+        if (amountEl) amountEl.textContent = '💷 £' + activities + ' to send Joe';
+        if (subEl) subEl.textContent = 'Activities + car hire — bank details inside';
     }
 }
 

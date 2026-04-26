@@ -247,7 +247,9 @@ const PAYMENT_BANK = {
    Source: France-Expense-Tracker-v5.xlsx (Attendance sheet).
    Final amount reconciled after trip from actual receipts. */
 const FOOD_KITTY = {
-    perNightGBP: 19,          // £/night/person · €125÷6 nights × FX buffer
+    perNightGBP: 0,           // 0 until reconciled post-trip from receipts
+    perNightLow: 15,          // estimate range — display only
+    perNightHigh: 20,
     description: 'Groceries, wine, BBQ supplies, shared drinks'
 };
 
@@ -357,6 +359,15 @@ function getFoodKittyEstimate(guestCode) {
     var nights = getNights(guestCode);
     if (!nights) return 0;
     return Math.round(nights * FOOD_KITTY.perNightGBP);
+}
+
+function getFoodKittyRange(guestCode) {
+    var nights = getNights(guestCode);
+    if (!nights) return { low: 0, high: 0 };
+    return {
+        low: Math.round(nights * FOOD_KITTY.perNightLow),
+        high: Math.round(nights * FOOD_KITTY.perNightHigh)
+    };
 }
 
 function getGrandTotalEstimate(guestCode) {
