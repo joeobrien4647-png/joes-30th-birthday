@@ -315,7 +315,7 @@ const PAYMENTS = {
     'ROBERT-2NG8':  { golf: false, canoe: true,  accro: true,  car: false },
     'SARAH-4KV3':   { golf: false, canoe: true,  accro: true,  car: true  },
     'KIRAN-7DX1':   { golf: false, canoe: true,  accro: true,  car: true,  paid: { car: true } },
-    'CHRIS-2FM7':   { golf: true,  canoe: true,  accro: true,  car: true  },
+    'CHRIS-2FM7':   { golf: true,  canoe: true,  accro: true,  car: true,  paid: { car: true } },
     'OLI-3WT5':     { golf: true,  canoe: true,  accro: true,  car: true  },
     'PETER-6BN2':   { golf: true,  canoe: true,  accro: true,  car: true  },
     'TOM-5QL7':     { golf: true,  canoe: true,  accro: false, car: false },
