@@ -146,7 +146,7 @@ function isFirstTimeVisitor() {
   return true;
 }
 
-/* Guest Data - All 26 guests (invite codes are random, not guessable) */
+/* Guest Data - 24 guests + 1 toddler (Shane + Pranay no longer attending) */
 const GUEST_DATA = {
     'JOE-7K9X': { name: 'Joe', fullName: 'Joe O\'Brien', room: 'Master Suite', team: 'TBA', nickname: 'TBA' },
     'SOPHIE-M3P2': { name: 'Sophie', fullName: 'Sophie Geen', room: 'Master Suite', team: 'TBA', nickname: 'TBA' },
@@ -164,7 +164,6 @@ const GUEST_DATA = {
     'ROBERT-2NG8': { name: 'Robert', fullName: 'Robert Winup', room: 'Room 7', team: 'TBA', nickname: 'TBA' },
     'SARAH-4KV3': { name: 'Sarah', fullName: 'Sarah Shamia', room: 'Room 8', team: 'TBA', nickname: 'TBA' },
     'KIRAN-7DX1': { name: 'Kiran', fullName: 'Kiran Ruparelia', room: 'Room 9', team: 'TBA', nickname: 'TBA' },
-    'SHANE-9FH6': { name: 'Shane', fullName: 'Shane Pallian', room: 'Room 12', team: 'TBA', nickname: 'TBA' },
     'OLI-3WT5': { name: 'Oli', fullName: 'Oli Moran', room: 'Room 10', team: 'TBA', nickname: 'TBA' },
     'PETER-6BN2': { name: 'Peter', fullName: 'Peter London', room: 'Room 10', team: 'TBA', nickname: 'TBA' },
     'EMMAL-1RK8': { name: 'Emma L', fullName: 'Emma Levett', room: 'Room 11', team: 'TBA', nickname: 'TBA' },
@@ -172,16 +171,15 @@ const GUEST_DATA = {
     'JONNYW-8HQ3': { name: 'Jonny W', fullName: 'Jonny Williams', room: 'Room 12', team: 'TBA', nickname: 'TBA' },
     'CHRIS-2FM7': { name: 'Chris', fullName: 'Chris Coggin', room: 'Room 9', team: 'TBA', nickname: 'TBA' },
     'OSCAR-5DL4': { name: 'Oscar', fullName: 'Oscar Walters', room: 'Room 12', team: 'TBA', nickname: 'TBA' },
-    'PRANAY-9WX6': { name: 'Pranay', fullName: 'Pranay Dube', room: 'Room 12', team: 'TBA', nickname: 'TBA' },
     'MATT-3B7K': { name: 'Matt', fullName: 'Matt Hill', room: 'Room 12', team: 'TBA', nickname: 'TBA' }
 };
 
 /* Players mapped to teams (for leaderboard) */
 const PLAYERS = {
     'Joe': 'titans', 'Samantha': 'titans', 'Robin': 'titans', 'Emma L': 'titans', 'Kiran': 'titans', 'Oscar': 'titans', 'Chris': 'titans',
-    'Razon': 'spartans', 'Sophie': 'spartans', 'Robert': 'spartans', 'Florrie': 'spartans', 'Shane': 'spartans', 'Jonny W': 'spartans', 'Matt': 'spartans',
+    'Razon': 'spartans', 'Sophie': 'spartans', 'Robert': 'spartans', 'Florrie': 'spartans', 'Jonny W': 'spartans', 'Matt': 'spartans',
     'Hannah': 'vikings', 'Luke': 'vikings', 'George': 'vikings', 'Neeve': 'vikings', 'Oli': 'vikings', 'Jonny L': 'vikings',
-    'Peter': 'gladiators', 'Johnny': 'gladiators', 'Tom': 'gladiators', 'Sarah': 'gladiators', 'Emma W': 'gladiators', 'Pranay': 'gladiators'
+    'Peter': 'gladiators', 'Johnny': 'gladiators', 'Tom': 'gladiators', 'Sarah': 'gladiators', 'Emma W': 'gladiators'
 };
 
 /* Team Configuration */
@@ -288,9 +286,7 @@ const GUEST_ATTENDANCE = {
     'FLORRIE-5HK7': [0, 0.5, 1, 1, 0.5, 0],
     'MATT-3B7K':    [0, 0, 0.5, 1, 1, 0.5],
     'EMMAL-1RK8':   [0, 0, 0, 1, 1, 0.5],
-    'JONNYL-4VP9':  [0, 0, 0, 1, 1, 0.5],
-    'SHANE-9FH6':   [0, 0, 0, 0, 0, 0],
-    'PRANAY-9WX6':  [0, 0, 0, 0, 0, 0]
+    'JONNYL-4VP9':  [0, 0, 0, 1, 1, 0.5]
 };
 
 /* Pre-computed per-guest nights (sum of attendance) */
@@ -329,9 +325,7 @@ const PAYMENTS = {
     'FLORRIE-5HK7': { golf: false, canoe: false, accro: false, car: false },
     'MATT-3B7K':    { golf: false, canoe: false, accro: true,  car: true  },
     'EMMAL-1RK8':   { golf: false, canoe: false, accro: true,  car: false },
-    'JONNYL-4VP9':  { golf: false, canoe: false, accro: true,  car: false },
-    'SHANE-9FH6':   { golf: false, canoe: false, accro: false, car: false },
-    'PRANAY-9WX6':  { golf: false, canoe: false, accro: false, car: false }
+    'JONNYL-4VP9':  { golf: false, canoe: false, accro: true,  car: false }
 };
 
 /* Helpers */

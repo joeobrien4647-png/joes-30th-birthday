@@ -1546,3 +1546,16 @@
     border-color: rgba(245, 158, 11, 0.28);
 }
 .bingo-rule-requirements h4 { color: #92400e; }
+
+.bingo-clear-btn {
+    background: #c62828;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-left: 8px;
+}
+.bingo-clear-btn:hover { background: #8e0000; }

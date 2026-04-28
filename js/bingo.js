@@ -1272,6 +1272,36 @@ function initBingo() {
         var adminBar = document.getElementById('bingoAdminBar');
         if (adminBar) adminBar.style.display = '';
 
+        // Wire "Clear all bingo data" button
+        var clearBtn = document.getElementById('bingoClearAll');
+        if (clearBtn) {
+            clearBtn.addEventListener('click', function() {
+                var confirm1 = confirm('Clear ALL bingo claims, lines, and punishments?\n\nThis wipes the entire leaderboard and cannot be undone.');
+                if (!confirm1) return;
+                var confirm2 = confirm('ARE YOU SURE? Final warning.');
+                if (!confirm2) return;
+                if (typeof firebase !== 'undefined' && firebase.database) {
+                    firebase.database().ref('bingo').remove().then(function() {
+                        alert('Bingo data cleared. Refreshing...');
+                        location.reload();
+                    }).catch(function(err) {
+                        alert('Error clearing: ' + (err && err.message || err));
+                    });
+                }
+            });
+        }
+
+        // Console helper too
+        window.clearBingoData = function() {
+            if (!confirm('Clear ALL bingo data?')) return;
+            if (typeof firebase !== 'undefined' && firebase.database) {
+                firebase.database().ref('bingo').remove().then(function() {
+                    console.log('Bingo data cleared.');
+                    location.reload();
+                });
+            }
+        };
+
         // Show admin claims panel
         var adminEl = document.getElementById('bingoAdmin');
         if (adminEl) adminEl.style.display = 'block';
