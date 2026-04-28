@@ -1,0 +1,81 @@
+:root {
+    --titans: #f9a825;
+    --spartans: #c62828;
+    --vikings: #1565c0;
+    --gladiators: #424242;
+    --bg: #0a0820;
+    --bg-2: #1a1240;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; background: radial-gradient(ellipse at top, var(--bg-2), var(--bg) 70%); color: #fff; font-family: 'Inter', system-ui, sans-serif; }
+body.stadium { display: grid; grid-template-rows: auto 1fr auto; }
+#confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 100; }
+
+.sb-start { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); }
+.sb-start.hidden { display: none; }
+.sb-start-inner { text-align: center; }
+.sb-start-icon { font-size: 6rem; margin-bottom: 12px; }
+.sb-start h1 { font-family: 'Bebas Neue', sans-serif; font-size: 4rem; letter-spacing: 0.04em; }
+.sb-start p { opacity: 0.7; margin: 8px 0 24px; font-size: 1.2rem; }
+.sb-start-btn { padding: 16px 48px; font-size: 1.4rem; font-weight: 700; background: linear-gradient(90deg,#7a3eef,#b94aef); color: #fff; border: none; border-radius: 99px; cursor: pointer; box-shadow: 0 12px 40px rgba(122,62,239,0.6); }
+
+.sb-header { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 24px 40px; gap: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.sb-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2.4rem; letter-spacing: 0.08em; }
+.sb-day { text-align: center; font-weight: 700; font-size: 1.4rem; opacity: 0.85; }
+.sb-controls { text-align: right; }
+.sb-mute { background: rgba(255,255,255,0.08); border: none; color: #fff; padding: 8px 14px; font-size: 1.2rem; border-radius: 99px; cursor: pointer; }
+
+.sb-stage { position: relative; padding: 24px 40px; min-height: 0; }
+.sb-panel { position: absolute; inset: 24px 40px; display: flex; flex-direction: column; opacity: 0; transition: opacity 0.6s ease; }
+.sb-panel.active { opacity: 1; }
+.sb-panel[hidden] { display: none; }
+
+.sb-panel-title { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; letter-spacing: 0.06em; margin-bottom: 18px; opacity: 0.9; }
+
+.sb-grid-teams { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 18px; flex: 1; }
+.sb-team-card { position: relative; padding: 32px; border-radius: 24px; background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)); border: 2px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
+.sb-team-card.leader { border-color: gold; box-shadow: 0 0 60px rgba(255,215,0,0.3); animation: leaderPulse 2.4s ease-in-out infinite; }
+@keyframes leaderPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.015); } }
+.sb-team-card[data-team="titans"] { background: linear-gradient(135deg, rgba(249,168,37,0.25), rgba(249,168,37,0.05)); }
+.sb-team-card[data-team="spartans"] { background: linear-gradient(135deg, rgba(198,40,40,0.25), rgba(198,40,40,0.05)); }
+.sb-team-card[data-team="vikings"] { background: linear-gradient(135deg, rgba(21,101,192,0.25), rgba(21,101,192,0.05)); }
+.sb-team-card[data-team="gladiators"] { background: linear-gradient(135deg, rgba(150,150,150,0.25), rgba(150,150,150,0.05)); }
+.sb-team-name { font-family: 'Bebas Neue', sans-serif; font-size: 4.5rem; letter-spacing: 0.04em; }
+.sb-team-emoji { font-size: 3rem; }
+.sb-team-score { font-family: 'Bebas Neue', sans-serif; font-size: 9rem; line-height: 1; align-self: flex-end; text-shadow: 0 4px 18px rgba(0,0,0,0.4); }
+.sb-team-rank { position: absolute; top: 16px; right: 16px; font-size: 1.4rem; font-weight: 700; opacity: 0.6; }
+
+.sb-players { display: grid; gap: 12px; flex: 1; }
+.sb-player-row { display: grid; grid-template-columns: 80px 1fr auto; align-items: center; gap: 18px; padding: 18px 24px; border-radius: 16px; background: rgba(255,255,255,0.04); }
+.sb-player-row.first { background: linear-gradient(90deg, rgba(255,215,0,0.2), rgba(255,215,0,0.05)); border: 1px solid rgba(255,215,0,0.4); }
+.sb-player-rank { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; }
+.sb-player-name { font-size: 2.2rem; font-weight: 700; }
+.sb-player-pts { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; }
+
+.sb-recap { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; flex: 1; }
+.sb-recap-card { padding: 24px; border-radius: 20px; background: rgba(255,255,255,0.05); }
+.sb-recap-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; opacity: 0.7; margin-bottom: 8px; letter-spacing: 0.06em; }
+.sb-recap-card .v { font-size: 2.4rem; font-weight: 700; }
+
+.sb-feed { display: grid; gap: 8px; align-content: start; }
+.sb-feed-row { display: grid; grid-template-columns: auto 80px 1fr auto; gap: 18px; align-items: center; padding: 14px 20px; border-radius: 14px; background: rgba(255,255,255,0.04); font-size: 1.3rem; }
+.sb-feed-emoji { font-size: 1.8rem; }
+.sb-feed-pts { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; }
+.sb-feed-pts.positive { color: #6ee07b; }
+.sb-feed-pts.negative { color: #ff7575; }
+.sb-feed-time { opacity: 0.5; font-size: 1rem; }
+
+.sb-ticker { background: rgba(0,0,0,0.5); border-top: 2px solid rgba(255,255,255,0.1); padding: 12px 0; overflow: hidden; white-space: nowrap; }
+.sb-ticker-track { display: inline-block; padding-left: 100%; animation: tickerScroll 60s linear infinite; font-size: 1.3rem; }
+.sb-ticker-track:hover { animation-play-state: paused; }
+.sb-ticker-item { display: inline-block; margin-right: 60px; }
+.sb-ticker-pts { font-weight: 700; color: #ffcc4d; margin: 0 6px; }
+@keyframes tickerScroll { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+
+.sb-flash { position: fixed; inset: 0; background: rgba(255,255,255,0); pointer-events: none; z-index: 200; transition: background 0.15s; }
+.sb-flash.fire { background: rgba(255,255,255,0.9); transition: background 0.05s; }
+.sb-overtake { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; z-index: 300; opacity: 0; transition: opacity 0.4s; }
+.sb-overtake.fire { opacity: 1; }
+.sb-overtake-inner { padding: 48px 80px; border-radius: 40px; background: linear-gradient(135deg, rgba(0,0,0,0.85), rgba(40,30,80,0.85)); border: 4px solid gold; text-align: center; box-shadow: 0 30px 100px rgba(255,215,0,0.4); }
+.sb-overtake-title { font-family: 'Bebas Neue', sans-serif; font-size: 6rem; letter-spacing: 0.04em; }
+.sb-overtake-sub { font-size: 2rem; opacity: 0.8; }
