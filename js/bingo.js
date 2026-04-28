@@ -59,9 +59,9 @@ var BINGO_EMOJIS = [
     '\uD83C\uDFA4',           // 8. Song singalong
     '\uD83D\uDCAA',           // 9. 1v1 arm wrestle
     '\uD83E\uDD43',           // 10. Joe shot/drink
-    '\uD83C\uDF05',           // 11. Sunrise with someone
+    '\uD83C\uDFCA',           // 11. Beat a captain in swim race
     '\uD83D\uDD7A',           // 12. Slut drop on 90s night
-    '\uD83E\uDD38',           // 13. Pool handstand
+    '\uD83C\uDFD3',           // 13. Beer pong
     '\uD83C\uDF36\uFE0F',     // 14. Hot food / lemon
     '\uD83D\uDCA6',           // 15. Pool fully clothed
     '\uD83E\uDD43'            // 16. Three shots
@@ -79,9 +79,9 @@ var BINGO_SHORT_TITLES = [
     'Get a Song Singalong',
     '1v1 Arm Wrestle',
     'Get Joe to Do a Shot',
-    'Stay Up Till Sunrise',
+    'Beat a Captain in a Swim Race',
     'Slut Drop on 90s Night',
-    'Pool Handstand',
+    'Win at Beer Pong',
     '1-Min Hot Food Challenge',
     'Pool Fully Clothed',
     'Three Shots in a Row'
@@ -89,22 +89,22 @@ var BINGO_SHORT_TITLES = [
 
 /* ---- Rules / detail visible directly on each grid card ---- */
 var BINGO_DETAILS = [
-    'Kings Cup, Ring of Fire, Cheat. Win at any in the evening.',
-    'Anything genuinely shocking. 5 witnesses confirm.',
-    'Whole group must join in. Has to spread.',
-    'Any drink. 1 attempt only. Lose & you\'re out. Each person challenged once max across both 1v1s.',
-    'Run all 4 posts safely in the rounders match.',
-    'In front of 10+ people. Target must be untoasted by anyone all trip.',
-    '5+ people must follow your rule unprompted.',
-    'Pick a song, 5+ people sing along to the chorus.',
-    '1 attempt only. Lose & you\'re out. Each person challenged once max across both 1v1s.',
-    'Convince Joe to do a shot/drink that wasn\'t on his plan.',
-    'Stay awake until sunrise with at least 1 other person. Witness needed.',
-    'On the 90s night dancefloor. Witnesses required.',
-    'Held for 5 seconds. Witness or photo proof.',
-    'Raw chilli, hot sauce, or whole raw lemon. Straight face for 1 minute. Variants need 4 captains to approve.',
-    'Jump in fully clothed (or get pushed). Witnesses count.',
-    '3 different spirits back-to-back. Non-alc variant: ginger, espresso, fruit cordial. Variants need 4 captains.'
+    'Kings Cup, Ring of Fire, Cheat, Werewolf, Mafia. Evening session, 4+ players, you take the win. 2+ witnesses.',
+    'Stunt, confession, outfit, prank — anything genuinely shocking. 5 named witnesses must confirm. Self-claim doesn\'t count.',
+    'Whole group joins in (15+ people). Has to spread organically — no begging or forcing. Witnesses = those who joined.',
+    'Any drink. 1 attempt only. Lose and you\'re out for good. Each person can only be challenged once across this + arm wrestle.',
+    'Run all 4 posts safely in the organised rounders match. Half-runs don\'t count. Everyone watching = witness.',
+    'Proper toast in front of 10+ people. Target must be untoasted by anyone all trip. Must include a reason ("I toast X for…").',
+    'Pitch a NEW rule. 5+ people must follow it unprompted, not just agree. E.g. "no phones at dinner", "shoes off in the kitchen".',
+    'You request a song (DJ or aux). 5+ different people audibly sing the chorus. Video or witnesses.',
+    '1 attempt only. Lose and you\'re out for good. Each person can only be challenged once across this + downing comp.',
+    'Joe must do an UNSCHEDULED shot/drink — not a toast, group cheers, or something he was already planning. Take him by surprise.',
+    'Pick the captain + the race (length, stroke, freestyle). 1 attempt only — lose & you can\'t try again. Witness names winner.',
+    'On the dancefloor during Sat 2 May 90s party. Music must be playing. Single drop counts. Photo or witness.',
+    'Knock out all opponent cups in a full game. 1v1 or 2v2 standard rules. Witness names winner.',
+    'Raw chilli, hot sauce, or whole raw lemon. Straight face for 60 SECONDS. No water, no flinching, no fanning. Variants need 4 captains.',
+    'Full outfit: top + bottoms + shoes. Underwear-only doesn\'t count. Voluntary OR pushed both count. Photo or witness.',
+    '3 different spirits back-to-back, no chasers between, no breaks over 30 sec. Non-alc variant (ginger / espresso / fruit cordial) needs 4 captains.'
 ];
 
 /* ---- Bingo lock: locked for everyone until manually unlocked ---- */
