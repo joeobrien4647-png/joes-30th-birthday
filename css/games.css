@@ -5096,3 +5096,19 @@
     .tr-team-name { font-size: 1rem; }
 }
 
+/* ---- Drama badges (hot streak / comeback / brave last) ---- */
+.ind-badge { display: inline-block; margin-left: 4px; font-size: 0.85em; }
+.badge-hot { animation: hotPulse 1.2s ease-in-out infinite; }
+@keyframes hotPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.18); } }
+.team-card.brave-last { position: relative; }
+.team-card.brave-last::after {
+    content: "\1F4AA Brave Last";
+    position: absolute;
+    top: 8px; right: 8px;
+    font-size: 0.7rem;
+    background: rgba(255,255,255,0.18);
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}

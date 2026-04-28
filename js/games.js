@@ -959,6 +959,16 @@ function initLeaderboard() {
                 card.classList.add('leading');
             }
         });
+
+        // Brave Last - lowest-scoring team when there's an actual gap
+        const minScore = Math.min(...TEAMS.map(t => teamScores[t] || 0));
+        const allZero = maxScore === 0;
+        cards.forEach(card => {
+            card.classList.remove('brave-last');
+            if (!allZero && (teamScores[card.dataset.team] || 0) === minScore && minScore < maxScore) {
+                card.classList.add('brave-last');
+            }
+        });
     }
 
     /* ---- Render Activity Feed ---- */
@@ -993,6 +1003,17 @@ function initLeaderboard() {
     }
 
     /* ---- Render Individuals ---- */
+    function isHotStreak(name) {
+        const fifteenMinAgo = Date.now() - 15 * 60 * 1000;
+        const recent = pointsLog.filter(e =>
+            e.type === 'individual' && e.target === name && e.amount > 0 && e.timestamp >= fifteenMinAgo
+        );
+        return recent.length >= 3;
+    }
+    function isComeback(name, currRank) {
+        const prev = getPreviousPositions()[name];
+        return prev && (prev - currRank) >= 3;
+    }
     function renderIndividuals() {
         const board = document.getElementById('individual-board');
         if (!board) return;
@@ -1038,8 +1059,12 @@ function initLeaderboard() {
                 .map(([cat]) => `<span class="cat-dot cat-${cat}" title="${CATEGORY_LABELS[cat] || cat}"></span>`)
                 .join('');
 
+            let badges = '';
+            if (isHotStreak(player.name)) badges += '<span class="ind-badge badge-hot" title="Hot streak \u2014 3+ awards in 15 min">\uD83D\uDD25</span>';
+            if (isComeback(player.name, i + 1)) badges += '<span class="ind-badge badge-comeback" title="Climbed 3+ positions">\uD83D\uDE80</span>';
+
             row.innerHTML = `
-                <span class="ind-rank">${rankDisplay}${posArrow}</span>
+                <span class="ind-rank">${rankDisplay}${posArrow}${badges}</span>
                 <span class="ind-team-dot ${hasFullReveal() ? (player.team || '') : ''}"></span>
                 <span class="ind-name">${escapeHtml(FULL_NAMES[player.name] || player.name)}</span>
                 <span class="ind-cats">${catDots}</span>
