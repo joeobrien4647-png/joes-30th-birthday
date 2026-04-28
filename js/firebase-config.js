@@ -332,7 +332,7 @@
         '\uD83C\uDFA4 Pick a song that gets 5+ people singing along to the chorus',
         '\uD83D\uDCAA Win a 1v1 arm wrestle (one attempt only, lose and you\'re out. Each person can only be challenged once across both 1v1 squares)',
         '\uD83E\uDD43 Convince Joe to do an unscheduled shot or drink with you',
-        '\uD83D\uDC83 Organise a proper dance-off (5+ people)',
+        '\uD83C\uDF05 Stay awake until sunrise with at least 1 other person (witness needed)',
         '\uD83D\uDD7A Slut drop on the 90s night dancefloor',
         '\uD83E\uDD38 Handstand in the pool, held 5 sec (witness or photo)',
         '\uD83C\uDF36\uFE0F Eat a raw chilli, spoonful of hot sauce, or whole raw lemon \u2014 straight face for 1 minute (variants need 4 captains to approve)',
