@@ -5173,3 +5173,27 @@
 .pcm-empty { opacity: 0.5; text-align: center; font-size: 0.9rem; }
 .ind-row { cursor: pointer; transition: background 0.15s; }
 .ind-row:hover { background: rgba(255,255,255,0.05); }
+
+/* ============================================
+   Overtake Banner (phone hype on position changes)
+   ============================================ */
+.overtake-banner {
+    position: fixed; top: -80px; left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, #6e3ed8, #b94aef);
+    color: #fff;
+    padding: 14px 20px;
+    border-radius: 99px;
+    font-weight: 700;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    z-index: 10000;
+    transition: top 0.4s cubic-bezier(.16,.84,.34,1.06);
+    display: flex; align-items: center; gap: 10px;
+    max-width: 92vw; pointer-events: none;
+}
+.overtake-banner.show { top: 16px; }
+.overtake-banner.team-titans { background: linear-gradient(90deg,#f9a825,#ffc94e); color:#3a2700; }
+.overtake-banner.team-spartans { background: linear-gradient(90deg,#c62828,#ff5252); }
+.overtake-banner.team-vikings { background: linear-gradient(90deg,#1565c0,#42a5f5); }
+.overtake-banner.team-gladiators { background: linear-gradient(90deg,#424242,#757575); }
+.ob-icon { font-size: 1.5em; }

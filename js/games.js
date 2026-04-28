@@ -245,6 +245,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initGamesTabs();
     initChallenges();
     initLeaderboard();
+    initOvertakeBanner();
     initDailyChallengeReveal();
     initDailyRecapGenerator();
     initHowItWorks();
@@ -1310,6 +1311,39 @@ function initLeaderboard() {
     renderAll();
     renderRecentPlayers();
     if (isAdmin) renderDayQuickAwards();
+}
+
+/* ============================================
+   Overtake Banner
+   Phone-side hype when a team or individual changes position.
+   Listens to `teamOvertake` / `individualOvertake` events from initLeaderboard.
+   Lives at document level so it works even before initLeaderboard runs.
+   ============================================ */
+function initOvertakeBanner() {
+    var banner = document.getElementById('overtake-banner');
+    if (!banner) return;
+    // Local fallbacks: TEAM_NAMES / TEAM_EMOJI are const inside initLeaderboard,
+    // not reachable here. FULL_NAMES is at module scope (shared.js).
+    var BANNER_TEAM_NAMES = { titans: 'Titans', spartans: 'Spartans', vikings: 'Vikings', gladiators: 'Gladiators' };
+    var BANNER_TEAM_EMOJI = { titans: '\u26A1', spartans: '\uD83D\uDEE1\uFE0F', vikings: '\u2694\uFE0F', gladiators: '\uD83D\uDDE1\uFE0F' };
+    var hideTimer = null;
+    function show(html, themeClass) {
+        banner.className = 'overtake-banner show ' + (themeClass || '');
+        banner.innerHTML = html;
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(function() { banner.classList.remove('show'); }, 4000);
+    }
+    document.addEventListener('teamOvertake', function(e) {
+        var t = e.detail.team;
+        var display = BANNER_TEAM_NAMES[t] || t;
+        var emoji = BANNER_TEAM_EMOJI[t] || '\uD83C\uDFC6';
+        show('<span class="ob-icon">' + emoji + '</span><span class="ob-text"><strong>' + display + '</strong> jump to #' + e.detail.to + '!</span>', 'team-' + t);
+    });
+    document.addEventListener('individualOvertake', function(e) {
+        if (e.detail.to !== 1) return;
+        var display = (typeof FULL_NAMES !== 'undefined' && FULL_NAMES[e.detail.name]) || e.detail.name;
+        show('<span class="ob-icon">\uD83D\uDC51</span><span class="ob-text"><strong>' + display + '</strong> takes the lead!</span>');
+    });
 }
 
 /* ============================================
