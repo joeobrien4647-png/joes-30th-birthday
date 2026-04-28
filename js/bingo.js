@@ -84,24 +84,105 @@ var BINGO_SHORT_TITLES = [
     'Three Shots in a Row'
 ];
 
-/* ---- Rules / detail visible directly on each grid card ---- */
-var BINGO_DETAILS = [
-    'Kings Cup, Ring of Fire, Cheat, Werewolf, Mafia. Evening session, 4+ players, you take the win. 2+ witnesses.',
-    'Stunt, confession, outfit, prank — anything genuinely shocking. 5 named witnesses must confirm. Self-claim doesn\'t count.',
-    'Whole group joins in (15+ people). Has to spread organically — no begging or forcing. Witnesses = those who joined.',
-    'Any drink. 1 attempt only. Lose and you\'re out for good. Each person can only be challenged once across this + arm wrestle.',
-    'Run all 4 posts safely in the organised rounders match. Half-runs don\'t count. Everyone watching = witness.',
-    'Proper toast in front of 10+ people. Target must be untoasted by anyone all trip. Must include a reason ("I toast X for…").',
-    'Pitch a NEW rule. 5+ people must follow it unprompted, not just agree. E.g. "no phones at dinner", "shoes off in the kitchen".',
-    'You request a song (DJ or aux). 5+ different people audibly sing the chorus. Video or witnesses.',
-    '1 attempt only. Lose and you\'re out for good. Each person can only be challenged once across this + downing comp.',
-    'Joe must do an UNSCHEDULED shot/drink — not a toast, group cheers, or something he was already planning. Take him by surprise.',
-    'Pick the captain + the race (length, stroke, freestyle). 1 attempt only — lose & you can\'t try again. Witness names winner.',
-    'On the dancefloor during Sat 2 May 90s party. Music must be playing. Single drop counts. Photo or witness.',
-    'Knock out all opponent cups in a full game. 1v1 or 2v2 standard rules. Witness names winner.',
-    'Raw chilli, hot sauce, or whole raw lemon. Straight face for 60 SECONDS. No water, no flinching, no fanning. Variants need 4 captains.',
-    'Full outfit: top + bottoms + shoes. Underwear-only doesn\'t count. Voluntary OR pushed both count. Photo or witness.',
-    '3 different spirits back-to-back, no chasers between, no breaks over 30 sec. Non-alc variant (ginger / espresso / fruit cordial) needs 4 captains.'
+/* ---- Structured rules (definition / accepted / not accepted / requirements)
+   Shown in the drawer when tapped. Cards stay clean — emoji + title only. */
+var BINGO_RULES = [
+    {
+        definition: 'Win any card or drinking game played in the evening at the château.',
+        accepted: ['Kings Cup', 'Ring of Fire', 'Cheat / BS', 'Werewolf', 'Mafia', 'Any 4+ player card or drinking game'],
+        notAccepted: ['Daytime games', '1v1 games (use the dedicated 1v1 squares instead)', 'Solo card games'],
+        requirements: '4+ players, evening session, 2+ witnesses confirm you won.'
+    },
+    {
+        definition: 'Do something that genuinely shocks at least 5 people in real time.',
+        accepted: ['Stunts', 'Public confessions', 'Surprise costumes', 'Pranks', 'Unexpected actions'],
+        notAccepted: ['Performative shocks where no one is actually surprised', 'Self-claimed shocks with no witness reaction'],
+        requirements: '5 named witnesses must confirm they were genuinely shocked when you submit your claim.'
+    },
+    {
+        definition: 'Initiate a chant that the whole group joins in on.',
+        accepted: ['Football chants', 'Made-up chants', 'Call-and-response', 'Themed chants (e.g. "JOE! JOE! JOE!")'],
+        notAccepted: ['Begging people to join', 'Chants that fizzle after 5 seconds', 'Chants of fewer than 15 voices'],
+        requirements: '15+ people audibly joining in. Has to spread organically — no forcing.'
+    },
+    {
+        definition: 'Beat one other person in a head-to-head downing competition.',
+        accepted: ['Any drink', 'Any volume', 'Both start drinking on the same signal', 'First finished wins'],
+        notAccepted: ['Pre-prepped or partial drinks', 'Different volumes for the two competitors', 'No witness'],
+        requirements: '1 attempt only — lose and you\'re permanently out of this square. Each person can only be challenged once across this + arm wrestle. Witness names the winner.'
+    },
+    {
+        definition: 'Run all 4 posts safely in the organised rounders match.',
+        accepted: ['Full lap of all 4 posts without being caught, stumped, or run out'],
+        notAccepted: ['Half-runs', 'Partial laps', 'Runs in pickup games outside the official match'],
+        requirements: 'During the organised rounders match. Everyone watching counts as a witness.'
+    },
+    {
+        definition: 'Give a proper named toast to someone in front of 10+ people.',
+        accepted: ['A 30-sec+ toast with reasoning ("I toast X because…")', 'At any meal or drinks moment', 'Any guest who hasn\'t yet been toasted'],
+        notAccepted: ['Generic "cheers everyone" toasts', 'Toasting yourself', 'Toasting Joe (he\'s the birthday boy — automatic)'],
+        requirements: 'Target must be untoasted by anyone all trip. 10+ audience. Must include a clear reason for the toast.'
+    },
+    {
+        definition: 'Pitch a NEW rule that the group adopts and follows unprompted.',
+        accepted: ['Real rules people follow ("no phones at dinner", "shoes off in the kitchen", "cheers in French only")'],
+        notAccepted: ['Existing rules already in place', 'Rules you keep reminding people about', 'Agreed-but-not-followed rules'],
+        requirements: '5+ people must follow the rule unprompted (without you reminding them) within an hour of pitching it.'
+    },
+    {
+        definition: 'Pick a song that 5+ people sing along to the chorus.',
+        accepted: ['DJ requests', 'Aux requests', 'Kitchen sing-alongs', 'Any song'],
+        notAccepted: ['Songs you sing solo', 'Half-hearted humming', 'Fewer than 5 audible voices'],
+        requirements: 'You request the song. 5+ different people audibly sing the chorus. Video or witnesses.'
+    },
+    {
+        definition: 'Beat one other person in arm wrestling.',
+        accepted: ['Standard arm wrestle rules — both elbows on the table, free hand grips the table edge'],
+        notAccepted: ['Best of 3', 'Pre-arranged "wins" between mates', 'No witness'],
+        requirements: '1 attempt only — lose and you\'re permanently out of this square. Each person can only be challenged once across this + downing comp. Witness names the winner.'
+    },
+    {
+        definition: 'Convince Joe to take an unscheduled shot or drink with you.',
+        accepted: ['Surprise shots', '"Bet you can\'t" challenges Joe accepts', 'You pour, he drinks it'],
+        notAccepted: ['Toasts (automatic)', 'Group cheers Joe was already doing', 'Planned drinking moments'],
+        requirements: 'Must be UNSCHEDULED — Joe wasn\'t planning this drink. Witnessed by Joe + 1 other person.'
+    },
+    {
+        definition: 'Beat any team captain in a pool swim race of your choosing.',
+        accepted: ['Length of pool', 'Any stroke (freestyle, breaststroke, backstroke etc.)', 'Captains: Joe, Razon, Hannah, Peter'],
+        notAccepted: ['Best of 3', 'Pre-arranged outcomes', 'Captain not actually trying'],
+        requirements: 'You pick the captain + race format. 1 attempt only — lose and you can\'t try again. Witness names the winner.'
+    },
+    {
+        definition: 'Slut drop on the dancefloor during the Sat 2 May 90s party.',
+        accepted: ['A clean drop with music playing', 'In costume', 'Witnessed by anyone on or near the dancefloor'],
+        notAccepted: ['Drops at any other time of the trip', 'Drops without music', 'Half-drops or fakes'],
+        requirements: 'Sat 2 May only. On the dancefloor with music playing. Photo or witness.'
+    },
+    {
+        definition: 'Win a complete game of Beer Pong by knocking out all opponent cups.',
+        accepted: ['1v1 or 2v2 standard rules', 'Any cup count agreed at the start', 'Re-rack rules optional'],
+        notAccepted: ['Forfeit wins', 'Partial wins', '"We got bored" wins'],
+        requirements: 'Knock out all opponent cups in a full game. Witness names the winner.'
+    },
+    {
+        definition: 'Eat something spicy/sour and keep a straight face for 60 seconds.',
+        accepted: ['Whole raw chilli (chewed and swallowed)', 'Spoonful of hot sauce', 'Whole raw lemon'],
+        notAccepted: ['Mild sauces', 'Cooked chilli', 'Slices of lemon', 'Breaks in composure (flinching, sweating wipes, water gulps)'],
+        requirements: '60-sec stopwatch starts after swallowing. No water, no flinching, no fanning. Variants from this list (e.g. mustard, vinegar) need all 4 captains to approve.'
+    },
+    {
+        definition: 'Get into the pool wearing a full outfit.',
+        accepted: ['Top + bottoms + shoes minimum', 'Voluntary or pushed in both count', 'Phones empty pockets first (please)'],
+        notAccepted: ['Underwear only', 'Swimwear under clothes', 'Just feet in'],
+        requirements: 'Photo or witness proof.'
+    },
+    {
+        definition: 'Drink 3 different spirits back-to-back.',
+        accepted: ['Any 3 different spirits (vodka, gin, rum, tequila, whisky, etc.)', 'Standard shot measure (~25-50ml)'],
+        notAccepted: ['Same spirit 3 times', 'Chasers between shots', 'Breaks longer than 30 sec', 'Mocktails (use the variant rule)'],
+        requirements: '3 different spirits, no chasers, no breaks > 30 sec. Non-alcoholic variant (ginger / espresso / fruit cordial shots) needs all 4 captains to approve.'
+    }
 ];
 
 /* ---- Bingo lock: locked for everyone until manually unlocked ---- */
@@ -225,9 +306,8 @@ function initBingo() {
                 emojiEl.textContent = emoji;
                 cell.appendChild(emojiEl);
 
-                // Short label + detail rules for grid cell
+                // Clean card: emoji + title only. Tap reveals structured rules.
                 var shortLabel = BINGO_SHORT_TITLES[idx] || shortenChallenge(items[idx]);
-                var detailText = BINGO_DETAILS[idx] || '';
 
                 if (myClaim) {
                     // I've claimed this square
@@ -241,13 +321,6 @@ function initBingo() {
                     textEl.className = 'bingo-cell-text';
                     textEl.textContent = shortLabel;
                     cell.appendChild(textEl);
-
-                    if (detailText) {
-                        var detailEl = document.createElement('span');
-                        detailEl.className = 'bingo-cell-detail';
-                        detailEl.textContent = detailText;
-                        cell.appendChild(detailEl);
-                    }
 
                     // Show how many people have claimed this
                     if (claimCount > 1) {
@@ -265,12 +338,11 @@ function initBingo() {
                     textEl2.textContent = shortLabel;
                     cell.appendChild(textEl2);
 
-                    if (detailText) {
-                        var detailEl2 = document.createElement('span');
-                        detailEl2.className = 'bingo-cell-detail';
-                        detailEl2.textContent = detailText;
-                        cell.appendChild(detailEl2);
-                    }
+                    // Tap hint for unclaimed cards
+                    var tapHint = document.createElement('span');
+                    tapHint.className = 'bingo-cell-tap';
+                    tapHint.textContent = 'Tap for rules';
+                    cell.appendChild(tapHint);
 
                     // Show count if others have claimed
                     if (claimCount > 0) {
@@ -351,12 +423,37 @@ function initBingo() {
         if (!drawer) return;
 
         if (emojiEl) emojiEl.textContent = BINGO_EMOJIS[idx] || '\uD83C\uDFAF';
-        // Strip leading emoji + space from items so we don't duplicate it
+        // Title from short titles array
         if (challengeEl) {
-            var fullText = items[idx] || '';
-            // Remove leading emoji(s) and whitespace before the first letter
-            var stripped = fullText.replace(/^[\u{1F000}-\u{1FFFF}\u{2600}-\u{27BF}\uFE0F\s]+/u, '');
-            challengeEl.textContent = stripped || fullText;
+            challengeEl.textContent = BINGO_SHORT_TITLES[idx] || items[idx];
+        }
+
+        // Populate structured rules
+        var rule = (typeof BINGO_RULES !== 'undefined' && BINGO_RULES[idx]) ? BINGO_RULES[idx] : null;
+        var defEl = document.getElementById('bingoDrawerDefinition');
+        var accList = document.getElementById('bingoDrawerAccepted');
+        var notList = document.getElementById('bingoDrawerNotAccepted');
+        var reqEl = document.getElementById('bingoDrawerRequirements');
+
+        if (rule) {
+            if (defEl) defEl.textContent = rule.definition || '';
+            if (accList) {
+                accList.innerHTML = '';
+                (rule.accepted || []).forEach(function(item) {
+                    var li = document.createElement('li');
+                    li.textContent = item;
+                    accList.appendChild(li);
+                });
+            }
+            if (notList) {
+                notList.innerHTML = '';
+                (rule.notAccepted || []).forEach(function(item) {
+                    var li = document.createElement('li');
+                    li.textContent = item;
+                    notList.appendChild(li);
+                });
+            }
+            if (reqEl) reqEl.textContent = rule.requirements || '';
         }
 
         // Reset photo state

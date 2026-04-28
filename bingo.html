@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="css/base.css?v=20">
     <link rel="stylesheet" href="css/components.css?v=3">
     <link rel="stylesheet" href="css/nav.css?v=1">
-    <link rel="stylesheet" href="css/bingo.css?v=14">
+    <link rel="stylesheet" href="css/bingo.css?v=15">
 </head>
 <body>
     <!-- Confetti Canvas -->
@@ -276,7 +276,28 @@
         <div class="bingo-drawer-content">
             <div class="bingo-drawer-emoji" id="bingoDrawerEmoji"></div>
             <h3 id="bingoDrawerChallenge"></h3>
-            <p class="bingo-drawer-hint">+1 pt for your team. You'll pick someone to punish next.</p>
+
+            <!-- Structured rules -->
+            <div class="bingo-drawer-rules">
+                <div class="bingo-rule-section bingo-rule-definition">
+                    <h4>&#128214; What it is</h4>
+                    <p id="bingoDrawerDefinition"></p>
+                </div>
+                <div class="bingo-rule-section bingo-rule-accepted">
+                    <h4>&#9989; Accepted</h4>
+                    <ul id="bingoDrawerAccepted"></ul>
+                </div>
+                <div class="bingo-rule-section bingo-rule-notaccepted">
+                    <h4>&#10060; Not Accepted</h4>
+                    <ul id="bingoDrawerNotAccepted"></ul>
+                </div>
+                <div class="bingo-rule-section bingo-rule-requirements">
+                    <h4>&#128203; Requirements</h4>
+                    <p id="bingoDrawerRequirements"></p>
+                </div>
+            </div>
+
+            <p class="bingo-drawer-hint">+1 pt &middot; You'll pick someone to punish after claiming.</p>
             <div class="bingo-drawer-photo">
                 <label for="bingoPhotoInput" class="bingo-photo-label">&#128247; Add a photo (optional)</label>
                 <input type="file" id="bingoPhotoInput" accept="image/*" capture="environment">
@@ -341,6 +362,6 @@
     <script src="js/shared.js?v=29"></script>
     <script src="js/firebase-config.js?v=19"></script>
     <script src="js/nav.js?v=1"></script>
-    <script src="js/bingo.js?v=10"></script>
+    <script src="js/bingo.js?v=11"></script>
 </body>
 </html>
