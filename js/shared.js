@@ -404,7 +404,7 @@ Object.values(GUEST_DATA).forEach(function(g) {
 });
 
 /* Reveal Date — teams & nicknames hidden until arrival night */
-const REVEAL_DATE = new Date('2026-04-29T22:00:00+02:00');
+const REVEAL_DATE = new Date('2026-04-28T00:00:00+02:00');
 
 function isRevealed() {
     // Guest preview mode — admins can see what guests see

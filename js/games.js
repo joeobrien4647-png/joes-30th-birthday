@@ -18,7 +18,7 @@ function hasSpun() {
 
 /* Full team reveal: spun + past arrival night (all teams visible) */
 function hasFullReveal() {
-    return hasSpun() && (typeof isRevealed === 'function' ? isRevealed() : false);
+    return typeof isRevealed === 'function' ? isRevealed() : false;
 }
 
 /* ---- Games Nav Tile Tabs ---- */
@@ -935,10 +935,6 @@ function initLeaderboard() {
         sorted.forEach((p, i) => { newPositions[p.name] = i + 1; });
 
         board.innerHTML = '';
-        if (sorted.every(p => p.points === 0)) {
-            board.innerHTML = '<p class="board-empty">No individual scores yet. Let the games begin!</p>';
-            return;
-        }
         sorted.forEach((player, i) => {
             const row = document.createElement('div');
             row.className = 'ind-row' + (i < 3 && player.points > 0 ? ' top-3' : '');

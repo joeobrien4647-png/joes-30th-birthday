@@ -259,47 +259,38 @@
 
             <!-- Team Leaderboard -->
             <div class="lb-content active" data-lb="teams">
-                <div class="teams-locked-overlay">
-                    <div class="teams-locked-content">
-                        <span class="teams-locked-icon">&#128274;</span>
-                        <h3>Teams Are Top Secret</h3>
-                        <p>Teams will be revealed on arrival night at the château. Until then, it's all under wraps.</p>
-                        <div class="teams-locked-hint">
-                            <span>&#128064;</span> 4 teams. 26 players. Who's on your side? Find out Wed 29th April.
-                        </div>
-                        <div class="teams-locked-shields">
-                            <span class="tls-shield" style="color:#f9a825">&#9733;</span>
-                            <span class="tls-shield" style="color:#c62828">&#9733;</span>
-                            <span class="tls-shield" style="color:#1565c0">&#9733;</span>
-                            <span class="tls-shield" style="color:#424242">&#9733;</span>
-                        </div>
-                        <div class="teams-unlock-date" data-unlock="2026-04-29T22:00:00+02:00">&#128197; Unlocks Wed 29 Apr</div>
-                        <div class="lb-teaser-preview" aria-hidden="true">
-                            <div class="lb-teaser-row">
-                                <span class="lb-tr-pos">1st &#129351;</span>
-                                <span class="lb-tr-dot" style="background:#f9a825"></span>
-                                <span class="lb-tr-name">???</span>
-                                <span class="lb-tr-pts">&#8212; pts</span>
-                            </div>
-                            <div class="lb-teaser-row">
-                                <span class="lb-tr-pos">2nd &#129352;</span>
-                                <span class="lb-tr-dot" style="background:#c62828"></span>
-                                <span class="lb-tr-name">???</span>
-                                <span class="lb-tr-pts">&#8212; pts</span>
-                            </div>
-                            <div class="lb-teaser-row">
-                                <span class="lb-tr-pos">3rd &#129353;</span>
-                                <span class="lb-tr-dot" style="background:#1565c0"></span>
-                                <span class="lb-tr-name">???</span>
-                                <span class="lb-tr-pts">&#8212; pts</span>
-                            </div>
-                            <div class="lb-teaser-row">
-                                <span class="lb-tr-pos">4th</span>
-                                <span class="lb-tr-dot" style="background:#424242"></span>
-                                <span class="lb-tr-name">???</span>
-                                <span class="lb-tr-pts">&#8212; pts</span>
-                            </div>
-                        </div>
+                <div class="team-podium">
+                    <div class="team-card" data-team="titans">
+                        <div class="team-badge">&#9889;</div>
+                        <h3>Titans</h3>
+                        <div class="team-score" id="score-titans">0</div>
+                        <span class="team-pts">points</span>
+                        <div class="team-cats" id="cats-titans"></div>
+                        <div class="team-members" id="members-titans"></div>
+                    </div>
+                    <div class="team-card" data-team="spartans">
+                        <div class="team-badge">&#128737;&#65039;</div>
+                        <h3>Spartans</h3>
+                        <div class="team-score" id="score-spartans">0</div>
+                        <span class="team-pts">points</span>
+                        <div class="team-cats" id="cats-spartans"></div>
+                        <div class="team-members" id="members-spartans"></div>
+                    </div>
+                    <div class="team-card" data-team="vikings">
+                        <div class="team-badge">&#9876;&#65039;</div>
+                        <h3>Vikings</h3>
+                        <div class="team-score" id="score-vikings">0</div>
+                        <span class="team-pts">points</span>
+                        <div class="team-cats" id="cats-vikings"></div>
+                        <div class="team-members" id="members-vikings"></div>
+                    </div>
+                    <div class="team-card" data-team="gladiators">
+                        <div class="team-badge">&#128481;&#65039;</div>
+                        <h3>Gladiators</h3>
+                        <div class="team-score" id="score-gladiators">0</div>
+                        <span class="team-pts">points</span>
+                        <div class="team-cats" id="cats-gladiators"></div>
+                        <div class="team-members" id="members-gladiators"></div>
                     </div>
                 </div>
             </div>
@@ -425,6 +416,6 @@
     <script src="js/shared.js?v=29"></script>
     <script src="js/firebase-config.js?v=19"></script>
     <script src="js/nav.js?v=1"></script>
-    <script src="js/games.js?v=34"></script>
+    <script src="js/games.js?v=36"></script>
 </body>
 </html>
