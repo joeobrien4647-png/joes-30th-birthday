@@ -481,6 +481,62 @@ function initLeaderboard() {
         sessionStorage.setItem('lb_positions', JSON.stringify(positions));
     }
 
+    /* ---- Derived Events ---- */
+    // Snapshot of state from the END of the previous renderAll call.
+    // We diff prev-call snapshot against current state at the START of the next
+    // renderAll, so events fire when scores actually change between renders.
+    let lastSnapshot = null;
+
+    function computeTeamRanks() {
+        const sorted = TEAMS.slice().sort((a, b) => (teamScores[b] || 0) - (teamScores[a] || 0));
+        const ranks = {};
+        sorted.forEach((t, i) => { ranks[t] = i + 1; });
+        return ranks;
+    }
+
+    function computeIndividualRanks() {
+        const sorted = Object.keys(individualScores).sort((a, b) => (individualScores[b] || 0) - (individualScores[a] || 0));
+        const ranks = {};
+        sorted.forEach((n, i) => { ranks[n] = i + 1; });
+        return ranks;
+    }
+
+    function getDailyMvp(day) {
+        const today = day || getTripDay();
+        const totals = {};
+        pointsLog.forEach(e => {
+            if (e.type === 'individual' && (e.day || 1) === today && e.amount > 0) {
+                totals[e.target] = (totals[e.target] || 0) + e.amount;
+            }
+        });
+        let topName = null, topPts = 0;
+        Object.entries(totals).forEach(([n, p]) => { if (p > topPts) { topPts = p; topName = n; } });
+        return topName;
+    }
+
+    function dispatchDerivedEvents(prevTeamRanks, newTeamRanks, prevIndRanks, newIndRanks, prevMvp, newMvp) {
+        Object.keys(newTeamRanks).forEach(team => {
+            if (prevTeamRanks[team] && prevTeamRanks[team] !== newTeamRanks[team]) {
+                const detail = { team, from: prevTeamRanks[team], to: newTeamRanks[team] };
+                if (newTeamRanks[team] < prevTeamRanks[team]) {
+                    document.dispatchEvent(new CustomEvent('teamOvertake', { detail }));
+                }
+            }
+        });
+        Object.keys(newIndRanks).forEach(name => {
+            if (prevIndRanks[name] && prevIndRanks[name] !== newIndRanks[name]) {
+                if (newIndRanks[name] < prevIndRanks[name]) {
+                    document.dispatchEvent(new CustomEvent('individualOvertake', {
+                        detail: { name, from: prevIndRanks[name], to: newIndRanks[name] }
+                    }));
+                }
+            }
+        });
+        if (newMvp && prevMvp !== newMvp) {
+            document.dispatchEvent(new CustomEvent('mvpChange', { detail: { from: prevMvp, to: newMvp } }));
+        }
+    }
+
     /* ---- Load Data ---- */
     let teamScores = Store.get('lb_teamScores', { titans: 0, spartans: 0, vikings: 0, gladiators: 0 });
     let individualScores = Store.get('lb_individualScores', {});
@@ -819,11 +875,28 @@ function initLeaderboard() {
 
     /* ---- Render All ---- */
     function renderAll() {
+        // Diff against snapshot from the END of the previous renderAll call.
+        // First call: lastSnapshot is null, so events are skipped (no prior state).
+        const prevTeamRanks = lastSnapshot ? lastSnapshot.teamRanks : null;
+        const prevIndRanks = lastSnapshot ? lastSnapshot.indRanks : null;
+        const prevMvp = lastSnapshot ? lastSnapshot.mvp : null;
+
         renderTeams();
         renderFeed();
         renderIndividuals();
         renderLog();
         renderDailyRecap();
+
+        const newTeamRanks = computeTeamRanks();
+        const newIndRanks = computeIndividualRanks();
+        const newMvp = getDailyMvp();
+        if (newMvp) sessionStorage.setItem('lb_currentMvp', newMvp);
+
+        if (prevTeamRanks) {
+            dispatchDerivedEvents(prevTeamRanks, newTeamRanks, prevIndRanks, newIndRanks, prevMvp, newMvp);
+        }
+
+        lastSnapshot = { teamRanks: newTeamRanks, indRanks: newIndRanks, mvp: newMvp };
     }
 
     /* ---- Render Teams ---- */
