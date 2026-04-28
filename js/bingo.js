@@ -17,7 +17,7 @@ function escapeHtml(text) {
 
 /* ---- Individual punishments (per square claimed — pick one of 3) ---- */
 var BINGO_SQUARE_PUNISHMENTS = [
-    'Down your drink right now',
+    '1 shot — take it OR hand it out as sips to others. Banked for any time today. Non-drinkers: 60-sec wall sit.',
     'Do 20 press-ups in front of the group',
     'Speak in a French accent for 30 minutes'
 ];
