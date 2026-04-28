@@ -1436,3 +1436,30 @@
     .bingo-bonus-body h3 { font-size: 0.95rem; }
     .bingo-bonus-body p { font-size: 0.78rem; }
 }
+
+/* Rules subhead + intro paragraph */
+.bingo-rules-subhead {
+    margin: 18px 0 10px;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted, #888);
+    font-weight: 800;
+}
+
+.bingo-rewards-intro {
+    margin: 0 0 14px;
+    font-size: 0.85rem;
+    color: var(--text-light, #555);
+    line-height: 1.45;
+    background: rgba(118, 75, 162, 0.04);
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px dashed rgba(118, 75, 162, 0.15);
+}
+
+.bingo-tier-list em {
+    color: var(--text-muted, #888);
+    font-style: italic;
+    font-size: 0.75rem;
+}
