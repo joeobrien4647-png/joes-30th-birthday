@@ -890,7 +890,6 @@ function initLeaderboard() {
         const newTeamRanks = computeTeamRanks();
         const newIndRanks = computeIndividualRanks();
         const newMvp = getDailyMvp();
-        if (newMvp) sessionStorage.setItem('lb_currentMvp', newMvp);
 
         if (prevTeamRanks) {
             dispatchDerivedEvents(prevTeamRanks, newTeamRanks, prevIndRanks, newIndRanks, prevMvp, newMvp);
