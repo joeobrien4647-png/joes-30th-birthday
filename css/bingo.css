@@ -411,15 +411,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     text-align: center;
-    padding: 14px 8px 12px;
+    padding: 16px 10px 14px;
     border-radius: 16px;
-    min-height: 110px;
+    min-height: 200px;
     position: relative;
     cursor: default;
     transition: transform 0.15s, box-shadow 0.15s;
     overflow: hidden;
+    gap: 6px;
 }
 
 /* Unclaimed — inviting card */
@@ -456,18 +457,28 @@
 
 /* Cell emoji */
 .bingo-cell-emoji {
-    font-size: 1.6rem;
+    font-size: 2rem;
     line-height: 1;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
     filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
 }
 
-/* Cell text */
+/* Cell text — challenge title */
 .bingo-cell-text {
-    font-size: 0.72rem;
-    font-weight: 600;
+    font-size: 0.85rem;
+    font-weight: 700;
     line-height: 1.25;
     color: var(--text-dark);
+    margin-bottom: 2px;
+}
+
+/* Cell detail — the rules */
+.bingo-cell-detail {
+    font-size: 0.7rem;
+    font-weight: 400;
+    line-height: 1.35;
+    color: var(--text-light);
+    padding: 0 2px;
 }
 
 /* Claimer badge */
@@ -1264,17 +1275,18 @@
     }
 
     .bingo-grid {
-        gap: 8px;
+        gap: 10px;
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .bingo-cell {
-        padding: 10px 6px 8px;
-        min-height: 95px;
+        padding: 14px 12px 12px;
+        min-height: 180px;
         border-radius: 14px;
     }
 
     .bingo-cell-emoji {
-        font-size: 1.3rem;
+        font-size: 1.8rem;
     }
 
     .bingo-cell-locked .bingo-cell-emoji {
@@ -1286,15 +1298,19 @@
     }
 
     .bingo-cell-text {
-        font-size: 0.62rem;
+        font-size: 0.92rem;
+    }
+
+    .bingo-cell-detail {
+        font-size: 0.78rem;
     }
 
     .bingo-cell-claimant {
-        font-size: 0.55rem;
+        font-size: 0.62rem;
     }
 
     .bingo-cell-tap {
-        font-size: 0.5rem;
+        font-size: 0.55rem;
     }
 
     .bingo-claim-drawer {

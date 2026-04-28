@@ -67,24 +67,44 @@ var BINGO_EMOJIS = [
     '\uD83E\uDD43'            // 16. Three shots
 ];
 
-/* ---- Short titles for grid cells (full detail in drawer) ---- */
+/* ---- Short titles for grid cells ---- */
 var BINGO_SHORT_TITLES = [
-    'Win a card or drinking game',
-    'Shock 5+ people',
-    'Start a chant',
-    'Win 1v1 downing',
-    'Score a run in rounders',
-    'Toast someone (untoasted)',
-    'Invent a trip rule',
-    'Get 5+ singing along',
-    'Win 1v1 arm wrestle',
-    'Get Joe to do a shot',
-    'Stay up till sunrise',
-    'Slut drop on 90s night',
-    'Pool handstand (5 sec)',
-    'Hot food, 1 min straight face',
-    'Jump in pool fully clothed',
-    'Three shots in a row'
+    'Win a Card or Drinking Game',
+    'Shock 5+ People',
+    'Start a Chant',
+    '1v1 Downing Comp',
+    'Score a Run in Rounders',
+    'Toast Someone Untoasted',
+    'Invent a Trip Rule',
+    'Get a Song Singalong',
+    '1v1 Arm Wrestle',
+    'Get Joe to Do a Shot',
+    'Stay Up Till Sunrise',
+    'Slut Drop on 90s Night',
+    'Pool Handstand',
+    '1-Min Hot Food Challenge',
+    'Pool Fully Clothed',
+    'Three Shots in a Row'
+];
+
+/* ---- Rules / detail visible directly on each grid card ---- */
+var BINGO_DETAILS = [
+    'Kings Cup, Ring of Fire, Cheat. Win at any in the evening.',
+    'Anything genuinely shocking. 5 witnesses confirm.',
+    'Whole group must join in. Has to spread.',
+    'Any drink. 1 attempt only. Lose & you\'re out. Each person challenged once max across both 1v1s.',
+    'Run all 4 posts safely in the rounders match.',
+    'In front of 10+ people. Target must be untoasted by anyone all trip.',
+    '5+ people must follow your rule unprompted.',
+    'Pick a song, 5+ people sing along to the chorus.',
+    '1 attempt only. Lose & you\'re out. Each person challenged once max across both 1v1s.',
+    'Convince Joe to do a shot/drink that wasn\'t on his plan.',
+    'Stay awake until sunrise with at least 1 other person. Witness needed.',
+    'On the 90s night dancefloor. Witnesses required.',
+    'Held for 5 seconds. Witness or photo proof.',
+    'Raw chilli, hot sauce, or whole raw lemon. Straight face for 1 minute. Variants need 4 captains to approve.',
+    'Jump in fully clothed (or get pushed). Witnesses count.',
+    '3 different spirits back-to-back. Non-alc variant: ginger, espresso, fruit cordial. Variants need 4 captains.'
 ];
 
 /* ---- Bingo lock: locked for everyone until manually unlocked ---- */
@@ -208,8 +228,9 @@ function initBingo() {
                 emojiEl.textContent = emoji;
                 cell.appendChild(emojiEl);
 
-                // Short label for grid cell
+                // Short label + detail rules for grid cell
                 var shortLabel = BINGO_SHORT_TITLES[idx] || shortenChallenge(items[idx]);
+                var detailText = BINGO_DETAILS[idx] || '';
 
                 if (myClaim) {
                     // I've claimed this square
@@ -223,6 +244,13 @@ function initBingo() {
                     textEl.className = 'bingo-cell-text';
                     textEl.textContent = shortLabel;
                     cell.appendChild(textEl);
+
+                    if (detailText) {
+                        var detailEl = document.createElement('span');
+                        detailEl.className = 'bingo-cell-detail';
+                        detailEl.textContent = detailText;
+                        cell.appendChild(detailEl);
+                    }
 
                     // Show how many people have claimed this
                     if (claimCount > 1) {
@@ -240,11 +268,12 @@ function initBingo() {
                     textEl2.textContent = shortLabel;
                     cell.appendChild(textEl2);
 
-                    // Tap hint
-                    var tapEl = document.createElement('span');
-                    tapEl.className = 'bingo-cell-tap';
-                    tapEl.textContent = 'Tap for detail';
-                    cell.appendChild(tapEl);
+                    if (detailText) {
+                        var detailEl2 = document.createElement('span');
+                        detailEl2.className = 'bingo-cell-detail';
+                        detailEl2.textContent = detailText;
+                        cell.appendChild(detailEl2);
+                    }
 
                     // Show count if others have claimed
                     if (claimCount > 0) {
