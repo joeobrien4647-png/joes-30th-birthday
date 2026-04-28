@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="css/base.css?v=20">
     <link rel="stylesheet" href="css/components.css?v=3">
     <link rel="stylesheet" href="css/nav.css?v=1">
-    <link rel="stylesheet" href="css/bingo.css?v=11">
+    <link rel="stylesheet" href="css/bingo.css?v=12">
 </head>
 <body>
     <!-- Confetti Canvas -->
@@ -87,19 +87,19 @@
                 <div class="prize-node" data-milestone="square">
                     <span class="prize-icon">&#127922;</span>
                     <span class="prize-label">Each Square</span>
-                    <span class="prize-desc">Punish someone (+1 pt)</span>
+                    <span class="prize-desc">+1 pt &middot; Punish someone (1 of 3)</span>
                 </div>
                 <div class="prize-connector"></div>
                 <div class="prize-node" data-milestone="line">
                     <span class="prize-icon">&#128293;</span>
-                    <span class="prize-label">Line (4 in a row)</span>
-                    <span class="prize-desc">Punish a team (+2 pts)</span>
+                    <span class="prize-label">Line of 4</span>
+                    <span class="prize-desc">+2 pts &middot; Punish a team (1 of 3)</span>
                 </div>
                 <div class="prize-connector"></div>
                 <div class="prize-node prize-node-gold" data-milestone="full">
                     <span class="prize-icon">&#128081;</span>
                     <span class="prize-label">Full House</span>
-                    <span class="prize-desc">??? (+5 pts)</span>
+                    <span class="prize-desc">+5 pts &middot; Crown / Champagne / 3 free hits</span>
                 </div>
             </div>
         </div>
@@ -148,7 +148,12 @@
                                         <span class="bingo-tier-label">Each Square</span>
                                         <span class="bingo-tier-pts">+1 pt</span>
                                     </div>
-                                    <p class="bingo-tier-reward">Pick someone. They get punished.</p>
+                                    <p class="bingo-tier-reward">Pick someone &amp; pick a punishment:</p>
+                                    <ul class="bingo-tier-list">
+                                        <li>&#127866; Down your drink</li>
+                                        <li>&#128170; 20 press-ups</li>
+                                        <li>&#127467;&#127479; French accent for 30 mins</li>
+                                    </ul>
                                 </div>
                             </div>
                             <div class="bingo-tier-connector"><span></span></div>
@@ -156,10 +161,15 @@
                                 <div class="bingo-tier-icon">&#128293;</div>
                                 <div class="bingo-tier-body">
                                     <div class="bingo-tier-header">
-                                        <span class="bingo-tier-label">Line <small>(4 across, down or diagonal)</small></span>
+                                        <span class="bingo-tier-label">Line of 4 <small>(across, down, diagonal)</small></span>
                                         <span class="bingo-tier-pts">+2 bonus</span>
                                     </div>
-                                    <p class="bingo-tier-reward">Pick a team. The whole squad pays.</p>
+                                    <p class="bingo-tier-reward">Pick a team &amp; pick a punishment:</p>
+                                    <ul class="bingo-tier-list">
+                                        <li>&#127866; Whole team downs drinks</li>
+                                        <li>&#129529; Whole team washes up after next meal</li>
+                                        <li>&#128131; Whole team does a 60-sec synchronised dance</li>
+                                    </ul>
                                 </div>
                             </div>
                             <div class="bingo-tier-connector"><span></span></div>
@@ -167,10 +177,15 @@
                                 <div class="bingo-tier-icon">&#128081;</div>
                                 <div class="bingo-tier-body">
                                     <div class="bingo-tier-header">
-                                        <span class="bingo-tier-label">Full House</span>
+                                        <span class="bingo-tier-label">Full House <small>(all 16)</small></span>
                                         <span class="bingo-tier-pts">+5 bonus</span>
                                     </div>
-                                    <p class="bingo-tier-reward">All 16? You'll find out what happens...</p>
+                                    <p class="bingo-tier-reward">Pick one of three legendary rewards:</p>
+                                    <ul class="bingo-tier-list">
+                                        <li>&#128081; Crown of Roussignol &mdash; head seat at every meal + veto power on any group decision (till checkout)</li>
+                                        <li>&#127870; Full bottle of champagne in your name</li>
+                                        <li>&#127919; 3 free punishments &mdash; assign whenever you want during the trip</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -287,6 +302,6 @@
     <script src="js/shared.js?v=29"></script>
     <script src="js/firebase-config.js?v=19"></script>
     <script src="js/nav.js?v=1"></script>
-    <script src="js/bingo.js?v=8"></script>
+    <script src="js/bingo.js?v=9"></script>
 </body>
 </html>

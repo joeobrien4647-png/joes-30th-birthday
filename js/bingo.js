@@ -15,28 +15,25 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-/* ---- Individual punishments (per square claimed) ---- */
+/* ---- Individual punishments (per square claimed — pick one of 3) ---- */
 var BINGO_SQUARE_PUNISHMENTS = [
-    'Down your drink',
-    'Speak in a French accent for 30 minutes',
-    'Wear your clothes inside out until someone notices',
-    'Give 5 genuine compliments to 5 different people in a row',
-    'Do 20 press-ups right now',
-    'Swap an item of clothing with someone of your choice for the rest of the day',
-    'Do a 60-second serenade to someone at dinner',
-    'Only speak in song lyrics for 30 minutes',
-    'Do an impression of someone in the group (group votes who)',
-    'Announce everything you do out loud for an hour'
+    'Down your drink right now',
+    'Do 20 press-ups in front of the group',
+    'Speak in a French accent for 30 minutes'
 ];
 
-/* ---- Team punishments (per line completed) ---- */
+/* ---- Team punishments (per line completed — pick one of 3) ---- */
 var BINGO_LINE_PUNISHMENTS = [
-    'Whole team downs their drink',
-    'Whole team does 20 press-ups',
-    'Whole team speaks in French accents for 30 minutes',
-    'Whole team wears their clothes inside out until dinner',
-    'Whole team has to serenade the group',
-    'Whole team does the washing up after dinner'
+    'Whole team downs their drinks in unison',
+    'Whole team does the washing up after the next meal',
+    'Whole team performs a 60-sec synchronised dance routine'
+];
+
+/* ---- Full house rewards (pick one of 3) ---- */
+var BINGO_FULL_HOUSE_REWARDS = [
+    '\uD83D\uDC51 Crown of Roussignol — head seat at every meal + veto power on any group decision (till Mon checkout)',
+    '\uD83C\uDF7E Full bottle of champagne in your name (drink it whenever, however)',
+    '\uD83C\uDFAF 3 free punishments — assign one to any guest whenever you want during the rest of the trip'
 ];
 
 /* ---- Team colour map ---- */
@@ -807,9 +804,13 @@ function initBingo() {
 
         if (celebration) {
             celebration.style.display = '';
-            celebration.querySelector('h2').innerHTML = '&#128081; KING/QUEEN OF THE CH&#194;TEAU! &#128081;';
+            celebration.querySelector('h2').innerHTML = '&#128081; FULL HOUSE! &#128081;';
         }
-        if (descEl) descEl.textContent = 'FULL HOUSE! +5 bonus points! You absolute legend!';
+        if (descEl) {
+            var rewardLines = (typeof BINGO_FULL_HOUSE_REWARDS !== 'undefined' ? BINGO_FULL_HOUSE_REWARDS : []).join('\n\n');
+            descEl.style.whiteSpace = 'pre-line';
+            descEl.textContent = '+5 bonus points. Pick ONE of these as your reward:\n\n' + rewardLines;
+        }
         if (punishmentPicker) punishmentPicker.style.display = 'none';
         if (guestPicker) guestPicker.style.display = 'none';
         if (confirmPanel) confirmPanel.style.display = 'none';
