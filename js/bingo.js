@@ -319,6 +319,12 @@ function initBingo() {
                         countEl.textContent = claimCount + ' claimed';
                         cell.appendChild(countEl);
                     }
+
+                    // Allow tap-to-view-rules on claimed squares (read-only mode)
+                    cell.style.cursor = 'pointer';
+                    cell.addEventListener('click', function() {
+                        openClaimDrawer(idx, true);
+                    });
                 } else {
                     // I haven't claimed this yet
                     cell.classList.add('unclaimed');
@@ -402,15 +408,33 @@ function initBingo() {
     /* ============================================
        Claim Drawer (bottom sheet)
        ============================================ */
-    function openClaimDrawer(idx) {
+    function openClaimDrawer(idx, readOnly) {
         drawerIdx = idx;
         var backdrop = document.getElementById('bingoClaimBackdrop');
         var drawer  = document.getElementById('bingoClaimDrawer');
         var challengeEl = document.getElementById('bingoDrawerChallenge');
         var emojiEl = document.getElementById('bingoDrawerEmoji');
         var photoInput = document.getElementById('bingoPhotoInput');
+        var claimBtn = document.getElementById('bingoDrawerClaim');
+        var photoBlock = drawer ? drawer.querySelector('.bingo-drawer-photo') : null;
+        var hintEl = drawer ? drawer.querySelector('.bingo-drawer-hint') : null;
 
         if (!drawer) return;
+
+        // Toggle claim controls based on read-only mode
+        if (readOnly) {
+            if (claimBtn) claimBtn.style.display = 'none';
+            if (photoBlock) photoBlock.style.display = 'none';
+            if (hintEl) {
+                hintEl.textContent = 'You\'ve already claimed this. Rules shown for reference.';
+            }
+        } else {
+            if (claimBtn) claimBtn.style.display = '';
+            if (photoBlock) photoBlock.style.display = '';
+            if (hintEl) {
+                hintEl.textContent = '+1 pt \u00b7 You\'ll pick someone to punish after claiming.';
+            }
+        }
 
         if (emojiEl) emojiEl.textContent = BINGO_EMOJIS[idx] || '\uD83C\uDFAF';
         // Title from short titles array
