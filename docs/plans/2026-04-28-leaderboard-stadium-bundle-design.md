@@ -62,7 +62,11 @@ Fullscreen page designed for a TV at the château. Auto-cycles every 12 seconds.
 
 When the current user's rank drops (someone overtakes them): *"⚡ Joe just stole 3rd from you!"*.
 
-Risk: PWA push requires FCM. Spike first; if not wired, fallback is in-app banner only. Document and ship without push if needed — better to land 6 of 7 polished than 7 half-done.
+**Decision (2026-04-28): DEFERRED post-trip.**
+
+Spike found FCM is fully wired (VAPID keys, `PushNotifications.subscribe()` API, `sw.js` push handler, `functions/index.js` Cloud Function pattern). Adding overtake-triggered push would require writing and deploying a new Cloud Function watching `leaderboard/pointsLog` for rank-change events — ~1-2 hours including test deploy. Skipped to land Tasks 1–7 polished rather than rushing 8.
+
+Phone overtake banner (Task 5) covers in-app overtake hype. Push only matters for "when guest isn't on the app", which is rarer at a 6-day group trip than an in-app banner moment.
 
 ## Data Model
 
