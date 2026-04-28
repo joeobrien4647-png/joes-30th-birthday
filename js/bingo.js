@@ -49,27 +49,47 @@ var TEAM_COLOURS = {
 
 /* ---- Emoji per challenge (matches BINGO_ITEMS order) ---- */
 var BINGO_EMOJIS = [
-    '\uD83D\uDCF8', // Photobomb
-    '\uD83D\uDC57', // Wear someone's outfit
-    '\uD83C\uDF77', // Blind taste test
-    '\uD83C\uDFA4', // Motivational speech
-    '\uD83C\uDDEB\uD83C\uDDF7', // Convince a local you're French
-    '\uD83D\uDC5F', // Swap shoes
-    '\uD83D\uDC83', // Conga line
-    '\uD83D\uDCE3', // Start a chant
-    '\uD83D\uDC4F', // Standing ovation
-    '\uD83D\uDE02', // Make someone cry laughing
-    '\uD83C\uDFCA', // Pool fully clothed
-    '\u2600\uFE0F',  // First up last to bed
-    '\uD83C\uDF36\uFE0F', // Spiciest thing
-    '\uD83C\uDF7A', // Down a drink no hands
-    '\uD83E\uDDFD', // Washing up
-    '\uD83D\uDCF7'  // Photo of the trip
+    '\uD83C\uDFB4',           // 1. Win a card or drinking game
+    '\uD83E\uDD2F',           // 2. Shock 5+ people
+    '\uD83D\uDCE3',           // 3. Start a chant
+    '\uD83C\uDF7A',           // 4. 1v1 downing
+    '\uD83E\uDD4E',           // 5. Score a run in rounders
+    '\uD83E\uDD42',           // 6. Toast someone untoasted
+    '\uD83D\uDCDC',           // 7. Invent a trip rule
+    '\uD83C\uDFA4',           // 8. Song singalong
+    '\uD83D\uDCAA',           // 9. 1v1 arm wrestle
+    '\uD83E\uDD43',           // 10. Joe shot/drink
+    '\uD83C\uDF05',           // 11. Sunrise with someone
+    '\uD83D\uDD7A',           // 12. Slut drop on 90s night
+    '\uD83E\uDD38',           // 13. Pool handstand
+    '\uD83C\uDF36\uFE0F',     // 14. Hot food / lemon
+    '\uD83D\uDCA6',           // 15. Pool fully clothed
+    '\uD83E\uDD43'            // 16. Three shots
+];
+
+/* ---- Short titles for grid cells (full detail in drawer) ---- */
+var BINGO_SHORT_TITLES = [
+    'Win a card or drinking game',
+    'Shock 5+ people',
+    'Start a chant',
+    'Win 1v1 downing',
+    'Score a run in rounders',
+    'Toast someone (untoasted)',
+    'Invent a trip rule',
+    'Get 5+ singing along',
+    'Win 1v1 arm wrestle',
+    'Get Joe to do a shot',
+    'Stay up till sunrise',
+    'Slut drop on 90s night',
+    'Pool handstand (5 sec)',
+    'Hot food, 1 min straight face',
+    'Jump in pool fully clothed',
+    'Three shots in a row'
 ];
 
 /* ---- Bingo lock: locked for everyone until manually unlocked ---- */
 /* Set to true when ready to reveal challenges (e.g. during the trip) */
-var BINGO_FORCE_LOCKED = true;
+var BINGO_FORCE_LOCKED = false;
 
 function isBingoUnlocked() {
     return !BINGO_FORCE_LOCKED;
@@ -188,6 +208,9 @@ function initBingo() {
                 emojiEl.textContent = emoji;
                 cell.appendChild(emojiEl);
 
+                // Short label for grid cell
+                var shortLabel = BINGO_SHORT_TITLES[idx] || shortenChallenge(items[idx]);
+
                 if (myClaim) {
                     // I've claimed this square
                     cell.classList.add('claimed');
@@ -196,10 +219,9 @@ function initBingo() {
                     var teamColour = TEAM_COLOURS[myClaim.team] || '#888';
                     cell.style.setProperty('--team-colour', teamColour);
 
-                    // Short label
                     var textEl = document.createElement('span');
                     textEl.className = 'bingo-cell-text';
-                    textEl.textContent = shortenChallenge(items[idx]);
+                    textEl.textContent = shortLabel;
                     cell.appendChild(textEl);
 
                     // Show how many people have claimed this
@@ -215,8 +237,14 @@ function initBingo() {
 
                     var textEl2 = document.createElement('span');
                     textEl2.className = 'bingo-cell-text';
-                    textEl2.textContent = shortenChallenge(items[idx]);
+                    textEl2.textContent = shortLabel;
                     cell.appendChild(textEl2);
+
+                    // Tap hint
+                    var tapEl = document.createElement('span');
+                    tapEl.className = 'bingo-cell-tap';
+                    tapEl.textContent = 'Tap for detail';
+                    cell.appendChild(tapEl);
 
                     // Show count if others have claimed
                     if (claimCount > 0) {
@@ -297,7 +325,13 @@ function initBingo() {
         if (!drawer) return;
 
         if (emojiEl) emojiEl.textContent = BINGO_EMOJIS[idx] || '\uD83C\uDFAF';
-        if (challengeEl) challengeEl.textContent = items[idx];
+        // Strip leading emoji + space from items so we don't duplicate it
+        if (challengeEl) {
+            var fullText = items[idx] || '';
+            // Remove leading emoji(s) and whitespace before the first letter
+            var stripped = fullText.replace(/^[\u{1F000}-\u{1FFFF}\u{2600}-\u{27BF}\uFE0F\s]+/u, '');
+            challengeEl.textContent = stripped || fullText;
+        }
 
         // Reset photo state
         if (photoInput) photoInput.value = '';

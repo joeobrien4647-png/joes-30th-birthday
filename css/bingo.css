@@ -599,8 +599,10 @@
     border-radius: 24px;
     padding: 32px 24px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    max-width: 400px;
+    max-width: 440px;
     width: calc(100% - 40px);
+    max-height: calc(100vh - 60px);
+    overflow-y: auto;
     text-align: center;
     opacity: 0;
     transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.3s;
@@ -621,11 +623,13 @@
 }
 
 .bingo-drawer-content h3 {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     font-weight: 700;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     color: var(--text-dark);
-    line-height: 1.3;
+    line-height: 1.4;
+    text-align: center;
+    padding: 0 4px;
 }
 
 .bingo-drawer-hint {
