@@ -1358,3 +1358,81 @@
     line-height: 1.35;
     color: var(--text-dark);
 }
+
+/* Pre-Trip Bonus Section */
+.bingo-bonus-section {
+    padding: 8px 0 12px;
+}
+
+.bingo-bonus-card {
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 22px;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fcd34d 100%);
+    border: 2px solid #f59e0b;
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(245, 158, 11, 0.25);
+    position: relative;
+    overflow: hidden;
+}
+
+.bingo-bonus-card::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    right: -10%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.bingo-bonus-icon {
+    font-size: 2.6rem;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.bingo-bonus-body {
+    flex: 1;
+    z-index: 1;
+}
+
+.bingo-bonus-eyebrow {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #92400e;
+    background: rgba(255,255,255,0.5);
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+}
+
+.bingo-bonus-body h3 {
+    margin: 0 0 6px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #78350f;
+    line-height: 1.3;
+}
+
+.bingo-bonus-body p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #78350f;
+    line-height: 1.45;
+    opacity: 0.92;
+}
+
+@media (max-width: 600px) {
+    .bingo-bonus-card { padding: 14px 16px; gap: 12px; }
+    .bingo-bonus-icon { font-size: 2rem; }
+    .bingo-bonus-body h3 { font-size: 0.95rem; }
+    .bingo-bonus-body p { font-size: 0.78rem; }
+}
