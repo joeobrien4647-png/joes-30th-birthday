@@ -11,6 +11,8 @@
     var cycleTimer = null;
     var muted = false;
     var audioCtx = null;
+    var prevSnapshot = null;
+    var lastBigAwardTimestamp = 0;
 
     function $(sel) { return document.querySelector(sel); }
     function $all(sel) { return Array.from(document.querySelectorAll(sel)); }
@@ -128,6 +130,102 @@
         renderRecap();
         renderFeed();
         renderTicker();
+        var next = captureRanks();
+        detectAndFire(prevSnapshot, next);
+        prevSnapshot = next;
+    }
+
+    /* ---- Derived events (overtake / +5 / new #1) ---- */
+    function captureRanks() {
+        var d = getData();
+        var tSorted = TEAMS.slice().sort(function(a,b){ return (d.teamScores[b]||0) - (d.teamScores[a]||0); });
+        var tRanks = {}; tSorted.forEach(function(t,i){ tRanks[t] = i+1; });
+        var iSorted = Object.keys(d.individualScores).sort(function(a,b){ return (d.individualScores[b]||0) - (d.individualScores[a]||0); });
+        var iRanks = {}; iSorted.forEach(function(n,i){ iRanks[n] = i+1; });
+        return { tRanks: tRanks, iRanks: iRanks, topIndividual: iSorted[0] || null };
+    }
+
+    function detectAndFire(prev, next) {
+        if (!prev) return; // first render — nothing to diff
+        Object.keys(next.tRanks).forEach(function(team){
+            if (prev.tRanks[team] && prev.tRanks[team] !== next.tRanks[team] && next.tRanks[team] < prev.tRanks[team]) {
+                if (next.tRanks[team] === 1) {
+                    fireOvertake(team, prev.tRanks[team], next.tRanks[team]);
+                }
+            }
+        });
+        if (next.topIndividual && prev.topIndividual && next.topIndividual !== prev.topIndividual) {
+            fireNewLeader(next.topIndividual);
+        }
+        var lastEntry = (Store.get('lb_pointsLog', [])[0] || {});
+        if (lastEntry.timestamp && lastEntry.amount >= 5 && lastEntry.timestamp !== lastBigAwardTimestamp) {
+            fireBigAward(lastEntry);
+            lastBigAwardTimestamp = lastEntry.timestamp;
+        }
+    }
+
+    /* ---- Theatrical fire functions ---- */
+    function fireOvertake(team, fromRank, toRank) {
+        pauseCycle(5000);
+        var node = $('#sb-overtake');
+        if (!node) return;
+        node.innerHTML = '<div class="sb-overtake-inner team-' + team + '">' +
+            '<div class="sb-overtake-title">' + TEAM_EMOJI[team] + ' ' + TEAM_NAMES[team].toUpperCase() + '</div>' +
+            '<div class="sb-overtake-sub">TAKE THE LEAD!</div>' +
+            '</div>';
+        node.classList.add('fire');
+        fireConfetti();
+        playTone([220, 330, 440, 660], 'square', 0.4);
+        setTimeout(function(){ node.classList.remove('fire'); }, 4000);
+    }
+
+    function fireNewLeader(name) {
+        pauseCycle(3500);
+        playTone([523, 659, 784], 'sine', 0.3);
+        flash();
+    }
+
+    function fireBigAward(entry) {
+        pauseCycle(2500);
+        playTone([800, 1000, 1200], 'sawtooth', 0.25);
+        flash();
+    }
+
+    function flash() {
+        var node = $('#sb-flash');
+        if (!node) return;
+        node.classList.add('fire');
+        setTimeout(function(){ node.classList.remove('fire'); }, 200);
+    }
+
+    function pauseCycle(ms) {
+        clearInterval(cycleTimer);
+        setTimeout(function(){ cycleTimer = setInterval(nextPanel, CYCLE_MS); }, ms);
+    }
+
+    function fireConfetti() {
+        var c = $('#confetti-canvas');
+        if (!c) return;
+        var ctx = c.getContext('2d');
+        c.width = innerWidth; c.height = innerHeight;
+        var pieces = [];
+        var colours = ['#f9a825','#c62828','#1565c0','#fff','#ffd700','#ff5252'];
+        for (var i = 0; i < 200; i++) {
+            pieces.push({
+                x: Math.random()*c.width, y: -10,
+                vx: (Math.random()-0.5)*4, vy: Math.random()*3 + 2,
+                r: Math.random()*4 + 2, col: colours[i%colours.length]
+            });
+        }
+        var t0 = performance.now();
+        function tick(now) {
+            var elapsed = now - t0;
+            ctx.clearRect(0,0,c.width,c.height);
+            pieces.forEach(function(p){ p.x += p.vx; p.y += p.vy; p.vy += 0.05; ctx.fillStyle = p.col; ctx.fillRect(p.x, p.y, p.r, p.r); });
+            if (elapsed < 4000) requestAnimationFrame(tick);
+            else ctx.clearRect(0,0,c.width,c.height);
+        }
+        requestAnimationFrame(tick);
     }
 
     /* ---- Cycling ---- */
