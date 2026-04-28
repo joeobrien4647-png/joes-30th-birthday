@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chateau Roussignol - Room Allocation</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Georgia', serif; background: #f5f0e8; color: #2c2c2c; padding: 40px 20px; }
+  h1 { text-align: center; font-size: 28px; letter-spacing: 2px; margin-bottom: 6px; color: #3a3a3a; }
+  .subtitle { text-align: center; font-size: 14px; color: #888; margin-bottom: 40px; letter-spacing: 1px; }
+  .floor { max-width: 900px; margin: 0 auto 50px; }
+  .floor-header { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+  .floor-header h2 { font-size: 18px; text-transform: uppercase; letter-spacing: 3px; color: #5a4a3a; white-space: nowrap; }
+  .floor-header .line { flex: 1; height: 1px; background: #c4b8a8; }
+  .rooms { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+  .room {
+    background: #fff;
+    border: 1px solid #d9d0c4;
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .room:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+  .room.birthday { border: 2px solid #c9a84c; background: linear-gradient(135deg, #fffdf5, #fff8e7); }
+  .room.couple { border-left: 4px solid #7a9e7e; }
+  .room.friends { border-left: 4px solid #6a8caf; }
+  .room.solo { border-left: 4px solid #b07aa1; }
+  .room.lads { border-left: 4px solid #d4845a; }
+  .room.family { border-left: 4px solid #d4a556; background: linear-gradient(135deg, #fffaf0, #fff5e6); }
+  .room-name { font-size: 16px; font-weight: bold; margin-bottom: 4px; }
+  .room.birthday .room-name { color: #8a6d1b; }
+  .bed-info { font-size: 12px; color: #999; margin-bottom: 12px; }
+  .guests { display: flex; flex-wrap: wrap; gap: 6px; }
+  .guest {
+    background: #f5f1eb;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-family: 'Helvetica Neue', sans-serif;
+  }
+  .room.birthday .guest { background: #f0e6c8; font-weight: 600; }
+  .badge {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-size: 18px;
+  }
+  .legend {
+    max-width: 900px;
+    margin: 0 auto 40px;
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-size: 13px;
+    font-family: 'Helvetica Neue', sans-serif;
+    color: #777;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+  .summary {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #d9d0c4;
+    font-size: 14px;
+    color: #777;
+    font-family: 'Helvetica Neue', sans-serif;
+  }
+  .summary strong { color: #3a3a3a; }
+</style>
+</head>
+<body>
+
+<h1>CHATEAU ROUSSIGNOL</h1>
+<p class="subtitle">Room Allocation &mdash; 29 Apr &ndash; 4 May 2026 &mdash; 26 Guests</p>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#c9a84c"></div> Birthday Boy</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#d4a556"></div> Family + Toddler</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#7a9e7e"></div> Couple</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#6a8caf"></div> Friends</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#b07aa1"></div> Solo</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#d4845a"></div> The Lads</div>
+</div>
+
+<!-- GROUND FLOOR -->
+<div class="floor">
+  <div class="floor-header">
+    <h2>Ground Floor</h2>
+    <div class="line"></div>
+  </div>
+  <div class="rooms">
+    <div class="room birthday">
+      <span class="badge">🎂</span>
+      <div class="room-name">The Toile de Jouy Room</div>
+      <div class="bed-info">Double (180&times;190) &bull; Private terrace</div>
+      <div class="guests">
+        <span class="guest">Joe O'Brien</span>
+        <span class="guest">Sophie Geen</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FIRST FLOOR -->
+<div class="floor">
+  <div class="floor-header">
+    <h2>First Floor</h2>
+    <div class="line"></div>
+  </div>
+  <div class="rooms">
+    <div class="room couple">
+      <div class="room-name">David's Turret</div>
+      <div class="bed-info">Double (160&times;200) &bull; Turret room</div>
+      <div class="guests">
+        <span class="guest">Hannah O'Brien</span>
+        <span class="guest">Robin Hughes</span>
+      </div>
+    </div>
+    <div class="room couple family">
+      <span class="badge">👶</span>
+      <div class="room-name">The Yellow Room</div>
+      <div class="bed-info">Double (180&times;200) + child bed (60&times;120) &bull; Walk-in shower next door</div>
+      <div class="guests">
+        <span class="guest">Johnny Geen</span>
+        <span class="guest">Florrie Harris</span>
+        <span class="guest">+ 2yo</span>
+      </div>
+    </div>
+    <div class="room couple">
+      <div class="room-name">The Bureau</div>
+      <div class="bed-info">Double (180&times;200, separable)</div>
+      <div class="guests">
+        <span class="guest">Luke Geen</span>
+        <span class="guest">Samantha Loughnane</span>
+      </div>
+    </div>
+    <div class="room couple">
+      <div class="room-name">Elise's Room</div>
+      <div class="bed-info">2&times; singles (90&times;200, joinable)</div>
+      <div class="guests">
+        <span class="guest">Razon Mahebub</span>
+        <span class="guest">Neeve Fletcher</span>
+      </div>
+    </div>
+    <div class="room friends">
+      <div class="room-name">The Girls' Room</div>
+      <div class="bed-info">2&times; singles (90&times;200)</div>
+      <div class="guests">
+        <span class="guest">Tom Warren</span>
+        <span class="guest">Robert Sherwood</span>
+      </div>
+    </div>
+    <div class="room friends">
+      <div class="room-name">Adjoining Bedroom</div>
+      <div class="bed-info">Bunk bed (2&times;90&times;200)</div>
+      <div class="guests">
+        <span class="guest">Oli Moran</span>
+        <span class="guest">Peter London</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECOND FLOOR -->
+<div class="floor">
+  <div class="floor-header">
+    <h2>Second Floor</h2>
+    <div class="line"></div>
+  </div>
+  <div class="rooms">
+    <div class="room couple">
+      <div class="room-name">La Chambre Anglaise</div>
+      <div class="bed-info">Double (180&times;200) &bull; Private bathroom w/ tub</div>
+      <div class="guests">
+        <span class="guest">George Williams</span>
+        <span class="guest">Emma Williams</span>
+      </div>
+    </div>
+    <div class="room couple">
+      <div class="room-name">The First Turret</div>
+      <div class="bed-info">Double (160&times;200) &bull; Turret room</div>
+      <div class="guests">
+        <span class="guest">Emma Loughnane</span>
+        <span class="guest">Jonny Levett</span>
+      </div>
+    </div>
+    <div class="room friends">
+      <div class="room-name">The River Room</div>
+      <div class="bed-info">Double (160&times;200) + single (120&times;190)</div>
+      <div class="guests">
+        <span class="guest">Kiran Ruparelia</span>
+        <span class="guest">Chris Coggin</span>
+      </div>
+    </div>
+    <div class="room solo">
+      <span class="badge">👑</span>
+      <div class="room-name">The Pink Room</div>
+      <div class="bed-info">2&times; singles (105&times;190) &bull; Solo room</div>
+      <div class="guests">
+        <span class="guest">Sarah Shamia</span>
+      </div>
+    </div>
+    <div class="room lads">
+      <span class="badge">🎉</span>
+      <div class="room-name">The Dormitory</div>
+      <div class="bed-info">3&times; bunk beds &bull; Sleeps 6 (5 used)</div>
+      <div class="guests">
+        <span class="guest">Jonny Williams</span>
+        <span class="guest">Shane Pallian</span>
+        <span class="guest">Oscar Walters</span>
+        <span class="guest">Pranay Soneji</span>
+        <span class="guest">Matt Hill</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="summary">
+  <strong>26 guests + 1 toddler</strong> across <strong>12 rooms</strong> &bull; 6 couples &bull; 1 family + toddler &bull; 2 friend pairs &bull; 1 solo &bull; 5 in the dorm<br>
+  Family (Geen &amp; O'Brien) clustered on Ground &amp; First Floor &bull; Social floor up top
+</div>
+
+</body>
+</html>
