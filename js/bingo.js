@@ -17,24 +17,14 @@ function escapeHtml(text) {
 
 /* ---- Individual punishments (per square claimed — pick one of 3) ---- */
 var BINGO_SQUARE_PUNISHMENTS = [
-    '1 shot — take it OR hand it out as sips to others. Banked for any time today. Non-drinkers: 60-sec wall sit.',
-    'Do 20 press-ups in front of the group',
-    'Speak in a French accent for 30 minutes'
+    'Down a drink or do a shot — take it OR distribute as sips to others. Banked for any time today. Non-drinkers: 60-sec wall sit.',
+    'Make a drink for one person — punisher names who. Properly made and served.',
+    '20 press-ups OR a lap of the château garden — your choice'
 ];
 
-/* ---- Team punishments (per line completed — pick one of 3) ---- */
-var BINGO_LINE_PUNISHMENTS = [
-    'Whole team downs their drinks in unison',
-    'Whole team does the washing up after the next meal',
-    'Whole team performs a 60-sec synchronised dance routine'
-];
-
-/* ---- Full house rewards (pick one of 3) ---- */
-var BINGO_FULL_HOUSE_REWARDS = [
-    '\uD83D\uDC51 Crown of Roussignol — head seat at every meal + veto power on any group decision (till Mon checkout)',
-    '\uD83C\uDF7E Full bottle of champagne in your name (drink it whenever, however)',
-    '\uD83C\uDFAF 3 free punishments — assign one to any guest whenever you want during the rest of the trip'
-];
+/* ---- Line + Full House are points-only — no extra punishment/reward ---- */
+var BINGO_LINE_PUNISHMENTS = [];
+var BINGO_FULL_HOUSE_REWARDS = [];
 
 /* ---- Team colour map ---- */
 var TEAM_COLOURS = {
@@ -720,6 +710,7 @@ function initBingo() {
         var guestPicker = document.getElementById('bingoGuestPicker');
         var confirmPanel = document.getElementById('bingoLineConfirm');
         var descEl = document.getElementById('bingoLineDesc');
+        var closeBtn = document.getElementById('bingoLineClose');
 
         if (!modal) return;
 
@@ -730,24 +721,41 @@ function initBingo() {
             celebration.style.display = '';
             celebration.querySelector('h2').innerHTML = '&#127881; YOU GOT A LINE! &#127881;';
         }
-        if (descEl) descEl.textContent = 'Line ' + lineNumber + '! +2 bonus points! Pick a team to punish!';
+        if (descEl) descEl.textContent = 'Line ' + lineNumber + ' &mdash; +2 bonus points!';
 
         if (punishmentPicker) punishmentPicker.style.display = 'none';
         if (guestPicker) guestPicker.style.display = 'none';
-        if (confirmPanel) confirmPanel.style.display = 'none';
         modal.style.display = 'flex';
         modal.classList.remove('fullhouse');
 
         spawnConfetti();
         if (typeof triggerConfetti === 'function') triggerConfetti();
 
-        // Pick a random team punishment
-        var shuffled = BINGO_LINE_PUNISHMENTS.slice().sort(function() { return Math.random() - 0.5; });
-        pendingPunishment = shuffled[0];
+        // Skip team punishment — just record the line + close on confirm
+        BingoEngine.completeLine({
+            guestCode: guestCode,
+            guestName: guestName,
+            team: guestTeam,
+            lineType: lineData.lineType,
+            lineIndex: lineData.lineIndex,
+            rewardChosen: '',
+            punishmentTarget: '',
+            punishmentDesc: ''
+        });
 
-        setTimeout(function() {
-            showTeamPicker();
-        }, 1500);
+        // Show confirm panel with auto-close
+        if (confirmPanel && closeBtn) {
+            setTimeout(function() {
+                confirmPanel.style.display = '';
+                var confirmText = document.getElementById('bingoLineConfirmText');
+                if (confirmText) confirmText.textContent = 'Line claimed! +2 bonus points added.';
+                closeBtn.onclick = function() {
+                    modal.style.display = 'none';
+                    pendingLineData = null;
+                    checkForNewLines();
+                };
+            }, 1500);
+        }
     }
 
     function showTeamPicker() {
@@ -904,9 +912,8 @@ function initBingo() {
             celebration.querySelector('h2').innerHTML = '&#128081; FULL HOUSE! &#128081;';
         }
         if (descEl) {
-            var rewardLines = (typeof BINGO_FULL_HOUSE_REWARDS !== 'undefined' ? BINGO_FULL_HOUSE_REWARDS : []).join('\n\n');
-            descEl.style.whiteSpace = 'pre-line';
-            descEl.textContent = '+5 bonus points. Pick ONE of these as your reward:\n\n' + rewardLines;
+            descEl.style.whiteSpace = 'normal';
+            descEl.textContent = 'YOU LEGEND. +5 bonus points. Custom trophy at the Saturday awards ceremony.';
         }
         if (punishmentPicker) punishmentPicker.style.display = 'none';
         if (guestPicker) guestPicker.style.display = 'none';
