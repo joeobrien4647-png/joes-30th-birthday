@@ -1027,6 +1027,8 @@ function initLeaderboard() {
         const newPositions = {};
         sorted.forEach((p, i) => { newPositions[p.name] = i + 1; });
 
+        const dailyMvp = getDailyMvp();
+
         board.innerHTML = '';
         sorted.forEach((player, i) => {
             const row = document.createElement('div');
@@ -1036,6 +1038,10 @@ function initLeaderboard() {
             if (i === 0 && player.points > 0) rankDisplay = '\uD83E\uDD47';
             else if (i === 1 && player.points > 0) rankDisplay = '\uD83E\uDD48';
             else if (i === 2 && player.points > 0) rankDisplay = '\uD83E\uDD49';
+
+            const mvpCrown = (dailyMvp === player.name && player.points > 0)
+                ? '<span class="ind-mvp-crown" title="Today\'s MVP">\uD83D\uDC51</span>'
+                : '';
 
             // Position change arrow
             let posArrow = '';
@@ -1064,7 +1070,7 @@ function initLeaderboard() {
             if (isComeback(player.name, i + 1)) badges += '<span class="ind-badge badge-comeback" title="Climbed 3+ positions">\uD83D\uDE80</span>';
 
             row.innerHTML = `
-                <span class="ind-rank">${rankDisplay}${posArrow}${badges}</span>
+                <span class="ind-rank">${rankDisplay}${posArrow}${badges}${mvpCrown}</span>
                 <span class="ind-team-dot ${hasFullReveal() ? (player.team || '') : ''}"></span>
                 <span class="ind-name">${escapeHtml(FULL_NAMES[player.name] || player.name)}</span>
                 <span class="ind-cats">${catDots}</span>

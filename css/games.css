@@ -5112,3 +5112,12 @@
     font-weight: 600;
     letter-spacing: 0.04em;
 }
+
+.ind-mvp-crown {
+    display: inline-block;
+    margin-left: 4px;
+    font-size: 1.05em;
+    animation: crownBob 2.4s ease-in-out infinite;
+    filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.7));
+}
+@keyframes crownBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
