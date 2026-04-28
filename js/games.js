@@ -1239,6 +1239,73 @@ function initLeaderboard() {
         });
     }
 
+    /* ---- Player Card Modal ---- */
+    function openPlayerCard(name) {
+        const modal = document.getElementById('player-card-modal');
+        if (!modal) return;
+        const total = individualScores[name] || 0;
+        const ranks = computeIndividualRanks();
+        const rank = ranks[name] || '—';
+        const team = PLAYERS[name] || null;
+        const breakdown = getIndividualCategoryBreakdown(name);
+        const recent = pointsLog
+            .filter(e => e.type === 'individual' && e.target === name)
+            .slice(0, 5);
+        const biggest = pointsLog
+            .filter(e => e.type === 'individual' && e.target === name && e.amount > 0)
+            .reduce((max, e) => e.amount > max.amount ? e : max, { amount: 0 });
+
+        document.getElementById('pcm-name').textContent = FULL_NAMES[name] || name;
+        document.getElementById('pcm-meta').textContent = (team ? TEAM_NAMES[team] + ' · ' : '') + 'Rank ' + rank;
+        document.getElementById('pcm-total').textContent = total;
+        document.getElementById('pcm-rank').textContent = rank === '—' ? '—' : '#' + rank;
+        document.getElementById('pcm-biggest').textContent = biggest.amount > 0 ? '+' + biggest.amount : '—';
+
+        const total2 = Math.max(1, Object.values(breakdown).reduce((s, v) => s + Math.max(0, v), 0));
+        document.getElementById('pcm-cats').innerHTML = Object.entries(breakdown)
+            .filter(([, v]) => v !== 0)
+            .map(([cat, pts]) => `
+                <div class="pcm-cat-row">
+                    <span class="pcm-cat-label">${CATEGORY_EMOJI[cat] || ''} ${CATEGORY_LABELS[cat] || cat}</span>
+                    <div class="pcm-cat-bar"><div class="pcm-cat-fill cat-${cat}" style="width:${Math.max(2, (pts/total2)*100)}%"></div></div>
+                    <span class="pcm-cat-pts">${pts}</span>
+                </div>
+            `).join('') || '<p class="pcm-empty">No points yet</p>';
+
+        document.getElementById('pcm-recent').innerHTML = recent.length === 0
+            ? '<p class="pcm-empty">No awards yet</p>'
+            : recent.map(e => {
+                const ts = relativeTime(e.timestamp);
+                const sign = e.amount > 0 ? '+' : '';
+                return `<div class="pcm-award">
+                    <span class="pcm-award-pts ${e.amount>0?'positive':'negative'}">${sign}${e.amount}</span>
+                    <span class="pcm-award-reason">${escapeHtml(e.reason)}</span>
+                    <span class="pcm-award-time">${ts}</span>
+                </div>`;
+            }).join('');
+
+        modal.style.display = 'flex';
+    }
+
+    function closePlayerCard() {
+        const modal = document.getElementById('player-card-modal');
+        if (modal) modal.style.display = 'none';
+    }
+
+    document.getElementById('individual-board')?.addEventListener('click', e => {
+        const row = e.target.closest('.ind-row');
+        if (!row) return;
+        const nameEl = row.querySelector('.ind-name');
+        if (!nameEl) return;
+        // Reverse-lookup short name from full name
+        const fullName = nameEl.textContent.trim();
+        const shortName = Object.keys(FULL_NAMES).find(k => FULL_NAMES[k] === fullName) || fullName;
+        openPlayerCard(shortName);
+    });
+
+    document.querySelectorAll('[data-pcm-close]').forEach(el => el.addEventListener('click', closePlayerCard));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closePlayerCard(); });
+
     /* ---- Initial Render ---- */
     renderAll();
     renderRecentPlayers();
