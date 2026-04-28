@@ -14,7 +14,7 @@
 
     function $(sel) { return document.querySelector(sel); }
     function $all(sel) { return Array.from(document.querySelectorAll(sel)); }
-    function show(el) { el.removeAttribute('hidden'); requestAnimationFrame(function(){ el.classList.add('active'); }); }
+    function show(el) { el.removeAttribute('hidden'); setTimeout(function(){ el.classList.add('active'); }, 20); }
     function hide(el) { el.classList.remove('active'); setTimeout(function(){ el.setAttribute('hidden',''); }, 600); }
 
     function getData() {
@@ -133,7 +133,7 @@
     /* ---- Cycling ---- */
     function showPanel(idx) {
         var panels = $all('.sb-panel');
-        panels.forEach(function(p){ hide(p); });
+        panels.forEach(function(p, i){ if (i !== idx) hide(p); });
         var target = panels[idx];
         if (target) show(target);
         currentPanel = idx;
