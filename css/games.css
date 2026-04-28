@@ -5102,7 +5102,7 @@
 @keyframes hotPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.18); } }
 .team-card.brave-last { position: relative; }
 .team-card.brave-last::after {
-    content: "\1F4AA Brave Last";
+    content: "💪 Brave Last";
     position: absolute;
     top: 8px; right: 8px;
     font-size: 0.7rem;
