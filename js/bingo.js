@@ -97,9 +97,9 @@ var BINGO_RULES = [
     },
     {
         definition: 'Beat one other person in a head-to-head downing competition.',
-        accepted: ['Any drink', 'Any volume', 'Both start drinking on the same signal', 'First finished wins'],
-        notAccepted: ['Pre-prepped or partial drinks', 'Different volumes for the two competitors', 'No witness'],
-        requirements: '1 attempt only — lose and you\'re permanently out of this square. Each person can only be challenged once across this + arm wrestle. Witness names the winner.'
+        accepted: ['Any drink', 'Any volume', 'Both start drinking on the same signal', 'First finished wins', 'Same-sex challenges only (M v M, W v W)'],
+        notAccepted: ['Pre-prepped or partial drinks', 'Different volumes for the two competitors', 'Cross-sex challenges', 'No witness'],
+        requirements: '1 attempt only — lose and you\'re permanently out of this square. Same-sex challenges only. Each person can only be challenged once across this + arm wrestle. Witness names the winner.'
     },
     {
         definition: 'Run all 4 posts safely in the organised rounders match.',
@@ -127,9 +127,9 @@ var BINGO_RULES = [
     },
     {
         definition: 'Beat one other person in arm wrestling.',
-        accepted: ['Standard arm wrestle rules — both elbows on the table, free hand grips the table edge'],
-        notAccepted: ['Best of 3', 'Pre-arranged "wins" between mates', 'No witness'],
-        requirements: '1 attempt only — lose and you\'re permanently out of this square. Each person can only be challenged once across this + downing comp. Witness names the winner.'
+        accepted: ['Standard arm wrestle rules — both elbows on the table, free hand grips the table edge', 'Same-sex challenges only (M v M, W v W)'],
+        notAccepted: ['Best of 3', 'Pre-arranged "wins" between mates', 'Cross-sex challenges', 'No witness'],
+        requirements: '1 attempt only — lose and you\'re permanently out of this square. Same-sex challenges only. Each person can only be challenged once across this + downing comp. Witness names the winner.'
     },
     {
         definition: 'Convince Joe to take an unscheduled shot or drink with you.',
