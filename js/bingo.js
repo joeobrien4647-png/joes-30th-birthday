@@ -937,7 +937,7 @@ function initBingo() {
         }
         if (descEl) {
             descEl.style.whiteSpace = 'normal';
-            descEl.textContent = 'YOU LEGEND. +5 bonus points. Custom trophy at the Saturday awards ceremony.';
+            descEl.textContent = 'YOU LEGEND. +5 bonus points. Crowned Bingo Champion 2026 at the Saturday awards ceremony.';
         }
         if (punishmentPicker) punishmentPicker.style.display = 'none';
         if (guestPicker) guestPicker.style.display = 'none';
