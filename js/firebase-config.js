@@ -602,11 +602,10 @@
         addPunishment: function(data) {
             if (!db) return;
             db.ref('bingo/punishments').push({
-                guestCode: data.guestCode,
-                guestName: data.guestName,
-                team: data.team,
-                description: data.description,
-                assignedBy: data.assignedBy,
+                victim: data.victim || data.guestName || '',
+                assignedBy: data.assignedBy || '',
+                assignedByCode: data.assignedByCode || '',
+                description: data.description || '',
                 completed: false,
                 completedAt: null,
                 timestamp: Date.now()
