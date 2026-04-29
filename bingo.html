@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="css/base.css?v=20">
     <link rel="stylesheet" href="css/components.css?v=3">
     <link rel="stylesheet" href="css/nav.css?v=1">
-    <link rel="stylesheet" href="css/bingo.css?v=9">
+    <link rel="stylesheet" href="css/bingo.css?v=10">
 </head>
 <body>
     <!-- Confetti Canvas -->
@@ -100,6 +100,34 @@
                     <span class="prize-icon">&#128081;</span>
                     <span class="prize-label">Full House</span>
                     <span class="prize-desc">??? (+5 pts)</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pre-Trip Bonus -->
+    <section class="section bingo-pretrip-section">
+        <div class="container">
+            <div class="pretrip-card" id="pretripCard">
+                <span class="pretrip-badge">PRE-TRIP BONUS &middot; +1 BINGO POINT</span>
+                <div class="pretrip-content">
+                    <span class="pretrip-emoji">&#127866;</span>
+                    <div class="pretrip-info">
+                        <h3>Down a pint before arriving at the ch&acirc;teau</h3>
+                        <p>Wed 29 Apr, before you set foot at Roussignol. Photo or video proof required. Show Joe on arrival to claim. One claim per guest.</p>
+                    </div>
+                </div>
+                <div class="pretrip-actions" id="pretripActions">
+                    <div class="pretrip-photo-area">
+                        <label for="pretripPhotoInput" class="pretrip-photo-label">&#128247; Add photo proof</label>
+                        <input type="file" id="pretripPhotoInput" accept="image/*" capture="environment" style="display:none">
+                        <div id="pretripPhotoPreview"></div>
+                    </div>
+                    <button class="pretrip-claim-btn" id="pretripClaimBtn">&#127866; Claim +1 Point</button>
+                </div>
+                <div class="pretrip-claimed" id="pretripClaimed" style="display:none">
+                    <span class="pretrip-claimed-icon">&#9989;</span>
+                    <span class="pretrip-claimed-text">Claimed!</span>
                 </div>
             </div>
         </div>
@@ -287,6 +315,6 @@
     <script src="js/shared.js?v=20"></script>
     <script src="js/firebase-config.js?v=5"></script>
     <script src="js/nav.js?v=1"></script>
-    <script src="js/bingo.js?v=5"></script>
+    <script src="js/bingo.js?v=6"></script>
 </body>
 </html>

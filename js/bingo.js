@@ -76,6 +76,139 @@ function isBingoUnlocked() {
 }
 
 /* ============================================
+   Pre-Trip Bonus — claimable before bingo unlocks
+   ============================================ */
+function initPreTripBonus(guestCode, guestName, guestTeam) {
+    var card = document.getElementById('pretripCard');
+    var actions = document.getElementById('pretripActions');
+    var claimed = document.getElementById('pretripClaimed');
+    var claimBtn = document.getElementById('pretripClaimBtn');
+    var photoInput = document.getElementById('pretripPhotoInput');
+    var photoLabel = card ? card.querySelector('.pretrip-photo-label') : null;
+    var previewEl = document.getElementById('pretripPhotoPreview');
+
+    if (!card) return;
+
+    var fbPath = 'bingo/pretrip';
+    var photoDataUrl = null;
+
+    function renderState(claimData) {
+        if (claimData && claimData[guestCode]) {
+            card.classList.add('is-claimed');
+            if (actions) actions.style.display = 'none';
+            if (claimed) claimed.style.display = 'flex';
+        } else {
+            card.classList.remove('is-claimed');
+            if (actions) actions.style.display = guestCode ? '' : 'none';
+            if (claimed) claimed.style.display = 'none';
+        }
+    }
+
+    if (!guestCode) {
+        if (actions) actions.style.display = 'none';
+        return;
+    }
+
+    if (typeof FirebaseSync !== 'undefined' && FirebaseSync.isConfigured()) {
+        var db = firebase.database();
+        db.ref(fbPath).on('value', function(snap) {
+            renderState(snap.val() || {});
+        });
+    }
+
+    if (photoLabel) {
+        photoLabel.addEventListener('click', function() {
+            if (photoInput) photoInput.click();
+        });
+    }
+
+    if (photoInput) {
+        photoInput.addEventListener('change', function() {
+            if (!this.files || !this.files[0]) return;
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var img = new Image();
+                img.onload = function() {
+                    var canvas = document.createElement('canvas');
+                    var maxW = 800;
+                    var scale = Math.min(1, maxW / img.width);
+                    canvas.width = img.width * scale;
+                    canvas.height = img.height * scale;
+                    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+                    photoDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                    if (previewEl) {
+                        previewEl.innerHTML = '<img src="' + photoDataUrl + '" alt="Proof">';
+                    }
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(this.files[0]);
+        });
+    }
+
+    if (claimBtn) {
+        claimBtn.addEventListener('click', function() {
+            if (!guestCode) return;
+
+            var claimData = {
+                claimedBy: guestName,
+                claimedByCode: guestCode,
+                team: guestTeam,
+                timestamp: Date.now()
+            };
+
+            if (photoDataUrl) {
+                claimData.photoUrl = photoDataUrl;
+            }
+
+            if (typeof FirebaseSync !== 'undefined' && FirebaseSync.isConfigured()) {
+                firebase.database().ref(fbPath + '/' + guestCode).set(claimData);
+            }
+
+            var teamScores = Store.get('lb_teamScores', { titans: 0, spartans: 0, vikings: 0, gladiators: 0 });
+            var individualScores = Store.get('lb_individualScores', {});
+            var pointsLog = Store.get('lb_pointsLog', []);
+
+            individualScores[guestName] = (individualScores[guestName] || 0) + 1;
+            if (guestTeam) {
+                teamScores[guestTeam] = (teamScores[guestTeam] || 0) + 1;
+            }
+
+            pointsLog.unshift({
+                type: 'individual',
+                target: guestName,
+                amount: 1,
+                reason: 'Pre-trip bonus: pint before arrival',
+                time: new Date().toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }),
+                timestamp: Date.now(),
+                category: 'challenges',
+                awardedBy: 'Bingo'
+            });
+
+            Store.set('lb_teamScores', teamScores);
+            Store.set('lb_individualScores', individualScores);
+            Store.set('lb_pointsLog', pointsLog);
+
+            if (typeof FirebaseSync !== 'undefined' && FirebaseSync.isConfigured()) {
+                FirebaseSync.push('feed', {
+                    type: 'bingo',
+                    text: guestName + ' claimed the pre-trip pint bonus!',
+                    author: guestName,
+                    team: guestTeam || '',
+                    timestamp: Date.now()
+                });
+            }
+
+            if (navigator.vibrate) navigator.vibrate(50);
+
+            card.classList.add('is-claimed');
+            if (actions) actions.style.display = 'none';
+            if (claimed) claimed.style.display = 'flex';
+        });
+    }
+}
+
+/* ============================================
    Main entry
    ============================================ */
 function initBingo() {
@@ -94,6 +227,9 @@ function initBingo() {
     var pendingLineData = null;
     var pendingPunishment = '';
     var drawerIdx = -1;
+
+    // Pre-trip bonus (always active, even when bingo is locked)
+    initPreTripBonus(guestCode, guestName, guestTeam);
 
     // Initial render
     renderGrid();
