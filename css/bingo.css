@@ -92,6 +92,23 @@
     letter-spacing: 0.05em;
 }
 
+/* ---- Admin Clear Button ---- */
+.bingo-clear-btn {
+    background: #c62828;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.bingo-clear-btn:hover {
+    background: #b71c1c;
+}
+
 /* ---- Pre-Trip Bonus Card ---- */
 .bingo-pretrip-section {
     padding: 20px 0 0;

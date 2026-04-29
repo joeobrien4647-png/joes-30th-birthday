@@ -1225,6 +1225,28 @@ function initBingo() {
             renderBingoAdmin();
         });
 
+        // Clear all bingo data
+        var clearBtn = document.getElementById('bingoClearAll');
+        if (clearBtn) {
+            clearBtn.addEventListener('click', function() {
+                if (!confirm('This will delete ALL bingo claims, punishments, pre-trip bonus claims, and lines. Everyone starts fresh. Are you sure?')) return;
+                if (!confirm('Really sure? This cannot be undone.')) return;
+
+                var db = firebase.database();
+                db.ref('bingo/claims').remove();
+                db.ref('bingo/lines').remove();
+                db.ref('bingo/punishments').remove();
+                db.ref('bingo/pretrip').remove();
+
+                Store.set('lb_teamScores', { titans: 0, spartans: 0, vikings: 0, gladiators: 0 });
+                Store.set('lb_individualScores', {});
+                Store.set('lb_pointsLog', []);
+
+                showToast('All bingo data cleared. Fresh start!');
+                setTimeout(function() { location.reload(); }, 1000);
+            });
+        }
+
         // Preview toggle
         var previewBtn = document.getElementById('bingoPreviewToggle');
         if (previewBtn) {
