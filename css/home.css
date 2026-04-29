@@ -1355,6 +1355,11 @@
 .auth-btn:hover:not(:disabled) { background: #e6b800; }
 .auth-btn:active { transform: scale(0.98); }
 .auth-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.auth-btn-skip {
+  background: transparent; color: #888; font-weight: 500; font-size: 0.9rem;
+  margin-top: -4px;
+}
+.auth-btn-skip:hover:not(:disabled) { background: rgba(0,0,0,0.05); color: #666; }
 
 .auth-back {
   background: none; border: none;

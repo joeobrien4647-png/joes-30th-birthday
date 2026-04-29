@@ -10,7 +10,12 @@ document.addEventListener('DOMContentLoaded', function () {
     initRegistration();
     initGuestLogin();
     if (!isFirstTimeVisitor()) {
-        showAuthModal('login');
+        var code = localStorage.getItem(AUTH_KEYS.guestCode);
+        if (code && GUEST_DATA[code]) {
+            document.dispatchEvent(new CustomEvent('guestLoggedIn', { detail: { code: code } }));
+        } else {
+            showAuthModal('login');
+        }
     }
     initLiveStats();
 });
@@ -343,6 +348,16 @@ function initRegistration() {
   const step2Back = document.getElementById('auth-step2-back');
 
   if (step2Back) step2Back.addEventListener('click', () => showAuthStep('auth-step-1'));
+
+  const step2Skip = document.getElementById('auth-step2-skip');
+  if (step2Skip) {
+    step2Skip.addEventListener('click', () => {
+      localStorage.setItem(AUTH_KEYS.guestCode, selectedCode);
+      localStorage.setItem(AUTH_KEYS.registered, 'true');
+      prefillProfileStep(selectedCode);
+      showAuthStep('auth-step-3');
+    });
+  }
 
   if (step2Next && pw && pwc && pwErr) {
     step2Next.addEventListener('click', async () => {

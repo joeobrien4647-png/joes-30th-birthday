@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="css/base.css?v=20">
     <link rel="stylesheet" href="css/components.css?v=3">
     <link rel="stylesheet" href="css/nav.css?v=1">
-    <link rel="stylesheet" href="css/home.css?v=25">
+    <link rel="stylesheet" href="css/home.css?v=26">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;700&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
@@ -84,15 +84,16 @@
           <button id="auth-step1-next" class="auth-btn" disabled>Continue →</button>
         </div>
 
-        <!-- STEP 2: Set password -->
+        <!-- STEP 2: Set password (optional) -->
         <div class="auth-step" id="auth-step-2" style="display:none">
           <div class="auth-icon">🔑</div>
           <h2 class="auth-title" id="auth-welcome-name">Hey there!</h2>
-          <p class="auth-sub">Set a password to keep your profile safe</p>
+          <p class="auth-sub">Set a password to keep your profile safe (optional)</p>
           <input type="password" id="auth-password" class="auth-input" placeholder="Choose a password (4+ characters)" minlength="4" autocomplete="new-password">
           <input type="password" id="auth-password-confirm" class="auth-input" placeholder="Confirm password" autocomplete="new-password">
           <p class="auth-error" id="auth-pw-error" style="display:none"></p>
           <button id="auth-step2-next" class="auth-btn">Set Password →</button>
+          <button id="auth-step2-skip" class="auth-btn auth-btn-skip">Skip →</button>
           <button class="auth-back" id="auth-step2-back">← Back</button>
         </div>
 
@@ -529,6 +530,6 @@
     <script src="js/shared.js?v=20"></script>
     <script src="js/firebase-config.js?v=6"></script>
     <script src="js/nav.js?v=1"></script>
-    <script src="js/home.js?v=13"></script>
+    <script src="js/home.js?v=14"></script>
 </body>
 </html>
