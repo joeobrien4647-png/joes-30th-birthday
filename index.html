@@ -55,21 +55,7 @@
         </div>
     </div>
 
-    <!-- Password Protection Modal -->
-    <div class="password-modal" id="password-modal" style="display: none;">
-        <div class="password-content">
-            <h2>🔐 Secret Party Zone</h2>
-            <p>Enter the password to access Joe's birthday site</p>
-            <form id="password-form">
-                <input type="password" id="site-password" placeholder="Enter password" required>
-                <button type="submit" class="btn btn-primary">Enter</button>
-            </form>
-            <p class="password-hint">Hint: Ask the group chat!</p>
-            <p class="password-error" id="password-error" style="display: none;">Wrong password, try again!</p>
-        </div>
-    </div>
-
-    <!-- ── Registration / login modal ── -->
+    <!-- ── Registration modal ── -->
     <div id="auth-modal" style="display:none">
       <div class="auth-box">
 
@@ -81,23 +67,10 @@
           <select id="auth-name-select" class="auth-select">
             <option value="">Select your name</option>
           </select>
-          <button id="auth-step1-next" class="auth-btn" disabled>Continue →</button>
+          <button id="auth-step1-next" class="auth-btn" disabled>That's Me! →</button>
         </div>
 
-        <!-- STEP 2: Set password (optional) -->
-        <div class="auth-step" id="auth-step-2" style="display:none">
-          <div class="auth-icon">🔑</div>
-          <h2 class="auth-title" id="auth-welcome-name">Hey there!</h2>
-          <p class="auth-sub">Set a password to keep your profile safe (optional)</p>
-          <input type="password" id="auth-password" class="auth-input" placeholder="Choose a password (4+ characters)" minlength="4" autocomplete="new-password">
-          <input type="password" id="auth-password-confirm" class="auth-input" placeholder="Confirm password" autocomplete="new-password">
-          <p class="auth-error" id="auth-pw-error" style="display:none"></p>
-          <button id="auth-step2-next" class="auth-btn">Set Password →</button>
-          <button id="auth-step2-skip" class="auth-btn auth-btn-skip">Skip →</button>
-          <button class="auth-back" id="auth-step2-back">← Back</button>
-        </div>
-
-        <!-- STEP 3: Your profile -->
+        <!-- STEP 2: Your profile -->
         <div class="auth-step" id="auth-step-3" style="display:none">
           <div class="auth-icon">📸</div>
           <h2 class="auth-title">Your Profile</h2>
@@ -112,24 +85,6 @@
           <input type="text" id="auth-nickname" class="auth-input" placeholder="Nickname">
           <textarea id="auth-bio" class="auth-input auth-textarea" placeholder="One-line bio" rows="2"></textarea>
           <button id="auth-step3-done" class="auth-btn">Let's go! 🎉</button>
-        </div>
-
-        <!-- RETURN VISITOR: Login -->
-        <div class="auth-step" id="auth-step-login" style="display:none">
-          <div class="auth-icon">👋</div>
-          <h2 class="auth-title" id="auth-return-name">Welcome back!</h2>
-          <p class="auth-sub">Enter your password to continue</p>
-          <input type="password" id="auth-return-password" class="auth-input" placeholder="Your password" autocomplete="current-password">
-          <p class="auth-error" id="auth-return-error" style="display:none">Wrong password. Try again</p>
-          <button id="auth-return-submit" class="auth-btn">Enter →</button>
-          <button class="auth-link-btn" id="auth-forgot-toggle">Forgot your password?</button>
-          <div id="auth-forgot-panel" style="display:none">
-            <p class="auth-sub" style="margin-top:0.5rem;margin-bottom:0.5rem">Ask Joe for the reset code, then enter it below.</p>
-            <input type="text" id="auth-reset-code" class="auth-input" placeholder="Reset code" autocomplete="off">
-            <p class="auth-error" id="auth-reset-error" style="display:none">Incorrect code. Ask Joe on WhatsApp</p>
-            <button id="auth-reset-submit" class="auth-btn" style="margin-top:0.75rem">Reset my password</button>
-          </div>
-          <button class="auth-back" id="auth-return-reset">Not you? Start over</button>
         </div>
 
       </div>
@@ -530,6 +485,6 @@
     <script src="js/shared.js?v=20"></script>
     <script src="js/firebase-config.js?v=6"></script>
     <script src="js/nav.js?v=1"></script>
-    <script src="js/home.js?v=14"></script>
+    <script src="js/home.js?v=15"></script>
 </body>
 </html>

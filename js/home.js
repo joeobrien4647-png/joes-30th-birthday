@@ -5,17 +5,14 @@
 document.addEventListener('DOMContentLoaded', function () {
     initCinematicOverlay();
     initLoadingScreen();
-    initPasswordProtection();
     initCountdown();
     initRegistration();
     initGuestLogin();
-    if (!isFirstTimeVisitor()) {
-        var code = localStorage.getItem(AUTH_KEYS.guestCode);
-        if (code && GUEST_DATA[code]) {
-            document.dispatchEvent(new CustomEvent('guestLoggedIn', { detail: { code: code } }));
-        } else {
-            showAuthModal('login');
-        }
+    var code = localStorage.getItem('guestCode');
+    if (code && GUEST_DATA[code]) {
+        document.dispatchEvent(new CustomEvent('guestLoggedIn', { detail: { code: code } }));
+    } else if (!isFirstTimeVisitor()) {
+        showAuthModal('register');
     }
     initLiveStats();
 });
@@ -58,7 +55,7 @@ function initCinematicOverlay() {
         overlay.classList.add('fade-out');
         setTimeout(() => {
             overlay.style.display = 'none';
-            showAuthModal('register');
+            showAuthModal();
         }, 800);
     }, 4000);
 }
@@ -77,37 +74,6 @@ function initLoadingScreen() {
     }, 1800);
 }
 
-/* Password Protection */
-function initPasswordProtection() {
-    const modal = document.getElementById('password-modal');
-    const form = document.getElementById('password-form');
-    const errorEl = document.getElementById('password-error');
-
-    const SITE_PASSWORD = null; // Set to 'yourpassword' to enable, null to disable
-
-    if (!modal || !form || !SITE_PASSWORD) return;
-
-    if (localStorage.getItem('siteAuthenticated') === 'true') {
-        modal.style.display = 'none';
-        return;
-    }
-
-    modal.style.display = 'flex';
-
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const input = document.getElementById('site-password');
-        if (input.value === SITE_PASSWORD) {
-            localStorage.setItem('siteAuthenticated', 'true');
-            modal.style.display = 'none';
-            triggerConfetti();
-        } else {
-            errorEl.style.display = 'block';
-            input.value = '';
-            input.focus();
-        }
-    });
-}
 
 /* Countdown Timer with Milestones */
 function initCountdown() {
@@ -233,22 +199,12 @@ function initCountdown() {
 }
 
 /* ── Auth modal controller ── */
-function showAuthModal(mode) {
+function showAuthModal() {
   const modal = document.getElementById('auth-modal');
   if (!modal) return;
   modal.style.display = 'flex';
-
-  if (mode === 'register') {
-    showAuthStep('auth-step-1');
-    populateNameDropdown();
-  } else {
-    showAuthStep('auth-step-login');
-    const code = localStorage.getItem(AUTH_KEYS.guestCode);
-    if (code && GUEST_DATA[code]) {
-      const el = document.getElementById('auth-return-name');
-      if (el) el.textContent = 'Welcome back, ' + GUEST_DATA[code].name + '! 👋';
-    }
-  }
+  showAuthStep('auth-step-1');
+  populateNameDropdown();
 }
 
 function showAuthStep(stepId) {
@@ -302,13 +258,10 @@ function prefillProfileStep(code) {
   }
 }
 
-const RESET_CODE = 'joe30reset';
-
 function initRegistration() {
   let selectedCode = null;
-  let isResettingPassword = false;
 
-  /* Step 1: name selection */
+  /* Step 1: name selection → straight to profile */
   const select = document.getElementById('auth-name-select');
   const step1Next = document.getElementById('auth-step1-next');
   if (select && step1Next) {
@@ -318,77 +271,10 @@ function initRegistration() {
     });
     step1Next.addEventListener('click', () => {
       if (!selectedCode) return;
-      const guest = GUEST_DATA[selectedCode];
-      const nameEl = document.getElementById('auth-welcome-name');
-      if (nameEl) nameEl.textContent = 'Hey ' + guest.name + '! 👋';
-      // Check if this guest already registered (e.g. on another device)
-      if (typeof ProfileSync !== 'undefined' && ProfileSync.isConfigured()) {
-        var slug = guest.fullName.toLowerCase().replace(/['']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-        var profile = ProfileSync.getAll()[slug];
-        if (profile && profile.pwHash && profile.registered) {
-          // Already registered on another device, show login instead
-          localStorage.setItem(AUTH_KEYS.guestCode, selectedCode);
-          localStorage.setItem(AUTH_KEYS.pwHash, profile.pwHash);
-          localStorage.setItem(AUTH_KEYS.registered, 'true');
-          showAuthStep('auth-step-login');
-          var returnNameEl = document.getElementById('auth-return-name');
-          if (returnNameEl) returnNameEl.textContent = 'Welcome back, ' + guest.name + '! 👋';
-          return;
-        }
-      }
-      showAuthStep('auth-step-2');
-    });
-  }
-
-  /* Step 2: password */
-  const pw = document.getElementById('auth-password');
-  const pwc = document.getElementById('auth-password-confirm');
-  const pwErr = document.getElementById('auth-pw-error');
-  const step2Next = document.getElementById('auth-step2-next');
-  const step2Back = document.getElementById('auth-step2-back');
-
-  if (step2Back) step2Back.addEventListener('click', () => showAuthStep('auth-step-1'));
-
-  const step2Skip = document.getElementById('auth-step2-skip');
-  if (step2Skip) {
-    step2Skip.addEventListener('click', () => {
-      localStorage.setItem(AUTH_KEYS.guestCode, selectedCode);
+      localStorage.setItem('guestCode', selectedCode);
       localStorage.setItem(AUTH_KEYS.registered, 'true');
       prefillProfileStep(selectedCode);
       showAuthStep('auth-step-3');
-    });
-  }
-
-  if (step2Next && pw && pwc && pwErr) {
-    step2Next.addEventListener('click', async () => {
-      pwErr.style.display = 'none';
-      if (pw.value.length < 4) {
-        pwErr.textContent = 'Password must be at least 4 characters';
-        pwErr.style.display = 'block'; return;
-      }
-      if (pw.value !== pwc.value) {
-        pwErr.textContent = "Passwords don't match";
-        pwErr.style.display = 'block'; return;
-      }
-      const hash = await hashPassword(pw.value);
-      localStorage.setItem(AUTH_KEYS.pwHash, hash);
-      // Sync password hash to Firebase for cross-device login
-      var _code = isResettingPassword ? localStorage.getItem(AUTH_KEYS.guestCode) : selectedCode;
-      if (_code && GUEST_DATA[_code] && typeof FirebaseSync !== 'undefined' && FirebaseSync.isConfigured()) {
-        var _slug = GUEST_DATA[_code].fullName.toLowerCase().replace(/['']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-        FirebaseSync.update('profiles/' + _slug, { pwHash: hash, guestCode: _code, registered: true });
-      }
-      if (!isResettingPassword) {
-        localStorage.setItem(AUTH_KEYS.guestCode, selectedCode);
-        prefillProfileStep(selectedCode);
-        showAuthStep('auth-step-3');
-      } else {
-        isResettingPassword = false;
-        const code = localStorage.getItem(AUTH_KEYS.guestCode);
-        localStorage.setItem(AUTH_KEYS.registered, 'true');
-        document.getElementById('auth-modal').style.display = 'none';
-        document.dispatchEvent(new CustomEvent('guestLoggedIn', { detail: { code } }));
-      }
     });
   }
 
@@ -455,76 +341,6 @@ function initRegistration() {
     });
   }
 
-  /* Return visitor login */
-  const returnPw = document.getElementById('auth-return-password');
-  const returnErr = document.getElementById('auth-return-error');
-  const returnSubmit = document.getElementById('auth-return-submit');
-  const returnReset = document.getElementById('auth-return-reset');
-
-  if (returnSubmit && returnPw && returnErr) {
-    returnSubmit.addEventListener('click', async () => {
-      returnErr.style.display = 'none';
-      const ok = await verifyPassword(returnPw.value);
-      if (ok) {
-        document.getElementById('auth-modal').style.display = 'none';
-        const code = localStorage.getItem(AUTH_KEYS.guestCode);
-        document.dispatchEvent(new CustomEvent('guestLoggedIn', { detail: { code } }));
-      } else {
-        returnErr.style.display = 'block';
-        returnPw.value = '';
-        returnPw.focus();
-      }
-    });
-    returnPw.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') returnSubmit.click();
-    });
-  }
-
-  if (returnReset) {
-    returnReset.addEventListener('click', () => {
-      localStorage.removeItem(AUTH_KEYS.registered);
-      localStorage.removeItem(AUTH_KEYS.pwHash);
-      localStorage.removeItem(AUTH_KEYS.guestCode);
-      showAuthStep('auth-step-1');
-      populateNameDropdown();
-    });
-  }
-
-  /* Forgot password */
-  const forgotToggle = document.getElementById('auth-forgot-toggle');
-  const forgotPanel = document.getElementById('auth-forgot-panel');
-  const resetCodeInput = document.getElementById('auth-reset-code');
-  const resetSubmit = document.getElementById('auth-reset-submit');
-  const resetErr = document.getElementById('auth-reset-error');
-
-  if (forgotToggle && forgotPanel) {
-    forgotToggle.addEventListener('click', () => {
-      const open = forgotPanel.style.display !== 'none';
-      forgotPanel.style.display = open ? 'none' : 'block';
-      forgotToggle.textContent = open ? 'Forgot your password?' : 'Cancel';
-      if (!open && resetCodeInput) resetCodeInput.focus();
-    });
-  }
-
-  if (resetSubmit && resetCodeInput && resetErr) {
-    const doReset = () => {
-      resetErr.style.display = 'none';
-      if (resetCodeInput.value.trim().toLowerCase() === RESET_CODE) {
-        localStorage.removeItem(AUTH_KEYS.pwHash);
-        isResettingPassword = true;
-        forgotPanel.style.display = 'none';
-        forgotToggle.textContent = 'Forgot your password?';
-        resetCodeInput.value = '';
-        showAuthStep('auth-step-2');
-      } else {
-        resetErr.style.display = 'block';
-        resetCodeInput.value = '';
-        resetCodeInput.focus();
-      }
-    };
-    resetSubmit.addEventListener('click', doReset);
-    resetCodeInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') doReset(); });
-  }
 }
 
 /* Guest Login — delegates to shared guest picker (shared.js) */
