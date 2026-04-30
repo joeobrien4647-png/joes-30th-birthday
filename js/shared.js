@@ -2719,3 +2719,14 @@ function initEnhancedLightbox() {
         }
     }, { passive: true });
 }
+
+/* One-time migration: move Luke to Gladiators in Firebase */
+(function() {
+    if (typeof firebase === 'undefined' || !firebase.database) return;
+    var db = firebase.database();
+    db.ref('registrations/LUKE-4WN8/team').once('value', function(snap) {
+        if (snap.val() === 'vikings') {
+            db.ref('registrations/LUKE-4WN8/team').set('gladiators');
+        }
+    });
+})();
