@@ -2751,6 +2751,11 @@ function initEnhancedLightbox() {
             db.ref('bingo/claims/15/GEORGE-1CY9').remove();
         }
 
+        // Remove Jonny W's disputed chant claim (index 2)
+        if (claims['2'] && claims['2']['JONNYW-8HQ3']) {
+            db.ref('bingo/claims/2/JONNYW-8HQ3').remove();
+        }
+
         // Add Kiran's toast claim (index 5) as pending
         if (!claims['5'] || !claims['5']['KIRAN-7DX1']) {
             db.ref('bingo/claims/5/KIRAN-7DX1').set({
@@ -2773,11 +2778,13 @@ function initEnhancedLightbox() {
             });
         }
 
-        // Correct leaderboard: Joe 2, George 1, others unchanged
+        // Correct leaderboard
         db.ref('leaderboard/individualScores/Joe').set(2);
         db.ref('leaderboard/individualScores/George').set(1);
+        db.ref('leaderboard/individualScores/Jonny W').set(0);
         db.ref('leaderboard/teamScores/titans').set(2);
         db.ref('leaderboard/teamScores/vikings').set(1);
+        db.ref('leaderboard/teamScores/spartans').set(1);
 
         localStorage.setItem(migrationKey, 'true');
     });
