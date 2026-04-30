@@ -178,8 +178,8 @@ const GUEST_DATA = {
 const PLAYERS = {
     'Joe': 'titans', 'Samantha': 'titans', 'Robin': 'titans', 'Emma L': 'titans', 'Kiran': 'titans', 'Oscar': 'titans', 'Chris': 'titans',
     'Razon': 'spartans', 'Sophie': 'spartans', 'Robert': 'spartans', 'Florrie': 'spartans', 'Jonny W': 'spartans', 'Matt': 'spartans',
-    'Hannah': 'vikings', 'Luke': 'vikings', 'George': 'vikings', 'Neeve': 'vikings', 'Oli': 'vikings', 'Jonny L': 'vikings',
-    'Peter': 'gladiators', 'Johnny': 'gladiators', 'Tom': 'gladiators', 'Sarah': 'gladiators', 'Emma W': 'gladiators'
+    'Hannah': 'vikings', 'George': 'vikings', 'Neeve': 'vikings', 'Oli': 'vikings', 'Jonny L': 'vikings',
+    'Peter': 'gladiators', 'Johnny': 'gladiators', 'Tom': 'gladiators', 'Sarah': 'gladiators', 'Emma W': 'gladiators', 'Luke': 'gladiators'
 };
 
 /* Team Configuration */
