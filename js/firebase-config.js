@@ -327,7 +327,7 @@
         '\uD83D\uDCE3 Start a chant the whole group joins',
         '\uD83C\uDF7A Win a 1v1 downing competition (any drink — one attempt only, lose and you\'re out. Same-sex challenges only. Each person can only be challenged once across both 1v1 squares)',
         '\uD83E\uDD4E Score a run in the rounders match (run all 4 posts safely)',
-        '\uD83E\uDD42 Toast someone in front of 10+ people (target must be untoasted by anyone all trip)',
+        '\uD83E\uDD42 Stand up, name someone, say why they\'re great for 30 secs, group raises glasses (target must be untoasted)',
         '\uD83D\uDCDC Convince the group to invent a new trip rule you suggested (followed by 5+ people)',
         '\uD83C\uDFA4 Pick a song that gets 5+ people singing along to the chorus',
         '\uD83D\uDCAA Win a 1v1 arm wrestle (one attempt only, lose and you\'re out. Same-sex challenges only. Each person can only be challenged once across both 1v1 squares)',

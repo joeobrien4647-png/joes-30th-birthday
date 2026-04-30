@@ -108,10 +108,10 @@ var BINGO_RULES = [
         requirements: 'During the organised rounders match. Everyone watching counts as a witness.'
     },
     {
-        definition: 'Give a proper named toast to someone in front of 10+ people.',
-        accepted: ['A 30-sec+ toast with reasoning ("I toast X because…")', 'At any meal or drinks moment', 'Any guest who hasn\'t yet been toasted by anyone on the trip'],
-        notAccepted: ['Generic "cheers everyone" toasts', 'Toasting yourself', 'Someone who\'s already been toasted by another guest'],
-        requirements: 'Target must be untoasted by anyone all trip. 10+ audience. Must include a clear reason for the toast.'
+        definition: 'Stand up, name someone, say why they\'re great for 30+ seconds, and get the group to raise their glasses.',
+        accepted: ['Any guest who hasn\'t been toasted yet on the trip', 'At any meal, drinks, or group moment', 'Genuine or funny — both count as long as you speak for 30 seconds'],
+        notAccepted: ['Generic "cheers everyone" with no named person', 'Toasting yourself', 'Someone already toasted by another guest', 'Under 30 seconds'],
+        requirements: 'Stand up. Name someone. Speak for 30+ seconds about why they\'re great. Group raises their glasses. That\'s it — if you did all four, it counts. No quality judgement.'
     },
     {
         definition: 'Pitch a NEW rule that the group adopts and follows unprompted.',
