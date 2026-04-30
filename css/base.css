@@ -1838,7 +1838,7 @@ body.modal-open {
 
 .my-trip-fab {
     position: fixed;
-    top: 16px;
+    top: 70px;
     left: 16px;
     z-index: 997;
     display: flex;
