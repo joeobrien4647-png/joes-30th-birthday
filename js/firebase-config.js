@@ -435,25 +435,45 @@
 
         claim: function(itemIndex, guestCode, guestName, team) {
             if (!db) return;
-            // Check if THIS person already claimed this square
             if (bingoClaims[itemIndex] && bingoClaims[itemIndex][guestCode]) return;
 
             var claimData = {
                 claimedBy: guestName,
                 claimedByCode: guestCode,
                 team: team,
-                timestamp: Date.now()
+                timestamp: Date.now(),
+                pending: true
             };
 
             db.ref('bingo/claims/' + itemIndex + '/' + guestCode).set(claimData);
             if (!bingoClaims[itemIndex]) bingoClaims[itemIndex] = {};
             bingoClaims[itemIndex][guestCode] = claimData;
 
-            // Award points: +1 per square
+            bingoPostFeed(guestName + ' submitted: "' + BINGO_ITEMS[itemIndex] + '" (awaiting approval)', guestName, team);
+        },
+
+        approveClaim: function(itemIndex, guestCode) {
+            if (!db) return;
+            var claim = bingoClaims[itemIndex] && bingoClaims[itemIndex][guestCode];
+            if (!claim) return;
+
+            db.ref('bingo/claims/' + itemIndex + '/' + guestCode + '/pending').remove();
+            if (bingoClaims[itemIndex][guestCode]) {
+                delete bingoClaims[itemIndex][guestCode].pending;
+            }
+
             var pts = 1;
             var reason = 'Bingo: ' + BINGO_ITEMS[itemIndex];
-            bingoAwardPoints(guestName, team, pts, reason);
-            bingoPostFeed(guestName + ' claimed: "' + BINGO_ITEMS[itemIndex] + '"', guestName, team);
+            bingoAwardPoints(claim.claimedBy, claim.team, pts, reason);
+            bingoPostFeed(claim.claimedBy + ' approved: "' + BINGO_ITEMS[itemIndex] + '"', claim.claimedBy, claim.team);
+        },
+
+        rejectClaim: function(itemIndex, guestCode) {
+            if (!db) return;
+            db.ref('bingo/claims/' + itemIndex + '/' + guestCode).remove();
+            if (bingoClaims[itemIndex]) {
+                delete bingoClaims[itemIndex][guestCode];
+            }
         },
 
         getClaims: function() {

@@ -562,11 +562,11 @@ function initBingo() {
                 var shortLabel = BINGO_SHORT_TITLES[idx] || shortenChallenge(items[idx]);
 
                 if (myClaim) {
-                    // I've claimed this square
+                    var isPending = myClaim.pending === true;
                     cell.classList.add('claimed');
-                    cell.classList.add('claimed-self');
+                    cell.classList.add(isPending ? 'claimed-pending' : 'claimed-self');
 
-                    var teamColour = TEAM_COLOURS[myClaim.team] || '#888';
+                    var teamColour = isPending ? '#ff9800' : (TEAM_COLOURS[myClaim.team] || '#888');
                     cell.style.setProperty('--team-colour', teamColour);
 
                     var textEl = document.createElement('span');
@@ -1779,29 +1779,71 @@ function initBingo() {
             return (b.claim.timestamp || 0) - (a.claim.timestamp || 0);
         });
 
+        // Sort pending first
+        flatClaims.sort(function(a, b) {
+            var aPending = a.claim.pending ? 0 : 1;
+            var bPending = b.claim.pending ? 0 : 1;
+            if (aPending !== bPending) return aPending - bPending;
+            return (b.claim.timestamp || 0) - (a.claim.timestamp || 0);
+        });
+
         var html = '';
         for (var i = 0; i < flatClaims.length; i++) {
             var fc = flatClaims[i];
             var itemText = items[fc.idx] || 'Unknown item';
             var ago = relativeTimeBingo(fc.claim.timestamp);
             var revoked = fc.claim.revoked;
+            var isPending = fc.claim.pending === true;
             var dataKey = fc.idx + '/' + fc.code;
 
-            html += '<div class="bingo-admin-claim' + (revoked ? ' revoked' : '') + '" data-key="' + dataKey + '">'
+            var statusClass = revoked ? ' revoked' : (isPending ? ' pending' : ' approved');
+
+            html += '<div class="bingo-admin-claim' + statusClass + '" data-key="' + dataKey + '">'
                 + '<div class="bingo-admin-claim-info">'
-                + '<span class="bingo-admin-claim-item">' + escapeHtml(itemText) + '</span>'
+                + '<span class="bingo-admin-claim-item">' + (isPending ? '&#9203; ' : '&#9989; ') + escapeHtml(itemText) + '</span>'
                 + '<span class="bingo-admin-claim-meta">'
                 + escapeHtml(fc.claim.claimedBy) + ' (' + escapeHtml(fc.claim.team || '?') + ') &middot; ' + ago
+                + (isPending ? ' &middot; PENDING' : '')
                 + '</span>'
-                + '</div>'
-                + '<button class="bingo-admin-btn ' + (revoked ? 'bingo-admin-btn-restore' : 'bingo-admin-btn-revoke') + '" data-key="' + dataKey + '">'
-                + (revoked ? 'Restore' : 'Revoke')
-                + '</button>'
                 + '</div>';
+
+            if (isPending) {
+                html += '<button class="bingo-admin-btn bingo-admin-btn-approve" data-key="' + dataKey + '">&#9989; Approve</button>'
+                    + '<button class="bingo-admin-btn bingo-admin-btn-reject" data-key="' + dataKey + '">&#10060; Reject</button>';
+            } else if (revoked) {
+                html += '<button class="bingo-admin-btn bingo-admin-btn-restore" data-key="' + dataKey + '">Restore</button>';
+            } else {
+                html += '<button class="bingo-admin-btn bingo-admin-btn-revoke" data-key="' + dataKey + '">Revoke</button>';
+            }
+
+            html += '</div>';
         }
         claimsEl.innerHTML = html;
 
-        var btns = claimsEl.querySelectorAll('.bingo-admin-btn');
+        // Approve buttons
+        var approveBtns = claimsEl.querySelectorAll('.bingo-admin-btn-approve');
+        for (var a = 0; a < approveBtns.length; a++) {
+            approveBtns[a].addEventListener('click', function() {
+                var key = this.getAttribute('data-key');
+                var parts = key.split('/');
+                BingoEngine.approveClaim(parts[0], parts[1]);
+                showToast('Claim approved! +1 point');
+            });
+        }
+
+        // Reject buttons
+        var rejectBtns = claimsEl.querySelectorAll('.bingo-admin-btn-reject');
+        for (var r = 0; r < rejectBtns.length; r++) {
+            rejectBtns[r].addEventListener('click', function() {
+                var key = this.getAttribute('data-key');
+                var parts = key.split('/');
+                BingoEngine.rejectClaim(parts[0], parts[1]);
+                showToast('Claim rejected');
+            });
+        }
+
+        // Revoke/Restore buttons
+        var btns = claimsEl.querySelectorAll('.bingo-admin-btn-revoke, .bingo-admin-btn-restore');
         for (var b = 0; b < btns.length; b++) {
             btns[b].addEventListener('click', function() {
                 var key = this.getAttribute('data-key');
