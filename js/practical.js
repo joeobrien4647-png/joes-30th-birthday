@@ -330,6 +330,285 @@ function initGalleryCarousel() {
     });
 }
 
+/* ============================================
+   Money Owed Section
+   - Personal breakdown for logged-in guest
+   - Admin tracker (Joe / Sophie / Hannah)
+   - Firebase sync via PaymentSync (paid/unpaid status)
+   ============================================ */
+function initMoneySection() {
+    var loginNote = document.getElementById('money-login-note');
+    var personalEl = document.getElementById('money-personal');
+    var publicEl = document.getElementById('money-public');
+    var adminEl = document.getElementById('money-admin');
+    if (!personalEl || !adminEl || !loginNote) return;
+
+    var guestCode = (typeof Auth !== 'undefined' && Auth.isLoggedIn()) ? Auth.getGuestCode() : null;
+
+    // Not logged in → prompt
+    if (!guestCode) {
+        loginNote.style.display = 'block';
+        return;
+    }
+
+    var isAdmin = Auth.isAdmin();
+    var p1Break = document.getElementById('money-personal-break');
+    if (p1Break) p1Break.style.display = 'flex';
+    personalEl.style.display = 'block';
+    var p2Break = document.getElementById('money-public-break');
+    if (p2Break) p2Break.style.display = 'flex';
+    if (publicEl) publicEl.style.display = 'flex';
+    if (isAdmin) adminEl.style.display = 'block';
+
+    // Show kitty rate range on public panel
+    var kittyRateEl = document.getElementById('kitty-rate-amount');
+    if (kittyRateEl && typeof FOOD_KITTY !== 'undefined') {
+        kittyRateEl.textContent = '£' + FOOD_KITTY.perNightLow + '–' + FOOD_KITTY.perNightHigh;
+    }
+
+    // ---- Personal panel ----
+    function renderPersonal() {
+        if (typeof PAYMENT_RATES === 'undefined' || typeof PAYMENT_BANK === 'undefined') return;
+
+        var guest = Auth.getGuestData();
+        var firstName = guest ? guest.name : 'there';
+        document.getElementById('money-greeting').textContent = 'Hi ' + firstName + ' 👋';
+
+        var lines = (typeof getPaymentLines === 'function') ? getPaymentLines(guestCode) : [];
+        var activitiesTotal = (typeof getPaymentTotal === 'function') ? getPaymentTotal(guestCode) : 0;
+        var nights = (typeof getNights === 'function') ? getNights(guestCode) : 0;
+        var kittyRange = (typeof getFoodKittyRange === 'function') ? getFoodKittyRange(guestCode) : { low: 0, high: 0 };
+        var grandTotal = activitiesTotal; // Kitty excluded from grand total — settled post-trip
+        var paid = (typeof PaymentSync !== 'undefined' && PaymentSync.isPaid(guestCode));
+
+        // Activities lines
+        var linesEl = document.getElementById('money-lines');
+        if (lines.length === 0) {
+            linesEl.innerHTML = '<div class="money-empty">Nothing owed here — you\'re all good ✅</div>';
+        } else {
+            linesEl.innerHTML = lines.map(function(l) {
+                var noteText = l.paid ? l.note + ' · ✓ Already paid' : l.note;
+                return '<div class="money-line' + (l.paid ? ' is-paid' : '') + '">' +
+                    '<div>' +
+                        '<span class="money-line-label">' + escapeHtml(l.label) + '</span>' +
+                        '<span class="money-line-note">' + escapeHtml(noteText) + '</span>' +
+                    '</div>' +
+                    '<span class="money-line-amount">£' + l.amount + '</span>' +
+                '</div>';
+            }).join('');
+        }
+        document.getElementById('money-activities-total').textContent = '£' + activitiesTotal;
+
+        // My stay summary
+        var nightsEl = document.getElementById('money-mystay-nights');
+        var amountEl = document.getElementById('money-mystay-amount');
+        if (nightsEl) {
+            if (nights === 0) {
+                nightsEl.textContent = 'Not staying at the chateau';
+                if (amountEl) amountEl.textContent = 'No group spend share';
+            } else {
+                nightsEl.textContent = nights + (nights === 1 ? ' night' : ' nights') + ' at the chateau';
+                if (amountEl) {
+                    if (kittyRange.low > 0) {
+                        amountEl.textContent = 'Group spend share roughly £' + kittyRange.low + '–£' + kittyRange.high + ' (settled after trip)';
+                    } else {
+                        amountEl.textContent = 'Group spend settled after trip';
+                    }
+                }
+            }
+        }
+
+        // Grand total + status
+        document.getElementById('money-grand-total').textContent = '£' + grandTotal;
+        var badge = document.getElementById('money-status-badge');
+        if (grandTotal === 0) {
+            badge.textContent = '✅ All clear';
+            badge.classList.add('paid');
+        } else if (paid) {
+            badge.textContent = '✅ Activities paid';
+            badge.classList.add('paid');
+        } else {
+            badge.textContent = '⏳ Outstanding';
+            badge.classList.remove('paid');
+        }
+
+        // Bank
+        document.getElementById('money-bank-sort').textContent = PAYMENT_BANK.sortCode;
+        document.getElementById('money-bank-acct').textContent = PAYMENT_BANK.accountNumber;
+        document.getElementById('money-bank-name').textContent = PAYMENT_BANK.accountName;
+        document.getElementById('money-bank-ref').textContent = firstName;
+    }
+
+    // ---- Stay Calendar (public to all guests) ----
+    function renderStayCalendar() {
+        if (typeof TRIP_DAYS === 'undefined' || typeof GUEST_ATTENDANCE === 'undefined') return;
+        if (typeof GUEST_DATA === 'undefined') return;
+
+        var headEl = document.getElementById('stay-calendar-head');
+        var bodyEl = document.getElementById('stay-calendar-body');
+        var totalsEl = document.getElementById('stay-calendar-totals');
+        if (!headEl || !bodyEl || !totalsEl) return;
+
+        // Header row
+        var headHtml = '<th>Guest</th>';
+        TRIP_DAYS.forEach(function(d) {
+            headHtml += '<th>' + escapeHtml(d.label) + '<span class="day-date">' + escapeHtml(d.date) + '</span></th>';
+        });
+        headHtml += '<th class="nights-col">Nights</th>';
+        headEl.innerHTML = headHtml;
+
+        // Body rows — sorted by nights desc, then name
+        var entries = Object.keys(GUEST_ATTENDANCE)
+            .filter(function(code) {
+                var sum = GUEST_ATTENDANCE[code].reduce(function(a, b) { return a + b; }, 0);
+                return sum > 0; // hide guests not coming
+            })
+            .map(function(code) {
+                var g = GUEST_DATA[code];
+                return {
+                    code: code,
+                    name: g ? g.name : code,
+                    fullName: g ? g.fullName : code,
+                    days: GUEST_ATTENDANCE[code],
+                    nights: GUEST_ATTENDANCE[code].reduce(function(a, b) { return a + b; }, 0)
+                };
+            })
+            .sort(function(a, b) {
+                if (b.nights !== a.nights) return b.nights - a.nights;
+                return a.fullName.localeCompare(b.fullName);
+            });
+
+        var dailyTotals = TRIP_DAYS.map(function() { return 0; });
+        var rowsHtml = '';
+        entries.forEach(function(entry) {
+            var isMe = entry.code === guestCode;
+            rowsHtml += '<tr class="' + (isMe ? 'is-self' : '') + '">';
+            rowsHtml += '<td class="' + (isMe ? 'is-self' : '') + '">' + escapeHtml(entry.fullName) + '</td>';
+            entry.days.forEach(function(val, i) {
+                dailyTotals[i] += val;
+                var cls = val === 1 ? 'full' : (val === 0.5 ? 'half' : 'none');
+                rowsHtml += '<td class="stay-cell ' + cls + '" title="' + escapeHtml(TRIP_DAYS[i].full) + ': ' + (val === 1 ? 'Full day' : val === 0.5 ? 'Half day' : 'Not there') + '"><span class="dot"></span></td>';
+            });
+            rowsHtml += '<td class="nights-col">' + entry.nights + '</td>';
+            rowsHtml += '</tr>';
+        });
+        bodyEl.innerHTML = rowsHtml;
+
+        // Totals row
+        var totalsHtml = '<td>Total bodies</td>';
+        dailyTotals.forEach(function(t) {
+            totalsHtml += '<td>' + t + '</td>';
+        });
+        var grandNights = dailyTotals.reduce(function(a, b) { return a + b; }, 0);
+        totalsHtml += '<td class="nights-col">' + grandNights + '</td>';
+        totalsEl.innerHTML = totalsHtml;
+    }
+
+    // Copy bank details
+    var copyBtn = document.getElementById('money-copy-btn');
+    if (copyBtn) {
+        copyBtn.addEventListener('click', function() {
+            var text = PAYMENT_BANK.accountName + '\n' +
+                'Sort code: ' + PAYMENT_BANK.sortCode + '\n' +
+                'Account: ' + PAYMENT_BANK.accountNumber + '\n' +
+                'Reference: ' + Auth.getGuestName();
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(function() {
+                    copyBtn.textContent = '✅ Copied!';
+                    copyBtn.classList.add('copied');
+                    setTimeout(function() {
+                        copyBtn.textContent = '📋 Copy bank details';
+                        copyBtn.classList.remove('copied');
+                    }, 1800);
+                });
+            }
+        });
+    }
+
+    // ---- Admin panel ----
+    function renderAdmin() {
+        if (!isAdmin) return;
+        if (typeof PAYMENTS === 'undefined' || typeof GUEST_DATA === 'undefined') return;
+
+        var totalOwed = 0;
+        var totalPaid = 0;
+        var rows = [];
+
+        // Build rows in sorted name order
+        var entries = Object.keys(PAYMENTS).map(function(code) {
+            var guest = GUEST_DATA[code];
+            return { code: code, name: guest ? guest.fullName : code };
+        }).sort(function(a, b) { return a.name.localeCompare(b.name); });
+
+        entries.forEach(function(entry) {
+            var code = entry.code;
+            var record = PAYMENTS[code];
+            var activitiesTotal = getPaymentTotal(code);
+            var nights = getNights(code);
+            var kittyRange = getFoodKittyRange(code);
+            var paid = (typeof PaymentSync !== 'undefined' && PaymentSync.isPaid(code));
+
+            totalOwed += activitiesTotal;
+            if (paid) totalPaid += activitiesTotal;
+
+            var paidLines = record.paid || {};
+            function cell(flag, key) {
+                if (!flag) return '<td class="money-cell-dash">—</td>';
+                var paidClass = paidLines[key] ? ' is-paid' : '';
+                var prefix = paidLines[key] ? '✓ ' : '';
+                return '<td class="money-cell-tick' + paidClass + '" title="' + (paidLines[key] ? 'Already paid' : 'Outstanding') + '">' + prefix + '£' + PAYMENT_RATES[key].amount + '</td>';
+            }
+
+            rows.push(
+                '<tr class="' + (paid ? 'paid' : '') + '" data-code="' + escapeHtml(code) + '">' +
+                    '<td>' + escapeHtml(entry.name) + '</td>' +
+                    cell(record.golf, 'golf') +
+                    cell(record.canoe, 'canoe') +
+                    cell(record.accro, 'accro') +
+                    cell(record.car, 'car') +
+                    '<td class="money-cell-total col-owed">' + (activitiesTotal > 0 ? '£' + activitiesTotal : '—') + '</td>' +
+                    '<td class="col-kitty">' + (nights > 0 ? nights : '—') + '</td>' +
+                    '<td class="money-cell-kitty col-kitty">' + (kittyRange.low > 0 ? '£' + kittyRange.low + '–£' + kittyRange.high : '—') + '</td>' +
+                    '<td>' + (activitiesTotal > 0
+                        ? '<input type="checkbox" class="money-admin-paid-toggle" data-code="' + escapeHtml(code) + '"' + (paid ? ' checked' : '') + '>'
+                        : '<span class="money-cell-dash">—</span>'
+                    ) + '</td>' +
+                '</tr>'
+            );
+        });
+
+        document.getElementById('money-admin-tbody').innerHTML = rows.join('');
+        document.getElementById('money-stat-total').textContent = '£' + totalOwed;
+        document.getElementById('money-stat-paid').textContent = '£' + totalPaid;
+        document.getElementById('money-stat-outstanding').textContent = '£' + (totalOwed - totalPaid);
+
+        // Wire up toggles
+        var toggles = document.querySelectorAll('.money-admin-paid-toggle');
+        toggles.forEach(function(t) {
+            t.addEventListener('change', function() {
+                var code = this.dataset.code;
+                if (this.checked) {
+                    PaymentSync.markPaid(code, Auth.getGuestName());
+                } else {
+                    PaymentSync.markUnpaid(code);
+                }
+            });
+        });
+    }
+
+    renderPersonal();
+    renderStayCalendar();
+    renderAdmin();
+
+    // Re-render on Firebase updates
+    if (typeof PaymentSync !== 'undefined' && PaymentSync.isConfigured()) {
+        PaymentSync.onUpdate(function() {
+            renderPersonal();
+            renderAdmin();
+        });
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     initSubNavHighlight();
     initTravelPlans();
@@ -337,4 +616,5 @@ document.addEventListener('DOMContentLoaded', function() {
     initPretripChecklist();
     initPracticalHighlight();
     initGalleryCarousel();
+    initMoneySection();
 });

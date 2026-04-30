@@ -18,7 +18,7 @@ function hasSpun() {
 
 /* Full team reveal: spun + past arrival night (all teams visible) */
 function hasFullReveal() {
-    return hasSpun() && (typeof isRevealed === 'function' ? isRevealed() : false);
+    return typeof isRevealed === 'function' ? isRevealed() : false;
 }
 
 /* ---- Games Nav Tile Tabs ---- */
@@ -245,6 +245,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initGamesTabs();
     initChallenges();
     initLeaderboard();
+    initOvertakeBanner();
     initDailyChallengeReveal();
     initDailyRecapGenerator();
     initHowItWorks();
@@ -479,6 +480,62 @@ function initLeaderboard() {
     }
     function savePositions(positions) {
         sessionStorage.setItem('lb_positions', JSON.stringify(positions));
+    }
+
+    /* ---- Derived Events ---- */
+    // Snapshot of state from the END of the previous renderAll call.
+    // We diff prev-call snapshot against current state at the START of the next
+    // renderAll, so events fire when scores actually change between renders.
+    let lastSnapshot = null;
+
+    function computeTeamRanks() {
+        const sorted = TEAMS.slice().sort((a, b) => (teamScores[b] || 0) - (teamScores[a] || 0));
+        const ranks = {};
+        sorted.forEach((t, i) => { ranks[t] = i + 1; });
+        return ranks;
+    }
+
+    function computeIndividualRanks() {
+        const sorted = Object.keys(individualScores).sort((a, b) => (individualScores[b] || 0) - (individualScores[a] || 0));
+        const ranks = {};
+        sorted.forEach((n, i) => { ranks[n] = i + 1; });
+        return ranks;
+    }
+
+    function getDailyMvp(day) {
+        const today = day || getTripDay();
+        const totals = {};
+        pointsLog.forEach(e => {
+            if (e.type === 'individual' && (e.day || 1) === today && e.amount > 0) {
+                totals[e.target] = (totals[e.target] || 0) + e.amount;
+            }
+        });
+        let topName = null, topPts = 0;
+        Object.entries(totals).forEach(([n, p]) => { if (p > topPts) { topPts = p; topName = n; } });
+        return topName;
+    }
+
+    function dispatchDerivedEvents(prevTeamRanks, newTeamRanks, prevIndRanks, newIndRanks, prevMvp, newMvp) {
+        Object.keys(newTeamRanks).forEach(team => {
+            if (prevTeamRanks[team] && prevTeamRanks[team] !== newTeamRanks[team]) {
+                const detail = { team, from: prevTeamRanks[team], to: newTeamRanks[team] };
+                if (newTeamRanks[team] < prevTeamRanks[team]) {
+                    document.dispatchEvent(new CustomEvent('teamOvertake', { detail }));
+                }
+            }
+        });
+        Object.keys(newIndRanks).forEach(name => {
+            if (prevIndRanks[name] && prevIndRanks[name] !== newIndRanks[name]) {
+                if (newIndRanks[name] < prevIndRanks[name]) {
+                    document.dispatchEvent(new CustomEvent('individualOvertake', {
+                        detail: { name, from: prevIndRanks[name], to: newIndRanks[name] }
+                    }));
+                }
+            }
+        });
+        if (newMvp && prevMvp !== newMvp) {
+            document.dispatchEvent(new CustomEvent('mvpChange', { detail: { from: prevMvp, to: newMvp } }));
+        }
     }
 
     /* ---- Load Data ---- */
@@ -819,11 +876,27 @@ function initLeaderboard() {
 
     /* ---- Render All ---- */
     function renderAll() {
+        // Diff against snapshot from the END of the previous renderAll call.
+        // First call: lastSnapshot is null, so events are skipped (no prior state).
+        const prevTeamRanks = lastSnapshot ? lastSnapshot.teamRanks : null;
+        const prevIndRanks = lastSnapshot ? lastSnapshot.indRanks : null;
+        const prevMvp = lastSnapshot ? lastSnapshot.mvp : null;
+
         renderTeams();
         renderFeed();
         renderIndividuals();
         renderLog();
         renderDailyRecap();
+
+        const newTeamRanks = computeTeamRanks();
+        const newIndRanks = computeIndividualRanks();
+        const newMvp = getDailyMvp();
+
+        if (prevTeamRanks) {
+            dispatchDerivedEvents(prevTeamRanks, newTeamRanks, prevIndRanks, newIndRanks, prevMvp, newMvp);
+        }
+
+        lastSnapshot = { teamRanks: newTeamRanks, indRanks: newIndRanks, mvp: newMvp };
     }
 
     /* ---- Render Teams ---- */
@@ -887,6 +960,16 @@ function initLeaderboard() {
                 card.classList.add('leading');
             }
         });
+
+        // Brave Last - lowest-scoring team when there's an actual gap
+        const minScore = Math.min(...TEAMS.map(t => teamScores[t] || 0));
+        const allZero = maxScore === 0;
+        cards.forEach(card => {
+            card.classList.remove('brave-last');
+            if (!allZero && (teamScores[card.dataset.team] || 0) === minScore && minScore < maxScore) {
+                card.classList.add('brave-last');
+            }
+        });
     }
 
     /* ---- Render Activity Feed ---- */
@@ -921,6 +1004,17 @@ function initLeaderboard() {
     }
 
     /* ---- Render Individuals ---- */
+    function isHotStreak(name) {
+        const fifteenMinAgo = Date.now() - 15 * 60 * 1000;
+        const recent = pointsLog.filter(e =>
+            e.type === 'individual' && e.target === name && e.amount > 0 && e.timestamp >= fifteenMinAgo
+        );
+        return recent.length >= 3;
+    }
+    function isComeback(name, currRank) {
+        const prev = getPreviousPositions()[name];
+        return prev && (prev - currRank) >= 3;
+    }
     function renderIndividuals() {
         const board = document.getElementById('individual-board');
         if (!board) return;
@@ -934,11 +1028,9 @@ function initLeaderboard() {
         const newPositions = {};
         sorted.forEach((p, i) => { newPositions[p.name] = i + 1; });
 
+        const dailyMvp = getDailyMvp();
+
         board.innerHTML = '';
-        if (sorted.every(p => p.points === 0)) {
-            board.innerHTML = '<p class="board-empty">No individual scores yet. Let the games begin!</p>';
-            return;
-        }
         sorted.forEach((player, i) => {
             const row = document.createElement('div');
             row.className = 'ind-row' + (i < 3 && player.points > 0 ? ' top-3' : '');
@@ -947,6 +1039,10 @@ function initLeaderboard() {
             if (i === 0 && player.points > 0) rankDisplay = '\uD83E\uDD47';
             else if (i === 1 && player.points > 0) rankDisplay = '\uD83E\uDD48';
             else if (i === 2 && player.points > 0) rankDisplay = '\uD83E\uDD49';
+
+            const mvpCrown = (dailyMvp === player.name && player.points > 0)
+                ? '<span class="ind-mvp-crown" title="Today\'s MVP">\uD83D\uDC51</span>'
+                : '';
 
             // Position change arrow
             let posArrow = '';
@@ -970,8 +1066,12 @@ function initLeaderboard() {
                 .map(([cat]) => `<span class="cat-dot cat-${cat}" title="${CATEGORY_LABELS[cat] || cat}"></span>`)
                 .join('');
 
+            let badges = '';
+            if (isHotStreak(player.name)) badges += '<span class="ind-badge badge-hot" title="Hot streak \u2014 3+ awards in 15 min">\uD83D\uDD25</span>';
+            if (isComeback(player.name, i + 1)) badges += '<span class="ind-badge badge-comeback" title="Climbed 3+ positions">\uD83D\uDE80</span>';
+
             row.innerHTML = `
-                <span class="ind-rank">${rankDisplay}${posArrow}</span>
+                <span class="ind-rank">${rankDisplay}${posArrow}${badges}${mvpCrown}</span>
                 <span class="ind-team-dot ${hasFullReveal() ? (player.team || '') : ''}"></span>
                 <span class="ind-name">${escapeHtml(FULL_NAMES[player.name] || player.name)}</span>
                 <span class="ind-cats">${catDots}</span>
@@ -1140,10 +1240,110 @@ function initLeaderboard() {
         });
     }
 
+    /* ---- Player Card Modal ---- */
+    function openPlayerCard(name) {
+        const modal = document.getElementById('player-card-modal');
+        if (!modal) return;
+        const total = individualScores[name] || 0;
+        const ranks = computeIndividualRanks();
+        const rank = ranks[name] || '—';
+        const team = PLAYERS[name] || null;
+        const breakdown = getIndividualCategoryBreakdown(name);
+        const recent = pointsLog
+            .filter(e => e.type === 'individual' && e.target === name)
+            .slice(0, 5);
+        const biggest = pointsLog
+            .filter(e => e.type === 'individual' && e.target === name && e.amount > 0)
+            .reduce((max, e) => e.amount > max.amount ? e : max, { amount: 0 });
+
+        document.getElementById('pcm-name').textContent = FULL_NAMES[name] || name;
+        document.getElementById('pcm-meta').textContent = (team ? TEAM_NAMES[team] + ' · ' : '') + 'Rank ' + rank;
+        document.getElementById('pcm-total').textContent = total;
+        document.getElementById('pcm-rank').textContent = rank === '—' ? '—' : '#' + rank;
+        document.getElementById('pcm-biggest').textContent = biggest.amount > 0 ? '+' + biggest.amount : '—';
+
+        const total2 = Math.max(1, Object.values(breakdown).reduce((s, v) => s + Math.max(0, v), 0));
+        document.getElementById('pcm-cats').innerHTML = Object.entries(breakdown)
+            .filter(([, v]) => v !== 0)
+            .map(([cat, pts]) => `
+                <div class="pcm-cat-row">
+                    <span class="pcm-cat-label">${CATEGORY_EMOJI[cat] || ''} ${CATEGORY_LABELS[cat] || cat}</span>
+                    <div class="pcm-cat-bar"><div class="pcm-cat-fill cat-${cat}" style="width:${Math.max(2, (pts/total2)*100)}%"></div></div>
+                    <span class="pcm-cat-pts">${pts}</span>
+                </div>
+            `).join('') || '<p class="pcm-empty">No points yet</p>';
+
+        document.getElementById('pcm-recent').innerHTML = recent.length === 0
+            ? '<p class="pcm-empty">No awards yet</p>'
+            : recent.map(e => {
+                const ts = relativeTime(e.timestamp);
+                const sign = e.amount > 0 ? '+' : '';
+                return `<div class="pcm-award">
+                    <span class="pcm-award-pts ${e.amount>0?'positive':'negative'}">${sign}${e.amount}</span>
+                    <span class="pcm-award-reason">${escapeHtml(e.reason)}</span>
+                    <span class="pcm-award-time">${ts}</span>
+                </div>`;
+            }).join('');
+
+        modal.style.display = 'flex';
+    }
+
+    function closePlayerCard() {
+        const modal = document.getElementById('player-card-modal');
+        if (modal) modal.style.display = 'none';
+    }
+
+    document.getElementById('individual-board')?.addEventListener('click', e => {
+        const row = e.target.closest('.ind-row');
+        if (!row) return;
+        const nameEl = row.querySelector('.ind-name');
+        if (!nameEl) return;
+        // Reverse-lookup short name from full name
+        const fullName = nameEl.textContent.trim();
+        const shortName = Object.keys(FULL_NAMES).find(k => FULL_NAMES[k] === fullName) || fullName;
+        openPlayerCard(shortName);
+    });
+
+    document.querySelectorAll('[data-pcm-close]').forEach(el => el.addEventListener('click', closePlayerCard));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closePlayerCard(); });
+
     /* ---- Initial Render ---- */
     renderAll();
     renderRecentPlayers();
     if (isAdmin) renderDayQuickAwards();
+}
+
+/* ============================================
+   Overtake Banner
+   Phone-side hype when a team or individual changes position.
+   Listens to `teamOvertake` / `individualOvertake` events from initLeaderboard.
+   Lives at document level so it works even before initLeaderboard runs.
+   ============================================ */
+function initOvertakeBanner() {
+    var banner = document.getElementById('overtake-banner');
+    if (!banner) return;
+    // Local fallbacks: TEAM_NAMES / TEAM_EMOJI are const inside initLeaderboard,
+    // not reachable here. FULL_NAMES is at module scope (shared.js).
+    var BANNER_TEAM_NAMES = { titans: 'Titans', spartans: 'Spartans', vikings: 'Vikings', gladiators: 'Gladiators' };
+    var BANNER_TEAM_EMOJI = { titans: '\u26A1', spartans: '\uD83D\uDEE1\uFE0F', vikings: '\u2694\uFE0F', gladiators: '\uD83D\uDDE1\uFE0F' };
+    var hideTimer = null;
+    function show(html, themeClass) {
+        banner.className = 'overtake-banner show ' + (themeClass || '');
+        banner.innerHTML = html;
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(function() { banner.classList.remove('show'); }, 4000);
+    }
+    document.addEventListener('teamOvertake', function(e) {
+        var t = e.detail.team;
+        var display = BANNER_TEAM_NAMES[t] || t;
+        var emoji = BANNER_TEAM_EMOJI[t] || '\uD83C\uDFC6';
+        show('<span class="ob-icon">' + emoji + '</span><span class="ob-text"><strong>' + display + '</strong> jump to #' + e.detail.to + '!</span>', 'team-' + t);
+    });
+    document.addEventListener('individualOvertake', function(e) {
+        if (e.detail.to !== 1) return;
+        var display = (typeof FULL_NAMES !== 'undefined' && FULL_NAMES[e.detail.name]) || e.detail.name;
+        show('<span class="ob-icon">\uD83D\uDC51</span><span class="ob-text"><strong>' + display + '</strong> takes the lead!</span>');
+    });
 }
 
 /* ============================================

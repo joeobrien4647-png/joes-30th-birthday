@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="css/base.css?v=20">
     <link rel="stylesheet" href="css/components.css?v=3">
     <link rel="stylesheet" href="css/nav.css?v=1">
-    <link rel="stylesheet" href="css/practical.css?v=27">
+    <link rel="stylesheet" href="css/practical.css?v=35">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -62,6 +62,7 @@
     <nav class="sub-nav">
         <ul class="sub-nav-links">
             <li><a href="#info" class="active">Info</a></li>
+            <li><a href="#money">Money</a></li>
             <li><a href="#travel">Travel</a></li>
         </ul>
     </nav>
@@ -91,7 +92,7 @@
                     <ul>
                         <li><a href="https://www.oliverstravels.com/france/loire-valley/chateau-roussignol/" target="_blank">Château Roussignol</a>, Loire Valley</li>
                         <li>Pool, BBQ area, loads of space</li>
-                        <li>12 bedrooms, 26 guests</li>
+                        <li>12 bedrooms, 24 guests + toddler</li>
                     </ul>
                 </div>
 
@@ -359,6 +360,219 @@
         </div>
     </section>
 
+    <!-- Money Owed Section -->
+    <section id="money" class="section money">
+        <div class="container">
+            <h2 class="section-title">💷 Money</h2>
+            <p class="section-subtitle">Everything in one place — paid upfront by Joe, settle when you can</p>
+
+            <!-- Login required state -->
+            <div class="money-login-note" id="money-login-note" style="display:none;">
+                <p>Log in with your name to see your personal breakdown.</p>
+                <a href="index.html" class="money-cta-btn">Go to login &rarr;</a>
+            </div>
+
+            <!-- Part 1 section break -->
+            <div class="money-section-break money-section-break--p1" id="money-personal-break" style="display:none;">
+                <div class="msb-divider msb-divider--green"></div>
+                <div class="msb-banner msb-banner--green">
+                    <span class="msb-eyebrow msb-eyebrow--green">Part 1</span>
+                    <h3>🎯 Settle Up Now</h3>
+                    <p>Activities &amp; car hire Joe paid upfront — confirmed amounts to ping back whenever you can</p>
+                </div>
+                <div class="msb-divider msb-divider--green"></div>
+            </div>
+
+            <!-- Personal breakdown (per logged-in guest) -->
+            <div class="money-personal" id="money-personal" style="display:none;">
+
+                <!-- Hero summary card (mine only) -->
+                <div class="money-hero">
+                    <div class="money-hero-greeting">
+                        <span class="money-hero-eyebrow">To send Joe now</span>
+                        <h3 class="money-hero-name" id="money-greeting">Hi 👋</h3>
+                    </div>
+                    <div class="money-hero-amount-wrap">
+                        <span class="money-hero-amount" id="money-grand-total">£0</span>
+                        <span class="money-status-badge" id="money-status-badge">⏳ Outstanding</span>
+                    </div>
+                </div>
+
+                <!-- My Activities card -->
+                <div class="money-myblock">
+                    <div class="money-subcard money-subcard--confirmed">
+                        <div class="money-subcard-header">
+                            <span class="money-subcard-icon">✅</span>
+                            <div>
+                                <h4>Your Activities &amp; Car Hire</h4>
+                                <p>Joe paid these upfront — settle now</p>
+                            </div>
+                        </div>
+                        <div class="money-lines" id="money-lines">
+                            <!-- populated by JS -->
+                        </div>
+                        <div class="money-subcard-total">
+                            <span>Your subtotal</span>
+                            <strong id="money-activities-total">£0</strong>
+                        </div>
+                    </div>
+
+                    <!-- My Stay summary -->
+                    <div class="money-mystay">
+                        <div class="money-mystay-icon">🏰</div>
+                        <div class="money-mystay-text">
+                            <span class="money-mystay-label">Your stay</span>
+                            <strong id="money-mystay-nights">0 nights</strong>
+                            <span class="money-mystay-amount" id="money-mystay-amount">~£0 group spend</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bank details -->
+                <div class="money-bank">
+                    <h4>💳 Bank Details</h4>
+                    <ul class="money-bank-list">
+                        <li><span>Sort code</span><strong id="money-bank-sort">—</strong></li>
+                        <li><span>Account no.</span><strong id="money-bank-acct">—</strong></li>
+                        <li><span>Name</span><strong id="money-bank-name">—</strong></li>
+                        <li><span>Reference</span><strong id="money-bank-ref">Your first name</strong></li>
+                    </ul>
+                    <button class="money-copy-btn" id="money-copy-btn" type="button">📋 Copy bank details</button>
+                </div>
+
+                <p class="money-note">No rush — send whenever you can</p>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════
+                 GROUP SPEND (visible to all logged-in guests)
+                 ═══════════════════════════════════════════════ -->
+            <div class="money-section-break" id="money-public-break" style="display:none;">
+                <div class="msb-divider"></div>
+                <div class="msb-banner">
+                    <span class="msb-eyebrow">Part 2</span>
+                    <h3>🏰 While at the Château</h3>
+                    <p>The shared kitty for everything we eat &amp; drink at the château — settled after the trip from real receipts</p>
+                </div>
+                <div class="msb-divider"></div>
+            </div>
+            <div class="money-public" id="money-public" style="display:none;">
+
+                <!-- Big rate panel -->
+                <div class="kitty-rate-panel">
+                    <div class="kitty-rate-eyebrow">Château Group Kitty</div>
+                    <div class="kitty-rate-wrap">
+                        <span class="kitty-rate-amount" id="kitty-rate-amount">£19</span>
+                        <span class="kitty-rate-unit">per person<br>per night</span>
+                    </div>
+                    <p class="kitty-rate-strap">Estimated rate. Final amount reconciled after the trip from actual receipts.</p>
+                </div>
+
+                <!-- What it covers -->
+                <div class="kitty-includes-grid">
+                    <div class="kitty-includes-card kitty-includes-card--in">
+                        <h4>✓ What this covers</h4>
+                        <p class="kitty-includes-strap">All food &amp; drink we buy as a group for the château</p>
+                        <ul>
+                            <li>🥐 Breakfasts at the château</li>
+                            <li>🥪 Lunches we make at the château</li>
+                            <li>🥩 Group dinners &amp; BBQs</li>
+                            <li>🍿 Snacks &amp; nibbles</li>
+                            <li>☕ Tea, coffee, milk &amp; kitchen basics</li>
+                            <li>🍷 All group alcohol (wine, beer, spirits, mixers)</li>
+                            <li>🥤 Soft drinks, juices &amp; water</li>
+                        </ul>
+                    </div>
+                    <div class="kitty-includes-card kitty-includes-card--out">
+                        <h4>✗ Not included</h4>
+                        <p class="kitty-includes-strap">Anything you spend on food &amp; drink away from the château</p>
+                        <ul>
+                            <li>🍴 Meals out / restaurants</li>
+                            <li>🍹 Bars &amp; bar tabs</li>
+                            <li>☕ Cafés &amp; takeaway lunches</li>
+                            <li>🎯 Activity costs (separate above)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Stay calendar -->
+                <div class="stay-calendar">
+                    <div class="stay-calendar-header">
+                        <h3>🏰 Who's there when</h3>
+                        <div class="stay-calendar-legend">
+                            <span><span class="dot dot-full"></span> Full day</span>
+                            <span><span class="dot dot-half"></span> Half day</span>
+                            <span><span class="dot dot-none"></span> Not there</span>
+                        </div>
+                    </div>
+                    <div class="stay-calendar-wrap">
+                        <table class="stay-calendar-table" id="stay-calendar-table">
+                            <thead>
+                                <tr id="stay-calendar-head"></tr>
+                            </thead>
+                            <tbody id="stay-calendar-body"></tbody>
+                            <tfoot>
+                                <tr id="stay-calendar-totals"></tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <p class="stay-calendar-note">Drop your half-day arrows if you're arriving late or leaving early — message Joe</p>
+                </div>
+
+            </div>
+
+            <!-- Admin panel (Joe / Sophie / Hannah only) -->
+            <div class="money-admin" id="money-admin" style="display:none;">
+                <h3 class="money-admin-title">🔐 Admin — Payment Tracker</h3>
+
+                <div class="money-admin-summary" id="money-admin-summary">
+                    <div class="money-stat">
+                        <span class="money-stat-num" id="money-stat-total">£0</span>
+                        <span class="money-stat-label">Total Owed</span>
+                    </div>
+                    <div class="money-stat">
+                        <span class="money-stat-num" id="money-stat-paid">£0</span>
+                        <span class="money-stat-label">Paid</span>
+                    </div>
+                    <div class="money-stat">
+                        <span class="money-stat-num" id="money-stat-outstanding">£0</span>
+                        <span class="money-stat-label">Outstanding</span>
+                    </div>
+                </div>
+
+                <div class="money-admin-table-wrap">
+                    <table class="money-admin-table" id="money-admin-table">
+                        <thead>
+                            <tr class="money-admin-groups">
+                                <th></th>
+                                <th colspan="5" class="grp-activities">🎯 Activities &amp; Car Hire <span>(owed now)</span></th>
+                                <th colspan="2" class="grp-kitty">🍷 Château Group Spend <span>(estimate, settled after trip)</span></th>
+                                <th></th>
+                            </tr>
+                            <tr class="money-admin-headers">
+                                <th>Guest</th>
+                                <th class="col-act">Golf</th>
+                                <th class="col-act">Canoe</th>
+                                <th class="col-act">Accro</th>
+                                <th class="col-act">Car</th>
+                                <th class="col-act col-owed">Owed Now</th>
+                                <th class="col-kitty">Nights</th>
+                                <th class="col-kitty">Food &amp; Drink Est.</th>
+                                <th>Paid?</th>
+                            </tr>
+                        </thead>
+                        <tbody id="money-admin-tbody">
+                            <!-- populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <p class="money-admin-note">
+                    <strong>Activities &amp; Car Hire</strong> = confirmed costs Joe paid upfront, settle now.
+                    <strong>Group Spend</strong> = estimated share of food/drink at the château (£15-20/night × nights), reconciled from real receipts after the trip.
+                </p>
+            </div>
+        </div>
+    </section>
+
     <!-- Travel Confirmation -->
     <section id="travel" class="section travel">
         <div class="container">
@@ -437,7 +651,8 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
     <script src="js/shared.js?v=20"></script>
     <script src="js/firebase-config.js?v=6"></script>
+    <script src="js/shared.js?v=30"></script>
     <script src="js/nav.js?v=1"></script>
-    <script src="js/practical.js?v=11"></script>
+    <script src="js/practical.js?v=20"></script>
 </body>
 </html>

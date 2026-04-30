@@ -1736,3 +1736,77 @@
     .wheel-spin-btn { padding: 16px 50px; font-size: 1.1rem; }
     .wheel-result-logo { width: 80px; height: 80px; }
 }
+
+/* ============================================
+   Dashboard Money Banner
+   ============================================ */
+.dashboard-money-banner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 18px 0 0;
+    padding: 16px 18px;
+    background: linear-gradient(135deg, #fff8e1, #fffde7);
+    border: 1px solid #ffd54f;
+    border-radius: 16px;
+    text-decoration: none;
+    color: var(--text-dark);
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 3px 12px rgba(255, 179, 0, 0.12);
+}
+
+.dashboard-money-banner:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(255, 179, 0, 0.22);
+}
+
+.dashboard-money-banner.paid {
+    background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+    border-color: #81c784;
+    box-shadow: 0 3px 12px rgba(46, 125, 50, 0.1);
+}
+
+.dmb-icon {
+    font-size: 1.7rem;
+    flex-shrink: 0;
+}
+
+.dmb-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.dmb-text strong {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #6a4500;
+}
+
+.dashboard-money-banner.paid .dmb-text strong {
+    color: #1b5e20;
+}
+
+.dmb-text span {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+.dmb-arrow {
+    font-size: 1.6rem;
+    color: rgba(0, 0, 0, 0.3);
+    flex-shrink: 0;
+}
+
+/* Info state — always-visible money banner when nothing outstanding */
+.dashboard-money-banner.info {
+    background: linear-gradient(135deg, #ede7f6, #e8eaf6);
+    border-color: #b39ddb;
+    box-shadow: 0 3px 12px rgba(118, 75, 162, 0.1);
+}
+
+.dashboard-money-banner.info .dmb-text strong {
+    color: #4527a0;
+}

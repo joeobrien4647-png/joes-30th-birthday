@@ -1292,3 +1292,1021 @@
     color: var(--primary);
     text-decoration: underline;
 }
+
+
+/* ============================================
+   Money Section
+   ============================================ */
+.money {
+    background: linear-gradient(180deg, var(--bg-light) 0%, #fff 100%);
+    padding-bottom: 60px;
+}
+
+.money-login-note {
+    max-width: 520px;
+    margin: 0 auto;
+    text-align: center;
+    background: var(--bg-white);
+    border: 2px dashed rgba(118, 75, 162, 0.3);
+    border-radius: 18px;
+    padding: 32px 22px;
+}
+
+.money-login-note p { margin: 0 0 14px; color: var(--text-muted); font-size: 0.98rem; }
+
+.money-cta-btn {
+    display: inline-block;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 22px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.money-cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(118, 75, 162, 0.25); }
+
+/* Personal wrap */
+.money-personal { max-width: 760px; margin: 0 auto; }
+
+/* Hero summary */
+.money-hero {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    color: #fff;
+    border-radius: 22px 22px 0 0;
+    padding: 26px 26px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    flex-wrap: wrap;
+    box-shadow: 0 12px 36px rgba(118, 75, 162, 0.25);
+    position: relative;
+    overflow: hidden;
+}
+
+.money-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 280px;
+    height: 280px;
+    background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.money-hero-greeting { display: flex; flex-direction: column; gap: 4px; z-index: 1; }
+.money-hero-eyebrow {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    opacity: 0.75;
+    font-weight: 600;
+}
+.money-hero-name { margin: 0; font-size: 1.4rem; font-weight: 700; letter-spacing: -0.01em; }
+
+.money-hero-amount-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    z-index: 1;
+}
+
+.money-hero-amount {
+    font-size: 2.6rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1;
+}
+
+.money-status-badge {
+    background: rgba(255,255,255,0.22);
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    backdrop-filter: blur(8px);
+    white-space: nowrap;
+}
+
+.money-status-badge.paid { background: rgba(76, 175, 80, 0.95); }
+
+/* Cards grid */
+.money-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    background: #fff;
+    padding: 18px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+}
+
+.money-subcard {
+    background: var(--bg-light);
+    border-radius: 16px;
+    padding: 20px 18px;
+    border: 1px solid rgba(0,0,0,0.04);
+    display: flex;
+    flex-direction: column;
+}
+
+.money-subcard--confirmed { border-left: 3px solid #2e7d32; }
+.money-subcard--estimate { border-left: 3px solid #ed6c02; }
+
+.money-subcard-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.money-subcard-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.money-subcard-header h4 {
+    margin: 0 0 2px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.money-subcard-header p {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.35;
+}
+
+.money-lines, .money-kitty-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    margin-bottom: 14px;
+}
+
+.money-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 10px 12px;
+    background: #fff;
+    border-radius: 10px;
+    gap: 10px;
+    border: 1px solid rgba(0,0,0,0.04);
+}
+
+.money-line-label {
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 0.92rem;
+}
+
+.money-line-note {
+    display: block;
+    font-weight: 400;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    margin-top: 2px;
+}
+
+.money-line-amount {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+.money-empty {
+    text-align: center;
+    padding: 22px 12px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    background: #fff;
+    border: 1px dashed rgba(0,0,0,0.1);
+    border-radius: 10px;
+}
+
+/* Food kitty visual */
+.money-kitty-formula {
+    background: #fff;
+    border-radius: 10px;
+    padding: 14px;
+    border: 1px solid rgba(0,0,0,0.04);
+}
+
+.money-kitty-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    font-size: 0.88rem;
+    color: var(--text-dark);
+}
+
+.money-kitty-row + .money-kitty-row {
+    border-top: 1px dashed rgba(0,0,0,0.08);
+}
+
+.money-kitty-row span { color: var(--text-muted); }
+.money-kitty-row strong { font-weight: 700; color: var(--text-dark); }
+
+.money-kitty-includes {
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: rgba(255, 152, 0, 0.06);
+    border-radius: 8px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+.money-kitty-includes strong { color: var(--text-dark); }
+
+.money-subcard-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0,0,0,0.06);
+}
+
+.money-subcard-total span {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.money-subcard-total strong {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--primary);
+    letter-spacing: -0.01em;
+}
+
+.money-subcard--estimate .money-subcard-total strong { color: #ed6c02; }
+
+.money-kitty-note {
+    margin: 10px 0 0;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-align: center;
+    font-style: italic;
+}
+
+/* Bank section */
+.money-bank {
+    background: #fff;
+    padding: 22px 20px;
+    border-radius: 0 0 22px 22px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+    border-top: 1px solid rgba(0,0,0,0.06);
+}
+
+.money-bank h4 {
+    margin: 0 0 14px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+.money-bank-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.money-bank-list li {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 0.95rem;
+    padding: 8px 12px;
+    background: var(--bg-light);
+    border-radius: 8px;
+}
+
+.money-bank-list span { color: var(--text-muted); font-weight: 500; }
+
+.money-bank-list strong {
+    color: var(--text-dark);
+    font-family: 'Courier New', Courier, monospace;
+    letter-spacing: 0.02em;
+    font-weight: 700;
+}
+
+.money-copy-btn {
+    width: 100%;
+    background: var(--text-dark);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 13px 14px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+}
+
+.money-copy-btn:hover { background: #000; transform: translateY(-1px); }
+.money-copy-btn.copied { background: #2e7d32; }
+
+.money-note {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin: 16px 0 0;
+    font-style: italic;
+}
+
+/* Admin panel */
+.money-admin {
+    max-width: 1100px;
+    margin: 36px auto 0;
+    background: var(--bg-white);
+    border-radius: 18px;
+    padding: 24px 20px;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.money-admin-title { margin: 0 0 18px; font-size: 1.15rem; color: var(--text-dark); }
+
+.money-admin-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.money-stat {
+    background: var(--bg-light);
+    border-radius: 12px;
+    padding: 16px 10px;
+    text-align: center;
+}
+
+.money-stat-num {
+    display: block;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--primary);
+    letter-spacing: -0.01em;
+}
+
+.money-stat-label {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 2px;
+}
+
+.money-admin-table-wrap {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.money-admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    min-width: 820px;
+}
+
+.money-admin-table thead { background: var(--bg-light); }
+
+.money-admin-table th {
+    text-align: left;
+    padding: 11px 10px;
+    font-weight: 700;
+    color: var(--text-dark);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+
+.money-admin-table td {
+    padding: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    color: var(--text-dark);
+    white-space: nowrap;
+}
+
+.money-admin-table tbody tr:hover { background: rgba(118, 75, 162, 0.03); }
+
+.money-admin-table .money-cell-tick { color: #2e7d32; font-weight: 700; }
+.money-admin-table .money-cell-dash { color: rgba(0,0,0,0.18); }
+.money-admin-table .money-cell-total { font-weight: 700; color: var(--primary); }
+.money-admin-table .money-cell-kitty { color: #ed6c02; font-weight: 600; }
+.money-admin-table .money-cell-grand { font-weight: 800; color: var(--text-dark); }
+
+.money-admin-paid-toggle {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    accent-color: #2e7d32;
+}
+
+.money-admin-table tr.paid { opacity: 0.55; }
+.money-admin-table tr.paid .money-cell-grand { text-decoration: line-through; }
+
+.money-admin-note {
+    margin: 12px 0 0;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-align: center;
+    font-style: italic;
+}
+
+@media (max-width: 720px) {
+    .money-cards-grid { grid-template-columns: 1fr; padding: 14px; }
+    .money-hero { border-radius: 20px 20px 0 0; padding: 22px 20px; }
+    .money-hero-amount { font-size: 2.2rem; }
+    .money-bank { padding: 20px 16px; }
+}
+
+@media (max-width: 600px) {
+    .money-admin-summary { grid-template-columns: 1fr; }
+    .money-hero-amount-wrap { align-items: flex-start; }
+}
+
+
+/* ============================================
+   Money — v2 redesign (public-friendly)
+   Personal hero/cards stay, but group spend
+   replaced with: rate panel + includes + calendar
+   ============================================ */
+
+/* My block (Activities + my stay summary) */
+.money-myblock {
+    background: #fff;
+    padding: 18px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.money-mystay {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: linear-gradient(135deg, rgba(237, 108, 2, 0.08), rgba(255, 152, 0, 0.05));
+    border: 1px solid rgba(237, 108, 2, 0.2);
+    border-radius: 14px;
+    padding: 14px 18px;
+}
+
+.money-mystay-icon {
+    font-size: 1.8rem;
+    flex-shrink: 0;
+}
+
+.money-mystay-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+}
+
+.money-mystay-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.money-mystay-text strong {
+    font-size: 1.15rem;
+    color: var(--text-dark);
+    font-weight: 700;
+}
+
+.money-mystay-amount {
+    font-size: 0.88rem;
+    color: #b25400;
+    font-weight: 600;
+}
+
+/* Public group spend section */
+.money-public {
+    max-width: 760px;
+    margin: 32px auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+/* Rate panel — the headline number */
+.kitty-rate-panel {
+    background: linear-gradient(135deg, #fff8e1 0%, #fff3e0 100%);
+    border: 2px solid #ffb74d;
+    border-radius: 22px;
+    padding: 28px 26px;
+    text-align: center;
+    box-shadow: 0 8px 28px rgba(255, 167, 38, 0.18);
+    position: relative;
+    overflow: hidden;
+}
+
+.kitty-rate-panel::before {
+    content: '🍷';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 6rem;
+    opacity: 0.08;
+    transform: rotate(15deg);
+}
+
+.kitty-rate-eyebrow {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #b25400;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+.kitty-rate-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.kitty-rate-amount {
+    font-size: 4.5rem;
+    font-weight: 800;
+    color: #c2410c;
+    letter-spacing: -0.04em;
+    line-height: 1;
+}
+
+.kitty-rate-unit {
+    font-size: 0.95rem;
+    text-align: left;
+    color: var(--text-dark);
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.kitty-rate-strap {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-style: italic;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+/* Includes / Excludes grid */
+.kitty-includes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.kitty-includes-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px 18px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+}
+
+.kitty-includes-card--in { border-top: 4px solid #2e7d32; }
+.kitty-includes-card--out { border-top: 4px solid #c62828; }
+
+.kitty-includes-card h4 {
+    margin: 0 0 14px;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    font-weight: 700;
+}
+
+.kitty-includes-card--in h4 { color: #1b5e20; }
+.kitty-includes-card--out h4 { color: #8e0000; }
+
+.kitty-includes-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.kitty-includes-card li {
+    font-size: 0.88rem;
+    color: var(--text-dark);
+    line-height: 1.45;
+    padding-left: 4px;
+}
+
+/* Stay Calendar */
+.stay-calendar {
+    background: #fff;
+    border-radius: 18px;
+    padding: 22px 18px;
+    box-shadow: 0 6px 22px rgba(0,0,0,0.06);
+}
+
+.stay-calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.stay-calendar-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    font-weight: 700;
+}
+
+.stay-calendar-legend {
+    display: flex;
+    gap: 14px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+}
+
+.stay-calendar-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.stay-calendar-legend .dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.dot-full { background: #2e7d32; }
+.dot-half { background: #ed6c02; }
+.dot-none { background: #cfd8dc; }
+
+.stay-calendar-wrap {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid rgba(0,0,0,0.06);
+}
+
+.stay-calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    min-width: 540px;
+}
+
+.stay-calendar-table th, .stay-calendar-table td {
+    padding: 8px 6px;
+    text-align: center;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+
+.stay-calendar-table thead th {
+    background: var(--bg-light);
+    font-weight: 700;
+    color: var(--text-dark);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 11px 6px;
+}
+
+.stay-calendar-table thead th:first-child {
+    text-align: left;
+    padding-left: 14px;
+}
+
+.stay-calendar-table thead th .day-date {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-top: 2px;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.stay-calendar-table tbody td:first-child {
+    text-align: left;
+    padding-left: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+    white-space: nowrap;
+}
+
+.stay-calendar-table tbody td.is-self {
+    color: #764ba2;
+    font-weight: 800;
+}
+
+.stay-calendar-table tbody tr.is-self {
+    background: rgba(118, 75, 162, 0.04);
+}
+
+.stay-calendar-table tbody tr.is-self td:first-child::before {
+    content: '👉 ';
+}
+
+.stay-calendar-table .stay-cell {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    position: relative;
+}
+
+.stay-calendar-table .stay-cell .dot {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+.stay-calendar-table .stay-cell.full .dot { background: #2e7d32; }
+.stay-calendar-table .stay-cell.half .dot { background: linear-gradient(90deg, #ed6c02 50%, #fff3e0 50%); }
+.stay-calendar-table .stay-cell.none .dot { background: #cfd8dc; opacity: 0.5; }
+
+.stay-calendar-table .nights-col {
+    text-align: center;
+    font-weight: 700;
+    color: var(--primary);
+    background: rgba(118, 75, 162, 0.04);
+    border-left: 1px solid rgba(0,0,0,0.06);
+}
+
+.stay-calendar-table tfoot td {
+    background: var(--bg-light);
+    font-weight: 700;
+    color: var(--text-dark);
+    font-size: 0.8rem;
+    padding: 10px 6px;
+}
+
+.stay-calendar-table tfoot td:first-child {
+    text-align: left;
+    padding-left: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+.stay-calendar-note {
+    margin: 14px 0 0;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-style: italic;
+}
+
+@media (max-width: 600px) {
+    .kitty-rate-amount { font-size: 3.6rem; }
+    .kitty-rate-wrap { gap: 10px; }
+    .kitty-includes-grid { grid-template-columns: 1fr; }
+    .stay-calendar-header { flex-direction: column; align-items: stretch; }
+    .stay-calendar-table .stay-cell { width: 28px; height: 28px; }
+    .stay-calendar-table .stay-cell .dot { width: 14px; height: 14px; }
+}
+
+/* Hide old broken refs — money-cards-grid was the old container */
+.money-cards-grid { display: none; }
+
+.kitty-includes-strap {
+    margin: 0 0 12px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-style: italic;
+    line-height: 1.4;
+}
+
+/* Paid line styling */
+.money-line.is-paid {
+    background: rgba(46, 125, 50, 0.04);
+    border: 1px solid rgba(46, 125, 50, 0.18);
+    opacity: 0.78;
+}
+.money-line.is-paid .money-line-label,
+.money-line.is-paid .money-line-amount {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+.money-line.is-paid .money-line-note {
+    color: #2e7d32;
+    font-weight: 600;
+}
+
+.money-admin-table .money-cell-tick.is-paid {
+    text-decoration: line-through;
+    color: rgba(46,125,50,0.6);
+    font-weight: 500;
+}
+
+/* Admin table — group headers & column shading */
+.money-admin-groups th {
+    background: var(--bg-light);
+    text-align: center;
+    padding: 10px 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    border-bottom: 2px solid rgba(0,0,0,0.08);
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.money-admin-groups th span {
+    display: block;
+    font-weight: 400;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.money-admin-groups th.grp-activities {
+    background: rgba(46, 125, 50, 0.08);
+    color: #1b5e20;
+    border-right: 3px solid #fff;
+}
+
+.money-admin-groups th.grp-kitty {
+    background: rgba(237, 108, 2, 0.08);
+    color: #b25400;
+    border-left: 3px solid #fff;
+    border-right: 3px solid #fff;
+}
+
+.money-admin-headers th.col-act,
+.money-admin-table tbody td.col-act {
+    background: rgba(46, 125, 50, 0.03);
+}
+
+.money-admin-headers th.col-owed,
+.money-admin-table tbody td.col-owed {
+    background: rgba(46, 125, 50, 0.07);
+    border-right: 3px solid #fff;
+    font-weight: 800 !important;
+}
+
+.money-admin-headers th.col-kitty,
+.money-admin-table tbody td.col-kitty {
+    background: rgba(237, 108, 2, 0.05);
+}
+
+.money-admin-table tbody td.col-kitty:last-of-type {
+    border-right: 3px solid #fff;
+}
+
+.money-admin-note strong {
+    color: var(--text-dark);
+    font-weight: 700;
+}
+
+.money-admin-note {
+    line-height: 1.55;
+}
+
+/* Section break — distinctive divide between personal "owed now"
+   and the public chateau group spend section */
+.money-section-break {
+    max-width: 760px;
+    margin: 56px auto 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    position: relative;
+}
+
+.msb-divider {
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, rgba(237,108,2,0.4) 20%, rgba(237,108,2,0.7) 50%, rgba(237,108,2,0.4) 80%, transparent 100%);
+    border: none;
+    margin: 0;
+}
+
+.msb-banner {
+    background: linear-gradient(135deg, #fff8e1 0%, #ffe0b2 50%, #ffccbc 100%);
+    border-left: 6px solid #ed6c02;
+    border-right: 6px solid #ed6c02;
+    padding: 28px 28px;
+    text-align: center;
+    box-shadow: 0 6px 24px rgba(237, 108, 2, 0.15);
+    position: relative;
+}
+
+.msb-banner::before,
+.msb-banner::after {
+    content: '🍷';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2.5rem;
+    opacity: 0.18;
+}
+
+.msb-banner::before { left: 18px; }
+.msb-banner::after  { right: 18px; }
+
+.msb-eyebrow {
+    display: inline-block;
+    background: rgba(237, 108, 2, 0.15);
+    color: #b25400;
+    padding: 4px 14px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 10px;
+}
+
+.msb-banner h3 {
+    margin: 0 0 8px;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #8e3a00;
+    letter-spacing: -0.01em;
+}
+
+.msb-banner p {
+    margin: 0;
+    color: #6d2e00;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+@media (max-width: 600px) {
+    .msb-banner { padding: 22px 18px; }
+    .msb-banner::before, .msb-banner::after { display: none; }
+    .msb-banner h3 { font-size: 1.25rem; }
+}
+
+/* Part 1 banner — green variant for "Settle Up Now" */
+.money-section-break--p1 {
+    margin: 16px auto 24px;
+}
+
+.msb-divider--green {
+    background: linear-gradient(90deg, transparent 0%, rgba(46,125,50,0.4) 20%, rgba(46,125,50,0.7) 50%, rgba(46,125,50,0.4) 80%, transparent 100%);
+}
+
+.msb-banner--green {
+    background: linear-gradient(135deg, #f1f8e9 0%, #c8e6c9 50%, #a5d6a7 100%);
+    border-left-color: #2e7d32;
+    border-right-color: #2e7d32;
+    box-shadow: 0 6px 24px rgba(46, 125, 50, 0.15);
+}
+
+.msb-banner--green::before,
+.msb-banner--green::after {
+    content: '🎯';
+}
+
+.msb-eyebrow--green {
+    background: rgba(46, 125, 50, 0.15);
+    color: #1b5e20;
+}
+
+.msb-banner--green h3 {
+    color: #1b5e20;
+}
+
+.msb-banner--green p {
+    color: #2e5c30;
+}

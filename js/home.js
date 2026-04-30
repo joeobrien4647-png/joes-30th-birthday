@@ -17,6 +17,47 @@ document.addEventListener('DOMContentLoaded', function () {
     initLiveStats();
 });
 
+/* Money Banner — always visible on dashboard, state-aware */
+function updateMoneyBanner(code) {
+    var banner = document.getElementById('dashboard-money-banner');
+    if (!banner) return;
+    if (typeof getPaymentTotal !== 'function') return;
+
+    var activities = getPaymentTotal(code);                    // outstanding
+    var gross = (typeof getPaymentTotalGross === 'function') ? getPaymentTotalGross(code) : activities;
+    var nights = (typeof getNights === 'function') ? getNights(code) : 0;
+    var paid = (typeof PaymentSync !== 'undefined' && PaymentSync.isPaid(code));
+
+    var amountEl = document.getElementById('dmb-amount');
+    var subEl = document.getElementById('dmb-sub');
+
+    banner.style.display = 'flex';
+    banner.classList.remove('paid', 'info');
+
+    if (activities > 0 && !paid) {
+        // Outstanding — lead with what's been spent for them
+        if (amountEl) amountEl.textContent = '💷 £' + gross + ' booked for your trip';
+        if (subEl) subEl.textContent = '£' + activities + ' to settle with Joe — tap for bank details';
+    } else if (activities > 0 && paid) {
+        banner.classList.add('paid');
+        if (amountEl) amountEl.textContent = '✅ £' + gross + ' booked & settled';
+        if (subEl) subEl.textContent = 'Tap to see how the group kitty works (Part 2)';
+    } else if (gross > 0 && nights > 0) {
+        // Activities all pre-paid (Joe / Sophie + Kiran fully settled etc)
+        banner.classList.add('info');
+        if (amountEl) amountEl.textContent = '💸 £' + gross + ' booked for your trip';
+        if (subEl) subEl.textContent = 'See your costs + how the group kitty works';
+    } else if (nights > 0) {
+        banner.classList.add('info');
+        if (amountEl) amountEl.textContent = '💸 Your trip costs & stay';
+        if (subEl) subEl.textContent = 'See your nights + how the group kitty works';
+    } else {
+        banner.classList.add('info');
+        if (amountEl) amountEl.textContent = '💸 Trip cost breakdown';
+        if (subEl) subEl.textContent = 'See the activity costs + group kitty info';
+    }
+}
+
 /* Cinematic Overlay — first-time visitor welcome sequence */
 function initCinematicOverlay() {
     // Only show on first-time visitors
@@ -398,6 +439,13 @@ function initGuestLogin() {
         if (scrollInd) scrollInd.style.display = 'none';
 
         document.getElementById('dashboard-name').textContent = guest.name;
+
+        // Money owed banner
+        updateMoneyBanner(code);
+        if (typeof PaymentSync !== 'undefined' && PaymentSync.isConfigured()) {
+            PaymentSync.onUpdate(function() { updateMoneyBanner(code); });
+        }
+
         var teamKey = PLAYERS[guest.name];
         var hasRevealed = localStorage.getItem('teamRevealed_' + code) === 'true';
         var teamConfig = teamKey && TEAM_CONFIG ? TEAM_CONFIG[teamKey] : null;

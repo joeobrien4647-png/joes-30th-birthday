@@ -146,7 +146,7 @@ function isFirstTimeVisitor() {
   return true;
 }
 
-/* Guest Data - All 26 guests (invite codes are random, not guessable) */
+/* Guest Data - 24 guests + 1 toddler (Shane + Pranay no longer attending) */
 const GUEST_DATA = {
     'JOE-7K9X': { name: 'Joe', fullName: 'Joe O\'Brien', room: 'Master Suite', team: 'TBA', nickname: 'TBA' },
     'SOPHIE-M3P2': { name: 'Sophie', fullName: 'Sophie Geen', room: 'Master Suite', team: 'TBA', nickname: 'TBA' },
@@ -164,7 +164,6 @@ const GUEST_DATA = {
     'ROBERT-2NG8': { name: 'Robert', fullName: 'Robert Winup', room: 'Room 7', team: 'TBA', nickname: 'TBA' },
     'SARAH-4KV3': { name: 'Sarah', fullName: 'Sarah Shamia', room: 'Room 8', team: 'TBA', nickname: 'TBA' },
     'KIRAN-7DX1': { name: 'Kiran', fullName: 'Kiran Ruparelia', room: 'Room 9', team: 'TBA', nickname: 'TBA' },
-    'SHANE-9FH6': { name: 'Shane', fullName: 'Shane Pallian', room: 'Room 12', team: 'TBA', nickname: 'TBA' },
     'OLI-3WT5': { name: 'Oli', fullName: 'Oli Moran', room: 'Room 10', team: 'TBA', nickname: 'TBA' },
     'PETER-6BN2': { name: 'Peter', fullName: 'Peter London', room: 'Room 10', team: 'TBA', nickname: 'TBA' },
     'EMMAL-1RK8': { name: 'Emma L', fullName: 'Emma Levett', room: 'Room 11', team: 'TBA', nickname: 'TBA' },
@@ -172,16 +171,15 @@ const GUEST_DATA = {
     'JONNYW-8HQ3': { name: 'Jonny W', fullName: 'Jonny Williams', room: 'Room 12', team: 'TBA', nickname: 'TBA' },
     'CHRIS-2FM7': { name: 'Chris', fullName: 'Chris Coggin', room: 'Room 9', team: 'TBA', nickname: 'TBA' },
     'OSCAR-5DL4': { name: 'Oscar', fullName: 'Oscar Walters', room: 'Room 12', team: 'TBA', nickname: 'TBA' },
-    'PRANAY-9WX6': { name: 'Pranay', fullName: 'Pranay Dube', room: 'Room 12', team: 'TBA', nickname: 'TBA' },
     'MATT-3B7K': { name: 'Matt', fullName: 'Matt Hill', room: 'Room 12', team: 'TBA', nickname: 'TBA' }
 };
 
 /* Players mapped to teams (for leaderboard) */
 const PLAYERS = {
     'Joe': 'titans', 'Samantha': 'titans', 'Robin': 'titans', 'Emma L': 'titans', 'Kiran': 'titans', 'Oscar': 'titans', 'Chris': 'titans',
-    'Razon': 'spartans', 'Sophie': 'spartans', 'Robert': 'spartans', 'Florrie': 'spartans', 'Shane': 'spartans', 'Jonny W': 'spartans', 'Matt': 'spartans',
+    'Razon': 'spartans', 'Sophie': 'spartans', 'Robert': 'spartans', 'Florrie': 'spartans', 'Jonny W': 'spartans', 'Matt': 'spartans',
     'Hannah': 'vikings', 'Luke': 'vikings', 'George': 'vikings', 'Neeve': 'vikings', 'Oli': 'vikings', 'Jonny L': 'vikings',
-    'Peter': 'gladiators', 'Johnny': 'gladiators', 'Tom': 'gladiators', 'Sarah': 'gladiators', 'Emma W': 'gladiators', 'Pranay': 'gladiators'
+    'Peter': 'gladiators', 'Johnny': 'gladiators', 'Tom': 'gladiators', 'Sarah': 'gladiators', 'Emma W': 'gladiators'
 };
 
 /* Team Configuration */
@@ -223,6 +221,166 @@ const TEAM_CAPTAINS = {
     gladiators: 'Peter'
 };
 
+/* ============================================
+   Payments — activity + car hire (per guest)
+   All values in £. Joe is host (excluded).
+   Stansted parking handled separately.
+   Source of truth: France-Expense-Tracker-v5.xlsx
+   ============================================ */
+const PAYMENT_RATES = {
+    golf:  { label: 'Golf (Sarrays)',         amount: 42, note: 'Thu 30 Apr · €46 → £42' },
+    canoe: { label: 'Canoe (La Fourmy)',      amount: 16, note: 'Fri 1 May · €17 → £16' },
+    accro: { label: 'Accrobranche (Laleuf)',  amount: 18, note: 'Sun 3 May · €20 → £18' },
+    car:   { label: 'Car Hire (France)',      amount: 60, note: 'Shared across 14 drivers' }
+};
+
+const PAYMENT_BANK = {
+    sortCode: '60-84-07',
+    accountNumber: '41194141',
+    accountName: 'Joseph J Z O\'Brien',
+    refHint: 'Use your first name as the reference'
+};
+
+/* Group food/drink/BBQ kitty — pro-rated by nights at the chateau.
+   Source: France-Expense-Tracker-v5.xlsx (Attendance sheet).
+   Final amount reconciled after trip from actual receipts. */
+const FOOD_KITTY = {
+    perNightGBP: 0,           // 0 until reconciled post-trip from receipts
+    perNightLow: 15,          // estimate range — display only
+    perNightHigh: 20,
+    description: 'Groceries, wine, BBQ supplies, shared drinks'
+};
+
+/* Daily attendance: [Wed 29, Thu 30, Fri 1, Sat 2, Sun 3, Mon 4]
+   Values: 1 = full day, 0.5 = half day, 0 = absent */
+const TRIP_DAYS = [
+    { date: 'Wed 29', label: 'W', full: 'Wed 29 Apr' },
+    { date: 'Thu 30', label: 'T', full: 'Thu 30 Apr' },
+    { date: 'Fri 1',  label: 'F', full: 'Fri 1 May' },
+    { date: 'Sat 2',  label: 'S', full: 'Sat 2 May' },
+    { date: 'Sun 3',  label: 'S', full: 'Sun 3 May' },
+    { date: 'Mon 4',  label: 'M', full: 'Mon 4 May' }
+];
+
+const GUEST_ATTENDANCE = {
+    'JOE-7K9X':     [0.5, 1, 1, 1, 1, 0.5],
+    'SOPHIE-M3P2':  [0.5, 1, 1, 1, 1, 0.5],
+    'HANNAH-8FJ3':  [0.5, 1, 1, 1, 0.5, 0],
+    'ROBIN-2VL5':   [0.5, 1, 1, 1, 0.5, 0],
+    'RAZON-3BM6':   [0.5, 1, 1, 1, 1, 0.5],
+    'NEEVE-6PW2':   [0.5, 1, 1, 1, 1, 0.5],
+    'ROBERT-2NG8':  [0.5, 1, 1, 1, 1, 0.5],
+    'SARAH-4KV3':   [0.5, 1, 1, 1, 1, 0.5],
+    'KIRAN-7DX1':   [0.5, 1, 1, 1, 1, 0.5],
+    'CHRIS-2FM7':   [0.5, 1, 1, 1, 1, 0.5],
+    'OLI-3WT5':     [0.5, 1, 1, 1, 1, 0.5],
+    'PETER-6BN2':   [0.5, 1, 1, 1, 1, 0.5],
+    'TOM-5QL7':     [0.5, 1, 1, 1, 1, 0.5],
+    'GEORGE-1CY9':  [0.5, 1, 1, 1, 1, 0.5],
+    'EMMAW-8RJ4':   [0.5, 1, 1, 1, 1, 0.5],
+    'JONNYW-8HQ3':  [0.5, 1, 1, 1, 1, 0.5],
+    'OSCAR-5DL4':   [0.5, 1, 1, 1, 1, 0.5],
+    'LUKE-4WN8':    [0, 1, 1, 1, 0.5, 0],
+    'SAM-R6DQ':     [0, 1, 1, 1, 0.5, 0],
+    'JOHNNY-9XT4':  [0, 0.5, 1, 1, 0.5, 0],
+    'FLORRIE-5HK7': [0, 0.5, 1, 1, 0.5, 0],
+    'MATT-3B7K':    [0, 0, 0.5, 1, 1, 0.5],
+    'EMMAL-1RK8':   [0, 0, 0, 1, 1, 0.5],
+    'JONNYL-4VP9':  [0, 0, 0, 1, 1, 0.5]
+};
+
+/* Pre-computed per-guest nights (sum of attendance) */
+const GUEST_NIGHTS = (function() {
+    var out = {};
+    Object.keys(GUEST_ATTENDANCE).forEach(function(code) {
+        out[code] = GUEST_ATTENDANCE[code].reduce(function(a, b) { return a + b; }, 0);
+    });
+    return out;
+})();
+
+/* Per-guest line items (true = owes that line).
+   `paid: { line: true }` marks a specific line as already settled
+   (e.g. host Joe paid everything upfront, Sophie & Kiran paid car hire). */
+const PAYMENTS = {
+    'JOE-7K9X':     { golf: true,  canoe: true,  accro: true,  car: true,  paid: { golf: true, canoe: true, accro: true, car: true } },
+    'SOPHIE-M3P2':  { golf: false, canoe: true,  accro: true,  car: true,  paid: { car: true } },
+    'HANNAH-8FJ3':  { golf: false, canoe: true,  accro: false, car: true  },
+    'ROBIN-2VL5':   { golf: true,  canoe: true,  accro: false, car: true  },
+    'RAZON-3BM6':   { golf: false, canoe: true,  accro: true,  car: true  },
+    'NEEVE-6PW2':   { golf: false, canoe: true,  accro: true,  car: true  },
+    'ROBERT-2NG8':  { golf: false, canoe: true,  accro: true,  car: false },
+    'SARAH-4KV3':   { golf: false, canoe: true,  accro: true,  car: true  },
+    'KIRAN-7DX1':   { golf: false, canoe: true,  accro: true,  car: true,  paid: { car: true } },
+    'CHRIS-2FM7':   { golf: true,  canoe: true,  accro: true,  car: true,  paid: { car: true } },
+    'OLI-3WT5':     { golf: true,  canoe: true,  accro: true,  car: true  },
+    'PETER-6BN2':   { golf: true,  canoe: true,  accro: true,  car: true  },
+    'TOM-5QL7':     { golf: true,  canoe: true,  accro: false, car: false },
+    'GEORGE-1CY9':  { golf: false, canoe: true,  accro: true,  car: false },
+    'EMMAW-8RJ4':   { golf: false, canoe: true,  accro: true,  car: false },
+    'JONNYW-8HQ3':  { golf: false, canoe: true,  accro: true,  car: true,  paid: { car: true } },
+    'OSCAR-5DL4':   { golf: false, canoe: false, accro: false, car: true  },
+    'LUKE-4WN8':    { golf: false, canoe: true,  accro: false, car: false },
+    'SAM-R6DQ':     { golf: false, canoe: true,  accro: false, car: false },
+    'JOHNNY-9XT4':  { golf: true,  canoe: false, accro: false, car: false },
+    'FLORRIE-5HK7': { golf: false, canoe: false, accro: false, car: false },
+    'MATT-3B7K':    { golf: false, canoe: false, accro: true,  car: true  },
+    'EMMAL-1RK8':   { golf: false, canoe: false, accro: true,  car: false },
+    'JONNYL-4VP9':  { golf: false, canoe: false, accro: true,  car: false }
+};
+
+/* Helpers */
+function getPaymentLines(guestCode) {
+    var record = PAYMENTS[guestCode];
+    if (!record) return [];
+    var paid = record.paid || {};
+    var lines = [];
+    Object.keys(PAYMENT_RATES).forEach(function(k) {
+        if (record[k]) lines.push({
+            key: k,
+            label: PAYMENT_RATES[k].label,
+            amount: PAYMENT_RATES[k].amount,
+            note: PAYMENT_RATES[k].note,
+            paid: !!paid[k]
+        });
+    });
+    return lines;
+}
+
+function getPaymentTotal(guestCode) {
+    /* Outstanding only — excludes already-paid lines */
+    return getPaymentLines(guestCode).reduce(function(sum, l) {
+        return sum + (l.paid ? 0 : l.amount);
+    }, 0);
+}
+
+function getPaymentTotalGross(guestCode) {
+    /* Full charge, ignoring paid status */
+    return getPaymentLines(guestCode).reduce(function(sum, l) { return sum + l.amount; }, 0);
+}
+
+function getNights(guestCode) {
+    return (typeof GUEST_NIGHTS !== 'undefined' && GUEST_NIGHTS[guestCode]) || 0;
+}
+
+function getFoodKittyEstimate(guestCode) {
+    var nights = getNights(guestCode);
+    if (!nights) return 0;
+    return Math.round(nights * FOOD_KITTY.perNightGBP);
+}
+
+function getFoodKittyRange(guestCode) {
+    var nights = getNights(guestCode);
+    if (!nights) return { low: 0, high: 0 };
+    return {
+        low: Math.round(nights * FOOD_KITTY.perNightLow),
+        high: Math.round(nights * FOOD_KITTY.perNightHigh)
+    };
+}
+
+function getGrandTotalEstimate(guestCode) {
+    return getPaymentTotal(guestCode) + getFoodKittyEstimate(guestCode);
+}
+
 /* Captain Responsibilities */
 const CAPTAIN_DUTIES = [
     'Rally your team for games and challenges',
@@ -240,7 +398,7 @@ Object.values(GUEST_DATA).forEach(function(g) {
 });
 
 /* Reveal Date — teams & nicknames hidden until arrival night */
-const REVEAL_DATE = new Date('2026-04-29T22:00:00+02:00');
+const REVEAL_DATE = new Date('2026-04-28T00:00:00+02:00');
 
 function isRevealed() {
     // Guest preview mode — admins can see what guests see

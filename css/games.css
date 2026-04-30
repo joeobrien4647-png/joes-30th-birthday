@@ -5096,3 +5096,104 @@
     .tr-team-name { font-size: 1rem; }
 }
 
+/* ---- Drama badges (hot streak / comeback / brave last) ---- */
+.ind-badge { display: inline-block; margin-left: 4px; font-size: 0.85em; }
+.badge-hot { animation: hotPulse 1.2s ease-in-out infinite; }
+@keyframes hotPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.18); } }
+.team-card.brave-last { position: relative; }
+.team-card.brave-last::after {
+    content: "💪 Brave Last";
+    position: absolute;
+    top: 8px; right: 8px;
+    font-size: 0.7rem;
+    background: rgba(255,255,255,0.18);
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+.ind-mvp-crown {
+    display: inline-block;
+    margin-left: 4px;
+    font-size: 1.05em;
+    animation: crownBob 2.4s ease-in-out infinite;
+    filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.7));
+}
+@keyframes crownBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+
+/* ============================================
+   Player Card Modal (Task 4)
+   ============================================ */
+.player-card-modal {
+    position: fixed; inset: 0; z-index: 9999;
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 20px;
+}
+.pcm-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(6px);
+}
+.pcm-content {
+    position: relative;
+    max-width: 480px; width: 100%;
+    max-height: 90vh; overflow-y: auto;
+    background: linear-gradient(180deg, #2a2050 0%, #1a1230 100%);
+    border-radius: 20px;
+    padding: 24px 20px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+    color: #fff;
+    animation: pcmIn 0.3s cubic-bezier(.16,.84,.34,1.06);
+}
+@keyframes pcmIn { from { transform: scale(0.92) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+.pcm-close { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.1); border: none; color: #fff; font-size: 24px; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; }
+.pcm-header { text-align: center; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 16px; }
+.pcm-header h2 { margin: 8px 0 4px; font-size: 1.5rem; }
+.pcm-header p { margin: 0; opacity: 0.7; font-size: 0.9rem; }
+.pcm-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px; }
+.pcm-stat { background: rgba(255,255,255,0.06); border-radius: 12px; padding: 12px; text-align: center; }
+.pcm-stat-label { font-size: 0.7rem; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.06em; }
+.pcm-stat-value { font-size: 1.6rem; font-weight: 700; margin-top: 4px; }
+.pcm-section { margin-top: 20px; }
+.pcm-section h3 { font-size: 0.85rem; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 10px; }
+.pcm-cat-row { display: grid; grid-template-columns: 110px 1fr 36px; gap: 8px; align-items: center; margin-bottom: 6px; font-size: 0.85rem; }
+.pcm-cat-bar { height: 8px; background: rgba(255,255,255,0.08); border-radius: 99px; overflow: hidden; }
+.pcm-cat-fill { height: 100%; border-radius: 99px; transition: width 0.4s ease; }
+.pcm-cat-fill.cat-games { background: #4caf50; }
+.pcm-cat-fill.cat-duties { background: #ff9800; }
+.pcm-cat-fill.cat-challenges { background: #2196f3; }
+.pcm-cat-fill.cat-bonus { background: #ffc107; }
+.pcm-cat-fill.cat-penalty { background: #f44336; }
+.pcm-award { display: grid; grid-template-columns: 50px 1fr auto; gap: 10px; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.85rem; }
+.pcm-award-pts.positive { color: #6ee07b; font-weight: 700; }
+.pcm-award-pts.negative { color: #ff7575; font-weight: 700; }
+.pcm-award-time { opacity: 0.5; font-size: 0.75rem; }
+.pcm-empty { opacity: 0.5; text-align: center; font-size: 0.9rem; }
+.ind-row { cursor: pointer; transition: background 0.15s; }
+.ind-row:hover { background: rgba(255,255,255,0.05); }
+
+/* ============================================
+   Overtake Banner (phone hype on position changes)
+   ============================================ */
+.overtake-banner {
+    position: fixed; top: -80px; left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, #6e3ed8, #b94aef);
+    color: #fff;
+    padding: 14px 20px;
+    border-radius: 99px;
+    font-weight: 700;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    z-index: 10000;
+    transition: top 0.4s cubic-bezier(.16,.84,.34,1.06);
+    display: flex; align-items: center; gap: 10px;
+    max-width: 92vw; pointer-events: none;
+}
+.overtake-banner.show { top: 16px; }
+.overtake-banner.team-titans { background: linear-gradient(90deg,#f9a825,#ffc94e); color:#3a2700; }
+.overtake-banner.team-spartans { background: linear-gradient(90deg,#c62828,#ff5252); }
+.overtake-banner.team-vikings { background: linear-gradient(90deg,#1565c0,#42a5f5); }
+.overtake-banner.team-gladiators { background: linear-gradient(90deg,#424242,#757575); }
+.ob-icon { font-size: 1.5em; }

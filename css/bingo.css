@@ -459,7 +459,7 @@
 
 .bingo-tier {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 14px;
     padding: 14px 16px;
     border-radius: 14px;
@@ -568,13 +568,14 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 14px 8px 12px;
+    padding: 16px 10px 12px;
     border-radius: 16px;
-    min-height: 110px;
+    min-height: 130px;
     position: relative;
     cursor: default;
     transition: transform 0.15s, box-shadow 0.15s;
     overflow: hidden;
+    gap: 6px;
 }
 
 /* Unclaimed — inviting card */
@@ -611,18 +612,28 @@
 
 /* Cell emoji */
 .bingo-cell-emoji {
-    font-size: 1.6rem;
+    font-size: 2rem;
     line-height: 1;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
     filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
 }
 
-/* Cell text */
+/* Cell text — challenge title */
 .bingo-cell-text {
-    font-size: 0.72rem;
-    font-weight: 600;
+    font-size: 0.85rem;
+    font-weight: 700;
     line-height: 1.25;
     color: var(--text-dark);
+    margin-bottom: 2px;
+}
+
+/* Cell detail — the rules */
+.bingo-cell-detail {
+    font-size: 0.7rem;
+    font-weight: 400;
+    line-height: 1.35;
+    color: var(--text-light);
+    padding: 0 2px;
 }
 
 /* Claimer badge */
@@ -754,8 +765,10 @@
     border-radius: 24px;
     padding: 32px 24px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    max-width: 400px;
+    max-width: 440px;
     width: calc(100% - 40px);
+    max-height: calc(100vh - 60px);
+    overflow-y: auto;
     text-align: center;
     opacity: 0;
     transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.3s;
@@ -776,11 +789,13 @@
 }
 
 .bingo-drawer-content h3 {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     font-weight: 700;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     color: var(--text-dark);
-    line-height: 1.3;
+    line-height: 1.4;
+    text-align: center;
+    padding: 0 4px;
 }
 
 .bingo-drawer-hint {
@@ -1415,17 +1430,18 @@
     }
 
     .bingo-grid {
-        gap: 8px;
+        gap: 10px;
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .bingo-cell {
-        padding: 10px 6px 8px;
-        min-height: 95px;
+        padding: 14px 10px 10px;
+        min-height: 110px;
         border-radius: 14px;
     }
 
     .bingo-cell-emoji {
-        font-size: 1.3rem;
+        font-size: 1.8rem;
     }
 
     .bingo-cell-locked .bingo-cell-emoji {
@@ -1437,15 +1453,19 @@
     }
 
     .bingo-cell-text {
-        font-size: 0.62rem;
+        font-size: 0.92rem;
+    }
+
+    .bingo-cell-detail {
+        font-size: 0.78rem;
     }
 
     .bingo-cell-claimant {
-        font-size: 0.55rem;
+        font-size: 0.62rem;
     }
 
     .bingo-cell-tap {
-        font-size: 0.5rem;
+        font-size: 0.55rem;
     }
 
     .bingo-claim-drawer {
@@ -1475,3 +1495,222 @@
         font-size: 0.58rem;
     }
 }
+
+/* Tier reward list (3 punishments / rewards visible on the card) */
+.bingo-tier-list {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.bingo-tier-list li {
+    background: var(--bg-light);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 0.82rem;
+    line-height: 1.35;
+    color: var(--text-dark);
+}
+
+/* Pre-Trip Bonus Section */
+.bingo-bonus-section {
+    padding: 8px 0 12px;
+}
+
+.bingo-bonus-card {
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 22px;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fcd34d 100%);
+    border: 2px solid #f59e0b;
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(245, 158, 11, 0.25);
+    position: relative;
+    overflow: hidden;
+}
+
+.bingo-bonus-card::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    right: -10%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.bingo-bonus-icon {
+    font-size: 2.6rem;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.bingo-bonus-body {
+    flex: 1;
+    z-index: 1;
+}
+
+.bingo-bonus-eyebrow {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #92400e;
+    background: rgba(255,255,255,0.5);
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+}
+
+.bingo-bonus-body h3 {
+    margin: 0 0 6px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #78350f;
+    line-height: 1.3;
+}
+
+.bingo-bonus-body p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #78350f;
+    line-height: 1.45;
+    opacity: 0.92;
+}
+
+@media (max-width: 600px) {
+    .bingo-bonus-card { padding: 14px 16px; gap: 12px; }
+    .bingo-bonus-icon { font-size: 2rem; }
+    .bingo-bonus-body h3 { font-size: 0.95rem; }
+    .bingo-bonus-body p { font-size: 0.78rem; }
+}
+
+/* Rules subhead + intro paragraph */
+.bingo-rules-subhead {
+    margin: 18px 0 10px;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted, #888);
+    font-weight: 800;
+}
+
+.bingo-rewards-intro {
+    margin: 0 0 14px;
+    font-size: 0.85rem;
+    color: var(--text-light, #555);
+    line-height: 1.45;
+    background: rgba(118, 75, 162, 0.04);
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px dashed rgba(118, 75, 162, 0.15);
+}
+
+.bingo-tier-list em {
+    color: var(--text-muted, #888);
+    font-style: italic;
+    font-size: 0.75rem;
+}
+
+/* ============================================
+   Drawer — Structured rule sections
+   ============================================ */
+.bingo-drawer-rules {
+    text-align: left;
+    margin: 8px 0 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.bingo-rule-section {
+    border-radius: 12px;
+    padding: 12px 14px;
+    border: 1px solid;
+}
+
+.bingo-rule-section h4 {
+    margin: 0 0 6px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.bingo-rule-section p {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: var(--text-dark);
+}
+
+.bingo-rule-section ul {
+    margin: 0;
+    padding-left: 18px;
+    list-style: none;
+}
+
+.bingo-rule-section li {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: var(--text-dark);
+    padding: 3px 0 3px 12px;
+    position: relative;
+}
+
+.bingo-rule-section li::before {
+    position: absolute;
+    left: -8px;
+    font-size: 0.85rem;
+    font-weight: 800;
+}
+
+/* What it is — neutral purple */
+.bingo-rule-definition {
+    background: rgba(118, 75, 162, 0.05);
+    border-color: rgba(118, 75, 162, 0.2);
+}
+.bingo-rule-definition h4 { color: #5b21b6; }
+
+/* Accepted — green */
+.bingo-rule-accepted {
+    background: rgba(16, 185, 129, 0.06);
+    border-color: rgba(16, 185, 129, 0.25);
+}
+.bingo-rule-accepted h4 { color: #047857; }
+.bingo-rule-accepted li::before { content: '\2713'; color: #047857; }
+
+/* Not accepted — red */
+.bingo-rule-notaccepted {
+    background: rgba(239, 68, 68, 0.05);
+    border-color: rgba(239, 68, 68, 0.22);
+}
+.bingo-rule-notaccepted h4 { color: #b91c1c; }
+.bingo-rule-notaccepted li::before { content: '\2715'; color: #b91c1c; }
+
+/* Requirements — amber */
+.bingo-rule-requirements {
+    background: rgba(245, 158, 11, 0.06);
+    border-color: rgba(245, 158, 11, 0.28);
+}
+.bingo-rule-requirements h4 { color: #92400e; }
+
+.bingo-clear-btn {
+    background: #c62828;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-left: 8px;
+}
+.bingo-clear-btn:hover { background: #8e0000; }

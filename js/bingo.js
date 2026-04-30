@@ -15,29 +15,16 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-/* ---- Individual punishments (per square claimed) ---- */
+/* ---- Individual punishments (per square claimed — pick one of 3) ---- */
 var BINGO_SQUARE_PUNISHMENTS = [
-    'Down your drink',
-    'Speak in a French accent for 30 minutes',
-    'Wear your clothes inside out until someone notices',
-    'Give 5 genuine compliments to 5 different people in a row',
-    'Do 20 press-ups right now',
-    'Swap an item of clothing with someone of your choice for the rest of the day',
-    'Do a 60-second serenade to someone at dinner',
-    'Only speak in song lyrics for 30 minutes',
-    'Do an impression of someone in the group (group votes who)',
-    'Announce everything you do out loud for an hour'
+    'Down a drink or do a shot — take it OR distribute as sips to others. Banked for any time today. Non-drinkers: down a non-alcoholic drink instead, for the bants.',
+    'Make a drink for one person — punisher names who. Properly made and served.',
+    '20 press-ups OR a lap of the château garden — your choice'
 ];
 
-/* ---- Team punishments (per line completed) ---- */
-var BINGO_LINE_PUNISHMENTS = [
-    'Whole team downs their drink',
-    'Whole team does 20 press-ups',
-    'Whole team speaks in French accents for 30 minutes',
-    'Whole team wears their clothes inside out until dinner',
-    'Whole team has to serenade the group',
-    'Whole team does the washing up after dinner'
-];
+/* ---- Line + Full House are points-only — no extra punishment/reward ---- */
+var BINGO_LINE_PUNISHMENTS = [];
+var BINGO_FULL_HOUSE_REWARDS = [];
 
 /* ---- Team colour map ---- */
 var TEAM_COLOURS = {
@@ -49,22 +36,143 @@ var TEAM_COLOURS = {
 
 /* ---- Emoji per challenge (matches BINGO_ITEMS order) ---- */
 var BINGO_EMOJIS = [
-    '\uD83D\uDCF8', // Photobomb
-    '\uD83D\uDC57', // Wear someone's outfit
-    '\uD83C\uDF77', // Blind taste test
-    '\uD83C\uDFA4', // Motivational speech
-    '\uD83C\uDDEB\uD83C\uDDF7', // Convince a local you're French
-    '\uD83D\uDC5F', // Swap shoes
-    '\uD83D\uDC83', // Conga line
-    '\uD83D\uDCE3', // Start a chant
-    '\uD83D\uDC4F', // Standing ovation
-    '\uD83D\uDE02', // Make someone cry laughing
-    '\uD83C\uDFCA', // Pool fully clothed
-    '\u2600\uFE0F',  // First up last to bed
-    '\uD83C\uDF36\uFE0F', // Spiciest thing
-    '\uD83C\uDF7A', // Down a drink no hands
-    '\uD83E\uDDFD', // Washing up
-    '\uD83D\uDCF7'  // Photo of the trip
+    '\uD83C\uDFB4',           // 1. Win a card or drinking game
+    '\uD83E\uDD2F',           // 2. Shock 5+ people
+    '\uD83D\uDCE3',           // 3. Start a chant
+    '\uD83C\uDF7A',           // 4. 1v1 downing
+    '\uD83E\uDD4E',           // 5. Score a run in rounders
+    '\uD83E\uDD42',           // 6. Toast someone untoasted
+    '\uD83D\uDCDC',           // 7. Invent a trip rule
+    '\uD83C\uDFA4',           // 8. Song singalong
+    '\uD83D\uDCAA',           // 9. 1v1 arm wrestle
+    '\uD83E\uDD43',           // 10. Joe shot/drink
+    '\uD83C\uDFCA',           // 11. Beat a captain in swim race
+    '\uD83D\uDD7A',           // 12. Slut drop on 90s night
+    '\uD83C\uDFD3',           // 13. Beer pong
+    '\uD83C\uDF36\uFE0F',     // 14. Hot food / lemon
+    '\uD83D\uDCA6',           // 15. Pool fully clothed
+    '\uD83E\uDD43'            // 16. Three shots
+];
+
+/* ---- Short titles for grid cells ---- */
+var BINGO_SHORT_TITLES = [
+    'Win a Card or Drinking Game',
+    'Shock 5+ People',
+    'Start a Chant',
+    '1v1 Downing Comp',
+    'Score a Run in Rounders',
+    'Toast Someone Untoasted',
+    'Invent a Trip Rule',
+    'Get a Song Singalong',
+    '1v1 Arm Wrestle',
+    'Get Joe to Do a Shot',
+    'Beat a Captain in a Swim Race',
+    'Slut Drop on 90s Night',
+    'Win at Beer Pong',
+    '1-Min Hot Food Challenge',
+    'Pool Fully Clothed',
+    'Three Shots in a Row'
+];
+
+/* ---- Structured rules (definition / accepted / not accepted / requirements)
+   Shown in the drawer when tapped. Cards stay clean — emoji + title only. */
+var BINGO_RULES = [
+    {
+        definition: 'Win any card or drinking game played in the evening at the château.',
+        accepted: ['Kings Cup', 'Ring of Fire', 'Cheat / BS', 'Werewolf', 'Mafia', 'Any 4+ player card or drinking game'],
+        notAccepted: ['Daytime games', '1v1 games (use the dedicated 1v1 squares instead)', 'Solo card games'],
+        requirements: '4+ players, evening session, 2+ witnesses confirm you won.'
+    },
+    {
+        definition: 'Do something that genuinely shocks at least 5 people in real time.',
+        accepted: ['Stunts', 'Public confessions', 'Surprise costumes', 'Pranks', 'Unexpected actions'],
+        notAccepted: ['Performative shocks where no one is actually surprised', 'Self-claimed shocks with no witness reaction'],
+        requirements: '5 named witnesses must confirm they were genuinely shocked when you submit your claim.'
+    },
+    {
+        definition: 'Initiate a chant that the whole group joins in on.',
+        accepted: ['Football chants', 'Made-up chants', 'Call-and-response', 'Themed chants (e.g. "JOE! JOE! JOE!")'],
+        notAccepted: ['Begging people to join', 'Chants that fizzle after 5 seconds', 'Chants of fewer than 15 voices'],
+        requirements: '15+ people audibly joining in. Has to spread organically — no forcing.'
+    },
+    {
+        definition: 'Beat one other person in a head-to-head downing competition.',
+        accepted: ['Any drink', 'Any volume', 'Both start drinking on the same signal', 'First finished wins', 'Same-sex challenges only (M v M, W v W)'],
+        notAccepted: ['Pre-prepped or partial drinks', 'Different volumes for the two competitors', 'Cross-sex challenges', 'No witness'],
+        requirements: '1 attempt only — lose and you\'re permanently out of this square. Same-sex challenges only. Each person can only be challenged once across this + arm wrestle. Witness names the winner.'
+    },
+    {
+        definition: 'Run all 4 posts safely in the organised rounders match.',
+        accepted: ['Full lap of all 4 posts without being caught, stumped, or run out'],
+        notAccepted: ['Half-runs', 'Partial laps', 'Runs in pickup games outside the official match'],
+        requirements: 'During the organised rounders match. Everyone watching counts as a witness.'
+    },
+    {
+        definition: 'Give a proper named toast to someone in front of 10+ people.',
+        accepted: ['A 30-sec+ toast with reasoning ("I toast X because…")', 'At any meal or drinks moment', 'Any guest who hasn\'t yet been toasted'],
+        notAccepted: ['Generic "cheers everyone" toasts', 'Toasting yourself', 'Toasting Joe (he\'s the birthday boy — automatic)'],
+        requirements: 'Target must be untoasted by anyone all trip. 10+ audience. Must include a clear reason for the toast.'
+    },
+    {
+        definition: 'Pitch a NEW rule that the group adopts and follows unprompted.',
+        accepted: ['Real rules people follow ("no phones at dinner", "shoes off in the kitchen", "cheers in French only")'],
+        notAccepted: ['Existing rules already in place', 'Rules you keep reminding people about', 'Agreed-but-not-followed rules'],
+        requirements: '5+ people must follow the rule unprompted (without you reminding them) within an hour of pitching it.'
+    },
+    {
+        definition: 'Pick a song that 5+ people sing along to the chorus.',
+        accepted: ['DJ requests', 'Aux requests', 'Kitchen sing-alongs', 'Any song'],
+        notAccepted: ['Songs you sing solo', 'Half-hearted humming', 'Fewer than 5 audible voices'],
+        requirements: 'You request the song. 5+ different people audibly sing the chorus. Video or witnesses.'
+    },
+    {
+        definition: 'Beat one other person in arm wrestling.',
+        accepted: ['Standard arm wrestle rules — both elbows on the table, free hand grips the table edge', 'Same-sex challenges only (M v M, W v W)'],
+        notAccepted: ['Best of 3', 'Pre-arranged "wins" between mates', 'Cross-sex challenges', 'No witness'],
+        requirements: '1 attempt only — lose and you\'re permanently out of this square. Same-sex challenges only. Each person can only be challenged once across this + downing comp. Witness names the winner.'
+    },
+    {
+        definition: 'Convince Joe to take an unscheduled shot or drink with you.',
+        accepted: ['Surprise shots', '"Bet you can\'t" challenges Joe accepts', 'You pour, he drinks it'],
+        notAccepted: ['Toasts (automatic)', 'Group cheers Joe was already doing', 'Planned drinking moments'],
+        requirements: 'Must be UNSCHEDULED — Joe wasn\'t planning this drink. Witnessed by Joe + 1 other person.'
+    },
+    {
+        definition: 'Beat any team captain in a pool swim race of your choosing.',
+        accepted: ['Length of pool', 'Any stroke (freestyle, breaststroke, backstroke etc.)', 'Captains: Joe, Razon, Hannah, Peter'],
+        notAccepted: ['Best of 3', 'Pre-arranged outcomes', 'Captain not actually trying'],
+        requirements: 'You pick the captain + race format. 1 attempt only — lose and you can\'t try again. Witness names the winner.'
+    },
+    {
+        definition: 'Slut drop on the dancefloor during the Sat 2 May 90s party.',
+        accepted: ['A clean drop with music playing', 'In costume', 'Witnessed by anyone on or near the dancefloor'],
+        notAccepted: ['Drops at any other time of the trip', 'Drops without music', 'Half-drops or fakes'],
+        requirements: 'Sat 2 May only. On the dancefloor with music playing. Photo or witness.'
+    },
+    {
+        definition: 'Win a complete game of Beer Pong by knocking out all opponent cups.',
+        accepted: ['1v1 or 2v2 standard rules', 'Any cup count agreed at the start', 'Re-rack rules optional'],
+        notAccepted: ['Forfeit wins', 'Partial wins', '"We got bored" wins'],
+        requirements: 'Knock out all opponent cups in a full game. Witness names the winner.'
+    },
+    {
+        definition: 'Eat something spicy/sour and keep a straight face for 60 seconds.',
+        accepted: ['Whole raw chilli (chewed and swallowed)', 'Spoonful of hot sauce', 'Whole raw lemon'],
+        notAccepted: ['Mild sauces', 'Cooked chilli', 'Slices of lemon', 'Breaks in composure (flinching, sweating wipes, water gulps)'],
+        requirements: '60-sec stopwatch starts after swallowing. No water, no flinching, no fanning. Variants from this list (e.g. mustard, vinegar) need all 4 captains to approve.'
+    },
+    {
+        definition: 'Get into the pool wearing a full outfit.',
+        accepted: ['Top + bottoms + shoes minimum', 'Voluntary or pushed in both count', 'Phones empty pockets first (please)'],
+        notAccepted: ['Underwear only', 'Swimwear under clothes', 'Just feet in'],
+        requirements: 'Photo or witness proof.'
+    },
+    {
+        definition: 'Drink 3 different spirits back-to-back.',
+        accepted: ['Any 3 different spirits (vodka, gin, rum, tequila, whisky, etc.)', 'Standard shot measure (~25-50ml)'],
+        notAccepted: ['Same spirit 3 times', 'Chasers between shots', 'Breaks longer than 30 sec', 'Mocktails (use the variant rule)'],
+        requirements: '3 different spirits, no chasers, no breaks > 30 sec. Non-alcoholic variant (ginger / espresso / fruit cordial shots) needs all 4 captains to approve.'
+    }
 ];
 
 /* ---- Bingo lock: locked for everyone until manually unlocked ---- */
@@ -326,6 +434,9 @@ function initBingo() {
                 emojiEl.textContent = emoji;
                 cell.appendChild(emojiEl);
 
+                // Clean card: emoji + title only. Tap reveals structured rules.
+                var shortLabel = BINGO_SHORT_TITLES[idx] || shortenChallenge(items[idx]);
+
                 if (myClaim) {
                     // I've claimed this square
                     cell.classList.add('claimed');
@@ -334,10 +445,9 @@ function initBingo() {
                     var teamColour = TEAM_COLOURS[myClaim.team] || '#888';
                     cell.style.setProperty('--team-colour', teamColour);
 
-                    // Short label
                     var textEl = document.createElement('span');
                     textEl.className = 'bingo-cell-text';
-                    textEl.textContent = shortenChallenge(items[idx]);
+                    textEl.textContent = shortLabel;
                     cell.appendChild(textEl);
 
                     // Show how many people have claimed this
@@ -347,14 +457,26 @@ function initBingo() {
                         countEl.textContent = claimCount + ' claimed';
                         cell.appendChild(countEl);
                     }
+
+                    // Allow tap-to-view-rules on claimed squares (read-only mode)
+                    cell.style.cursor = 'pointer';
+                    cell.addEventListener('click', function() {
+                        openClaimDrawer(idx, true);
+                    });
                 } else {
                     // I haven't claimed this yet
                     cell.classList.add('unclaimed');
 
                     var textEl2 = document.createElement('span');
                     textEl2.className = 'bingo-cell-text';
-                    textEl2.textContent = shortenChallenge(items[idx]);
+                    textEl2.textContent = shortLabel;
                     cell.appendChild(textEl2);
+
+                    // Tap hint for unclaimed cards
+                    var tapHint = document.createElement('span');
+                    tapHint.className = 'bingo-cell-tap';
+                    tapHint.textContent = 'Tap for rules';
+                    cell.appendChild(tapHint);
 
                     // Show count if others have claimed
                     if (claimCount > 0) {
@@ -424,18 +546,67 @@ function initBingo() {
     /* ============================================
        Claim Drawer (bottom sheet)
        ============================================ */
-    function openClaimDrawer(idx) {
+    function openClaimDrawer(idx, readOnly) {
         drawerIdx = idx;
         var backdrop = document.getElementById('bingoClaimBackdrop');
         var drawer  = document.getElementById('bingoClaimDrawer');
         var challengeEl = document.getElementById('bingoDrawerChallenge');
         var emojiEl = document.getElementById('bingoDrawerEmoji');
         var photoInput = document.getElementById('bingoPhotoInput');
+        var claimBtn = document.getElementById('bingoDrawerClaim');
+        var photoBlock = drawer ? drawer.querySelector('.bingo-drawer-photo') : null;
+        var hintEl = drawer ? drawer.querySelector('.bingo-drawer-hint') : null;
 
         if (!drawer) return;
 
+        // Toggle claim controls based on read-only mode
+        if (readOnly) {
+            if (claimBtn) claimBtn.style.display = 'none';
+            if (photoBlock) photoBlock.style.display = 'none';
+            if (hintEl) {
+                hintEl.textContent = 'You\'ve already claimed this. Rules shown for reference.';
+            }
+        } else {
+            if (claimBtn) claimBtn.style.display = '';
+            if (photoBlock) photoBlock.style.display = '';
+            if (hintEl) {
+                hintEl.textContent = '+1 pt \u00b7 You\'ll pick someone to punish after claiming.';
+            }
+        }
+
         if (emojiEl) emojiEl.textContent = BINGO_EMOJIS[idx] || '\uD83C\uDFAF';
-        if (challengeEl) challengeEl.textContent = items[idx];
+        // Title from short titles array
+        if (challengeEl) {
+            challengeEl.textContent = BINGO_SHORT_TITLES[idx] || items[idx];
+        }
+
+        // Populate structured rules
+        var rule = (typeof BINGO_RULES !== 'undefined' && BINGO_RULES[idx]) ? BINGO_RULES[idx] : null;
+        var defEl = document.getElementById('bingoDrawerDefinition');
+        var accList = document.getElementById('bingoDrawerAccepted');
+        var notList = document.getElementById('bingoDrawerNotAccepted');
+        var reqEl = document.getElementById('bingoDrawerRequirements');
+
+        if (rule) {
+            if (defEl) defEl.textContent = rule.definition || '';
+            if (accList) {
+                accList.innerHTML = '';
+                (rule.accepted || []).forEach(function(item) {
+                    var li = document.createElement('li');
+                    li.textContent = item;
+                    accList.appendChild(li);
+                });
+            }
+            if (notList) {
+                notList.innerHTML = '';
+                (rule.notAccepted || []).forEach(function(item) {
+                    var li = document.createElement('li');
+                    li.textContent = item;
+                    notList.appendChild(li);
+                });
+            }
+            if (reqEl) reqEl.textContent = rule.requirements || '';
+        }
 
         // Reset photo state
         if (photoInput) photoInput.value = '';
@@ -808,6 +979,7 @@ function initBingo() {
         var guestPicker = document.getElementById('bingoGuestPicker');
         var confirmPanel = document.getElementById('bingoLineConfirm');
         var descEl = document.getElementById('bingoLineDesc');
+        var closeBtn = document.getElementById('bingoLineClose');
 
         if (!modal) return;
 
@@ -818,24 +990,41 @@ function initBingo() {
             celebration.style.display = '';
             celebration.querySelector('h2').innerHTML = '&#127881; YOU GOT A LINE! &#127881;';
         }
-        if (descEl) descEl.textContent = 'Line ' + lineNumber + '! +2 bonus points! Pick a team to punish!';
+        if (descEl) descEl.textContent = 'Line ' + lineNumber + ' &mdash; +2 bonus points!';
 
         if (punishmentPicker) punishmentPicker.style.display = 'none';
         if (guestPicker) guestPicker.style.display = 'none';
-        if (confirmPanel) confirmPanel.style.display = 'none';
         modal.style.display = 'flex';
         modal.classList.remove('fullhouse');
 
         spawnConfetti();
         if (typeof triggerConfetti === 'function') triggerConfetti();
 
-        // Pick a random team punishment
-        var shuffled = BINGO_LINE_PUNISHMENTS.slice().sort(function() { return Math.random() - 0.5; });
-        pendingPunishment = shuffled[0];
+        // Skip team punishment — just record the line + close on confirm
+        BingoEngine.completeLine({
+            guestCode: guestCode,
+            guestName: guestName,
+            team: guestTeam,
+            lineType: lineData.lineType,
+            lineIndex: lineData.lineIndex,
+            rewardChosen: '',
+            punishmentTarget: '',
+            punishmentDesc: ''
+        });
 
-        setTimeout(function() {
-            showTeamPicker();
-        }, 1500);
+        // Show confirm panel with auto-close
+        if (confirmPanel && closeBtn) {
+            setTimeout(function() {
+                confirmPanel.style.display = '';
+                var confirmText = document.getElementById('bingoLineConfirmText');
+                if (confirmText) confirmText.textContent = 'Line claimed! +2 bonus points added.';
+                closeBtn.onclick = function() {
+                    modal.style.display = 'none';
+                    pendingLineData = null;
+                    checkForNewLines();
+                };
+            }, 1500);
+        }
     }
 
     function showTeamPicker() {
@@ -989,9 +1178,12 @@ function initBingo() {
 
         if (celebration) {
             celebration.style.display = '';
-            celebration.querySelector('h2').innerHTML = '&#128081; KING/QUEEN OF THE CH&#194;TEAU! &#128081;';
+            celebration.querySelector('h2').innerHTML = '&#128081; FULL HOUSE! &#128081;';
         }
-        if (descEl) descEl.textContent = 'FULL HOUSE! +5 bonus points! You absolute legend!';
+        if (descEl) {
+            descEl.style.whiteSpace = 'normal';
+            descEl.textContent = 'YOU LEGEND. +5 bonus points. Crowned Bingo Champion 2026 at the Saturday awards ceremony.';
+        }
         if (punishmentPicker) punishmentPicker.style.display = 'none';
         if (guestPicker) guestPicker.style.display = 'none';
         if (confirmPanel) confirmPanel.style.display = 'none';
@@ -1324,6 +1516,36 @@ function initBingo() {
         // Show admin bar at top
         var adminBar = document.getElementById('bingoAdminBar');
         if (adminBar) adminBar.style.display = '';
+
+        // Wire "Clear all bingo data" button
+        var clearBtn = document.getElementById('bingoClearAll');
+        if (clearBtn) {
+            clearBtn.addEventListener('click', function() {
+                var confirm1 = confirm('Clear ALL bingo claims, lines, and punishments?\n\nThis wipes the entire leaderboard and cannot be undone.');
+                if (!confirm1) return;
+                var confirm2 = confirm('ARE YOU SURE? Final warning.');
+                if (!confirm2) return;
+                if (typeof firebase !== 'undefined' && firebase.database) {
+                    firebase.database().ref('bingo').remove().then(function() {
+                        alert('Bingo data cleared. Refreshing...');
+                        location.reload();
+                    }).catch(function(err) {
+                        alert('Error clearing: ' + (err && err.message || err));
+                    });
+                }
+            });
+        }
+
+        // Console helper too
+        window.clearBingoData = function() {
+            if (!confirm('Clear ALL bingo data?')) return;
+            if (typeof firebase !== 'undefined' && firebase.database) {
+                firebase.database().ref('bingo').remove().then(function() {
+                    console.log('Bingo data cleared.');
+                    location.reload();
+                });
+            }
+        };
 
         // Show admin claims panel
         var adminEl = document.getElementById('bingoAdmin');

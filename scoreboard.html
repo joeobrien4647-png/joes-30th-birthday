@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scoreboard — Joe's 30th</title>
+    <meta name="theme-color" content="#0a0820">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏟️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/scoreboard.css?v=1">
+</head>
+<body class="stadium">
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Tap-to-start overlay -->
+    <div class="sb-start" id="sb-start">
+        <div class="sb-start-inner">
+            <div class="sb-start-icon">🏟️</div>
+            <h1>Joe's 30th</h1>
+            <p>Tap to start the scoreboard</p>
+            <button class="sb-start-btn" id="sb-start-btn">Start</button>
+        </div>
+    </div>
+
+    <!-- Big top header -->
+    <header class="sb-header">
+        <div class="sb-logo">JOE'S 30th 🏆</div>
+        <div class="sb-day" id="sb-day">Day 1 · Wednesday</div>
+        <div class="sb-controls"><button class="sb-mute" id="sb-mute" aria-label="Mute">🔊</button></div>
+    </header>
+
+    <!-- Cycling panels -->
+    <main class="sb-stage">
+        <section class="sb-panel" data-panel="teams">
+            <div class="sb-grid sb-grid-teams" id="sb-teams"></div>
+        </section>
+        <section class="sb-panel" data-panel="players" hidden>
+            <h2 class="sb-panel-title">Top 5 Players</h2>
+            <div class="sb-players" id="sb-players"></div>
+        </section>
+        <section class="sb-panel" data-panel="recap" hidden>
+            <h2 class="sb-panel-title">Today's Story</h2>
+            <div class="sb-recap" id="sb-recap"></div>
+        </section>
+        <section class="sb-panel" data-panel="feed" hidden>
+            <h2 class="sb-panel-title">Live Feed</h2>
+            <div class="sb-feed" id="sb-feed"></div>
+        </section>
+    </main>
+
+    <!-- Persistent ticker -->
+    <footer class="sb-ticker"><div class="sb-ticker-track" id="sb-ticker-track"></div></footer>
+
+    <!-- Theatrical overlays -->
+    <div class="sb-flash" id="sb-flash"></div>
+    <div class="sb-overtake" id="sb-overtake"></div>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <script src="js/shared.js?v=29"></script>
+    <script src="js/firebase-config.js?v=19"></script>
+    <script src="js/scoreboard.js?v=4"></script>
+</body>
+</html>

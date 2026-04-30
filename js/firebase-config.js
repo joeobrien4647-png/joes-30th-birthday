@@ -322,22 +322,22 @@
        line detection, rewards, and live feed
        ============================================ */
     var BINGO_ITEMS = [
-        'Photobomb someone\'s photo without them noticing',
-        'Wear someone else\'s outfit for an entire meal',
-        'Do a blind taste test and get it right',
-        'Give a completely improvised 60-second motivational speech',
-        'Convince a local you\'re French (1 min+)',
-        'Swap shoes with someone for a whole activity',
-        'Get a conga line going with at least 5 people',
-        'Start a chant that the whole group joins',
-        'Get a genuine standing ovation from the group',
-        'Make someone laugh so hard they cry',
-        'Jump in the pool fully clothed (or push someone in)',
-        'Be the first up AND last to bed on the same day',
-        'Eat the spiciest thing you can find. Straight face',
-        'Down a drink with no hands',
-        'Do the washing up without being asked',
-        'Take a photo so good the group votes it photo of the trip'
+        '\uD83C\uDFB4 Win a card or drinking game in the evening (Kings Cup, Ring of Fire, Cheat)',
+        '\uD83E\uDD2F Do something that visibly shocks at least 5 people',
+        '\uD83D\uDCE3 Start a chant the whole group joins',
+        '\uD83C\uDF7A Win a 1v1 downing competition (any drink — one attempt only, lose and you\'re out. Same-sex challenges only. Each person can only be challenged once across both 1v1 squares)',
+        '\uD83E\uDD4E Score a run in the rounders match (run all 4 posts safely)',
+        '\uD83E\uDD42 Toast someone in front of 10+ people (target must be untoasted by anyone all trip)',
+        '\uD83D\uDCDC Convince the group to invent a new trip rule you suggested (followed by 5+ people)',
+        '\uD83C\uDFA4 Pick a song that gets 5+ people singing along to the chorus',
+        '\uD83D\uDCAA Win a 1v1 arm wrestle (one attempt only, lose and you\'re out. Same-sex challenges only. Each person can only be challenged once across both 1v1 squares)',
+        '\uD83E\uDD43 Convince Joe to do an unscheduled shot or drink with you',
+        '\uD83C\uDFCA Beat a captain in a swim race of your choice (one attempt only)',
+        '\uD83D\uDD7A Slut drop on the 90s night dancefloor',
+        '\uD83C\uDFD3 Win at Beer Pong (knock out all opponent cups in a full game)',
+        '\uD83C\uDF36\uFE0F Eat a raw chilli, spoonful of hot sauce, or whole raw lemon \u2014 straight face for 1 minute (variants need 4 captains to approve)',
+        '\uD83D\uDCA6 Jump in the pool fully clothed',
+        '\uD83E\uDD43 Three shots of three different spirits in a row (or three non-alc shots: ginger, espresso, fruit cordial — variants need 4 captains to approve)'
     ];
 
     var BINGO_LINES = [
@@ -737,6 +737,50 @@
             if (profilesLoaded) fn(profilesCache);
         },
 
+        isConfigured: function() { return !!db; }
+    };
+
+    /* ============================================
+       PaymentSync — track who has paid for activities
+       Stored at /payments/{guestCode}: { paid, paidAt, markedBy }
+       ============================================ */
+    var paymentsCache = {};
+    var paymentListeners = [];
+    var paymentsLoaded = false;
+
+    if (db) {
+        db.ref('payments').on('value', function(snap) {
+            paymentsCache = snap.val() || {};
+            paymentsLoaded = true;
+            for (var i = 0; i < paymentListeners.length; i++) {
+                paymentListeners[i](paymentsCache);
+            }
+            document.dispatchEvent(new CustomEvent('paymentsUpdate', { detail: paymentsCache }));
+        });
+    }
+
+    window.PaymentSync = {
+        markPaid: function(guestCode, markedBy) {
+            if (!db) return;
+            db.ref('payments/' + guestCode).set({
+                paid: true,
+                paidAt: Date.now(),
+                markedBy: markedBy || 'admin'
+            });
+        },
+        markUnpaid: function(guestCode) {
+            if (!db) return;
+            db.ref('payments/' + guestCode).remove();
+        },
+        isPaid: function(guestCode) {
+            var record = paymentsCache[guestCode];
+            return !!(record && record.paid);
+        },
+        getAll: function() { return paymentsCache; },
+        onUpdate: function(fn) {
+            paymentListeners.push(fn);
+            if (paymentsLoaded) fn(paymentsCache);
+        },
         isConfigured: function() { return !!db; }
     };
 
