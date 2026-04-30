@@ -317,8 +317,121 @@ function initPreTripBonus() {
             card.classList.add('is-claimed');
             if (actions) actions.style.display = 'none';
             if (claimed) claimed.style.display = 'flex';
+
+            // Show punishment picker
+            setTimeout(function() {
+                showPreTripPunishment(guestCode, guestName, guestTeam);
+            }, 500);
         });
     }
+}
+
+function showPreTripPunishment(guestCode, guestName, guestTeam) {
+    var modal = document.getElementById('bingoLineModal');
+    var celebration = document.getElementById('bingoLineCelebration');
+    var guestPicker = document.getElementById('bingoGuestPicker');
+    var guestGrid = document.getElementById('bingoGuestGrid');
+    var confirmPanel = document.getElementById('bingoLineConfirm');
+    var confirmText = document.getElementById('bingoLineConfirmText');
+    var closeBtn = document.getElementById('bingoLineClose');
+    var descEl = document.getElementById('bingoLineDesc');
+
+    if (!modal || !guestGrid) return;
+
+    var shuffled = BINGO_SQUARE_PUNISHMENTS.slice().sort(function() { return Math.random() - 0.5; });
+    var punishment = shuffled[0];
+
+    if (celebration) {
+        celebration.style.display = '';
+        celebration.querySelector('h2').innerHTML = '&#127866; PINT CLAIMED!';
+    }
+    if (descEl) descEl.textContent = 'Now pick someone to punish: "' + punishment + '"';
+    if (guestPicker) guestPicker.style.display = 'none';
+    if (confirmPanel) confirmPanel.style.display = 'none';
+    modal.style.display = 'flex';
+    modal.classList.remove('fullhouse');
+
+    setTimeout(function() {
+        if (celebration) celebration.style.display = 'none';
+
+        guestGrid.innerHTML = '';
+        var allGuests = Object.keys(GUEST_DATA);
+        for (var i = 0; i < allGuests.length; i++) {
+            (function(code) {
+                if (code === guestCode) return;
+                var guest = GUEST_DATA[code];
+                if (!guest) return;
+
+                var btn = document.createElement('button');
+                btn.className = 'bingo-guest-btn';
+                var initial = guest.name.charAt(0).toUpperCase();
+                var team = PLAYERS[guest.name] || '';
+                var colour = (typeof TEAM_COLOURS !== 'undefined' && TEAM_COLOURS[team]) ? TEAM_COLOURS[team] : '#888';
+
+                btn.innerHTML = '<span class="bingo-guest-avatar" style="background:' + colour + '">' + initial + '</span>'
+                    + '<span class="bingo-guest-name">' + escapeHtml(guest.name) + '</span>';
+
+                btn.addEventListener('click', function() {
+                    if (guestPicker) guestPicker.style.display = 'none';
+
+                    if (confirmText) confirmText.innerHTML = '<strong>' + escapeHtml(guest.name) + '</strong> must: <em>"' + escapeHtml(punishment) + '"</em>';
+                    if (confirmPanel) confirmPanel.style.display = '';
+
+                    if (closeBtn) {
+                        closeBtn.textContent = 'Confirm';
+                        var changeBtn = document.createElement('button');
+                        changeBtn.className = 'bingo-cancel-btn';
+                        changeBtn.textContent = 'Pick someone else';
+                        changeBtn.style.marginTop = '8px';
+                        closeBtn.parentNode.insertBefore(changeBtn, closeBtn.nextSibling);
+
+                        var confirmHandler = function() {
+                            var punishmentData = {
+                                assignedBy: guestName,
+                                assignedByCode: guestCode,
+                                victim: guest.name,
+                                description: punishment,
+                                completed: false,
+                                timestamp: Date.now()
+                            };
+                            if (typeof BingoEngine !== 'undefined' && typeof BingoEngine.addPunishment === 'function') {
+                                BingoEngine.addPunishment(punishmentData);
+                            } else if (typeof FirebaseSync !== 'undefined') {
+                                FirebaseSync.push('bingo/punishments', punishmentData);
+                            }
+
+                            closeBtn.removeEventListener('click', confirmHandler);
+                            if (changeBtn.parentNode) changeBtn.parentNode.removeChild(changeBtn);
+
+                            if (confirmText) confirmText.innerHTML = '&#9989; <strong>' + escapeHtml(guest.name) + '</strong> must: <em>"' + escapeHtml(punishment) + '"</em>';
+                            closeBtn.textContent = 'Done';
+
+                            var doneHandler = function() {
+                                modal.style.display = 'none';
+                                closeBtn.removeEventListener('click', doneHandler);
+                            };
+                            closeBtn.addEventListener('click', doneHandler);
+                        };
+
+                        closeBtn.addEventListener('click', confirmHandler);
+                        changeBtn.addEventListener('click', function() {
+                            closeBtn.removeEventListener('click', confirmHandler);
+                            if (changeBtn.parentNode) changeBtn.parentNode.removeChild(changeBtn);
+                            if (confirmPanel) confirmPanel.style.display = 'none';
+                            closeBtn.textContent = 'Done';
+                            showPreTripPunishment(guestCode, guestName, guestTeam);
+                        });
+                    }
+                });
+
+                guestGrid.appendChild(btn);
+            })(allGuests[i]);
+        }
+
+        var heading = guestPicker ? guestPicker.querySelector('h3') : null;
+        if (heading) heading.textContent = 'Who gets punished?';
+        if (guestPicker) guestPicker.style.display = '';
+    }, 1000);
 }
 
 /* ============================================
