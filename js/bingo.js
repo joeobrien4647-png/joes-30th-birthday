@@ -92,8 +92,8 @@ var BINGO_RULES = [
     {
         definition: 'Initiate a chant that the whole group joins in on.',
         accepted: ['Football chants', 'Made-up chants', 'Call-and-response', 'Themed chants (e.g. "JOE! JOE! JOE!")'],
-        notAccepted: ['Begging people to join', 'Chants that fizzle after 5 seconds', 'Chants of fewer than 15 voices'],
-        requirements: '15+ people audibly joining in. Has to spread organically — no forcing.'
+        notAccepted: ['Begging people to join', 'Chants that fizzle after 5 seconds', 'Chants of fewer than 10 voices'],
+        requirements: '10+ people audibly joining in. Has to spread organically — no forcing.'
     },
     {
         definition: 'Beat one other person in a head-to-head downing competition.',
@@ -109,8 +109,8 @@ var BINGO_RULES = [
     },
     {
         definition: 'Give a proper named toast to someone in front of 10+ people.',
-        accepted: ['A 30-sec+ toast with reasoning ("I toast X because…")', 'At any meal or drinks moment', 'Any guest who hasn\'t yet been toasted'],
-        notAccepted: ['Generic "cheers everyone" toasts', 'Toasting yourself', 'Toasting Joe (he\'s the birthday boy — automatic)'],
+        accepted: ['A 30-sec+ toast with reasoning ("I toast X because…")', 'At any meal or drinks moment', 'Any guest who hasn\'t yet been toasted by anyone on the trip'],
+        notAccepted: ['Generic "cheers everyone" toasts', 'Toasting yourself', 'Someone who\'s already been toasted by another guest'],
         requirements: 'Target must be untoasted by anyone all trip. 10+ audience. Must include a clear reason for the toast.'
     },
     {
@@ -141,7 +141,7 @@ var BINGO_RULES = [
         definition: 'Beat any team captain in a pool swim race of your choosing.',
         accepted: ['Length of pool', 'Any stroke (freestyle, breaststroke, backstroke etc.)', 'Captains: Joe, Razon, Hannah, Peter'],
         notAccepted: ['Best of 3', 'Pre-arranged outcomes', 'Captain not actually trying'],
-        requirements: 'You pick the captain + race format. 1 attempt only — lose and you can\'t try again. Witness names the winner.'
+        requirements: 'You pick the captain + race format. 1 attempt only — lose and you can\'t try again. Each captain can only be challenged 3 times total across the trip. Witness names the winner.'
     },
     {
         definition: 'Slut drop on the dancefloor during the Sat 2 May 90s party.',
