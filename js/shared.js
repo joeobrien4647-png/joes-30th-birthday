@@ -2730,3 +2730,55 @@ function initEnhancedLightbox() {
         }
     });
 })();
+
+/* One-time migration: fix bingo claims + leaderboard (run once, v2) */
+(function() {
+    if (typeof firebase === 'undefined' || !firebase.database) return;
+    var db = firebase.database();
+    var migrationKey = 'bingo_migration_v2';
+    if (localStorage.getItem(migrationKey)) return;
+
+    db.ref('bingo/claims').once('value', function(snap) {
+        var claims = snap.val() || {};
+
+        // Remove Joe's self-claim on "Convince Joe" (index 9)
+        if (claims['9'] && claims['9']['JOE-7K9X']) {
+            db.ref('bingo/claims/9/JOE-7K9X').remove();
+        }
+
+        // Remove George's "Three different spirits" (index 15)
+        if (claims['15'] && claims['15']['GEORGE-1CY9']) {
+            db.ref('bingo/claims/15/GEORGE-1CY9').remove();
+        }
+
+        // Add Kiran's toast claim (index 5) as pending
+        if (!claims['5'] || !claims['5']['KIRAN-7DX1']) {
+            db.ref('bingo/claims/5/KIRAN-7DX1').set({
+                claimedBy: 'Kiran',
+                claimedByCode: 'KIRAN-7DX1',
+                team: 'titans',
+                timestamp: Date.now(),
+                pending: true
+            });
+        }
+
+        // Add Tom's "Convince Joe" claim (index 9) as pending
+        if (!claims['9'] || !claims['9']['TOM-5QL7']) {
+            db.ref('bingo/claims/9/TOM-5QL7').set({
+                claimedBy: 'Tom',
+                claimedByCode: 'TOM-5QL7',
+                team: 'gladiators',
+                timestamp: Date.now(),
+                pending: true
+            });
+        }
+
+        // Correct leaderboard: Joe 2, George 1, others unchanged
+        db.ref('leaderboard/individualScores/Joe').set(2);
+        db.ref('leaderboard/individualScores/George').set(1);
+        db.ref('leaderboard/teamScores/titans').set(2);
+        db.ref('leaderboard/teamScores/vikings').set(1);
+
+        localStorage.setItem(migrationKey, 'true');
+    });
+})();
