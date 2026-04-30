@@ -258,52 +258,44 @@
 
     window.PhotoStorage = {
         upload: function(file, guestCode, guestName, caption, onProgress, onComplete) {
-            if (!storage || !db) {
-                if (onComplete) onComplete(null, 'Firebase Storage not configured');
+            if (!db) {
+                if (onComplete) onComplete(null, 'Firebase not configured');
                 return;
             }
 
-            compressImage(file, 1600, 0.8, function(blob) {
-                var filename = 'photos/' + Date.now() + '_' + guestCode.replace(/[^a-zA-Z0-9-_]/g, '') + '.jpg';
-                var ref = storage.ref(filename);
-                var uploadTask = ref.put(blob, { contentType: 'image/jpeg' });
+            if (onProgress) onProgress(30);
 
-                uploadTask.on('state_changed',
-                    function(snapshot) {
-                        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                        if (onProgress) onProgress(progress);
-                    },
-                    function(error) {
-                        if (onComplete) onComplete(null, error.message || 'Upload failed');
-                    },
-                    function() {
-                        uploadTask.snapshot.ref.getDownloadURL().then(function(url) {
-                            var photoData = {
-                                url: url,
-                                caption: caption || '',
-                                guestCode: guestCode,
-                                guestName: guestName,
-                                timestamp: Date.now()
-                            };
+            compressImage(file, 1200, 0.6, function(blob) {
+                if (onProgress) onProgress(60);
 
-                            /* Save to /photos collection */
-                            var photoKey = db.ref('photos').push(photoData).key;
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var dataUrl = e.target.result;
 
-                            /* Post to /feed */
-                            FirebaseSync.push('feed', {
-                                type: 'photo',
-                                guestCode: guestCode,
-                                guestName: guestName,
-                                content: caption || '',
-                                photoUrl: url,
-                                timestamp: Date.now()
-                            });
+                    var photoData = {
+                        url: dataUrl,
+                        caption: caption || '',
+                        guestCode: guestCode,
+                        guestName: guestName,
+                        timestamp: Date.now()
+                    };
 
-                            photoData._id = photoKey;
-                            if (onComplete) onComplete(photoData, null);
-                        });
-                    }
-                );
+                    var photoKey = db.ref('photos').push(photoData).key;
+
+                    FirebaseSync.push('feed', {
+                        type: 'photo',
+                        guestCode: guestCode,
+                        guestName: guestName,
+                        content: caption || '',
+                        photoUrl: dataUrl,
+                        timestamp: Date.now()
+                    });
+
+                    if (onProgress) onProgress(100);
+                    photoData._id = photoKey;
+                    if (onComplete) onComplete(photoData, null);
+                };
+                reader.readAsDataURL(blob);
             });
         },
 
