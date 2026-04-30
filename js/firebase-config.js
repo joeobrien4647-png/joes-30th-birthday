@@ -323,7 +323,7 @@
        ============================================ */
     var BINGO_ITEMS = [
         '\uD83C\uDFB4 Win a card or drinking game in the evening (Kings Cup, Ring of Fire, Cheat)',
-        '\uD83E\uDD2F Do something that visibly shocks at least 5 people',
+        '\uD83E\uDD2F Do something that makes 5+ people visibly react (gasp, scream, jaw drop)',
         '\uD83D\uDCE3 Start a chant the whole group joins',
         '\uD83C\uDF7A Win a 1v1 downing competition (any drink — one attempt only, lose and you\'re out. Same-sex challenges only. Each person can only be challenged once across both 1v1 squares)',
         '\uD83E\uDD4E Score a run in the rounders match (run all 4 posts safely)',

@@ -81,13 +81,13 @@ var BINGO_RULES = [
         definition: 'Win any card or drinking game played in the evening at the château.',
         accepted: ['Kings Cup', 'Ring of Fire', 'Cheat / BS', 'Werewolf', 'Mafia', 'Any 4+ player card or drinking game'],
         notAccepted: ['Daytime games', '1v1 games (use the dedicated 1v1 squares instead)', 'Solo card games'],
-        requirements: '4+ players, evening session, 2+ witnesses confirm you won.'
+        requirements: '4+ players, evening session. You must be the last one standing or the group agrees you won. 2+ witnesses confirm.'
     },
     {
-        definition: 'Do something that genuinely shocks at least 5 people in real time.',
+        definition: 'Do something that makes 5+ people visibly react — gasp, scream, jaw drop, or jump.',
         accepted: ['Stunts', 'Public confessions', 'Surprise costumes', 'Pranks', 'Unexpected actions'],
-        notAccepted: ['Performative shocks where no one is actually surprised', 'Self-claimed shocks with no witness reaction'],
-        requirements: '5 named witnesses must confirm they were genuinely shocked when you submit your claim.'
+        notAccepted: ['Performative shocks where no one actually reacts', 'Self-claimed shocks with no visible reaction', 'Anything dangerous or that damages property'],
+        requirements: '5 named witnesses must confirm they visibly reacted. Video proof is best.'
     },
     {
         definition: 'Initiate a chant that the whole group joins in on.',
@@ -135,7 +135,7 @@ var BINGO_RULES = [
         definition: 'Convince Joe to take an unscheduled shot or drink with you.',
         accepted: ['Surprise shots', '"Bet you can\'t" challenges Joe accepts', 'You pour, he drinks it'],
         notAccepted: ['Toasts (automatic)', 'Group cheers Joe was already doing', 'Planned drinking moments'],
-        requirements: 'Must be UNSCHEDULED — Joe wasn\'t planning this drink. Witnessed by Joe + 1 other person.'
+        requirements: 'Must be UNSCHEDULED — Joe wasn\'t planning this drink. Joe can refuse, but he can only use his refusals on up to 3 days of the trip. Witnessed by Joe + 1 other person.'
     },
     {
         definition: 'Beat any team captain in a pool swim race of your choosing.',
