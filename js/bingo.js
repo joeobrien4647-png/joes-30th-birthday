@@ -617,39 +617,146 @@ function initBingo() {
         // Go straight to person picker after a beat
         setTimeout(function() {
             showVictimPicker(function(targetName) {
-                // Save punishment
-                var punishmentData = {
-                    assignedBy: guestName,
-                    assignedByCode: guestCode,
-                    victim: targetName,
-                    description: pendingPunishment,
-                    completed: false,
-                    timestamp: Date.now()
-                };
-                if (typeof BingoEngine.addPunishment === 'function') {
-                    BingoEngine.addPunishment(punishmentData);
-                } else {
-                    FirebaseSync.push('bingo/punishments', punishmentData);
-                }
+                // Show confirmation before saving
+                var gp = document.getElementById('bingoGuestPicker');
+                if (gp) gp.style.display = 'none';
 
-                // Show confirm
                 var cp = document.getElementById('bingoLineConfirm');
                 var ct = document.getElementById('bingoLineConfirmText');
                 var cb = document.getElementById('bingoLineClose');
-                var gp = document.getElementById('bingoGuestPicker');
-                if (gp) gp.style.display = 'none';
-                if (ct) ct.textContent = targetName + ' must: ' + pendingPunishment;
+
+                if (ct) ct.innerHTML = '<strong>' + escapeHtml(targetName) + '</strong> must: <em>"' + escapeHtml(pendingPunishment) + '"</em>';
                 if (cp) cp.style.display = '';
+
+                // Replace the Done button with Confirm + Change
                 if (cb) {
-                    var handler = function() {
-                        modal.style.display = 'none';
-                        cb.removeEventListener('click', handler);
-                        setTimeout(function() { checkForNewLines(); }, 300);
+                    cb.textContent = 'Confirm';
+                    var changeBtn = document.createElement('button');
+                    changeBtn.className = 'bingo-cancel-btn';
+                    changeBtn.textContent = 'Pick someone else';
+                    changeBtn.style.marginTop = '8px';
+                    cb.parentNode.insertBefore(changeBtn, cb.nextSibling);
+
+                    var confirmHandler = function() {
+                        // Save punishment
+                        var punishmentData = {
+                            assignedBy: guestName,
+                            assignedByCode: guestCode,
+                            victim: targetName,
+                            description: pendingPunishment,
+                            completed: false,
+                            timestamp: Date.now()
+                        };
+                        if (typeof BingoEngine.addPunishment === 'function') {
+                            BingoEngine.addPunishment(punishmentData);
+                        } else {
+                            FirebaseSync.push('bingo/punishments', punishmentData);
+                        }
+
+                        cb.removeEventListener('click', confirmHandler);
+                        if (changeBtn.parentNode) changeBtn.parentNode.removeChild(changeBtn);
+
+                        // Show final done
+                        if (ct) ct.innerHTML = '&#9989; <strong>' + escapeHtml(targetName) + '</strong> must: <em>"' + escapeHtml(pendingPunishment) + '"</em>';
+                        cb.textContent = 'Done';
+
+                        var doneHandler = function() {
+                            modal.style.display = 'none';
+                            cb.removeEventListener('click', doneHandler);
+                            setTimeout(function() { checkForNewLines(); }, 300);
+                        };
+                        cb.addEventListener('click', doneHandler);
+
+                        showToast(targetName + ' has been punished!');
                     };
-                    cb.addEventListener('click', handler);
+
+                    var changeHandler = function() {
+                        cb.removeEventListener('click', confirmHandler);
+                        changeBtn.removeEventListener('click', changeHandler);
+                        if (changeBtn.parentNode) changeBtn.parentNode.removeChild(changeBtn);
+                        if (cp) cp.style.display = 'none';
+                        cb.textContent = 'Done';
+                        showVictimPicker(arguments.callee.outerCallback);
+                    };
+                    changeHandler.outerCallback = arguments.callee;
+
+                    cb.addEventListener('click', confirmHandler);
+                    changeBtn.addEventListener('click', function() {
+                        cb.removeEventListener('click', confirmHandler);
+                        if (changeBtn.parentNode) changeBtn.parentNode.removeChild(changeBtn);
+                        if (cp) cp.style.display = 'none';
+                        cb.textContent = 'Done';
+                        showSquarePunishmentRepick();
+                    });
                 }
             });
         }, 1000);
+    }
+
+    function showSquarePunishmentRepick() {
+        var celebration = document.getElementById('bingoLineCelebration');
+        if (celebration) celebration.style.display = 'none';
+        showVictimPicker(function(targetName) {
+            var gp = document.getElementById('bingoGuestPicker');
+            if (gp) gp.style.display = 'none';
+
+            var cp = document.getElementById('bingoLineConfirm');
+            var ct = document.getElementById('bingoLineConfirmText');
+            var cb = document.getElementById('bingoLineClose');
+            var modal = document.getElementById('bingoLineModal');
+
+            if (ct) ct.innerHTML = '<strong>' + escapeHtml(targetName) + '</strong> must: <em>"' + escapeHtml(pendingPunishment) + '"</em>';
+            if (cp) cp.style.display = '';
+
+            if (cb) {
+                cb.textContent = 'Confirm';
+                var changeBtn2 = document.createElement('button');
+                changeBtn2.className = 'bingo-cancel-btn';
+                changeBtn2.textContent = 'Pick someone else';
+                changeBtn2.style.marginTop = '8px';
+                cb.parentNode.insertBefore(changeBtn2, cb.nextSibling);
+
+                var confirmHandler2 = function() {
+                    var punishmentData = {
+                        assignedBy: guestName,
+                        assignedByCode: guestCode,
+                        victim: targetName,
+                        description: pendingPunishment,
+                        completed: false,
+                        timestamp: Date.now()
+                    };
+                    if (typeof BingoEngine.addPunishment === 'function') {
+                        BingoEngine.addPunishment(punishmentData);
+                    } else {
+                        FirebaseSync.push('bingo/punishments', punishmentData);
+                    }
+
+                    cb.removeEventListener('click', confirmHandler2);
+                    if (changeBtn2.parentNode) changeBtn2.parentNode.removeChild(changeBtn2);
+
+                    if (ct) ct.innerHTML = '&#9989; <strong>' + escapeHtml(targetName) + '</strong> must: <em>"' + escapeHtml(pendingPunishment) + '"</em>';
+                    cb.textContent = 'Done';
+
+                    var doneHandler2 = function() {
+                        if (modal) modal.style.display = 'none';
+                        cb.removeEventListener('click', doneHandler2);
+                        setTimeout(function() { checkForNewLines(); }, 300);
+                    };
+                    cb.addEventListener('click', doneHandler2);
+
+                    showToast(targetName + ' has been punished!');
+                };
+
+                cb.addEventListener('click', confirmHandler2);
+                changeBtn2.addEventListener('click', function() {
+                    cb.removeEventListener('click', confirmHandler2);
+                    if (changeBtn2.parentNode) changeBtn2.parentNode.removeChild(changeBtn2);
+                    if (cp) cp.style.display = 'none';
+                    cb.textContent = 'Done';
+                    showSquarePunishmentRepick();
+                });
+            }
+        });
     }
 
     /* ============================================
