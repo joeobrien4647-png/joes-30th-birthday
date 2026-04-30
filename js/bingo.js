@@ -78,7 +78,7 @@ function isBingoUnlocked() {
 /* ============================================
    Pre-Trip Bonus — claimable before bingo unlocks
    ============================================ */
-function initPreTripBonus(guestCode, guestName, guestTeam) {
+function initPreTripBonus() {
     var card = document.getElementById('pretripCard');
     var actions = document.getElementById('pretripActions');
     var claimed = document.getElementById('pretripClaimed');
@@ -88,6 +88,11 @@ function initPreTripBonus(guestCode, guestName, guestTeam) {
     var previewEl = document.getElementById('pretripPhotoPreview');
 
     if (!card) return;
+
+    var guestCode = Auth.isLoggedIn() ? Auth.getGuestCode() : null;
+    var guestData = guestCode ? Auth.getGuestData() : null;
+    var guestName = guestData ? guestData.name : 'Guest';
+    var guestTeam = guestData ? (PLAYERS[guestName] || '') : '';
 
     var fbPath = 'bingo/pretrip';
     var photoDataUrl = null;
@@ -227,9 +232,6 @@ function initBingo() {
     var pendingLineData = null;
     var pendingPunishment = '';
     var drawerIdx = -1;
-
-    // Pre-trip bonus (always active, even when bingo is locked)
-    initPreTripBonus(guestCode, guestName, guestTeam);
 
     // Initial render
     renderGrid();
@@ -1503,10 +1505,12 @@ function initBingo() {
    Boot
    ============================================ */
 document.addEventListener('DOMContentLoaded', function() {
+    initPreTripBonus();
     initBingo();
 });
 
 /* Re-init after guest login so name/team are correct */
 document.addEventListener('guestLoggedIn', function() {
+    initPreTripBonus();
     initBingo();
 });
