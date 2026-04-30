@@ -69,7 +69,7 @@ var BINGO_EMOJIS = [
 
 /* ---- Bingo lock: locked for everyone until manually unlocked ---- */
 /* Set to true when ready to reveal challenges (e.g. during the trip) */
-var BINGO_FORCE_LOCKED = true;
+var BINGO_FORCE_LOCKED = false;
 
 function isBingoUnlocked() {
     return !BINGO_FORCE_LOCKED;
