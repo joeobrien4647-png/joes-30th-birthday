@@ -438,22 +438,6 @@
             // Check if THIS person already claimed this square
             if (bingoClaims[itemIndex] && bingoClaims[itemIndex][guestCode]) return;
 
-            // 3 claims per 24 hours limit
-            var now = Date.now();
-            var dayMs = 24 * 60 * 60 * 1000;
-            var recentCount = 0;
-            var allKeys = Object.keys(bingoClaims);
-            for (var k = 0; k < allKeys.length; k++) {
-                var cell = bingoClaims[allKeys[k]];
-                if (cell && cell[guestCode] && cell[guestCode].timestamp && (now - cell[guestCode].timestamp) < dayMs) {
-                    recentCount++;
-                }
-            }
-            if (recentCount >= 3) {
-                alert('You can only claim 3 bingo squares per 24 hours. Try again later!');
-                return;
-            }
-
             var claimData = {
                 claimedBy: guestName,
                 claimedByCode: guestCode,
@@ -613,6 +597,15 @@
 
         getLines: function() {
             return bingoLines;
+        },
+
+        getVictimPunishmentCount: function(victimName) {
+            var count = 0;
+            var keys = Object.keys(bingoPunishments);
+            for (var i = 0; i < keys.length; i++) {
+                if (bingoPunishments[keys[i]].victim === victimName) count++;
+            }
+            return count;
         },
 
         addPunishment: function(data) {

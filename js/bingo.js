@@ -362,14 +362,25 @@ function showPreTripPunishment(guestCode, guestName, guestTeam) {
                 var guest = GUEST_DATA[code];
                 if (!guest) return;
 
+                var punCount = (typeof BingoEngine !== 'undefined' && BingoEngine.getVictimPunishmentCount)
+                    ? BingoEngine.getVictimPunishmentCount(guest.name) : 0;
+                var maxedOut = punCount >= 3;
+
                 var btn = document.createElement('button');
-                btn.className = 'bingo-guest-btn';
+                btn.className = 'bingo-guest-btn' + (maxedOut ? ' bingo-guest-maxed' : '');
                 var initial = guest.name.charAt(0).toUpperCase();
                 var team = PLAYERS[guest.name] || '';
                 var colour = (typeof TEAM_COLOURS !== 'undefined' && TEAM_COLOURS[team]) ? TEAM_COLOURS[team] : '#888';
 
-                btn.innerHTML = '<span class="bingo-guest-avatar" style="background:' + colour + '">' + initial + '</span>'
-                    + '<span class="bingo-guest-name">' + escapeHtml(guest.name) + '</span>';
+                btn.innerHTML = '<span class="bingo-guest-avatar" style="background:' + (maxedOut ? '#ccc' : colour) + '">' + initial + '</span>'
+                    + '<span class="bingo-guest-name">' + escapeHtml(guest.name) + (maxedOut ? ' (max 3)' : '') + '</span>';
+
+                if (maxedOut) {
+                    btn.style.opacity = '0.4';
+                    btn.style.cursor = 'not-allowed';
+                    guestGrid.appendChild(btn);
+                    return;
+                }
 
                 btn.addEventListener('click', function() {
                     if (guestPicker) guestPicker.style.display = 'none';
@@ -1202,21 +1213,30 @@ function initBingo() {
                 var guest = GUEST_DATA[code];
                 if (!guest) return;
 
+                var punCount = (typeof BingoEngine !== 'undefined' && BingoEngine.getVictimPunishmentCount)
+                    ? BingoEngine.getVictimPunishmentCount(guest.name) : 0;
+                var maxedOut = punCount >= 3;
+
                 var btn = document.createElement('button');
-                btn.className = 'bingo-guest-btn';
+                btn.className = 'bingo-guest-btn' + (maxedOut ? ' bingo-guest-maxed' : '');
 
                 var initial = guest.name.charAt(0).toUpperCase();
                 var team = PLAYERS[guest.name] || '';
                 var colour = TEAM_COLOURS[team] || '#888';
 
-                btn.innerHTML = '<span class="bingo-guest-avatar" style="background:' + colour + '">' + initial + '</span>'
-                    + '<span class="bingo-guest-name">' + escapeHtml(guest.name) + '</span>';
+                btn.innerHTML = '<span class="bingo-guest-avatar" style="background:' + (maxedOut ? '#ccc' : colour) + '">' + initial + '</span>'
+                    + '<span class="bingo-guest-name">' + escapeHtml(guest.name) + (maxedOut ? ' (max 3)' : '') + '</span>';
 
-                btn.addEventListener('click', function() {
-                    if (callback) {
-                        callback(guest.name);
-                    }
-                });
+                if (!maxedOut) {
+                    btn.addEventListener('click', function() {
+                        if (callback) {
+                            callback(guest.name);
+                        }
+                    });
+                } else {
+                    btn.style.opacity = '0.4';
+                    btn.style.cursor = 'not-allowed';
+                }
                 guestGrid.appendChild(btn);
             })(allGuests[i]);
         }
