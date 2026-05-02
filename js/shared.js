@@ -166,8 +166,6 @@ const GUEST_DATA = {
     'KIRAN-7DX1': { name: 'Kiran', fullName: 'Kiran Ruparelia', room: 'Room 9', team: 'TBA', nickname: 'TBA' },
     'OLI-3WT5': { name: 'Oli', fullName: 'Oli Moran', room: 'Room 10', team: 'TBA', nickname: 'TBA' },
     'PETER-6BN2': { name: 'Peter', fullName: 'Peter London', room: 'Room 10', team: 'TBA', nickname: 'TBA' },
-    'EMMAL-1RK8': { name: 'Emma L', fullName: 'Emma Levett', room: 'Room 11', team: 'TBA', nickname: 'TBA' },
-    'JONNYL-4VP9': { name: 'Jonny L', fullName: 'Jonny Levett', room: 'Room 11', team: 'TBA', nickname: 'TBA' },
     'JONNYW-8HQ3': { name: 'Jonny W', fullName: 'Jonny Williams', room: 'Room 12', team: 'TBA', nickname: 'TBA' },
     'CHRIS-2FM7': { name: 'Chris', fullName: 'Chris Coggin', room: 'Room 9', team: 'TBA', nickname: 'TBA' },
     'OSCAR-5DL4': { name: 'Oscar', fullName: 'Oscar Walters', room: 'Room 12', team: 'TBA', nickname: 'TBA' },
@@ -176,9 +174,9 @@ const GUEST_DATA = {
 
 /* Players mapped to teams (for leaderboard) */
 const PLAYERS = {
-    'Joe': 'titans', 'Samantha': 'titans', 'Robin': 'titans', 'Emma L': 'titans', 'Kiran': 'titans', 'Oscar': 'titans', 'Chris': 'titans',
+    'Joe': 'titans', 'Samantha': 'titans', 'Robin': 'titans', 'Kiran': 'titans', 'Oscar': 'titans', 'Chris': 'titans',
     'Razon': 'spartans', 'Sophie': 'spartans', 'Robert': 'spartans', 'Florrie': 'spartans', 'Jonny W': 'spartans', 'Matt': 'spartans',
-    'Hannah': 'vikings', 'George': 'vikings', 'Neeve': 'vikings', 'Oli': 'vikings', 'Jonny L': 'vikings',
+    'Hannah': 'vikings', 'George': 'vikings', 'Neeve': 'vikings', 'Oli': 'vikings',
     'Peter': 'gladiators', 'Johnny': 'gladiators', 'Tom': 'gladiators', 'Sarah': 'gladiators', 'Emma W': 'gladiators', 'Luke': 'gladiators'
 };
 
