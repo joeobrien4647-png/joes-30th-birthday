@@ -2735,7 +2735,7 @@ function initEnhancedLightbox() {
 (function() {
     if (typeof firebase === 'undefined' || !firebase.database) return;
     var db = firebase.database();
-    var migrationKey = 'bingo_migration_v2';
+    var migrationKey = 'bingo_migration_v3';
     if (localStorage.getItem(migrationKey)) return;
 
     db.ref('bingo/claims').once('value', function(snap) {
@@ -2778,13 +2778,48 @@ function initEnhancedLightbox() {
             });
         }
 
-        // Correct leaderboard
-        db.ref('leaderboard/individualScores/Joe').set(2);
+        // Correct leaderboard (bingo claims + Stack Cup Thu + Boat Race Fri)
+        // Individual: Joe 2(bingo)-2(boat race)=0, Sophie +2(stacks), Neeve -2(stacked)
+        db.ref('leaderboard/individualScores/Joe').set(0);
         db.ref('leaderboard/individualScores/George').set(1);
         db.ref('leaderboard/individualScores/Jonny W').set(0);
-        db.ref('leaderboard/teamScores/titans').set(2);
-        db.ref('leaderboard/teamScores/vikings').set(1);
-        db.ref('leaderboard/teamScores/spartans').set(1);
+        db.ref('leaderboard/individualScores/Sophie').set(2);
+        db.ref('leaderboard/individualScores/Neeve').set(-2);
+
+        // Teams: bingo + stack cup(5/3/1/1) + boat race(5/3/1/1)
+        db.ref('leaderboard/teamScores/titans').set(4);
+        db.ref('leaderboard/teamScores/spartans').set(11);
+        db.ref('leaderboard/teamScores/gladiators').set(7);
+        db.ref('leaderboard/teamScores/vikings').set(3);
+
+        // Points log entries for the games
+        var gameResults = [
+            { type: 'team', target: 'Spartans', amount: 5, reason: 'Stack Cup Tournament - Winners', category: 'games', day: 2 },
+            { type: 'team', target: 'Gladiators', amount: 3, reason: 'Stack Cup Tournament - Runner Up', category: 'games', day: 2 },
+            { type: 'team', target: 'Titans', amount: 1, reason: 'Stack Cup Tournament - Participation', category: 'games', day: 2 },
+            { type: 'team', target: 'Vikings', amount: 1, reason: 'Stack Cup Tournament - Participation', category: 'games', day: 2 },
+            { type: 'individual', target: 'Sophie', amount: 2, reason: 'Stack Cup - Most Stacks', category: 'bonus', day: 2 },
+            { type: 'individual', target: 'Neeve', amount: -2, reason: 'Stack Cup - Most Stacked', category: 'penalty', day: 2 },
+            { type: 'team', target: 'Spartans', amount: 5, reason: 'Boat Race Relay - Winners', category: 'games', day: 3 },
+            { type: 'team', target: 'Gladiators', amount: 3, reason: 'Boat Race Relay - Runner Up', category: 'games', day: 3 },
+            { type: 'team', target: 'Titans', amount: 1, reason: 'Boat Race Relay - Participation', category: 'games', day: 3 },
+            { type: 'team', target: 'Vikings', amount: 1, reason: 'Boat Race Relay - Participation', category: 'games', day: 3 },
+            { type: 'individual', target: 'Joe', amount: -2, reason: 'Boat Race - Sabotaged own team', category: 'penalty', day: 3 }
+        ];
+        for (var g = 0; g < gameResults.length; g++) {
+            var gr = gameResults[g];
+            db.ref('leaderboard/pointsLog').push({
+                type: gr.type,
+                target: gr.target,
+                amount: gr.amount,
+                reason: gr.reason,
+                category: gr.category,
+                day: gr.day,
+                time: new Date().toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }),
+                timestamp: Date.now(),
+                awardedBy: 'Admin'
+            });
+        }
 
         localStorage.setItem(migrationKey, 'true');
     });
