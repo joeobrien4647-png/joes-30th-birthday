@@ -2822,3 +2822,68 @@ function initEnhancedLightbox() {
         localStorage.setItem(migrationKey, 'true');
     });
 })();
+
+/* Migration v4: Sardines + Treetop points */
+(function() {
+    if (typeof firebase === 'undefined' || !firebase.database) return;
+    var db = firebase.database();
+    var migrationKey = 'bingo_migration_v4';
+    if (localStorage.getItem(migrationKey)) return;
+
+    db.ref('leaderboard/individualScores').once('value', function(snap) {
+        var scores = snap.val() || {};
+
+        // Sardines: captain bonuses
+        scores['Joe'] = (scores['Joe'] || 0) + 2;
+        scores['Razon'] = (scores['Razon'] || 0) + 2;
+        scores['Hannah'] = (scores['Hannah'] || 0) - 2;
+
+        // Sardines: finders +1 each
+        scores['Florrie'] = (scores['Florrie'] || 0) + 1;
+        scores['Oscar'] = (scores['Oscar'] || 0) + 1;
+        scores['Robin'] = (scores['Robin'] || 0) + 1;
+        scores['Jonny W'] = (scores['Jonny W'] || 0) + 1;
+        scores['Sophie'] = (scores['Sophie'] || 0) + 1;
+        scores['Emma W'] = (scores['Emma W'] || 0) + 1;
+        scores['Luke'] = (scores['Luke'] || 0) + 1;
+        scores['Sarah'] = (scores['Sarah'] || 0) + 1;
+
+        // Treetop Super Black Noir +1 each
+        scores['Peter'] = (scores['Peter'] || 0) + 1;
+        scores['Kiran'] = (scores['Kiran'] || 0) + 1;
+        scores['Robert'] = (scores['Robert'] || 0) + 1;
+        scores['George'] = (scores['George'] || 0) + 1;
+
+        db.ref('leaderboard/individualScores').set(scores);
+
+        // Points log
+        var entries = [
+            { type: 'individual', target: 'Joe', amount: 2, reason: 'Sardines - Best Hider (0 found)', category: 'games', day: 4 },
+            { type: 'individual', target: 'Razon', amount: 2, reason: 'Sardines - Best Hider (0 found)', category: 'games', day: 4 },
+            { type: 'individual', target: 'Hannah', amount: -2, reason: 'Sardines - Worst Hider (8 found)', category: 'penalty', day: 4 },
+            { type: 'individual', target: 'Florrie', amount: 1, reason: 'Sardines - Found Peter', category: 'games', day: 4 },
+            { type: 'individual', target: 'Oscar', amount: 1, reason: 'Sardines - Found Hannah', category: 'games', day: 4 },
+            { type: 'individual', target: 'Robin', amount: 1, reason: 'Sardines - Found Hannah', category: 'games', day: 4 },
+            { type: 'individual', target: 'Jonny W', amount: 1, reason: 'Sardines - Found Hannah', category: 'games', day: 4 },
+            { type: 'individual', target: 'Sophie', amount: 1, reason: 'Sardines - Found Hannah', category: 'games', day: 4 },
+            { type: 'individual', target: 'Emma W', amount: 1, reason: 'Sardines - Found Hannah', category: 'games', day: 4 },
+            { type: 'individual', target: 'Luke', amount: 1, reason: 'Sardines - Found Hannah', category: 'games', day: 4 },
+            { type: 'individual', target: 'Sarah', amount: 1, reason: 'Sardines - Found Hannah', category: 'games', day: 4 },
+            { type: 'individual', target: 'Peter', amount: 1, reason: 'Treetop - Super Black Noir', category: 'bonus', day: 5 },
+            { type: 'individual', target: 'Kiran', amount: 1, reason: 'Treetop - Super Black Noir', category: 'bonus', day: 5 },
+            { type: 'individual', target: 'Robert', amount: 1, reason: 'Treetop - Super Black Noir', category: 'bonus', day: 5 },
+            { type: 'individual', target: 'George', amount: 1, reason: 'Treetop - Super Black Noir', category: 'bonus', day: 5 }
+        ];
+        for (var i = 0; i < entries.length; i++) {
+            var e = entries[i];
+            db.ref('leaderboard/pointsLog').push({
+                type: e.type, target: e.target, amount: e.amount, reason: e.reason,
+                category: e.category, day: e.day,
+                time: new Date().toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }),
+                timestamp: Date.now(), awardedBy: 'Admin'
+            });
+        }
+
+        localStorage.setItem(migrationKey, 'true');
+    });
+})();
