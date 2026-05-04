@@ -2946,11 +2946,11 @@ function initEnhancedLightbox() {
     });
 })();
 
-/* FINAL Migration v6: Recalculate everything from scratch */
+/* FINAL Migration v7: Recalculate with pro-rata bingo + karaoke */
 (function() {
     if (typeof firebase === 'undefined' || !firebase.database) return;
     var db = firebase.database();
-    var migrationKey = 'bingo_migration_v6';
+    var migrationKey = 'bingo_migration_v7';
     if (localStorage.getItem(migrationKey)) return;
 
     var teamMembers = {
@@ -2960,6 +2960,8 @@ function initEnhancedLightbox() {
         gladiators: ['Peter', 'Johnny', 'Tom', 'Sarah', 'Emma W', 'Luke']
     };
 
+    var teamSizes = { titans: 6, spartans: 6, vikings: 4, gladiators: 6 };
+
     var playerTeam = {};
     Object.keys(teamMembers).forEach(function(t) {
         teamMembers[t].forEach(function(p) { playerTeam[p] = t; });
@@ -2968,7 +2970,7 @@ function initEnhancedLightbox() {
     db.ref('bingo/claims').once('value', function(snap) {
         var claims = snap.val() || {};
         var indScores = {};
-        var teamBingo = { titans: 0, spartans: 0, vikings: 0, gladiators: 0 };
+        var teamBingoRaw = { titans: 0, spartans: 0, vikings: 0, gladiators: 0 };
 
         // Count approved bingo claims per person
         Object.keys(claims).forEach(function(idx) {
@@ -2981,11 +2983,11 @@ function initEnhancedLightbox() {
                 if (!name) return;
                 indScores[name] = (indScores[name] || 0) + 1;
                 var team = playerTeam[name];
-                if (team) teamBingo[team] = (teamBingo[team] || 0) + 1;
+                if (team) teamBingoRaw[team] = (teamBingoRaw[team] || 0) + 1;
             });
         });
 
-        // Game bonuses/penalties (individual)
+        // Individual bonuses/penalties
         indScores['Sophie'] = (indScores['Sophie'] || 0) + 2;   // Stack Cup most stacks
         indScores['Neeve'] = (indScores['Neeve'] || 0) - 2;     // Stack Cup most stacked
         indScores['Joe'] = (indScores['Joe'] || 0) - 2;         // Boat Race sabotage
@@ -3005,30 +3007,27 @@ function initEnhancedLightbox() {
         indScores['Robert'] = (indScores['Robert'] || 0) + 1;   // Treetop Black Noir
         indScores['George'] = (indScores['George'] || 0) + 1;   // Treetop Black Noir
 
-        // Karaoke +1 everyone
+        // Karaoke +1 everyone (individual)
         Object.keys(playerTeam).forEach(function(p) {
             indScores[p] = (indScores[p] || 0) + 1;
         });
 
-        // Team game points
-        // Stack Cup: S+5, G+3, T+1, V+1
-        // Boat Race: S+5, G+3, T+1, V+1
-        // Fives: T+5, S+3, G+1, V+1
-        // Karaoke: per member count
+        // Team scores: pro-rata bingo + flat game points
+        // Bingo: divide raw total by team size, multiply by 6 (normalise to 6-person team)
+        // Karaoke: flat 6 per team (normalised)
+        // Games: flat (already fair)
         var teamGames = {
-            titans: 1 + 1 + 5,      // 7
-            spartans: 5 + 5 + 3,     // 13
-            gladiators: 3 + 3 + 1,   // 7
-            vikings: 1 + 1 + 1        // 3
-        };
-
-        var teamKaraoke = {
-            titans: 6, spartans: 6, gladiators: 6, vikings: 4
+            titans: 1 + 1 + 5,      // Stack Cup 1, Boat Race 1, Fives 5
+            spartans: 5 + 5 + 3,     // Stack Cup 5, Boat Race 5, Fives 3
+            gladiators: 3 + 3 + 1,   // Stack Cup 3, Boat Race 3, Fives 1
+            vikings: 1 + 1 + 1        // Stack Cup 1, Boat Race 1, Fives 1
         };
 
         var finalTeams = {};
-        Object.keys(teamBingo).forEach(function(t) {
-            finalTeams[t] = teamBingo[t] + teamGames[t] + teamKaraoke[t];
+        Object.keys(teamBingoRaw).forEach(function(t) {
+            var bingoProRata = Math.round((teamBingoRaw[t] / teamSizes[t]) * 6);
+            var karaokeFlat = 6;
+            finalTeams[t] = bingoProRata + teamGames[t] + karaokeFlat;
         });
 
         db.ref('leaderboard/individualScores').set(indScores);
