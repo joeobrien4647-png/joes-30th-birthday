@@ -2945,3 +2945,95 @@ function initEnhancedLightbox() {
         localStorage.setItem(migrationKey, 'true');
     });
 })();
+
+/* FINAL Migration v6: Recalculate everything from scratch */
+(function() {
+    if (typeof firebase === 'undefined' || !firebase.database) return;
+    var db = firebase.database();
+    var migrationKey = 'bingo_migration_v6';
+    if (localStorage.getItem(migrationKey)) return;
+
+    var teamMembers = {
+        titans: ['Joe', 'Samantha', 'Robin', 'Kiran', 'Oscar', 'Chris'],
+        spartans: ['Razon', 'Sophie', 'Robert', 'Florrie', 'Jonny W', 'Matt'],
+        vikings: ['Hannah', 'George', 'Neeve', 'Oli'],
+        gladiators: ['Peter', 'Johnny', 'Tom', 'Sarah', 'Emma W', 'Luke']
+    };
+
+    var playerTeam = {};
+    Object.keys(teamMembers).forEach(function(t) {
+        teamMembers[t].forEach(function(p) { playerTeam[p] = t; });
+    });
+
+    db.ref('bingo/claims').once('value', function(snap) {
+        var claims = snap.val() || {};
+        var indScores = {};
+        var teamBingo = { titans: 0, spartans: 0, vikings: 0, gladiators: 0 };
+
+        // Count approved bingo claims per person
+        Object.keys(claims).forEach(function(idx) {
+            var cell = claims[idx];
+            if (!cell) return;
+            Object.keys(cell).forEach(function(code) {
+                var c = cell[code];
+                if (c.revoked || c.pending) return;
+                var name = c.claimedBy;
+                if (!name) return;
+                indScores[name] = (indScores[name] || 0) + 1;
+                var team = playerTeam[name];
+                if (team) teamBingo[team] = (teamBingo[team] || 0) + 1;
+            });
+        });
+
+        // Game bonuses/penalties (individual)
+        indScores['Sophie'] = (indScores['Sophie'] || 0) + 2;   // Stack Cup most stacks
+        indScores['Neeve'] = (indScores['Neeve'] || 0) - 2;     // Stack Cup most stacked
+        indScores['Joe'] = (indScores['Joe'] || 0) - 2;         // Boat Race sabotage
+        indScores['Joe'] = (indScores['Joe'] || 0) + 2;         // Sardines best hider
+        indScores['Razon'] = (indScores['Razon'] || 0) + 2;     // Sardines best hider
+        indScores['Hannah'] = (indScores['Hannah'] || 0) - 2;   // Sardines worst hider
+        indScores['Florrie'] = (indScores['Florrie'] || 0) + 1; // Sardines found Peter
+        indScores['Oscar'] = (indScores['Oscar'] || 0) + 1;     // Sardines found Hannah
+        indScores['Robin'] = (indScores['Robin'] || 0) + 1;     // Sardines found Hannah
+        indScores['Jonny W'] = (indScores['Jonny W'] || 0) + 1; // Sardines found Hannah
+        indScores['Sophie'] = (indScores['Sophie'] || 0) + 1;   // Sardines found Hannah
+        indScores['Emma W'] = (indScores['Emma W'] || 0) + 1;   // Sardines found Hannah
+        indScores['Luke'] = (indScores['Luke'] || 0) + 1;       // Sardines found Hannah
+        indScores['Sarah'] = (indScores['Sarah'] || 0) + 1;     // Sardines found Hannah
+        indScores['Peter'] = (indScores['Peter'] || 0) + 1;     // Treetop Black Noir
+        indScores['Kiran'] = (indScores['Kiran'] || 0) + 1;     // Treetop Black Noir
+        indScores['Robert'] = (indScores['Robert'] || 0) + 1;   // Treetop Black Noir
+        indScores['George'] = (indScores['George'] || 0) + 1;   // Treetop Black Noir
+
+        // Karaoke +1 everyone
+        Object.keys(playerTeam).forEach(function(p) {
+            indScores[p] = (indScores[p] || 0) + 1;
+        });
+
+        // Team game points
+        // Stack Cup: S+5, G+3, T+1, V+1
+        // Boat Race: S+5, G+3, T+1, V+1
+        // Fives: T+5, S+3, G+1, V+1
+        // Karaoke: per member count
+        var teamGames = {
+            titans: 1 + 1 + 5,      // 7
+            spartans: 5 + 5 + 3,     // 13
+            gladiators: 3 + 3 + 1,   // 7
+            vikings: 1 + 1 + 1        // 3
+        };
+
+        var teamKaraoke = {
+            titans: 6, spartans: 6, gladiators: 6, vikings: 4
+        };
+
+        var finalTeams = {};
+        Object.keys(teamBingo).forEach(function(t) {
+            finalTeams[t] = teamBingo[t] + teamGames[t] + teamKaraoke[t];
+        });
+
+        db.ref('leaderboard/individualScores').set(indScores);
+        db.ref('leaderboard/teamScores').set(finalTeams);
+
+        localStorage.setItem(migrationKey, 'true');
+    });
+})();
