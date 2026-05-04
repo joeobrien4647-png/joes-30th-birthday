@@ -2887,3 +2887,61 @@ function initEnhancedLightbox() {
         localStorage.setItem(migrationKey, 'true');
     });
 })();
+
+/* Migration v5: Fives + Karaoke (Saturday night) */
+(function() {
+    if (typeof firebase === 'undefined' || !firebase.database) return;
+    var db = firebase.database();
+    var migrationKey = 'bingo_migration_v5';
+    if (localStorage.getItem(migrationKey)) return;
+
+    db.ref('leaderboard').once('value', function(snap) {
+        var lb = snap.val() || {};
+        var teams = lb.teamScores || {};
+        var ind = lb.individualScores || {};
+
+        // Fives/Sooofers: Titans +5, Spartans +3, Gladiators +1, Vikings +1
+        teams['titans'] = (teams['titans'] || 0) + 5;
+        teams['spartans'] = (teams['spartans'] || 0) + 3;
+        teams['gladiators'] = (teams['gladiators'] || 0) + 1;
+        teams['vikings'] = (teams['vikings'] || 0) + 1;
+
+        // Karaoke: +1 to every active player
+        var allPlayers = ['Joe', 'Samantha', 'Robin', 'Kiran', 'Oscar', 'Chris',
+            'Razon', 'Sophie', 'Robert', 'Florrie', 'Jonny W', 'Matt',
+            'Hannah', 'George', 'Neeve', 'Oli',
+            'Peter', 'Johnny', 'Tom', 'Sarah', 'Emma W', 'Luke',
+            'Shane', 'Pranay'];
+        for (var i = 0; i < allPlayers.length; i++) {
+            ind[allPlayers[i]] = (ind[allPlayers[i]] || 0) + 1;
+        }
+        // Karaoke team points: +1 per member
+        teams['titans'] = (teams['titans'] || 0) + 6;
+        teams['spartans'] = (teams['spartans'] || 0) + 6;
+        teams['gladiators'] = (teams['gladiators'] || 0) + 6;
+        teams['vikings'] = (teams['vikings'] || 0) + 4;
+
+        db.ref('leaderboard/teamScores').set(teams);
+        db.ref('leaderboard/individualScores').set(ind);
+
+        // Points log
+        var entries = [
+            { type: 'team', target: 'Titans', amount: 5, reason: 'Fives/Sooofers - Winners', category: 'games', day: 4 },
+            { type: 'team', target: 'Spartans', amount: 3, reason: 'Fives/Sooofers - Runner Up', category: 'games', day: 4 },
+            { type: 'team', target: 'Gladiators', amount: 1, reason: 'Fives/Sooofers - Participation', category: 'games', day: 4 },
+            { type: 'team', target: 'Vikings', amount: 1, reason: 'Fives/Sooofers - Participation', category: 'games', day: 4 },
+            { type: 'team', target: 'All Teams', amount: 1, reason: 'Karaoke - +1 per player', category: 'games', day: 4 }
+        ];
+        for (var j = 0; j < entries.length; j++) {
+            var e = entries[j];
+            db.ref('leaderboard/pointsLog').push({
+                type: e.type, target: e.target, amount: e.amount, reason: e.reason,
+                category: e.category, day: e.day,
+                time: new Date().toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }),
+                timestamp: Date.now(), awardedBy: 'Admin'
+            });
+        }
+
+        localStorage.setItem(migrationKey, 'true');
+    });
+})();
